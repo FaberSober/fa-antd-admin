@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faber.admin.mapper.AreaMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.faber.admin.entity.Area" id="areaMap">
+        <result property="id" column="id"/>
+        <result property="level" column="level"/>
+        <result property="parentCode" column="parent_code"/>
+        <result property="areaCode" column="area_code"/>
+        <result property="zipCode" column="zip_code"/>
+        <result property="cityCode" column="city_code"/>
+        <result property="name" column="name"/>
+        <result property="shortName" column="short_name"/>
+        <result property="mergerName" column="merger_name"/>
+        <result property="pinyin" column="pinyin"/>
+        <result property="lng" column="lng"/>
+        <result property="lat" column="lat"/>
+    </resultMap>
+
+    <select id="findClosetByLoc" parameterType="map" resultType="long">
+        select a.area_code
+          from (
+                 SELECT area_code, (ABS(lng - #{lng}) + ABS(lat - #{lat})) as distance
+                 FROM base_area
+             ) a
+        ORDER BY a.distance
+        LIMIT 1
+    </select>
+
+</mapper>

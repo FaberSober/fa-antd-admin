@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <contextName>logback</contextName>
+
+    <property name="LOG_PATH" value="./log" />
+    <!--最大保存天数-->
+    <property name="KEEP_MAX_DAY" value="30" />
+    <!--总最大保存文件大小-->
+    <property name="KEEP_TOTAL_MAX_SIZE" value="5GB" />
+    <!--单文件最大保存文件大小-->
+    <property name="KEEP_FILE_MAX_SIZE" value="10MB" />
+
+    <!-- 彩色日志 -->
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+    <!-- 彩色日志格式 -->
+    <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+
+    <!--输出到控制台-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <withJansi>false</withJansi>
+        <encoder>
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <!--            <pattern>%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)</pattern>-->
+            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--按天生成日志-->
+    <appender name="logFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Prudent>true</Prudent>
+        <!-- 过滤器，只打印ERROR级别的日志 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>
+                ${LOG_PATH}/%d{yyyy-MM-dd}/springboot.%i.log
+            </FileNamePattern>
+            <!--日志文件保留天数-->
+            <maxHistory>${KEEP_MAX_DAY}</maxHistory>
+            <totalSizeCap>${KEEP_TOTAL_MAX_SIZE}</totalSizeCap>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${KEEP_FILE_MAX_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss} - [%thread] - %-5level - %logger - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <!-- ERROR级别日志 -->
+    <!-- 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 RollingFileAppender -->
+    <appender name="logErrorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 过滤器，只记录WARN级别的日志 -->
+        <!-- 果日志级别等于配置级别，过滤器会根据onMath 和 onMismatch接收或拒绝日志。 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 设置过滤级别 -->
+            <level>ERROR</level>
+            <!-- 用于配置符合过滤条件的操作 -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 用于配置不符合过滤条件的操作 -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- 最常用的滚动策略，它根据时间来制定滚动策略.既负责滚动也负责出发滚动 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志输出位置 可相对、和绝对路径 -->
+            <fileNamePattern>
+                ${LOG_PATH}/error/%d{yyyy-MM-dd}-error-log.%i.log
+            </fileNamePattern>
+            <!-- 可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件假设设置每个月滚动，且<maxHistory>是6， 则只保存最近6个月的文件，删除之前的旧文件。注意，删除旧文件是，那些为了归档而创建的目录也会被删除 -->
+            <maxHistory>${KEEP_MAX_DAY}</maxHistory>
+            <totalSizeCap>${KEEP_TOTAL_MAX_SIZE}</totalSizeCap>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${KEEP_FILE_MAX_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss} - [%thread] - %-5level - %logger - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- 给spring-boot-admin查看用的日志，固定文件路径 -->
+    <appender name="logFileForAdmin" class="ch.qos.logback.core.FileAppender">
+        <Prudent>true</Prudent>
+        <file>${LOG_PATH}/springboot.admin.log</file>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss} - [%thread] - %-5level - %logger - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <springProfile name="prod">
+        <!-- 设置Spring&Hibernate日志输出级别 -->
+<!--        <logger name="org.springframework" level="WARN"/>-->
+<!--        <logger name="io.swagger" level="WARN"/>-->
+<!--        <logger name="springfox.documentation" level="WARN"/>-->
+<!--        <logger name="org.mybatis" level="WARN"/>-->
+<!--        <logger name="com.ibatis" level="WARN"/>-->
+<!--        <logger name="tk.mybatis" level="WARN"/>-->
+<!--        <logger name="com.faber" level="WARN"/>-->
+
+        <logger name="com.faber" level="INFO" additivity="false">
+            <appender-ref ref="console"/>
+            <appender-ref ref="logFile"/>
+            <appender-ref ref="logErrorFile"/>
+            <appender-ref ref="logFileForAdmin"/>
+        </logger>
+        <logger name="tk.mybatis" level="INFO" />
+
+        <root level="INFO">
+            <appender-ref ref="logFile"/>
+            <appender-ref ref="logErrorFile"/>
+            <appender-ref ref="logFileForAdmin"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="test">
+        <logger name="springfox.documentation" level="WARN"/>
+
+        <root level="INFO">
+            <appender-ref ref="logFile"/>
+            <appender-ref ref="logErrorFile"/>
+            <appender-ref ref="logFileForAdmin"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="dev">
+        <logger name="com.faber" level="DEBUG" additivity="false">
+            <appender-ref ref="console"/>
+            <appender-ref ref="logFile"/>
+            <appender-ref ref="logErrorFile"/>
+            <appender-ref ref="logFileForAdmin"/>
+        </logger>
+        <logger name="tk.mybatis" level="INFO" />
+
+        <root level="ERROR">
+            <appender-ref ref="console"/>
+            <appender-ref ref="logFile"/>
+            <appender-ref ref="logErrorFile"/>
+            <appender-ref ref="logFileForAdmin"/>
+        </root>
+    </springProfile>
+</configuration>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faber.admin.mapper.MenuMapper">
+    <resultMap id="BaseResultMap" type="com.faber.admin.entity.Menu">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <result column="href" jdbcType="VARCHAR" property="href"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="type" jdbcType="CHAR" property="type"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="crt_time" jdbcType="DATE" property="crtTime"/>
+        <result column="crt_user" jdbcType="VARCHAR" property="crtUser"/>
+        <result column="crt_name" jdbcType="VARCHAR" property="crtName"/>
+        <result column="crt_host" jdbcType="VARCHAR" property="crtHost"/>
+        <result column="upd_time" jdbcType="DATE" property="updTime"/>
+        <result column="upd_user" jdbcType="VARCHAR" property="updUser"/>
+        <result column="upd_name" jdbcType="VARCHAR" property="updName"/>
+        <result column="upd_host" jdbcType="VARCHAR" property="updHost"/>
+        <result property="delState" column="del_state"/>
+        <result property="delTime" column="del_time"/>
+        <result property="delUser" column="del_user"/>
+        <result property="delName" column="del_name"/>
+        <result property="delHost" column="del_host"/>
+    </resultMap>
+
+    <select id="selectMenuByAuthorityId" resultMap="BaseResultMap">
+        select t.*
+        from base_resource_authority ra
+                 inner join base_menu t on ra.resource_id = t.id and t.del_state = '0'
+                and ra.authority_id = #{authorityId}
+                and ra.authority_type = #{authorityType}
+                and ra.resource_type = 'menu'
+    </select>
+
+    <select id="selectAuthorityMenuByUserId" resultMap="BaseResultMap">
+        select distinct t.*
+        from base_resource_authority ra
+                 inner join base_menu t on ra.resource_id = t.id and t.del_state = '0'
+                and ra.authority_id in (
+                    select group_id
+                    from base_group_user
+                    where user_id = #{userId}
+                )
+                and ra.authority_type = 'group'
+                and ra.resource_type = 'menu'
+        order by t.id
+    </select>
+
+    <select id="selectAuthoritySystemByUserId" resultMap="BaseResultMap">
+        select distinct t.*
+        from base_resource_authority ra
+                 inner join base_menu t on ra.resource_id = t.id and t.del_state = '0'
+                and ra.authority_id in (
+                    select group_id
+                    from base_group_user
+                    where user_id = #{userId}
+                )
+                and ra.authority_type = 'group'
+                and ra.resource_type = 'menu'
+        where t.parent_id = -1
+    </select>
+
+    <select id="findNotAttachedMenuIds" resultType="string">
+        SELECT GROUP_CONCAT(t.id)
+        FROM base_menu t
+        WHERE t.del_state = '0'
+          AND t.parent_id != -1
+          AND t.parent_id NOT IN (
+            SELECT id FROM base_menu WHERE del_state = '0'
+            )
+    </select>
+
+    <update id="removeByMenuIds" parameterType="map">
+        UPDATE base_menu
+        SET del_state = '1',
+            del_user = #{id},
+            del_name  = #{name},
+            del_host  = #{ip},
+            del_time  = SYSDATE()
+        WHERE id IN (${ids});
+    </update>
+</mapper>

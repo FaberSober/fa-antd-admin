@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faber.admin.mapper.GroupUserMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.faber.admin.entity.GroupUser" id="groupUserMap">
+        <result property="id" column="id"/>
+        <result property="groupId" column="group_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="description" column="description"/>
+        <result property="type" column="type"/>
+        <result property="crtTime" column="crt_time"/>
+        <result property="crtUser" column="crt_user"/>
+        <result property="crtName" column="crt_name"/>
+        <result property="crtHost" column="crt_host"/>
+        <result property="updTime" column="upd_time"/>
+        <result property="updUser" column="upd_user"/>
+        <result property="updName" column="upd_name"/>
+        <result property="updHost" column="upd_host"/>
+    </resultMap>
+
+    <delete id="deleteNotValidGroupUsers">
+        DELETE FROM base_group_user WHERE group_id IN (
+            SELECT id FROM base_group WHERE del_state = '1'
+        )
+    </delete>
+
+</mapper>

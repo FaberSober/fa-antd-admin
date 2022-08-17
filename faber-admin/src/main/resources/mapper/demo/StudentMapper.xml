@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faber.demo.mapper.StudentMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.faber.demo.entity.Student" id="studentMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+        <result property="email" column="email"/>
+        <result property="birthday" column="birthday"/>
+        <result property="crtTime" column="crt_time"/>
+        <result property="crtUser" column="crt_user"/>
+        <result property="crtName" column="crt_name"/>
+        <result property="crtHost" column="crt_host"/>
+        <result property="updTime" column="upd_time"/>
+        <result property="updUser" column="upd_user"/>
+        <result property="updName" column="upd_name"/>
+        <result property="updHost" column="upd_host"/>
+        <result property="delState" column="del_state"/>
+        <result property="delTime" column="del_time"/>
+        <result property="delUser" column="del_user"/>
+        <result property="delName" column="del_name"/>
+        <result property="delHost" column="del_host"/>
+    </resultMap>
+
+</mapper>

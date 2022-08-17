@@ -1,0 +1,105 @@
+import React, { useState } from 'react';
+import { get } from 'lodash';
+import { Form, Input, DatePicker } from 'antd';
+import DragModal from '@/components/modal/DragModal';
+import { getDateStr000, getInitialKeyTimeValue, showResponse } from '@/utils/utils';
+import { RES_CODE } from '@/configs/server.config';
+import Ajax from "@/props/base/Ajax";
+import modelService from '@/services/${moduleName}/${secondModuleName}';
+import ${moduleNameUpperCaseFirstOne} from '@/props/${moduleName}';
+
+const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
+
+const serviceName = '${comments}';
+
+/**
+ * ${comments}实体新增、编辑弹框
+ */
+export default function ${className}Modal({ children, title, record, fetchFinish, ...props }: Ajax.CommonModalProps<${moduleNameUpperCaseFirstOne}.${className}>) {
+  const [form] = Form.useForm();
+
+  const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  
+  /** 新增Item */
+  function invokeInsertTask(params: any) {
+    setLoading(true);
+    modelService
+      .add(params)
+      .then((res) => {
+        showResponse(res, `新增${serviceName}`);
+        if (res && res.status === RES_CODE.OK) {
+          setModalVisible(false);
+          if (fetchFinish) fetchFinish();
+        }
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }
+
+  /** 更新Item */
+  function invokeUpdateTask(params: any) {
+    setLoading(true);
+    modelService
+      .update(params.id, params)
+      .then((res) => {
+        showResponse(res, `更新${serviceName}`);
+        if (res && res.status === RES_CODE.OK) {
+          setModalVisible(false);
+          if (fetchFinish) fetchFinish();
+        }
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }
+
+  /** 提交表单 */
+  function onFinish(fieldsValue: any) {
+    const values = {
+      ...fieldsValue,
+      // birthday: getDateStr000(fieldsValue.birthday),
+    };
+    if (record) {
+      invokeUpdateTask({ ...record, ...values });
+    } else {
+      invokeInsertTask({ ...values });
+    }
+  }
+
+  return (
+    <span>
+      <span onClick={() => setModalVisible(true)}>{children}</span>
+      <DragModal
+        title={title}
+        visible={modalVisible}
+        onOk={() => form.submit()}
+        confirmLoading={loading}
+        onCancel={() => setModalVisible(false)}
+        width={700}
+        {...props}
+      >
+        <Form
+          form={form}
+          onFinish={onFinish}
+          initialValues={{
+#foreach($column in $columns)
+#if($column.columnName == $pk.columnName)
+#elseif ($column.attrname != 'crtTime' and $column.attrname != 'crtUser' and $column.attrname != 'crtName' and $column.attrname != 'crtHost' and $column.attrname != 'updTime' and $column.attrname != 'updUser' and $column.attrname != 'updName' and $column.attrname != 'updHost' and $column.attrname != 'delState' and $column.attrname != 'delTime' and $column.attrname != 'delUser' and $column.attrname != 'delName' and $column.attrname != 'delHost')
+            ${column.attrname}: get(record, '${column.attrname}'),
+#end
+#end
+          }}
+        >
+#foreach($column in $columns)
+#if($column.columnName == $pk.columnName)
+#elseif ($column.attrname != 'crtTime' and $column.attrname != 'crtUser' and $column.attrname != 'crtName' and $column.attrname != 'crtHost' and $column.attrname != 'updTime' and $column.attrname != 'updUser' and $column.attrname != 'updName' and $column.attrname != 'updHost' and $column.attrname != 'delState' and $column.attrname != 'delTime' and $column.attrname != 'delUser' and $column.attrname != 'delName' and $column.attrname != 'delHost')
+          <Form.Item name="${column.attrname}" label="${column.comments}" rules={[{ required: true }]} {...formItemFullLayout}>
+            <Input />
+          </Form.Item>
+#end
+#end
+        </Form>
+      </DragModal>
+    </span>
+  )
+}

@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: faber-admin
+  profiles:
+    active: dev

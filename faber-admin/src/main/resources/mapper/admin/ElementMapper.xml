@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faber.admin.mapper.ElementMapper">
+    <resultMap id="BaseResultMap" type="com.faber.admin.entity.Element">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="uri" jdbcType="VARCHAR" property="uri"/>
+        <result column="menu_id" jdbcType="VARCHAR" property="menuId"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="method" jdbcType="VARCHAR" property="method"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="crt_time" jdbcType="DATE" property="crtTime"/>
+        <result column="crt_user" jdbcType="VARCHAR" property="crtUser"/>
+        <result column="crt_name" jdbcType="VARCHAR" property="crtName"/>
+        <result column="crt_host" jdbcType="VARCHAR" property="crtHost"/>
+        <result column="upd_time" jdbcType="DATE" property="updTime"/>
+        <result column="upd_user" jdbcType="VARCHAR" property="updUser"/>
+        <result column="upd_name" jdbcType="VARCHAR" property="updName"/>
+        <result column="upd_host" jdbcType="VARCHAR" property="updHost"/>
+        <result property="delState" column="del_state"/>
+        <result property="delTime" column="del_time"/>
+        <result property="delUser" column="del_user"/>
+        <result property="delName" column="del_name"/>
+        <result property="delHost" column="del_host"/>
+    </resultMap>
+
+    <select id="selectAuthorityElementByUserId" resultMap="BaseResultMap">
+        select distinct t.id, t.code, t.type, t.name, t.uri, t.method, m.title as menu_id
+          from base_resource_authority ra
+         inner join base_element t on ra.resource_id = t.id and t.del_state = '0' and ra.authority_id in (
+                   select group_id from base_group_user where user_id = #{userId}
+               )
+          and ra.authority_type = 'group'
+          and ra.resource_type = 'button'
+        inner join base_menu m on t.menu_id = m.id and m.del_state = '0'
+    </select>
+
+    <select id="selectAllElementPermissions" resultMap="BaseResultMap">
+        select distinct t.code, t.type, t.name, t.uri, t.method, m.title as menu_id
+          from base_element t
+         inner join base_menu m on t.menu_id = m.id and m.del_state = '0' and t.del_state = '0'
+    </select>
+
+    <select id="selectAuthorityMenuElementByGroupId" parameterType="map" resultMap="BaseResultMap">
+        select t.*
+          from base_resource_authority ra
+          left JOIN base_element t ON ra.resource_id = t.id and t.del_state = '0'
+         where ra.authority_id = #{groupId}
+           and ra.authority_type = 'group'
+          and ra.resource_id IN (
+                   SELECT id FROM base_element WHERE menu_id = #{menuId} and del_state = '0'
+              )
+    </select>
+
+    <update id="removeNotValid" parameterType="map">
+        UPDATE base_element t
+        SET t.del_state = '1',
+            t.del_user  = #{id},
+            t.del_name  = #{name},
+            t.del_host  = #{ip},
+            t.del_time  = SYSDATE()
+        WHERE t.del_state = '0'
+          AND t.menu_id NOT IN (
+            SELECT id
+            FROM base_menu
+            WHERE del_state = '0'
+        )
+    </update>
+
+    <!--    <select id="selectAuthorityMenuElementByUserId" resultMap="BaseResultMap">-->
+    <!--        select distinct t.* from base_resource_authority ra-->
+    <!--        inner join base_element t-->
+    <!--        on ra.resource_id = t.id-->
+    <!--            and t.del_state = '0'-->
+    <!--        and ra.authority_id in (-->
+    <!--          select group_id from base_group_user where user_id = #{userId}-->
+    <!--        )-->
+    <!--        and ra.authority_type = 'group'-->
+    <!--        and ra.resource_type = 'button'-->
+    <!--        and t.menu_id = #{menuId}-->
+    <!--    </select>-->
+
+    <!--    <select id="selectAuthorityElementByClientId" resultMap="BaseResultMap">-->
+    <!--        select distinct t.* from auth_client_service cs-->
+    <!--         inner join base_element t-->
+    <!--         on t.id = cs.service_id-->
+    <!--             and t.del_state = '0'-->
+    <!--         and cs.client_id = #{clientId}-->
+    <!--    </select>-->
+
+    <!--    <select id="selectByMenuCode" resultMap="BaseResultMap">-->
+    <!--        select distinct t.*-->
+    <!--        from base_element t-->
+    <!--        where t.del_state = '0'-->
+    <!--          and t.menu_id IN (-->
+    <!--             SELECT id FROM base_menu WHERE del_state = '0' AND `code` = #{menuCode}-->
+    <!--            )-->
+    <!--          AND t.id IN (-->
+    <!--            SELECT resource_id FROM base_resource_authority WHERE authority_type = 'group' AND authority_id IN (-->
+    <!--                SELECT group_id FROM base_group_user WHERE user_id = #{userId}-->
+    <!--            )-->
+    <!--          )-->
+    <!--        ORDER BY id ASC-->
+    <!--    </select>-->
+
+</mapper>

@@ -1,0 +1,30 @@
+#测试环境###########################################################################################################################################
+spring:
+  application:
+    name: faber-admin-test
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    druid:
+      name: faber-admin
+      url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DBNAME:faber-admin}?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&useSSL=false
+      username: ${MYSQL_USERNAME:root}
+      password: ${MYSQL_PASSWORD:123456}
+
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    password: ~
+
+server:
+  port: 8082
+
+#============================================================================
+# netty socket io setting
+#============================================================================
+# host在本地测试可以设置为localhost或者本机IP，在Linux服务器跑可换成服务器IP
+socketio:
+  host: 127.0.0.1
+  port: 8381

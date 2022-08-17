@@ -1,0 +1,49 @@
+.func2Head,
+.func3Head,
+.func4Head {
+  width: 180px;
+  background: #eee;
+  color: #333;
+  font-weight: bold;
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.func2Head,
+.func3Head {
+  border-right: 1px solid #ddd;
+}
+
+.func4Head {
+  flex: 1;
+  max-width: 700px;
+}
+
+.func2Value,
+.func3Value,
+.func4Value {
+  display: flex;
+  width: 180px;
+  color: #333;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  flex-wrap: wrap;
+
+  .ant-checkbox-wrapper {
+    margin-right: 8px;
+  }
+  .ant-checkbox-wrapper + .ant-checkbox-wrapper {
+    margin-left: 0 !important;
+  }
+}
+
+.func2Value,
+.func3Value {
+  border-right: 1px solid #ddd;
+}
+
+.func4Value {
+  flex: 1;
+  max-width: 700px;
+}

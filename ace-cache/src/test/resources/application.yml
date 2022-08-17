@@ -1,0 +1,33 @@
+logging:
+    level:
+        com.ace.cache: DEBUG
+#        org.springframework: DEBUG
+    path: /log
+
+spring:
+  redis:
+    database: 0
+    host: localhost
+    timeout: 2000
+    sysName: ace
+    enable: true
+    userkey:
+    lettuce:
+      pool:
+        max-active: 300
+        min-idle: 100
+        max-wait: 1000
+
+#redis-cache 相关
+redis:
+    pool:
+         maxActive: 300
+         maxIdle: 100
+         maxWait: 1000
+    host: 127.0.0.1
+    port: 6379
+    timeout: 2000
+    sysName: ace
+    enable: false
+    database: 0
+    userkey:

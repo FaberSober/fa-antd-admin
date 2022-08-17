@@ -1,0 +1,18 @@
+import FaberBase from '@/props/base';
+
+namespace ${moduleNameUpperCaseFirstOne} {
+  /** ${comments} */
+  export interface ${className} extends FaberBase.BaseDelEntity {
+#foreach ($column in $columns)
+#if($column.columnName == $pk.columnName)
+    /** $column.comments */
+    $column.attrname: number;
+#elseif ($column.attrname != 'crtTime' and $column.attrname != 'crtUser' and $column.attrname != 'crtName' and $column.attrname != 'crtHost' and $column.attrname != 'updTime' and $column.attrname != 'updUser' and $column.attrname != 'updName' and $column.attrname != 'updHost' and $column.attrname != 'delState' and $column.attrname != 'delTime' and $column.attrname != 'delUser' and $column.attrname != 'delName' and $column.attrname != 'delHost')
+    /** $column.comments */
+    $column.attrname: string;
+#end
+#end
+  }
+}
+
+export default ${moduleNameUpperCaseFirstOne};

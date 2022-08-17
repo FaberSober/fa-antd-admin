@@ -1,0 +1,64 @@
+<service>
+  <!-- ID of the service. It should be unique accross the Windows system-->
+  <!--服务ID：启动、关闭、删除服务时，都是通过ID来操作的-->
+  <id>xxx</id>
+  <!-- Display name of the service -->
+  <name>xxx</name>
+  <!-- Service description -->
+  <description>xxx</description>
+
+  <!-- Path to the executable, which should be started -->
+  <!--当前电脑配置了java环境变量，直接写成“java”就行；你也可以写成类似这样：D:\develop\jdk1.8\jre\bin\java-->
+  <executable>java</executable>
+  <!--<arguments>-jar "C:\Users\Administrator\Desktop\winsw\statement-0.0.1-SNAPSHOT.jar"</arguments>-->
+  <arguments>-jar D:\app\xxx.jar --spring.profiles.active=prod -Xms512M -Xmx512M</arguments>
+
+  <!--
+    OPTION: onfailure
+    Defines a sequence of actions, which should be performed if the managed executable fails.
+    Supported actions: restart, reboot, none
+  -->
+  <onfailure action="restart" delay="10 sec"/>
+  <onfailure action="restart" delay="20 sec"/>
+  <!--
+    OPTION: resetfailure
+    Time, after which the Windows service resets the failure status.
+    Default value: 1 day
+  -->
+  <resetfailure>1 hour</resetfailure>
+  <!--
+    OPTION: priority
+    Desired process priority.
+    Possible values: Normal, Idle, High, RealTime, BelowNormal, AboveNormal
+    Default value: Normal
+  -->
+  <priority>Normal</priority>
+
+  <!--
+    OPTION: stoptimeout
+    Time to wait for the service to gracefully shutdown the executable before we forcibly kill it
+    Default value: 15 seconds
+  -->
+  <stoptimeout>15 sec</stoptimeout>
+
+  <!--
+    OPTION: stopparentprocessfirst
+    If set, WinSW will terminate the parent process before stopping the children.
+    Default value: false
+  -->
+  <stopparentprocessfirst>false</stopparentprocessfirst>
+
+  <!--
+    OPTION: startmode
+    Defines start mode of the service.
+    Supported modes: Automatic, Manual, Boot, System (latter ones are supported for driver services only)
+    Default mode: Automatic
+  -->
+  <startmode>Automatic</startmode>
+  <waithint>15 sec</waithint>
+  <sleeptime>1 sec</sleeptime>
+  <log mode="roll-by-size">
+    <sizeThreshold>10240</sizeThreshold>
+    <keepFiles>8</keepFiles>
+  </log>
+</service>

@@ -1,0 +1,114 @@
+import React, { useContext } from 'react';
+import { RouteComponentProps } from '@reach/router';
+import { DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Card, Form, Input, Space } from 'antd';
+import { ShiroPermissionContainer } from '@/components/auth';
+import { BaseBizTable, BaseTableUtils } from '@/components/biz/base-table';
+import FaberTable from "@/components/biz/base-table/interface";
+import { UserContext } from "@/layout/UserSimpleLayout";
+import { useExport, useTableQueryParams, clearForm, useDelete } from "@/utils/myHooks";
+import modelService from '@/services/${moduleName}/${secondModuleName}';
+import ${moduleNameUpperCaseFirstOne} from '@/props/${moduleName}';
+import ${className}Modal from './modal/${className}Modal';
+
+const serviceName = '${comments}';
+const buzzModal = '${tableName}';
+
+export default function ${className}List(props: RouteComponentProps) {
+  const { user } = useContext(UserContext);
+  const [form] = Form.useForm();
+
+  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } = useTableQueryParams<${moduleNameUpperCaseFirstOne}.${className}>(modelService.page, {}, serviceName)
+
+  const [handleDelete] = useDelete<number>(modelService.logicDeleteById, fetchPageList, serviceName)
+  const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams)
+
+  /** 生成表格字段List */
+  function genColumns():FaberTable.ColumnsProp<${moduleNameUpperCaseFirstOne}.${className}>[] {
+    const { sorter } = queryParams;
+    return [
+#foreach ($column in $columns)
+#if($column.columnName == $pk.columnName)
+      BaseTableUtils.genIdColumn('${column.comments}', '${column.attrname}', 70, sorter),
+#elseif ($column.attrname != 'crtTime' and $column.attrname != 'crtUser' and $column.attrname != 'crtName' and $column.attrname != 'crtHost' and $column.attrname != 'updTime' and $column.attrname != 'updUser' and $column.attrname != 'updName' and $column.attrname != 'updHost' and $column.attrname != 'delState' and $column.attrname != 'delTime' and $column.attrname != 'delUser' and $column.attrname != 'delName' and $column.attrname != 'delHost')
+      BaseTableUtils.genSimpleSorterColumn('${column.comments}', '${column.attrname}', 100, sorter),
+#end
+#end
+      ...BaseTableUtils.genCtrColumns(sorter),
+      ...BaseTableUtils.genUpdateColumns(sorter),
+      {
+        title: '操作',
+        dataIndex: 'opr',
+        render: (_, record) => (
+          <Space>
+            <ShiroPermissionContainer roleList={user.elements}>
+              <${className}Modal title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList}>
+                <a>
+                  <EditOutlined />
+                  编辑
+                </a>
+              </${className}Modal>
+            </ShiroPermissionContainer>
+            <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} elements={user.elements} permission={undefined} />
+          </Space>
+        ),
+        width: 120,
+        fixed: 'right',
+        tcRequired: true,
+        tcType: 'menu',
+      },
+    ];
+  }
+
+  return (
+    <Card>
+      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', marginBottom: 12 }}>
+        <div style={{ display: 'flex' }}>
+          <strong style={{ fontSize: '18px', marginLeft: 8 }}>{serviceName}</strong>
+        </div>
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+          <div>
+            <Form form={form} layout="inline" onFinish={setFormValues}>
+              <Form.Item name="search" label="搜索">
+                <Input placeholder="请输入搜索内容" />
+              </Form.Item>
+            </Form>
+          </div>
+
+          <div>
+            <Space>
+              <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
+                查询
+              </Button>
+              <Button onClick={() => clearForm(form)} loading={loading}>
+                重置
+              </Button>
+              <ShiroPermissionContainer roleList={user.elements}>
+                <${className}Modal title={`新增${serviceName}信息`} fetchFinish={fetchPageList} destroyOnClose={false}>
+                  <Button icon={<PlusOutlined />} type="primary">
+                    新增
+                  </Button>
+                </${className}Modal>
+              </ShiroPermissionContainer>
+              <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+            </Space>
+          </div>
+        </div>
+      </div>
+
+      <BaseBizTable
+        buzzModal={buzzModal}
+        columns={genColumns()}
+        pagination={paginationProps}
+        loading={loading}
+        dataSource={list}
+        rowKey={(item) => item.id}
+        onChange={handleTableChange}
+        refreshList={() => fetchPageList()}
+        batchDelete={(ids) => modelService.batchLogicDelete(ids)}
+        onSceneChange={(v) => setSceneId(v)}
+        onConditionChange={(cL) => setConditionList(cL)}
+      />
+    </Card>
+  );
+}

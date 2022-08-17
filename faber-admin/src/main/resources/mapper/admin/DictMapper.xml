@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faber.admin.mapper.DictMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.faber.admin.entity.Dict" id="dictMap">
+        <result property="id" column="id"/>
+        <result property="type" column="type"/>
+        <result property="category" column="category"/>
+        <result property="text" column="text"/>
+        <result property="value" column="value"/>
+        <result property="color" column="color"/>
+        <result property="sort" column="sort"/>
+        <result property="description" column="description"/>
+        <result property="crtTime" column="crt_time"/>
+        <result property="crtUser" column="crt_user"/>
+        <result property="crtName" column="crt_name"/>
+        <result property="crtHost" column="crt_host"/>
+        <result property="updTime" column="upd_time"/>
+        <result property="updUser" column="upd_user"/>
+        <result property="updName" column="upd_name"/>
+        <result property="updHost" column="upd_host"/>
+    </resultMap>
+
+    <select id="selectByTypeCode" resultMap="dictMap">
+        SELECT t.*
+          FROM base_dict t
+          LEFT JOIN base_dict_type a ON t.type = a.id
+         WHERE t.del_state = '0'
+           AND a.del_state = '0'
+           AND a.`code` = #{dictTypeCode}
+         ORDER BY t.sort ASC
+    </select>
+
+    <select id="selectByValue" parameterType="map" resultType="string">
+        SELECT t.text
+        FROM base_dict t
+        WHERE t.del_state = '0'
+          AND t.type = (
+            SELECT id FROM base_dict_type WHERE `code` = #{dictTypeCode}
+        )
+          AND t.`value` = #{value}
+        ORDER BY sort ASC
+                 LIMIT 1
+    </select>
+
+    <select id="getByCodeAndText" parameterType="map" resultMap="dictMap">
+        SELECT t.*
+        FROM base_dict t
+        LEFT JOIN base_dict_type dt ON t.type = dt.id
+        WHERE dt.del_state = '0'
+          AND t.del_state = '0'
+          AND dt.`code` = #{dictTypeCode}
+          AND t.text = #{dictText}
+        ORDER BY t.sort ASC
+    </select>
+
+    <select id="getByCodeAndValue" parameterType="map" resultMap="dictMap">
+        SELECT t.*
+        FROM base_dict t
+        LEFT JOIN base_dict_type dt ON t.type = dt.id
+        WHERE dt.del_state = '0'
+          AND t.del_state = '0'
+          AND dt.`code` = #{dictTypeCode}
+          AND t.value = #{dictValue}
+        ORDER BY t.sort ASC
+    </select>
+
+</mapper>

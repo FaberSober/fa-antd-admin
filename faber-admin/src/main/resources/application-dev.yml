@@ -1,0 +1,26 @@
+#测试环境###########################################################################################################################################
+spring:
+  application:
+    name: faber-admin-dev
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    druid:
+      name: faber-admin
+      url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DBNAME:faber-admin}?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&useSSL=false
+      username: ${MYSQL_USERNAME:root}
+      password: ${MYSQL_PASSWORD:123456}
+
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    password: ~
+
+server:
+  port: 80
+
+socketio:
+  host: 127.0.0.1
+  port: 8081

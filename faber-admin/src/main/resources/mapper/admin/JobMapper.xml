@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faber.admin.mapper.JobMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.faber.admin.entity.Job" id="jobMap">
+        <result property="id" column="id"/>
+        <result property="jobName" column="job_name"/>
+        <result property="cron" column="cron"/>
+        <result property="status" column="status"/>
+        <result property="clazzPath" column="clazz_path"/>
+        <result property="jobDesc" column="job_desc"/>
+        <result property="crtTime" column="crt_time"/>
+        <result property="crtUser" column="crt_user"/>
+        <result property="crtName" column="crt_name"/>
+        <result property="crtHost" column="crt_host"/>
+        <result property="updTime" column="upd_time"/>
+        <result property="updUser" column="upd_user"/>
+        <result property="updName" column="upd_name"/>
+        <result property="updHost" column="upd_host"/>
+    </resultMap>
+
+    <select id="selectStartUpJobs" resultMap="jobMap">
+        select * from base_job where status = '1'
+    </select>
+
+</mapper>

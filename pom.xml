@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.faber</groupId>
+    <artifactId>faber-admin-web</artifactId>
+    <version>3.0-SNAPSHOT</version>
+    <url>https://github.com/FaberSober/faber-admin-web</url>
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.3</version>
+    </parent>
+    <properties>
+<!--        <mapper.version>4.1.5</mapper.version>-->
+        <maven.compile.source>1.8</maven.compile.source>
+        <maven.compile.target>1.8</maven.compile.target>
+        <springboot.admin.version>2.3.1</springboot.admin.version>
+    </properties>
+    <modules>
+        <module>faber-common</module>
+        <module>faber-admin</module>
+        <module>faber-admin-server</module>
+        <module>faber-generator</module>
+        <module>ace-cache</module>
+    </modules>
+    <packaging>pom</packaging>
+    <developers>
+        <developer>
+            <name>faberxu</name>
+            <email>faberxu@gmail.com</email>
+        </developer>
+    </developers>
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.14</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>oss</id>-->
+<!--            <name>oss</name>-->
+<!--            <url>https://oss.sonatype.org/content/groups/public</url>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>spring-milestones</id>-->
+<!--            <name>Spring Milestones</name>-->
+<!--            <url>https://repo.spring.io/libs-milestone</url>-->
+<!--            <snapshots>-->
+<!--                <enabled>false</enabled>-->
+<!--            </snapshots>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>sonatype-nexus-snapshots</id>-->
+<!--            <name>Sonatype Nexus Snapshots</name>-->
+<!--            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>-->
+<!--        </repository>-->
+<!--    </repositories>-->
+    <!--依赖管理，用于管理spring-cloud的依赖，其中Camden.SR3是版本号-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.33</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+<!--    <distributionManagement>-->
+<!--        <snapshotRepository>-->
+<!--            <id>ossrh</id>-->
+<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+<!--        </snapshotRepository>-->
+<!--        <repository>-->
+<!--            <id>ossrh</id>-->
+<!--            <name>Maven Central Staging Repository</name>-->
+<!--            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+<!--        </repository>-->
+<!--    </distributionManagement>-->
+
+</project>
