@@ -1,4 +1,4 @@
-import FaberBase from '@/props/base';
+import FaberBase from '@/props/base/FaberBase';
 
 namespace ${moduleNameUpperCaseFirstOne} {
   /** ${comments} */
