@@ -36,6 +36,7 @@
     "antd": "4.18.7",
     "axios": "0.26.0",
     "babel-polyfill": "6.26.0",
+    "beautiful-react-hooks": "^3.10.0",
     "core-js": "3.21.0",
     "d3": "^7.6.1",
     "dayjs": "1.10.7",

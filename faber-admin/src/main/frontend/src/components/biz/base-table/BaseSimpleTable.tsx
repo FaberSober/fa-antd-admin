@@ -3,6 +3,7 @@ import { sumBy, get } from 'lodash';
 import { ClearOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Table, Button, Modal } from 'antd';
 import { TableRowSelection } from 'antd/lib/table/interface';
+import useWindowResize from 'beautiful-react-hooks/useWindowResize';
 import { showResponse } from '@/utils/utils';
 import FaberTable from './FaberTable';
 
@@ -30,11 +31,24 @@ export default function BaseSimpleTable<RecordType extends object = any>({
   onSelectedRowsChange,
   showBatchBelBtn = true,
   showTopTips,
+  scrollYOccupied = 235,
   scrollY,
   keyName = "id",
   ...props
 }: FaberTable.BaseTableProps<RecordType>) {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
+  const [innerScrollY, setInnerScrollY] = useState(document.body.clientHeight - scrollYOccupied)
+  const onWindowResize = useWindowResize();
+
+  useEffect(() => {
+    if (scrollY) {
+      setInnerScrollY(scrollY)
+    }
+  }, [scrollY])
+
+  onWindowResize(() => {
+    setInnerScrollY(document.body.clientHeight - scrollYOccupied);
+  });
 
   useEffect(() => {
     setSelectedRowKeys([]);
@@ -122,7 +136,7 @@ export default function BaseSimpleTable<RecordType extends object = any>({
           <Table
             columns={parseColumns}
             rowSelection={showCheckbox ? rowSelection : undefined}
-            scroll={{ x: scrollWidthX, y: scrollY }}
+            scroll={{ x: scrollWidthX, y: innerScrollY }}
             onRow={(record) => ({
               onClick: () => {
                 if (!rowClickSelected) return;
