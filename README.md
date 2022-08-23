@@ -1,9 +1,11 @@
 # Get Start
-http://localhost/swagger-ui.html
+演示地址：http://faber.admin.test.dward.cn/login
+演示账户：admin/888888
 
-http://localhost/druid/index.html
-
-代码生成：http://localhost:7777
+# 项目地址
+1. ~~http://localhost/swagger-ui.html~~
+2. http://localhost/druid/index.html
+3. 代码生成：http://localhost:7777
 
 # 使用插件
 ## 后端
@@ -22,9 +24,9 @@ http://localhost/druid/index.html
 - [X] 账户表改为逻辑删除
 - [X] 不能删除自身账户和admin账户
 - [ ] 权限element#code不能重复
-- [ ] area-地区经纬度：高德取省市县；腾讯取区县以下
-- [ ] 增加“论坛模块”
 - [ ] 删掉无用的Bean属性
+- [ ] 登录设备日志记录
+- [ ] 单点登录控制
 
 # 前端代码迁移
 - [x] BaseBiz查询分组List
