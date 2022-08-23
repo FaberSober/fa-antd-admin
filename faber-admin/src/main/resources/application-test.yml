@@ -27,4 +27,4 @@ server:
 # host在本地测试可以设置为localhost或者本机IP，在Linux服务器跑可换成服务器IP
 socketio:
   host: 127.0.0.1
-  port: 8381
+  port: 8581
