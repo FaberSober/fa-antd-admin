@@ -19,7 +19,7 @@ spring:
     password: ~
 
 server:
-  port: 8082
+  port: 8580
 
 #============================================================================
 # netty socket io setting
