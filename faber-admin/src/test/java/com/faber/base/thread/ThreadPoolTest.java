@@ -1,4 +1,4 @@
-package com.faber.admin.thread;
+package com.faber.base.thread;
 
 import com.faber.AdminBootstrap;
 import org.junit.Test;

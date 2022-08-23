@@ -1,4 +1,4 @@
-package com.faber.admin;
+package com.faber.utils;
 
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;

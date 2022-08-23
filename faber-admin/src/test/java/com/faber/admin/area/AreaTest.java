@@ -1,4 +1,4 @@
-package com.faber.admin;
+package com.faber.admin.area;
 
 import com.faber.AdminBootstrap;
 import com.faber.admin.biz.AreaBiz;

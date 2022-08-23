@@ -1,4 +1,4 @@
-package com.faber.admin;
+package com.faber.admin.msg;
 
 import com.faber.AdminBootstrap;
 import com.faber.msg.helper.MsgHelper;

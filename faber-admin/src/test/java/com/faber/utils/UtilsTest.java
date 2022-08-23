@@ -1,4 +1,4 @@
-package com.faber.admin;
+package com.faber.utils;
 
 import cn.hutool.core.lang.UUID;
 import com.faber.common.util.UUIDUtils;

@@ -1,4 +1,4 @@
-package com.faber.admin;
+package com.faber.utils;
 
 import org.junit.Test;
 

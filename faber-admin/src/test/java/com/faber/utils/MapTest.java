@@ -1,4 +1,4 @@
-package com.faber.admin;
+package com.faber.utils;
 
 import com.faber.common.map.AMapUtils;
 import org.junit.Test;

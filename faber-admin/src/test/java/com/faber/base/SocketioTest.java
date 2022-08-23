@@ -1,4 +1,4 @@
-package com.faber.admin;
+package com.faber.base;
 
 import cn.hutool.core.date.DateUtil;
 import io.socket.client.IO;
