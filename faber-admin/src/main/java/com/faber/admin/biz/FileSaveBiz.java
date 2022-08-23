@@ -18,10 +18,8 @@ import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+
+import java.io.*;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
@@ -94,13 +92,13 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
      * @throws IOException
      */
     public FileSave uploadLocalFile(MultipartFile file) throws IOException {
-        java.io.File path = new java.io.File(ResourceUtils.getURL("classpath:").getPath());
-        if (!path.exists()) path = new java.io.File("");
+        File path = new File(ResourceUtils.getURL("classpath:").getPath());
+        if (!path.exists()) path = new File("");
 
         String fileSavePath = "/static/" + qiniuHelper.getPrefix() + "/file/" + DateUtil.today() + "/"
                 + com.faber.common.util.FileUtils.addTimestampToFileName(file.getOriginalFilename());
 
-        java.io.File exportFile = new java.io.File(path.getAbsolutePath(), fileSavePath);
+        File exportFile = new File(path.getAbsolutePath(), fileSavePath);
         FileUtils.copyInputStreamToFile(file.getInputStream(), exportFile);
 
         FileSave fileSaveEntity = new FileSave();
@@ -113,21 +111,21 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
         return fileSaveEntity;
     }
 
-    public java.io.File getLocalFileById(String fileId) throws IOException {
+    public File getLocalFileById(String fileId) throws IOException {
         FileSave fileSaveEntity = mapper.selectByPrimaryKey(fileId);
 
         if (fileSaveEntity == null) throw new BuzzException("未找到上传文件");
         return this.getLocalFileByFile(fileSaveEntity);
     }
 
-    public java.io.File getLocalFileByFile(FileSave fileSaveEntity) throws IOException {
+    public File getLocalFileByFile(FileSave fileSaveEntity) throws IOException {
         if (fileSaveEntity.getUrl().contains("..")) {
             throw new BuzzException("非法文件名");
         }
-        java.io.File path = new java.io.File(ResourceUtils.getURL("classpath:").getPath());
-        if (!path.exists()) path = new java.io.File("");
-//        java.io.File file = new ClassPathResource(fileEntity.getUrl()).getFile();
-        java.io.File file = new java.io.File(path.getAbsolutePath(), fileSaveEntity.getUrl());
+        File path = new File(ResourceUtils.getURL("classpath:").getPath());
+        if (!path.exists()) path = new File("");
+//        File file = new ClassPathResource(fileEntity.getUrl()).getFile();
+        File file = new File(path.getAbsolutePath(), fileSaveEntity.getUrl());
 
         if (!file.exists()) {
             throw new BuzzException("文件未找到");
@@ -155,9 +153,9 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
             filePath = "/static" + filePath; // 默认追加static前缀文件夹
         }
 
-        java.io.File path = new java.io.File(ResourceUtils.getURL("classpath:").getPath());
-        if (!path.exists()) path = new java.io.File("");
-        java.io.File file = new java.io.File(path.getAbsolutePath(), filePath);
+        File path = new File(ResourceUtils.getURL("classpath:").getPath());
+        if (!path.exists()) path = new File("");
+        File file = new File(path.getAbsolutePath(), filePath);
 
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         response.setCharacterEncoding("utf-8");
