@@ -1,9 +1,9 @@
 package com.faber.admin.rest;
 
 import com.alibaba.fastjson.JSONObject;
-import com.faber.admin.biz.FileBiz;
+import com.faber.admin.biz.FileSaveBiz;
 import com.faber.admin.config.annotation.IgnoreUserToken;
-import com.faber.admin.entity.File;
+import com.faber.admin.entity.FileSave;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseController;
 import io.swagger.annotations.ApiOperation;
@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/admin/file")
-public class FileController extends BaseController<FileBiz, File> {
+@RequestMapping("/api/admin/fileSave")
+public class FileSaveController extends BaseController<FileSaveBiz, FileSave> {
 
     @GetMapping("/getUploadToken")
     @ResponseBody
@@ -42,8 +42,8 @@ public class FileController extends BaseController<FileBiz, File> {
     @GetMapping("/getMine")
     @ResponseBody
     @ApiOperation(value = "获取个人上传过的附件列表")
-    public ObjectRestResponse<List<File>> getMine() {
-        List<File> list = baseBiz.getMine();
+    public ObjectRestResponse<List<FileSave>> getMine() {
+        List<FileSave> list = baseBiz.getMine();
         return ok(list);
     }
 
@@ -85,8 +85,8 @@ public class FileController extends BaseController<FileBiz, File> {
     @PostMapping("/local/uploadFile")
     @ResponseBody
     @ApiOperation(value = "附件上传", notes = "附件上传")
-    public ObjectRestResponse<File> uploadLocalFile(@ApiParam(required = true, name = "file", value = "文件") @RequestParam("file") MultipartFile file) throws IOException {
-        File data = baseBiz.uploadLocalFile(file);
+    public ObjectRestResponse<FileSave> uploadLocalFile(@ApiParam(required = true, name = "file", value = "文件") @RequestParam("file") MultipartFile file) throws IOException {
+        FileSave data = baseBiz.uploadLocalFile(file);
         return ok(data);
     }
 

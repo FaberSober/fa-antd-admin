@@ -13,9 +13,9 @@ import javax.persistence.*;
  * @email faberxu@gmail.com
  * @date 2019-08-19 10:09:36
  */
-@Table(name = "base_file")
+@Table(name = "base_file_save")
 @Data
-public class File extends BaseOprEntity {
+public class FileSave extends BaseOprEntity {
     private static final long serialVersionUID = 1L;
 
     @Id

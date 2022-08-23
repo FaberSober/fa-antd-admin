@@ -2,13 +2,12 @@ package com.faber.admin.biz;
 
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.faber.admin.entity.File;
-import com.faber.admin.mapper.FileMapper;
+import com.faber.admin.entity.FileSave;
+import com.faber.admin.mapper.FileSaveMapper;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.file.QiniuHelper;
-import com.faber.common.msg.ObjectRestResponse;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -26,7 +25,6 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author Farando
@@ -34,7 +32,7 @@ import java.util.UUID;
  * @date 2019-08-19 10:09:36
  */
 @Service
-public class FileBiz extends BaseBiz<FileMapper, File> {
+public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
 
     @Resource
     private QiniuHelper qiniuHelper;
@@ -47,9 +45,9 @@ public class FileBiz extends BaseBiz<FileMapper, File> {
         return data;
     }
 
-    public List<File> getMine() {
+    public List<FileSave> getMine() {
         String userId = BaseContextHandler.getUserID();
-        Example example = new Example(File.class);
+        Example example = new Example(FileSave.class);
         example.createCriteria().andEqualTo("crtUser", userId);
         example.setOrderByClause("id ASC");
         return mapper.selectByExample(example);
@@ -60,10 +58,10 @@ public class FileBiz extends BaseBiz<FileMapper, File> {
         String ids = json.getString("ids");
         String[] idArr = ids.split(",");
         Arrays.asList(idArr).parallelStream().forEach(id -> {
-            File file = mapper.selectByPrimaryKey(id);
-            if (file != null && userId.equals(file.getCrtUser())) {
+            FileSave fileSave = mapper.selectByPrimaryKey(id);
+            if (fileSave != null && userId.equals(fileSave.getCrtUser())) {
                 // 删除七牛云上的文件
-                qiniuHelper.delete(file.getUrl());
+                qiniuHelper.delete(fileSave.getUrl());
                 mapper.deleteByPrimaryKey(id);
             }
         });
@@ -95,7 +93,7 @@ public class FileBiz extends BaseBiz<FileMapper, File> {
      * @return
      * @throws IOException
      */
-    public File uploadLocalFile(MultipartFile file) throws IOException {
+    public FileSave uploadLocalFile(MultipartFile file) throws IOException {
         java.io.File path = new java.io.File(ResourceUtils.getURL("classpath:").getPath());
         if (!path.exists()) path = new java.io.File("");
 
@@ -105,31 +103,31 @@ public class FileBiz extends BaseBiz<FileMapper, File> {
         java.io.File exportFile = new java.io.File(path.getAbsolutePath(), fileSavePath);
         FileUtils.copyInputStreamToFile(file.getInputStream(), exportFile);
 
-        File fileEntity = new File();
-        fileEntity.setName(file.getOriginalFilename());
-        fileEntity.setSize(file.getSize());
-        fileEntity.setUrl(fileSavePath);
+        FileSave fileSaveEntity = new FileSave();
+        fileSaveEntity.setName(file.getOriginalFilename());
+        fileSaveEntity.setSize(file.getSize());
+        fileSaveEntity.setUrl(fileSavePath);
 
-        mapper.insertSelective(fileEntity);
+        mapper.insertSelective(fileSaveEntity);
 
-        return fileEntity;
+        return fileSaveEntity;
     }
 
     public java.io.File getLocalFileById(String fileId) throws IOException {
-        File fileEntity = mapper.selectByPrimaryKey(fileId);
+        FileSave fileSaveEntity = mapper.selectByPrimaryKey(fileId);
 
-        if (fileEntity == null) throw new BuzzException("未找到上传文件");
-        return this.getLocalFileByFile(fileEntity);
+        if (fileSaveEntity == null) throw new BuzzException("未找到上传文件");
+        return this.getLocalFileByFile(fileSaveEntity);
     }
 
-    public java.io.File getLocalFileByFile(File fileEntity) throws IOException {
-        if (fileEntity.getUrl().contains("..")) {
+    public java.io.File getLocalFileByFile(FileSave fileSaveEntity) throws IOException {
+        if (fileSaveEntity.getUrl().contains("..")) {
             throw new BuzzException("非法文件名");
         }
         java.io.File path = new java.io.File(ResourceUtils.getURL("classpath:").getPath());
         if (!path.exists()) path = new java.io.File("");
 //        java.io.File file = new ClassPathResource(fileEntity.getUrl()).getFile();
-        java.io.File file = new java.io.File(path.getAbsolutePath(), fileEntity.getUrl());
+        java.io.File file = new java.io.File(path.getAbsolutePath(), fileSaveEntity.getUrl());
 
         if (!file.exists()) {
             throw new BuzzException("文件未找到");
@@ -139,8 +137,8 @@ public class FileBiz extends BaseBiz<FileMapper, File> {
     }
 
     public void getLocalFile(String fileId) throws IOException {
-        File fileEntity = mapper.selectByPrimaryKey(fileId);
-        this.getLocalFilePath(fileEntity.getUrl());
+        FileSave fileSaveEntity = mapper.selectByPrimaryKey(fileId);
+        this.getLocalFilePath(fileSaveEntity.getUrl());
     }
 
     /**

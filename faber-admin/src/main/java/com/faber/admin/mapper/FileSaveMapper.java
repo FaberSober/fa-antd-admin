@@ -1,6 +1,6 @@
 package com.faber.admin.mapper;
 
-import com.faber.admin.entity.File;
+import com.faber.admin.entity.FileSave;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
@@ -11,6 +11,6 @@ import tk.mybatis.mapper.common.Mapper;
  * @date 2019-08-19 10:09:36
  */
 // @Mapper
-public interface FileMapper extends Mapper<File> {
+public interface FileSaveMapper extends Mapper<FileSave> {
 	
 }

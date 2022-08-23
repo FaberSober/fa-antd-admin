@@ -304,7 +304,7 @@ namespace Admin {
 	}
 
 	// -------------------------------------------- 系统-上传文件 --------------------------------------------
-	export interface File extends FaberBase.BaseDelEntity {
+	export interface FileSave extends FaberBase.BaseDelEntity {
 		/** ID */
 		id: string;
 		name: string;

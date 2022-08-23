@@ -5,8 +5,8 @@ import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.listener.ReadListener;
-import com.faber.admin.biz.FileBiz;
-import com.faber.admin.entity.File;
+import com.faber.admin.biz.FileSaveBiz;
+import com.faber.admin.entity.FileSave;
 import com.faber.article.entity.Book;
 import com.faber.article.entity.Detail;
 import com.faber.article.entity.Outline;
@@ -16,7 +16,6 @@ import com.faber.article.vo.BookOutlineDetail;
 import com.faber.article.vo.UploadStdExcelParams;
 import com.faber.article.vo.UploadStdExcelLineVo;
 import com.faber.common.biz.BaseBiz;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +43,7 @@ public class BookBiz extends BaseBiz<BookMapper, Book> {
     private DetailBiz detailBiz;
 
     @Resource
-    private FileBiz fileBiz;
+    private FileSaveBiz fileSaveBiz;
 
     public BookDetail getDetail(Integer id) {
         Book book = mapper.selectByPrimaryKey(id);
@@ -60,11 +59,11 @@ public class BookBiz extends BaseBiz<BookMapper, Book> {
     }
 
     public Book uploadStdExcel(UploadStdExcelParams params) throws IOException {
-        File fileEntity = fileBiz.selectById(params.getFileId());
-        java.io.File file = fileBiz.getLocalFileByFile(fileEntity);
+        FileSave fileSaveEntity = fileSaveBiz.selectById(params.getFileId());
+        java.io.File file = fileSaveBiz.getLocalFileByFile(fileSaveEntity);
 
         Book book = new Book();
-        book.setNo(fileEntity.getName());
+        book.setNo(fileSaveEntity.getName());
         book.setName(params.getName());
         book.setDescription(params.getRemark());
         book.setBizType(params.getBizType());
