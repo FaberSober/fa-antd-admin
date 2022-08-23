@@ -11,7 +11,7 @@
  Target Server Version : 50727
  File Encoding         : 65001
 
- Date: 23/08/2022 10:38:25
+ Date: 23/08/2022 15:20:42
 */
 
 SET NAMES utf8mb4;
@@ -438,10 +438,10 @@ INSERT INTO `base_element` (`id`, `block_id`, `code`, `type`, `name`, `uri`, `me
 COMMIT;
 
 -- ----------------------------
--- Table structure for base_file
+-- Table structure for base_file_save
 -- ----------------------------
-DROP TABLE IF EXISTS `base_file`;
-CREATE TABLE `base_file` (
+DROP TABLE IF EXISTS `base_file_save`;
+CREATE TABLE `base_file_save` (
   `id` varchar(50) NOT NULL,
   `name` varchar(255) DEFAULT NULL COMMENT '文件名',
   `url` varchar(255) DEFAULT NULL COMMENT 'url',
@@ -458,7 +458,7 @@ CREATE TABLE `base_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='BASE-用户文件表';
 
 -- ----------------------------
--- Records of base_file
+-- Records of base_file_save
 -- ----------------------------
 BEGIN;
 COMMIT;
