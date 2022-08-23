@@ -2,12 +2,13 @@ package com.faber.common.util;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.json.JSONObject;
+import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-public class ResourceUtils {
+public class FaResourceUtils {
 
     /**
      * 读取jar打包内部的资源文件。
@@ -16,7 +17,7 @@ public class ResourceUtils {
      * @throws IOException
      */
     public static String getResourceString(String resourceLocation) throws IOException  {
-        File file = org.springframework.util.ResourceUtils.getFile(resourceLocation);
+        File file = ResourceUtils.getFile(resourceLocation);
         return FileUtil.readString(file, StandardCharsets.UTF_8);
     }
 

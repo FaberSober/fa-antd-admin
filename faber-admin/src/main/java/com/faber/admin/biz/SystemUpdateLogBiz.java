@@ -6,13 +6,20 @@ import cn.hutool.json.JSONObject;
 import com.faber.admin.entity.SystemUpdateLog;
 import com.faber.admin.mapper.SystemUpdateLogMapper;
 import com.faber.common.biz.BaseBiz;
-import com.faber.common.util.ResourceUtils;
+import com.faber.common.util.FaResourceUtils;
+import org.apache.ibatis.jdbc.ScriptRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import javax.sql.DataSource;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 
 /**
  * BASE-系统版本更新日志表
@@ -25,14 +32,15 @@ import java.sql.SQLException;
 public class SystemUpdateLogBiz extends BaseBiz<SystemUpdateLogMapper,SystemUpdateLog> {
 
     /**
-     * 初始化数据库。
+     * 初始化&更新数据库。
      * 读取src/main/resources/data/updateLog.json文件，执行导入sql。
      */
     public void initAndUpdateDb() throws IOException, SQLException {
-        JSONObject json = ResourceUtils.getResourceJson("classpath:data/updateLog.json");
+        JSONObject json = FaResourceUtils.getResourceJson("classpath:data/updateLog.json");
 
         // 获取配置的数据源
         DataSource dataSource = SpringUtil.getBean(DataSource.class);
+        Connection conn = dataSource.getConnection();
 
         int curVer = mapper.getCurVerId();
         JSONArray logs = json.getJSONArray("logs");
@@ -51,10 +59,22 @@ public class SystemUpdateLogBiz extends BaseBiz<SystemUpdateLogMapper,SystemUpda
             logEntity.setVer(ver);
             logEntity.setVerNo(verNo);
             logEntity.setRemark(remark);
+            logEntity.setCrtTime(new Date());
+            mapper.insert(logEntity);
 
-            // 执行sql
-            JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-            jdbcTemplate.execute(sql);
+            // 按行读取
+            File sqlFile = ResourceUtils.getFile("classpath:data/sql/" + sql);
+
+            // 执行sql脚本
+            ScriptRunner runner = new ScriptRunner(conn);
+            runner.setFullLineDelimiter(false);
+            runner.setDelimiter(";");//语句结束符号设置
+            runner.setLogWriter(null);//日志数据输出，这样就不会输出过程
+            runner.setSendFullScript(false);
+            runner.setAutoCommit(true);
+            runner.setStopOnError(true);
+            runner.runScript(new InputStreamReader(new FileInputStream(sqlFile), "utf8"));
+            _logger.info(String.format("【%s】执行成功", sql));
         }
     }
 
