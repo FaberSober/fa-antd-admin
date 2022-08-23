@@ -3,4 +3,8 @@
 
 <mapper namespace="com.faber.admin.mapper.SystemUpdateLogMapper">
 
+    <select id="getCurVerId" resultType="int">
+        SELECT IFNULL(max(ver), 1) as max_ver FROM base_system_update_log
+    </select>
+
 </mapper>

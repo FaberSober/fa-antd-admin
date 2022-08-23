@@ -1,6 +1,7 @@
 package com.faber.admin.mapper;
 
 import com.faber.admin.entity.SystemUpdateLog;
+import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
@@ -12,5 +13,11 @@ import tk.mybatis.mapper.common.Mapper;
  */
 // @Mapper
 public interface SystemUpdateLogMapper extends Mapper<SystemUpdateLog> {
-	
+
+    /**
+     * 获取最近当前版本ID
+     * @return
+     */
+    int getCurVerId();
+
 }

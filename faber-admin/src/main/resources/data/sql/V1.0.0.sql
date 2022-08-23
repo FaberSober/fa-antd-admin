@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : faber-admin-dev-127.0.0.1
+ Source Server         : faber-admin-dev-47.105.146.245
  Source Server Type    : MySQL
  Source Server Version : 50727
- Source Host           : 127.0.0.1:3306
+ Source Host           : 47.105.146.245:3306
  Source Schema         : faber_admin
 
  Target Server Type    : MySQL
  Target Server Version : 50727
  File Encoding         : 65001
 
- Date: 17/08/2022 15:30:50
+ Date: 23/08/2022 10:38:25
 */
 
 SET NAMES utf8mb4;
@@ -894,12 +894,32 @@ CREATE TABLE `base_sms_code` (
   `code` varchar(6) NOT NULL COMMENT '短信验证码',
   `crt_time` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Demo-学生表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='BASE-短信验证码';
 
 -- ----------------------------
 -- Records of base_sms_code
 -- ----------------------------
 BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for base_system_update_log
+-- ----------------------------
+DROP TABLE IF EXISTS `base_system_update_log`;
+CREATE TABLE `base_system_update_log` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `ver` int(11) NOT NULL COMMENT '版本号',
+  `ver_no` varchar(255) NOT NULL COMMENT '版本编码',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注信息',
+  `crt_time` datetime NOT NULL COMMENT '升级日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='BASE-系统版本更新日志表';
+
+-- ----------------------------
+-- Records of base_system_update_log
+-- ----------------------------
+BEGIN;
+INSERT INTO `base_system_update_log` (`id`, `ver`, `ver_no`, `remark`, `crt_time`) VALUES (1, 1, 'V1.0.0', '初始化V1.0.0版本', '2022-08-23 10:37:30');
 COMMIT;
 
 -- ----------------------------

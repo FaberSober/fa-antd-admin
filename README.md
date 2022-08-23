@@ -5,6 +5,12 @@ http://localhost/druid/index.html
 
 代码生成：http://localhost:7777
 
+# 使用插件
+## 后端
+| 查询名称 | 官网 |
+| :--- | :--- |
+| tk.mybatis | https://github.com/abel533/Mapper/wiki |
+
 # 代码生成器使用
 ## 前端
 1. 复制ui-rn/src目录到前端src目录下

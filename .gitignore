@@ -10,3 +10,4 @@ log/
 .factorypath
 **/rebel.xml
 ./tmp*
+faber-admin/src/test/resources/application-dev.yml

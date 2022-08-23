@@ -4,12 +4,7 @@
       "ver": 1,
       "verNo": "V1.0.0",
       "remark": "初始化V1.0.0版本",
-      "sqlList": [
-        {
-          "remark": "初始化V1.0.0版本",
-          "sqls": ["V1.0.0.sql"]
-        }
-      ]
+      "sql": "V1.0.0.sql"
     }
   ]
 }
