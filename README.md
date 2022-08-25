@@ -33,10 +33,15 @@
 | :--- | :--- |
 | tk.mybatis | https://github.com/abel533/Mapper/wiki |
 
-## 后端
+## 前端
 | 插件 | 官网 |
 | :--- | :--- |
 |  |  |
+
+### 升级npm依赖
+```bash
+ncu -u --timeout 120000 --reject husky
+```
 
 # 代码生成器使用
 ## 前端
