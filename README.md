@@ -2,16 +2,41 @@
 演示地址：http://faber.admin.test.dward.cn/login
 演示账户：admin/888888
 
-# 项目地址
+## 项目说明
+一个前后端分离的springboot项目，未使用微服务，部署简单。maven一键打包前后端代码，只需部署一个最终的jar来启动服务。适合小型项目。
+- 前端：react17 + antd4.x + vite3(快速开发) + webpack5(打包生产)
+- 后端：springboot2.4.x
+- 环境：mysql5.7 + redis4
+
+## 开发说明
+1. 导入数据库文件：`faber-admin/src/main/resources/data/sql/V1.0.0.sql`
+2. 启动后端服务：`faber-admin/src/main/java/com/faber/AdminBootstrap.java`
+3. 启动前端服务，
+   1. 进入前端项目地址：`faber-admin/src/main/frontend`
+   2. 安装依赖：`yarn`
+   3. 启动项目：`yarn start`
+
+## 打包部署
+1. 在项目根目录下执行：`mvn clean package -Dmaven.test.skip=true`
+2. 服务jar包为：`faber-admin/target/faber-admin.jar`
+3. 启动jar包：`java -jar faber-admin/target/faber-admin.jar`
+4. 访问地址：http://127.0.0.1
+
+## 项目开发使用到的地址
 1. ~~http://localhost/swagger-ui.html~~
-2. http://localhost/druid/index.html
+2. druid数据源：http://localhost/druid/index.html
 3. 代码生成：http://localhost:7777
 
 # 使用插件
 ## 后端
-| 查询名称 | 官网 |
+| 插件 | 官网 |
 | :--- | :--- |
 | tk.mybatis | https://github.com/abel533/Mapper/wiki |
+
+## 后端
+| 插件 | 官网 |
+| :--- | :--- |
+|  |  |
 
 # 代码生成器使用
 ## 前端
@@ -27,6 +52,8 @@
 - [ ] 删掉无用的Bean属性
 - [ ] 登录设备日志记录
 - [ ] 单点登录控制
+- [ ] 定时任务执行日志
+- [ ] 表联合查询组合查询功能
 
 # 前端代码迁移
 - [x] BaseBiz查询分组List
