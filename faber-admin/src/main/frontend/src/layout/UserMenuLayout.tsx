@@ -78,7 +78,7 @@ function UserMenuLayout({ children, headerModal }: IProps) {
     for (let i = 0; i < authTopMenus.length; i += 1) {
       fr.push(...flatRouteList(authTopMenus[i].routes, authTopMenus[i].menu));
     }
-    console.log('flatRoutes', fr)
+    // console.log('flatRoutes', fr)
     setFlatRoutes(fr);
 
     // console.log('初始化解析路由')

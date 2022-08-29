@@ -1,8 +1,7 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { find, sortBy } from 'lodash';
 import { MenuOutlined } from '@ant-design/icons';
-import { Checkbox, Input } from 'antd';
-import DragModal from './DragModal';
+import {Button, Checkbox, Drawer, Input, Space} from 'antd';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import { arrayMove, showResponse } from '@/utils/utils';
 import { RES_CODE } from '@/configs/server.config';
@@ -11,8 +10,9 @@ import FaberTable from '@/components/biz/base-table/interface';
 import * as BaseTableUtils from '@/components/biz/base-table/utils';
 import Admin from '@/props/admin';
 import configService from '@/services/admin/config';
-import './TableColConfigModal.less';
 import { BaseBizTableContext } from "@/components/biz/base-table/BaseBizTable";
+import './TableColConfigModal.less';
+import {FaFlexRestLayout} from "@/components/biz/base-layout";
 
 const colWidthCache: { [key: string]: number } = {};
 
@@ -156,14 +156,14 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
   const SortableItem = SortableElement(({ item }: SProp) => (
     <div className="itemContainer">
       <Checkbox disabled={item.tcRequired} checked={item.tcRequired || item.tcChecked} onChange={(e) => handleItemCheck(item, e.target.checked)} />
-      <div style={{ flex: 1, paddingLeft: 8 }} onClick={() => handleItemCheck(item, !item.tcChecked)}>
-        <strong>{item.title}</strong>
+      <div style={{ flex: 1, paddingLeft: 8, fontSize: '14px' }} onClick={() => handleItemCheck(item, !item.tcChecked)}>
+        <span>{item.title}</span>
       </div>
       {item.tcRequired ? <span style={{ color: '#666', marginRight: 16 }}>（必选）</span> : null}
-      <div style={{ width: 140, marginRight: 8 }}>
+      <div style={{ width: 100, marginRight: 8 }}>
         <Input
-          addonBefore="宽度"
-          addonAfter="px"
+          // addonBefore="宽度"
+          // addonAfter="px"
           size="small"
           defaultValue={item.width}
           placeholder="auto"
@@ -179,28 +179,37 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
   return (
     <span>
       <span onClick={showModelHandler}>{children}</span>
-      <DragModal
-        // className={styles.modalForm}
-        // wrapClassName="vertical-center-modal"
-        style={{ top: 46 }}
+      <Drawer
         title="自定义表格字段"
         visible={modalVisible}
         onOk={handleSave}
         confirmLoading={loading}
-        onCancel={() => setModalVisible(false)}
-        width={700}
+        onClose={() => setModalVisible(false)}
+        width={500}
         destroyOnClose
-        // eslint-disable-next-line react/jsx-props-no-spreading
         {...restProps}
       >
-        <div>
-          <MySortableContainer onSortEnd={onSortEnd} useDragHandle>
-            {items.map((value, index) => (
-              <SortableItem key={`item-${value.dataIndex}`} index={index} item={value} />
-            ))}
-          </MySortableContainer>
+        <div style={{ height: '100%', position: 'relative' }}>
+          <div className="faber-full-content-no-padding faber-flex-column">
+            <div className="faber-flex-row-center" style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
+              <div className="tableColTheadItem" style={{ flex: 1, borderRight: '1px solid #ccc' }}>字段</div>
+              <div className="tableColTheadItem" style={{ width: 100 }}>宽度(px)</div>
+              <div className="tableColTheadItem" style={{ width: 31 }}></div>
+            </div>
+            <FaFlexRestLayout>
+              <MySortableContainer onSortEnd={onSortEnd} useDragHandle>
+                {items.map((value, index) => (
+                  <SortableItem key={`item-${value.dataIndex}`} index={index} item={value} />
+                ))}
+              </MySortableContainer>
+            </FaFlexRestLayout>
+
+            <Space style={{ marginTop: 12 }}>
+              <Button type="primary" onClick={handleSave} loading={loading}>更新</Button>
+            </Space>
+          </div>
         </div>
-      </DragModal>
+      </Drawer>
     </span>
   );
 }

@@ -14,7 +14,6 @@ import PageLazy from "@/components/biz/lazy/PageLazy";
 import modalConfig from '@/configs/modal.config';
 import UserSimpleLayout from "@/layout/UserSimpleLayout";
 import UserMenuLayout from "@/layout/UserMenuLayout";
-import GraphLayout from '@/layout/biz/GraphLayout';
 
 
 const NotFound = (_: RouteComponentProps) => (
@@ -33,7 +32,7 @@ export default function App() {
 
               {/* 主页 */}
               <UserSimpleLayout path="/">
-                <UserMenuLayout path="/" headerModal={modalConfig.HOME} showKgGraphSelect>
+                <UserMenuLayout path="/" headerModal={modalConfig.HOME}>
                   <Redirect from='/' to={SITE_INFO.HOME_LINK} />
 
                   <FragmentLayout path="home">

@@ -1,15 +1,13 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Menu, MenuProps} from 'antd';
-import { Sider } from '@/components/antd-pro';
-import { UserMenuContext } from '@/layout/UserMenuLayout';
-import {FormattedMessage, useIntl} from 'react-intl';
-import { useLocation } from '@reach/router';
-import { pathToRegexp } from 'path-to-regexp';
-import { UserContext } from '@/layout/UserSimpleLayout';
+import {Sider} from '@/components/antd-pro';
+import {UserMenuContext} from '@/layout/UserMenuLayout';
+import {useIntl} from 'react-intl';
+import {useLocation} from '@reach/router';
+import {pathToRegexp} from 'path-to-regexp';
+import {UserContext} from '@/layout/UserSimpleLayout';
 import LayoutProps from '@/props/base/LayoutProps';
 import {hasPermission} from "@/utils/utils";
-
-const { SubMenu } = Menu;
 
 /**
  * 匹配点击的路由层级
@@ -60,31 +58,14 @@ export default function SiderMenu({ topMenus }: Props) {
     }
   }, [location.pathname, topMenus]);
 
+
+  const intl = useIntl();
+
   /**
    * 递归生成菜单Tree
    * @param routes 当前菜单List
    * @param preNameId 上级菜单name的拼接
    */
-  function loopRoutes(routes?: LayoutProps.Route[], preNameId: string = 'menu.') {
-    return routes
-      ?.filter((route) => hasPermission(user.menus, route.permission))
-      ?.map((route) => {
-        if (route.routes && route.routes[0]) {
-          return (
-            <SubMenu key={route.path} icon={route.icon ? route.icon() : undefined} title={<FormattedMessage id={`menu.${route.name}`} />}>
-              {loopRoutes(route.routes, `menu.${route.name}.`)}
-            </SubMenu>
-          );
-        }
-        return (
-          <Menu.Item key={route.path} icon={route.icon ? route.icon() : undefined} onClick={() => changeCurRoute(route)}>
-            <FormattedMessage id={`menu.${route.name}`} />
-          </Menu.Item>
-        );
-      });
-  }
-
-  const intl = useIntl();
   function loopProcessRoutes(routes?: LayoutProps.Route[], preNameId: string = 'menu.'): MenuProps['items'] {
     if (routes === undefined || routes === null || routes.length === 0) return undefined;
     return routes
@@ -97,14 +78,11 @@ export default function SiderMenu({ topMenus }: Props) {
       }))
   }
   const items = loopProcessRoutes(topMenus?.routes)
-  console.log('items', items)
 
   function handleOpenKey(newOpenKeys: any[]) {
     setOpenKeys(newOpenKeys);
     setClicked(true);
   }
-
-  const menus = useMemo(() => loopRoutes(topMenus?.routes), [topMenus?.menu, user.id]);
 
   return (
     <Sider collapse={collapse} onCollapse={(c) => toggleCollapse(c)}>
