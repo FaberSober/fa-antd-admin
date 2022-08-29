@@ -33,7 +33,7 @@ interface CProps {
   collapse: boolean; // 侧边菜单是否折叠
   toggleCollapse: (v: boolean) => void;
   curRoute: LayoutProps.Route; // 当前选中的菜单路由
-  changeCurRoute: (v: LayoutProps.Route) => void;
+  changeCurRoute: (menuName: string) => void;
 }
 
 export const UserMenuContext = createContext<CProps>({
@@ -66,7 +66,7 @@ function UserMenuLayout({ children, headerModal }: IProps) {
   // context properties
   const [collapse, setCollapse] = useLocalStorageState<string>('sider.collapse', { defaultValue: '1' });
   const [curTopMenu, setCurTopMenu] = useState(headerModal.topMenus[0].menu);
-  const [curRoute, setCurRoute] = useState(defaultRoute);
+  const [curRoute, setCurRoute] = useState<LayoutProps.Route>(defaultRoute);
   // inner properties
   const [flatRoutes, setFlatRoutes] = useState<FlatRoute[]>([]);
 
@@ -78,7 +78,7 @@ function UserMenuLayout({ children, headerModal }: IProps) {
     for (let i = 0; i < authTopMenus.length; i += 1) {
       fr.push(...flatRouteList(authTopMenus[i].routes, authTopMenus[i].menu));
     }
-    // console.log('flatRoutes', fr)
+    console.log('flatRoutes', fr)
     setFlatRoutes(fr);
 
     // console.log('初始化解析路由')
@@ -156,9 +156,12 @@ function UserMenuLayout({ children, headerModal }: IProps) {
       }
     },
     curRoute,
-    changeCurRoute: (v) => {
-      setCurRoute(v);
-      navigate(v.path);
+    changeCurRoute: (menuName) => {
+      const findRoutes = flatRoutes.filter((i) => i.name === menuName && i.isLeaf && i.path && hasPermission(user.menus, i.permission));
+      if (findRoutes && findRoutes[0]) {
+        setCurRoute(findRoutes[0]);
+        navigate(findRoutes[0].path);
+      }
     },
   };
 

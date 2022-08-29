@@ -51,4 +51,12 @@ public class Job extends BaseDelEntity {
     @Column(name = "job_desc")
     private String jobDesc;
 
+    /**
+     * 返回处理过的表达式，前端表达式只精确到分，后端需要精确到秒
+     * @return
+     */
+    public String getProcessCron() {
+        return "0 " + this.cron;
+    }
+
 }

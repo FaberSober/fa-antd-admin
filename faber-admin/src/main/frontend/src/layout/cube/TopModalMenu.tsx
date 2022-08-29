@@ -29,7 +29,6 @@ const TopModalMenu = ({ headerModal }: IProps) => {
         label: intl.formatMessage({ id: tm.menu }),
         key: tm.menu,
         icon: tm.icon ? tm.icon() : undefined,
-        route: tm.redirect
       }
     })
 

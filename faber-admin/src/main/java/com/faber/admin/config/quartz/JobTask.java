@@ -88,7 +88,7 @@ public class JobTask {
             TriggerKey triggerKey = TriggerKey.triggerKey(this.getJobKeyName(job), Scheduler.DEFAULT_GROUP);
             CronTrigger trigger = TriggerBuilder.newTrigger()
                     .withIdentity(triggerKey)
-                    .withSchedule(CronScheduleBuilder.cronSchedule(job.getCron())).build();
+                    .withSchedule(CronScheduleBuilder.cronSchedule(job.getProcessCron())).build();
             scheduler.scheduleJob(jobDetail, trigger);
             // 启动
             if (!scheduler.isShutdown()) {
@@ -120,7 +120,7 @@ public class JobTask {
 
             JobKey jobKey = JobKey.jobKey(this.getJobKeyName(job), Scheduler.DEFAULT_GROUP);
 
-            CronScheduleBuilder schedBuilder = CronScheduleBuilder.cronSchedule(job.getCron())
+            CronScheduleBuilder schedBuilder = CronScheduleBuilder.cronSchedule(job.getProcessCron())
                     .withMisfireHandlingInstructionDoNothing();
             CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(triggerKey)
                     .withDescription(createTime).withSchedule(schedBuilder).build();

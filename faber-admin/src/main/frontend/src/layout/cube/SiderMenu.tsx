@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { Menu } from 'antd';
+import {Menu, MenuProps} from 'antd';
 import { Sider } from '@/components/antd-pro';
 import { UserMenuContext } from '@/layout/UserMenuLayout';
-import { FormattedMessage } from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import { useLocation } from '@reach/router';
 import { pathToRegexp } from 'path-to-regexp';
 import { UserContext } from '@/layout/UserSimpleLayout';
@@ -84,6 +84,21 @@ export default function SiderMenu({ topMenus }: Props) {
       });
   }
 
+  const intl = useIntl();
+  function loopProcessRoutes(routes?: LayoutProps.Route[], preNameId: string = 'menu.'): MenuProps['items'] {
+    if (routes === undefined || routes === null || routes.length === 0) return undefined;
+    return routes
+      .filter((route) => hasPermission(user.menus, route.permission))
+      .map((route) => ({
+        label: intl.formatMessage({ id: `menu.${route.name}` }),
+        key: route.name,
+        icon: route.icon ? route.icon() : undefined,
+        children: loopProcessRoutes(route.routes)
+      }))
+  }
+  const items = loopProcessRoutes(topMenus?.routes)
+  console.log('items', items)
+
   function handleOpenKey(newOpenKeys: any[]) {
     setOpenKeys(newOpenKeys);
     setClicked(true);
@@ -103,9 +118,9 @@ export default function SiderMenu({ topMenus }: Props) {
         openKeys={openKeys}
         onOpenChange={handleOpenKey}
         style={{ height: '100%', borderRight: 0, marginTop: -4 }}
-      >
-        {menus}
-      </Menu>
+        items={items}
+        onClick={(menu) => changeCurRoute(menu.key)}
+      />
     </Sider>
   );
 };

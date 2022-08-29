@@ -66,6 +66,7 @@ export default function JobModal({ children, title, record, fetchFinish, ...prop
   function onFinish(fieldsValue: any) {
     const values = {
       ...fieldsValue,
+      cron: fieldsValue.cron,
       // birthday: getDateStr000(fieldsValue.birthday),
     };
     if (record) {
@@ -101,7 +102,7 @@ export default function JobModal({ children, title, record, fetchFinish, ...prop
             <Input />
           </Form.Item>
           <Form.Item name="cron" label="cron表达式" rules={[{ required: true }]} {...formItemFullLayout}>
-            <Cron />
+            <Cron setValue={(value) => form.setFieldValue('cron', value)} />
           </Form.Item>
           <Form.Item name="clazzPath" label="任务执行方法" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input />
