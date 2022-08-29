@@ -36,7 +36,8 @@
 ## 前端
 | 插件 | 官网 |
 | :--- | :--- |
-|  |  |
+| antd | https://ant-design.gitee.io/components/overview-cn/ |
+| react-js-cron | https://github.com/xrutayisire/react-js-cron |
 
 ### 升级npm依赖
 ```bash
@@ -58,6 +59,7 @@ ncu -u --timeout 120000 --reject husky
 - [ ] 登录设备日志记录
 - [ ] 单点登录控制
 - [ ] 定时任务执行日志
+- [ ] 定时任务corn图形化选择
 - [ ] 表联合查询组合查询功能
 
 # 前端代码迁移

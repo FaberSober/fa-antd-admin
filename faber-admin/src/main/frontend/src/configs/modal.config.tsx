@@ -128,7 +128,7 @@ const modal: Props = {
         permission: 'top-myCenter',
         menu: 'menu.top.account',
         modal: 'account',
-        redirect: '/account/base',
+        redirect: '/system/account/base',
         icon: () => <ContactsOutlined />,
         routes: [
           // 基本信息

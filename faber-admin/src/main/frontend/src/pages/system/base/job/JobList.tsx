@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { RouteComponentProps } from '@reach/router';
 import { DownloadOutlined, EditOutlined, PauseCircleOutlined, PlayCircleOutlined, PlusOutlined, SearchOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import { Badge, Button, Card, Form, Input, Popconfirm, Space } from 'antd';
 import { ShiroPermissionContainer } from '@/components/auth';
@@ -15,12 +14,12 @@ import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/my
 const serviceName = '系统定时任务';
 const buzzModal = 'base_job';
 
-export default function JobList(props: RouteComponentProps) {
+export default function JobList() {
   const { user } = useContext(UserContext);
   const [form] = Form.useForm();
 
   const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, paginationProps } =
-    useTableQueryParams<Admin.Job>(modelService.page, { sorter: { field: 'crtTime', order: 'descend' } }, serviceName);
+    useTableQueryParams<Admin.Job>(modelService.page, { sorter: { field: 'id', order: 'descend' } }, serviceName);
 
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams);
   const [handleDelete] = useDelete<number>(modelService.logicDeleteById, fetchPageList, serviceName);
@@ -49,7 +48,7 @@ export default function JobList(props: RouteComponentProps) {
   function genColumns(): FaberTable.ColumnsProp<Admin.Job>[] {
     const { sorter } = queryParams;
     return [
-      // BaseTableUtils.genSimpleSorterColumn('ID', 'id', 70, sorter),
+      BaseTableUtils.genSimpleSorterColumn('ID', 'id', 70, sorter),
       BaseTableUtils.genSimpleSorterColumn('任务名称', 'jobName', 150, sorter),
       BaseTableUtils.genSimpleSorterColumn('cron表达式', 'cron', 120, sorter),
       {
@@ -57,7 +56,7 @@ export default function JobList(props: RouteComponentProps) {
         render: (val) => (val === '1' ? <Badge status="processing" text="运作中" /> : <Badge status="default" text="暂停" />),
       },
       BaseTableUtils.genSimpleSorterColumn('任务执行方法', 'clazzPath', 400, sorter),
-      BaseTableUtils.genSimpleSorterColumn('任务描述', 'jobDesc', 250, sorter),
+      BaseTableUtils.genSimpleSorterColumn('任务描述', 'jobDesc', undefined, sorter),
       ...BaseTableUtils.genCtrColumns(sorter),
       ...BaseTableUtils.genUpdateColumns(sorter),
       {

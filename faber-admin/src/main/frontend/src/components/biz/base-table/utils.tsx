@@ -7,7 +7,7 @@ import { ShiroPermissionContainer } from '@/components/auth';
 import FaberBase from '@/props/base/FaberBase';
 import { find, get, isEmpty, trim } from 'lodash';
 import { renderDatePicker, renderDateRangerPicker, renderTimePicker, renderTimeRangePicker } from '@/components/biz/condition-query/ConditionQueryUtils';
-import FaberTable from '@/components/biz/base-table/interface';
+import { FaberTable } from '@/components/biz/base-table';
 import {DictDataSelector} from "@/components/biz/base-dict";
 
 export function dataIndexToString(dataIndex: string | string[]) {
