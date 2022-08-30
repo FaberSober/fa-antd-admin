@@ -144,6 +144,7 @@ function DictList({ type }: IProps, ref: any) {
         batchDelete={(ids) => modelService.batchLogicDelete(ids)}
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
+        scrollYOccupied={340}
       />
     </Card>
   );

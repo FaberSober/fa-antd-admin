@@ -72,7 +72,7 @@ export default function DictManage(props: RouteComponentProps) {
         <div style={{ position: 'absolute', width: '100%', height: '100%', overflow: 'auto' }}>
           <Collapse
             bordered={false}
-            defaultActiveKey={['1']}
+            defaultActiveKey={[]}
             expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
             style={{ marginBottom: 12 }}
           >

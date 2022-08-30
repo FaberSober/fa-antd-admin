@@ -69,6 +69,7 @@ namespace FaberTable {
 		showBatchBelBtn?: boolean; // 是否展示多选删除按钮
 		onSelectedRowsChange?: (rows: any[]) => void; // 选中keys变更回调
 		scrollY?: number;
+    scrollYOccupied?: number;
 	}
 }
 

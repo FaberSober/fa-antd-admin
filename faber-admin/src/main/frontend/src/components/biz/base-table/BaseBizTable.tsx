@@ -5,6 +5,7 @@ import {Table, Button, Modal, Space} from 'antd';
 import TableColConfigModal from '../../modal/TableColConfigModal';
 import FaberTable from './interface';
 import { TableRowSelection } from 'antd/lib/table/interface';
+import useWindowResize from 'beautiful-react-hooks/useWindowResize';
 import { showResponse } from '@/utils/utils';
 import { dataIndexToString } from './utils';
 import ComplexQuery from '@/components/biz/condition-query/ComplexQuery'
@@ -38,10 +39,23 @@ export default function BaseBizTable<RecordType extends object = any>({
   rowClickSingleSelected = true,
   onSelectedRowsChange,
   showBatchBelBtn = true,
-  scrollY = document.body.clientHeight - 275,
+  scrollYOccupied = 275,
+  scrollY,
   ...props
 }: FaberTable.BaseTableProps<RecordType>) {
   const [config, setConfig] = useState<FaberTable.ColumnsProp<RecordType>[]>();
+  const [innerScrollY, setInnerScrollY] = useState(document.body.clientHeight - scrollYOccupied)
+  const onWindowResize = useWindowResize();
+
+  useEffect(() => {
+    if (scrollY) {
+      setInnerScrollY(scrollY)
+    }
+  }, [scrollY])
+
+  onWindowResize(() => {
+    setInnerScrollY(document.body.clientHeight - scrollYOccupied);
+  });
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [batchDeleting, setBatchDeleting] = useState(false)
@@ -162,7 +176,7 @@ export default function BaseBizTable<RecordType extends object = any>({
           <Table
             columns={parseColumns}
             rowSelection={showCheckbox ? rowSelection : undefined}
-            scroll={{ x: scrollWidthX, y: scrollY }}
+            scroll={{ x: scrollWidthX, y: innerScrollY }}
             onRow={(record) => ({
               onClick: () => {
                 if (!rowClickSelected) return;
