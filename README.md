@@ -37,7 +37,7 @@
 | 插件 | 官网 |
 | :--- | :--- |
 | antd | https://ant-design.gitee.io/components/overview-cn/ |
-| react-js-cron | https://github.com/xrutayisire/react-js-cron |
+| ~~react-js-cron（这个是适用unix的cron表达式，不适配quartz）~~ | https://github.com/xrutayisire/react-js-cron |
 
 ### 升级npm依赖
 ```bash

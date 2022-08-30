@@ -6,9 +6,6 @@ import { showResponse } from '@/utils/utils';
 import { RES_CODE } from '@/configs/server.config';
 import modelService from '@/services/admin/job';
 import Admin from '@/props/admin';
-import { Cron } from 'react-js-cron';
-
-import 'react-js-cron/dist/styles.css';
 
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
@@ -66,8 +63,6 @@ export default function JobModal({ children, title, record, fetchFinish, ...prop
   function onFinish(fieldsValue: any) {
     const values = {
       ...fieldsValue,
-      cron: fieldsValue.cron,
-      // birthday: getDateStr000(fieldsValue.birthday),
     };
     if (record) {
       invokeUpdateTask({ ...record, ...values });
@@ -102,7 +97,7 @@ export default function JobModal({ children, title, record, fetchFinish, ...prop
             <Input />
           </Form.Item>
           <Form.Item name="cron" label="cron表达式" rules={[{ required: true }]} {...formItemFullLayout}>
-            <Cron setValue={(value) => form.setFieldValue('cron', value)} />
+            <Input addonAfter={<a href="http://cron.ciding.cc/" target="_blank">在线表达式生成</a>} />
           </Form.Item>
           <Form.Item name="clazzPath" label="任务执行方法" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input />
