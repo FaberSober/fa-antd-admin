@@ -1,11 +1,11 @@
 import { defineConfig } from 'vite'
-import reactRefresh from '@vitejs/plugin-react-refresh'
+import react from '@vitejs/plugin-react'
 import * as path from 'path';
 import serverConfig from './configs/server.config';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [reactRefresh()],
+  plugins: [react()],
   //* css模块化
   css: {
     modules: { // css模块化 文件以.module.[css|less|scss]结尾
