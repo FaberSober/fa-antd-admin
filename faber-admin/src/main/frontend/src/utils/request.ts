@@ -69,7 +69,9 @@ instance.interceptors.response.use(
 		let defaultErrorMsg: string = status + get(codeMessage, status, '未知错误，请联系管理员');
 		if (error.response && error.response.data && error.response.data.message) {
 			defaultErrorMsg = status + error.response.data.message;
-			message.error(defaultErrorMsg);
+			if (error.config.headers.hideErrorMsg !== '1') {
+        message.error(defaultErrorMsg);
+      }
 		} else if (error.response.data instanceof Blob) {
 			const blob = new Blob([error.response.data], {
 				type: 'application/json;charset=utf-8',
@@ -82,10 +84,14 @@ instance.interceptors.response.use(
 				console.info('reader.result', reader.result);
 				// @ts-ignore
 				const json = JSON.parse(reader.result);
-				message.error(json.message);
+        if (error.config.headers.hideErrorMsg !== '1') {
+          message.error(json.message);
+        }
 			};
 		} else {
-			message.error(defaultErrorMsg);
+      if (error.config.headers.hideErrorMsg !== '1') {
+        message.error(defaultErrorMsg);
+      }
 		}
 
 		if (error.response) {
