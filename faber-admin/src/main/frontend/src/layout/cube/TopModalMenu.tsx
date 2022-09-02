@@ -21,18 +21,15 @@ const TopModalMenu = ({ headerModal }: IProps) => {
 
   const selectedKeys = curTopMenu ? [curTopMenu] : [];
 
-  const items: MenuProps['items'] = useMemo(() => {
-    return headerModal.topMenus
-      .filter((item) => hasPermission(user.menus, item.permission))
-      .map((tm) => {
-        return {
-          label: intl.formatMessage({ id: tm.menu }),
-          key: tm.menu,
-          icon: tm.icon ? tm.icon() : undefined,
-        }
-      })
-  }, [headerModal])
-  console.log('items', items)
+  const items: MenuProps['items'] = headerModal.topMenus
+    .filter((item) => hasPermission(user.menus, item.permission))
+    .map((tm) => {
+      return {
+        label: intl.formatMessage({ id: tm.menu }),
+        key: tm.menu,
+        icon: tm.icon ? tm.icon() : undefined,
+      }
+    });
 
   return (
     <Menu

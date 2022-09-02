@@ -52,7 +52,7 @@ export default function AccountPwdUpdate(props: RouteComponentProps) {
   }
 
   return (
-    <Card title="基本信息">
+    <Card title="更新密码">
       <div>
         <Form style={{ width: 600 }} form={form} onFinish={onFinish}>
           <Form.Item name="oldPwd" label="原密码" rules={[{ required: true }]} {...formItemFullLayout}>
