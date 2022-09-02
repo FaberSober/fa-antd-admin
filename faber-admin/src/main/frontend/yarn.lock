@@ -4171,10 +4171,10 @@ express@^4.17.1:
     utils-merge "1.0.1"
     vary "~1.1.2"
 
-fa-cron-react-editor@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.npmmirror.com/fa-cron-react-editor/-/fa-cron-react-editor-0.0.7.tgz#92760c42c34515bc8e340e7f9e57454b27bb89c1"
-  integrity sha512-uwYjeiI0ZzZ9xL3rSfFG8+IK4E7q02sZCgbkUEZmAwQRnD/kajlui8R6ZBuq4+4HHRu+QwZSYlNnF1XaDEOdtg==
+fa-cron-react-editor@0.0.9:
+  version "0.0.8"
+  resolved "https://registry.npmmirror.com/fa-cron-react-editor/-/fa-cron-react-editor-0.0.8.tgz#6e13bf28f86300291e164422a733436038213a28"
+  integrity sha512-VvaW3aPkqjPCC4UrYUaewRmyVm1ts35Sg3TReq0AgEoVuODb+e3Q2FyuuDJlId9w3XWPXlpwPSzaGWp3TG+Q5w==
   dependencies:
     react "18.2.0"
     react-dom "18.2.0"

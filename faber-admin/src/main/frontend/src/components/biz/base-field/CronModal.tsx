@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
+import {trim} from 'lodash';
 import {CronEditor} from "fa-cron-react-editor";
-import 'fa-cron-react-editor/dist/index.css'
 import jobApi from "@/services/admin/job";
 import {RES_CODE} from "@/configs/server.config";
+import 'fa-cron-react-editor/dist/index.css'
 
 
 interface IProps extends DragModalProps {
@@ -42,7 +43,7 @@ export default function CronModal({ children, value, onChange, ...props }: IProp
 
   function onFinish() {
     if (onChange) {
-      onChange(cron)
+      onChange(trim(cron))
     }
     setModalVisible(false)
   }
@@ -62,7 +63,10 @@ export default function CronModal({ children, value, onChange, ...props }: IProp
         <div>
           <CronEditor
             value={cron}
-            onChange={setCron}
+            onChange={(v) => {
+              console.log('CronEditor#onChange', v)
+              setCron(trim(v))
+            }}
           />
 
           <div>最近5次运行时间</div>
