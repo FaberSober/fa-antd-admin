@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import { CronEditor } from 'fa-cron-react-editor';
 import jobApi from '@/services/admin/job'
+import {RES_CODE} from "@/configs/server.config";
 
 import 'fa-cron-react-editor/dist/index.css'
-import {RES_CODE} from "@/configs/server.config";
 
 
 export interface CronProps {
@@ -16,17 +16,18 @@ export interface CronProps {
  * @date 2022/9/2
  */
 export default function Cron({ value, onChange }: CronProps) {
+  const [cron, setCron] = useState<string>('* * * * * ?');
   const [times, setTimes] = useState<string[]>([])
   const [errorMsg, setErrorMsg] = useState<string|undefined>(undefined);
 
   useEffect(() => {
-    if (value === undefined) {
+    if (cron === undefined) {
       setTimes([])
       setErrorMsg(undefined)
       return;
     }
 
-    jobApi.quartzLatest(value, 5).then((res) => {
+    jobApi.quartzLatest(cron, 5).then((res) => {
       if (res && res.status === RES_CODE.OK) {
         setTimes(res.data)
         setErrorMsg(undefined)
@@ -35,13 +36,13 @@ export default function Cron({ value, onChange }: CronProps) {
       setErrorMsg(e.response.data.message)
       setTimes([])
     })
-  }, [value])
+  }, [cron])
 
   return (
     <div>
       <CronEditor
-        value={value}
-        onChange={(v) => onChange && onChange(v)}
+        value={cron}
+        onChange={setCron}
       />
 
       <div>最近5次运行时间</div>

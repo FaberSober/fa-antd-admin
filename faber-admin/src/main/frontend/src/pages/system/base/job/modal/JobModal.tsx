@@ -6,6 +6,7 @@ import { showResponse } from '@/utils/utils';
 import { RES_CODE } from '@/configs/server.config';
 import modelService from '@/services/admin/job';
 import Admin from '@/props/admin';
+import {Cron, CronModal} from "@/components/biz/base-field";
 
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
@@ -97,7 +98,7 @@ export default function JobModal({ children, title, record, fetchFinish, ...prop
             <Input />
           </Form.Item>
           <Form.Item name="cron" label="cron表达式" rules={[{ required: true }]} {...formItemFullLayout}>
-            <Input addonAfter={<a href="http://cron.ciding.cc/" target="_blank">在线表达式生成</a>} />
+            <Input addonAfter={<CronModal value={get(record, 'cron')} onChange={(v) => form.setFieldValue('cron', v)} />} />
           </Form.Item>
           <Form.Item name="clazzPath" label="任务执行方法" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input />
