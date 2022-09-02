@@ -34,10 +34,10 @@
 | tk.mybatis | https://github.com/abel533/Mapper/wiki |
 
 ## 前端
-| 插件 | 官网 |
-| :--- | :--- |
-| antd | https://ant-design.gitee.io/components/overview-cn/ |
-| ~~react-js-cron（这个是适用unix的cron表达式，不适配quartz）~~ | https://github.com/xrutayisire/react-js-cron |
+| 插件 | 说明 | 官网 |
+| :--- | :--- | :--- |
+| antd | antd前端组件 | https://ant-design.gitee.io/components/overview-cn/ |
+| fa-cron-react-editor | cron编辑器 | https://github.com/xrutayisire/react-js-cron |
 
 ### 升级npm依赖
 ```bash

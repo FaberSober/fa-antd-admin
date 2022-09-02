@@ -24,7 +24,8 @@ function matchLocation(pathname: string, routes?: LayoutProps.Route[]): string[]
     const matchPath = pathToRegexp(route.path, [], { end: false }).test(pathname);
     // console.log(route.path, matchPath)
     if (matchPath) {
-      matches.push(route.path);
+      // matches.push(route.path);
+      matches.push(route.name);
     }
 
     if (route.routes && route.routes[0]) {

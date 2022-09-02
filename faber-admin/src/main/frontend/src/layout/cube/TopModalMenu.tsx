@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {useContext, useMemo} from 'react';
 import LayoutProps from '@/props/base/LayoutProps';
 import { Menu } from 'antd';
 import {FormattedMessage, useIntl} from 'react-intl';
@@ -19,18 +19,20 @@ const TopModalMenu = ({ headerModal }: IProps) => {
   const { curTopMenu, changeCurTopMenu } = useContext(UserMenuContext);
   const { user } = useContext(UserContext);
 
-  const { topMenus } = headerModal;
   const selectedKeys = curTopMenu ? [curTopMenu] : [];
 
-  const items: MenuProps['items'] = topMenus
-    .filter((item) => hasPermission(user.menus, item.permission))
-    .map((tm) => {
-      return {
-        label: intl.formatMessage({ id: tm.menu }),
-        key: tm.menu,
-        icon: tm.icon ? tm.icon() : undefined,
-      }
-    })
+  const items: MenuProps['items'] = useMemo(() => {
+    return headerModal.topMenus
+      .filter((item) => hasPermission(user.menus, item.permission))
+      .map((tm) => {
+        return {
+          label: intl.formatMessage({ id: tm.menu }),
+          key: tm.menu,
+          icon: tm.icon ? tm.icon() : undefined,
+        }
+      })
+  }, [headerModal])
+  console.log('items', items)
 
   return (
     <Menu

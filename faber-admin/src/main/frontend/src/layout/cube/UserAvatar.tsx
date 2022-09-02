@@ -15,18 +15,20 @@ const UserPopoverContent = () => {
     }
   }
 
+  const items = useMemo(() => ([
+    {
+      label: intl.formatMessage({ id: 'menu.account.logout' }),
+      key: 'logout',
+      icon: <LogoutOutlined />,
+    }
+  ]), [])
+
   return (
     <div style={{ minWidth: 160 }}>
       <Menu
         selectedKeys={[]}
         onClick={(menu) => handleHeadDropdownClick(menu.key)}
-        items={[
-          {
-            label: intl.formatMessage({ id: 'menu.account.logout' }),
-            key: 'logout',
-            icon: <LogoutOutlined />,
-          }
-        ]}
+        items={items}
       />
     </div>
   );
