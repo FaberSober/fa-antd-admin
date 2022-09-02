@@ -1,28 +1,33 @@
-import React, {useContext} from 'react';
+import React, {useContext, useMemo} from 'react';
 import {LogoutOutlined} from '@ant-design/icons';
 import {Avatar, Menu, Popover} from 'antd';
-import {MenuInfo} from 'rc-menu/lib/interface';
-import {FormattedMessage} from 'react-intl';
+import {useIntl} from 'react-intl';
 import {UserContext} from '@/layout/UserSimpleLayout';
 
 const UserPopoverContent = () => {
+  const intl = useIntl();
   const { logout } = useContext(UserContext);
 
   // 头像下拉弹框-菜单点击
-  function handleHeadDropdownClick(menu: MenuInfo) {
-    if (menu.key === 'logout') {
+  function handleHeadDropdownClick(key: string) {
+    if (key === 'logout') {
       logout();
     }
   }
 
   return (
     <div style={{ minWidth: 160 }}>
-      <Menu selectedKeys={[]} onClick={(menu) => handleHeadDropdownClick(menu)}>
-        <Menu.Item key="logout">
-          <LogoutOutlined />
-          <FormattedMessage id="menu.account.logout" />
-        </Menu.Item>
-      </Menu>
+      <Menu
+        selectedKeys={[]}
+        onClick={(menu) => handleHeadDropdownClick(menu.key)}
+        items={[
+          {
+            label: intl.formatMessage({ id: 'menu.account.logout' }),
+            key: 'logout',
+            icon: <LogoutOutlined />,
+          }
+        ]}
+      />
     </div>
   );
 };

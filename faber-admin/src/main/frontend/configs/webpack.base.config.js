@@ -8,7 +8,6 @@ const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
 const serverConfig = require('./server.config');
 
 const APP_DIR = path.resolve(__dirname, '../src');
-const MONACO_DIR = path.resolve(__dirname, '../node_modules/monaco-editor');
 const REACT_PDF_DIR = path.resolve(__dirname, '../node_modules/@react-pdf-viewer');
 const FA_CRON_REACT_EDITOR_DIR = path.resolve(__dirname, '../node_modules/fa-cron-react-editor');
 
@@ -97,7 +96,7 @@ const webpackConfigBase = {
 			},
       {
         test: /\.css$/,
-        include: [MONACO_DIR, REACT_PDF_DIR, FA_CRON_REACT_EDITOR_DIR],
+        include: [REACT_PDF_DIR, FA_CRON_REACT_EDITOR_DIR],
         use: ['style-loader', 'css-loader'],
       },
 			{
