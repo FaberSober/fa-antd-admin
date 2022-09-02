@@ -59,7 +59,7 @@ interface IProps extends RouteComponentProps {
  * Header-大业务模块切换
  */
 const ModalSelect = ({ headerModal }: IProps) => (
-  <Popover content={<ModalSelectPanel headerModal={headerModal} />} trigger="click" getPopupContainer={() => document.body}>
+  <Popover content={<ModalSelectPanel headerModal={headerModal} />} trigger="click" >
     <div style={{ cursor: 'pointer', fontSize: '14px', color: '#eee', margin: '0 12px' }}>
       <AppstoreOutlined style={{ marginRight: 6 }} />
       <FormattedMessage id={headerModal.name} />

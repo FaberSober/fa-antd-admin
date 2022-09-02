@@ -30,15 +30,14 @@ export default function Login() {
     }).catch(() => setLoading(false));
   }
 
-  function validateCaptcha(rules: any, value: any, callback: any) {
+  function validateCaptcha(rules: any, value: any) {
     if (value === undefined) {
-      callback();
-      return;
+      return Promise.resolve();
     }
     if (trim(value).toLowerCase() !== trim(code).toLowerCase()) {
-      callback('验证码输入错误');
+      return Promise.reject('验证码输入错误');
     }
-    callback();
+    return Promise.resolve();
   }
 
   return (
