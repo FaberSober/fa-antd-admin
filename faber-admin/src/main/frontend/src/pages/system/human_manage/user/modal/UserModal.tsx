@@ -109,10 +109,10 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
   }
 
   useEffect(() => {
-    if (props.visible) {
+    if (props.open) {
       initFormData()
     }
-  }, [props.visible])
+  }, [props.open])
 
   function showModal() {
     setModalVisible(true)

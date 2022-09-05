@@ -20,7 +20,7 @@ interface IProps extends DragModalProps {
 /**
  * 权限实体新增、编辑弹框
  */
-export default function MenuBlockModal({ children, title, record, fetchFinish, ...props }: IProps, ref: any) {
+export default function MenuBlockModal({ children, title, record, fetchFinish, ...props }: IProps) {
   const [form] = Form.useForm();
 
   const [loading, setLoading] = useState(false);
@@ -64,21 +64,23 @@ export default function MenuBlockModal({ children, title, record, fetchFinish, .
     }
   }
 
-  const initialValues = {
-    name: get(record, 'name'),
-    no: get(record, 'no'),
-    sort: get(record, 'sort'),
-  };
+  function getInitialValues() {
+    return {
+      name: get(record, 'name'),
+      no: get(record, 'no'),
+      sort: get(record, 'sort'),
+    };
+  }
 
   useEffect(() => {
-    if (props.visible) {
-      form.setFieldsValue(initialValues);
+    if (props.open) {
+      form.setFieldsValue(getInitialValues());
     }
-  }, [props.visible])
+  }, [props.open])
 
   function showModal() {
     setModalVisible(true);
-    form.setFieldsValue(initialValues);
+    form.setFieldsValue(getInitialValues());
   }
 
   return (
@@ -93,21 +95,17 @@ export default function MenuBlockModal({ children, title, record, fetchFinish, .
         width={700}
         {...props}
       >
-        <>
-          {(modalVisible || props.visible) && (
-            <Form form={form} onFinish={onFinish} initialValues={initialValues}>
-              <Form.Item name="name" label="名称" rules={[{ required: true, max: 6 }]} {...formItemFullLayout}>
-                <Input />
-              </Form.Item>
-              <Form.Item name="no" label="编码" rules={[{ required: false, max: 10 }]} {...formItemFullLayout}>
-                <Input />
-              </Form.Item>
-              <Form.Item name="sort" label="排序" rules={[{ required: true }]} {...formItemFullLayout}>
-                <Input type="number" />
-              </Form.Item>
-            </Form>
-          )}
-        </>
+        <Form form={form} onFinish={onFinish}>
+          <Form.Item name="name" label="名称" rules={[{ required: true, max: 6 }]} {...formItemFullLayout}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="no" label="编码" rules={[{ required: false, max: 10 }]} {...formItemFullLayout}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="sort" label="排序" rules={[{ required: true }]} {...formItemFullLayout}>
+            <Input type="number" />
+          </Form.Item>
+        </Form>
       </DragModal>
     </span>
   );

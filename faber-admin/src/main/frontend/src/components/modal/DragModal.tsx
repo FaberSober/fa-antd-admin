@@ -9,11 +9,12 @@ export interface DragModalProps extends ModalProps {
 
 /* eslint-disable react/jsx-props-no-spreading */
 /**
- * antd v.4.7.0 新增可拖动Modal
+ * antd v.4.7.0 新增可拖动Modal
  */
 function DragModal(props: DragModalProps) {
   const [disabled, setDisabled] = useState(true);
   const { title, ...restProps } = props;
+  if (!props.open) return null;
   return (
     <Modal
       title={

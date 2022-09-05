@@ -80,10 +80,10 @@ export default function MenuModal({ parentId, record, onCancel, ...props }: IPro
   }
 
   useEffect(() => {
-    if (props.visible) {
+    if (props.open) {
       form.setFieldsValue(getInitialValues())
     }
-  }, [props.visible])
+  }, [props.open])
 
   return (
     <DragModal onOk={() => form.submit()} confirmLoading={loading} width={700} onCancel={onCancel} {...props}>
