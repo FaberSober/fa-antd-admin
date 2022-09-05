@@ -54,12 +54,7 @@ export default function CronModal({ children, initialValue, onChange, ...props }
         {...props}
       >
         <div>
-          <CronEditor
-            value={cron}
-            onChange={(v) => {
-              setCron(v)
-            }}
-          />
+          <CronEditor value={cron} onChange={setCron} />
 
           <div>最近5次运行时间</div>
           <div>
