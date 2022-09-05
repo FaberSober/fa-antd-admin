@@ -46,7 +46,7 @@ export default function CronModal({ children, initialValue, onChange, ...props }
       <span onClick={() => setModalVisible(true)}>{children || <a>cron表达式编辑</a>}</span>
       <DragModal
         title="cron表达式编辑"
-        visible={modalVisible}
+        open={modalVisible}
         onOk={() => onFinish()}
         onCancel={() => setModalVisible(false)}
         width={844}

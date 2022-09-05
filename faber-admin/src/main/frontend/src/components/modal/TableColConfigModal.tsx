@@ -181,7 +181,7 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
       <span onClick={showModelHandler}>{children}</span>
       <Drawer
         title="自定义表格字段"
-        visible={modalVisible}
+        open={modalVisible}
         onOk={handleSave}
         confirmLoading={loading}
         onClose={() => setModalVisible(false)}

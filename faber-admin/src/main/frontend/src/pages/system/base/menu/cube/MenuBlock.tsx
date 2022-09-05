@@ -108,7 +108,7 @@ export default function MenuBlock({ showOprBtn }: MenuBlockProps) {
       <MenuBlockModal
         title="编辑模块"
         record={editItem}
-        visible={editItemModalVisible}
+        open={editItemModalVisible}
         fetchFinish={() => {
           fetchData();
           setEditItemModalVisible(false)

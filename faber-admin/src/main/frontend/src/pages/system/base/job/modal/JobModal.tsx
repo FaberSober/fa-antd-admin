@@ -91,7 +91,7 @@ export default function JobModal({ children, title, record, fetchFinish, ...prop
       <span onClick={showModal}>{children}</span>
       <DragModal
         title={title}
-        visible={modalVisible}
+        open={modalVisible}
         onOk={() => form.submit()}
         confirmLoading={loading}
         onCancel={() => setModalVisible(false)}

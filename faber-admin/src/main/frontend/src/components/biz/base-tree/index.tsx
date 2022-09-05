@@ -356,9 +356,9 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
               {...props}
             />
             {/* @ts-ignore */}
-            <ServiceModal title={`新增${serviceName}`} parentId={clickItem && get(clickItem, 'value')} visible={addItemModalVisible} onCancel={afterEditItem} fetchFinish={afterEditItem}  />
+            <ServiceModal title={`新增${serviceName}`} parentId={clickItem && get(clickItem, 'value')} open={addItemModalVisible} onCancel={afterEditItem} fetchFinish={afterEditItem}  />
             {/* @ts-ignore */}
-            <ServiceModal title={`编辑${serviceName}`} visible={editItemModalVisible} record={clickItem} onCancel={afterEditItem} fetchFinish={afterEditItem} destroyOnClose />
+            <ServiceModal title={`编辑${serviceName}`} open={editItemModalVisible} record={clickItem} onCancel={afterEditItem} fetchFinish={afterEditItem} destroyOnClose />
           </Spin>
         </div>
       </div>

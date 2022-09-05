@@ -111,7 +111,7 @@ function SceneDropMenu<T>({ buzzModal, columns, onChange }: IProps<T>, ref: any)
         buzzModal={buzzModal}
         // @ts-ignore
         columns={columns}
-        visible={manageModalVisible}
+        open={manageModalVisible}
         onOk={() => {
           refreshConfigList();
           setManageModalVisible(false);

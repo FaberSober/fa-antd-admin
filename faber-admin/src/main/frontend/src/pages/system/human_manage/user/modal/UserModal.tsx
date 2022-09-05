@@ -135,7 +135,7 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
       <span onClick={() => showModal()}>{children}</span>
       <DragModal
         title={title}
-        visible={modalVisible}
+        open={modalVisible}
         onOk={() => form.submit()}
         confirmLoading={loading}
         onCancel={() => setModalVisible(false)}

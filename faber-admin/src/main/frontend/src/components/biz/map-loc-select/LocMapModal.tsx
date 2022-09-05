@@ -60,7 +60,7 @@ export default function LocMapModal({ children, initLoc, onConfirm, disableEdit 
   return (
     <div>
       <div onClick={() => setVisible(true)}>{children}</div>
-      <DragModal title="获取经纬度" visible={visible} onOk={handleOk} onCancel={() => setVisible(false)} width={660} destroyOnClose>
+      <DragModal title="获取经纬度" open={visible} onOk={handleOk} onCancel={() => setVisible(false)} width={660} destroyOnClose>
         <div style={{ width: '100%', height: '500px', position: 'relative' }}>
           <Map
             center={center}

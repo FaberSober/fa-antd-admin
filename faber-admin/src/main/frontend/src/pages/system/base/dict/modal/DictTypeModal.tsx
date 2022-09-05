@@ -79,7 +79,7 @@ export default function DictTypeModal({ children, parentId, title, record, ...pr
       <span onClick={() => setModalVisible(true)}>{children}</span>
       <DragModal
         title={title}
-        visible={modalVisible}
+        open={modalVisible}
         onOk={() => formRef.current.submit()}
         confirmLoading={loading}
         onCancel={() => setModalVisible(false)}

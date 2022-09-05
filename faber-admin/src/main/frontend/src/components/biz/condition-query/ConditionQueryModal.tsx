@@ -159,7 +159,7 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
       </div>
       <DragModal
         title="高级筛选"
-        visible={modalVisible}
+        open={modalVisible}
         onOk={handleSave}
         confirmLoading={loading}
         onCancel={() => setModalVisible(false)}

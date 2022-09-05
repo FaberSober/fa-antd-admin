@@ -78,7 +78,7 @@ export default function NoticeModal({ children, title, record, fetchFinish, ...p
       <span onClick={() => setModalVisible(true)}>{children}</span>
       <DragModal
         title={title}
-        visible={modalVisible}
+        open={modalVisible}
         onOk={() => form.submit()}
         confirmLoading={loading}
         onCancel={() => setModalVisible(false)}

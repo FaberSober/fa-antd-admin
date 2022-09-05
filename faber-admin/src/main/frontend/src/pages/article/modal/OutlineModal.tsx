@@ -83,7 +83,7 @@ export default function OutlineModal({ children, title, record, fetchFinish, ...
       <span onClick={() => setModalVisible(true)}>{children}</span>
       <DragModal
         title={title}
-        visible={modalVisible}
+        open={modalVisible}
         onOk={() => formRef.current.submit()}
         confirmLoading={loading}
         onCancel={() => setModalVisible(false)}
