@@ -72,9 +72,23 @@ export default function JobModal({ children, title, record, fetchFinish, ...prop
     }
   }
 
+  function getInitialValues() {
+    return {
+      jobName: get(record, 'jobName'),
+      cron: get(record, 'cron', '0 * * * * ?'),
+      clazzPath: get(record, 'clazzPath'),
+      jobDesc: get(record, 'jobDesc'),
+    }
+  }
+
+  function showModal() {
+    setModalVisible(true)
+    form.setFieldsValue(getInitialValues())
+  }
+
   return (
     <span>
-      <span onClick={() => setModalVisible(true)}>{children}</span>
+      <span onClick={showModal}>{children}</span>
       <DragModal
         title={title}
         visible={modalVisible}
@@ -84,21 +98,12 @@ export default function JobModal({ children, title, record, fetchFinish, ...prop
         width={700}
         {...props}
       >
-        <Form
-          form={form}
-          onFinish={onFinish}
-          initialValues={{
-            jobName: get(record, 'jobName'),
-            cron: get(record, 'cron'),
-            clazzPath: get(record, 'clazzPath'),
-            jobDesc: get(record, 'jobDesc'),
-          }}
-        >
+        <Form form={form} onFinish={onFinish}>
           <Form.Item name="jobName" label="任务名称" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input />
           </Form.Item>
           <Form.Item name="cron" label="cron表达式" rules={[{ required: true }]} {...formItemFullLayout}>
-            <Input addonAfter={<CronModal value={get(record, 'cron')} onChange={(v) => form.setFieldValue('cron', v)} />} />
+            <Input addonAfter={<CronModal initialValue={get(record, 'cron')} onChange={(v) => form.setFieldValue('cron', v)} />} />
           </Form.Item>
           <Form.Item name="clazzPath" label="任务执行方法" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input />

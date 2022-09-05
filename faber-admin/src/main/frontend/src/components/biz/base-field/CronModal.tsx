@@ -8,28 +8,21 @@ import 'fa-cron-react-editor/dist/index.css'
 
 
 interface IProps extends DragModalProps {
-  value?: string;
+  initialValue?: string;
   onChange?: (v:string|undefined) => void;
 }
 
 /**
  * 系统定时任务实体新增、编辑弹框
  */
-export default function CronModal({ children, value, onChange, ...props }: IProps) {
-  const [cron, setCron] = useState<string>('* * * * * ?');
+export default function CronModal({ children, initialValue, onChange, ...props }: IProps) {
+  const [cron, setCron] = useState<string>(initialValue || '* * * * * ?');
   const [times, setTimes] = useState<string[]>([])
   const [errorMsg, setErrorMsg] = useState<string|undefined>(undefined);
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  // useEffect(() => {
-  //   if (value !== cron && value !== undefined) {
-  //     setCron(value)
-  //   }
-  // }, [])
-
   useEffect(() => {
-    console.log('cron', cron)
     jobApi.quartzLatest(cron, 5).then((res) => {
       if (res && res.status === RES_CODE.OK) {
         setTimes(res.data)
@@ -64,8 +57,7 @@ export default function CronModal({ children, value, onChange, ...props }: IProp
           <CronEditor
             value={cron}
             onChange={(v) => {
-              console.log('CronEditor#onChange', v)
-              setCron(trim(v))
+              setCron(v)
             }}
           />
 

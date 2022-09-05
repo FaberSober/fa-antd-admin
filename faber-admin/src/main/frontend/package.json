@@ -42,7 +42,7 @@
     "echarts": "5.3.3",
     "echarts-extension-amap": "1.10.1",
     "echarts-gl": "2.0.9",
-    "fa-cron-react-editor": "0.0.9",
+    "fa-cron-react-editor": "0.0.10",
     "lodash": "4.17.21",
     "path-to-regexp": "6.2.1",
     "pdfjs-dist": "2.16.105",

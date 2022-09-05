@@ -2167,7 +2167,7 @@
     "@uiw/react-amap-utils" "4.0.2"
     "@uiw/react-amap-weather" "4.0.2"
 
-"@vitejs/plugin-react@^2.0.1":
+"@vitejs/plugin-react@2.0.1":
   version "2.0.1"
   resolved "https://registry.npmmirror.com/@vitejs/plugin-react/-/plugin-react-2.0.1.tgz#3197c01d8e4a4eb9fed829c7888c467a43aadd4e"
   integrity sha512-uINzNHmjrbunlFtyVkST6lY1ewSfz/XwLufG0PIqvLGnpk2nOIOa/1CACTDNcKi1/RwaCzJLmsXwm1NsUVV/NA==
@@ -4187,10 +4187,10 @@ express@^4.17.3:
     utils-merge "1.0.1"
     vary "~1.1.2"
 
-fa-cron-react-editor@0.0.9:
-  version "0.0.9"
-  resolved "https://registry.npmmirror.com/fa-cron-react-editor/-/fa-cron-react-editor-0.0.9.tgz#cc0bce920907bf1644ee3985eb367ec09e5daf58"
-  integrity sha512-Kq39cc3DWid7HTMbkSnBaBOJoWgJyxxCYbdcPKAPOW9wLgxE9yhVPKdkbMyQaluHJLB0HZvXEgNV984DED1khA==
+fa-cron-react-editor@0.0.10:
+  version "0.0.10"
+  resolved "https://registry.npmmirror.com/fa-cron-react-editor/-/fa-cron-react-editor-0.0.10.tgz#2f015b373da322cd5273b26e7a39f89a48025f70"
+  integrity sha512-TsPWn7OsrIjfJF1GsX+9UtkAJ1MeywaqrLvBnBLeKrx54fxzqLhPRjDDC0ECK/xRrwyGkkE4eL4sqsDSgSsmmw==
   dependencies:
     react "18.2.0"
     react-dom "18.2.0"
