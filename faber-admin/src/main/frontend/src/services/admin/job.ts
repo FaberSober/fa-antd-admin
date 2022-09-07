@@ -9,13 +9,13 @@ const serviceModule = 'job';
 
 class Job extends BaseApi<Admin.Job, number> {
 	/** 获取唯一实体 */
-	runOneTime = (id: number): Promise<Ajax.Response> => requestGet(`${GATE_APP.admin}/${serviceModule}/${id}/runOneTime`);
+	runOneTime = (id: number): Promise<Ajax.Response> => requestGet(`${GATE_APP.admin}/${serviceModule}/runOneTime/${id}`);
 
 	/** 获取唯一实体 */
-	startJob = (id: number): Promise<Ajax.Response> => requestGet(`${GATE_APP.admin}/${serviceModule}/${id}/startJob`);
+	startJob = (id: number): Promise<Ajax.Response> => requestGet(`${GATE_APP.admin}/${serviceModule}/startJob/${id}`);
 
 	/** 获取唯一实体 */
-	endJob = (id: number): Promise<Ajax.Response> => requestGet(`${GATE_APP.admin}/${serviceModule}/${id}/endJob`);
+	endJob = (id: number): Promise<Ajax.Response> => requestGet(`${GATE_APP.admin}/${serviceModule}/endJob/${id}`);
 
   /** 获取cron最近5次运行时间 */
   quartzLatest = (cron: string, times: number): Promise<Ajax.Response<string[]>> =>

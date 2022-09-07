@@ -50,8 +50,7 @@ public class JobTask {
     public boolean runTaskImmediately(com.faber.admin.entity.Job job) {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
         try {
-            Class clazz = Class.forName(job.getClazzPath());
-            JobDetail jobDetail = JobBuilder.newJob(clazz).build();
+            JobDetail jobDetail = this.getJobDetail(job);
             // 任务名称
             String jonKeyName = "runTaskImmediately:" + job.getId().toString() + "-" + job.getClazzPath() + "-rnd=" + new SecureRandom().nextInt(10000);
             // 触发器
@@ -82,8 +81,7 @@ public class JobTask {
     public boolean startJob(com.faber.admin.entity.Job job) {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
         try {
-            Class clazz = Class.forName(job.getClazzPath());
-            JobDetail jobDetail = JobBuilder.newJob(clazz).build();
+            JobDetail jobDetail = this.getJobDetail(job);
             // 触发器
             TriggerKey triggerKey = TriggerKey.triggerKey(this.getJobKeyName(job), Scheduler.DEFAULT_GROUP);
             CronTrigger trigger = TriggerBuilder.newTrigger()
@@ -93,10 +91,10 @@ public class JobTask {
             // 启动
             if (!scheduler.isShutdown()) {
                 scheduler.start();
-                log.info("---任务[" + triggerKey.getName() + "]启动成功-------");
+                log.info("---任务[{}]启动成功-------", triggerKey.getName());
                 return true;
             } else {
-                log.info("---任务[" + triggerKey.getName() + "]已经运行，请勿再次启动-------");
+                log.info("---任务[{}]已经运行，请勿再次启动-------", triggerKey.getName());
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -124,12 +122,11 @@ public class JobTask {
                     .withMisfireHandlingInstructionDoNothing();
             CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(triggerKey)
                     .withDescription(createTime).withSchedule(schedBuilder).build();
-            Class clazz = null;
             JobDetail jobDetail = scheduler.getJobDetail(jobKey);
             HashSet<Trigger> triggerSet = new HashSet<>();
             triggerSet.add(trigger);
             scheduler.scheduleJob(jobDetail, triggerSet, true);
-            log.info("---任务[" + triggerKey.getName() + "]更新成功-------");
+            log.info("---任务[{}]更新成功-------", triggerKey.getName());
             return true;
         } catch (SchedulerException e) {
             e.printStackTrace();
@@ -160,6 +157,13 @@ public class JobTask {
 
     private String getJobKeyName(Job job) {
         return job.getId().toString() + "-" + job.getClazzPath();
+    }
+
+    private JobDetail getJobDetail(Job job) throws ClassNotFoundException {
+        Class clazz = Class.forName(job.getClazzPath());
+        return JobBuilder.newJob(clazz)
+                .usingJobData("jobId", job.getId())
+                .build();
     }
 
 }

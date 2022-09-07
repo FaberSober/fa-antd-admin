@@ -386,22 +386,26 @@ namespace Admin {
 
 	export enum JOB_LOG_STATUS {
 	  DOING   = '1', // 执行中
-	  SUCCESS = '2', // 成功
+    DONE    = '2', // 成功
 	  ERROR   = '9', // 失败
   }
 
   /** BASE-系统定时任务-执行日志 */
-  export interface JobLog extends FaberBase.BaseDelEntity {
+  export interface JobLog {
     /** ID */
     id: number;
     /** 任务ID */
     jobId: string;
     /** 执行结果：1-执行中/2-成功/9-失败 */
     status: JOB_LOG_STATUS;
+    /** 执行花费时间 */
+    duration: number;
     /** 错误日志 */
-    errMsg: string;
-    /** 错误日志栈信息 */
-    errStackMsg: string;
+    errMsg?: string;
+    /** 创建时间 */
+    beginTime?: string;
+    /** 创建时间 */
+    endTime?: string;
   }
 
 	// -------------------------------------------- 系统-系统定时任务 --------------------------------------------

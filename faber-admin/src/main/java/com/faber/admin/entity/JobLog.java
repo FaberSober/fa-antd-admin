@@ -2,7 +2,9 @@ package com.faber.admin.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.faber.common.annotation.FaberModalName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -33,19 +35,34 @@ public class JobLog implements Serializable {
     private Integer jobId;
 
     @ExcelProperty("创建时间")
-    @Column(name = "crt_time")
-    private Date crtTime;
+    @Column(name = "begin_time")
+    private Date beginTime;
+
+    @ExcelProperty("结束时间")
+    @Column(name = "end_time")
+    private Date endTime;
 
     @ExcelProperty("执行结果：1-执行中/2-成功/9-失败")
     @Column(name = "status")
     private String status;
 
+    @ExcelProperty("执行花费时间")
+    @Column(name = "duration")
+    private Long duration;
+
     @ExcelProperty("错误日志")
     @Column(name = "err_msg")
     private String errMsg;
 
-    @ExcelProperty("错误日志栈信息")
-    @Column(name = "err_stack_msg")
-    private String errStackMsg;
+    @ToString
+    @AllArgsConstructor
+    public enum Status {
+        DOING("1", "执行中"),
+        DONE("2", "成功"),
+        ERROR("9", "失败");
+
+        public final String value;
+        public final String text;
+    }
 
 }

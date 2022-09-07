@@ -19,7 +19,7 @@ import java.util.Map;
 @RequestMapping("/api/admin/job")
 public class JobController extends BaseController<JobBiz, Job> {
 
-    @GetMapping("/{id}/runOneTime")
+    @GetMapping("/runOneTime/{id}")
     @ResponseBody
     @ApiOperation(value = "立即执行一次定时任务", notes = "立即执行一次定时任务")
     public ObjectRestResponse<Boolean> runOneTime(@ApiParam(required = true, name = "id", value = "定时任务ID") @PathVariable long id) {
@@ -30,7 +30,7 @@ public class JobController extends BaseController<JobBiz, Job> {
     /**
      * 启动定时任务
      */
-    @RequestMapping(value = "/{id}/startJob", method = RequestMethod.GET)
+    @RequestMapping(value = "/startJob/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ObjectRestResponse<Boolean> startJob(@PathVariable int id) {
         baseBiz.startJob(id);
@@ -40,7 +40,7 @@ public class JobController extends BaseController<JobBiz, Job> {
     /**
      * 停止定时任务
      */
-    @RequestMapping(value = "/{id}/endJob", method = RequestMethod.GET)
+    @RequestMapping(value = "/endJob/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ObjectRestResponse<Boolean> endJob(@PathVariable int id) {
         baseBiz.endJob(id);
