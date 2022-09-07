@@ -390,6 +390,12 @@ namespace Admin {
 	  ERROR   = '9', // 失败
   }
 
+  export const JOB_LOG_STATUS_MAP = {
+	  [JOB_LOG_STATUS.DOING]: '执行中',
+	  [JOB_LOG_STATUS.DONE]: '成功',
+	  [JOB_LOG_STATUS.ERROR]: '失败',
+  }
+
   /** BASE-系统定时任务-执行日志 */
   export interface JobLog {
     /** ID */

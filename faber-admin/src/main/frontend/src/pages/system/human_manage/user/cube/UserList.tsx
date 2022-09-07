@@ -101,7 +101,7 @@ function UserList({ departmentId }: IProps, ref: any) {
     <Card>
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', marginBottom: 12 }}>
         <div style={{ display: 'flex' }}>
-          <strong style={{ fontSize: '18px', marginLeft: 8 }}>{serviceName}</strong>
+          <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
         </div>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <div>

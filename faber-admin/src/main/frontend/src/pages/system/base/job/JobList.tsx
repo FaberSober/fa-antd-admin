@@ -10,6 +10,7 @@ import modelService from '@/services/admin/job';
 import Admin from '@/props/admin';
 import JobModal from './modal/JobModal';
 import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
+import JobLogDrawer from "@/pages/system/base/job/jobLog/JobLogDrawer";
 
 const serviceName = '系统定时任务';
 const buzzModal = 'base_job';
@@ -49,7 +50,14 @@ export default function JobList() {
     const { sorter } = queryParams;
     return [
       BaseTableUtils.genSimpleSorterColumn('ID', 'id', 70, sorter),
-      BaseTableUtils.genSimpleSorterColumn('任务名称', 'jobName', 150, sorter),
+      {
+        ...BaseTableUtils.genSimpleSorterColumn('任务名称', 'jobName', 150, sorter),
+        render: (val, record) => (
+          <JobLogDrawer jobId={record.id}>
+            <a>{val}</a>
+          </JobLogDrawer>
+        )
+      },
       BaseTableUtils.genSimpleSorterColumn('cron表达式', 'cron', 120, sorter),
       {
         ...BaseTableUtils.genSimpleSorterColumn('状态', 'status', 80, sorter),
@@ -113,7 +121,7 @@ export default function JobList() {
     <Card>
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', marginBottom: 12 }}>
         <div style={{ display: 'flex' }}>
-          <strong style={{ fontSize: '18px', marginLeft: 8 }}>{serviceName}</strong>
+          <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
         </div>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <Form style={{ flex: 1, flexDirection: 'row-reverse' }} form={form} layout="inline" onFinish={setFormValues}>
