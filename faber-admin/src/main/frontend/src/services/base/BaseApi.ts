@@ -14,25 +14,25 @@ export default class BaseApi<T, KeyType, PageT = T> {
 	}
 
 	/** 增加实体信息 */
-	add = (params: any): Promise<Ajax.Response<T>> => requestPost(`${this.apiPrefix}/${this.apiModal}`, params);
+	add = (params: any): Promise<Ajax.Response<T>> => requestPost(`${this.apiPrefix}/${this.apiModal}/add`, params);
 
 	/** 增加实体信息 */
 	batchInsert = (params: any): Promise<Ajax.Response<T>> => requestPost(`${this.apiPrefix}/${this.apiModal}/batchInsert`, params);
 
 	/** 获取唯一实体 */
-	findOne = (id: KeyType): Promise<Ajax.Response<T>> => requestGet(`${this.apiPrefix}/${this.apiModal}/${id}`);
+	findOne = (id: KeyType): Promise<Ajax.Response<T>> => requestGet(`${this.apiPrefix}/${this.apiModal}/get/${id}`);
 
 	/** 更新实体 */
-	update = (id: KeyType, params: any): Promise<Ajax.Response> => requestPut(`${this.apiPrefix}/${this.apiModal}/${id}`, params);
+	update = (id: KeyType, params: any): Promise<Ajax.Response> => requestPut(`${this.apiPrefix}/${this.apiModal}/update`, params);
 
 	/** 更新实体-只更新传入的属性 */
-	updateAll = (id: KeyType, params: any): Promise<Ajax.Response> => requestPut(`${this.apiPrefix}/${this.apiModal}/updateAll/${id}`, params);
+	updateAll = (id: KeyType, params: any): Promise<Ajax.Response> => requestPut(`${this.apiPrefix}/${this.apiModal}/updateAll`, params);
 
 	/** 更新实体-只更新传入的属性 */
-	updateSelective = (id: KeyType, params: any): Promise<Ajax.Response> => requestPut(`${this.apiPrefix}/${this.apiModal}/updateSelective/${id}`, params);
+	updateSelective = (id: KeyType, params: any): Promise<Ajax.Response> => requestPut(`${this.apiPrefix}/${this.apiModal}/updateSelective/`, params);
 
 	/** 删除实体 */
-	remove = (id: KeyType): Promise<Ajax.Response> => requestDelete(`${this.apiPrefix}/${this.apiModal}/${id}`);
+	remove = (id: KeyType): Promise<Ajax.Response> => requestDelete(`${this.apiPrefix}/${this.apiModal}/remove/${id}`);
 
 	/** 逻辑删除实体 */
 	logicDeleteById = (id: KeyType): Promise<Ajax.Response> => requestDelete(`${this.apiPrefix}/${this.apiModal}/logicDeleteById/${id}`);

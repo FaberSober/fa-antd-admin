@@ -41,10 +41,11 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
 
     @Autowired
     protected HttpServletRequest request;
+
     @Autowired
     protected Biz baseBiz;
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse<Entity> add(@Valid @RequestBody Entity entity) {
         baseBiz.insertSelective(entity);
@@ -58,14 +59,14 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
         return ok(entityList);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ObjectRestResponse<Entity> get(@PathVariable Object id) {
         Entity o = (Entity) baseBiz.selectById(id);
         return ok(o);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
     @ResponseBody
     public ObjectRestResponse<Entity> update(@Valid @RequestBody Entity entity) {
         baseBiz.updateSelectiveById(entity);
@@ -77,7 +78,7 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
      * @param entity
      * @return
      */
-    @RequestMapping(value = "/updateAll/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/updateAll", method = RequestMethod.PUT)
     @ResponseBody
     public ObjectRestResponse<Entity> updateAll(@Valid @RequestBody Entity entity) {
         baseBiz.updateById(entity);
@@ -89,14 +90,14 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
      * @param entity
      * @return
      */
-    @RequestMapping(value = "/updateSelective/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/updateSelective", method = RequestMethod.PUT)
     @ResponseBody
     public ObjectRestResponse<Entity> updateSelective(@Valid @RequestBody Entity entity) {
         baseBiz.updateSelectiveById(entity);
         return ok();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public ObjectRestResponse<Entity> remove(@PathVariable Object id) {
         baseBiz.deleteById(id);
