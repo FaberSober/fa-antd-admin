@@ -384,6 +384,26 @@ namespace Admin {
 		jobDesc: string;
 	}
 
+	export enum JOB_LOG_STATUS {
+	  DOING   = '1', // 执行中
+	  SUCCESS = '2', // 成功
+	  ERROR   = '9', // 失败
+  }
+
+  /** BASE-系统定时任务-执行日志 */
+  export interface JobLog extends FaberBase.BaseDelEntity {
+    /** ID */
+    id: number;
+    /** 任务ID */
+    jobId: string;
+    /** 执行结果：1-执行中/2-成功/9-失败 */
+    status: JOB_LOG_STATUS;
+    /** 错误日志 */
+    errMsg: string;
+    /** 错误日志栈信息 */
+    errStackMsg: string;
+  }
+
 	// -------------------------------------------- 系统-系统定时任务 --------------------------------------------
 	export enum BizFileBizType {
 		ILLEGAL_CAPTURE = 'ILLEGAL_CAPTURE', // 违章抓拍记录

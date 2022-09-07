@@ -66,30 +66,35 @@ export default function ${className}Modal({ children, title, record, fetchFinish
     }
   }
 
+  function getInitialValues() {
+    return {
+#foreach($column in $columns)
+  #if($column.columnName == $pk.columnName)
+  #elseif ($column.attrname != 'crtTime' and $column.attrname != 'crtUser' and $column.attrname != 'crtName' and $column.attrname != 'crtHost' and $column.attrname != 'updTime' and $column.attrname != 'updUser' and $column.attrname != 'updName' and $column.attrname != 'updHost' and $column.attrname != 'delState' and $column.attrname != 'delTime' and $column.attrname != 'delUser' and $column.attrname != 'delName' and $column.attrname != 'delHost')
+      ${column.attrname}: get(record, '${column.attrname}'),
+  #end
+#end
+    }
+  }
+
+  function showModal() {
+    setModalVisible(true)
+    form.setFieldsValue(getInitialValues())
+  }
+
   return (
     <span>
-      <span onClick={() => setModalVisible(true)}>{children}</span>
+      <span onClick={showModal}>{children}</span>
       <DragModal
         title={title}
-        visible={modalVisible}
+        open={modalVisible}
         onOk={() => form.submit()}
         confirmLoading={loading}
         onCancel={() => setModalVisible(false)}
         width={700}
         {...props}
       >
-        <Form
-          form={form}
-          onFinish={onFinish}
-          initialValues={{
-#foreach($column in $columns)
-#if($column.columnName == $pk.columnName)
-#elseif ($column.attrname != 'crtTime' and $column.attrname != 'crtUser' and $column.attrname != 'crtName' and $column.attrname != 'crtHost' and $column.attrname != 'updTime' and $column.attrname != 'updUser' and $column.attrname != 'updName' and $column.attrname != 'updHost' and $column.attrname != 'delState' and $column.attrname != 'delTime' and $column.attrname != 'delUser' and $column.attrname != 'delName' and $column.attrname != 'delHost')
-            ${column.attrname}: get(record, '${column.attrname}'),
-#end
-#end
-          }}
-        >
+        <Form form={form} onFinish={onFinish}>
 #foreach($column in $columns)
 #if($column.columnName == $pk.columnName)
 #elseif ($column.attrname != 'crtTime' and $column.attrname != 'crtUser' and $column.attrname != 'crtName' and $column.attrname != 'crtHost' and $column.attrname != 'updTime' and $column.attrname != 'updUser' and $column.attrname != 'updName' and $column.attrname != 'updHost' and $column.attrname != 'delState' and $column.attrname != 'delTime' and $column.attrname != 'delUser' and $column.attrname != 'delName' and $column.attrname != 'delHost')
