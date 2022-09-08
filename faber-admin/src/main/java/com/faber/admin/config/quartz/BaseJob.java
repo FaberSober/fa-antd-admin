@@ -31,7 +31,7 @@ public abstract class BaseJob implements Job {
             // execute finish
             jobLog.setEndTime(new Date());
             jobLog.setDuration(DateUtil.between(jobLog.getEndTime(), jobLog.getBeginTime(), DateUnit.SECOND));
-            jobLog.setStatus(JobLog.Status.DOING.value);
+            jobLog.setStatus(JobLog.Status.DONE.value);
             jobLogBiz.updateSelectiveById(jobLog);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
