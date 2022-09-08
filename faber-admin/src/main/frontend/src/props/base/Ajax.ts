@@ -75,7 +75,7 @@ namespace Ajax {
 	 */
 	export interface Sorter {
 		field: string;
-		order: 'ascend' | 'descend' | null | undefined;
+		order: 'ascend' | 'descend' | null ;
 	}
 
 	/**

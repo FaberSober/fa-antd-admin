@@ -9,6 +9,8 @@ import { find, get, isEmpty, trim } from 'lodash';
 import { renderDatePicker, renderDateRangerPicker, renderTimePicker, renderTimeRangePicker } from '@/components/biz/condition-query/ConditionQueryUtils';
 import { FaberTable } from '@/components/biz/base-table';
 import {DictDataSelector} from "@/components/biz/base-dict";
+import {SortOrder} from "antd/es/table/interface";
+
 
 export function dataIndexToString(dataIndex: string | string[]) {
   if (dataIndex instanceof Array) {
@@ -32,14 +34,14 @@ export function getSorter(sorter: Ajax.Sorter) {
 /**
  * antd Table column 获取排序
  */
-export function getSortOrder(sorter: Ajax.Sorter, field: string) {
+export function getSortOrder(sorter: Ajax.Sorter, field: string): SortOrder {
   if (isEmpty(sorter)) {
-    return undefined;
+    return null;
   }
   if (field === sorter.field) {
     return sorter.order;
   }
-  return undefined;
+  return null;
 }
 
 /**
@@ -69,7 +71,7 @@ export function genIdColumn(title: string, dataIndex: string, width: number, sor
   };
 }
 
-export function genSimpleSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Ajax.Sorter, tcChecked: boolean = true) {
+export function genSimpleSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Ajax.Sorter, tcChecked: boolean = true): FaberTable.ColumnsProp<any> {
   return {
     title,
     dataIndex,
@@ -136,7 +138,7 @@ export function genDictSorterColumn(
   };
 }
 
-export function genDateSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Ajax.Sorter, format:string|undefined = undefined, tcChecked: boolean = true) {
+export function genDateSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Ajax.Sorter, format:string|undefined = undefined, tcChecked: boolean = true): FaberTable.ColumnsProp<any> {
   return {
     title,
     dataIndex,
@@ -150,7 +152,7 @@ export function genDateSorterColumn(title: string, dataIndex: string, width: num
   };
 }
 
-export function genTimeSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Ajax.Sorter, format = 'YYYY-MM-DD HH:mm:ss', tcChecked = true) {
+export function genTimeSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Ajax.Sorter, format = 'YYYY-MM-DD HH:mm:ss', tcChecked = true): FaberTable.ColumnsProp<any> {
   return {
     title,
     dataIndex,
@@ -164,7 +166,7 @@ export function genTimeSorterColumn(title: string, dataIndex: string, width: num
   };
 }
 
-export function genCtrColumns(sorter: Ajax.Sorter, tcChecked: boolean = true) {
+export function genCtrColumns(sorter: Ajax.Sorter, tcChecked: boolean = true): FaberTable.ColumnsProp<any> {
   return [
     {
       title: '创建时间',
@@ -204,7 +206,7 @@ export function genCtrColumns(sorter: Ajax.Sorter, tcChecked: boolean = true) {
   ];
 }
 
-export function genUpdateColumns(sorter: Ajax.Sorter) {
+export function genUpdateColumns(sorter: Ajax.Sorter): FaberTable.ColumnsProp<any> {
   return [
     {
       title: '更新时间',
