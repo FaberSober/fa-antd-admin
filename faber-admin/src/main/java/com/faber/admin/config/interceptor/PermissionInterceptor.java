@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 用户权限点校验
+ * TODO 用户权限点校验
  */
 @Slf4j
 public class PermissionInterceptor extends AbstractInterceptor {
@@ -116,11 +116,11 @@ public class PermissionInterceptor extends AbstractInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         // TODO write log
-        GateLog log = gateLogThreadLocal.get();
-        if (log != null) {
-            DBLog.getInstance().setLogService(gateLogBiz).offerQueue(log);
-            gateLogThreadLocal.remove();
-        }
+//        GateLog log = gateLogThreadLocal.get();
+//        if (log != null) {
+//            DBLog.getInstance().setLogService(gateLogBiz).offerQueue(log);
+//            gateLogThreadLocal.remove();
+//        }
         super.afterCompletion(request, response, handler, ex);
     }
 }

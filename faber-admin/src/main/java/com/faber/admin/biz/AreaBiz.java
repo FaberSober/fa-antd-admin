@@ -258,7 +258,7 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
 
     public Map<String, Object> locIp() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String ip = IpUtils.getIpAddr(request);
+        String ip = IpUtils.getRequestIp(request);
         Map<String, Object> map = aMapUtils.getLocByIp(ip);
         map.put("ip", ip);
         return map;

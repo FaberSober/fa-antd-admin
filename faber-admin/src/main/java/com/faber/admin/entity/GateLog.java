@@ -1,5 +1,6 @@
 package com.faber.admin.entity;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.faber.common.annotation.SqlSearch;
 import com.faber.common.bean.BaseCrtEntity;
@@ -11,55 +12,53 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * 网关操作日志
+ * URL请求日志
  */
-@Table(name = "gate_log")
+@Table(name = "base_gate_log")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class GateLog extends BaseCrtEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ExcelProperty("菜单")
-    @Column(name = "menu")
-    private String menu;
-
     @SqlSearch
-    @ExcelProperty("操作")
-    @Column(name = "opt")
-    private String opt;
+    @ExcelProperty("请求URL")
+    @Column(name = "url")
+    private String url;
 
-    @SqlSearch
-    @ExcelProperty("资源路径")
-    @Column(name = "uri")
-    private String uri;
+    @ExcelProperty("请求类型")
+    @Column(name = "method")
+    private String method;
 
-    @ExcelProperty("访问完整url")
-    @Column(name = "original_url")
-    private String originalUrl;
+    @ExcelProperty("访问客户端")
+    @Column(name = "agent")
+    private String agent;
 
-    @ExcelProperty("请求内容")
-    @Column(name = "body")
-    private String body;
+    @ExcelProperty("请求花费时间")
+    @Column(name = "duration")
+    private Long duration;
 
-    @ExcelProperty("返回内容")
-    @Column(name = "response")
-    private String response;
+    @ExcelProperty("省")
+    @Column(name = "pro")
+    private String pro;
 
-    public GateLog(String menu, String opt, String uri, String originalUrl, String body, String response, Date crtTime, String crtUser, String crtName, String crtHost) {
-        this.menu = menu;
-        this.opt = opt;
-        this.uri = uri;
-        this.originalUrl = originalUrl;
-        this.body = body;
-        this.response = response;
+    @ExcelProperty("市")
+    @Column(name = "city")
+    private String city;
 
-        this.setCrtTime(crtTime);
-        this.setCrtUser(crtUser);
-        this.setCrtName(crtName);
-        this.setCrtHost(crtHost);
-    }
+    @ExcelProperty("地址")
+    @Column(name = "addr")
+    private String addr;
+
+    @ExcelProperty("返回码")
+    @Column(name = "ret_status")
+    private Integer retStatus;
+
+    @ExcelIgnore
+    @Transient
+    private Long startTime;
 
 }

@@ -25,7 +25,7 @@ import java.util.Set;
 public class AdminBootstrap {
 
     public static void main(String[] args) {
-        DBLog.getInstance().start();
+//        DBLog.getInstance().start();
         new SpringApplicationBuilder(AdminBootstrap.class).run(args);
     }
 

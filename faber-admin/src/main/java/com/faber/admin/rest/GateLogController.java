@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * ${DESCRIPTION}
+ * URL请求日志
  */
 @Controller
 @RequestMapping("/api/admin/gateLog")

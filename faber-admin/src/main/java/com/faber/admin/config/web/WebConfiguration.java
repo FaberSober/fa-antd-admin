@@ -1,6 +1,8 @@
 package com.faber.admin.config.web;
 
+import cn.hutool.core.collection.ListUtil;
 import com.faber.admin.config.interceptor.ApiTokenInterceptor;
+import com.faber.admin.config.interceptor.GateLogInterceptor;
 import com.faber.admin.config.interceptor.PermissionInterceptor;
 import com.faber.admin.config.interceptor.UserAuthRestInterceptor;
 import com.faber.common.handler.GlobalExceptionHandler;
@@ -38,6 +40,9 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
     @Value("${spring.jackson.time-zone}")
     private String timeZone;
 
+    private static final List<String> API_URLS = ListUtil.toList("/user/**", "/api/**");
+    private static final List<String> OUTAPI_URLS = ListUtil.toList("/outapi/**");
+
     @Bean
     GlobalExceptionHandler getGlobalExceptionHandler() {
         return new GlobalExceptionHandler();
@@ -53,13 +58,16 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        // 请求URL日志拦截
+        registry.addInterceptor(getGateLogInterceptor()).addPathPatterns("/**");
+
         // 系统内部/api接口权限校验
-        registry.addInterceptor(getUserAuthRestInterceptor()).addPathPatterns(getIncludePathPatterns());
-        registry.addInterceptor(getPermissionInterceptor()).addPathPatterns(getIncludePathPatterns());
+        registry.addInterceptor(getUserAuthRestInterceptor()).addPathPatterns(API_URLS);
+        registry.addInterceptor(getPermissionInterceptor()).addPathPatterns(API_URLS);
 //        registry.addInterceptor(getCrosInterceptor()).addPathPatterns(getIncludePathPatterns());
 
         // 对外提供的api接口权限校验
-        registry.addInterceptor(getApiTokenInterceptor()).addPathPatterns(getApiPathPatterns());
+        registry.addInterceptor(getApiTokenInterceptor()).addPathPatterns(OUTAPI_URLS);
     }
 
     @Bean
@@ -77,35 +85,9 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
         return new ApiTokenInterceptor();
     }
 
-//    @Bean
-//    CrossInterceptor getCrosInterceptor() {
-//        return new CrossInterceptor();
-//    }
-
-    /**
-     * 需要用户和服务认证判断的路径
-     */
-    private ArrayList<String> getIncludePathPatterns() {
-        ArrayList<String> list = new ArrayList<>();
-        String[] urls = {
-                "/user/**",
-                "/api/**"
-        };
-        Collections.addAll(list, urls);
-        return list;
-    }
-
-    /**
-     * 对外提供的API接口的路径。
-     * 对外提供的API接口统一前缀：/outapi/api/v1/xxx
-     */
-    private ArrayList<String> getApiPathPatterns() {
-        ArrayList<String> list = new ArrayList<>();
-        String[] urls = {
-                "/outapi/**"
-        };
-        Collections.addAll(list, urls);
-        return list;
+    @Bean
+    GateLogInterceptor getGateLogInterceptor() {
+        return new GateLogInterceptor();
     }
 
     /**

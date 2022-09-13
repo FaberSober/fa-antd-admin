@@ -505,6 +505,21 @@ namespace Admin {
 		/** [官网]地址 */
 		portalLink: string;
 	}
+
+  // -------------------------------------------- 系统-URL请求日志 --------------------------------------------
+  export interface GateLog {
+    /** ID */
+    id: number;
+    /** 请求URL */
+    url: string;
+    /** 请求类型 */
+    method: string;
+    /** 访问客户端 */
+    agent: string;
+    /** 请求花费时间 */
+    duration: number;
+  }
+
 }
 
 export default Admin;

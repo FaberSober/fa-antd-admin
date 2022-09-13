@@ -1,5 +1,6 @@
 package com.faber.admin.util.logs;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.faber.admin.biz.GateLogBiz;
 import com.faber.admin.entity.GateLog;
 import lombok.extern.slf4j.Slf4j;
@@ -17,28 +18,18 @@ public class DBLog extends Thread {
     private static DBLog dblog = null;
     private static BlockingQueue<GateLog> logInfoQueue = new LinkedBlockingQueue<GateLog>(1024);
 
-    public GateLogBiz getLogService() {
-        return gateLogBiz;
-    }
-
-    public DBLog setLogService(GateLogBiz gateLogBiz) {
-        if (this.gateLogBiz == null) {
-            this.gateLogBiz = gateLogBiz;
-        }
-        return this;
-    }
-
     private GateLogBiz gateLogBiz;
 
     public static synchronized DBLog getInstance() {
         if (dblog == null) {
             dblog = new DBLog();
+            dblog.gateLogBiz = SpringUtil.getBean(GateLogBiz.class);
         }
         return dblog;
     }
 
     private DBLog() {
-        super("CLogOracleWriterThread");
+        super("DBLog.WriterThread");
     }
 
     public void offerQueue(GateLog logInfo) {
