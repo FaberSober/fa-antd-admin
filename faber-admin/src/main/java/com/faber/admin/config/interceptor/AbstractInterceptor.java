@@ -3,10 +3,24 @@ package com.faber.admin.config.interceptor;
 import com.faber.admin.config.annotation.ApiToken;
 import com.faber.admin.config.annotation.IgnoreUserToken;
 import com.faber.admin.config.annotation.Permission;
+import com.faber.admin.config.redis.KeyConfiguration;
+import com.faber.admin.util.jwt.IJWTInfo;
+import com.faber.admin.util.jwt.UserAuthUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.HandlerInterceptor;
 
-public abstract class AbstractInterceptor extends HandlerInterceptorAdapter {
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
+public abstract class AbstractInterceptor implements HandlerInterceptor {
+
+    @Autowired
+    private UserAuthUtil userAuthUtil;
+
+    @Autowired
+    private KeyConfiguration keyConfiguration;
 
     protected IgnoreUserToken getIgnoreUserToken(Object handler) {
         if (!(handler instanceof HandlerMethod)) {
@@ -45,6 +59,21 @@ public abstract class AbstractInterceptor extends HandlerInterceptorAdapter {
             annotation = handlerMethod.getMethodAnnotation(ApiToken.class);
         }
         return annotation;
+    }
+
+    protected IJWTInfo getJwtInfo(HttpServletRequest request) throws Exception {
+        String token = request.getHeader(keyConfiguration.getTokenHeader());
+        if (StringUtils.isEmpty(token)) {
+            if (request.getCookies() != null) {
+                for (Cookie cookie : request.getCookies()) {
+                    if (cookie.getName().equals(keyConfiguration.getTokenHeader())) {
+                        token = cookie.getValue();
+                    }
+                }
+            }
+        }
+        IJWTInfo infoFromToken = userAuthUtil.getInfoFromToken(token);
+        return infoFromToken;
     }
 
 }

@@ -2,6 +2,8 @@ package com.faber.admin.config.interceptor;
 
 import com.faber.admin.biz.GateLogBiz;
 import com.faber.admin.entity.GateLog;
+import com.faber.admin.util.jwt.IJWTInfo;
+import com.faber.admin.util.jwt.UserAuthUtil;
 import com.faber.common.util.IpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ import java.util.Date;
  */
 @Slf4j
 public class GateLogInterceptor extends AbstractInterceptor {
+
+    @Autowired
+    private UserAuthUtil userAuthUtil;
 
     @Autowired
     private GateLogBiz gateLogBiz;
@@ -35,6 +40,13 @@ public class GateLogInterceptor extends AbstractInterceptor {
         log.setCrtHost(IpUtils.getRequestIp(request));
 
         // try get login userinfo
+        try {
+            IJWTInfo infoFromToken = super.getJwtInfo(request);
+            log.setCrtUser(infoFromToken.getId());
+            log.setCrtName(infoFromToken.getName());
+        } catch (Exception e) {
+
+        }
 
         gateLogThreadLocal.set(log);
 
@@ -55,7 +67,7 @@ public class GateLogInterceptor extends AbstractInterceptor {
             log.setCity(ipAddr.getCity());
             log.setAddr(ipAddr.getAddr());
 
-            gateLogBiz.insertSelective(log);
+            gateLogBiz.getMapper().insertSelective(log);
 
             gateLogThreadLocal.remove();
         }

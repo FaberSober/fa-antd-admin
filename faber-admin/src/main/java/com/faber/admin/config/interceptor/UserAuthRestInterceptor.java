@@ -24,12 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 public class UserAuthRestInterceptor extends AbstractInterceptor {
 
     @Autowired
-    private UserAuthUtil userAuthUtil;
-
-    @Autowired
-    private KeyConfiguration keyConfiguration;
-
-    @Autowired
     private UserBiz userBiz;
 
     @Override
@@ -39,17 +33,8 @@ public class UserAuthRestInterceptor extends AbstractInterceptor {
         if (annotation != null) {
             return super.preHandle(request, response, handler);
         }
-        String token = request.getHeader(keyConfiguration.getTokenHeader());
-        if (StringUtils.isEmpty(token)) {
-            if (request.getCookies() != null) {
-                for (Cookie cookie : request.getCookies()) {
-                    if (cookie.getName().equals(keyConfiguration.getTokenHeader())) {
-                        token = cookie.getValue();
-                    }
-                }
-            }
-        }
-        IJWTInfo infoFromToken = userAuthUtil.getInfoFromToken(token);
+
+        IJWTInfo infoFromToken = super.getJwtInfo(request);
 
         // 判断用户状态是否正常
         User user = userBiz.getUserById(infoFromToken.getId());
