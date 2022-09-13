@@ -114,6 +114,13 @@ const modal: Props = {
             path: '/system/base/job',
             icon: () => <IconFont type="icon-clock" />,
           },
+          // 请求日志
+          {
+            permission: 'system:base:gateLog',
+            name: 'system.gateLog',
+            path: '/system/base/gateLog',
+            icon: () => <IconFont type="icon-clock" />,
+          },
           // 通知与公告
           {
             permission: 'system:base:notice',

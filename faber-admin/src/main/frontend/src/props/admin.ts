@@ -507,8 +507,9 @@ namespace Admin {
 	}
 
   // -------------------------------------------- 系统-URL请求日志 --------------------------------------------
-  export interface GateLog {
-    /** ID */
+  /** BASE-URL请求日志 */
+  export interface GateLog extends FaberBase.BaseCrtEntity {
+    /** 序号 */
     id: number;
     /** 请求URL */
     url: string;
@@ -518,6 +519,14 @@ namespace Admin {
     agent: string;
     /** 请求花费时间 */
     duration: number;
+    /** 省 */
+    pro: string;
+    /** 市 */
+    city: string;
+    /** 地址 */
+    addr: string;
+    /** 返回码 */
+    retStatus: string;
   }
 
 }

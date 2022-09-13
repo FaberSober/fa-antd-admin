@@ -19,9 +19,6 @@ import java.util.Date;
 public class GateLogInterceptor extends AbstractInterceptor {
 
     @Autowired
-    private UserAuthUtil userAuthUtil;
-
-    @Autowired
     private GateLogBiz gateLogBiz;
 
     private final ThreadLocal<GateLog> gateLogThreadLocal = new ThreadLocal<>();

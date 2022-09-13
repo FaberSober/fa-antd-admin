@@ -38,10 +38,11 @@ export default {
 
 	// 系统管理
 	'menu.system.menu': 'Menus',
-	'menu.system.dict': 'Dicts',
+	'menu.system.dict': 'Dictionary',
 	'menu.system.help': 'Help Article',
 	'menu.system.area': 'Area',
 	'menu.system.job': 'Jobs',
+	'menu.system.gateLog': 'Api Logs',
 	'menu.system.demo.student': 'Students',
 
 	// 个人中心

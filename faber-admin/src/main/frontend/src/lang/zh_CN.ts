@@ -42,6 +42,7 @@ export default {
 	'menu.system.help': '帮助文档',
 	'menu.system.area': '中国地区管理',
 	'menu.system.job': '定时任务',
+	'menu.system.gateLog': '请求日志',
 	'menu.system.demo.student': '学生管理',
 
 	// 个人中心

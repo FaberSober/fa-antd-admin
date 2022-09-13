@@ -60,6 +60,7 @@ export default function App() {
                     <PageLazy path="dict" pageImport={() => import('@/pages/system/base/dict/DictManage')} />
                     <PageLazy path="area" pageImport={() => import('@/pages/system/base/area/AreaList')} />
                     <PageLazy path="job" pageImport={() => import('@/pages/system/base/job/JobList')} />
+                    <PageLazy path="gateLog" pageImport={() => import('@/pages/system/base/gateLog/GateLogList')} />
                     <PageLazy path="notice" pageImport={() => import('@/pages/system/base/notice/NoticeList')} />
                   </FragmentLayout>
 
