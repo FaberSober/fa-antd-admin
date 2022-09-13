@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { DownloadOutlined, EyeOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Card, Form, Input, Space } from 'antd';
 import { ShiroPermissionContainer } from '@/components/auth';
 import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/biz/base-table';
@@ -7,9 +7,9 @@ import { UserContext } from "@/layout/UserSimpleLayout";
 import { useExport, useTableQueryParams, clearForm, useDelete } from "@/utils/myHooks";
 import modelService from '@/services/admin/gateLog';
 import Admin from '@/props/admin';
-import GateLogModal from './modal/GateLogModal';
+import GateLogDrawer from './drawer/GateLogDrawer';
 
-const serviceName = 'BASE-URL请求日志';
+const serviceName = 'URL请求日志';
 const buzzModal = 'base_gate_log';
 
 export default function GateLogList() {
@@ -41,12 +41,9 @@ export default function GateLogList() {
         render: (_, record) => (
           <Space>
             <ShiroPermissionContainer roleList={user.elements}>
-              <GateLogModal title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList}>
-                <a>
-                  <EditOutlined />
-                  编辑
-                </a>
-              </GateLogModal>
+              <GateLogDrawer record={record}>
+                <a><EyeOutlined />查看</a>
+              </GateLogDrawer>
             </ShiroPermissionContainer>
             <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} elements={user.elements} permission={undefined} />
           </Space>
