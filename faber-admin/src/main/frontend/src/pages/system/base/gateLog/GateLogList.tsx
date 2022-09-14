@@ -18,7 +18,7 @@ export default function GateLogList() {
 
   const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } = useTableQueryParams<Admin.GateLog>(modelService.page, {}, serviceName)
 
-  const [handleDelete] = useDelete<number>(modelService.logicDeleteById, fetchPageList, serviceName)
+  const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName)
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams)
 
   /** 生成表格字段List */
@@ -94,7 +94,7 @@ export default function GateLogList() {
         rowKey={(item) => item.id}
         onChange={handleTableChange}
         refreshList={() => fetchPageList()}
-        batchDelete={(ids) => modelService.batchLogicDelete(ids)}
+        batchDelete={(ids) => modelService.batchDelete(ids)}
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
       />
