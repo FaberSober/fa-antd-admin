@@ -32,7 +32,7 @@ export default function GateLogList() {
       BaseTableUtils.genSimpleSorterColumn('花费时间', 'duration', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('省', 'pro', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('市', 'city', 100, sorter),
-      BaseTableUtils.genSimpleSorterColumn('地址', 'addr', 100, sorter),
+      BaseTableUtils.genSimpleSorterColumn('地址', 'addr', 150, sorter),
       BaseTableUtils.genSimpleSorterColumn('返回码', 'retStatus', 100, sorter),
       ...BaseTableUtils.genCtrColumns(sorter),
       {

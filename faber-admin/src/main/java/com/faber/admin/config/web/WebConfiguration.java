@@ -40,7 +40,7 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
     @Value("${spring.jackson.time-zone}")
     private String timeZone;
 
-    private static final List<String> API_URLS = ListUtil.toList("/user/**", "/api/**");
+    private static final List<String> API_URLS = ListUtil.toList("/api/**");
     private static final List<String> OUTAPI_URLS = ListUtil.toList("/outapi/**");
 
     @Bean
@@ -59,7 +59,7 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 请求URL日志拦截
-        registry.addInterceptor(getGateLogInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(getGateLogInterceptor()).addPathPatterns("/api/**");
 
         // 系统内部/api接口权限校验
         registry.addInterceptor(getUserAuthRestInterceptor()).addPathPatterns(API_URLS);

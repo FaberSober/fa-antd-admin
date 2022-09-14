@@ -201,7 +201,7 @@ export function genCtrColumns(sorter: Ajax.Sorter, tcChecked: boolean = true): F
       dataIndex: 'crtHost',
       sorter: true,
       sortOrder: getSortOrder(sorter, 'crtHost'),
-      width: 120,
+      width: 150,
     },
   ];
 }
