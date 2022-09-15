@@ -12,20 +12,6 @@
     <artifactId>faber-admin</artifactId>
 
     <properties>
-        <!-- MyBatis Generator -->
-        <!-- Java接口和实体类 -->
-        <targetJavaProject>${basedir}/src/main/java</targetJavaProject>
-        <targetMapperPackage>com.faber.admin.**.mapper</targetMapperPackage>
-        <targetModelPackage>com.faber.admin.**.entity</targetModelPackage>
-        <!-- XML生成路径 -->
-        <targetResourcesProject>${basedir}/src/main/resources</targetResourcesProject>
-        <targetXMLPackage>mapper</targetXMLPackage>
-        <!-- 依赖版本 -->
-        <mapper.version>4.1.5</mapper.version>
-        <mybatis.version>3.3.1</mybatis.version>
-        <mybatis.spring.version>1.2.4</mybatis.spring.version>
-        <pagehelper.version>4.1.1</pagehelper.version>
-
         <!-- 前端打包 -->
         <node.version>v14.18.1</node.version>
         <npm.version>6.14.15</npm.version>
