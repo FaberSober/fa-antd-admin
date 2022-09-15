@@ -10,44 +10,37 @@ import tk.mybatis.mapper.annotation.KeySql;
 import tk.mybatis.mapper.code.ORDER;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 
 /**
- * Demo-学生表
+ * Demo-学生表-扩充信息表
  *
  * @author Farando
  * @email faberxu@gmail.com
  * @date 2020-06-02 17:14:45
  */
-@FaberModalName(name = "学生")
-@Table(name = "demo_student")
+@FaberModalName(name = "学生-扩充信息表")
+@Table(name = "demo_student_info")
 @Data
-public class Student extends BaseDelEntity {
+public class StudentInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
-    @ExcelProperty("学生名")
-    @Column(name = "name")
-    private String name;
+    @ExcelProperty("学生ID")
+    @Column(name = "student_id")
+    private Integer studentId;
 
-    @ExcelProperty("年龄")
-    @Column(name = "age")
-    private Integer age;
+    @ExcelProperty("补充信息1")
+    @Column(name = "info1")
+    private String info1;
 
-    @ExcelProperty("性别")
-    @Column(name = "sex")
-    private String sex;
-
-    @ExcelProperty("邮箱")
-    @Column(name = "email")
-    private String email;
-
-    @ExcelProperty("生日")
-    @Column(name = "birthday")
-    private Date birthday;
+    @ExcelProperty("补充信息2")
+    @Column(name = "info2")
+    private String info2;
 
 }

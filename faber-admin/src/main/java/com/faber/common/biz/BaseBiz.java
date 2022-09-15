@@ -190,9 +190,14 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
     protected void preProcessQuery(Query query) {
     }
 
+
     protected Example parseQuery(Query query) {
-        this.preProcessQuery(query);
         Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+        return this.parseQuery(query, clazz);
+    }
+
+    protected Example parseQuery(Query query, Class clazz) {
+        this.preProcessQuery(query);
         Example example = new Example(clazz);
         // key-value模式查询条件组装
         if (query.entrySet().size() > 0) {
