@@ -32,6 +32,7 @@
 | 插件 | 官网 |
 | :--- | :--- |
 | tk.mybatis | https://github.com/abel533/Mapper/wiki |
+| MyBatis-Plus | https://baomidou.com/ |
 
 ## 前端
 | 插件 | 说明 | 官网 |
