@@ -3,7 +3,7 @@ package com.faber.admin.biz;
 import com.faber.admin.entity.Config;
 import com.faber.admin.mapper.ConfigMapper;
 import com.faber.common.bean.BaseDelEntity;
-import com.faber.common.bean.BaseOprEntity;
+import com.faber.common.bean.BaseUpdEntity;
 import com.faber.common.biz.BaseBiz;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> {
     @Override
     public void insertSelective(Config entity) {
         // 非系统配置，默认为上传用户所拥有
-        if (BaseOprEntity.Bool.FALSE.equalsIgnoreCase(entity.getSystem()) && entity.getBelongUserId() == null) {
+        if (BaseUpdEntity.Bool.FALSE.equalsIgnoreCase(entity.getSystem()) && entity.getBelongUserId() == null) {
             entity.setBelongUserId(getCurrentUserId());
 
             // 设置sort
@@ -34,7 +34,7 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> {
             entity.setSort(sort);
 
             // 是否默认
-            if (BaseOprEntity.Bool.TRUE.equals(entity.getDefaultScene())) {
+            if (BaseUpdEntity.Bool.TRUE.equals(entity.getDefaultScene())) {
                 mapper.clearOtherDefaultScene(entity.getBuzzModal(), entity.getType(), getCurrentUserId());
             }
         }
@@ -44,11 +44,11 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> {
     @Override
     public void updateSelectiveById(Config entity) {
         // 非系统配置，默认为上传用户所拥有
-        if (BaseOprEntity.Bool.FALSE.equalsIgnoreCase(entity.getSystem()) && entity.getBelongUserId() == null) {
+        if (BaseUpdEntity.Bool.FALSE.equalsIgnoreCase(entity.getSystem()) && entity.getBelongUserId() == null) {
             entity.setBelongUserId(getCurrentUserId());
 
             // 是否默认
-            if (BaseOprEntity.Bool.TRUE.equals(entity.getDefaultScene())) {
+            if (BaseUpdEntity.Bool.TRUE.equals(entity.getDefaultScene())) {
                 mapper.clearOtherDefaultScene(entity.getBuzzModal(), entity.getType(), getCurrentUserId());
             }
         }
@@ -65,7 +65,7 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> {
                 .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
                 .andEqualTo("buzzModal", buzzModal)
                 .andEqualTo("type", type)
-                .andEqualTo("system", BaseOprEntity.Bool.TRUE);
+                .andEqualTo("system", BaseUpdEntity.Bool.TRUE);
         example2.setOrderByClause("sort ASC");
         List<Config> config2List = mapper.selectByExample(example2);
 
@@ -75,7 +75,7 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> {
                 .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
                 .andEqualTo("buzzModal", buzzModal)
                 .andEqualTo("type", type)
-                .andEqualTo("system", BaseOprEntity.Bool.FALSE)
+                .andEqualTo("system", BaseUpdEntity.Bool.FALSE)
                 .andEqualTo("belongUserId", getCurrentUserId());
         example.setOrderByClause("sort ASC");
         List<Config> configList = mapper.selectByExample(example);
@@ -98,7 +98,7 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> {
                 .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
                 .andEqualTo("buzzModal", buzzModal)
                 .andEqualTo("type", type)
-                .andEqualTo("system", BaseOprEntity.Bool.FALSE)
+                .andEqualTo("system", BaseUpdEntity.Bool.FALSE)
                 .andEqualTo("belongUserId", getCurrentUserId());
         example.setOrderByClause("sort ASC");
         List<Config> configList = mapper.selectByExample(example);
@@ -112,7 +112,7 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> {
                 .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
                 .andEqualTo("buzzModal", buzzModal)
                 .andEqualTo("type", type)
-                .andEqualTo("system", BaseOprEntity.Bool.TRUE);
+                .andEqualTo("system", BaseUpdEntity.Bool.TRUE);
         example2.setOrderByClause("sort ASC");
         List<Config> config2List = mapper.selectByExample(example2);
         if (config2List != null && config2List.size() > 0) {
@@ -128,7 +128,7 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> {
 
             Config configDB = mapper.selectByPrimaryKey(newConfig.getId());
 
-            if (BaseOprEntity.Bool.FALSE.equals(configDB.getSystem())) {
+            if (BaseUpdEntity.Bool.FALSE.equals(configDB.getSystem())) {
                 configDB.setSort(i); // 更新排序
                 configDB.setHide(newConfig.getHide()); // 更新是否隐藏
                 configDB.setDefaultScene(newConfig.getDefaultScene());  // 是否默认

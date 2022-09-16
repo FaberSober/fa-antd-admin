@@ -6,7 +6,7 @@ import com.faber.msg.biz.MsgBiz;
 import com.faber.msg.entity.Msg;
 import com.faber.msg.helper.MsgHelper;
 import com.faber.common.bean.BaseDelEntity;
-import com.faber.common.bean.BaseOprEntity;
+import com.faber.common.bean.BaseUpdEntity;
 import com.faber.msg.helper.config.MsgSendConfig;
 import com.faber.msg.helper.properties.SmsConfiguration;
 import lombok.extern.slf4j.Slf4j;
@@ -66,7 +66,7 @@ public class MsgHelperImpl implements MsgHelper {
         msg.setBuzzType(msgSendConfig.getBuzzType());
         msg.setBuzzId(msgSendConfig.getBuzzId());
         msg.setCrtTime(new Date());
-        msg.setIsRead(BaseOprEntity.Bool.FALSE);
+        msg.setIsRead(BaseUpdEntity.Bool.FALSE);
         msg.setDelState(BaseDelEntity.DEL_STATE.AVAILABLE);
         return msg;
     }

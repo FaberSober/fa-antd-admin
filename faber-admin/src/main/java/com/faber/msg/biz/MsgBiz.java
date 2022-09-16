@@ -7,7 +7,7 @@ import com.faber.msg.vo.MsgStatisticVO;
 import com.faber.admin.biz.DictBiz;
 import com.faber.admin.biz.UserBiz;
 import com.faber.common.bean.BaseDelEntity;
-import com.faber.common.bean.BaseOprEntity;
+import com.faber.common.bean.BaseUpdEntity;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.util.Query;
@@ -49,7 +49,7 @@ public class MsgBiz extends BaseBiz<MsgMapper, Msg> {
         example.createCriteria()
                 .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
                 .andEqualTo("toUserId", getCurrentUserId())
-                .andEqualTo("isRead", BaseOprEntity.Bool.FALSE);
+                .andEqualTo("isRead", BaseUpdEntity.Bool.FALSE);
         int unreadCount = mapper.selectCountByExample(example);
         vo.setUnreadCount(unreadCount);
 
@@ -69,7 +69,7 @@ public class MsgBiz extends BaseBiz<MsgMapper, Msg> {
         List<Msg> msgList = mapper.selectByExample(example);
         Date now = new Date();
         msgList.forEach(msg -> {
-            msg.setIsRead(BaseOprEntity.Bool.TRUE);
+            msg.setIsRead(BaseUpdEntity.Bool.TRUE);
             msg.setReadTime(now);
             this.updateSelectiveById(msg);
         });
@@ -80,7 +80,7 @@ public class MsgBiz extends BaseBiz<MsgMapper, Msg> {
         bean.setFromUserId(fromUserId);
         bean.setToUserId(toUserId);
         bean.setContent(content);
-        bean.setIsRead(BaseOprEntity.Bool.FALSE);
+        bean.setIsRead(BaseUpdEntity.Bool.FALSE);
 
         this.insertSelective(bean);
     }

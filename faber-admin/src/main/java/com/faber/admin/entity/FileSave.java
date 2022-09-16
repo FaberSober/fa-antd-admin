@@ -1,6 +1,6 @@
 package com.faber.admin.entity;
 
-import com.faber.common.bean.BaseOprEntity;
+import com.faber.common.bean.BaseUpdEntity;
 import lombok.Data;
 import tk.mybatis.mapper.annotation.KeySql;
 import tk.mybatis.mapper.code.ORDER;
@@ -15,7 +15,7 @@ import javax.persistence.*;
  */
 @Table(name = "base_file_save")
 @Data
-public class FileSave extends BaseOprEntity {
+public class FileSave extends BaseUpdEntity {
     private static final long serialVersionUID = 1L;
 
     @Id

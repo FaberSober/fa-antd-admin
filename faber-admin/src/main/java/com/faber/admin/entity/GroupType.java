@@ -1,17 +1,16 @@
 package com.faber.admin.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.faber.common.bean.BaseOprEntity;
+import com.faber.common.bean.BaseUpdEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "base_group_type")
-public class GroupType extends BaseOprEntity {
+public class GroupType extends BaseUpdEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

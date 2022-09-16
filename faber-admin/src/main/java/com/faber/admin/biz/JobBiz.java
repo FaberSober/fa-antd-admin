@@ -4,7 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import com.faber.admin.config.quartz.JobTask;
 import com.faber.admin.entity.Job;
 import com.faber.admin.mapper.JobMapper;
-import com.faber.common.bean.BaseOprEntity;
+import com.faber.common.bean.BaseUpdEntity;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.exception.NoDataException;
@@ -32,7 +32,7 @@ public class JobBiz extends BaseBiz<JobMapper, Job> {
 
     @Override
     public void insertSelective(Job entity) {
-        entity.setStatus(BaseOprEntity.Bool.FALSE); // 新增任务初始未启动
+        entity.setStatus(BaseUpdEntity.Bool.FALSE); // 新增任务初始未启动
         super.insertSelective(entity);
     }
 
@@ -54,7 +54,7 @@ public class JobBiz extends BaseBiz<JobMapper, Job> {
             throw new NoDataException();
         }
         jobTask.startJob(job);
-        job.setStatus(BaseOprEntity.Bool.TRUE);
+        job.setStatus(BaseUpdEntity.Bool.TRUE);
         mapper.updateByPrimaryKeySelective(job);
     }
 
@@ -64,7 +64,7 @@ public class JobBiz extends BaseBiz<JobMapper, Job> {
             throw new NoDataException();
         }
         jobTask.remove(job);
-        job.setStatus(BaseOprEntity.Bool.FALSE);
+        job.setStatus(BaseUpdEntity.Bool.FALSE);
         mapper.updateByPrimaryKeySelective(job);
     }
 

@@ -8,28 +8,27 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @ToString
 @EqualsAndHashCode(callSuper = false)
-public abstract class BaseCrtEntity implements Serializable {
+public abstract class BaseUpdEntity extends BaseCrtEntity {
 
-    @ExcelProperty("创建时间")
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime crtTime;
-
-    @ExcelIgnore
-    @TableField(fill = FieldFill.INSERT)
-    private String crtUser;
-
-    @ExcelProperty("创建人")
-    @TableField(fill = FieldFill.INSERT)
-    private String crtName;
+    @ExcelProperty("更新时间")
+    @TableField(fill = FieldFill.UPDATE)
+    private LocalDateTime updTime;
 
     @ExcelIgnore
-    @TableField(fill = FieldFill.INSERT)
-    private String crtHost;
+    @TableField(fill = FieldFill.UPDATE)
+    private String updUser;
+
+    @ExcelProperty("更新人")
+    @TableField(fill = FieldFill.UPDATE)
+    private String updName;
+
+    @ExcelIgnore
+    @TableField(fill = FieldFill.UPDATE)
+    private String updHost;
 
 }

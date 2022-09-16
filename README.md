@@ -70,6 +70,7 @@ ncu -u --timeout 120000 --reject husky
 - [ ] 阿里云demo示例
 - [ ] tinymce编辑器集成
 - [ ] pdf阅读器集成
+- [ ] 切换MyBatis-Plus，delState类型变更为int
 
 # 前端代码迁移
 - [x] BaseBiz查询分组List

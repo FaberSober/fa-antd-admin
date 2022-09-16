@@ -1,7 +1,7 @@
 package com.faber.admin.entity;
 
 import com.faber.common.annotation.SqlEquals;
-import com.faber.common.bean.BaseOprEntity;
+import com.faber.common.bean.BaseUpdEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Table(name = "base_article")
 @Data
 @NoArgsConstructor
-public class Article extends BaseOprEntity {
+public class Article extends BaseUpdEntity {
 	private static final long serialVersionUID = 1L;
 
     @Id

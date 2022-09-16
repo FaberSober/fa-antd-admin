@@ -78,11 +78,10 @@ spring:
       max-file-size: 50MB
 #      location: /tmp
 
-mybatis:
-  base-packages: com.faber.**.mapper
-  mapper-locations: "classpath*:mapper/**/*.xml"
-  configuration:
-    map-underscore-to-camel-case: true
+# Mybatis-Plus
+mybatis-plus:
+  # Maven 多模块项目的扫描路径需以 classpath*: 开头 （即加载多个 jar 包下的 XML 文件）
+  mapper-locations: classpath*:/mapper/**/*.xml
 
 # 配置swagger
 swagger:

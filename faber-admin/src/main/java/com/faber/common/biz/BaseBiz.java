@@ -1,27 +1,30 @@
 package com.faber.common.biz;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.json.JSONUtil;
 import com.ace.cache.api.CacheAPI;
 import com.alibaba.excel.EasyExcel;
-import com.faber.common.annotation.FaberModalName;
-import com.faber.common.annotation.SqlEquals;
-import com.faber.common.annotation.SqlSearch;
-import com.faber.common.bean.BaseDelEntity;
-import com.faber.common.context.BaseContextHandler;
-import com.faber.common.exception.BuzzException;
-import com.faber.common.msg.ObjectRestResponse;
-import com.faber.common.msg.TableResultResponse;
-import com.faber.common.util.*;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.faber.admin.entity.Config;
 import com.faber.admin.entity.Element;
 import com.faber.admin.entity.Menu;
 import com.faber.admin.mapper.ConfigMapper;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.faber.common.annotation.FaberModalName;
+import com.faber.common.annotation.SqlEquals;
+import com.faber.common.bean.BaseDelEntity;
+import com.faber.common.context.BaseContextHandler;
+import com.faber.common.enums.DelStateEnum;
+import com.faber.common.exception.BuzzException;
+import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.msg.TableResultResponse;
+import com.faber.common.util.EasyExcelUtils;
+import com.faber.common.util.Query;
+import com.faber.common.util.SpringUtil;
+import com.faber.common.util.SqlUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -29,19 +32,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import tk.mybatis.mapper.common.Mapper;
-import tk.mybatis.mapper.entity.Example;
 
-import javax.persistence.Column;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 业务Service父类
@@ -49,12 +47,9 @@ import java.util.Map;
  * <p>
  * Version 1.0.0
  */
-public abstract class BaseBiz<M extends Mapper<T>, T> {
+public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
 
     protected final Logger _logger = LoggerFactory.getLogger(this.getClass());
-
-    @Autowired
-    protected M mapper;
 
     private ConfigMapper configMapper;
 
@@ -65,7 +60,7 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
      * 校验Entity是否有效
      */
     public void checkBeanValid(BaseDelEntity bean) {
-        if (bean == null || BaseDelEntity.DEL_STATE.DELETED.equals(bean.getDelState())) {
+        if (bean == null || bean.getDelState() == DelStateEnum.DELETED) {
             throw new BuzzException("No Data Found");
         }
     }
@@ -75,111 +70,8 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
         return clazz;
     }
 
-    public void setMapper(M mapper) {
-        this.mapper = mapper;
-    }
-
-    public M getMapper() {
-        return mapper;
-    }
-
-    public T selectOne(T entity) {
-        return mapper.selectOne(entity);
-    }
-
-    public T selectById(Object id) {
-        return mapper.selectByPrimaryKey(id);
-    }
-
-    public List<T> selectList(T entity) {
-        return mapper.select(entity);
-    }
-
-    public List<T> selectListAllLogical() {
-        Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-        Example example = new Example(clazz);
-        example.createCriteria().andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE);
-        return mapper.selectByExample(example);
-    }
-
-    public List<T> selectListAll() {
-        return mapper.selectAll();
-    }
-
-    public Long selectCount(T entity) {
-        return new Long(mapper.selectCount(entity));
-    }
-
-    public void insert(T entity) {
-        EntityUtils.setCreateAndUpdateInfo(entity);
-        mapper.insert(entity);
-    }
-
-    public void insertSelective(T entity) {
-        EntityUtils.setCreateAndUpdateInfo(entity);
-        mapper.insertSelective(entity);
-    }
-
-    public void batchInsert(List<T> entityList) {
-        for (T t : entityList) {
-            this.insertSelective(t);
-        }
-    }
-
-    public void delete(T entity) {
-        mapper.delete(entity);
-    }
-
-    public void deleteById(Object id) {
-        mapper.deleteByPrimaryKey(id);
-    }
-
-    public void logicDeleteById(Object id) {
-        T entity = mapper.selectByPrimaryKey(id);
-        EntityUtils.setLogicDeleteInfo(entity);
-        mapper.updateByPrimaryKey(entity);
-    }
-
-    public void batchDelete(Map<String, Object> params) {
-        List<Object> ids = (List<Object>) params.get("ids");
-
-        ids.forEach(id -> {
-            this.deleteById(id);
-        });
-    }
-
-    public void batchLogicDelete(Map<String, Object> params) {
-        List<Object> ids = (List<Object>) params.get("ids");
-
-        ids.forEach(id -> {
-            this.logicDeleteById(id);
-        });
-    }
-
-    public void updateById(T entity) {
-        EntityUtils.setUpdatedInfo(entity);
-        mapper.updateByPrimaryKey(entity);
-    }
-
-    public void updateSelectiveById(T entity) {
-        EntityUtils.setUpdatedInfo(entity);
-        mapper.updateByPrimaryKeySelective(entity);
-    }
-
-    public List<T> selectByExample(Object example) {
-        return mapper.selectByExample(example);
-    }
-
-    public int selectCountByExample(Object example) {
-        return mapper.selectCountByExample(example);
-    }
-
     public List<T> mineList(Map<String, Object> params) {
-        //查询列表数据
-        params.put("crtUser", getCurrentUserId());
-        params.put("delState", BaseDelEntity.DEL_STATE.AVAILABLE);
-        Query query = new Query(params);
-        return this.selectByQuery(query);
+        return Collections.emptyList();
     }
 
     /**
@@ -187,21 +79,22 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
      *
      * @param query
      */
-    protected void preProcessQuery(Query query) {
-    }
+    protected abstract void preProcessQuery(Query query);
 
-
-    protected Example parseQuery(Query query) {
+    protected QueryWrapper<T> parseQuery(Query query) {
         Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
         return this.parseQuery(query, clazz);
     }
 
-    protected Example parseQuery(Query query, Class clazz) {
+    protected QueryWrapper<T> parseQuery(Query query, Class clazz) {
         this.preProcessQuery(query);
-        Example example = new Example(clazz);
+
+        QueryWrapper<T> wrapper = new QueryWrapper<>();
+
+//        Example example = new Example(clazz);
         // key-value模式查询条件组装
-        if (query.entrySet().size() > 0) {
-            Example.Criteria criteria = example.and();
+
+        wrapper.and(ew -> {
             for (Map.Entry<String, Object> entry : query.entrySet()) {
                 // xxx#$min，xxx#$max 类型的key，为最小值、最大值判定
                 String key = entry.getKey();
@@ -209,13 +102,13 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
                     String fieldName = key.substring(0, key.indexOf("#$"));
                     String opr = key.substring(key.indexOf("#$") + 2);
                     if ("min".equals(opr)) {
-                        criteria.andGreaterThanOrEqualTo(fieldName, entry.getValue());
+                        ew.ge(fieldName, entry.getValue());
                     } else if ("max".equals(opr)) {
-                        criteria.andLessThanOrEqualTo(fieldName, entry.getValue());
+                        ew.le(fieldName, entry.getValue());
                     } else if ("in".equals(opr)) {
                         if (entry.getValue() != null && StringUtils.isNotEmpty(entry.getValue().toString())) {
 //                            String[] ss = ((String) entry.getValue()).split(",");
-                            criteria.andIn(fieldName, (Iterable) entry.getValue());
+                            ew.in(fieldName, entry.getValue());
                         }
                     }
                     continue;
@@ -250,56 +143,37 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
 
                 if (entry.getValue() != null && StringUtils.isNotEmpty(entry.getValue().toString())) {
                     if (forceEqual) {
-                        criteria.andEqualTo(entry.getKey(), entry.getValue());
+                        ew.eq(entry.getKey(), entry.getValue());
                     } else {
-                        String[] ss = entry.getValue().toString().split("(\\s|,|，)");
-                        Example.Criteria criteriaAnd = example.and();
-                        for (String s : ss) {
-                            criteriaAnd.andLike(entry.getKey(), "%" + SqlUtils.filterLikeValue(s) + "%");
-                        }
+                        ew.like(entry.getKey(), SqlUtils.filterLikeValue((String)entry.getValue()));
                     }
                 }
             }
-        }
+        });
 
         // 单查询字段
         /*
         where 1 = 1`
-        AND (
-            (field1 LIKE '%ss[0]%' AND field1 LIKE '%ss[0]%')
-            OR
-            (field2 LIKE '%ss[0]%' AND field2 LIKE '%ss[0]%')
-        )
+        AND (field1 LIKE '%ss[0]%' OR field2 LIKE '%ss[0]%')
          */
-        if (StringUtils.isNotEmpty(query.getSearch())) {
-            Example.Criteria criteria = example.and();
-
-            String[] ss = query.getSearch().split("(\\s|,|，)");
-            if (ss.length > 0) {
-                for (Field field : clazz.getDeclaredFields()) {
-                    SqlSearch annotation = field.getAnnotation(SqlSearch.class);
-                    Column columnAnnotation = field.getAnnotation(Column.class);
-                    if (annotation != null) {
-                        // 拼接查询
-                        List<String> conditionList = new ArrayList<>();
-                        for (String s : ss) {
-                            conditionList.add(" " + columnAnnotation.name() + " LIKE '%" + SqlUtils.filterLikeValue(s) + "%' ");
-                        }
-                        if (conditionList.size() > 0) {
-                            criteria.orCondition("(" + ArrayUtil.join(conditionList.toArray(new String[]{}), " AND ") + ")");
-                        }
-//                        criteria.orCondition(field.getName(), ".*" + ArrayUtil.join(ss, ".*") + ".*");
-                    }
-                }
-            }
-        }
+//        if (StringUtils.isNotEmpty(query.getSearch())) {
+//            wrapper.and(ew -> {
+//                for (Field field : clazz.getDeclaredFields()) {
+//                    SqlSearch annotation = field.getAnnotation(SqlSearch.class);
+//                    Column columnAnnotation = field.getAnnotation(Column.class);
+//                    if (annotation != null) {
+//                        ew.like(columnAnnotation.name(), SqlUtils.filterLikeValue(query.getSearch()));
+//                    }
+//                }
+//            });
+//        }
 
         // 高级查询-过滤条件List
         if (query.getConditionList() != null && query.getConditionList().size() > 0) {
             for (Map map : query.getConditionList()) {
                 String type = (String) map.get("type");
                 List<Map> condList = (List<Map>) map.get("condList");
-                this.processConditionList(type, condList, example.and());
+                this.processConditionList(type, condList, wrapper);
             }
         }
 
@@ -315,7 +189,7 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
                     for (Map map : list) {
                         String type = (String) map.get("type");
                         List<Map> condList = (List<Map>) map.get("condList");
-                        this.processConditionList(type, condList, example.and());
+                        this.processConditionList(type, condList, wrapper);
                     }
                 } catch (Exception e) {
                     _logger.error("config: {}", config);
@@ -325,124 +199,114 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
             }
         }
 
-        example.setOrderByClause(query.getSorter());
-        return example;
+
+//        wrapper.orderBy(true, true, query.getSorter()); // FIXME sorter 优化
+        return wrapper;
     }
 
     /**
      *
      * @param type 组合类型：and、or
      * @param conditionList
-     * @param criteria
+     * @param wrapper
      */
-    private void processConditionList(String type, List<Map> conditionList, Example.Criteria criteria) {
-        conditionList.forEach(cond -> {
-            String key = MapUtils.getString(cond, "key");
-            String opr = MapUtils.getString(cond, "opr");
-            Object value = MapUtils.getObject(cond, "value");
-            String begin = MapUtils.getString(cond, "begin");
-            String end = MapUtils.getString(cond, "end");
+    private void processConditionList(String type, List<Map> conditionList, QueryWrapper<T> wrapper) {
+        wrapper.and(ew -> {
+            for (Map cond : conditionList) {
+                String key = MapUtils.getString(cond, "key");
+                String opr = MapUtils.getString(cond, "opr");
+                Object value = MapUtils.getObject(cond, "value");
+                String begin = MapUtils.getString(cond, "begin");
+                String end = MapUtils.getString(cond, "end");
 
-            if (StringUtils.isNoneEmpty(key, opr)) {
+                if (StringUtils.isNoneEmpty(key, opr)) {
 //                value = SqlUtils.filterLikeValue(value);
-                switch (opr) {
-                    case "equal": {
-                        switch (type) {
-                            case "and": criteria.andEqualTo(key, value); break;
-                            case "or":  criteria.orEqualTo(key, value); break;
-                        }
-                    } break;
-                    case "not_equal": {
-                        switch (type) {
-                            case "and": criteria.andNotEqualTo(key, value); break;
-                            case "or":  criteria.orNotEqualTo(key, value); break;
-                        }
-                    } break;
-                    case "in": {
-                        String[] valueSs = ObjectUtil.toString(value).split("，");
-                        switch (type) {
-                            case "and": criteria.andIn(key, Arrays.asList(valueSs)); break;
-                            case "or":  criteria.orIn(key, Arrays.asList(valueSs)); break;
-                        }
-                    } break;
-                    case "contain": {
-                        switch (type) {
-                            case "and": criteria.andLike(key, "%" + SqlUtils.filterLikeValue(ObjectUtil.toString(value)) + "%"); break;
-                            case "or":  criteria.orLike(key, "%" + SqlUtils.filterLikeValue(ObjectUtil.toString(value)) + "%"); break;
-                        }
-                    } break;
-                    case "not_contain": {
-                        switch (type) {
-                            case "and": criteria.andNotLike(key, "%" + SqlUtils.filterLikeValue(ObjectUtil.toString(value)) + "%"); break;
-                            case "or":  criteria.orNotLike(key, "%" + SqlUtils.filterLikeValue(ObjectUtil.toString(value)) + "%"); break;
-                        }
-                    } break;
-                    case "start_contain": {
-                        switch (type) {
-                            case "and": criteria.andLike(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value)) + "%"); break;
-                            case "or":  criteria.orLike(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value)) + "%"); break;
-                        }
-                    } break;
-                    case "end_contain": {
-                        switch (type) {
-                            case "and": criteria.andLike(key, "%" + SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
-                            case "or":  criteria.orLike(key, "%" + SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
-                        }
-                    } break;
-                    case "greater": {
-                        switch (type) {
-                            case "and": criteria.andGreaterThan(key, value); break;
-                            case "or":  criteria.orGreaterThan(key, value); break;
-                        }
-                    } break;
-                    case "greater_equal": {
-                        switch (type) {
-                            case "and": criteria.andGreaterThanOrEqualTo(key, value); break;
-                            case "or":  criteria.orGreaterThanOrEqualTo(key, value); break;
-                        }
-                    } break;
-                    case "less": {
-                        switch (type) {
-                            case "and": criteria.andLessThan(key, value); break;
-                            case "or":  criteria.orLessThan(key, value); break;
-                        }
-                    } break;
-                    case "less_equal": {
-                        switch (type) {
-                            case "and": criteria.andLessThanOrEqualTo(key, value); break;
-                            case "or":  criteria.orLessThanOrEqualTo(key, value); break;
-                        }
-                    } break;
-                    case "between": {
-                        switch (type) {
-                            case "and": criteria.andBetween(key, begin, end); break;
-                            case "or":  criteria.orBetween(key, begin, end); break;
-                        }
-                    } break;
+                    switch (opr) {
+                        case "equal": {
+                            switch (type) {
+                                case "and": ew.eq(key, value); break;
+                                case "or":  ew.or().eq(key, value); break;
+                            }
+                        } break;
+                        case "not_equal": {
+                            switch (type) {
+                                case "and": ew.ne(key, value); break;
+                                case "or":  ew.or().ne(key, value); break;
+                            }
+                        } break;
+                        case "in": {
+                            String[] valueSs = ObjectUtil.toString(value).split("，");
+                            switch (type) {
+                                case "and": ew.in(key, Arrays.asList(valueSs)); break;
+                                case "or":  ew.or().in(key, Arrays.asList(valueSs)); break;
+                            }
+                        } break;
+                        case "contain": {
+                            switch (type) {
+                                case "and": ew.like(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
+                                case "or":  ew.or().like(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
+                            }
+                        } break;
+                        case "not_contain": {
+                            switch (type) {
+                                case "and": ew.notLike(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
+                                case "or":  ew.or().notLike(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
+                            }
+                        } break;
+                        case "start_contain": {
+                            switch (type) {
+                                case "and": ew.likeLeft(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
+                                case "or":  ew.or().likeLeft(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
+                            }
+                        } break;
+                        case "end_contain": {
+                            switch (type) {
+                                case "and": ew.likeRight(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
+                                case "or":  ew.or().likeRight(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
+                            }
+                        } break;
+                        case "greater": {
+                            switch (type) {
+                                case "and": ew.gt(key, value); break;
+                                case "or":  ew.or().gt(key, value); break;
+                            }
+                        } break;
+                        case "greater_equal": {
+                            switch (type) {
+                                case "and": ew.ge(key, value); break;
+                                case "or":  ew.or().ge(key, value); break;
+                            }
+                        } break;
+                        case "less": {
+                            switch (type) {
+                                case "and": ew.lt(key, value); break;
+                                case "or":  ew.or().lt(key, value); break;
+                            }
+                        } break;
+                        case "less_equal": {
+                            switch (type) {
+                                case "and": ew.le(key, value); break;
+                                case "or":  ew.or().le(key, value); break;
+                            }
+                        } break;
+                        case "between": {
+                            switch (type) {
+                                case "and": ew.between(key, begin, end); break;
+                                case "or":  ew.or().between(key, begin, end); break;
+                            }
+                        } break;
+                    }
                 }
             }
         });
     }
 
-    public int count(Map<String, Object> params) {
-        Query query = new Query(params);
-        Example example = parseQuery(query);
-        return mapper.selectCountByExample(example);
-    }
-
-    public List<T> selectByQuery(Query query) {
-        Example example = parseQuery(query);
-        int count = mapper.selectCountByExample(example);
-        if (count > 1000) throw new BuzzException("查询结果数量大于1000，请缩小查询范围");
-        return mapper.selectByExample(example);
-    }
-
     public TableResultResponse<T> selectPageByQuery(Query query) {
-        Example example = parseQuery(query);
+        QueryWrapper<T> wrapper = parseQuery(query);
         if (query.getLimit() > 1000) throw new BuzzException("查询结果数量大于1000，请缩小查询范围");
-        Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<T> list = mapper.selectByExample(example);
-        return new TableResultResponse<T>(new PageInfo<>(list));
+        Page<T> page = new Page<>(query.getPage(), query.getLimit());
+        Page<T> result =  super.page(page, wrapper);
+        return new TableResultResponse<T>(result);
     }
 
     /**
@@ -452,13 +316,11 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
      * @return
      */
     public List<T> selectExportExcelList(Map<String, Object> params) {
-        //查询列表数据
         Query query = new Query(params);
-        Example example = parseQuery(query);
-        int count = mapper.selectCountByExample(example);
-        if (count > 500000) throw new BuzzException("查询结果数量大于500000，请缩小查询范围");
-        List<T> list = mapper.selectByExample(example);
-        return list;
+        QueryWrapper<T> wrapper = parseQuery(query);
+        long count = super.count(wrapper);
+        if (count > 10000) throw new BuzzException("查询结果数量大于10000，请缩小查询范围");
+        return super.list(wrapper);
     }
 
     /**
@@ -513,12 +375,12 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
         return BaseContextHandler.getUserID();
     }
 
-    protected ObjectRestResponse ok() {
-        return new ObjectRestResponse().rel(true);
+    protected ObjectRestResponse<Boolean> ok() {
+        return new ObjectRestResponse<Boolean>().rel(true);
     }
 
-    protected ObjectRestResponse ok(Object data) {
-        return new ObjectRestResponse().data(data);
+    protected ObjectRestResponse<Object> ok(Object data) {
+        return new ObjectRestResponse<>().data(data);
     }
 
     /**
@@ -545,11 +407,11 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
      * @param id 要查询的根节点ID
      * @return 返回要查询的根节点向下所有节点的平铺List（包含id节点）
      */
-    public List<T> findAllChildren(Object id) {
+    public List<T> findAllChildren(Serializable id) {
         List<T> list = new ArrayList<>();
 
         // 查询顶部节点
-        T topItem = mapper.selectByPrimaryKey(id);
+        T topItem = super.getById(id);
         if (topItem == null) return new ArrayList<>();
 
         if (topItem instanceof BaseDelEntity) {
@@ -574,12 +436,11 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
     public List<T> findChildren(Object parentId) {
         List<T> list = new ArrayList<>();
         Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-        Example example = new Example(clazz);
-        example.createCriteria().andEqualTo("parentId", parentId);
-        if (ReflectUtil.hasField(clazz, "delState")) {
-            example.and().andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE);
-        }
-        List<T> children = mapper.selectByExample(example);
+
+        QueryWrapper<T> wrapper = new QueryWrapper<>();
+        wrapper.eq("parentId", parentId);
+
+        List<T> children = super.list(wrapper);
         if (children != null && !children.isEmpty()) {
             list.addAll(children);
             children.forEach(child -> {
@@ -588,10 +449,6 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
             });
         }
         return list;
-    }
-
-    protected Example.Criteria filterDelState(Example.Criteria criteria) {
-        return criteria.andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE);
     }
 
     protected boolean hasField(String fieldName) {

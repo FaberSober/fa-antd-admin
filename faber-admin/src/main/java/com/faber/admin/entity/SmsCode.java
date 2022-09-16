@@ -2,10 +2,7 @@ package com.faber.admin.entity;
 
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlTreeId;
-import com.faber.common.bean.BaseOprEntity;
 import lombok.Data;
-import tk.mybatis.mapper.annotation.KeySql;
-import tk.mybatis.mapper.code.ORDER;
 
 import javax.persistence.*;
 import java.io.Serializable;

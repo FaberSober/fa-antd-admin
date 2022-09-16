@@ -1,7 +1,7 @@
 package com.faber.admin.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.faber.common.bean.BaseOprEntity;
+import com.faber.common.bean.BaseUpdEntity;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 @Data
 @Table(name = "base_group_user")
-public class GroupUser extends BaseOprEntity {
+public class GroupUser extends BaseUpdEntity {
     private static final long serialVersionUID = 1L;
 
     @Id

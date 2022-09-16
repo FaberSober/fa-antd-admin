@@ -1,5 +1,6 @@
 package com.faber.common.msg;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.faber.common.vo.DictOption;
 import com.github.pagehelper.PageInfo;
 
@@ -23,8 +24,8 @@ public class TableResultResponse<T> extends BaseResponse {
         this.data = new TableData<T>(pagination, rows);
     }
 
-    public TableResultResponse(PageInfo pageInfo) {
-        this.data = new TableData<T>(pageInfo);
+    public TableResultResponse(Page<T> result) {
+        this.data = new TableData<T>(result);
     }
 
     public TableResultResponse() {
@@ -72,13 +73,13 @@ public class TableResultResponse<T> extends BaseResponse {
             this.rows = rows;
         }
 
-        public TableData(PageInfo pageInfo) {
+        public TableData(Page<T> result) {
             Pagination pagination = new Pagination();
-            pagination.setTotal(pageInfo.getTotal());
-            pagination.setPageSize(pageInfo.getPageSize());
-            pagination.setCurrent(pageInfo.getPageNum());
-            this.total = pageInfo.getTotal();
-            this.rows = pageInfo.getList();
+            pagination.setTotal(result.getTotal());
+            pagination.setPageSize(result.getSize());
+            pagination.setCurrent(result.getCurrent());
+            this.total = result.getTotal();
+            this.rows = result.getRecords();
             this.pagination = pagination;
         }
 
@@ -127,8 +128,8 @@ public class TableResultResponse<T> extends BaseResponse {
 
     public static class Pagination {
         private long total;
-        private int pageSize;
-        private int current;
+        private long pageSize;
+        private long current;
 
         public long getTotal() {
             return total;
@@ -138,19 +139,19 @@ public class TableResultResponse<T> extends BaseResponse {
             this.total = total;
         }
 
-        public int getPageSize() {
+        public long getPageSize() {
             return pageSize;
         }
 
-        public void setPageSize(int pageSize) {
+        public void setPageSize(long pageSize) {
             this.pageSize = pageSize;
         }
 
-        public int getCurrent() {
+        public long getCurrent() {
             return current;
         }
 
-        public void setCurrent(int current) {
+        public void setCurrent(long current) {
             this.current = current;
         }
     }
