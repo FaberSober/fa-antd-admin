@@ -8,10 +8,12 @@ import com.faber.common.util.Query;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tk.mybatis.mapper.common.BaseMapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -48,28 +50,28 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse<Entity> add(@Valid @RequestBody Entity entity) {
-        baseBiz.insertSelective(entity);
+        baseBiz.save(entity);
         return ok(entity);
     }
 
     @RequestMapping(value = "/batchInsert", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse<List<Entity>> batchInsert(@Valid @RequestBody List<Entity> entityList) {
-        baseBiz.batchInsert(entityList);
+        baseBiz.saveBatch(entityList);
         return ok(entityList);
     }
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<Entity> get(@PathVariable Object id) {
-        Entity o = (Entity) baseBiz.selectById(id);
+    public ObjectRestResponse<Entity> get(@PathVariable Serializable id) {
+        Entity o = (Entity) baseBiz.getById(id);
         return ok(o);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     @ResponseBody
     public ObjectRestResponse<Entity> update(@Valid @RequestBody Entity entity) {
-        baseBiz.updateSelectiveById(entity);
+        baseBiz.updateById(entity);
         return ok();
     }
 
@@ -93,21 +95,21 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
     @RequestMapping(value = "/updateSelective", method = RequestMethod.PUT)
     @ResponseBody
     public ObjectRestResponse<Entity> updateSelective(@Valid @RequestBody Entity entity) {
-        baseBiz.updateSelectiveById(entity);
+        baseBiz.updateById(entity);
         return ok();
     }
 
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public ObjectRestResponse<Entity> remove(@PathVariable Object id) {
-        baseBiz.deleteById(id);
+    public ObjectRestResponse<Entity> remove(@PathVariable Serializable id) {
+        baseBiz.removeById(id);
         return ok();
     }
 
     @RequestMapping(value = "/logicDeleteById/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public ObjectRestResponse<Entity> logicDeleteById(@PathVariable Object id) {
-        baseBiz.logicDeleteById(id);
+        baseBiz.removeById(id);
         return ok();
     }
 
@@ -116,8 +118,8 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
      */
     @RequestMapping(value = "/batchDelete", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse batchDelete(@RequestBody Map<String, Object> params) {
-        baseBiz.batchDelete(params);
+    public ObjectRestResponse<Boolean> batchDelete(@RequestBody Map<String, Object> params) {
+        baseBiz.removeByMap(params);
         return ok();
     }
 
@@ -127,22 +129,21 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
     @RequestMapping(value = "/batchLogicDelete", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse batchLogicDelete(@RequestBody Map<String, Object> params) {
-        baseBiz.batchLogicDelete(params);
+//        baseBiz.batchLogicDelete(params);
         return ok();
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ResponseBody
     public ObjectRestResponse<List<Entity>> all() {
-        List<Entity> list = baseBiz.selectListAll();
+        List<Entity> list = baseBiz.list();
         return ok(list);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<List<Entity>> listV2(@RequestBody Map<String, Object> params) {
-        Query query = new Query(params);
-        List<Entity> list = baseBiz.selectByQuery(query);
+    public ObjectRestResponse<List<Entity>> list(@RequestBody Map<String, Object> params) {
+        List<Entity> list = baseBiz.list(params);
         return ok(list);
     }
 
@@ -155,8 +156,8 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
 
     @RequestMapping(value = "/count", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<Integer> count(@RequestParam Map<String, Object> params) {
-        int count = baseBiz.count(params);
+    public ObjectRestResponse<Long> count(@RequestParam Map<String, Object> params) {
+        long count = baseBiz.count(baseBiz.parseQuery(new Query(params)));
         return ok(count);
     }
 
@@ -166,7 +167,6 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
     @RequestMapping(value = "/page", method = RequestMethod.POST)
     @ResponseBody
     public TableResultResponse<Entity> page(@RequestBody Map<String, Object> params) {
-        //查询列表数据
         Query query = new Query(params);
         return baseBiz.selectPageByQuery(query);
     }

@@ -10,12 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 /**
  * <h2>通用Tree形结构数据的Controller接口父类，包含基本的方法：</h2>
- * <h3>1. 一次性返回所有的节点，适用于节点总数较少的情况，如：部门查询</h3>
+ * <h3>1. 一次性返回所有的节点，适用于节点总数较少的情况，如：节点查询</h3>
  * 1. allTree - 获取所有节点Tree<br/>
  * 2. allTreeFromNode - 从指定节点，返回向下获取所有节点Tree<br/>
  * <br/>
@@ -42,7 +43,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity> extend
      */
     @RequestMapping(value = "/treePathLine/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<List<TreeNode<Entity>>> treePathLine(@PathVariable Object id) {
+    public ObjectRestResponse<List<TreeNode<Entity>>> treePathLine(@PathVariable Serializable id) {
         List<Entity> list = (List<Entity>) baseBiz.treePathLine(id);
         List<TreeNode<Entity>> nodeList = baseBiz.transEntityListToNodeList(list);
         return ok(nodeList);
@@ -55,7 +56,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity> extend
      */
     @RequestMapping(value = "/treeListLayer/{parentId}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<List<TreeNode<Entity>>> treeListLayer(@PathVariable Object parentId) {
+    public ObjectRestResponse<List<TreeNode<Entity>>> treeListLayer(@PathVariable Serializable parentId) {
         List<Entity> list = (List<Entity>) baseBiz.treeListLayer(parentId);
         List<TreeNode<Entity>> nodeList = baseBiz.transEntityListToNodeList(list);
         return ok(nodeList);
@@ -68,7 +69,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity> extend
      */
     @RequestMapping(value = "/treeFindPath/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<TreePathVo<Entity>> treeFindPath(@PathVariable Object id) {
+    public ObjectRestResponse<TreePathVo<Entity>> treeFindPath(@PathVariable Serializable id) {
         TreePathVo<Entity> data = (TreePathVo<Entity>) baseBiz.treeFindPath(id);
         return ok(data);
     }
@@ -79,7 +80,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity> extend
      */
     @RequestMapping(value = "/allTree", method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "获取所有部门列表Tree", notes = "获取所有部门列表Tree")
+    @ApiOperation(value = "获取所有节点列表Tree", notes = "获取所有节点列表Tree")
     public ObjectRestResponse<List<TreeNode<Entity>>> allTree() {
         List<TreeNode<Entity>> treeList = baseBiz.allTree();
         return new ObjectRestResponse<List<TreeNode<Entity>>>().data(treeList);
@@ -104,8 +105,8 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity> extend
      */
     @RequestMapping(value = "/allTreeFromNode/{id}", method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "获取所有部门列表Tree", notes = "获取所有部门列表Tree")
-    public ObjectRestResponse<List<TreeNode<Entity>>> allTreeFromNode(@PathVariable("id") Object id) {
+    @ApiOperation(value = "获取所有节点列表Tree", notes = "获取所有节点列表Tree")
+    public ObjectRestResponse<List<TreeNode<Entity>>> allTreeFromNode(@PathVariable("id") Serializable id) {
         List<TreeNode<Entity>> treeList = baseBiz.allTreeFromNode(id);
         return new ObjectRestResponse<List<TreeNode<Entity>>>().data(treeList);
     }
@@ -117,7 +118,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity> extend
      */
     @RequestMapping(value = "/changePos", method = RequestMethod.POST)
     @ResponseBody
-    @ApiOperation(value = "改变部门列表位置[排序、父节点]", notes = "改变部门列表位置[排序、父节点]")
+    @ApiOperation(value = "改变节点列表位置[排序、父节点]", notes = "改变节点列表位置[排序、父节点]")
     public ObjectRestResponse changePos(@Valid @RequestBody List<TreePosChangeVo> list) {
         baseBiz.changePos(list);
         return new ObjectRestResponse().rel(true);

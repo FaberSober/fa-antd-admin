@@ -30,6 +30,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -81,12 +82,12 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
      */
     protected abstract void preProcessQuery(Query query);
 
-    protected QueryWrapper<T> parseQuery(Query query) {
+    public QueryWrapper<T> parseQuery(Query query) {
         Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
         return this.parseQuery(query, clazz);
     }
 
-    protected QueryWrapper<T> parseQuery(Query query, Class clazz) {
+    public QueryWrapper<T> parseQuery(Query query, Class clazz) {
         this.preProcessQuery(query);
 
         QueryWrapper<T> wrapper = new QueryWrapper<>();
@@ -307,6 +308,12 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         Page<T> page = new Page<>(query.getPage(), query.getLimit());
         Page<T> result =  super.page(page, wrapper);
         return new TableResultResponse<T>(result);
+    }
+
+    public List<T> list(Map<String, Object> params) {
+        Query query = new Query(params);
+        QueryWrapper<T> wrapper = parseQuery(query);
+        return super.list(wrapper);
     }
 
     /**
