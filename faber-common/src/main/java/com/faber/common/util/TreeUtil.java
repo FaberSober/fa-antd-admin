@@ -3,6 +3,7 @@ package com.faber.common.util;
 import cn.hutool.core.util.ObjectUtil;
 import com.faber.common.vo.TreeNode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class TreeUtil {
      * @param treeNodes 传入的树节点列表
      * @return
      */
-    public static <T extends TreeNode> List<T> build(List<T> treeNodes, Object root) {
+    public static <T extends TreeNode> List<T> build(List<T> treeNodes, Serializable root) {
         List<T> trees = new ArrayList<T>();
 
         for (T treeNode : treeNodes) {
@@ -38,7 +39,7 @@ public class TreeUtil {
      * @param treeNodes
      * @return
      */
-    public static <T extends TreeNode> List<T> buildByRecursive(List<T> treeNodes, Object root) {
+    public static <T extends TreeNode> List<T> buildByRecursive(List<T> treeNodes, Serializable root) {
         List<T> trees = new ArrayList<T>();
         for (T treeNode : treeNodes) {
             if (ObjectUtil.equal(ObjectUtil.toString(root), ObjectUtil.toString(treeNode.getParentId()))) {

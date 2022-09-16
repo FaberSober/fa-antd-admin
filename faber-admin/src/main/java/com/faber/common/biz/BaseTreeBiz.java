@@ -2,22 +2,22 @@ package com.faber.common.biz;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.faber.common.annotation.SqlSorter;
 import com.faber.common.annotation.SqlTreeId;
 import com.faber.common.annotation.SqlTreeName;
 import com.faber.common.annotation.SqlTreeParentId;
-import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.constant.CommonConstants;
 import com.faber.common.util.Query;
 import com.faber.common.util.TreeUtil;
 import com.faber.common.vo.TreeNode;
 import com.faber.common.vo.TreePathVo;
 import com.faber.common.vo.TreePosChangeVo;
-import org.apache.ibatis.session.RowBounds;
-import tk.mybatis.mapper.common.Mapper;
-import tk.mybatis.mapper.entity.Example;
 
 import javax.persistence.Column;
+import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.*;
@@ -29,16 +29,14 @@ import java.util.stream.Collectors;
  * @param <M>
  * @param <T>
  */
-public abstract class BaseTreeBiz<M extends Mapper<T>, T> extends BaseBiz<M, T> {
+public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M, T> {
 
     private static final Map<String, String> cacheEntityKeyNameMap = new HashMap<>();
 
     /**
      * 增强Tree数据查询，有的表可能会有一些自定义字段限制Tree结构的获取，子类可以覆盖重写此方法，来增加自定义字段的查询条件。
      */
-    protected void enhanceTreeQuery(Example.Criteria criteria) {
-        // do nothing
-    }
+    protected abstract void enhanceTreeQuery(QueryWrapper<T> wrapper);
 
     /**
      * 给定选中的value，返回value向上查找的节点路径[1, 1-1, 1-1-1]
@@ -46,16 +44,16 @@ public abstract class BaseTreeBiz<M extends Mapper<T>, T> extends BaseBiz<M, T> 
      * @param id
      * @return
      */
-    public List<T> treePathLine(Object id) {
+    public List<T> treePathLine(Serializable id) {
         if (id == null) return new ArrayList<>();
-        T entity = selectById(id);
+        T entity = getById(id);
         if (entity == null) return new ArrayList<>();
 
         List<T> list = new ArrayList<>();
 
         // 递归判断是否到达父节点，这里可以自定义
         if (!this.treeReachRootNode(entity)) {
-            Object parentId = this.getEntityParentId(entity);
+            Serializable parentId = this.getEntityParentId(entity);
             list.addAll(treePathLine(parentId));
         }
 
@@ -69,7 +67,7 @@ public abstract class BaseTreeBiz<M extends Mapper<T>, T> extends BaseBiz<M, T> 
      * @param parentId
      * @return
      */
-    public List<T> treeListLayer(Object parentId) {
+    public List<T> treeListLayer(Serializable parentId) {
         // 判断根节点
         if (parentId == null || ObjectUtil.equal(CommonConstants.ROOT + "", parentId.toString())) {
             return this.treeListLayerRoot(parentId);
@@ -84,7 +82,7 @@ public abstract class BaseTreeBiz<M extends Mapper<T>, T> extends BaseBiz<M, T> 
      * @param parentId
      * @return
      */
-    public int treeCountLayer(Object parentId) {
+    public long treeCountLayer(Serializable parentId) {
         if (parentId == null) return 0;
         // 判断根节点
         if (ObjectUtil.equal(CommonConstants.ROOT + "", parentId.toString())) {
@@ -94,7 +92,7 @@ public abstract class BaseTreeBiz<M extends Mapper<T>, T> extends BaseBiz<M, T> 
         return this.treeCountLayerNormal(parentId);
     }
 
-    public TreePathVo<T> treeFindPath(Object id) {
+    public TreePathVo<T> treeFindPath(Serializable id) {
         List<T> list = this.treePathLine(id);
         List<TreeNode<T>> tree = this.treeGetChildren(list, 0);
 
@@ -138,64 +136,47 @@ public abstract class BaseTreeBiz<M extends Mapper<T>, T> extends BaseBiz<M, T> 
      * @param parentId
      * @return
      */
-    public List<T> treeListLayerRoot(Object parentId) {
+    public List<T> treeListLayerRoot(Serializable parentId) {
         return this.treeListLayerNormal(parentId);
     }
 
-    public int treeCountLayerRoot(Object parentId) {
+    public long treeCountLayerRoot(Serializable parentId) {
         return this.treeCountLayerNormal(parentId);
     }
 
-    public List<T> treeListLayerNormal(Object parentId) {
-        Example example = new Example(getEntityClass());
-        Example.Criteria criteria = example.createCriteria()
-                .andEqualTo(this.getTreeParentIdFieldName(), parentId);
-        if (this.hasField("delState")) {
-            criteria.andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE);
-        }
-        this.enhanceTreeQuery(criteria);
-        example.setOrderByClause(this.getSorterAscendSql()); // 设置排序
-        return mapper.selectByExample(example);
+    public QueryWrapper<T> treeLayerNormalWrapper(Serializable parentId) {
+        QueryWrapper<T> wrapper = new QueryWrapper<>();
+        wrapper.eq(this.getTreeParentIdFieldName(), parentId);
+        this.enhanceTreeQuery(wrapper);
+        wrapper.orderByAsc(this.getSortedFieldColumnName());
+        return wrapper;
     }
 
-    public int treeCountLayerNormal(Object parentId) {
-        Example example = new Example(getEntityClass());
-        Example.Criteria criteria = example.createCriteria()
-                .andEqualTo(this.getTreeParentIdFieldName(), parentId);
-        if (this.hasField("delState")) {
-            criteria.andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE);
-        }
-        this.enhanceTreeQuery(criteria);
-        return mapper.selectCountByExample(example);
+    public List<T> treeListLayerNormal(Serializable parentId) {
+        QueryWrapper<T> wrapper = this.treeLayerNormalWrapper(parentId);
+        return super.list(wrapper);
+    }
+
+    public long treeCountLayerNormal(Serializable parentId) {
+        QueryWrapper<T> wrapper = this.treeLayerNormalWrapper(parentId);
+        return super.count(wrapper);
     }
 
     public List<TreeNode<T>> allTree() {
-        Example example = new Example(getEntityClass());
-        Example.Criteria criteria = example.createCriteria();
-        if (this.hasField("delState")) {
-            criteria.andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE);
-        }
-        this.enhanceTreeQuery(criteria);
-
-        example.setOrderByClause(this.getSorterAscendSql()); // 设置排序
-        List<T> beanList = mapper.selectByExample(example);
-        List<TreeNode<T>> list = this.getMenuTree(beanList, CommonConstants.ROOT + "");
-        return list;
+        QueryWrapper<T> wrapper = new QueryWrapper<>();
+        this.enhanceTreeQuery(wrapper);
+        wrapper.orderByAsc(this.getSortedFieldColumnName());
+        List<T> beanList = super.list(wrapper);
+        return this.getMenuTree(beanList, CommonConstants.ROOT + "");
     }
 
     public List<TreeNode<T>> getTree(Map<String, Object> params) {
         Query query = new Query(params);
-        Example example = parseQuery(query);
-        Example.Criteria criteria = example.and();
-        if (this.hasField("delState")) {
-            criteria.andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE);
-        }
-        this.enhanceTreeQuery(criteria);
-
-        example.setOrderByClause(this.getSorterAscendSql()); // 设置排序
-        List<T> beanList = mapper.selectByExample(example);
-        List<TreeNode<T>> list = this.getMenuTree(beanList, CommonConstants.ROOT + "");
-        return list;
+        QueryWrapper<T> wrapper = parseQuery(query);
+        this.enhanceTreeQuery(wrapper);
+        wrapper.orderByAsc(this.getSortedFieldColumnName());
+        List<T> beanList = super.list(wrapper);
+        return this.getMenuTree(beanList, CommonConstants.ROOT + "");
     }
 
     /**
@@ -203,7 +184,7 @@ public abstract class BaseTreeBiz<M extends Mapper<T>, T> extends BaseBiz<M, T> 
      * @param id 指定节点ID
      * @return
      */
-    public List<TreeNode<T>> allTreeFromNode(Object id) {
+    public List<TreeNode<T>> allTreeFromNode(Serializable id) {
         List<T> beanList = getAllChildrenFromNode(id);
         List<TreeNode<T>> list = this.getMenuTree(beanList, id);
         return list;
@@ -214,11 +195,11 @@ public abstract class BaseTreeBiz<M extends Mapper<T>, T> extends BaseBiz<M, T> 
      * @param id 指定节点ID
      * @return
      */
-    public List<T> getAllChildrenFromNode(Object id) {
+    public List<T> getAllChildrenFromNode(Serializable id) {
         // 递归查询所有的子节点
-        List<T> beanList = this.loopFindChildren(new Object[]{id});
+        List<T> beanList = this.loopFindChildren(Collections.singletonList(id));
         // 讲查询的顶级结点加入到第一个位置
-        beanList.add(0, mapper.selectByPrimaryKey(id));
+        beanList.add(0, super.getById(id));
         return beanList;
     }
 
@@ -227,26 +208,21 @@ public abstract class BaseTreeBiz<M extends Mapper<T>, T> extends BaseBiz<M, T> 
      * @param parentIds 父节点ID数组
      * @return
      */
-    private List<T> loopFindChildren(Object[] parentIds) {
-        Example example = new Example(getEntityClass());
-        Example.Criteria criteria = example.createCriteria()
-                .andIn(getTreeParentIdFieldName(), Arrays.asList(parentIds));
-        if (this.hasField("delState")) {
-            criteria.andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE);
-        }
-        this.enhanceTreeQuery(criteria);
-
-        List<T> beanList = mapper.selectByExample(example);
+    private List<T> loopFindChildren(List<Serializable> parentIds) {
+        QueryWrapper<T> wrapper = new QueryWrapper<>();
+        wrapper.in(getTreeParentIdFieldName(), Arrays.asList(parentIds));
+        this.enhanceTreeQuery(wrapper);
+        List<T> beanList = super.list(wrapper);
 
         // 获取当前层级ID集合，作为下级查询的父节点ID集合
-        List<Object> cParentIds = new ArrayList<>();
+        List<Serializable> cParentIds = new ArrayList<>();
         if (beanList != null && !beanList.isEmpty()) {
             for (T o : beanList) {
                 cParentIds.add(getEntityId(o));
             }
         }
         if (!cParentIds.isEmpty()) {
-            beanList.addAll(this.loopFindChildren(cParentIds.toArray()));
+            beanList.addAll(this.loopFindChildren(cParentIds));
         }
 
         return beanList;
@@ -256,12 +232,12 @@ public abstract class BaseTreeBiz<M extends Mapper<T>, T> extends BaseBiz<M, T> 
         if (list == null || list.isEmpty()) return;
 
         list.forEach(item -> {
-            T bean = mapper.selectByPrimaryKey(item.getKey());
+            T bean = super.getById(item.getKey());
 
             ReflectUtil.setFieldValue(bean, this.getSortedFieldName(), item.getIndex());
             ReflectUtil.setFieldValue(bean, this.getTreeParentIdFieldName(), item.getPid());
 
-            super.updateSelectiveById(bean);
+            super.updateById(bean);
         });
     }
 
@@ -271,7 +247,7 @@ public abstract class BaseTreeBiz<M extends Mapper<T>, T> extends BaseBiz<M, T> 
      * @param root tree结构的跟节点ID
      * @return
      */
-    protected List<TreeNode<T>> getMenuTree(List<T> beanList, Object root) {
+    protected List<TreeNode<T>> getMenuTree(List<T> beanList, Serializable root) {
         return this.getMenuTree(beanList, root, false);
     }
 
@@ -282,7 +258,7 @@ public abstract class BaseTreeBiz<M extends Mapper<T>, T> extends BaseBiz<M, T> 
      * @param countChildren 是否统计子节点数量，这个比较花时间。FIXME：改为代码计算的方式。
      * @return
      */
-    protected List<TreeNode<T>> getMenuTree(List<T> beanList, Object root, boolean countChildren) {
+    protected List<TreeNode<T>> getMenuTree(List<T> beanList, Serializable root, boolean countChildren) {
         List<TreeNode<T>> trees = new ArrayList<>();
         TreeNode<T> treeNode = null;
         for (T entity : beanList) {
@@ -324,16 +300,11 @@ public abstract class BaseTreeBiz<M extends Mapper<T>, T> extends BaseBiz<M, T> 
      * @return
      */
     protected Integer getMaxSort(Object parentId) {
-        Example example = new Example(getEntityClass());
-        Example.Criteria criteria = example.createCriteria().andEqualTo(getTreeParentIdFieldName(), parentId);
-        if (this.hasField("delState")) {
-            criteria.andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE);
-        }
-        this.enhanceTreeQuery(criteria);
-
-        example.setOrderByClause(this.getSorterDescendSql()); // 设置排序DESC
-
-        List<T> list = mapper.selectByExampleAndRowBounds(example, new RowBounds(0, 1));
+        QueryWrapper<T> wrapper = new QueryWrapper<>();
+        wrapper.eq(getTreeParentIdFieldName(), parentId);
+        this.enhanceTreeQuery(wrapper);
+        wrapper.orderByDesc(this.getSortedFieldColumnName());
+        List<T> list = super.page(new Page<>(1, 1), wrapper).getRecords();
         if (list != null && list.size() > 0) {
             return getEntitySortId(list.get(0));
         }
@@ -346,8 +317,8 @@ public abstract class BaseTreeBiz<M extends Mapper<T>, T> extends BaseBiz<M, T> 
      * @param entity
      * @return
      */
-    protected Object getEntityId(T entity) {
-        return ReflectUtil.getFieldValue(entity, this.getTreeIdFieldName());
+    protected Serializable getEntityId(T entity) {
+        return (Serializable) ReflectUtil.getFieldValue(entity, this.getTreeIdFieldName());
     }
 
     /**
@@ -356,8 +327,8 @@ public abstract class BaseTreeBiz<M extends Mapper<T>, T> extends BaseBiz<M, T> 
      * @param entity
      * @return
      */
-    protected Object getEntityParentId(T entity) {
-        return ReflectUtil.getFieldValue(entity, this.getTreeParentIdFieldName());
+    protected Serializable getEntityParentId(T entity) {
+        return (Serializable) ReflectUtil.getFieldValue(entity, this.getTreeParentIdFieldName());
     }
 
     /**

@@ -2,6 +2,7 @@ package com.faber.common.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +10,9 @@ import java.util.List;
  * Created by Ace on 2017/6/12.
  */
 @Data
-public class TreeNode<T extends Object> {
-    protected Object id;
-    protected Object parentId;
+public class TreeNode<T> {
+    protected Serializable id;
+    protected Serializable parentId;
     private String name;
     private Integer sort;
     private boolean hasChildren;
