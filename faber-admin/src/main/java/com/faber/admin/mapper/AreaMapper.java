@@ -1,8 +1,8 @@
 package com.faber.admin.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.faber.admin.entity.Area;
 import org.apache.ibatis.annotations.Param;
-import tk.mybatis.mapper.common.Mapper;
 
 import java.math.BigDecimal;
 
@@ -14,7 +14,7 @@ import java.math.BigDecimal;
  * @date 2019-08-21 09:55:39
  */
 // @Mapper
-public interface AreaMapper extends Mapper<Area> {
+public interface AreaMapper extends BaseMapper<Area> {
 
     long findClosetByLoc(@Param("lng") BigDecimal lng, @Param("lat") BigDecimal lat);
 	

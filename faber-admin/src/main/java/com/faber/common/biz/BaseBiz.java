@@ -80,7 +80,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
      *
      * @param query
      */
-    protected abstract void preProcessQuery(Query query);
+    protected void preProcessQuery(Query query) {}
 
     public QueryWrapper<T> parseQuery(Query query) {
         Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];

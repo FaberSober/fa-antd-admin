@@ -43,26 +43,20 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
     private AMapUtils aMapUtils;
 
     @Override
-    public void insertSelective(Area entity) {
-        // TO-DO 校验编码重复性
-        Example example = new Example(Area.class);
-        example.createCriteria()
-                .andEqualTo("areaCode", entity.getAreaCode());
-        int count = mapper.selectCountByExample(example);
+    public boolean save(Area entity) {
+        long count = this.lambdaQuery().eq(Area::getAreaCode, entity.getAreaCode()).count();
         if (count > 0) throw new BuzzException("编码重复");
-        super.insertSelective(entity);
+        return super.save(entity);
     }
 
     @Override
-    public void updateSelectiveById(Area entity) {
-        // TO-DO 校验编码重复性
-        Example example = new Example(Area.class);
-        example.createCriteria()
-                .andEqualTo("areaCode", entity.getAreaCode())
-                .andNotEqualTo("id", entity.getId());
-        int count = mapper.selectCountByExample(example);
+    public boolean updateById(Area entity) {
+        long count = this.lambdaQuery()
+                .eq(Area::getAreaCode, entity.getAreaCode())
+                .ne(Area::getId, entity.getId())
+                .count();
         if (count > 0) throw new BuzzException("编码重复");
-        super.updateSelectiveById(entity);
+        return super.updateById(entity);
     }
 
     @Override
@@ -107,18 +101,11 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
             return area;
         }
 
-        Example example = new Example(Area.class);
-        example.createCriteria().andEqualTo("areaCode", areaCode);
-        Area area = mapper.selectOneByExample(example);
-        return area;
+        return this.lambdaQuery().eq(Area::getAreaCode, areaCode).one();
     }
 
     public List<Area> findSubAreaList(Long areaCode) {
-        if (areaCode == null) return new ArrayList<>();
-
-        Area query = new Area();
-        query.setParentCode(areaCode);
-        return mapper.select(query);
+        return this.lambdaQuery().eq(Area::getParentCode, areaCode).list();
     }
 
     /**
@@ -161,9 +148,7 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
         Area bean = list.get(nodeIndex);
 
         // 获取选中的节点的兄弟节点
-        Example example = new Example(Area.class);
-        example.createCriteria().andEqualTo("parentCode", bean.getParentCode());
-        List<Area> childList = mapper.selectByExample(example);
+        List<Area> childList = this.findSubAreaList(bean.getParentCode());
 
         List<AreaTree> nodeList = new ArrayList<>();
         childList.forEach(c -> {
@@ -183,13 +168,6 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
         });
 
         return nodeList;
-    }
-
-    public Area findByCode(Long areaCode) {
-        if (areaCode == null) return null;
-        Example example = new Example(Area.class);
-        example.createCriteria().andEqualTo("areaCode", areaCode);
-        return mapper.selectOneByExample(example);
     }
 
     /**
@@ -245,14 +223,11 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
     }
 
     private Area findArea(int level, String name, Long parentCode) {
-        Example example = new Example(Area.class);
-        Example.Criteria criteria = example.createCriteria().andEqualTo("level", level).andLike("name", "%" + name + "%");
-        // 如果限定了父区域
-        if (parentCode != null) {
-            criteria.andEqualTo("parentCode", parentCode);
-        }
-        List<Area> list = mapper.selectByExample(example);
-        if (list == null || list.isEmpty() || list.size() != 1) return null;
+        List<Area> list = lambdaQuery().eq(Area::getLevel, level)
+                .like(Area::getName, name)
+                .eq(parentCode != null, Area::getParentCode, parentCode)
+                .list();
+        if (list == null || list.size() != 1) return null;
         return list.get(0);
     }
 
@@ -265,10 +240,10 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
     }
 
     public List<Area> findChildrenList(String parentCode) {
-        Example example = new Example(Area.class);
-        example.createCriteria().andEqualTo("parentCode", parentCode);
-        example.setOrderByClause("area_code ASC");
-        return mapper.selectByExample(example);
+        return lambdaQuery()
+                .eq(Area::getParentCode, parentCode)
+                .orderByAsc(Area::getAreaCode)
+                .list();
     }
 
     /**
@@ -285,16 +260,11 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
             return null;
         }
 
-        Example example = new Example(Area.class);
-
-        example.createCriteria().andLike("name", "%" + name + "%");
-        if (parentCode != null) {
-            example.and().andEqualTo("parentCode", parentCode);
-        }
-        if (level != null) {
-            example.and().andEqualTo("level", level);
-        }
-        List<Area> list = mapper.selectByExample(example);
+        List<Area> list = lambdaQuery()
+                .like(Area::getName, name)
+                .eq(parentCode != null, Area::getParentCode, parentCode)
+                .eq(level != null, Area::getLevel, level)
+                .list();
         String levelLabel =DictConstants.AreaLevel.LABEL.get(level +"");
         if (list == null || list.isEmpty()) {
             // 2. 若完整匹配未匹配到，去除后缀再次匹配
@@ -326,8 +296,7 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
      * @return
      */
     public Long findByLoc(BigDecimal lng, BigDecimal lat) {
-        Long areaCode = mapper.findClosetByLoc(lng, lat);
-        return areaCode;
+        return baseMapper.findClosetByLoc(lng, lat);
     }
 
     public Area findAreaByLoc(BigDecimal lng, BigDecimal lat) {
