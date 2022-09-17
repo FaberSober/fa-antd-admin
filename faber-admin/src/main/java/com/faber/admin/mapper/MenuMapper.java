@@ -27,7 +27,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
      * 查找未挂在的父节点下Menu（父节点已逻辑删除）
      * @return
      */
-    String findNotAttachedMenuIds();
+    List<Integer> findNotAttachedMenuIds();
 
     void removeByMenuIds(@Param("ids") String ids, @Param("name") String name, @Param("id") String id, @Param("ip") String ip);
 

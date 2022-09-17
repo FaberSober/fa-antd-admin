@@ -3,6 +3,7 @@ package com.faber.common.util;
 import cn.hutool.core.util.ReflectUtil;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.bean.BaseDelEntity;
+import com.faber.common.enums.DelStateEnum;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -88,7 +89,7 @@ public class EntityUtils {
         // 默认值
         Object[] value = null;
         if (field != null && field.getType().equals(Date.class)) {
-            value = new Object[]{reqUserInfo.getName(), reqUserInfo.getId(), reqUserInfo.getIp(), new Date(), BaseDelEntity.DEL_STATE.AVAILABLE};
+            value = new Object[]{reqUserInfo.getName(), reqUserInfo.getId(), reqUserInfo.getIp(), new Date(), DelStateEnum.VALID};
         }
         // 填充默认属性值
         setDefaultValues(entity, fields, value);
@@ -138,7 +139,7 @@ public class EntityUtils {
         Field field = ReflectionUtils.getAccessibleField(entity, "delTime");
         Object[] value = null;
         if (field != null && field.getType().equals(Date.class)) {
-            value = new Object[]{reqUserInfo.getName(), reqUserInfo.getId(), reqUserInfo.getIp(), new Date(), BaseDelEntity.DEL_STATE.DELETED};
+            value = new Object[]{reqUserInfo.getName(), reqUserInfo.getId(), reqUserInfo.getIp(), new Date(), DelStateEnum.DELETED};
         }
         // 填充默认属性值
         setDefaultValues(entity, fields, value);

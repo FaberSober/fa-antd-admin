@@ -6,7 +6,7 @@
     <select id="findMaxSort" parameterType="map" resultType="int">
         SELECT IFNULL(MAX(t.sort), 0)
         FROM base_config t
-        WHERE t.del_state = '0'
+        WHERE t.del_state = 0
           AND t.buzz_modal = #{buzzModal}
           AND t.type = #{type}
           AND t.belong_user_id = #{belongUserId}

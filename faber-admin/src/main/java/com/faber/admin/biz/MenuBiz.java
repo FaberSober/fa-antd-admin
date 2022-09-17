@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -30,62 +31,46 @@ public class MenuBiz extends BaseTreeBiz<MenuMapper, Menu> {
     private ElementBiz elementBiz;
 
     @Override
-//    @Cache(key = "permission:menu")
-    public List<Menu> selectListAll() {
-        Example example = new Example(Menu.class);
-        example.createCriteria().andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE);
-        return mapper.selectByExample(example);
-    }
-
-    @Override
-//    @CacheClear(pre = "permission")
-    public void insertSelective(Menu entity) {
-        // 插入时校验编码是否重复
-        Example example = new Example(Menu.class);
-        example.createCriteria().andEqualTo("code", entity.getCode()).andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE);
-        int count = mapper.selectCountByExample(example);
+    public boolean save(Menu entity) {
+        long count = lambdaQuery().eq(Menu::getCode, entity.getCode()).count();
         if (count > 0) throw new BuzzException("权限编码重复");
-
         super.setNextSort(entity); // 设置entity的排序
-
-        super.insertSelective(entity);
+        return super.save(entity);
     }
 
     @Override
-//    @CacheClear(pre = "permission")
-    public void updateSelectiveById(Menu entity) {
+    public boolean updateById(Menu entity) {
         if (entity.getParentId() == entity.getId().intValue()) {
             throw new BuzzException("父节点不能是自身");
         }
 
-        // 插入时校验编码是否重复
-        Example example = new Example(Menu.class);
-        example.createCriteria()
-                .andEqualTo("code", entity.getCode())
-                .andNotEqualTo("id", entity.getId())
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE);
-        int count = mapper.selectCountByExample(example);
+        long count = lambdaQuery()
+                .eq(Menu::getCode, entity.getCode())
+                .ne(Menu::getId, entity.getId())
+                .count();
         if (count > 0) throw new BuzzException("权限编码重复");
-        super.updateSelectiveById(entity);
+
+        return super.updateById(entity);
     }
 
     @Override
-//    @CacheClear(pre = "permission")
-    public void deleteById(Object id) {
-        super.logicDeleteById(id);
+    public boolean removeById(Serializable id) {
+        super.removeById(id);
 
         // 同步删除子菜单
         EntityUtils.ReqUserInfo reqUserInfo = EntityUtils.getReqUserInfo();
-        if (reqUserInfo == null) return;
+        if (reqUserInfo == null) return true;
 
-        String notAttachedMenuIds = mapper.findNotAttachedMenuIds();
-        while (StringUtils.isNotEmpty(notAttachedMenuIds)) {
-            mapper.removeByMenuIds(notAttachedMenuIds, reqUserInfo.getName(), reqUserInfo.getId(), reqUserInfo.getIp());
-            notAttachedMenuIds = mapper.findNotAttachedMenuIds();
+        List<Integer> notAttachedMenuIds = baseMapper.findNotAttachedMenuIds();
+        while (!notAttachedMenuIds.isEmpty()) {
+            removeBatchByIds(notAttachedMenuIds);
+            notAttachedMenuIds = baseMapper.findNotAttachedMenuIds();
         }
 
         // 同步删除Element元素
-        elementBiz.getMapper().removeNotValid(reqUserInfo.getName(), reqUserInfo.getId(), reqUserInfo.getIp());
+        elementBiz.getBaseMapper().removeNotValid(reqUserInfo.getName(), reqUserInfo.getId(), reqUserInfo.getIp());
+
+        return true;
     }
 
     /**
@@ -93,21 +78,15 @@ public class MenuBiz extends BaseTreeBiz<MenuMapper, Menu> {
      */
 //    @Cache(key = "permission:menu:u{1}")
     public List<Menu> getUserAuthorityMenuByUserId(String id) {
-        return mapper.selectAuthorityMenuByUserId(id);
+        return baseMapper.selectAuthorityMenuByUserId(id);
     }
 
     public List<TreeNode<Menu>> blockAllTree(int blockId) {
-        Example example = new Example(getEntityClass());
-        Example.Criteria criteria = example.createCriteria();
-        criteria
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("blockId", blockId);
-        this.enhanceTreeQuery(criteria);
-
-        example.setOrderByClause(this.getSorterAscendSql()); // 设置排序
-        List<Menu> beanList = mapper.selectByExample(example);
-        List<TreeNode<Menu>> list = this.getMenuTree(beanList, CommonConstants.ROOT + "");
-        return list;
+        List<Menu> beanList = lambdaQuery()
+                .eq(Menu::getBlockId, blockId)
+                .orderByAsc(Menu::getOrderNum)
+                .list();
+        return this.getMenuTree(beanList, CommonConstants.ROOT);
     }
 
 }

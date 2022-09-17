@@ -32,7 +32,7 @@
     <select id="selectMenuByAuthorityId" resultMap="BaseResultMap">
         select t.*
         from base_resource_authority ra
-                 inner join base_menu t on ra.resource_id = t.id and t.del_state = '0'
+                 inner join base_menu t on ra.resource_id = t.id and t.del_state = 0
                 and ra.authority_id = #{authorityId}
                 and ra.authority_type = #{authorityType}
                 and ra.resource_type = 'menu'
@@ -41,7 +41,7 @@
     <select id="selectAuthorityMenuByUserId" resultMap="BaseResultMap">
         select distinct t.*
         from base_resource_authority ra
-                 inner join base_menu t on ra.resource_id = t.id and t.del_state = '0'
+                 inner join base_menu t on ra.resource_id = t.id and t.del_state = 0
                 and ra.authority_id in (
                     select group_id
                     from base_group_user
@@ -55,7 +55,7 @@
     <select id="selectAuthoritySystemByUserId" resultMap="BaseResultMap">
         select distinct t.*
         from base_resource_authority ra
-                 inner join base_menu t on ra.resource_id = t.id and t.del_state = '0'
+                 inner join base_menu t on ra.resource_id = t.id and t.del_state = 0
                 and ra.authority_id in (
                     select group_id
                     from base_group_user
@@ -66,13 +66,13 @@
         where t.parent_id = -1
     </select>
 
-    <select id="findNotAttachedMenuIds" resultType="string">
-        SELECT GROUP_CONCAT(t.id)
+    <select id="findNotAttachedMenuIds" resultType="int">
+        SELECT t.id
         FROM base_menu t
-        WHERE t.del_state = '0'
+        WHERE t.del_state = 0
           AND t.parent_id != -1
           AND t.parent_id NOT IN (
-            SELECT id FROM base_menu WHERE del_state = '0'
+            SELECT id FROM base_menu WHERE del_state = 0
             )
     </select>
 

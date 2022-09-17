@@ -27,7 +27,7 @@
         SELECT a.*, o.no as outline_no, o.title as outline_title
         FROM article_detail a
         LEFT JOIN article_outline o ON a.outline_id = o.id
-        WHERE o.del_state = '0'
+        WHERE o.del_state = 0
           AND o.book_id = #{bookId}
         ORDER BY o.`title` ASC
     </select>

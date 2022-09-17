@@ -80,7 +80,7 @@ public class PermissionBiz {
     }
 
     public List<PermissionInfo> getAllPermission() {
-        List<Menu> menus = menuBiz.selectListAll();
+        List<Menu> menus = menuBiz.list();
         List<PermissionInfo> result = new ArrayList<PermissionInfo>();
         PermissionInfo info = null;
         menu2permission(menus, result);

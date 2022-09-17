@@ -29,7 +29,7 @@
   </resultMap>
 
     <select id="findByUserId" parameterType="map" resultMap="BaseResultMap">
-        SELECT * FROM base_group t WHERE t.del_state = '0' AND t.id IN (
+        SELECT * FROM base_group t WHERE t.del_state = 0 AND t.id IN (
             SELECT group_id FROM base_group_user WHERE user_id = #{userId}
         )
     </select>
