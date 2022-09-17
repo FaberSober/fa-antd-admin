@@ -17,7 +17,7 @@ public class DiskFileController extends BaseController<DiskFileBiz, DiskFile> {
      */
     @RequestMapping(value = "/updateName", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse updateName(@RequestBody Map<String, Object> params) {
+    public ObjectRestResponse<Boolean> updateName(@RequestBody Map<String, Object> params) {
         baseBiz.updateName(params);
         return ok();
     }

@@ -1,5 +1,7 @@
 package com.faber.disk.biz;
 
+import cn.hutool.core.map.MapUtil;
+import com.faber.common.bean.BaseCrtEntity;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.exception.BuzzException;
@@ -23,48 +25,39 @@ import java.util.Map;
 @Service
 public class DiskFileBiz extends BaseBiz<DiskFileMapper, DiskFile> {
 
-    public int checkSameNameCount(DiskFile entity) {
-        String userId = getCurrentUserId();
-        Example example = new Example(DiskFile.class);
-        example.createCriteria().andEqualTo("crtUser", userId)
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("dirId", entity.getDirId())
-                .andEqualTo("name", entity.getName());
-        if (entity.getId() != null) {
-            example.and().andNotEqualTo("id", entity.getId());
-        }
-        return mapper.selectCountByExample(example);
+    public long checkSameNameCount(DiskFile entity) {
+        return lambdaQuery()
+                .eq(BaseCrtEntity::getCrtUser, getCurrentUserId())
+                .eq(DiskFile::getDirId, entity.getDirId())
+                .eq(DiskFile::getName, entity.getName())
+                .ne(entity.getId() != null, DiskFile::getId, entity.getId())
+                .count();
     }
 
     @Override
-    public void insertSelective(DiskFile entity) {
-        // 新增文件，如果有重名文件，更新文件名称
-        int count = this.checkSameNameCount(entity);
+    public boolean save(DiskFile entity) {
+        long count = this.checkSameNameCount(entity);
         if (count > 0) {
-            String newName = fileNameAddSuffix(entity.getName(), DateFormatUtils.format(System.currentTimeMillis(), "_yyyyMMdd_HHmmss"));
+            String newName = fileNameAddSuffix(entity.getName(), "(1)");
             entity.setName(newName);
         }
-
-        super.insertSelective(entity);
+        return super.save(entity);
     }
 
     @Override
-    public void updateSelectiveById(DiskFile entity) {
+    public boolean updateById(DiskFile entity) {
         // 更新文件，如果有重名文件，提升更新失败
-        int count = this.checkSameNameCount(entity);
+        long count = this.checkSameNameCount(entity);
         if (count > 0) {
             throw new BuzzException("文件名称重复");
         }
-        super.updateSelectiveById(entity);
+        return super.updateById(entity);
     }
 
     public void updateName(Map<String, Object> params) {
-        int id = MapUtils.getInteger(params, "id");
-        DiskFile diskFile = mapper.selectByPrimaryKey(id);
-        checkBeanValid(diskFile);
-
+        DiskFile diskFile = getById(MapUtil.getInt(params, "id"));
         diskFile.setName(MapUtils.getString(params, "name"));
-        this.updateSelectiveById(diskFile);
+        updateById(diskFile);
     }
 
     /**
@@ -74,7 +67,7 @@ public class DiskFileBiz extends BaseBiz<DiskFileMapper, DiskFile> {
      * @return
      */
     public static String fileNameAddSuffix(String fileName, String suffix) {
-        if (fileName.indexOf(".") == -1) {
+        if (!fileName.contains(".")) {
             return fileName + suffix;
         }
 

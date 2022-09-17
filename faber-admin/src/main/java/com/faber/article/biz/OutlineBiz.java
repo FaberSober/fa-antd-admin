@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -30,22 +31,21 @@ public class OutlineBiz extends BaseTreeBiz<OutlineMapper, Outline> {
     private DetailBiz detailBiz;
 
     @Override
-    public void insertSelective(Outline entity) {
+    public boolean save(Outline entity) {
         super.setNextSort(entity); // 设置entity的排序
-        super.insertSelective(entity);
+        return super.save(entity);
     }
 
     @Override
-    public void updateSelectiveById(Outline entity) {
+    public boolean updateById(Outline entity) {
         if (entity.getParentId() == entity.getId().intValue()) {
             throw new BuzzException("父节点不能是自身");
         }
-
-        super.updateSelectiveById(entity);
+        return super.updateById(entity);
     }
 
-    public OutlineDetailVo findDetail(Object id) {
-        Outline entity = super.selectById(id);
+    public OutlineDetailVo findDetail(Serializable id) {
+        Outline entity = getById(id);
 
         OutlineDetailVo vo = new OutlineDetailVo();
         BeanUtil.copyProperties(entity, vo);
@@ -53,7 +53,7 @@ public class OutlineBiz extends BaseTreeBiz<OutlineMapper, Outline> {
         // 查找文章详情
         Detail detail = null;
         if (vo.getDetailId() != null) {
-            detail = detailBiz.selectById(vo.getDetailId());
+            detail = detailBiz.getById(vo.getDetailId());
         }
         if (detail == null) {
             detail = detailBiz.createByOutlineId(vo.getId());
@@ -62,21 +62,18 @@ public class OutlineBiz extends BaseTreeBiz<OutlineMapper, Outline> {
 
         if (entity.getDetailId() == null || entity.getDetailId().intValue() != detail.getId()) {
             entity.setDetailId(detail.getId());
-            this.updateSelectiveById(entity);
+            this.updateById(entity);
         }
 
         return vo;
     }
 
     public List<TreeNode<Outline>> allTree(int bookId) {
-        Example example = new Example(Outline.class);
-        example.createCriteria()
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("bookId", bookId);
-        example.setOrderByClause("sort ASC");
-        List<Outline> beanList = mapper.selectByExample(example);
-        List<TreeNode<Outline>> treeList = this.getMenuTree(beanList, CommonConstants.ROOT);
-        return treeList;
+        List<Outline> beanList = lambdaQuery()
+                .eq(Outline::getBookId, bookId)
+                .orderByAsc(Outline::getSort)
+                .list();
+        return this.getMenuTree(beanList, CommonConstants.ROOT);
     }
 
 }

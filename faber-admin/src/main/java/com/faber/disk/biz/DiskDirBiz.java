@@ -1,5 +1,7 @@
 package com.faber.disk.biz;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.faber.common.bean.BaseCrtEntity;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.exception.BuzzException;
@@ -43,48 +45,38 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
      * @param entity
      * @return
      */
-    public int checkSameNameCount(DiskDir entity) {
-        String userId = getCurrentUserId();
-        Example example = new Example(DiskDir.class);
-        example.createCriteria().andEqualTo("crtUser", userId)
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("parentId", entity.getParentId())
-                .andEqualTo("name", entity.getName());
-        if (entity.getId() != null) {
-            example.and().andNotEqualTo("id", entity.getId());
-        }
-        return mapper.selectCountByExample(example);
+    public long checkSameNameCount(DiskDir entity) {
+        return lambdaQuery()
+                .eq(BaseCrtEntity::getCrtUser, getCurrentUserId())
+                .eq(DiskDir::getParentId, entity.getParentId())
+                .eq(DiskDir::getName, entity.getName())
+                .ne(entity.getId() != null, DiskDir::getId, entity.getId())
+                .count();
     }
 
     @Override
-    public void insertSelective(DiskDir entity) {
-        // 插入文件夹，不能有重复名称的文件夹
-        int count = this.checkSameNameCount(entity);
-        if (count > 0) {
+    public boolean save(DiskDir entity) {
+        if (this.checkSameNameCount(entity) > 0) {
             throw new BuzzException("文件夹名称重复");
         }
-
-        super.insertSelective(entity);
+        return super.save(entity);
     }
 
     @Override
-    public void updateSelectiveById(DiskDir entity) {
-        // 更新时，不能有重复名称的文件夹
-        int count = this.checkSameNameCount(entity);
-        if (count > 0) {
+    public boolean updateById(DiskDir entity) {
+        if (this.checkSameNameCount(entity) > 0) {
             throw new BuzzException("文件夹名称重复");
         }
-
-        super.updateSelectiveById(entity);
+        return super.updateById(entity);
     }
 
     public void updateName(Map<String, Object> params) {
         int id = MapUtils.getInteger(params, "id");
-        DiskDir diskDir = mapper.selectByPrimaryKey(id);
+        DiskDir diskDir = getById(id);
         checkBeanValid(diskDir);
 
         diskDir.setName(MapUtils.getString(params, "name"));
-        this.updateSelectiveById(diskDir);
+        updateById(diskDir);
     }
 
     /**
@@ -93,33 +85,26 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
      * @param path 目录路径，如：/path1/path2
      * @return
      */
-    public Map<String, Object> mineListByPath(String path) {
-        Map<String, Object> data = new HashMap<>();
-
+    public List<DiskDir> mineListByPath(String path) {
         String[] paths = path.replaceFirst("/", "").split("/");
-
-        String userId = getCurrentUserId();
 
         List<DiskDir> pathDirList = new ArrayList<>();
         int indexDirId = -1; // 从根目录开始查找
         for (String pathName : paths) {
-            Example example = new Example(DiskDir.class);
-            example.createCriteria().andEqualTo("crtUser", userId)
-                    .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                    .andEqualTo("parentId", indexDirId)
-                    .andEqualTo("name", pathName);
-            example.setOrderByClause("id DESC");
-            List<DiskDir> list = mapper.selectByExampleAndRowBounds(example, new RowBounds(0, 1));
+            List<DiskDir> list = lambdaQuery()
+                    .eq(BaseCrtEntity::getCrtUser, getCurrentUserId())
+                    .eq(DiskDir::getParentId, indexDirId)
+                    .eq(DiskDir::getName, pathName)
+                    .orderByAsc(DiskDir::getId)
+                    .page(new Page<>(1, 1))
+                    .getRecords();
             if (list == null || list.isEmpty()) {
                 break;
             }
             pathDirList.add(list.get(0));
             indexDirId = list.get(0).getId();
         }
-
-        data.put("path", pathDirList);
-
-        return data;
+        return pathDirList;
     }
 
 
@@ -132,14 +117,11 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
     public List<Map<String, Object>> mineList(int dirId) {
         List<Map<String, Object>> list = new ArrayList<>();
 
-        String userId = getCurrentUserId();
-
         // 我的文件夹
-        Example example = new Example(DiskDir.class);
-        example.createCriteria().andEqualTo("crtUser", userId)
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("parentId", dirId);
-        List<DiskDir> dirList = mapper.selectByExample(example);
+        List<DiskDir> dirList = lambdaQuery()
+                .eq(DiskDir::getCrtUser, getCurrentUserId())
+                .eq(DiskDir::getParentId, dirId)
+                .list();
         dirList.forEach(dir -> {
             Map<String, Object> map = new HashMap<>();
             map.put("id", dir.getId());
@@ -152,11 +134,10 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
         });
 
         // 我的文件
-        Example example1 = new Example(DiskFile.class);
-        example1.createCriteria().andEqualTo("crtUser", userId)
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("dirId", dirId);
-        List<DiskFile> fileList = diskFileBiz.selectByExample(example1);
+        List<DiskFile> fileList = diskFileBiz.lambdaQuery()
+                .eq(DiskFile::getCrtUser, getCurrentUserId())
+                .eq(DiskFile::getDirId, dirId)
+                .list();
         fileList.forEach(file -> {
             Map<String, Object> map = new HashMap<>();
             map.put("id", file.getId());
@@ -176,24 +157,19 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
     public List<DiskDirVO> listSub(int parentId) {
         List<DiskDirVO> list = new ArrayList<>();
 
-        String userId = getCurrentUserId();
-
-        Example example = new Example(DiskDir.class);
-        example.createCriteria().andEqualTo("crtUser", userId)
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("parentId", parentId);
-
-        List<DiskDir> dirList = mapper.selectByExample(example);
+        List<DiskDir> dirList = lambdaQuery()
+                .eq(DiskDir::getCrtUser, getCurrentUserId())
+                .eq(DiskDir::getParentId, parentId)
+                .list();
         dirList.forEach(dir -> {
             DiskDirVO vo = new DiskDirVO();
             BeanUtils.copyProperties(dir, vo);
 
             // 统计查询-是否有子目录
-            Example example1 = new Example(DiskDir.class);
-            example1.createCriteria().andEqualTo("crtUser", userId)
-                    .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                    .andEqualTo("parentId", dir.getId());
-            int count = mapper.selectCountByExample(example1);
+            long count = lambdaQuery()
+                    .eq(DiskDir::getCrtUser, getCurrentUserId())
+                    .eq(DiskDir::getParentId, dir.getId())
+                    .count();
             vo.setHasChildren(count > 0);
 
             list.add(vo);
@@ -209,7 +185,7 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
         String oprType = MapUtils.getString(params, "oprType"); // 操作类型：copy/move
 
         if (toDirId != -1) {
-            DiskDir toDir = mapper.selectByPrimaryKey(toDirId);
+            DiskDir toDir = getById(toDirId);
             checkBeanValid(toDir);
         }
 
@@ -218,7 +194,7 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
             int id = MapUtils.getInteger(source, "id");
 
             if (Type.DIR.equals(type)) {
-                DiskDir sourceDir = mapper.selectByPrimaryKey(id);
+                DiskDir sourceDir = getById(id);
 
                 if (toDirId == sourceDir.getParentId()) {
                     return;
@@ -226,7 +202,7 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
 
                 // update parentId
                 sourceDir.setParentId(toDirId);
-                int count = this.checkSameNameCount(sourceDir);
+                long count = this.checkSameNameCount(sourceDir);
                 String oldName = sourceDir.getName();
                 int addFlag = 1;
                 while (count > 0) {
@@ -237,13 +213,13 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
                 }
 
                 if ("move".equals(oprType)) {
-                    super.updateSelectiveById(sourceDir);
+                    updateById(sourceDir);
                 } else if ("copy".equals(oprType)) {
                     // 先复制文件夹
                     DiskDir newDiskDir = new DiskDir();
                     newDiskDir.setParentId(toDirId);
                     newDiskDir.setName(sourceDir.getName());
-                    super.insertSelective(newDiskDir);
+                    save(newDiskDir);
 
                     // 文件夹下属子节点也要复制
                     List<Map<String, Object>> childList = this.mineList(sourceDir.getId());
@@ -255,7 +231,7 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
                     this.oprBatch(subOprParams);
                 }
             } else if (Type.FILE.equals(type)) {
-                DiskFile sourceFile = diskFileBiz.getMapper().selectByPrimaryKey(id);
+                DiskFile sourceFile = diskFileBiz.getById(id);
 
                 if (toDirId == sourceFile.getDirId()) {
                     return;
@@ -263,7 +239,7 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
 
                 // update dirId
                 sourceFile.setDirId(toDirId);
-                int count = diskFileBiz.checkSameNameCount(sourceFile);
+                long count = diskFileBiz.checkSameNameCount(sourceFile);
                 String oldName = sourceFile.getName();
                 int addFlag = 1;
                 while (count > 0) {
@@ -274,7 +250,7 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
                 }
 
                 if ("move".equals(oprType)) {
-                    diskFileBiz.updateSelectiveById(sourceFile);
+                    diskFileBiz.updateById(sourceFile);
                 } else if ("copy".equals(oprType)) {
                     DiskFile newDiskFile = new DiskFile();
                     newDiskFile.setDirId(toDirId);
@@ -283,7 +259,7 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
                     newDiskFile.setType(sourceFile.getType());
                     newDiskFile.setUrl(sourceFile.getUrl());
 
-                    diskFileBiz.insertSelective(newDiskFile);
+                    diskFileBiz.save(newDiskFile);
                 }
 
             }

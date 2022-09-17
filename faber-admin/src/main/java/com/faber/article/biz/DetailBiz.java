@@ -20,7 +20,7 @@ public class DetailBiz extends BaseBiz<DetailMapper,Detail> {
         Detail detail = new Detail();
         detail.setDetail("");
         detail.setOutlineId(outlineId);
-        this.insertSelective(detail);
+        this.save(detail);
         return detail;
     }
 

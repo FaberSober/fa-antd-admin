@@ -1,6 +1,7 @@
 package com.faber.msg.biz;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.faber.common.enums.BoolEnum;
 import com.faber.msg.entity.Msg;
 import com.faber.msg.vo.MsgPageVo;
 import com.faber.msg.vo.MsgStatisticVO;
@@ -42,18 +43,13 @@ public class MsgBiz extends BaseBiz<MsgMapper, Msg> {
      * 1. 未读消息数量；
      */
     public MsgStatisticVO countMine() {
-        MsgStatisticVO vo = new MsgStatisticVO();
+        // 1. 未读消息数量
+        long unreadCount = lambdaQuery()
+                .eq(Msg::getToUserId, getCurrentUserId())
+                .eq(Msg::getIsRead, BoolEnum.NO)
+                .count();
 
-        // 1. 未读消息数量；
-        Example example = new Example(Msg.class);
-        example.createCriteria()
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("toUserId", getCurrentUserId())
-                .andEqualTo("isRead", BaseUpdEntity.Bool.FALSE);
-        int unreadCount = mapper.selectCountByExample(example);
-        vo.setUnreadCount(unreadCount);
-
-        return vo;
+        return new MsgStatisticVO().setUnreadCount(unreadCount);
     }
 
     /**
@@ -63,16 +59,12 @@ public class MsgBiz extends BaseBiz<MsgMapper, Msg> {
     public void batchRead(Map<String, Object> params) {
         List<Integer> ids = (List<Integer>) params.get("ids");
 
-        Example example = new Example(Msg.class);
-        example.createCriteria().andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andIn("id", ids);
-        List<Msg> msgList = mapper.selectByExample(example);
         Date now = new Date();
-        msgList.forEach(msg -> {
-            msg.setIsRead(BaseUpdEntity.Bool.TRUE);
-            msg.setReadTime(now);
-            this.updateSelectiveById(msg);
-        });
+        lambdaUpdate()
+                .in(Msg::getId, ids)
+                .set(Msg::getIsRead, BoolEnum.YES)
+                .set(Msg::getReadTime, now)
+                .update();
     }
 
     public void sendMsg(String fromUserId, String toUserId, String content) {
@@ -80,9 +72,9 @@ public class MsgBiz extends BaseBiz<MsgMapper, Msg> {
         bean.setFromUserId(fromUserId);
         bean.setToUserId(toUserId);
         bean.setContent(content);
-        bean.setIsRead(BaseUpdEntity.Bool.FALSE);
+        bean.setIsRead(BoolEnum.YES);
 
-        this.insertSelective(bean);
+        this.save(bean);
     }
 
     @Override

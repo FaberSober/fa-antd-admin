@@ -19,7 +19,7 @@ public class DiskDirController extends BaseController<DiskDirBiz, DiskDir> {
      */
     @RequestMapping(value = "/updateName", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse updateName(@RequestBody Map<String, Object> params) {
+    public ObjectRestResponse<Boolean> updateName(@RequestBody Map<String, Object> params) {
         baseBiz.updateName(params);
         return ok();
     }
@@ -31,8 +31,8 @@ public class DiskDirController extends BaseController<DiskDirBiz, DiskDir> {
      */
     @RequestMapping(value = "/mine/listByPath", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse mineListByPath(@RequestParam String path) {
-        Map<String, Object> data = baseBiz.mineListByPath(path);
+    public ObjectRestResponse<List<DiskDir>> mineListByPath(@RequestParam String path) {
+        List<DiskDir> data = baseBiz.mineListByPath(path);
         return ok(data);
     }
 
@@ -43,7 +43,7 @@ public class DiskDirController extends BaseController<DiskDirBiz, DiskDir> {
      */
     @RequestMapping(value = "/mine/list", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse mineList(@RequestParam int dir) {
+    public ObjectRestResponse<Object> mineList(@RequestParam int dir) {
         List<Map<String, Object>> list = baseBiz.mineList(dir);
         return ok(list);
     }
@@ -55,7 +55,7 @@ public class DiskDirController extends BaseController<DiskDirBiz, DiskDir> {
      */
     @RequestMapping(value = "/listSub", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse listSub(@RequestParam int parentId) {
+    public ObjectRestResponse<List<DiskDirVO>> listSub(@RequestParam int parentId) {
         List<DiskDirVO> list = baseBiz.listSub(parentId);
         return ok(list);
     }
@@ -65,7 +65,7 @@ public class DiskDirController extends BaseController<DiskDirBiz, DiskDir> {
      */
     @RequestMapping(value = "/oprBatch", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse oprBatch(@RequestBody Map<String, Object> params) {
+    public ObjectRestResponse<Boolean> oprBatch(@RequestBody Map<String, Object> params) {
         baseBiz.oprBatch(params);
         return ok();
     }

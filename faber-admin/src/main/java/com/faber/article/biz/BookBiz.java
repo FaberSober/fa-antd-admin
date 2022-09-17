@@ -46,10 +46,10 @@ public class BookBiz extends BaseBiz<BookMapper, Book> {
     private FileSaveBiz fileSaveBiz;
 
     public BookDetail getDetail(Integer id) {
-        Book book = mapper.selectByPrimaryKey(id);
+        Book book = getById(id);
         checkBeanValid(book);
 
-        List<BookOutlineDetail> detailList = detailBiz.getMapper().getByBook(id);
+        List<BookOutlineDetail> detailList = detailBiz.getBaseMapper().getByBook(id);
 
         BookDetail bd = new BookDetail();
         bd.setBook(book);
@@ -59,7 +59,7 @@ public class BookBiz extends BaseBiz<BookMapper, Book> {
     }
 
     public Book uploadStdExcel(UploadStdExcelParams params) throws IOException {
-        FileSave fileSaveEntity = fileSaveBiz.selectById(params.getFileId());
+        FileSave fileSaveEntity = fileSaveBiz.getById(params.getFileId());
         java.io.File file = fileSaveBiz.getLocalFileByFile(fileSaveEntity);
 
         Book book = new Book();
@@ -69,7 +69,7 @@ public class BookBiz extends BaseBiz<BookMapper, Book> {
         book.setBizType(params.getBizType());
         book.setBizId(params.getBizId());
 
-        this.insertSelective(book);
+        this.save(book);
 
         // 解析Excel内容，保存章节、文章内容
 
@@ -121,18 +121,18 @@ public class BookBiz extends BaseBiz<BookMapper, Book> {
                     outline.setCrtName(book.getCrtName());
                     outline.setCrtHost(book.getCrtHost());
 
-                    outlineBiz.getMapper().insertSelective(outline);
+                    outlineBiz.save(outline);
                     lineVo.setOutlineId(outline.getId());
 
                     // 插入详情
                     Detail detail = new Detail();
                     detail.setDetail(lineVo.getDetail());
                     detail.setOutlineId(outline.getId());
-                    detailBiz.getMapper().insertSelective(detail);
+                    detailBiz.save(detail);
 
                     // 更新章节detailId
                     outline.setDetailId(detail.getId());
-                    outlineBiz.getMapper().updateByPrimaryKeySelective(outline);
+                    outlineBiz.updateById(outline);
                 }
             }
 

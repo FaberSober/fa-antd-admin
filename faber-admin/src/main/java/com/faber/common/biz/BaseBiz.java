@@ -60,6 +60,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     /**
      * 校验Entity是否有效
      */
+    @Deprecated
     public void checkBeanValid(BaseDelEntity bean) {
         if (bean == null || bean.getDelState() == DelStateEnum.DELETED) {
             throw new BuzzException("No Data Found");

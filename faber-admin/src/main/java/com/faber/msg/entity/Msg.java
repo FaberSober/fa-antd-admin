@@ -7,6 +7,7 @@ import com.faber.common.annotation.FaberModalName;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlSearch;
 import com.faber.common.bean.BaseDelEntity;
+import com.faber.common.enums.BoolEnum;
 import lombok.Data;
 import lombok.Getter;
 
@@ -55,7 +56,7 @@ public class Msg extends BaseDelEntity {
     @SqlEquals
     @ExcelProperty("是否已读")
     @Column(name = "is_read")
-    private String isRead;
+    private BoolEnum isRead;
 
     // 已读时间
     @ExcelProperty("已读时间")
