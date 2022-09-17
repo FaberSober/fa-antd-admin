@@ -3,6 +3,7 @@ package com.faber.admin.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.faber.common.bean.BaseDelEntity;
+import com.faber.common.enums.BoolEnum;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -53,15 +54,15 @@ public class Config extends BaseDelEntity {
 
     // 是否系统
     @Column(name = "system")
-    private String system;
+    private BoolEnum system;
 
     // 是否默认
     @Column(name = "default_scene")
-    private String defaultScene;
+    private BoolEnum defaultScene;
 
     // 是否隐藏
     @Column(name = "hide")
-    private String hide;
+    private BoolEnum hide;
 
     // 排序ID
     @Column(name = "sort")

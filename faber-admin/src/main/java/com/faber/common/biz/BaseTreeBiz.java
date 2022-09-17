@@ -36,7 +36,7 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
     /**
      * 增强Tree数据查询，有的表可能会有一些自定义字段限制Tree结构的获取，子类可以覆盖重写此方法，来增加自定义字段的查询条件。
      */
-    protected abstract void enhanceTreeQuery(QueryWrapper<T> wrapper);
+    protected void enhanceTreeQuery(QueryWrapper<T> wrapper) {}
 
     /**
      * 给定选中的value，返回value向上查找的节点路径[1, 1-1, 1-1-1]

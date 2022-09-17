@@ -1,6 +1,7 @@
 package com.faber.admin.rest;
 
 import com.alibaba.fastjson.JSONObject;
+import com.faber.admin.vo.GroupUserVo;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.rest.BaseController;
@@ -18,13 +19,13 @@ public class GroupUserController extends BaseController<GroupUserBiz, GroupUser>
 
     @RequestMapping(value = "/{id}/groupUser", method = RequestMethod.GET)
     @ResponseBody
-    public TableResultResponse<com.faber.admin.vo.GroupUser> groupUser(@PathVariable int id, @RequestParam Map<String, Object> params) {
+    public TableResultResponse<GroupUserVo> groupUser(@PathVariable int id, @RequestParam Map<String, Object> params) {
         return baseBiz.getGroupUsers(id, params);
     }
 
     @RequestMapping(value = "/groupUser", method = RequestMethod.POST)
     @ResponseBody
-    public TableResultResponse<com.faber.admin.vo.GroupUser> groupUser(@RequestBody Map<String, Object> params) {
+    public TableResultResponse<GroupUserVo> groupUser(@RequestBody Map<String, Object> params) {
         int groupId = MapUtils.getIntValue(params, "groupId", -1);
         return baseBiz.getGroupUsers(groupId, params);
     }

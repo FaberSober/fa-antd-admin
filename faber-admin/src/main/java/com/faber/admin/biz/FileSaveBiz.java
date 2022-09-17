@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.faber.admin.entity.FileSave;
 import com.faber.admin.mapper.FileSaveMapper;
+import com.faber.common.bean.BaseCrtEntity;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.exception.BuzzException;
@@ -44,11 +45,10 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
     }
 
     public List<FileSave> getMine() {
-        String userId = BaseContextHandler.getUserID();
-        Example example = new Example(FileSave.class);
-        example.createCriteria().andEqualTo("crtUser", userId);
-        example.setOrderByClause("id ASC");
-        return mapper.selectByExample(example);
+        return lambdaQuery()
+                .eq(BaseCrtEntity::getCrtUser, getCurrentUserId())
+                .orderByAsc(FileSave::getId)
+                .list();
     }
 
     public void deleteMine(JSONObject json) {
@@ -56,11 +56,11 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
         String ids = json.getString("ids");
         String[] idArr = ids.split(",");
         Arrays.asList(idArr).parallelStream().forEach(id -> {
-            FileSave fileSave = mapper.selectByPrimaryKey(id);
+            FileSave fileSave = getById(id);
             if (fileSave != null && userId.equals(fileSave.getCrtUser())) {
                 // 删除七牛云上的文件
                 qiniuHelper.delete(fileSave.getUrl());
-                mapper.deleteByPrimaryKey(id);
+                removeById(id);
             }
         });
     }
@@ -106,13 +106,13 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
         fileSaveEntity.setSize(file.getSize());
         fileSaveEntity.setUrl(fileSavePath);
 
-        mapper.insertSelective(fileSaveEntity);
+        save(fileSaveEntity);
 
         return fileSaveEntity;
     }
 
     public File getLocalFileById(String fileId) throws IOException {
-        FileSave fileSaveEntity = mapper.selectByPrimaryKey(fileId);
+        FileSave fileSaveEntity = getById(fileId);
 
         if (fileSaveEntity == null) throw new BuzzException("未找到上传文件");
         return this.getLocalFileByFile(fileSaveEntity);
@@ -135,7 +135,7 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
     }
 
     public void getLocalFile(String fileId) throws IOException {
-        FileSave fileSaveEntity = mapper.selectByPrimaryKey(fileId);
+        FileSave fileSaveEntity = getById(fileId);
         this.getLocalFilePath(fileSaveEntity.getUrl());
     }
 

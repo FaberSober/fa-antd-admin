@@ -6,6 +6,7 @@ import com.faber.admin.entity.Job;
 import com.faber.admin.mapper.JobMapper;
 import com.faber.common.bean.BaseUpdEntity;
 import com.faber.common.biz.BaseBiz;
+import com.faber.common.enums.BoolEnum;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.exception.NoDataException;
 import org.quartz.CronExpression;
@@ -30,42 +31,29 @@ public class JobBiz extends BaseBiz<JobMapper, Job> {
     @Autowired
     private JobTask jobTask;
 
-    @Override
-    public void insertSelective(Job entity) {
-        entity.setStatus(BaseUpdEntity.Bool.FALSE); // 新增任务初始未启动
-        super.insertSelective(entity);
-    }
-
-    @Override
-    public void deleteById(Object id) {
-        super.logicDeleteById(id);
-    }
-
     public void runOneTime(Long id) {
-        Job job = mapper.selectByPrimaryKey(id);
-        super.checkBeanValid(job);
-
+        Job job = getById(id);
+        if (job == null) throw new NoDataException();
         jobTask.runTaskImmediately(job);
     }
 
     public void startJob(Integer id) {
-        Job job = mapper.selectByPrimaryKey(id);
-        if (job == null) {
-            throw new NoDataException();
-        }
+        Job job = getById(id);
+        if (job == null) throw new NoDataException();
         jobTask.startJob(job);
-        job.setStatus(BaseUpdEntity.Bool.TRUE);
-        mapper.updateByPrimaryKeySelective(job);
+
+        job.setStatus(BoolEnum.YES);
+        updateById(job);
     }
 
     public void endJob(Integer id) {
-        Job job = mapper.selectByPrimaryKey(id);
-        if (job == null) {
-            throw new NoDataException();
-        }
+        Job job = getById(id);
+        if (job == null) throw new NoDataException();
+
         jobTask.remove(job);
-        job.setStatus(BaseUpdEntity.Bool.FALSE);
-        mapper.updateByPrimaryKeySelective(job);
+
+        job.setStatus(BoolEnum.NO);
+        updateById(job);
     }
 
     public List<String> quartzLatest(String cron, Integer times) throws ParseException  {

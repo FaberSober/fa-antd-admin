@@ -20,13 +20,11 @@ import java.util.List;
 public class BizFileBiz extends BaseBiz<BizFileMapper, BizFile> {
 
     public List<BizFile> getByBizId(Object bizId, BizFile.BizType bizType) {
-        Example example = new Example(BizFile.class);
-        example.createCriteria()
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("bizId", bizId)
-                .andEqualTo("bizType", bizType.value);
-        example.setOrderByClause("id ASC");
-        return mapper.selectByExample(example);
+        return lambdaQuery()
+                .eq(BizFile::getBizId, bizId)
+                .eq(BizFile::getBizType, bizType.value)
+                .orderByAsc(BizFile::getId)
+                .list();
     }
 
 }

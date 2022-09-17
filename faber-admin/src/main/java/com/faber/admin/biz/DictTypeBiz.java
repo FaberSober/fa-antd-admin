@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -22,51 +23,47 @@ public class DictTypeBiz extends BaseTreeBiz<DictTypeMapper, DictType> {
     private DictBiz dictBiz;
 
     @Override
-    public void insertSelective(DictType entity) {
+    public boolean save(DictType entity) {
         // 插入时校验编码是否重复
-        Example example = new Example(DictType.class);
-        example.createCriteria()
-                .andEqualTo("code", entity.getCode())
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE);
-        int count = mapper.selectCountByExample(example);
+        long count = lambdaQuery().eq(DictType::getCode, entity.getCode()).count();
         if (count > 0) throw new BuzzException("字典分组编码重复");
 
         super.setNextSort(entity); // 设置entity的排序
 
-        super.insertSelective(entity);
+        return super.save(entity);
     }
 
     @Override
-    public void updateSelectiveById(DictType entity) {
+    public boolean updateById(DictType entity) {
         if (entity.getParentId() == entity.getId().intValue()) {
             throw new BuzzException("父节点不能是自身");
         }
 
         // 插入时校验编码是否重复
-        Example example = new Example(DictType.class);
-        example.createCriteria()
-                .andEqualTo("code", entity.getCode())
-                .andNotEqualTo("id", entity.getId())
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE);
-        int count = mapper.selectCountByExample(example);
+        long count = lambdaQuery()
+                .eq(DictType::getCode, entity.getCode())
+                .ne(DictType::getId, entity.getId())
+                .count();
         if (count > 0) throw new BuzzException("字典分组编码重复");
 
-        super.updateSelectiveById(entity);
+        return super.updateById(entity);
     }
 
     @Override
-    public void deleteById(Object id) {
+    public boolean removeById(Serializable id) {
         List<DictType> list = super.getAllChildrenFromNode(id);
         for (DictType o : list) {
             // 1. 逻辑删除字典类型
-            super.logicDeleteById(o.getId());
+            super.removeById(o.getId());
 
             // 2. 逻辑删除关联字典值
             List<Dict> dictList = dictBiz.getByDictTypeId(o.getId());
             for (Dict dict : dictList) {
-                dictBiz.logicDeleteById(dict.getId());
+                dictBiz.removeById(dict.getId());
             }
         }
+
+        return true;
     }
 
 }

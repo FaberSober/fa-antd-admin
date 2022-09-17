@@ -48,22 +48,17 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
     public TableResultResponse<Dict> selectPageByQuery(Query query) {
         TableResultResponse<Dict> tableResultResponse = super.selectPageByQuery(query);
         tableResultResponse.getData().getRows().forEach(element -> {
-            element.setDictType(dictTypeBiz.getMapper().selectByPrimaryKey(element.getType()));
+            element.setDictType(dictTypeBiz.getById(element.getType()));
         });
         return tableResultResponse;
     }
 
-    @Override
-    public void deleteById(Object id) {
-        super.logicDeleteById(id);
-    }
-
     public List<Dict> getByTypeCode(String dictTypeCode) {
-        return mapper.selectByTypeCode(dictTypeCode);
+        return baseMapper.selectByTypeCode(dictTypeCode);
     }
 
     public List<DictOption> getByCode(String code) {
-        List<Dict> dictList = mapper.selectByTypeCode(code);
+        List<Dict> dictList = baseMapper.selectByTypeCode(code);
         List<DictOption> options = new ArrayList<>();
         dictList.forEach(d -> {
             options.add(new DictOption(d.getValue(), d.getText(), d.getColor(), d.getSort()));
@@ -72,11 +67,11 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
     }
 
     public List<Dict> getByCodeAndText(String dictTypeCode, String dictText) {
-        return mapper.getByCodeAndText(dictTypeCode, dictText);
+        return baseMapper.getByCodeAndText(dictTypeCode, dictText);
     }
 
     public List<Dict> getByCodeAndValue(String dictTypeCode, String dictValue) {
-        return mapper.getByCodeAndValue(dictTypeCode, dictValue);
+        return baseMapper.getByCodeAndValue(dictTypeCode, dictValue);
     }
 
 
@@ -86,7 +81,7 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
      * @return
      */
     public Dict getByTypeAndText(String dictTypeCode, String text) {
-        List<Dict> list = mapper.getByCodeAndText(dictTypeCode, text);
+        List<Dict> list = baseMapper.getByCodeAndText(dictTypeCode, text);
         if (list == null || list.isEmpty()) {
             throw new BuzzException("No Dict Data Found");
         }
@@ -97,11 +92,7 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
     }
 
     public List<Dict> getByDictTypeId(Integer dictTypeId) {
-        Example example = new Example(Dict.class);
-        example.createCriteria()
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("type", dictTypeId);
-        return mapper.selectByExample(example);
+        return lambdaQuery().eq(Dict::getType, dictTypeId).list();
     }
 
     /**
@@ -109,13 +100,9 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
      * @return
      */
     public SystemConfigPo getSystemConfig() {
-        DictType dictTypeQuery = new DictType();
-        dictTypeQuery.setCode("system");
-        DictType dictType = dictTypeBiz.getMapper().selectOne(dictTypeQuery);
+        DictType dictType = dictTypeBiz.lambdaQuery().eq(DictType::getCode, "system").one();
 
-        Dict query = new Dict();
-        query.setType(dictType.getId());
-        List<Dict> dictList = mapper.select(query);
+        List<Dict> dictList = lambdaQuery().eq(Dict::getType, dictType.getId()).list();
 
         Map<String, Object> map = new HashMap<>();
         for (Dict dict : dictList) {

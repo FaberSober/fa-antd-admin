@@ -183,7 +183,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
             if (this.configMapper == null) {
                 this.configMapper = SpringUtil.getBean(ConfigMapper.class);
             }
-            Config config = configMapper.selectByPrimaryKey(query.getSceneId());
+            Config config = configMapper.selectById(query.getSceneId());
             if (config != null) {
                 try {
                     List<Map> list = JSONUtil.parseArray(config.getData()).toList(Map.class);

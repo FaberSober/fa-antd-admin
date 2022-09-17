@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,34 +37,27 @@ public class DepartmentBiz extends BaseTreeBiz<DepartmentMapper, Department> {
     private DictBiz dictBiz;
 
     @Override
-    public void insertSelective(Department entity) {
+    public boolean save(Department entity) {
         super.setNextSort(entity); // 设置entity的排序
-
-        super.insertSelective(entity);
+        return super.save(entity);
     }
 
     @Override
-    public void updateSelectiveById(Department entity) {
+    public boolean updateById(Department entity) {
         if (ObjectUtil.equal(entity.getParentId(), entity.getId())) {
             throw new BuzzException("父节点不能是自身");
         }
-
-        super.updateSelectiveById(entity);
+        return super.updateById(entity);
     }
 
     @Override
-    public void deleteById(Object id) {
+    public boolean removeById(Serializable id) {
         // 删除部门，检查部门下是否还有员工
-        Example example = new Example(User.class);
-        example.createCriteria()
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("departmentId", id);
-        int count = userBiz.selectCountByExample(example);
+        long count = userBiz.lambdaQuery().eq(User::getDepartmentId, id).count();
         if (count > 0) {
             throw new BuzzException("该部门名下仍有员工，无法删除部门，请确认");
         }
-
-        super.logicDeleteById(id);
+        return super.removeById(id);
     }
 
     @Override
@@ -88,7 +82,7 @@ public class DepartmentBiz extends BaseTreeBiz<DepartmentMapper, Department> {
     }
 
     public DepartmentInfo getInfoById(String id) {
-        Department entity = mapper.selectByPrimaryKey(id);
+        Department entity = getById(id);
         checkBeanValid(entity);
 
         DepartmentInfo info = new DepartmentInfo();
@@ -119,7 +113,7 @@ public class DepartmentBiz extends BaseTreeBiz<DepartmentMapper, Department> {
         if (Department.Type.CORP.value.equalsIgnoreCase(entity.getType()) || Department.Type.DEPT.value.equalsIgnoreCase(entity.getType())) {
             return entity;
         }
-        return findUpDept(mapper.selectByPrimaryKey(entity.getParentId()));
+        return findUpDept(getById(entity.getParentId()));
     }
 
 }

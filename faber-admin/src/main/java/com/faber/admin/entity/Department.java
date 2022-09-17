@@ -1,6 +1,8 @@
 package com.faber.admin.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.faber.common.annotation.*;
 import com.faber.common.bean.BaseDelEntity;
 import lombok.AllArgsConstructor;
@@ -25,9 +27,7 @@ import javax.persistence.*;
 public class Department extends BaseDelEntity {
     private static final long serialVersionUID = 1L;
 
-    //  ID
-    @Id
-    @KeySql(sql = "select uuid()", order = ORDER.BEFORE) // 使用UUID作为主键
+    @TableId(type = IdType.ASSIGN_UUID)
     @SqlTreeId
     private String id;
 

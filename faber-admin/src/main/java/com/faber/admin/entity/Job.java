@@ -7,6 +7,7 @@ import com.faber.common.annotation.FaberModalName;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlSearch;
 import com.faber.common.bean.BaseDelEntity;
+import com.faber.common.enums.BoolEnum;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -38,10 +39,11 @@ public class Job extends BaseDelEntity {
     @Column(name = "cron")
     private String cron;
 
+    // TODO 切换为int
     @SqlEquals
     @ExcelProperty("状态:0未启动false/1启动true")
     @Column(name = "status")
-    private String status;
+    private BoolEnum status = BoolEnum.NO;
 
     @SqlSearch
     @ExcelProperty("任务执行方法")

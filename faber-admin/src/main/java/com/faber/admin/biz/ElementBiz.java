@@ -28,50 +28,31 @@ public class ElementBiz extends BaseBiz<ElementMapper, Element> {
 
 //    @Cache(key = "permission:ele:u{1}")
     public List<Element> getAuthorityElementByUserId(String userId) {
-        return mapper.selectAuthorityElementByUserId(userId);
+        return baseMapper.selectAuthorityElementByUserId(userId);
     }
 
 //    @Cache(key = "permission:ele")
     public List<Element> getAllElementPermissions() {
-        return mapper.selectAllElementPermissions();
+        return baseMapper.selectAllElementPermissions();
     }
 
     @Override
-    public List<Element> selectListAll() {
-        return super.selectListAllLogical();
-    }
-
-    @Override
-//    @CacheClear(pre = "permission")
-    public void insertSelective(Element entity) {
+    public boolean save(Element entity) {
         // 插入时校验编码是否重复
-        Example example = new Example(Element.class);
-        example.createCriteria()
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("code", entity.getCode());
-        int count = mapper.selectCountByExample(example);
+        long count = lambdaQuery().eq(Element::getCode, entity.getCode()).count();
         if (count > 0) throw new BuzzException("权限编码重复");
-        super.insertSelective(entity);
+        return super.save(entity);
     }
 
     @Override
-//    @CacheClear(pre = "permission")
-    public void updateSelectiveById(Element entity) {
+    public boolean updateById(Element entity) {
         // 插入时校验编码是否重复
-        Example example = new Example(Element.class);
-        example.createCriteria()
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("code", entity.getCode())
-                .andNotEqualTo("id", entity.getId());
-        int count = mapper.selectCountByExample(example);
+        long count = lambdaQuery()
+                .eq(Element::getCode, entity.getCode())
+                .eq(Element::getId, entity.getId())
+                .count();
         if (count > 0) throw new BuzzException("权限编码重复");
-        super.updateSelectiveById(entity);
-    }
-
-    @Override
-//    @CacheClear(pre = "permission")
-    public void deleteById(Object id) {
-        super.logicDeleteById(id);
+        return super.updateById(entity);
     }
 
     @Override
@@ -92,7 +73,7 @@ public class ElementBiz extends BaseBiz<ElementMapper, Element> {
     public TableResultResponse<Element> selectPageByQuery(Query query) {
         TableResultResponse<Element> tableResultResponse = super.selectPageByQuery(query);
         tableResultResponse.getData().getRows().forEach(element -> {
-            element.setMenu(menuBiz.getMapper().selectByPrimaryKey(element.getMenuId()));
+            element.setMenu(menuBiz.getById(element.getMenuId()));
         });
         return tableResultResponse;
     }

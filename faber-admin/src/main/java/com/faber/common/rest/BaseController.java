@@ -108,7 +108,7 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
 
     @RequestMapping(value = "/logicDeleteById/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public ObjectRestResponse<Entity> logicDeleteById(@PathVariable Object id) {
+    public ObjectRestResponse<Entity> logicDeleteById(@PathVariable Serializable id) {
         baseBiz.removeById(id);
         return ok();
     }
@@ -118,8 +118,8 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
      */
     @RequestMapping(value = "/batchDelete", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Boolean> batchDelete(@RequestBody Map<String, Object> params) {
-        baseBiz.removeByMap(params);
+    public ObjectRestResponse<Boolean> batchDelete(@RequestBody List<Serializable> ids) {
+        baseBiz.removeBatchByIds(ids);
         return ok();
     }
 

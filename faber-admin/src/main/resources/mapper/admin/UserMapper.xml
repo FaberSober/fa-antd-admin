@@ -28,7 +28,7 @@
     <result column="upd_host" jdbcType="VARCHAR" property="updHost" />
   </resultMap>
 
-    <select id="selectGroupUser" parameterType="map" resultType="com.faber.admin.vo.GroupUser">
+    <select id="selectGroupUser" parameterType="map" resultType="com.faber.admin.vo.GroupUserVo">
         SELECT t.id, t.group_id, t.type, t.description, t.user_id, u.`name`, u.username, u.birthday, u.address, u.mobile_phone, u.tel_phone, u.email, u.sex
           FROM base_group_user t
           LEFT JOIN base_user u ON t.user_id = u.id

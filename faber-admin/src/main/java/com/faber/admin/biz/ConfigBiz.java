@@ -5,11 +5,14 @@ import com.faber.admin.mapper.ConfigMapper;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.bean.BaseUpdEntity;
 import com.faber.common.biz.BaseBiz;
+import com.faber.common.enums.BoolEnum;
+import com.faber.common.enums.DelStateEnum;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -24,35 +27,35 @@ import java.util.Map;
 public class ConfigBiz extends BaseBiz<ConfigMapper, Config> {
 
     @Override
-    public void insertSelective(Config entity) {
+    public boolean save(Config entity) {
         // 非系统配置，默认为上传用户所拥有
-        if (BaseUpdEntity.Bool.FALSE.equalsIgnoreCase(entity.getSystem()) && entity.getBelongUserId() == null) {
+        if (entity.getSystem() == BoolEnum.NO && entity.getBelongUserId() == null) {
             entity.setBelongUserId(getCurrentUserId());
 
             // 设置sort
-            int sort = mapper.findMaxSort(entity.getBuzzModal(), entity.getType(), getCurrentUserId());
+            int sort = baseMapper.findMaxSort(entity.getBuzzModal(), entity.getType(), getCurrentUserId());
             entity.setSort(sort);
 
             // 是否默认
-            if (BaseUpdEntity.Bool.TRUE.equals(entity.getDefaultScene())) {
-                mapper.clearOtherDefaultScene(entity.getBuzzModal(), entity.getType(), getCurrentUserId());
+            if (entity.getDefaultScene() == BoolEnum.YES) {
+                baseMapper.clearOtherDefaultScene(entity.getBuzzModal(), entity.getType(), getCurrentUserId());
             }
         }
-        super.insertSelective(entity);
+        return super.save(entity);
     }
 
     @Override
-    public void updateSelectiveById(Config entity) {
+    public boolean updateById(Config entity) {
         // 非系统配置，默认为上传用户所拥有
-        if (BaseUpdEntity.Bool.FALSE.equalsIgnoreCase(entity.getSystem()) && entity.getBelongUserId() == null) {
+        if (entity.getSystem() == BoolEnum.NO && entity.getBelongUserId() == null) {
             entity.setBelongUserId(getCurrentUserId());
 
             // 是否默认
-            if (BaseUpdEntity.Bool.TRUE.equals(entity.getDefaultScene())) {
-                mapper.clearOtherDefaultScene(entity.getBuzzModal(), entity.getType(), getCurrentUserId());
+            if (entity.getDefaultScene() == BoolEnum.YES) {
+                baseMapper.clearOtherDefaultScene(entity.getBuzzModal(), entity.getType(), getCurrentUserId());
             }
         }
-        super.updateSelectiveById(entity);
+        return super.updateById(entity);
     }
 
     public List<Config> findAllScene(Map<String, Object> params) {
@@ -60,31 +63,23 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> {
         String type = MapUtils.getString(params, "type");
 
         // 查找系统配置
-        Example example2 = new Example(Config.class);
-        example2.createCriteria()
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("buzzModal", buzzModal)
-                .andEqualTo("type", type)
-                .andEqualTo("system", BaseUpdEntity.Bool.TRUE);
-        example2.setOrderByClause("sort ASC");
-        List<Config> config2List = mapper.selectByExample(example2);
+        List<Config> config2List = lambdaQuery().eq(Config::getBuzzModal, buzzModal)
+                .eq(Config::getType, type)
+                .eq(Config::getSystem, BoolEnum.YES)
+                .orderByAsc(Config::getSort)
+                .list();
 
         // 查找个人配置
-        Example example = new Example(Config.class);
-        example.createCriteria()
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("buzzModal", buzzModal)
-                .andEqualTo("type", type)
-                .andEqualTo("system", BaseUpdEntity.Bool.FALSE)
-                .andEqualTo("belongUserId", getCurrentUserId());
-        example.setOrderByClause("sort ASC");
-        List<Config> configList = mapper.selectByExample(example);
+        List<Config> configList = lambdaQuery().eq(Config::getBuzzModal, buzzModal)
+                .eq(Config::getType, type)
+                .eq(Config::getSystem, BoolEnum.NO)
+                .eq(Config::getBelongUserId, getCurrentUserId())
+                .orderByAsc(Config::getSort)
+                .list();
 
         List<Config> allList = new ArrayList<>();
-
         allList.addAll(config2List);
         allList.addAll(configList);
-
         return allList;
     }
 
@@ -93,28 +88,22 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> {
         String type = MapUtils.getString(params, "type");
 
         // 优先查找个人配置
-        Example example = new Example(Config.class);
-        example.createCriteria()
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("buzzModal", buzzModal)
-                .andEqualTo("type", type)
-                .andEqualTo("system", BaseUpdEntity.Bool.FALSE)
-                .andEqualTo("belongUserId", getCurrentUserId());
-        example.setOrderByClause("sort ASC");
-        List<Config> configList = mapper.selectByExample(example);
+        List<Config> configList = lambdaQuery().eq(Config::getBuzzModal, buzzModal)
+                .eq(Config::getType, type)
+                .eq(Config::getSystem, BoolEnum.NO)
+                .eq(Config::getBelongUserId, getCurrentUserId())
+                .orderByAsc(Config::getSort)
+                .list();
         if (configList != null && configList.size() > 0) {
             return configList.get(0);
         }
 
         // 其次查找系统配置
-        Example example2 = new Example(Config.class);
-        example2.createCriteria()
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("buzzModal", buzzModal)
-                .andEqualTo("type", type)
-                .andEqualTo("system", BaseUpdEntity.Bool.TRUE);
-        example2.setOrderByClause("sort ASC");
-        List<Config> config2List = mapper.selectByExample(example2);
+        List<Config> config2List = lambdaQuery().eq(Config::getBuzzModal, buzzModal)
+                .eq(Config::getType, type)
+                .eq(Config::getSystem, BoolEnum.YES)
+                .orderByAsc(Config::getSort)
+                .list();
         if (config2List != null && config2List.size() > 0) {
             return config2List.get(0);
         }
@@ -126,14 +115,14 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> {
         for (int i = 0; i < configList.size(); i++) {
             Config newConfig = configList.get(i);
 
-            Config configDB = mapper.selectByPrimaryKey(newConfig.getId());
+            Config configDB = getById(newConfig.getId());
 
-            if (BaseUpdEntity.Bool.FALSE.equals(configDB.getSystem())) {
+            if (configDB.getSystem() == BoolEnum.NO) {
                 configDB.setSort(i); // 更新排序
                 configDB.setHide(newConfig.getHide()); // 更新是否隐藏
                 configDB.setDefaultScene(newConfig.getDefaultScene());  // 是否默认
             }
-            super.updateSelectiveById(configDB);
+            updateById(configDB);
         }
     }
 }

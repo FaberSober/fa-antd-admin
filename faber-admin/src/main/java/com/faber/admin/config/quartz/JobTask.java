@@ -1,6 +1,8 @@
 package com.faber.admin.config.quartz;
 
+import com.faber.admin.biz.JobBiz;
 import com.faber.admin.entity.Job;
+import com.faber.common.enums.BoolEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.quartz.*;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.HashSet;
@@ -27,6 +30,9 @@ public class JobTask {
 
     @Autowired
     SchedulerFactoryBean schedulerFactoryBean;
+
+    @Autowired
+    private JobBiz jobBiz;
 
     /**
      * true 存在 false 不存在
@@ -78,7 +84,7 @@ public class JobTask {
      * 开启
      */
 //    @Log(desc = "开启定时任务")
-    public boolean startJob(com.faber.admin.entity.Job job) {
+    public boolean startJob(Job job) {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
         try {
             JobDetail jobDetail = this.getJobDetail(job);
@@ -106,7 +112,7 @@ public class JobTask {
      * 更新
      */
 //    @Log(desc = "更新定时任务", type = Log.LOG_TYPE.UPDATE)
-    public boolean updateJob(com.faber.admin.entity.Job job) {
+    public boolean updateJob(Job job) {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
         String createTime = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
 
@@ -138,7 +144,7 @@ public class JobTask {
      * 删除
      */
 //    @Log(desc = "删除定时任务", type = Log.LOG_TYPE.DEL)
-    public boolean remove(com.faber.admin.entity.Job job) {
+    public boolean remove(Job job) {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
         TriggerKey triggerKey = TriggerKey.triggerKey(this.getJobKeyName(job), Scheduler.DEFAULT_GROUP);
         try {

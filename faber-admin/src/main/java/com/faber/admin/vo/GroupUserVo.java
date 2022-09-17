@@ -7,7 +7,7 @@ import lombok.ToString;
 @Data
 @ToString
 @NoArgsConstructor
-public class GroupUser {
+public class GroupUserVo {
 
     private Integer id;
     private Integer groupId;

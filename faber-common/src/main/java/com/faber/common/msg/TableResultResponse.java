@@ -28,6 +28,10 @@ public class TableResultResponse<T> extends BaseResponse {
         this.data = new TableData<T>(result);
     }
 
+    public TableResultResponse(PageInfo<T> pageInfo) {
+        this.data = new TableData<T>(pageInfo);
+    }
+
     public TableResultResponse() {
         this.data = new TableData<T>();
     }
@@ -80,6 +84,16 @@ public class TableResultResponse<T> extends BaseResponse {
             pagination.setCurrent(result.getCurrent());
             this.total = result.getTotal();
             this.rows = result.getRecords();
+            this.pagination = pagination;
+        }
+
+        public TableData(PageInfo<T> pageInfo) {
+            Pagination pagination = new Pagination();
+            pagination.setTotal(pageInfo.getTotal());
+            pagination.setPageSize(pageInfo.getPageSize());
+            pagination.setCurrent(pageInfo.getPageNum());
+            this.total = pageInfo.getTotal();
+            this.rows = pageInfo.getList();
             this.pagination = pagination;
         }
 

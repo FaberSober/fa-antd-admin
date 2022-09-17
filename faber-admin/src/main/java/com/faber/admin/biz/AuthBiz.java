@@ -39,11 +39,8 @@ public class AuthBiz {
     public String loginByTel(Map<String, Object> params) throws Exception {
         String tel = MapUtils.getString(params, "tel");
 
-        Example example = new Example(User.class);
-        example.createCriteria()
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("mobilePhone", tel);
-        int count = userBiz.selectCountByExample(example);
+
+        long count = userBiz.lambdaQuery().eq(User::getMobilePhone, tel).count();
         if (count < 1) {
             throw new BuzzException("该手机号对应账户不存在，请确认。");
         }
@@ -61,7 +58,7 @@ public class AuthBiz {
     public String loginByUserId(Map<String, Object> params) throws Exception {
         String userId = MapUtils.getString(params, "userId");
 
-        User info = userBiz.getMapper().selectByPrimaryKey(userId);
+        User info = userBiz.getById(userId);
         if (info != null && !StringUtils.isEmpty(info.getId())) {
             return jwtTokenUtil.generateToken(new JWTInfo(info.getUsername(), info.getId() + "", info.getName()));
         }
