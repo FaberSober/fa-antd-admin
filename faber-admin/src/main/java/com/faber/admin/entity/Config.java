@@ -1,5 +1,7 @@
 package com.faber.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.faber.common.bean.BaseDelEntity;
 import lombok.Data;
 
@@ -19,8 +21,7 @@ public class Config extends BaseDelEntity {
     private static final long serialVersionUID = 1L;
 
     //  ID
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     // 业务模块

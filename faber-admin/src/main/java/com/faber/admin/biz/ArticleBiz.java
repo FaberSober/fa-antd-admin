@@ -28,12 +28,12 @@ public class ArticleBiz extends BaseBiz<ArticleMapper, Article> {
             throw new BuzzException("参数为空");
         }
 
-        Article article = mapper.selectOne(new Article(bizId, bizType));
+        Article article = lambdaQuery().eq(Article::getBizId, bizId).eq(Article::getBizType, bizType).one();
         if (article == null) {
             article = new Article();
             article.setBizId(bizId);
             article.setBizType(bizType);
-            this.insertSelective(article);
+            this.save(article);
         }
         return article;
     }

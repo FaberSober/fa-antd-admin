@@ -3,7 +3,7 @@ package com.faber.admin.mapper;
 import com.faber.admin.entity.Dict;
 import com.faber.admin.entity.DictType;
 import org.apache.ibatis.annotations.Param;
-import tk.mybatis.mapper.common.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * 字典值
  */
 //@Mapper
-public interface DictMapper extends Mapper<Dict> {
+public interface DictMapper extends BaseMapper<Dict> {
 
     List<Dict> selectByTypeCode(@Param("dictTypeCode") String dictTypeCode);
 

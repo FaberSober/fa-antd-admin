@@ -1,5 +1,7 @@
 package com.faber.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.faber.common.annotation.FaberModalName;
 import com.faber.common.bean.BaseDelEntity;
@@ -24,8 +26,7 @@ import java.math.BigDecimal;
 public class MenuBlock extends BaseDelEntity {
 
     @ExcelProperty("ID")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     @ExcelProperty("模块名称")

@@ -2,11 +2,11 @@ package com.faber.admin.mapper;
 
 import com.faber.admin.entity.Group;
 import org.apache.ibatis.annotations.Param;
-import tk.mybatis.mapper.common.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 
-public interface GroupMapper extends Mapper<Group> {
+public interface GroupMapper extends BaseMapper<Group> {
 
     /**
      * 查询用户所在的角色分组

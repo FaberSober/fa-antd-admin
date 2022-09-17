@@ -1,7 +1,7 @@
 package com.faber.article.mapper;
 
 import com.faber.article.entity.Book;
-import tk.mybatis.mapper.common.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * 文章-书本
@@ -11,6 +11,6 @@ import tk.mybatis.mapper.common.Mapper;
  * @date 2020-12-31 13:53:39
  */
 // @Mapper
-public interface BookMapper extends Mapper<Book> {
+public interface BookMapper extends BaseMapper<Book> {
 	
 }

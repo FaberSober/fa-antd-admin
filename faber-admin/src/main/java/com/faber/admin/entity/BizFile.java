@@ -1,5 +1,7 @@
 package com.faber.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.bean.BaseDelEntity;
 import lombok.AllArgsConstructor;
@@ -23,8 +25,7 @@ import javax.persistence.*;
 public class BizFile extends BaseDelEntity {
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     @SqlEquals

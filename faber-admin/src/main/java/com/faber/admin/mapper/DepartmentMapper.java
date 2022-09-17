@@ -1,7 +1,7 @@
 package com.faber.admin.mapper;
 
 import com.faber.admin.entity.Department;
-import tk.mybatis.mapper.common.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * Base-部门
@@ -11,6 +11,6 @@ import tk.mybatis.mapper.common.Mapper;
  * @date 2020-06-07 19:26:53
  */
 // @Mapper
-public interface DepartmentMapper extends Mapper<Department> {
+public interface DepartmentMapper extends BaseMapper<Department> {
 
 }

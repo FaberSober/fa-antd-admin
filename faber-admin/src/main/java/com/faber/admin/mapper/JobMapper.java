@@ -1,7 +1,7 @@
 package com.faber.admin.mapper;
 
 import com.faber.admin.entity.Job;
-import tk.mybatis.mapper.common.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * @date 2019-08-21 14:48:06
  */
 // @Mapper
-public interface JobMapper extends Mapper<Job> {
+public interface JobMapper extends BaseMapper<Job> {
 
     List<Job> selectStartUpJobs();
 	

@@ -1,7 +1,7 @@
 package com.faber.admin.mapper;
 
 import com.faber.admin.entity.SmsCode;
-import tk.mybatis.mapper.common.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * 短信验证码
@@ -11,7 +11,7 @@ import tk.mybatis.mapper.common.Mapper;
  * @date 2019-08-17 20:15:13
  */
 // @Mapper
-public interface SmsCodeMapper extends Mapper<SmsCode> {
+public interface SmsCodeMapper extends BaseMapper<SmsCode> {
 
     void deleteInvalidCode();
 

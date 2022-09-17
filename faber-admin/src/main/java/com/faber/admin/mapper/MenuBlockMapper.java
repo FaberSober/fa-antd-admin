@@ -1,7 +1,7 @@
 package com.faber.admin.mapper;
 
 import com.faber.admin.entity.MenuBlock;
-import tk.mybatis.mapper.common.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * BASE-菜单模块
@@ -11,6 +11,6 @@ import tk.mybatis.mapper.common.Mapper;
  * @date 2021-11-20 15:53:22
  */
 // @Mapper
-public interface MenuBlockMapper extends Mapper<MenuBlock> {
+public interface MenuBlockMapper extends BaseMapper<MenuBlock> {
 	
 }

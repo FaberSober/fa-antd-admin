@@ -1,7 +1,7 @@
 package com.faber.admin.mapper;
 
 import com.faber.admin.entity.GroupType;
-import tk.mybatis.mapper.common.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-public interface GroupTypeMapper extends Mapper<GroupType> {
+public interface GroupTypeMapper extends BaseMapper<GroupType> {
 }

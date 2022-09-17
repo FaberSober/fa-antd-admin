@@ -2,11 +2,11 @@ package com.faber.admin.mapper;
 
 import com.faber.admin.entity.Element;
 import org.apache.ibatis.annotations.Param;
-import tk.mybatis.mapper.common.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 
-public interface ElementMapper extends Mapper<Element> {
+public interface ElementMapper extends BaseMapper<Element> {
 
     /**
      * 查询授权用户ID的所有权限Element

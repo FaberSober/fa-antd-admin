@@ -1,5 +1,7 @@
 package com.faber.demo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.faber.common.annotation.FaberModalName;
 import com.faber.common.annotation.SqlEquals;
@@ -26,8 +28,7 @@ import java.util.Date;
 public class Student extends BaseDelEntity {
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     private String id;
 
     @ExcelProperty("学生名")

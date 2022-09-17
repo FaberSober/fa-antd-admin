@@ -1,5 +1,7 @@
 package com.faber.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.faber.common.bean.BaseUpdEntity;
 import lombok.Data;
@@ -11,8 +13,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "base_group_type")
 public class GroupType extends BaseUpdEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     @ExcelProperty("编码")

@@ -1,5 +1,7 @@
 package com.faber.article.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.faber.common.annotation.*;
 import com.faber.common.bean.BaseDelEntity;
@@ -22,8 +24,7 @@ public class Outline extends BaseDelEntity {
 	private static final long serialVersionUID = 1L;
 	
     @ExcelProperty("ID")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     @SqlTreeId
     private Integer id;
 

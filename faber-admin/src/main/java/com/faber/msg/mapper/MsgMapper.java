@@ -1,7 +1,7 @@
 package com.faber.msg.mapper;
 
 import com.faber.msg.entity.Msg;
-import tk.mybatis.mapper.common.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * 系统-消息
@@ -11,6 +11,6 @@ import tk.mybatis.mapper.common.Mapper;
  * @date 2020-12-13 21:19:53
  */
 // @Mapper
-public interface MsgMapper extends Mapper<Msg> {
+public interface MsgMapper extends BaseMapper<Msg> {
 	
 }

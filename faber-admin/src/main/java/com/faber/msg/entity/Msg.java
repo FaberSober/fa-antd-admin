@@ -1,5 +1,7 @@
 package com.faber.msg.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.faber.common.annotation.FaberModalName;
 import com.faber.common.annotation.SqlEquals;
@@ -28,8 +30,7 @@ public class Msg extends BaseDelEntity {
 
     // ID
     @ExcelProperty("ID")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     // 消息来源用户ID

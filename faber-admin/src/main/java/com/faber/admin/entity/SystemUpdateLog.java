@@ -1,5 +1,7 @@
 package com.faber.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.faber.common.annotation.FaberModalName;
 import lombok.Data;
@@ -24,8 +26,7 @@ public class SystemUpdateLog implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
     @ExcelProperty("ID")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     @ExcelProperty("版本号")

@@ -2,11 +2,11 @@ package com.faber.admin.mapper;
 
 import com.faber.admin.entity.Menu;
 import org.apache.ibatis.annotations.Param;
-import tk.mybatis.mapper.common.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 
-public interface MenuMapper extends Mapper<Menu> {
+public interface MenuMapper extends BaseMapper<Menu> {
     List<Menu> selectMenuByAuthorityId(@Param("authorityId") String authorityId, @Param("authorityType") String authorityType);
 
     /**

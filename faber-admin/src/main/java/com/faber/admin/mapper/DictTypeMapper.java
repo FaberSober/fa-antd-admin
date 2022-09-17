@@ -1,7 +1,7 @@
 package com.faber.admin.mapper;
 
 import com.faber.admin.entity.DictType;
-import tk.mybatis.mapper.common.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * 字典分类
@@ -11,6 +11,6 @@ import tk.mybatis.mapper.common.Mapper;
  * @date 2019-07-03 22:40:41
  */
 //@Mapper
-public interface DictTypeMapper extends Mapper<DictType> {
+public interface DictTypeMapper extends BaseMapper<DictType> {
 	
 }

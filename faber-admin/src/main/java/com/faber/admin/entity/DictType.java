@@ -1,5 +1,7 @@
 package com.faber.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.faber.common.annotation.*;
 import com.faber.common.bean.BaseDelEntity;
@@ -19,8 +21,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = false)
 public class DictType extends BaseDelEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     @SqlTreeId
     private Integer id;
 

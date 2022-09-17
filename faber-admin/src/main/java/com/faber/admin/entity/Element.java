@@ -1,5 +1,7 @@
 package com.faber.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlSearch;
@@ -16,8 +18,7 @@ import javax.persistence.*;
 public class Element extends BaseDelEntity {
 
     @SqlEquals
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     @SqlEquals

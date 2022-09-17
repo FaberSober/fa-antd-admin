@@ -1,5 +1,7 @@
 package com.faber.disk.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.faber.common.annotation.FaberModalName;
 import com.faber.common.bean.BaseDelEntity;
 import lombok.Data;
@@ -21,8 +23,7 @@ public class DiskFile extends BaseDelEntity {
     private static final long serialVersionUID = 1L;
 
     // ID
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     // 文件夹ID
