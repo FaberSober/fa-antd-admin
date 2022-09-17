@@ -1,15 +1,14 @@
 package com.faber.admin.entity;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.*;
 import com.faber.common.bean.BaseDelEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
-import com.baomidou.mybatisplus.annotation.TableName;
 
 
 /**

@@ -1,14 +1,10 @@
 package com.faber.demo.rest;
 
-import com.faber.common.msg.TableResultResponse;
 import com.faber.common.rest.BaseController;
-import com.faber.common.util.Query;
 import com.faber.demo.biz.StudentBiz;
 import com.faber.demo.entity.Student;
-import com.faber.demo.vo.StudentJoinInfo;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/demo/student")

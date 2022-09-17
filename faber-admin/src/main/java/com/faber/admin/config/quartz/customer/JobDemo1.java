@@ -3,8 +3,6 @@ package com.faber.admin.config.quartz.customer;
 import cn.hutool.core.util.RandomUtil;
 import com.faber.admin.config.quartz.BaseJob;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 
 /**
  * 定时任务DEMO

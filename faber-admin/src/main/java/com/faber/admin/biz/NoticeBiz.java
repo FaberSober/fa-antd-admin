@@ -1,12 +1,11 @@
 package com.faber.admin.biz;
 
+import com.faber.admin.entity.Notice;
 import com.faber.admin.mapper.NoticeMapper;
+import com.faber.common.biz.BaseBiz;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.util.Query;
-import com.faber.admin.entity.Notice;
 import org.springframework.stereotype.Service;
-
-import com.faber.common.biz.BaseBiz;
 
 import javax.annotation.Resource;
 

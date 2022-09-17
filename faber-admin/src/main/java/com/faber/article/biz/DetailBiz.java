@@ -1,10 +1,9 @@
 package com.faber.article.biz;
 
-import org.springframework.stereotype.Service;
-
 import com.faber.article.entity.Detail;
 import com.faber.article.mapper.DetailMapper;
 import com.faber.common.biz.BaseBiz;
+import org.springframework.stereotype.Service;
 
 /**
  * 文章-详情

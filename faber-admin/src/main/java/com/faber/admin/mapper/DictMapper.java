@@ -1,9 +1,9 @@
 package com.faber.admin.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.faber.admin.entity.Dict;
 import com.faber.admin.entity.DictType;
 import org.apache.ibatis.annotations.Param;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 

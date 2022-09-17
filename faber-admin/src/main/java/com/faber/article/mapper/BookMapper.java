@@ -1,7 +1,7 @@
 package com.faber.article.mapper;
 
-import com.faber.article.entity.Book;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.faber.article.entity.Book;
 
 /**
  * 文章-书本

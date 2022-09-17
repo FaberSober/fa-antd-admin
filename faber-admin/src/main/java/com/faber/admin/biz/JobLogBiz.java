@@ -1,10 +1,9 @@
 package com.faber.admin.biz;
 
-import org.springframework.stereotype.Service;
-
 import com.faber.admin.entity.JobLog;
 import com.faber.admin.mapper.JobLogMapper;
 import com.faber.common.biz.BaseBiz;
+import org.springframework.stereotype.Service;
 
 /**
  * BASE-系统定时任务-执行日志

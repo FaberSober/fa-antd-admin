@@ -3,14 +3,12 @@ package com.faber.admin.config.interceptor;
 import com.faber.admin.biz.GateLogBiz;
 import com.faber.admin.entity.GateLog;
 import com.faber.admin.util.jwt.IJWTInfo;
-import com.faber.admin.util.jwt.UserAuthUtil;
 import com.faber.common.util.IpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 
 /**
  * 请求URL日志拦截

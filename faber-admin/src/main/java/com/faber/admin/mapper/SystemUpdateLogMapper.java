@@ -1,8 +1,7 @@
 package com.faber.admin.mapper;
 
-import com.faber.admin.entity.SystemUpdateLog;
-import org.apache.ibatis.annotations.Param;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.faber.admin.entity.SystemUpdateLog;
 
 /**
  * BASE-系统版本更新日志表

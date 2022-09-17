@@ -1,20 +1,17 @@
 package com.faber.msg.biz;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.faber.common.enums.BoolEnum;
-import com.faber.msg.entity.Msg;
-import com.faber.msg.vo.MsgPageVo;
-import com.faber.msg.vo.MsgStatisticVO;
 import com.faber.admin.biz.DictBiz;
 import com.faber.admin.biz.UserBiz;
-import com.faber.common.bean.BaseDelEntity;
-import com.faber.common.bean.BaseUpdEntity;
 import com.faber.common.biz.BaseBiz;
+import com.faber.common.enums.BoolEnum;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.util.Query;
+import com.faber.msg.entity.Msg;
 import com.faber.msg.mapper.MsgMapper;
+import com.faber.msg.vo.MsgPageVo;
+import com.faber.msg.vo.MsgStatisticVO;
 import org.springframework.stereotype.Service;
-
 
 import javax.annotation.Resource;
 import java.util.ArrayList;

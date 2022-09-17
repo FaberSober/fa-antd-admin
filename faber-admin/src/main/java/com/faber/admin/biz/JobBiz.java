@@ -4,7 +4,6 @@ import cn.hutool.core.date.DateUtil;
 import com.faber.admin.config.quartz.JobTask;
 import com.faber.admin.entity.Job;
 import com.faber.admin.mapper.JobMapper;
-import com.faber.common.bean.BaseUpdEntity;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.enums.BoolEnum;
 import com.faber.common.exception.BuzzException;

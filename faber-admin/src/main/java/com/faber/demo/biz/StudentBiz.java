@@ -1,20 +1,9 @@
 package com.faber.demo.biz;
 
 import com.faber.common.biz.BaseBiz;
-import com.faber.common.exception.BuzzException;
-import com.faber.common.msg.TableResultResponse;
-import com.faber.common.util.Query;
 import com.faber.demo.entity.Student;
 import com.faber.demo.mapper.StudentMapper;
-import com.faber.demo.vo.StudentJoinInfo;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
-
-import tk.mybatis.mapper.mapperhelper.SqlHelper;
-
-import java.util.List;
 
 /**
  * Demo-学生表

@@ -1,7 +1,7 @@
 package com.faber.admin.mapper;
 
-import com.faber.admin.entity.Job;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.faber.admin.entity.Job;
 
 import java.util.List;
 

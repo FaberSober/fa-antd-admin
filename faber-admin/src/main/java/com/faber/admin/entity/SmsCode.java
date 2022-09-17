@@ -2,11 +2,11 @@ package com.faber.admin.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlTreeId;
 import lombok.Data;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 

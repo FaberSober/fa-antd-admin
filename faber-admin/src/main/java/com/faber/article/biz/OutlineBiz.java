@@ -5,13 +5,11 @@ import com.faber.article.entity.Detail;
 import com.faber.article.entity.Outline;
 import com.faber.article.mapper.OutlineMapper;
 import com.faber.article.vo.OutlineDetailVo;
-import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.biz.BaseTreeBiz;
 import com.faber.common.constant.CommonConstants;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.vo.TreeNode;
 import org.springframework.stereotype.Service;
-
 
 import javax.annotation.Resource;
 import java.io.Serializable;

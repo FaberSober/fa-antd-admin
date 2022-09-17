@@ -1,7 +1,7 @@
 package com.faber.admin.mapper;
 
-import com.faber.admin.entity.JobLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.faber.admin.entity.JobLog;
 
 /**
  * BASE-系统定时任务-执行日志

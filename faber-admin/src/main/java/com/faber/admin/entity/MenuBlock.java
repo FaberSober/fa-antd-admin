@@ -1,16 +1,12 @@
 package com.faber.admin.entity;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.FaberModalName;
 import com.faber.common.bean.BaseDelEntity;
 import lombok.Data;
-
-import java.io.Serializable;
-import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.math.BigDecimal;
 
 
 /**

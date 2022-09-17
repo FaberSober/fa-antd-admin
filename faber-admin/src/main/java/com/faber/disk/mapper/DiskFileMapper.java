@@ -1,7 +1,7 @@
 package com.faber.disk.mapper;
 
-import com.faber.disk.entity.DiskFile;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.faber.disk.entity.DiskFile;
 
 /**
  * 云盘/文件

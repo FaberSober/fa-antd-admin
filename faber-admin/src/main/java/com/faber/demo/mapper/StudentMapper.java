@@ -1,7 +1,7 @@
 package com.faber.demo.mapper;
 
-import com.faber.demo.entity.Student;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.faber.demo.entity.Student;
 
 /**
  * Demo-学生表

@@ -2,7 +2,6 @@ package com.faber.admin.config.quartz;
 
 import com.faber.admin.biz.JobBiz;
 import com.faber.admin.entity.Job;
-import com.faber.common.enums.BoolEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.quartz.*;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.HashSet;

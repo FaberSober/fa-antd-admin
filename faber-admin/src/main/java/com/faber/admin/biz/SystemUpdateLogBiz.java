@@ -8,7 +8,6 @@ import com.faber.admin.mapper.SystemUpdateLogMapper;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.util.FaResourceUtils;
 import org.apache.ibatis.jdbc.ScriptRunner;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 

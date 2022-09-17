@@ -1,10 +1,9 @@
 package com.faber.admin.biz;
 
 import com.faber.admin.entity.MenuBlock;
-import org.springframework.stereotype.Service;
-
 import com.faber.admin.mapper.MenuBlockMapper;
 import com.faber.common.biz.BaseBiz;
+import org.springframework.stereotype.Service;
 
 /**
  * BASE-菜单模块

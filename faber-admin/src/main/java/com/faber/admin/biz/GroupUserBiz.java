@@ -3,11 +3,11 @@ package com.faber.admin.biz;
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.faber.admin.mapper.GroupUserMapper;
-import com.faber.admin.mapper.UserMapper;
 import com.faber.admin.entity.DictType;
 import com.faber.admin.entity.GroupUser;
 import com.faber.admin.mapper.DictMapper;
+import com.faber.admin.mapper.GroupUserMapper;
+import com.faber.admin.mapper.UserMapper;
 import com.faber.admin.vo.GroupUserVo;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.exception.BuzzException;
@@ -16,7 +16,6 @@ import com.faber.common.util.Query;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
-
 
 import javax.annotation.Resource;
 import java.io.Serializable;

@@ -1,11 +1,9 @@
 package com.faber.admin.biz;
 
-import com.faber.admin.mapper.BizFileMapper;
 import com.faber.admin.entity.BizFile;
-import com.faber.common.bean.BaseDelEntity;
+import com.faber.admin.mapper.BizFileMapper;
 import com.faber.common.biz.BaseBiz;
 import org.springframework.stereotype.Service;
-
 
 import java.util.List;
 

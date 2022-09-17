@@ -3,8 +3,6 @@ package com.faber.admin.vo;
 import com.faber.common.validator.TelNoValidator;
 import lombok.Data;
 
-import javax.persistence.Column;
-
 @Data
 public class UserAccountVo {
 

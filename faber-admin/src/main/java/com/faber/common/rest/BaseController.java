@@ -1,14 +1,13 @@
 package com.faber.common.rest;
 
-import com.faber.common.msg.TableResultResponse;
-import com.faber.common.utils.BaseResHandler;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.msg.TableResultResponse;
 import com.faber.common.util.Query;
+import com.faber.common.utils.BaseResHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import tk.mybatis.mapper.common.BaseMapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;

@@ -1,12 +1,12 @@
 package com.faber.admin.rest;
 
 import com.alibaba.fastjson.JSONObject;
+import com.faber.admin.biz.GroupUserBiz;
+import com.faber.admin.entity.GroupUser;
 import com.faber.admin.vo.GroupUserVo;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.rest.BaseController;
-import com.faber.admin.biz.GroupUserBiz;
-import com.faber.admin.entity.GroupUser;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

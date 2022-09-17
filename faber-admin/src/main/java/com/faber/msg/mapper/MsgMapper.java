@@ -1,7 +1,7 @@
 package com.faber.msg.mapper;
 
-import com.faber.msg.entity.Msg;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.faber.msg.entity.Msg;
 
 /**
  * 系统-消息

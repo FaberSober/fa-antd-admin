@@ -1,7 +1,7 @@
 package com.faber.admin.mapper;
 
-import com.faber.admin.entity.BizFile;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.faber.admin.entity.BizFile;
 
 /**
  * html文章

@@ -3,9 +3,8 @@ package com.faber.admin.config.interceptor;
 import com.faber.admin.biz.GateLogBiz;
 import com.faber.admin.biz.PermissionBiz;
 import com.faber.admin.biz.UserBiz;
-import com.faber.admin.entity.GateLog;
-import com.faber.admin.util.logs.DBLog;
 import com.faber.admin.config.annotation.IgnoreUserToken;
+import com.faber.admin.entity.GateLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 

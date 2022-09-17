@@ -1,18 +1,14 @@
 package com.faber.admin.config.interceptor;
 
 import com.faber.admin.biz.UserBiz;
-import com.faber.admin.util.jwt.IJWTInfo;
-import com.faber.admin.util.jwt.UserAuthUtil;
-import com.faber.admin.util.user.UserCheckUtil;
 import com.faber.admin.config.annotation.IgnoreUserToken;
-import com.faber.admin.config.redis.KeyConfiguration;
 import com.faber.admin.entity.User;
+import com.faber.admin.util.jwt.IJWTInfo;
+import com.faber.admin.util.user.UserCheckUtil;
 import com.faber.common.context.BaseContextHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

@@ -1,12 +1,11 @@
 package com.faber.admin.entity;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.bean.BaseUpdEntity;
 import lombok.Data;
-
-import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
  * 角色组用户

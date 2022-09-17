@@ -5,8 +5,6 @@ import com.faber.demo.entity.Student;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.persistence.Column;
-
 @Data
 @ToString
 public class StudentJoinInfo extends Student {

@@ -1,7 +1,7 @@
 package com.faber.admin.mapper;
 
-import com.faber.admin.entity.Notice;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.faber.admin.entity.Notice;
 
 /**
  * BASE-通知与公告

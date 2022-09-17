@@ -6,15 +6,12 @@ import com.faber.common.enums.BoolEnum;
 import com.faber.msg.biz.MsgBiz;
 import com.faber.msg.entity.Msg;
 import com.faber.msg.helper.MsgHelper;
-import com.faber.common.bean.BaseDelEntity;
-import com.faber.common.bean.BaseUpdEntity;
 import com.faber.msg.helper.config.MsgSendConfig;
 import com.faber.msg.helper.properties.SmsConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 @Slf4j
 @Component

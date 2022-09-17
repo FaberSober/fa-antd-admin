@@ -1,8 +1,8 @@
 package com.faber.admin.rest;
 
-import com.faber.common.rest.BaseController;
 import com.faber.admin.biz.JobLogBiz;
 import com.faber.admin.entity.JobLog;
+import com.faber.common.rest.BaseController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

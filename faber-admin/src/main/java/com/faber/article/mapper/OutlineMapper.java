@@ -1,7 +1,7 @@
 package com.faber.article.mapper;
 
-import com.faber.article.entity.Outline;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.faber.article.entity.Outline;
 
 /**
  * 文章-大纲

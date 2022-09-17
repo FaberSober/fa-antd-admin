@@ -1,6 +1,5 @@
 package com.faber.common.vo;
 
-import com.faber.common.vo.TreeNode;
 import lombok.Data;
 import lombok.ToString;
 

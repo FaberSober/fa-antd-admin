@@ -1,13 +1,12 @@
 package com.faber.admin.entity;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.bean.BaseUpdEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import com.baomidou.mybatisplus.annotation.TableName;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

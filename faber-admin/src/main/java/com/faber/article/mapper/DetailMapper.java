@@ -1,9 +1,9 @@
 package com.faber.article.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.faber.article.entity.Detail;
 import com.faber.article.vo.BookOutlineDetail;
 import org.apache.ibatis.annotations.Param;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 

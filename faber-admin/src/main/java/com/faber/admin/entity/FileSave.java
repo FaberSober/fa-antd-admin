@@ -1,11 +1,10 @@
 package com.faber.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.bean.BaseUpdEntity;
 import lombok.Data;
 import tk.mybatis.mapper.annotation.KeySql;
 import tk.mybatis.mapper.code.ORDER;
-
-import com.baomidou.mybatisplus.annotation.TableName;
 
 
 /**

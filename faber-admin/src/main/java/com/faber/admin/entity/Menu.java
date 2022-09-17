@@ -1,14 +1,13 @@
 package com.faber.admin.entity;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.*;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.constant.CommonConstants;
 import lombok.Data;
-
-import com.baomidou.mybatisplus.annotation.TableName;
 
 @Data
 @TableName("base_menu")
