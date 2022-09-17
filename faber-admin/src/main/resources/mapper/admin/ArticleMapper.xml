@@ -3,20 +3,4 @@
 
 <mapper namespace="com.faber.admin.mapper.ArticleMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.faber.admin.entity.Article" id="articleMap">
-        <result property="id" column="id"/>
-        <result property="detail" column="detail"/>
-        <result property="bizId" column="biz_id"/>
-        <result property="bizType" column="biz_type"/>
-        <result property="crtTime" column="crt_time"/>
-        <result property="crtUser" column="crt_user"/>
-        <result property="crtName" column="crt_name"/>
-        <result property="crtHost" column="crt_host"/>
-        <result property="updTime" column="upd_time"/>
-        <result property="updUser" column="upd_user"/>
-        <result property="updName" column="upd_name"/>
-        <result property="updHost" column="upd_host"/>
-    </resultMap>
-
 </mapper>

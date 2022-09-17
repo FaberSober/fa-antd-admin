@@ -3,29 +3,4 @@
 
 <mapper namespace="com.faber.msg.mapper.MsgMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.faber.msg.entity.Msg" id="msgMap">
-        <result property="id" column="id"/>
-        <result property="fromUserId" column="from_user_id"/>
-        <result property="toUserId" column="to_user_id"/>
-        <result property="content" column="content"/>
-        <result property="isRead" column="is_read"/>
-        <result property="readTime" column="read_time"/>
-        <result property="buzzType" column="buzz_type"/>
-        <result property="buzzId" column="buzz_id"/>
-        <result property="crtTime" column="crt_time"/>
-        <result property="crtUser" column="crt_user"/>
-        <result property="crtName" column="crt_name"/>
-        <result property="crtHost" column="crt_host"/>
-        <result property="updTime" column="upd_time"/>
-        <result property="updUser" column="upd_user"/>
-        <result property="updName" column="upd_name"/>
-        <result property="updHost" column="upd_host"/>
-        <result property="delState" column="del_state"/>
-        <result property="delTime" column="del_time"/>
-        <result property="delUser" column="del_user"/>
-        <result property="delName" column="del_name"/>
-        <result property="delHost" column="del_host"/>
-    </resultMap>
-
 </mapper>

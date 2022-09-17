@@ -3,22 +3,6 @@
 
 <mapper namespace="com.faber.admin.mapper.AreaMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.faber.admin.entity.Area" id="areaMap">
-        <result property="id" column="id"/>
-        <result property="level" column="level"/>
-        <result property="parentCode" column="parent_code"/>
-        <result property="areaCode" column="area_code"/>
-        <result property="zipCode" column="zip_code"/>
-        <result property="cityCode" column="city_code"/>
-        <result property="name" column="name"/>
-        <result property="shortName" column="short_name"/>
-        <result property="mergerName" column="merger_name"/>
-        <result property="pinyin" column="pinyin"/>
-        <result property="lng" column="lng"/>
-        <result property="lat" column="lat"/>
-    </resultMap>
-
     <select id="findClosetByLoc" parameterType="map" resultType="long">
         select a.area_code
           from (

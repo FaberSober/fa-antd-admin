@@ -3,22 +3,5 @@
 
 <mapper namespace="com.faber.admin.mapper.DictTypeMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.faber.admin.entity.DictType" id="dictTypeMap">
-        <result property="id" column="id"/>
-        <result property="code" column="code"/>
-        <result property="name" column="name"/>
-        <result property="parentId" column="parent_id"/>
-        <result property="sortId" column="sort_id"/>
-        <result property="description" column="description"/>
-        <result property="crtTime" column="crt_time"/>
-        <result property="crtUser" column="crt_user"/>
-        <result property="crtName" column="crt_name"/>
-        <result property="crtHost" column="crt_host"/>
-        <result property="updTime" column="upd_time"/>
-        <result property="updUser" column="upd_user"/>
-        <result property="updName" column="upd_name"/>
-        <result property="updHost" column="upd_host"/>
-    </resultMap>
 
 </mapper>

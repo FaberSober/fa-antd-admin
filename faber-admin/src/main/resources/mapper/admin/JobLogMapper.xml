@@ -3,14 +3,4 @@
 
 <mapper namespace="com.faber.admin.mapper.JobLogMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.faber.admin.entity.JobLog" id="jobLogMap">
-        <result property="id" column="id"/>
-        <result property="jobId" column="job_id"/>
-        <result property="crtTime" column="crt_time"/>
-        <result property="status" column="status"/>
-        <result property="errMsg" column="err_msg"/>
-        <result property="errStackMsg" column="err_stack_msg"/>
-    </resultMap>
-
 </mapper>

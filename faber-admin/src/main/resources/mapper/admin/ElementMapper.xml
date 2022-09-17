@@ -1,36 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.faber.admin.mapper.ElementMapper">
-    <resultMap id="BaseResultMap" type="com.faber.admin.entity.Element">
-        <!--
-          WARNING - @mbggenerated
-        -->
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="code" jdbcType="VARCHAR" property="code"/>
-        <result column="type" jdbcType="VARCHAR" property="type"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="uri" jdbcType="VARCHAR" property="uri"/>
-        <result column="menu_id" jdbcType="VARCHAR" property="menuId"/>
-        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
-        <result column="path" jdbcType="VARCHAR" property="path"/>
-        <result column="method" jdbcType="VARCHAR" property="method"/>
-        <result column="description" jdbcType="VARCHAR" property="description"/>
-        <result column="crt_time" jdbcType="DATE" property="crtTime"/>
-        <result column="crt_user" jdbcType="VARCHAR" property="crtUser"/>
-        <result column="crt_name" jdbcType="VARCHAR" property="crtName"/>
-        <result column="crt_host" jdbcType="VARCHAR" property="crtHost"/>
-        <result column="upd_time" jdbcType="DATE" property="updTime"/>
-        <result column="upd_user" jdbcType="VARCHAR" property="updUser"/>
-        <result column="upd_name" jdbcType="VARCHAR" property="updName"/>
-        <result column="upd_host" jdbcType="VARCHAR" property="updHost"/>
-        <result property="delState" column="del_state"/>
-        <result property="delTime" column="del_time"/>
-        <result property="delUser" column="del_user"/>
-        <result property="delName" column="del_name"/>
-        <result property="delHost" column="del_host"/>
-    </resultMap>
 
-    <select id="selectAuthorityElementByUserId" resultMap="BaseResultMap">
+    <select id="selectAuthorityElementByUserId" resultType="com.faber.admin.entity.Element">
         select distinct t.id, t.code, t.type, t.name, t.uri, t.method, m.title as menu_id
           from base_resource_authority ra
          inner join base_element t on ra.resource_id = t.id and t.del_state = 0 and ra.authority_id in (
@@ -41,13 +13,13 @@
         inner join base_menu m on t.menu_id = m.id and m.del_state = 0
     </select>
 
-    <select id="selectAllElementPermissions" resultMap="BaseResultMap">
+    <select id="selectAllElementPermissions" resultType="com.faber.admin.entity.Element">
         select distinct t.code, t.type, t.name, t.uri, t.method, m.title as menu_id
           from base_element t
          inner join base_menu m on t.menu_id = m.id and m.del_state = 0 and t.del_state = 0
     </select>
 
-    <select id="selectAuthorityMenuElementByGroupId" parameterType="map" resultMap="BaseResultMap">
+    <select id="selectAuthorityMenuElementByGroupId" parameterType="map" resultType="com.faber.admin.entity.Element">
         select t.*
           from base_resource_authority ra
           left JOIN base_element t ON ra.resource_id = t.id and t.del_state = 0
