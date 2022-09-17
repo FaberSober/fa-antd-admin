@@ -27,22 +27,22 @@ public class ResourceAuthorityBiz extends BaseBiz<ResourceAuthorityMapper, Resou
 
         menuAddIds.forEach(id -> {
             ResourceAuthority auth = this.genMenuAuth(groupId, id);
-            super.insertSelective(auth);
+            save(auth);
         });
 
         menuRemoveIds.forEach(id -> {
             ResourceAuthority auth = this.genMenuAuth(groupId, id);
-            mapper.delete(auth);
+            removeById(auth);
         });
 
         elementAddIds.forEach(id -> {
             ResourceAuthority auth = this.genElementAuth(groupId, id);
-            super.insertSelective(auth);
+            save(auth);
         });
 
         elementRemoveIds.forEach(id -> {
             ResourceAuthority auth = this.genElementAuth(groupId, id);
-            mapper.delete(auth);
+            removeById(auth);
         });
 
         super.clearMenuAndElementCache();

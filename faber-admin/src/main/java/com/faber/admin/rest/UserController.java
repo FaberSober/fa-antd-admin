@@ -34,8 +34,9 @@ public class UserController extends BaseController<UserBiz, User> {
 
     @RequestMapping(value = "/resetPwd", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse resetPwd(@RequestBody Map<String, Object> params) {
-        return baseBiz.resetPwd(params);
+    public ObjectRestResponse<Boolean> resetPwd(@RequestBody Map<String, Object> params) {
+        baseBiz.resetPwd(params);
+        return ok();
     }
 
     /**
@@ -43,9 +44,9 @@ public class UserController extends BaseController<UserBiz, User> {
      */
     @RequestMapping(value = "/account/base", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse accountBase() {
-        User user = baseBiz.selectById(getCurrentUserId());
-        return new ObjectRestResponse().data(user);
+    public ObjectRestResponse<User> accountBase() {
+        User user = baseBiz.getById(getCurrentUserId());
+        return ok(user);
     }
 
     /**
@@ -53,7 +54,7 @@ public class UserController extends BaseController<UserBiz, User> {
      */
     @RequestMapping(value = "/account/base/update", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse accountBaseUpdate(@Valid @RequestBody UserAccountVo vo) {
+    public ObjectRestResponse<Boolean> accountBaseUpdate(@Valid @RequestBody UserAccountVo vo) {
         baseBiz.accountBaseUpdate(getCurrentUserId(), vo);
         return ok();
     }
@@ -63,7 +64,7 @@ public class UserController extends BaseController<UserBiz, User> {
      */
     @RequestMapping(value = "/account/base/updatePwd", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse accountBaseUpdatePwd(@RequestBody Map<String, Object> params) {
+    public ObjectRestResponse<Boolean> accountBaseUpdatePwd(@RequestBody Map<String, Object> params) {
         baseBiz.accountBaseUpdatePwd(getCurrentUserId(), params);
         return ok();
     }
@@ -73,7 +74,7 @@ public class UserController extends BaseController<UserBiz, User> {
      */
     @RequestMapping(value = "/account/base/updateApiToken", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse accountBaseUpdateApiToken(@RequestBody Map<String, Object> params) {
+    public ObjectRestResponse<Boolean> accountBaseUpdateApiToken(@RequestBody Map<String, Object> params) {
         baseBiz.accountBaseUpdateApiToken(getCurrentUserId());
         return ok();
     }
@@ -83,7 +84,7 @@ public class UserController extends BaseController<UserBiz, User> {
      */
     @RequestMapping(value = "/account/admin/updatePwd", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse accountAdminUpdatePwd(@RequestBody Map<String, Object> params) {
+    public ObjectRestResponse<Boolean> accountAdminUpdatePwd(@RequestBody Map<String, Object> params) {
         baseBiz.accountAdminUpdatePwd(params);
         return ok();
     }
@@ -93,7 +94,7 @@ public class UserController extends BaseController<UserBiz, User> {
      */
     @RequestMapping(value = "/account/admin/delete", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse accountAdminDelete(@RequestBody Map<String, Object> params) {
+    public ObjectRestResponse<Boolean> accountAdminDelete(@RequestBody Map<String, Object> params) {
         baseBiz.accountAdminDelete(params);
         return ok();
     }

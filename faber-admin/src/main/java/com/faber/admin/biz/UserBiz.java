@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -65,71 +66,60 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
      */
     private void checkBeanValid(User entity) {
         // 插入时校验手机号是否重复
-        Example example = new Example(User.class);
-        Example.Criteria criteria = example.createCriteria()
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("mobilePhone", entity.getMobilePhone());
-        if (entity.getId() != null) {
-            criteria.andNotEqualTo("id", entity.getId());
-        }
-        int telCount = mapper.selectCountByExample(example);
+        long telCount = lambdaQuery()
+                .eq(User::getMobilePhone, entity.getMobilePhone())
+                .ne(entity.getId() != null, User::getId, entity.getId())
+                .count();
         if (telCount > 0) throw new BuzzException("手机号重复");
 
         // 校验用户名是否重复
-        Example example1 = new Example(User.class);
-        Example.Criteria criteria1 = example1.createCriteria()
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("username", entity.getUsername());
-        if (entity.getId() != null) {
-            criteria1.andNotEqualTo("id", entity.getId());
-        }
-        int count1 = mapper.selectCountByExample(example);
-        if (count1 > 0) throw new BuzzException("账户重复");
+        long usernameCount = lambdaQuery()
+                .eq(User::getUsername, entity.getUsername())
+                .ne(entity.getId() != null, User::getId, entity.getId())
+                .count();
+        if (usernameCount > 0) throw new BuzzException("账户重复");
     }
 
     @Override
-    public void insertSelective(User entity) {
+    public boolean save(User entity) {
         this.checkBeanValid(entity);
 
         // 初始化密码888888
         String password = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT).encode("888888");
         entity.setPassword(password);
-        entity.setDelState(BaseDelEntity.DEL_STATE.AVAILABLE);
-        super.insertSelective(entity);
+
+        super.save(entity);
 
         // 关联角色
         groupUserBiz.changeUserGroup(entity.getId(), entity.getGroupIds());
+
+        return true;
     }
 
     @Override
-    public void updateSelectiveById(User entity) {
-        User beanDB = mapper.selectByPrimaryKey(entity.getId());
+    public boolean updateById(User entity) {
+        User beanDB = getById(entity.getId());
         if (beanDB == null) throw new NoDataException();
 
         this.checkBeanValid(entity);
 
         // 修改用户，不能修改用户密码
         entity.setPassword(beanDB.getPassword());
-        entity.setDelState(BaseDelEntity.DEL_STATE.AVAILABLE);
-        super.updateSelectiveById(entity);
 
         // 关联角色
         groupUserBiz.changeUserGroup(entity.getId(), entity.getGroupIds());
 
-        cacheAPI.removeByPre("user:" + entity.getId());
+        return super.updateById(entity);
     }
 
     @Override
-//    @CacheClear(pre = "user{1}")
-    public void deleteById(Object id) {
-        User beanDB = mapper.selectByPrimaryKey(id);
-        if (beanDB == null) throw new NoDataException();
-
+    public boolean removeById(Serializable id) {
         // 不能删除自身账户和admin账户
-        if (ObjectUtil.equal(beanDB.getId(), "1") || ObjectUtil.equal(beanDB.getId(), getCurrentUserId())) {
+        if (ObjectUtil.equal(id, "1") || ObjectUtil.equal(id, getCurrentUserId())) {
             throw new BuzzException("不能删除自身账户");
         }
-        super.logicDeleteById(id);
+
+        return super.removeById(id);
     }
 
 
@@ -140,32 +130,22 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
      */
 //    @Cache(key = "user{1}")
     public User getUserByUsername(String username) {
-        User user = new User();
-        user.setUsername(username);
-        user.setDelState(BaseDelEntity.DEL_STATE.AVAILABLE);
-        return mapper.selectOne(user);
+        return lambdaQuery().eq(User::getUsername, username).one();
     }
 
     public User getUserByMobilePhone(String mobilePhone) {
-        User user = new User();
-        user.setMobilePhone(mobilePhone);
-        user.setDelState(BaseDelEntity.DEL_STATE.AVAILABLE);
-        return mapper.selectOne(user);
+        return lambdaQuery().eq(User::getMobilePhone, mobilePhone).one();
     }
 
 //    @Cache(key = "user{1}")
     public User getUserById(String id) {
-        return mapper.selectByPrimaryKey(id);
+        return getById(id);
     }
 
     public User findByApiToken(String token) {
         if (StringUtils.isEmpty(token)) throw new BuzzException("token为空");
 
-        Example example = new Example(User.class);
-        example.createCriteria()
-                .andEqualTo("delState", BaseDelEntity.DEL_STATE.AVAILABLE)
-                .andEqualTo("apiToken", token);
-        return mapper.selectOneByExample(example);
+        return lambdaQuery().eq(User::getApiToken, token).one();
     }
 
     @Override
@@ -195,7 +175,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
             BeanUtil.copyProperties(user, userWeb);
 
             // 获取部门信息
-            Department department = departmentBiz.selectById(user.getDepartmentId());
+            Department department = departmentBiz.getById(user.getDepartmentId());
             if (department != null) {
                 userWeb.setDepartmentName(department.getName());
             }
@@ -213,72 +193,60 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         return userTable;
     }
 
-    @Override
-    public List<User> selectByQuery(Query query) {
-        return super.selectByQuery(query).stream().map(item -> {
-            item.setPassword(null);
-            return item;
-        }).collect(Collectors.toList());
-    }
-
-    public ObjectRestResponse resetPwd(Map<String, Object> params) {
+    public boolean resetPwd(Map<String, Object> params) {
         Integer id = (Integer) params.get("id");
         String newPwd = (String) params.get("newPwd");
 
-        User beanDB = mapper.selectByPrimaryKey(id);
+        User beanDB = getById(id);
         if (beanDB == null) throw new NoDataException();
 
         String password = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT).encode(newPwd);
         beanDB.setPassword(password);
-        super.updateSelectiveById(beanDB);
-
-        return new ObjectRestResponse().rel(true);
+        return updateById(beanDB);
     }
 
 //    @CacheClear(pre = "user{1}")
-    public void accountBaseUpdate(String userId, UserAccountVo vo) {
+    public boolean accountBaseUpdate(String userId, UserAccountVo vo) {
         // 插入时校验手机号是否重复
-        Example example = new Example(User.class);
-        example.createCriteria()
-                .andEqualTo("mobilePhone", vo.getMobilePhone())
-                .andNotEqualTo("id", userId);
-        int telCount = mapper.selectCountByExample(example);
+        long telCount = lambdaQuery()
+                .eq(User::getMobilePhone, vo.getMobilePhone())
+                .ne(User::getId, userId)
+                .count();
         if (telCount > 0) throw new BuzzException("手机号重复");
 
         // 校验用户名是否重复
-        Example example1 = new Example(User.class);
-        example1.createCriteria()
-                .andEqualTo("username", vo.getUsername())
-                .andNotEqualTo("id", userId);
-        int count1 = mapper.selectCountByExample(example1);
-        if (count1 > 0) throw new BuzzException("账户重复");
+        long usernameCount = lambdaQuery()
+                .eq(User::getUsername, vo.getUsername())
+                .ne(User::getId, userId)
+                .count();
+        if (usernameCount > 0) throw new BuzzException("账户重复");
 
-        User user = mapper.selectByPrimaryKey(userId);
+        User user = getUserById(userId);
         BeanUtils.copyProperties(vo, user);
-        super.updateSelectiveById(user);
+        return updateById(user);
     }
 
 //    @CacheClear(pre = "user{1}")
-    public void accountBaseUpdatePwd(String userId, Map<String, Object> params) {
+    public boolean accountBaseUpdatePwd(String userId, Map<String, Object> params) {
         String oldPwd = (String) params.get("oldPwd");
         String newPwd = (String) params.get("newPwd");
 
         if (oldPwd.equals(newPwd)) throw new BuzzException("新旧密码不能一样");
 
-        User user = mapper.selectByPrimaryKey(userId);
+        User user = getById(userId);
 
         permissionBiz.validateCurrentUserPwd(oldPwd);
 
         String password = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT).encode(newPwd);
         user.setPassword(password);
-        super.updateSelectiveById(user);
+        return updateById(user);
     }
 
 //    @CacheClear(pre = "user{1}")
-    public void accountBaseUpdateApiToken(String userId) {
-        User user = mapper.selectByPrimaryKey(userId);
+    public boolean accountBaseUpdateApiToken(String userId) {
+        User user = getById(userId);
         user.setApiToken(UUID.fastUUID().toString(true));
-        super.updateSelectiveById(user);
+        return updateById(user);
     }
 
     public void accountAdminUpdatePwd(Map<String, Object> params) {
@@ -298,9 +266,9 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
 
         String password = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT).encode(newPwd.trim());
         ids.forEach(id -> {
-            User user = mapper.selectByPrimaryKey(id);
+            User user = getById(id);
             user.setPassword(password);
-            super.updateSelectiveById(user);
+            updateById(user);
 
             cacheAPI.removeByPre("user:" + id);
         });
@@ -313,14 +281,14 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         permissionBiz.validateCurrentUserPwd(passwordCheck);
 
         ids.forEach(id -> {
-            this.deleteById(id);
+            removeById(id);
             cacheAPI.removeByPre("user:" + id);
         });
     }
 
     public UserInfo findUserInfoById(String id) {
         if (id == null) return null;
-        User user = mapper.selectByPrimaryKey(id);
+        User user = getById(id);
         if (user == null) return null;
         UserInfo userInfo = new UserInfo();
         BeanUtil.copyProperties(user, userInfo);

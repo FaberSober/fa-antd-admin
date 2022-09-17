@@ -1,10 +1,9 @@
 package com.faber.admin.biz;
 
-import com.faber.admin.util.jwt.UserAuthUtil;
-import com.faber.admin.util.user.UserCheckUtil;
 import com.faber.admin.entity.Element;
 import com.faber.admin.entity.Menu;
 import com.faber.admin.entity.User;
+import com.faber.admin.util.user.UserCheckUtil;
 import com.faber.admin.vo.FrontUser;
 import com.faber.admin.vo.PermissionInfo;
 import com.faber.admin.vo.UserInfo;
@@ -36,9 +35,6 @@ public class PermissionBiz {
 
     @Resource
     private ElementBiz elementBiz;
-
-    @Resource
-    private UserAuthUtil userAuthUtil;
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 

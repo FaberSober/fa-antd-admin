@@ -42,7 +42,7 @@ public class SystemUpdateLogBiz extends BaseBiz<SystemUpdateLogMapper,SystemUpda
         DataSource dataSource = SpringUtil.getBean(DataSource.class);
         Connection conn = dataSource.getConnection();
 
-        int curVer = mapper.getCurVerId();
+        int curVer = baseMapper.getCurVerId();
         JSONArray logs = json.getJSONArray("logs");
         for (int i = 0; i < logs.size(); i++) {
             JSONObject log = logs.getJSONObject(i);
@@ -60,7 +60,7 @@ public class SystemUpdateLogBiz extends BaseBiz<SystemUpdateLogMapper,SystemUpda
             logEntity.setVerNo(verNo);
             logEntity.setRemark(remark);
             logEntity.setCrtTime(new Date());
-            mapper.insert(logEntity);
+            save(logEntity);
 
             // 按行读取
             File sqlFile = ResourceUtils.getFile("classpath:data/sql/" + sql);

@@ -32,9 +32,8 @@ public class SmsCodeBiz extends BaseBiz<SmsCodeMapper, SmsCode> {
         String phone = MapUtils.getString(params, "phone");
 
         // 查询是否已经有发送的验证码
-        SmsCode query = new SmsCode();
-        query.setPhone(phone);
-        if (mapper.selectCount(query) > 0) {
+        long count = lambdaQuery().eq(SmsCode::getPhone, phone).count();
+        if (count > 0) {
             throw new BuzzException("验证码已发送,请注意查收");
         }
 
@@ -59,14 +58,14 @@ public class SmsCodeBiz extends BaseBiz<SmsCodeMapper, SmsCode> {
         smsCode.setCode(code);
         smsCode.setPhone(phone);
         smsCode.setCrtTime(new Date());
-        mapper.insertSelective(smsCode);
+        save(smsCode);
     }
 
     /**
      * 删除失效的验证码
      */
     public void deleteInvalidCode() {
-        mapper.deleteInvalidCode();
+        baseMapper.deleteInvalidCode();
     }
 
     /**
@@ -77,10 +76,11 @@ public class SmsCodeBiz extends BaseBiz<SmsCodeMapper, SmsCode> {
      * @return
      */
     public void validate(String phone, String code, boolean ifDelete) {
-        SmsCode query = new SmsCode();
-        query.setPhone(phone);
-        query.setCode(code);
-        if (mapper.selectCount(query) > 0) {
+        long count = lambdaQuery()
+                .eq(SmsCode::getPhone, phone)
+                .eq(SmsCode::getCode, code)
+                .count();
+        if (count > 0) {
             if (ifDelete) {
                 this.deleteCode(phone);
             }
@@ -91,9 +91,7 @@ public class SmsCodeBiz extends BaseBiz<SmsCodeMapper, SmsCode> {
     }
 
     public void deleteCode(String phone) {
-        SmsCode query = new SmsCode();
-        query.setPhone(phone);
-        mapper.delete(query);
+        lambdaUpdate().eq(SmsCode::getPhone, phone).remove();
     }
 
 }
