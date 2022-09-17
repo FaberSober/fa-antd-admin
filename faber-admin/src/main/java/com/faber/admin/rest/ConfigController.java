@@ -47,7 +47,7 @@ public class ConfigController extends BaseController<ConfigBiz, Config> {
      */
     @RequestMapping(value = "/batchUpdate", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse batchUpdate(@RequestBody List<Config> configList) {
+    public ObjectRestResponse<Boolean> batchUpdate(@RequestBody List<Config> configList) {
         baseBiz.batchUpdate(configList);
         return ok();
     }

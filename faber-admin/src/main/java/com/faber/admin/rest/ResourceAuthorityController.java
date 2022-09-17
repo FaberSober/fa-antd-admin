@@ -21,7 +21,7 @@ public class ResourceAuthorityController extends BaseController<ResourceAuthorit
      */
     @RequestMapping(value = "/updateGroupAuth", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse updateGroupAuth(@RequestBody Map<String, Object> params) {
+    public ObjectRestResponse<Boolean> updateGroupAuth(@RequestBody Map<String, Object> params) {
         baseBiz.updateGroupAuth(params);
         return ok();
     }

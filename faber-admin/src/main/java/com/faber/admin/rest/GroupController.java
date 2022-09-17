@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/api/admin/group")
-@Api("群组模块")
 public class GroupController extends BaseTreeController<GroupBiz, Group> {
 
 }

@@ -2,6 +2,7 @@ package com.faber.admin.biz;
 
 import com.faber.admin.entity.Area;
 import com.faber.admin.mapper.AreaMapper;
+import com.faber.admin.vo.AreaPathVo;
 import com.faber.admin.vo.AreaTree;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.constant.DictConstants;
@@ -77,14 +78,11 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
 //        return mapper.selectOneByExample(example);
 //    }
 
-    public ObjectRestResponse path(long areaCode) {
+    public AreaPathVo path(long areaCode) {
         List<Area> list = pathLine(areaCode);
         List<AreaTree> tree = getChildren(list, 0);
 
-        Map<String, Object> data = new HashMap<>();
-        data.put("list", list);
-        data.put("tree", tree);
-        return new ObjectRestResponse().data(data);
+        return new AreaPathVo(list, tree);
     }
 
     public Area findByAreaCode(Long areaCode) {

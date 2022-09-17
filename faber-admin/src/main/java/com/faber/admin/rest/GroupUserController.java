@@ -32,9 +32,9 @@ public class GroupUserController extends BaseController<GroupUserBiz, GroupUser>
 
     @RequestMapping(value = "/{id}/addUsers", method = RequestMethod.PUT)
     @ResponseBody
-    public ObjectRestResponse addUsers(@PathVariable int id, @RequestBody JSONObject json) {
+    public ObjectRestResponse<Boolean> addUsers(@PathVariable int id, @RequestBody JSONObject json) {
         baseBiz.addUsers(id, json);
-        return new ObjectRestResponse().rel(true);
+        return ok();
     }
 
 }

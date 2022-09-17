@@ -2,6 +2,7 @@ package com.faber.admin.rest;
 
 import com.faber.admin.biz.AreaBiz;
 import com.faber.admin.entity.Area;
+import com.faber.admin.vo.AreaPathVo;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseController;
 import org.springframework.stereotype.Controller;
@@ -30,8 +31,9 @@ public class AreaController extends BaseController<AreaBiz, Area> {
 
     @RequestMapping(value = "/path/{areaCode}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse path(@PathVariable long areaCode) {
-        return baseBiz.path(areaCode);
+    public ObjectRestResponse<AreaPathVo> path(@PathVariable long areaCode) {
+        AreaPathVo data = baseBiz.path(areaCode);
+        return ok(data);
     }
 
     @RequestMapping(value = "/findAreaByLoc", method = RequestMethod.GET)
@@ -43,6 +45,7 @@ public class AreaController extends BaseController<AreaBiz, Area> {
 
     /**
      * Ip定位
+     * FIXME 使用新的接口
      */
     @RequestMapping(value = "/locIp", method = RequestMethod.GET)
     @ResponseBody
