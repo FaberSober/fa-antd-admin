@@ -6,7 +6,7 @@ import com.faber.common.annotation.FaberModalName;
 import com.faber.common.bean.BaseDelEntity;
 import lombok.Data;
 
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 
 /**
@@ -17,7 +17,7 @@ import javax.persistence.*;
  * @date 2020-07-13 10:36:38
  */
 @FaberModalName(name = "云盘/文件夹")
-@Table(name = "disk_dir")
+@TableName("disk_dir")
 @Data
 public class DiskDir extends BaseDelEntity {
 
@@ -26,11 +26,11 @@ public class DiskDir extends BaseDelEntity {
     private Integer id;
 
     // 文件夹名称
-    @Column(name = "name")
+    // @Column(name = "name")
     private String name;
 
     // 父级节点
-    @Column(name = "parent_id")
+    // @Column(name = "parent_id")
     private Integer parentId;
 
 }

@@ -2,6 +2,7 @@ package com.faber.msg.helper.impl;
 
 import com.faber.admin.biz.UserBiz;
 import com.faber.admin.entity.User;
+import com.faber.common.enums.BoolEnum;
 import com.faber.msg.biz.MsgBiz;
 import com.faber.msg.entity.Msg;
 import com.faber.msg.helper.MsgHelper;
@@ -55,7 +56,7 @@ public class MsgHelperImpl implements MsgHelper {
                 }
             }
 
-            msgBiz.getMapper().insert(msg);
+            msgBiz.save(msg);
         }
     }
 
@@ -65,9 +66,7 @@ public class MsgHelperImpl implements MsgHelper {
         msg.setToUserId(toUserId);
         msg.setBuzzType(msgSendConfig.getBuzzType());
         msg.setBuzzId(msgSendConfig.getBuzzId());
-        msg.setCrtTime(new Date());
-        msg.setIsRead(BaseUpdEntity.Bool.FALSE);
-        msg.setDelState(BaseDelEntity.DEL_STATE.AVAILABLE);
+        msg.setIsRead(BoolEnum.NO);
         return msg;
     }
 }

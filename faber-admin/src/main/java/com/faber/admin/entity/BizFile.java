@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 
 /**
@@ -19,7 +19,7 @@ import javax.persistence.*;
  * @email faberxu@gmail.com
  * @date 2019-08-17 20:15:13
  */
-@Table(name = "base_biz_file")
+@TableName("base_biz_file")
 @Data
 @NoArgsConstructor
 public class BizFile extends BaseDelEntity {
@@ -29,15 +29,15 @@ public class BizFile extends BaseDelEntity {
     private Integer id;
 
     @SqlEquals
-    @Column(name = "biz_id")
+    // @Column(name = "biz_id")
     private String bizId;
 
     @SqlEquals
-    @Column(name = "biz_type")
+    // @Column(name = "biz_type")
     private String bizType;
 
     // 附件URL
-    @Column(name = "url")
+    // @Column(name = "url")
     private String url;
 
     public BizFile(String bizId, String bizType) {

@@ -7,7 +7,7 @@ import com.faber.common.annotation.*;
 import com.faber.common.bean.BaseDelEntity;
 import lombok.Data;
 
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 
 /**
@@ -18,7 +18,7 @@ import javax.persistence.*;
  * @date 2020-12-31 13:53:39
  */
 @FaberModalName(name = "文章-大纲")
-@Table(name = "article_outline")
+@TableName("article_outline")
 @Data
 public class Outline extends BaseDelEntity {
 	private static final long serialVersionUID = 1L;
@@ -30,37 +30,37 @@ public class Outline extends BaseDelEntity {
 
     @SqlEquals
     @ExcelProperty("书本ID")
-    @Column(name = "book_id")
+    // @Column(name = "book_id")
     private Integer bookId;
 
     @SqlEquals
     @ExcelProperty("详情ID")
-    @Column(name = "detail_id")
+    // @Column(name = "detail_id")
     private Integer detailId;
 
     @SqlEquals
     @ExcelProperty("父级节点")
-    @Column(name = "parent_id")
+    // @Column(name = "parent_id")
     @SqlTreeParentId
     private Integer parentId;
 
     @ExcelProperty("章节号")
-    @Column(name = "no")
+    // @Column(name = "no")
     @SqlTreeName
     private String no;
 
     @ExcelProperty("标题")
-    @Column(name = "title")
+    // @Column(name = "title")
     @SqlTreeName
     private String title;
 
     @ExcelProperty("图标")
-    @Column(name = "icon")
+    // @Column(name = "icon")
     private String icon;
 
     @SqlSorter
     @ExcelProperty("排序")
-    @Column(name = "sort")
+    // @Column(name = "sort")
     private Integer sort;
 
 }

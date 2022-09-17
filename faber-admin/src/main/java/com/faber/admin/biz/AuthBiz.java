@@ -1,17 +1,15 @@
 package com.faber.admin.biz;
 
+import com.faber.admin.entity.User;
 import com.faber.admin.util.jwt.JWTInfo;
 import com.faber.admin.util.user.JwtAuthenticationRequest;
 import com.faber.admin.util.user.JwtTokenUtil;
-import com.faber.admin.entity.User;
 import com.faber.admin.vo.UserInfo;
-import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.exception.auth.UserInvalidException;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.Map;

@@ -15,7 +15,7 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
-import tk.mybatis.mapper.entity.Example;
+
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;

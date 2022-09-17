@@ -11,7 +11,7 @@ import com.faber.common.enums.BoolEnum;
 import lombok.Data;
 import lombok.Getter;
 
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -24,7 +24,7 @@ import java.util.Date;
  * @date 2020-12-13 21:19:53
  */
 @FaberModalName(name = "系统-消息")
-@Table(name = "base_msg")
+@TableName("base_msg")
 @Data
 public class Msg extends BaseDelEntity {
     private static final long serialVersionUID = 1L;
@@ -37,42 +37,42 @@ public class Msg extends BaseDelEntity {
     // 消息来源用户ID
     @SqlEquals
     @ExcelProperty("消息来源用户ID")
-    @Column(name = "from_user_id")
+    // @Column(name = "from_user_id")
     private String fromUserId;
 
     // 接收用户ID
     @SqlEquals
     @ExcelProperty("接收用户ID")
-    @Column(name = "to_user_id")
+    // @Column(name = "to_user_id")
     private String toUserId;
 
     // 消息内容
     @SqlSearch
     @ExcelProperty("消息内容")
-    @Column(name = "content")
+    // @Column(name = "content")
     private String content;
 
     // 是否已读
     @SqlEquals
     @ExcelProperty("是否已读")
-    @Column(name = "is_read")
+    // @Column(name = "is_read")
     private BoolEnum isRead;
 
     // 已读时间
     @ExcelProperty("已读时间")
-    @Column(name = "read_time")
+    // @Column(name = "read_time")
     private Date readTime;
 
     // 业务类型
     @SqlEquals
     @ExcelProperty("业务类型")
-    @Column(name = "buzz_type")
+    // @Column(name = "buzz_type")
     private Integer buzzType;
 
     // 业务ID
     @SqlEquals
     @ExcelProperty("业务ID")
-    @Column(name = "buzz_id")
+    // @Column(name = "buzz_id")
     private String buzzId;
 
     public enum BuzzType {

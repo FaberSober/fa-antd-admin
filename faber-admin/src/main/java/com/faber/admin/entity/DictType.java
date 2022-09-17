@@ -9,13 +9,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 
 /**
  * 字典分类
  */
-@Table(name = "base_dict_type")
+@TableName("base_dict_type")
 @Data
 @ToString
 @EqualsAndHashCode(callSuper = false)
@@ -26,27 +26,27 @@ public class DictType extends BaseDelEntity {
     private Integer id;
 
     @ExcelProperty("编码")
-    @Column(name = "code")
+    // @Column(name = "code")
     private String code;
 
     @ExcelProperty("名称")
-    @Column(name = "name")
+    // @Column(name = "name")
     @SqlTreeName
     private String name;
 
     @SqlEquals
     @ExcelProperty("上级节点")
-    @Column(name = "parent_id")
+    // @Column(name = "parent_id")
     @SqlTreeParentId
     private Integer parentId;
 
     @SqlSorter
     @ExcelProperty("排序ID")
-    @Column(name = "sort_id")
+    // @Column(name = "sort_id")
     private Integer sortId;
 
     @ExcelProperty("描述")
-    @Column(name = "description")
+    // @Column(name = "description")
     private String description;
 
     public static final class Code {

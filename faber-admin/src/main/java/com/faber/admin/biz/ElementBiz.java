@@ -1,16 +1,14 @@
 package com.faber.admin.biz;
 
-import com.faber.admin.mapper.ElementMapper;
 import com.faber.admin.entity.Element;
 import com.faber.admin.entity.Menu;
-import com.faber.common.bean.BaseDelEntity;
+import com.faber.admin.mapper.ElementMapper;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.util.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.List;

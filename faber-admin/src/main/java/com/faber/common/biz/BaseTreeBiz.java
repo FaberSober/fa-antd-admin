@@ -16,7 +16,6 @@ import com.faber.common.vo.TreeNode;
 import com.faber.common.vo.TreePathVo;
 import com.faber.common.vo.TreePosChangeVo;
 
-import javax.persistence.Column;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -452,10 +451,11 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
             AT annotation = field.getAnnotation(annotationClass);
             if (annotation != null) {
                 if (getSqlColumnName) {
-                    Column annotationColumn = field.getAnnotation(Column.class);
-                    if (annotationColumn != null) {
-                        findFieldName = annotationColumn.name();
-                    }
+                    // FIXME 这里没有使用tk.mybatis了，需要找新的方式来获取字段在数据库中的字段名
+//                    Column annotationColumn = field.getAnnotation(Column.class);
+//                    if (annotationColumn != null) {
+//                        findFieldName = annotationColumn.name();
+//                    }
                 } else {
                     findFieldName = field.getName();
                 }

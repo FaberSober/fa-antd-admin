@@ -8,7 +8,7 @@ import com.faber.common.annotation.SqlEquals;
 import com.faber.common.bean.BaseDelEntity;
 import lombok.Data;
 
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 
 /**
@@ -19,7 +19,7 @@ import javax.persistence.*;
  * @date 2021-01-07 09:37:36
  */
 @FaberModalName(name = "BASE-通知与公告")
-@Table(name = "base_notice")
+@TableName("base_notice")
 @Data
 public class Notice extends BaseDelEntity {
 	private static final long serialVersionUID = 1L;
@@ -29,21 +29,21 @@ public class Notice extends BaseDelEntity {
     private Integer id;
 
     @ExcelProperty("标题")
-    @Column(name = "title")
+    // @Column(name = "title")
     private String title;
 
     @ExcelProperty("内容")
-    @Column(name = "content")
+    // @Column(name = "content")
     private String content;
 
     @SqlEquals
     @ExcelProperty("是否有效：1-有效、2-失效")
-    @Column(name = "status")
+    // @Column(name = "status")
     private String status;
 
     @SqlEquals
     @ExcelProperty("是否强提醒")
-    @Column(name = "strong_notice")
+    // @Column(name = "strong_notice")
     private String strongNotice;
 
 }

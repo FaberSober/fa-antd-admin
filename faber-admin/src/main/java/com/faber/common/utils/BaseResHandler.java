@@ -2,7 +2,7 @@ package com.faber.common.utils;
 
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.msg.ObjectRestResponse;
-import tk.mybatis.mapper.entity.Example;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;

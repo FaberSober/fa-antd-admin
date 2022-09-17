@@ -12,11 +12,11 @@ import javax.persistence.Column;
 public class StudentJoinInfo extends Student {
 
     @ExcelProperty("补充信息1")
-    @Column(name = "info1")
+    // @Column(name = "info1")
     private String info1;
 
     @ExcelProperty("补充信息2")
-    @Column(name = "info2")
+    // @Column(name = "info2")
     private String info2;
 
 }

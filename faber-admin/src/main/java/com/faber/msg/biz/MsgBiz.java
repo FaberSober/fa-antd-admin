@@ -14,7 +14,7 @@ import com.faber.common.msg.TableResultResponse;
 import com.faber.common.util.Query;
 import com.faber.msg.mapper.MsgMapper;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
+
 
 import javax.annotation.Resource;
 import java.util.ArrayList;

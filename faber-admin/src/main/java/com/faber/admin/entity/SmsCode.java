@@ -6,7 +6,7 @@ import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlTreeId;
 import lombok.Data;
 
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -17,7 +17,7 @@ import java.util.Date;
  * @email faberxu@gmail.com
  * @date 2019-08-19 10:09:36
  */
-@Table(name = "base_sms_code")
+@TableName("base_sms_code")
 @Data
 public class SmsCode implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -28,16 +28,16 @@ public class SmsCode implements Serializable {
 
     // 手机号
     @SqlEquals
-    @Column(name = "phone")
+    // @Column(name = "phone")
     private String phone;
 
     // 短信验证码
     @SqlEquals
-    @Column(name = "code")
+    // @Column(name = "code")
     private String code;
 
     // 创建时间
-    @Column(name = "crt_time")
+    // @Column(name = "crt_time")
     private Date crtTime;
 
 

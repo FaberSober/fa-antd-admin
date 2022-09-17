@@ -11,7 +11,7 @@ import lombok.Data;
 import tk.mybatis.mapper.annotation.KeySql;
 import tk.mybatis.mapper.code.ORDER;
 
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
 
 
@@ -23,7 +23,7 @@ import java.util.Date;
  * @date 2020-06-02 17:14:45
  */
 @FaberModalName(name = "学生")
-@Table(name = "demo_student")
+@TableName("demo_student")
 @Data
 public class Student extends BaseDelEntity {
     private static final long serialVersionUID = 1L;
@@ -32,23 +32,23 @@ public class Student extends BaseDelEntity {
     private String id;
 
     @ExcelProperty("学生名")
-    @Column(name = "name")
+    // @Column(name = "name")
     private String name;
 
     @ExcelProperty("年龄")
-    @Column(name = "age")
+    // @Column(name = "age")
     private Integer age;
 
     @ExcelProperty("性别")
-    @Column(name = "sex")
+    // @Column(name = "sex")
     private String sex;
 
     @ExcelProperty("邮箱")
-    @Column(name = "email")
+    // @Column(name = "email")
     private String email;
 
     @ExcelProperty("生日")
-    @Column(name = "birthday")
+    // @Column(name = "birthday")
     private Date birthday;
 
 }

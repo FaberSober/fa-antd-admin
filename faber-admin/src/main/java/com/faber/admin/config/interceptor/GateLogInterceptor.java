@@ -32,7 +32,6 @@ public class GateLogInterceptor extends AbstractInterceptor {
         log.setMethod(request.getMethod());
         log.setAgent(request.getHeader("User-Agent"));
 
-        log.setCrtTime(new Date());
         log.setStartTime(System.currentTimeMillis());
         log.setCrtHost(IpUtils.getRequestIp(request));
 
@@ -64,7 +63,7 @@ public class GateLogInterceptor extends AbstractInterceptor {
             log.setCity(ipAddr.getCity());
             log.setAddr(ipAddr.getAddr());
 
-            gateLogBiz.getMapper().insertSelective(log);
+            gateLogBiz.save(log);
 
             gateLogThreadLocal.remove();
         }

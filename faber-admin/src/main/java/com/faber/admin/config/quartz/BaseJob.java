@@ -32,7 +32,7 @@ public abstract class BaseJob implements Job {
             jobLog.setEndTime(new Date());
             jobLog.setDuration(DateUtil.between(jobLog.getEndTime(), jobLog.getBeginTime(), DateUnit.SECOND));
             jobLog.setStatus(JobLog.Status.DONE.value);
-            jobLogBiz.updateSelectiveById(jobLog);
+            jobLogBiz.updateById(jobLog);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
 
@@ -41,7 +41,7 @@ public abstract class BaseJob implements Job {
             jobLog.setDuration(DateUtil.between(jobLog.getEndTime(), jobLog.getBeginTime(), DateUnit.SECOND));
             jobLog.setStatus(JobLog.Status.ERROR.value);
             jobLog.setErrMsg(e.getMessage());
-            jobLogBiz.updateSelectiveById(jobLog);
+            jobLogBiz.updateById(jobLog);
         }
 
         log.info(printNextFireTime(context));
@@ -55,7 +55,7 @@ public abstract class BaseJob implements Job {
         jobLog.setBeginTime(new Date());
         jobLog.setStatus(JobLog.Status.DOING.value);
         jobLog.setDuration(0L);
-        jobLogBiz.insert(jobLog);
+        jobLogBiz.save(jobLog);
         return jobLog;
     }
 

@@ -17,7 +17,7 @@ public class UserAccountVo {
     private String address;
 
     @TelNoValidator
-    @Column(name = "mobile_phone")
+    // @Column(name = "mobile_phone")
     private String mobilePhone;
 
     private String email;

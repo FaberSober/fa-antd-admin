@@ -6,13 +6,13 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.faber.common.bean.BaseUpdEntity;
 import lombok.Data;
 
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
  * 角色组用户
  */
 @Data
-@Table(name = "base_group_user")
+@TableName("base_group_user")
 public class GroupUser extends BaseUpdEntity {
     private static final long serialVersionUID = 1L;
 
@@ -20,19 +20,19 @@ public class GroupUser extends BaseUpdEntity {
     private Integer id;
 
     @ExcelProperty("分组ID")
-    @Column(name = "group_id")
+    // @Column(name = "group_id")
     private Integer groupId;
 
     @ExcelProperty("用户ID")
-    @Column(name = "user_id")
+    // @Column(name = "user_id")
     private String userId;
 
     @ExcelProperty("描述")
-    @Column(name = "description")
+    // @Column(name = "description")
     private String description;
 
     @ExcelProperty("类型")
-    @Column(name = "type")
+    // @Column(name = "type")
     private String type;
 
 }

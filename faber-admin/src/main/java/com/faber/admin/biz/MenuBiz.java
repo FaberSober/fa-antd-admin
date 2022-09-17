@@ -1,17 +1,14 @@
 package com.faber.admin.biz;
 
-import com.faber.admin.mapper.MenuMapper;
 import com.faber.admin.entity.Menu;
-import com.faber.common.bean.BaseDelEntity;
+import com.faber.admin.mapper.MenuMapper;
 import com.faber.common.biz.BaseTreeBiz;
 import com.faber.common.constant.CommonConstants;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.util.EntityUtils;
 import com.faber.common.vo.TreeNode;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.io.Serializable;

@@ -50,7 +50,7 @@ public class DBLog extends Thread {
                 if (bufferedLogList != null && bufferedLogList.size() > 0) {
                     // 写入日志
                     for (GateLog log : bufferedLogList) {
-                        gateLogBiz.insert(log);
+                        gateLogBiz.save(log);
                     }
                 }
             } catch (Exception e) {

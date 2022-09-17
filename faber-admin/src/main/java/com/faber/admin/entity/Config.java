@@ -6,7 +6,7 @@ import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.enums.BoolEnum;
 import lombok.Data;
 
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 
 /**
@@ -16,7 +16,7 @@ import javax.persistence.*;
  * @email faberxu@gmail.com
  * @date 2020-06-02 21:21:45
  */
-@Table(name = "base_config")
+@TableName("base_config")
 @Data
 public class Config extends BaseDelEntity {
     private static final long serialVersionUID = 1L;
@@ -26,7 +26,7 @@ public class Config extends BaseDelEntity {
     private Integer id;
 
     // 业务模块
-    @Column(name = "buzz_modal")
+    // @Column(name = "buzz_modal")
     private String buzzModal;
 
     public static final class Type {
@@ -41,35 +41,35 @@ public class Config extends BaseDelEntity {
     }
 
     // 配置类型
-    @Column(name = "type")
+    // @Column(name = "type")
     private String type;
 
     // 配置名称
-    @Column(name = "name")
+    // @Column(name = "name")
     private String name;
 
     // 配置JSON
-    @Column(name = "data")
+    // @Column(name = "data")
     private String data;
 
     // 是否系统
-    @Column(name = "system")
+    // @Column(name = "system")
     private BoolEnum system;
 
     // 是否默认
-    @Column(name = "default_scene")
+    // @Column(name = "default_scene")
     private BoolEnum defaultScene;
 
     // 是否隐藏
-    @Column(name = "hide")
+    // @Column(name = "hide")
     private BoolEnum hide;
 
     // 排序ID
-    @Column(name = "sort")
+    // @Column(name = "sort")
     private Integer sort;
 
     // 所属用户ID
-    @Column(name = "belong_user_id")
+    // @Column(name = "belong_user_id")
     private String belongUserId;
 
 }

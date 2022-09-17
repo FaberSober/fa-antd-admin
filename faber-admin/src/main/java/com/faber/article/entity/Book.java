@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.util.Date;
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 
 /**
@@ -23,7 +23,7 @@ import javax.persistence.*;
  * @date 2020-12-31 13:53:39
  */
 @FaberModalName(name = "文章-书本")
-@Table(name = "article_book")
+@TableName("article_book")
 @Data
 public class Book extends BaseDelEntity {
 	private static final long serialVersionUID = 1L;
@@ -34,39 +34,39 @@ public class Book extends BaseDelEntity {
 
     @SqlSearch
     @ExcelProperty("编码")
-    @Column(name = "no")
+    // @Column(name = "no")
     private String no;
 
     @SqlSearch
     @ExcelProperty("书名")
-    @Column(name = "name")
+    // @Column(name = "name")
     private String name;
 
     @SqlEquals
     @ExcelProperty("业务类型")
-    @Column(name = "biz_type")
+    // @Column(name = "biz_type")
     private String bizType;
 
     @SqlEquals
     @ExcelProperty("业务ID")
-    @Column(name = "biz_id")
+    // @Column(name = "biz_id")
     private String bizId;
 
     @ExcelProperty("封面图")
-    @Column(name = "cover")
+    // @Column(name = "cover")
     private String cover;
 
     @ExcelProperty("描述")
-    @Column(name = "description")
+    // @Column(name = "description")
     private String description;
 
     @SqlEquals
     @ExcelProperty("是否发布")
-    @Column(name = "pub")
+    // @Column(name = "pub")
     private Boolean pub;
 
     @ExcelProperty("发布时间")
-    @Column(name = "pub_time")
+    // @Column(name = "pub_time")
     private Date pubTime;
 
     @ToString

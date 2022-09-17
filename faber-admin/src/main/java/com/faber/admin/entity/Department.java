@@ -3,16 +3,13 @@ package com.faber.admin.entity;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.*;
 import com.faber.common.bean.BaseDelEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
-import tk.mybatis.mapper.annotation.KeySql;
-import tk.mybatis.mapper.code.ORDER;
-
-import javax.persistence.*;
 
 
 /**
@@ -22,7 +19,7 @@ import javax.persistence.*;
  * @email faberxu@gmail.com
  * @date 2020-06-07 19:26:53
  */
-@Table(name = "base_department")
+@TableName("base_department")
 @Data
 public class Department extends BaseDelEntity {
     private static final long serialVersionUID = 1L;
@@ -33,32 +30,32 @@ public class Department extends BaseDelEntity {
 
     // 父部门ID
     @SqlEquals
-    @Column(name = "parent_id")
+    // @Column(name = "parent_id")
     @SqlTreeParentId
     private String parentId;
 
     // 部门名称
-    @Column(name = "name")
+    // @Column(name = "name")
     @SqlTreeName
     private String name;
 
     // 描述
-    @Column(name = "description")
+    // @Column(name = "description")
     private String description;
 
     // 排序
     @SqlSorter
-    @Column(name = "sort")
+    // @Column(name = "sort")
     private Integer sort;
 
     // 类型
     @SqlEquals
-    @Column(name = "type")
+    // @Column(name = "type")
     private String type;
 
     @SqlEquals
     @ExcelProperty("负责人ID")
-    @Column(name = "manager_id")
+    // @Column(name = "manager_id")
     private String managerId;
 
     @ToString

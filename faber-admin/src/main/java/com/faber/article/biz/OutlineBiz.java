@@ -11,7 +11,7 @@ import com.faber.common.constant.CommonConstants;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.vo.TreeNode;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
+
 
 import javax.annotation.Resource;
 import java.io.Serializable;

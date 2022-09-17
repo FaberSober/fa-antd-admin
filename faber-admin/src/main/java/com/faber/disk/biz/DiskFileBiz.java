@@ -11,7 +11,7 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.stereotype.Service;
 
 import com.faber.disk.mapper.DiskFileMapper;
-import tk.mybatis.mapper.entity.Example;
+
 
 import java.util.Map;
 

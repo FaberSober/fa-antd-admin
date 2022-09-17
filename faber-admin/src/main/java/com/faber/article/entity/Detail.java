@@ -8,7 +8,7 @@ import com.faber.common.annotation.SqlEquals;
 import com.faber.common.bean.BaseDelEntity;
 import lombok.Data;
 
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 
 /**
@@ -19,7 +19,7 @@ import javax.persistence.*;
  * @date 2020-12-31 13:53:39
  */
 @FaberModalName(name = "文章-详情")
-@Table(name = "article_detail")
+@TableName("article_detail")
 @Data
 public class Detail extends BaseDelEntity {
 	private static final long serialVersionUID = 1L;
@@ -30,11 +30,11 @@ public class Detail extends BaseDelEntity {
 
     @SqlEquals
     @ExcelProperty("大纲ID")
-    @Column(name = "outline_id")
+    // @Column(name = "outline_id")
     private Integer outlineId;
 
     @ExcelProperty("html文本")
-    @Column(name = "detail")
+    // @Column(name = "detail")
     private String detail;
 
 }

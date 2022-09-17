@@ -11,7 +11,7 @@ import lombok.Data;
 import tk.mybatis.mapper.annotation.KeySql;
 import tk.mybatis.mapper.code.ORDER;
 
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -24,7 +24,7 @@ import java.util.Date;
  * @date 2020-06-02 17:14:45
  */
 @FaberModalName(name = "学生-扩充信息表")
-@Table(name = "demo_student_info")
+@TableName("demo_student_info")
 @Data
 public class StudentInfo implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -33,15 +33,15 @@ public class StudentInfo implements Serializable {
     private String id;
 
     @ExcelProperty("学生ID")
-    @Column(name = "student_id")
+    // @Column(name = "student_id")
     private Integer studentId;
 
     @ExcelProperty("补充信息1")
-    @Column(name = "info1")
+    // @Column(name = "info1")
     private String info1;
 
     @ExcelProperty("补充信息2")
-    @Column(name = "info2")
+    // @Column(name = "info2")
     private String info2;
 
 }

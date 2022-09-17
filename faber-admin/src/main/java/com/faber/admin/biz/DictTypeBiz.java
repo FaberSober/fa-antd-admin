@@ -3,11 +3,9 @@ package com.faber.admin.biz;
 import com.faber.admin.entity.Dict;
 import com.faber.admin.entity.DictType;
 import com.faber.admin.mapper.DictTypeMapper;
-import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.biz.BaseTreeBiz;
 import com.faber.common.exception.BuzzException;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.io.Serializable;

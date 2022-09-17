@@ -5,7 +5,7 @@ import com.faber.admin.entity.BizFile;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.biz.BaseBiz;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
+
 
 import java.util.List;
 

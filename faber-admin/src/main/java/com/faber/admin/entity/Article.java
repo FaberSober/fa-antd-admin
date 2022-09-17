@@ -7,7 +7,7 @@ import com.faber.common.bean.BaseUpdEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 
 /**
@@ -17,7 +17,7 @@ import javax.persistence.*;
  * @email faberxu@gmail.com
  * @date 2019-08-17 20:15:13
  */
-@Table(name = "base_article")
+@TableName("base_article")
 @Data
 @NoArgsConstructor
 public class Article extends BaseUpdEntity {
@@ -27,7 +27,7 @@ public class Article extends BaseUpdEntity {
     private Integer id;
 
     @SqlEquals
-    @Column(name = "biz_id")
+    // @Column(name = "biz_id")
     private Integer bizId;
 
     public static final class BizType {
@@ -35,11 +35,11 @@ public class Article extends BaseUpdEntity {
     }
 
     @SqlEquals
-    @Column(name = "biz_type")
+    // @Column(name = "biz_type")
     private String bizType;
 
 	    //html文本
-    @Column(name = "detail")
+    // @Column(name = "detail")
     private String detail;
 	
     public Article(Integer bizId, String bizType) {

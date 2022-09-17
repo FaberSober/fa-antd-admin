@@ -7,13 +7,11 @@ import com.faber.admin.entity.User;
 import com.faber.admin.mapper.DepartmentMapper;
 import com.faber.admin.vo.DepartmentInfo;
 import com.faber.admin.vo.DepartmentPageVo;
-import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.biz.BaseTreeBiz;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.util.Query;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.io.Serializable;

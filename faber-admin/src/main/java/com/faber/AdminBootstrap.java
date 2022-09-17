@@ -21,7 +21,6 @@ import java.util.Set;
 @EnableScheduling
 @EnableAceCache
 @EnableTransactionManagement
-@tk.mybatis.spring.annotation.MapperScan("com.faber.**.mapper")
 @EnableSwagger2Doc
 public class AdminBootstrap {
 

@@ -5,14 +5,12 @@ import com.faber.admin.entity.Dict;
 import com.faber.admin.entity.DictType;
 import com.faber.admin.mapper.DictMapper;
 import com.faber.admin.vo.SystemConfigPo;
-import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.util.Query;
 import com.faber.common.vo.DictOption;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;

@@ -8,7 +8,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.math.BigDecimal;
 
 
@@ -20,7 +20,7 @@ import java.math.BigDecimal;
  * @date 2022-08-17 17:10:02
  */
 @FaberModalName(name = "BASE-系统版本更新日志表")
-@Table(name = "base_system_update_log")
+@TableName("base_system_update_log")
 @Data
 public class SystemUpdateLog implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -30,19 +30,19 @@ public class SystemUpdateLog implements Serializable {
     private Integer id;
 
     @ExcelProperty("版本号")
-    @Column(name = "ver")
+    // @Column(name = "ver")
     private Integer ver;
 
     @ExcelProperty("版本编码")
-    @Column(name = "ver_no")
+    // @Column(name = "ver_no")
     private String verNo;
 
     @ExcelProperty("备注信息")
-    @Column(name = "remark")
+    // @Column(name = "remark")
     private String remark;
 
     @ExcelProperty("升级日期")
-    @Column(name = "crt_time")
+    // @Column(name = "crt_time")
     private Date crtTime;
 
 }

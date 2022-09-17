@@ -9,7 +9,7 @@ import com.faber.common.enums.BoolEnum;
 import com.faber.common.enums.DelStateEnum;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
+
 
 import java.util.ArrayList;
 import java.util.Collections;

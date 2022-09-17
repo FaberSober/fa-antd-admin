@@ -10,7 +10,7 @@ import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.enums.BoolEnum;
 import lombok.Data;
 
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 
 /**
@@ -21,7 +21,7 @@ import javax.persistence.*;
  * @date 2019-08-21 14:48:06
  */
 @FaberModalName(name = "定时任务")
-@Table(name = "base_job")
+@TableName("base_job")
 @Data
 public class Job extends BaseDelEntity {
     private static final long serialVersionUID = 1L;
@@ -31,27 +31,27 @@ public class Job extends BaseDelEntity {
 
     @SqlSearch
     @ExcelProperty("任务名称")
-    @Column(name = "job_name")
+    // @Column(name = "job_name")
     private String jobName;
 
     @SqlSearch
     @ExcelProperty("cron表达式")
-    @Column(name = "cron")
+    // @Column(name = "cron")
     private String cron;
 
     // TODO 切换为int
     @SqlEquals
     @ExcelProperty("状态:0未启动false/1启动true")
-    @Column(name = "status")
+    // @Column(name = "status")
     private BoolEnum status = BoolEnum.NO;
 
     @SqlSearch
     @ExcelProperty("任务执行方法")
-    @Column(name = "clazz_path")
+    // @Column(name = "clazz_path")
     private String clazzPath;
 
     @ExcelProperty("任务描述")
-    @Column(name = "job_desc")
+    // @Column(name = "job_desc")
     private String jobDesc;
 
 }

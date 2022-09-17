@@ -11,7 +11,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
+
 import tk.mybatis.mapper.mapperhelper.SqlHelper;
 
 import java.util.List;

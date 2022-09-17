@@ -8,10 +8,10 @@ import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.constant.CommonConstants;
 import lombok.Data;
 
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 @Data
-@Table(name = "base_menu")
+@TableName("base_menu")
 public class Menu extends BaseDelEntity {
     @TableId(type = IdType.AUTO)
     @SqlTreeId
@@ -19,49 +19,49 @@ public class Menu extends BaseDelEntity {
 
     @SqlEquals
     @ExcelProperty("所属模块ID")
-    @Column(name = "block_id")
+    // @Column(name = "block_id")
     private Integer blockId;
 
     @ExcelProperty("菜单编码")
-    @Column(name = "code")
+    // @Column(name = "code")
     private String code;
 
     @SqlTreeName
     @ExcelProperty("菜单名称")
-    @Column(name = "title")
+    // @Column(name = "title")
     private String title;
 
     @SqlTreeParentId
     @SqlEquals
     @ExcelProperty("父级节点")
-    @Column(name = "parent_id")
+    // @Column(name = "parent_id")
     private Integer parentId = CommonConstants.ROOT;
 
     @ExcelProperty("资源路径")
-    @Column(name = "href")
+    // @Column(name = "href")
     private String href;
 
     @ExcelProperty("图标")
-    @Column(name = "icon")
+    // @Column(name = "icon")
     private String icon;
 
     @SqlEquals
     @ExcelProperty("类型：menu、dirt")
-    @Column(name = "type")
+    // @Column(name = "type")
     private String type;
 
     @ExcelProperty("描述")
-    @Column(name = "description")
+    // @Column(name = "description")
     private String description;
 
     @Deprecated
     @ExcelProperty("菜单上下级关系")
-    @Column(name = "path")
+    // @Column(name = "path")
     private String path;
 
     @SqlSorter
     @ExcelProperty("排序")
-    @Column(name = "order_num")
+    // @Column(name = "order_num")
     private Integer orderNum;
 
 }

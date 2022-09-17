@@ -3,6 +3,7 @@ package com.faber.admin.util.user;
 import com.faber.admin.entity.User;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.constant.DictConstants;
+import com.faber.common.enums.DelStateEnum;
 import com.faber.common.exception.auth.UserInvalidException;
 
 public class UserCheckUtil {
@@ -18,7 +19,7 @@ public class UserCheckUtil {
         if (!DictConstants.CommonUserStatus.Value.NORMAL.equals(user.getStatus())) {
             throw new UserInvalidException("账户被冻结，请联系管理员");
         }
-        if (BaseDelEntity.DEL_STATE.DELETED.equals(user.getDelState())) {
+        if (user.getDelState() == DelStateEnum.DELETED) {
             throw new UserInvalidException("账户被注销，请联系管理员");
         }
     }
