@@ -2,7 +2,6 @@ package com.faber.common.util;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.faber.common.context.BaseContextHandler;
-import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.enums.DelStateEnum;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;

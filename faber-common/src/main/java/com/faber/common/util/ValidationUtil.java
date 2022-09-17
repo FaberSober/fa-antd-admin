@@ -1,15 +1,15 @@
 package com.faber.common.util;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import lombok.Data;
+import org.hibernate.validator.HibernateValidator;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-
-import lombok.Data;
-import org.hibernate.validator.HibernateValidator;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 public class ValidationUtil {
     /**
      * 开启快速结束模式 failFast (true)

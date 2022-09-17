@@ -1,10 +1,7 @@
 package com.faber.common.constant;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.ToString;
-
-import java.util.Arrays;
 
 /**
  * 通用审核结果

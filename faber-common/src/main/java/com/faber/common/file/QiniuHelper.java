@@ -1,14 +1,11 @@
 package com.faber.common.file;
 
-import cn.hutool.json.JSONObject;
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
-import com.qiniu.storage.model.DefaultPutRet;
-import com.qiniu.storage.model.FetchRet;
 import com.qiniu.util.Auth;
 import lombok.Data;
 import lombok.extern.java.Log;
