@@ -3,8 +3,4 @@
 
 <mapper namespace="com.faber.admin.mapper.JobMapper">
 
-    <select id="selectStartUpJobs" resultType="com.faber.admin.entity.Job">
-        select * from base_job where status = '1'
-    </select>
-
 </mapper>

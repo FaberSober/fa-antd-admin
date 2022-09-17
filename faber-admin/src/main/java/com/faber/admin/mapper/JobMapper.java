@@ -15,6 +15,4 @@ import java.util.List;
 // @Mapper
 public interface JobMapper extends BaseMapper<Job> {
 
-    List<Job> selectStartUpJobs();
-	
 }

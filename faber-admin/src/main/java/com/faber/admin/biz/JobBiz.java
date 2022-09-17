@@ -68,4 +68,8 @@ public class JobBiz extends BaseBiz<JobMapper, Job> {
         return nextFireTimes;
     }
 
+    public List<Job> getStartUpJobs() {
+        return lambdaQuery().eq(Job::getStatus, BoolEnum.YES).list();
+    }
+
 }

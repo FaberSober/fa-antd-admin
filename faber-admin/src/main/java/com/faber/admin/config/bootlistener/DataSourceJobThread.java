@@ -1,5 +1,6 @@
 package com.faber.admin.config.bootlistener;
 
+import com.faber.admin.biz.JobBiz;
 import com.faber.admin.config.quartz.JobTask;
 import com.faber.admin.entity.Job;
 import com.faber.admin.mapper.JobMapper;
@@ -22,7 +23,7 @@ import java.util.List;
 public class DataSourceJobThread extends Thread {
 
     @Resource
-    private JobMapper jobMapper;
+    private JobBiz jobBiz;
 
     @Override
     public void run() {
@@ -31,7 +32,7 @@ public class DataSourceJobThread extends Thread {
             log.info("------------线程启动------------");
             JobTask jobTask = SpringUtil.getBean("jobTask");
 
-            List<Job> jobList = jobMapper.selectStartUpJobs();
+            List<Job> jobList = jobBiz.getStartUpJobs();
 
             jobList.forEach(job -> {
                 log.info("==> 任务[{}-{}]系统 init == 开始启动 ==>>>", job.getId(), job.getJobName());
