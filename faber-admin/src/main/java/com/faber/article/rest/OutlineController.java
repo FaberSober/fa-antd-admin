@@ -6,7 +6,6 @@ import com.faber.article.vo.OutlineDetailVo;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseTreeController;
 import com.faber.common.vo.TreeNode;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +21,13 @@ public class OutlineController extends BaseTreeController<OutlineBiz,Outline> {
         return ok(o);
     }
 
+    /**
+     * 获取所有Item列表Tree
+     * @param bookId
+     * @return
+     */
     @RequestMapping(value = "/{bookId}/allTree", method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "获取所有Item列表Tree", notes = "获取所有Item列表Tree")
     public ObjectRestResponse<List<TreeNode<Outline>>> allTree(@PathVariable int bookId) {
         List<TreeNode<Outline>> treeList = baseBiz.allTree(bookId);
         return new ObjectRestResponse<List<TreeNode<Outline>>>().data(treeList);

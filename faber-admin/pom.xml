@@ -102,13 +102,6 @@
 <!--            <version>1.2.3</version>-->
 <!--        </dependency>-->
 
-        <!-- swagger -->
-        <dependency>
-            <groupId>com.spring4all</groupId>
-            <artifactId>swagger-spring-boot-starter</artifactId>
-            <version>1.6.0.RELEASE</version>
-        </dependency>
-
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>

@@ -6,8 +6,6 @@ import com.faber.admin.config.annotation.IgnoreUserToken;
 import com.faber.admin.entity.Job;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseController;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +17,14 @@ import java.util.Map;
 @RequestMapping("/api/admin/job")
 public class JobController extends BaseController<JobBiz, Job> {
 
+    /**
+     * 立即执行一次定时任务
+     * @param id
+     * @return
+     */
     @GetMapping("/runOneTime/{id}")
     @ResponseBody
-    @ApiOperation(value = "立即执行一次定时任务", notes = "立即执行一次定时任务")
-    public ObjectRestResponse<Boolean> runOneTime(@ApiParam(required = true, name = "id", value = "定时任务ID") @PathVariable long id) {
+    public ObjectRestResponse<Boolean> runOneTime(@PathVariable long id) {
         baseBiz.runOneTime(id);
         return ok();
     }

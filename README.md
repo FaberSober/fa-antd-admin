@@ -71,6 +71,7 @@ ncu -u --timeout 120000 --reject husky
 - [ ] tinymce编辑器集成
 - [ ] pdf阅读器集成
 - [ ] 切换MyBatis-Plus，delState类型变更为int
+- [ ] SpringDoc：https://blog.csdn.net/wdj_yyds/article/details/125174042
 
 # 前端代码迁移
 - [x] BaseBiz查询分组List

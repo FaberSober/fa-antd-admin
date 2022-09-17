@@ -5,7 +5,6 @@ import com.faber.admin.entity.Menu;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseTreeController;
 import com.faber.common.vo.TreeNode;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +21,11 @@ import java.util.List;
 public class MenuController extends BaseTreeController<MenuBiz, Menu> {
 
     /**
-     * 获取所有节点Tree
+     * 获取所有block下的菜单
      * @return
      */
     @RequestMapping(value = "/block/allTree/{blockId}", method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "获取所有block下的菜单", notes = "获取所有block下的菜单")
     public ObjectRestResponse<List<TreeNode<Menu>>> blockAllTree(@PathVariable("blockId") int blockId) {
         List<TreeNode<Menu>> treeList = baseBiz.blockAllTree(blockId);
         return new ObjectRestResponse<List<TreeNode<Menu>>>().data(treeList);

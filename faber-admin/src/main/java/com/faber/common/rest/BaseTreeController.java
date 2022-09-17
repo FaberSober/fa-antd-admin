@@ -5,7 +5,6 @@ import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.vo.TreeNode;
 import com.faber.common.vo.TreePathVo;
 import com.faber.common.vo.TreePosChangeVo;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,7 +79,6 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity> extend
      */
     @RequestMapping(value = "/allTree", method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "获取所有节点列表Tree", notes = "获取所有节点列表Tree")
     public ObjectRestResponse<List<TreeNode<Entity>>> allTree() {
         List<TreeNode<Entity>> treeList = baseBiz.allTree();
         return new ObjectRestResponse<List<TreeNode<Entity>>>().data(treeList);
@@ -92,7 +90,6 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity> extend
      */
     @RequestMapping(value = "/getTree", method = RequestMethod.POST)
     @ResponseBody
-    @ApiOperation(value = "获取过滤列表Tree", notes = "获取所有过滤Tree")
     public ObjectRestResponse<List<TreeNode<Entity>>> getTree(@RequestBody Map<String, Object> params) {
         List<TreeNode<Entity>> treeList = baseBiz.getTree(params);
         return new ObjectRestResponse<List<TreeNode<Entity>>>().data(treeList);
@@ -105,7 +102,6 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity> extend
      */
     @RequestMapping(value = "/allTreeFromNode/{id}", method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "获取所有节点列表Tree", notes = "获取所有节点列表Tree")
     public ObjectRestResponse<List<TreeNode<Entity>>> allTreeFromNode(@PathVariable("id") Serializable id) {
         List<TreeNode<Entity>> treeList = baseBiz.allTreeFromNode(id);
         return new ObjectRestResponse<List<TreeNode<Entity>>>().data(treeList);
@@ -118,7 +114,6 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity> extend
      */
     @RequestMapping(value = "/changePos", method = RequestMethod.POST)
     @ResponseBody
-    @ApiOperation(value = "改变节点列表位置[排序、父节点]", notes = "改变节点列表位置[排序、父节点]")
     public ObjectRestResponse changePos(@Valid @RequestBody List<TreePosChangeVo> list) {
         baseBiz.changePos(list);
         return new ObjectRestResponse().rel(true);

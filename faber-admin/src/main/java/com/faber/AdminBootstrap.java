@@ -1,7 +1,6 @@
 package com.faber;
 
 import com.ace.cache.EnableAceCache;
-import com.spring4all.swagger.EnableSwagger2Doc;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
@@ -19,7 +18,6 @@ import java.util.Set;
 @EnableScheduling
 @EnableAceCache
 @EnableTransactionManagement
-@EnableSwagger2Doc
 public class AdminBootstrap {
 
     public static void main(String[] args) {

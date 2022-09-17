@@ -20,6 +20,7 @@ import com.faber.common.util.Query;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,9 +48,11 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     @Resource
     private DictBiz dictBiz;
 
+    @Lazy
     @Resource
     private PermissionBiz permissionBiz;
 
+    @Lazy
     @Resource
     private DepartmentBiz departmentBiz;
 

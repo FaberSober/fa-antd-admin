@@ -6,8 +6,6 @@ import com.faber.admin.config.annotation.IgnoreUserToken;
 import com.faber.admin.entity.FileSave;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseController;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +19,6 @@ public class FileSaveController extends BaseController<FileSaveBiz, FileSave> {
 
     @GetMapping("/getUploadToken")
     @ResponseBody
-    @ApiOperation(value = "获取七牛云上传token")
     public ObjectRestResponse<JSONObject> getUploadToken() {
         JSONObject json = baseBiz.getUploadToken();
         return ok(json);
@@ -41,7 +38,6 @@ public class FileSaveController extends BaseController<FileSaveBiz, FileSave> {
 
     @GetMapping("/getMine")
     @ResponseBody
-    @ApiOperation(value = "获取个人上传过的附件列表")
     public ObjectRestResponse<List<FileSave>> getMine() {
         List<FileSave> list = baseBiz.getMine();
         return ok(list);
@@ -49,7 +45,6 @@ public class FileSaveController extends BaseController<FileSaveBiz, FileSave> {
 
     @PostMapping("/deleteMine")
     @ResponseBody
-    @ApiOperation(value = "获取个人上传过的附件列表")
     public ObjectRestResponse<Boolean> deleteMine(@RequestBody JSONObject json) {
         baseBiz.deleteMine(json);
         return ok(true);
@@ -57,7 +52,6 @@ public class FileSaveController extends BaseController<FileSaveBiz, FileSave> {
 
     @PostMapping("/uploadHtmlImage")
     @ResponseBody
-    @ApiOperation(value = "附件上传", notes = "附件上传")
 //    @IgnoreUserToken
     public JSONObject uploadHtmlImage(@RequestParam("file") MultipartFile file) throws IOException {
         JSONObject jo = baseBiz.uploadToQiniu(file, "html/file");
@@ -66,7 +60,6 @@ public class FileSaveController extends BaseController<FileSaveBiz, FileSave> {
 
     @PostMapping("/uploadImage")
     @ResponseBody
-    @ApiOperation(value = "附件上传", notes = "附件上传")
 //    @IgnoreUserToken
     public ObjectRestResponse<JSONObject> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
         JSONObject jo = baseBiz.uploadToQiniu(file, "file");
@@ -75,7 +68,6 @@ public class FileSaveController extends BaseController<FileSaveBiz, FileSave> {
 
     @PostMapping("/uploadEditor")
     @ResponseBody
-    @ApiOperation(value = "附件上传", notes = "附件上传")
     public ObjectRestResponse<String> uploadEditor(@RequestParam("file") MultipartFile file) throws IOException {
         JSONObject jo = baseBiz.uploadToQiniu(file, "editor/file");
         String url = jo.getString("url");
@@ -84,8 +76,7 @@ public class FileSaveController extends BaseController<FileSaveBiz, FileSave> {
 
     @PostMapping("/local/uploadFile")
     @ResponseBody
-    @ApiOperation(value = "附件上传", notes = "附件上传")
-    public ObjectRestResponse<FileSave> uploadLocalFile(@ApiParam(required = true, name = "file", value = "文件") @RequestParam("file") MultipartFile file) throws IOException {
+    public ObjectRestResponse<FileSave> uploadLocalFile(@RequestParam("file") MultipartFile file) throws IOException {
         FileSave data = baseBiz.uploadLocalFile(file);
         return ok(data);
     }

@@ -1,6 +1,5 @@
 package com.faber.admin.config.quartz;
 
-import com.faber.admin.biz.JobBiz;
 import com.faber.admin.entity.Job;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -28,9 +27,6 @@ public class JobTask {
 
     @Autowired
     SchedulerFactoryBean schedulerFactoryBean;
-
-    @Autowired
-    private JobBiz jobBiz;
 
     /**
      * true 存在 false 不存在

@@ -10,6 +10,7 @@ import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.util.Query;
 import com.faber.common.vo.DictOption;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 public class DictBiz extends BaseBiz<DictMapper, Dict> {
 
     @Resource
+    @Lazy
     private DictTypeBiz dictTypeBiz;
 
     @Override

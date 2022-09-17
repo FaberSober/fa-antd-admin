@@ -7,7 +7,6 @@ import com.faber.admin.vo.FrontUser;
 import com.faber.admin.vo.UserAccountVo;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseController;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -24,9 +23,13 @@ public class UserController extends BaseController<UserBiz, User> {
     @Resource
     private PermissionBiz permissionBiz;
 
+    /**
+     * 传入token返回用户信息
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/front/info", method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "传入token返回用户信息")
     public ObjectRestResponse<FrontUser> getUserInfo() throws Exception {
         FrontUser userInfo = permissionBiz.getUserInfo();
         return new ObjectRestResponse<FrontUser>().data(userInfo);

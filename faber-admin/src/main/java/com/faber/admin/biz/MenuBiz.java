@@ -7,6 +7,7 @@ import com.faber.common.constant.CommonConstants;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.util.EntityUtils;
 import com.faber.common.vo.TreeNode;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ import java.util.List;
 public class MenuBiz extends BaseTreeBiz<MenuMapper, Menu> {
 
     @Resource
+    @Lazy
     private ElementBiz elementBiz;
 
     @Override
