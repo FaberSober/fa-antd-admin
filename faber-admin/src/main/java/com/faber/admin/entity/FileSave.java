@@ -1,10 +1,10 @@
 package com.faber.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.bean.BaseUpdEntity;
 import lombok.Data;
-import tk.mybatis.mapper.annotation.KeySql;
-import tk.mybatis.mapper.code.ORDER;
 
 
 /**
@@ -17,8 +17,7 @@ import tk.mybatis.mapper.code.ORDER;
 public class FileSave extends BaseUpdEntity {
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @KeySql(sql = "select uuid()", order = ORDER.BEFORE) // 使用UUID作为主键
+    @TableId(type = IdType.ASSIGN_UUID)
     private String id;
 
     // 文件名

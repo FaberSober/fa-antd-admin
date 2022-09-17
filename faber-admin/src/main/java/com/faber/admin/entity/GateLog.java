@@ -3,6 +3,7 @@ package com.faber.admin.entity;
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.SqlSearch;
@@ -57,7 +58,7 @@ public class GateLog extends BaseCrtEntity {
     private Integer retStatus;
 
     @ExcelIgnore
-    @Transient
+    @TableField(exist = false)
     private Long startTime;
 
 }

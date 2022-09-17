@@ -2,6 +2,7 @@ package com.faber.admin.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.SqlEquals;
@@ -70,7 +71,7 @@ public class Element extends BaseDelEntity {
     // @Column(name = "description")
     private String description;
 
-    @Transient
+    @TableField(exist = false)
     private Menu menu;
 
 }
