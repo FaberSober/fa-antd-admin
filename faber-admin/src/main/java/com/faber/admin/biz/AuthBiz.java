@@ -1,5 +1,6 @@
 package com.faber.admin.biz;
 
+import cn.hutool.core.util.StrUtil;
 import com.faber.admin.entity.User;
 import com.faber.admin.util.jwt.JWTInfo;
 import com.faber.admin.util.user.JwtAuthenticationRequest;
@@ -28,7 +29,7 @@ public class AuthBiz {
 
     public String login(JwtAuthenticationRequest authenticationRequest) throws Exception {
         UserInfo info = permissionBiz.validate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-        if (!StringUtils.isEmpty(info.getId())) {
+        if (StrUtil.isNotEmpty(info.getId())) {
             return jwtTokenUtil.generateToken(new JWTInfo(info.getUsername(), info.getId() + "", info.getName()));
         }
         throw new UserInvalidException("用户不存在或账户密码错误！");

@@ -22,13 +22,13 @@ interface AddProps {
 class GroupUser extends BaseApi<Admin.GroupUser, number> {
 	/** 获取实体List-用户创建 */
 	groupUser = (groupId: number, params: FaberBase.BasePageProps): Promise<Ajax.Response<Ajax.Page<Admin.GroupUserVo>>> =>
-		super.get(`${groupId}/groupUser?${queryString.stringify(params)}`);
+		this.get(`${groupId}/groupUser?${queryString.stringify(params)}`);
 
 	/** 获取实体List-用户创建 */
-	groupUserPost = (params: FaberBase.BasePageProps): Promise<Ajax.Response<Ajax.Page<Admin.GroupUserVo>>> => super.post(`groupUser`, params);
+	groupUserPost = (params: FaberBase.BasePageProps): Promise<Ajax.Response<Ajax.Page<Admin.GroupUserVo>>> => this.post(`groupUser`, params);
 
 	/** 新增角色用户关联 */
-	addUsers = (groupId: number, params: AddProps): Promise<Ajax.Response> => super.post(`${groupId}/addUsers`, params);
+	addUsers = (groupId: number, params: AddProps): Promise<Ajax.Response> => this.post(`${groupId}/addUsers`, params);
 }
 
 export default new GroupUser(GATE_APP.admin, serviceModule);

@@ -15,29 +15,29 @@ class User extends BaseApi<Admin.User, string, Admin.UserWeb> {
 	/**
 	 * 获取用户信息
 	 */
-	getUserInfo = (): Promise<Ajax.Response<FaberBase.UserInfo>> => super.get(`front/info`);
+	getUserInfo = (): Promise<Ajax.Response<FaberBase.UserInfo>> => this.get(`front/info`);
 
 	/** 分页查询 */
-	pageOut = (params: UserWebQuery): Promise<Ajax.Response<Ajax.Page<Admin.UserWeb>>> => super.post(`pageOut`, params);
+	pageOut = (params: UserWebQuery): Promise<Ajax.Response<Ajax.Page<Admin.UserWeb>>> => this.post(`pageOut`, params);
 
 	/** ------------------------------------------ 个人账户 操作接口 ------------------------------------------ */
 	/** 获取个人账户基本信息 */
-	accountBase = (): Promise<Ajax.Response<Admin.User>> => super.get(`account/base`);
+	accountBase = (): Promise<Ajax.Response<Admin.User>> => this.get(`account/base`);
 
 	/** 更新个人账户基本信息 */
-	accountBaseUpdate = (params: any): Promise<Ajax.Response> => super.post(`account/base/update`, params);
+	accountBaseUpdate = (params: any): Promise<Ajax.Response> => this.post(`account/base/update`, params);
 
 	/** 更新个人账户密码 */
-	accountBaseUpdatePwd = (params: any): Promise<Ajax.Response> => super.post(`account/base/updatePwd`, params);
+	accountBaseUpdatePwd = (params: any): Promise<Ajax.Response> => this.post(`account/base/updatePwd`, params);
 
 	/** 更新账户ApiToken */
-	accountBaseUpdateApiToken = (params: any): Promise<Ajax.Response> => super.post(`account/base/updateApiToken`, params);
+	accountBaseUpdateApiToken = (params: any): Promise<Ajax.Response> => this.post(`account/base/updateApiToken`, params);
 
 	/** 更新个人账户密码 */
-	accountAdminUpdatePwd = (params: any): Promise<Ajax.Response> => super.post(`account/admin/updatePwd`, params);
+	accountAdminUpdatePwd = (params: any): Promise<Ajax.Response> => this.post(`account/admin/updatePwd`, params);
 
 	/** 更新个人账户密码 */
-	accountAdminDelete = (params: any): Promise<Ajax.Response> => super.post(`account/admin/delete`, params);
+	accountAdminDelete = (params: any): Promise<Ajax.Response> => this.post(`account/admin/delete`, params);
 }
 
 export default new User(GATE_APP.admin, serviceModule);

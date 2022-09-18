@@ -9,7 +9,7 @@ const serviceModule = 'menu';
 
 class Menu extends BaseTreeApi<Admin.Menu, number> {
 	/** 获取所有block下的菜单 */
-	blockAllTree = (blockId: number): Promise<Ajax.Response<FaberBase.TreeNode<Admin.Menu, number>[]>> => super.get(`${this.apiPrefix}/${this.apiModal}/block/allTree/${blockId}`);
+	blockAllTree = (blockId: number): Promise<Ajax.Response<FaberBase.TreeNode<Admin.Menu, number>[]>> => this.get(`${this.apiPrefix}/${this.apiModal}/block/allTree/${blockId}`);
 }
 
 export default new Menu(GATE_APP.admin, serviceModule);

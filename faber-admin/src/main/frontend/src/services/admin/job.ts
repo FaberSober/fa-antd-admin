@@ -8,17 +8,17 @@ const serviceModule = 'job';
 
 class Job extends BaseApi<Admin.Job, number> {
 	/** 获取唯一实体 */
-	runOneTime = (id: number): Promise<Ajax.Response> => super.get(`runOneTime/${id}`);
+	runOneTime = (id: number): Promise<Ajax.Response> => this.get(`runOneTime/${id}`);
 
 	/** 获取唯一实体 */
-	startJob = (id: number): Promise<Ajax.Response> => super.get(`startJob/${id}`);
+	startJob = (id: number): Promise<Ajax.Response> => this.get(`startJob/${id}`);
 
 	/** 获取唯一实体 */
-	endJob = (id: number): Promise<Ajax.Response> => super.get(`endJob/${id}`);
+	endJob = (id: number): Promise<Ajax.Response> => this.get(`endJob/${id}`);
 
 	/** 获取cron最近5次运行时间 */
 	quartzLatest = (cron: string, times: number): Promise<Ajax.Response<string[]>> =>
-		super.post(
+		this.post(
 			`quartz/latest`,
 			{ cron, times },
 			{

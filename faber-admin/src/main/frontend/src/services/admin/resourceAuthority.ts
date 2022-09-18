@@ -16,7 +16,7 @@ const serviceModule = 'resourceAuthority';
 
 class ResourceAuthority extends BaseApi<Admin.ResourceAuthority, number> {
 	/** 更新角色权限 */
-	updateGroupAuth = (params: UpdateGroupAuthParams): Promise<Ajax.Response> => super.post(`updateGroupAuth`, params);
+	updateGroupAuth = (params: UpdateGroupAuthParams): Promise<Ajax.Response> => this.post(`updateGroupAuth`, params);
 }
 
 export default new ResourceAuthority(GATE_APP.admin, serviceModule);

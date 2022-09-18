@@ -9,13 +9,13 @@ const serviceModule = 'msg';
 
 class Msg extends BaseApi<Admin.Msg, number, Admin.MsgPageVo> {
 	/** 获取实体 分页 */
-	pageMine = (params: FaberBase.BasePageProps): Promise<Ajax.Response<Ajax.Page<Admin.MsgPageVo>>> => super.post(`page/mine`, params);
+	pageMine = (params: FaberBase.BasePageProps): Promise<Ajax.Response<Ajax.Page<Admin.MsgPageVo>>> => this.post(`page/mine`, params);
 
 	/** 批量已读 */
-	batchRead = (params: { ids: number[] }): Promise<Ajax.Response> => super.post(`batchRead`, params);
+	batchRead = (params: { ids: number[] }): Promise<Ajax.Response> => this.post(`batchRead`, params);
 
 	/** 消息数量统计 */
-	countMine = (): Promise<Ajax.Response<{ unreadCount: number }>> => super.get(`count/mine`);
+	countMine = (): Promise<Ajax.Response<{ unreadCount: number }>> => this.get(`count/mine`);
 }
 
 export default new Msg(GATE_APP.admin, serviceModule);
