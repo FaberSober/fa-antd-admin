@@ -33,6 +33,8 @@
 | :--- | :--- |
 | tk.mybatis | https://github.com/abel533/Mapper/wiki |
 | MyBatis-Plus | https://baomidou.com/ |
+| hutool | https://hutool.cn/docs/#/ |
+
 
 ## 前端
 | 插件 | 说明 | 官网 |

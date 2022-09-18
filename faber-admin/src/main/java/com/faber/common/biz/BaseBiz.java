@@ -2,6 +2,7 @@ package com.faber.common.biz;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.ace.cache.api.CacheAPI;
 import com.alibaba.excel.EasyExcel;
@@ -96,12 +97,13 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
 //        Example example = new Example(clazz);
         // key-value模式查询条件组装
 
-        wrapper.and(ew -> {
+        wrapper.and(query.size() > 0, ew -> {
             for (Map.Entry<String, Object> entry : query.entrySet()) {
                 // xxx#$min，xxx#$max 类型的key，为最小值、最大值判定
                 String key = entry.getKey();
                 if (key.contains("#$")) {
                     String fieldName = key.substring(0, key.indexOf("#$"));
+                    fieldName = StrUtil.toUnderlineCase(fieldName);
                     String opr = key.substring(key.indexOf("#$") + 2);
                     if ("min".equals(opr)) {
                         ew.ge(fieldName, entry.getValue());
@@ -144,10 +146,11 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
                 }
 
                 if (entry.getValue() != null && StringUtils.isNotEmpty(entry.getValue().toString())) {
+                    String fieldColumn = StrUtil.toUnderlineCase(entry.getKey());
                     if (forceEqual) {
-                        ew.eq(entry.getKey(), entry.getValue());
+                        ew.eq(fieldColumn, entry.getValue());
                     } else {
-                        ew.like(entry.getKey(), SqlUtils.filterLikeValue((String)entry.getValue()));
+                        ew.like(fieldColumn, SqlUtils.filterLikeValue((String)entry.getValue()));
                     }
                 }
             }
@@ -213,9 +216,11 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
      * @param wrapper
      */
     private void processConditionList(String type, List<Map> conditionList, QueryWrapper<T> wrapper) {
-        wrapper.and(ew -> {
+        wrapper.and(conditionList.size() > 0,ew -> {
             for (Map cond : conditionList) {
                 String key = MapUtils.getString(cond, "key");
+                key = StrUtil.toUnderlineCase(key);
+
                 String opr = MapUtils.getString(cond, "opr");
                 Object value = MapUtils.getObject(cond, "value");
                 String begin = MapUtils.getString(cond, "begin");
@@ -223,79 +228,46 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
 
                 if (StringUtils.isNoneEmpty(key, opr)) {
 //                value = SqlUtils.filterLikeValue(value);
+                    if ("or".equalsIgnoreCase(type)) {
+                        ew.or();
+                    }
+
                     switch (opr) {
                         case "equal": {
-                            switch (type) {
-                                case "and": ew.eq(key, value); break;
-                                case "or":  ew.or().eq(key, value); break;
-                            }
+                            ew.or().eq(key, value);
                         } break;
                         case "not_equal": {
-                            switch (type) {
-                                case "and": ew.ne(key, value); break;
-                                case "or":  ew.or().ne(key, value); break;
-                            }
+                            ew.ne(key, value);
                         } break;
                         case "in": {
-                            String[] valueSs = ObjectUtil.toString(value).split("，");
-                            switch (type) {
-                                case "and": ew.in(key, Arrays.asList(valueSs)); break;
-                                case "or":  ew.or().in(key, Arrays.asList(valueSs)); break;
-                            }
+                            ew.in(key, Arrays.asList(ObjectUtil.toString(value).split("，")));
                         } break;
                         case "contain": {
-                            switch (type) {
-                                case "and": ew.like(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
-                                case "or":  ew.or().like(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
-                            }
+                            ew.like(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value)));
                         } break;
                         case "not_contain": {
-                            switch (type) {
-                                case "and": ew.notLike(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
-                                case "or":  ew.or().notLike(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
-                            }
+                            ew.notLike(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value)));
                         } break;
                         case "start_contain": {
-                            switch (type) {
-                                case "and": ew.likeLeft(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
-                                case "or":  ew.or().likeLeft(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
-                            }
+                            ew.likeLeft(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value)));
                         } break;
                         case "end_contain": {
-                            switch (type) {
-                                case "and": ew.likeRight(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
-                                case "or":  ew.or().likeRight(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value))); break;
-                            }
+                            ew.likeRight(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value)));
                         } break;
                         case "greater": {
-                            switch (type) {
-                                case "and": ew.gt(key, value); break;
-                                case "or":  ew.or().gt(key, value); break;
-                            }
+                            ew.gt(key, value);
                         } break;
                         case "greater_equal": {
-                            switch (type) {
-                                case "and": ew.ge(key, value); break;
-                                case "or":  ew.or().ge(key, value); break;
-                            }
+                            ew.ge(key, value);
                         } break;
                         case "less": {
-                            switch (type) {
-                                case "and": ew.lt(key, value); break;
-                                case "or":  ew.or().lt(key, value); break;
-                            }
+                            ew.lt(key, value);
                         } break;
                         case "less_equal": {
-                            switch (type) {
-                                case "and": ew.le(key, value); break;
-                                case "or":  ew.or().le(key, value); break;
-                            }
+                            ew.le(key, value);
                         } break;
                         case "between": {
-                            switch (type) {
-                                case "and": ew.between(key, begin, end); break;
-                                case "or":  ew.or().between(key, begin, end); break;
-                            }
+                            ew.between(key, begin, end);
                         } break;
                     }
                 }
