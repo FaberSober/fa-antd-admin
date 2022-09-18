@@ -10,7 +10,7 @@ import com.faber.admin.vo.DepartmentPageVo;
 import com.faber.common.biz.BaseTreeBiz;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.TableResultResponse;
-import com.faber.common.util.Query;
+import com.faber.common.vo.Query;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

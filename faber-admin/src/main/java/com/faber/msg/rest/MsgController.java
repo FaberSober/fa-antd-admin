@@ -3,7 +3,7 @@ package com.faber.msg.rest;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.rest.BaseController;
-import com.faber.common.util.Query;
+import com.faber.common.vo.Query;
 import com.faber.msg.biz.MsgBiz;
 import com.faber.msg.entity.Msg;
 import com.faber.msg.vo.MsgStatisticVO;

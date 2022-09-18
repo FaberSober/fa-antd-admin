@@ -23,9 +23,10 @@ import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.util.EasyExcelUtils;
-import com.faber.common.util.Query;
+import com.faber.common.vo.Query;
 import com.faber.common.util.SpringUtil;
 import com.faber.common.util.SqlUtils;
+import com.faber.common.vo.Sorter;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -204,8 +205,11 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
             }
         }
 
+        Sorter sorter = query.getSorterInfo();
+        if (sorter != null) {
+            wrapper.orderBy(true, sorter.isAsc(), sorter.getField());
+        }
 
-//        wrapper.orderBy(true, true, query.getSorter()); // FIXME sorter 优化
         return wrapper;
     }
 

@@ -4,7 +4,7 @@ import com.faber.admin.entity.Notice;
 import com.faber.admin.mapper.NoticeMapper;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.msg.TableResultResponse;
-import com.faber.common.util.Query;
+import com.faber.common.vo.Query;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

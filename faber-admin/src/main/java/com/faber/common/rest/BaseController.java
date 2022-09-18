@@ -1,17 +1,14 @@
 package com.faber.common.rest;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.msg.TableResultResponse;
-import com.faber.common.util.Query;
+import com.faber.common.vo.Query;
 import com.faber.common.utils.BaseResHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.io.Serializable;

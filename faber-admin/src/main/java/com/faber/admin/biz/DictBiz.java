@@ -8,7 +8,7 @@ import com.faber.admin.vo.SystemConfigPo;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.TableResultResponse;
-import com.faber.common.util.Query;
+import com.faber.common.vo.Query;
 import com.faber.common.vo.DictOption;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;

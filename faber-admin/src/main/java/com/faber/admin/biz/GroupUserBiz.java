@@ -12,7 +12,7 @@ import com.faber.admin.vo.GroupUserVo;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.TableResultResponse;
-import com.faber.common.util.Query;
+import com.faber.common.vo.Query;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;

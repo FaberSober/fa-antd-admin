@@ -1,6 +1,7 @@
-package com.faber.common.util;
+package com.faber.common.vo;
 
 
+import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 
 import java.util.LinkedHashMap;
@@ -71,6 +72,15 @@ public class Query extends LinkedHashMap<String, Object> {
 
     public int getStart() {
         return (page - 1) * limit;
+    }
+
+    public Sorter getSorterInfo() {
+        if (StrUtil.isEmpty(this.sorter)) return null;
+        String[] ss = this.sorter.split(" ");
+        Sorter sorter1 = new Sorter();
+        sorter1.setField(StrUtil.toUnderlineCase(ss[0]));
+        sorter1.setAsc(ss.length > 1 && "asc".equalsIgnoreCase(ss[1]));
+        return sorter1;
     }
 
 }

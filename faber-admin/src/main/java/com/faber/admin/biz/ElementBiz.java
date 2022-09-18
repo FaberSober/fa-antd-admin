@@ -6,7 +6,7 @@ import com.faber.admin.mapper.ElementMapper;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.TableResultResponse;
-import com.faber.common.util.Query;
+import com.faber.common.vo.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -10,7 +10,7 @@ import com.faber.common.annotation.SqlTreeId;
 import com.faber.common.annotation.SqlTreeName;
 import com.faber.common.annotation.SqlTreeParentId;
 import com.faber.common.constant.CommonConstants;
-import com.faber.common.util.Query;
+import com.faber.common.vo.Query;
 import com.faber.common.util.TreeUtil;
 import com.faber.common.vo.TreeNode;
 import com.faber.common.vo.TreePathVo;

@@ -16,7 +16,7 @@ import com.faber.common.constant.UserConstant;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.exception.NoDataException;
 import com.faber.common.msg.TableResultResponse;
-import com.faber.common.util.Query;
+import com.faber.common.vo.Query;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
