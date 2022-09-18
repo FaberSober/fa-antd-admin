@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.extension.MybatisMapWrapperFactory;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
+import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
@@ -67,6 +68,7 @@ public class MybatisPlusConfig {
 
         mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         mybatisPlusInterceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+        mybatisPlusInterceptor.addInnerInterceptor(new BlockAttackInnerInterceptor()); // 防全表更新与删除插件
         sqlSessionFactory.setPlugins(mybatisPlusInterceptor);
 
         /* map 下划线转驼峰 */
