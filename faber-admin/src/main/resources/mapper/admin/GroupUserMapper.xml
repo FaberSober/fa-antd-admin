@@ -4,8 +4,8 @@
 <mapper namespace="com.faber.admin.mapper.GroupUserMapper">
 
     <delete id="deleteNotValidGroupUsers">
-        DELETE FROM base_group_user WHERE group_id IN (
-            SELECT id FROM base_group WHERE del_state = '1'
+        DELETE FROM base_group_user WHERE del_state = 0 and group_id IN (
+            SELECT id FROM base_group WHERE del_state = 1
         )
     </delete>
 

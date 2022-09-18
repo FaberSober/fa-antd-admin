@@ -4,14 +4,15 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.faber.common.bean.BaseUpdEntity;
+import com.faber.common.bean.BaseDelEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("base_group_type")
-public class GroupType extends BaseUpdEntity {
+public class GroupType extends BaseDelEntity {
+
     @TableId(type = IdType.AUTO)
     private Integer id;
 

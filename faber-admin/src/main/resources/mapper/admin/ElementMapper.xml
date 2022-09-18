@@ -6,7 +6,7 @@
         select distinct t.id, t.code, t.type, t.name, t.uri, t.method, m.title as menu_id
           from base_resource_authority ra
          inner join base_element t on ra.resource_id = t.id and t.del_state = 0 and ra.authority_id in (
-                   select group_id from base_group_user where user_id = #{userId}
+                   select group_id from base_group_user where del_state = 0 and user_id = #{userId}
                )
           and ra.authority_type = 'group'
           and ra.resource_type = 'button'

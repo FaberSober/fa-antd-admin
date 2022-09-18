@@ -18,7 +18,7 @@
                 and ra.authority_id in (
                     select group_id
                     from base_group_user
-                    where user_id = #{userId}
+                    where del_state = 0 and user_id = #{userId}
                 )
                 and ra.authority_type = 'group'
                 and ra.resource_type = 'menu'
@@ -32,7 +32,7 @@
                 and ra.authority_id in (
                     select group_id
                     from base_group_user
-                    where user_id = #{userId}
+                    where del_state = 0 and user_id = #{userId}
                 )
                 and ra.authority_type = 'group'
                 and ra.resource_type = 'menu'

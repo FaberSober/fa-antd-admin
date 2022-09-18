@@ -4,6 +4,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.bean.BaseUpdEntity;
 import lombok.Data;
 
@@ -12,8 +13,7 @@ import lombok.Data;
  */
 @Data
 @TableName("base_group_user")
-public class GroupUser extends BaseUpdEntity {
-    private static final long serialVersionUID = 1L;
+public class GroupUser extends BaseDelEntity {
 
     @TableId(type = IdType.AUTO)
     private Integer id;
