@@ -28,7 +28,7 @@ function DictList({ type }: IProps, ref: any) {
     useTableQueryParams<Admin.DictWebVO>(modelService.page, { extraParams: { type }, sorter: { field: 'crtTime', order: 'descend' } }, serviceName);
 
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, { ...queryParams, extraParams: { type } });
-  const [handleDelete] = useDelete<number>(modelService.logicDeleteById, fetchPageList, serviceName);
+  const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName);
 
   useEffect(() => setExtraParams({ type }), [type]);
 
@@ -141,7 +141,7 @@ function DictList({ type }: IProps, ref: any) {
         rowKey={(item) => item.id}
         onChange={handleTableChange}
         refreshList={() => fetchPageList()}
-        batchDelete={(ids) => modelService.batchLogicDelete(ids)}
+        batchDelete={(ids) => modelService.removeBatchByIds(ids)}
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
         scrollYOccupied={340}

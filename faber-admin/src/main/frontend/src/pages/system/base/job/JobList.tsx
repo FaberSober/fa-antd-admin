@@ -23,7 +23,7 @@ export default function JobList() {
     useTableQueryParams<Admin.Job>(modelService.page, { sorter: { field: 'id', order: 'descend' } }, serviceName);
 
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams);
-  const [handleDelete] = useDelete<number>(modelService.logicDeleteById, fetchPageList, serviceName);
+  const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName);
 
   /** 确定立即执行一次该任务 */
   function handleRunOneTime(id: number) {
@@ -162,7 +162,7 @@ export default function JobList() {
         rowKey={(item) => item.id}
         onChange={handleTableChange}
         refreshList={() => fetchPageList()}
-        batchDelete={(ids) => modelService.batchLogicDelete(ids)}
+        batchDelete={(ids) => modelService.removeBatchByIds(ids)}
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
         scrollY={document.body.clientHeight - 275}

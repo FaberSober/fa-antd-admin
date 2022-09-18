@@ -23,7 +23,7 @@ export default function JobLogList({ jobId }: JobLogListProps) {
   const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, setExtraParams, fetchPageList, loading, list, dicts, paginationProps } =
     useTableQueryParams<Admin.JobLog>(modelService.page, { extraParams: { jobId } }, serviceName)
 
-  const [handleDelete] = useDelete<number>(modelService.logicDeleteById, fetchPageList, serviceName)
+  const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName)
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams)
 
   useEffect(() => {
@@ -97,7 +97,7 @@ export default function JobLogList({ jobId }: JobLogListProps) {
         rowKey={(item) => item.id}
         onChange={handleTableChange}
         refreshList={() => fetchPageList()}
-        batchDelete={(ids) => modelService.batchLogicDelete(ids)}
+        batchDelete={(ids) => modelService.removeBatchByIds(ids)}
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
         scrollYOccupied={280}

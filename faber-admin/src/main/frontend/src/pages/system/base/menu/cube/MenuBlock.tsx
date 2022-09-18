@@ -60,7 +60,7 @@ export default function MenuBlock({ showOprBtn }: MenuBlockProps) {
       okText: '删除',
       okButtonProps: { type: 'primary', danger: true },
       onOk: () => {
-        menuBlockApi.logicDeleteById(item.id).then((res) => {
+        menuBlockApi.remove(item.id).then((res) => {
           showResponse(res, '删除')
           fetchData()
         })

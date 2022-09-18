@@ -35,7 +35,7 @@ export default function BookList({ bizType, uri }: BookListProps) {
   } = useTableQueryParams<Article.Book>(modelService.page, { extraParams: { bizType } }, serviceName);
 
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, { ...queryParams, extraParams: { bizType } });
-  const [handleDelete] = useDelete<number>(modelService.logicDeleteById, fetchPageList, serviceName);
+  const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName);
 
   useEffect(() => setExtraParams({ bizType }), [bizType]);
 
@@ -137,7 +137,7 @@ export default function BookList({ bizType, uri }: BookListProps) {
         rowKey={(item) => item.id}
         onChange={handleTableChange}
         refreshList={() => fetchPageList()}
-        batchDelete={(ids) => modelService.batchLogicDelete(ids)}
+        batchDelete={(ids) => modelService.removeBatchByIds(ids)}
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
       />

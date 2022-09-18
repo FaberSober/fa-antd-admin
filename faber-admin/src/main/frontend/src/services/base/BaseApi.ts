@@ -1,63 +1,41 @@
 import FaberBase from '@/props/base/FaberBase';
 import Ajax from '@/props/base/Ajax';
-import { requestDelete, requestDownload, requestGet, requestPost, requestPut } from '@/utils/request';
-import querystring from 'querystring';
+import BaseZeroApi from './BaseZeroApi';
 
-export default class BaseApi<T, KeyType, PageT = T> {
-	public apiPrefix: string;
-
-	public apiModal: string;
-
-	constructor(apiPrefix: string, apiModal: string) {
-		this.apiPrefix = apiPrefix;
-		this.apiModal = apiModal;
-	}
+export default class BaseApi<T, KeyType, PageT = T> extends BaseZeroApi<T, KeyType, PageT> {
+	/** 增加实体信息 */
+	add = (params: any): Promise<Ajax.Response<T>> => super.post('add', params);
 
 	/** 增加实体信息 */
-	add = (params: any): Promise<Ajax.Response<T>> => requestPost(`${this.apiPrefix}/${this.apiModal}/add`, params);
-
-	/** 增加实体信息 */
-	batchInsert = (params: any): Promise<Ajax.Response<T>> => requestPost(`${this.apiPrefix}/${this.apiModal}/batchInsert`, params);
+	saveBatch = (params: any[]): Promise<Ajax.Response<T>> => super.post('saveBatch', params);
 
 	/** 获取唯一实体 */
-	findOne = (id: KeyType): Promise<Ajax.Response<T>> => requestGet(`${this.apiPrefix}/${this.apiModal}/get/${id}`);
+	findOne = (id: KeyType): Promise<Ajax.Response<T>> => super.get(`get/${id}`);
 
 	/** 更新实体 */
-	update = (id: KeyType, params: any): Promise<Ajax.Response> => requestPut(`${this.apiPrefix}/${this.apiModal}/update`, params);
-
-	/** 更新实体-只更新传入的属性 */
-	updateAll = (id: KeyType, params: any): Promise<Ajax.Response> => requestPut(`${this.apiPrefix}/${this.apiModal}/updateAll`, params);
-
-	/** 更新实体-只更新传入的属性 */
-	updateSelective = (id: KeyType, params: any): Promise<Ajax.Response> => requestPut(`${this.apiPrefix}/${this.apiModal}/updateSelective/`, params);
+	update = (id: KeyType, params: any): Promise<Ajax.Response> => super.post('update', params);
 
 	/** 删除实体 */
-	remove = (id: KeyType): Promise<Ajax.Response> => requestDelete(`${this.apiPrefix}/${this.apiModal}/remove/${id}`);
-
-	/** 逻辑删除实体 */
-	logicDeleteById = (id: KeyType): Promise<Ajax.Response> => requestDelete(`${this.apiPrefix}/${this.apiModal}/logicDeleteById/${id}`);
+	remove = (id: KeyType): Promise<Ajax.Response> => super.delete(`remove/${id}`);
 
 	/** 批量删除实体 */
-	batchDelete = (ids: KeyType[]): Promise<Ajax.Response> => requestPost(`${this.apiPrefix}/${this.apiModal}/batchDelete`, { ids });
-
-	/** 批量逻辑删除实体 */
-	batchLogicDelete = (ids: KeyType[]): Promise<Ajax.Response> => requestPost(`${this.apiPrefix}/${this.apiModal}/batchLogicDelete`, { ids });
+	removeBatchByIds = (ids: KeyType[]): Promise<Ajax.Response> => super.post('removeBatchByIds', ids);
 
 	/** 获取所有实体 */
-	all = (): Promise<Ajax.Response<T[]>> => requestGet(`${this.apiPrefix}/${this.apiModal}/all`);
+	all = (): Promise<Ajax.Response<T[]>> => super.get('all');
 
 	/** 获取实体List */
-	list = (params: any): Promise<Ajax.Response<T[]>> => requestPost(`${this.apiPrefix}/${this.apiModal}/list`, params);
+	list = (params: any): Promise<Ajax.Response<T[]>> => super.post('list', params);
 
 	/** 获取实体List-用户创建 */
-	mineList = (params: any): Promise<Ajax.Response<T[]>> => requestGet(`${this.apiPrefix}/${this.apiModal}/mineList?${querystring.stringify(params)}`);
+	mineList = (params: any): Promise<Ajax.Response<T[]>> => super.post('mineList', params);
 
 	/** 获取实体List */
-	count = (params: any): Promise<Ajax.Response<number>> => requestGet(`${this.apiPrefix}/${this.apiModal}/count?${querystring.stringify(params)}`);
+	count = (params: any): Promise<Ajax.Response<number>> => super.post('count', params);
 
 	/** 获取实体 分页 */
-	page = (params: FaberBase.BasePageProps): Promise<Ajax.Response<Ajax.Page<PageT>>> => requestPost(`${this.apiPrefix}/${this.apiModal}/page`, params);
+	page = (params: FaberBase.BasePageProps): Promise<Ajax.Response<Ajax.Page<PageT>>> => super.post('page', params);
 
 	/** 导出Excel[分页查询] */
-	exportExcel = (params: FaberBase.BasePageProps): Promise<undefined> => requestDownload(`${this.apiPrefix}/${this.apiModal}/exportExcel`, params);
+	exportExcel = (params: FaberBase.BasePageProps): Promise<undefined> => super.download('exportExcel', params);
 }

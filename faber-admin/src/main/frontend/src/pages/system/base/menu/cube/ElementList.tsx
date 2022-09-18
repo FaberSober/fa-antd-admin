@@ -34,7 +34,7 @@ function ElementList(_: any, ref: any) {
       }, serviceName);
 
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, { ...queryParams, extraParams: getExtraParams() });
-  const [handleDelete] = useDelete<number>(modelService.logicDeleteById, fetchPageList, serviceName);
+  const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName);
 
   useEffect(() => {
     setExtraParams(getExtraParams());
@@ -141,7 +141,7 @@ function ElementList(_: any, ref: any) {
         rowKey={(item) => item.id}
         onChange={handleTableChange}
         refreshList={() => fetchPageList()}
-        batchDelete={(ids) => modelService.batchLogicDelete(ids)}
+        batchDelete={(ids) => modelService.removeBatchByIds(ids)}
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
       />

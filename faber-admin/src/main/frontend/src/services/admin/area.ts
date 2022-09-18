@@ -1,4 +1,3 @@
-import { requestGet } from '@/utils/request';
 import { GATE_APP } from '@/configs/server.config';
 import Ajax from '@/props/base/Ajax';
 import FaberBase from '@/props/base/FaberBase';
@@ -15,13 +14,13 @@ interface PathResData {
 
 class AreaApi extends BaseApi<Admin.Area, number> {
 	/** 获取唯一 xx */
-	findOnePath = (areaCode: number): Promise<Ajax.Response<PathResData>> => requestGet(`${GATE_APP.admin}/${serviceModule}/path/${areaCode}`);
+	findOnePath = (areaCode: number): Promise<Ajax.Response<PathResData>> => super.get(`path/${areaCode}`);
 
 	/** 获取唯一 xx */
-	findByAreaCode = (areaCode: number): Promise<Ajax.Response<Admin.Area>> => requestGet(`${GATE_APP.admin}/${serviceModule}/findByAreaCode/${areaCode}`);
+	findByAreaCode = (areaCode: number): Promise<Ajax.Response<Admin.Area>> => super.get(`findByAreaCode/${areaCode}`);
 
 	/** 获取唯一实体 */
-	findAreaByLoc = (lng: number, lat: number): Promise<Ajax.Response<Admin.Area>> => requestGet(`${GATE_APP.admin}/${serviceModule}/findAreaByLoc?lng=${lng}&lat=${lat}`);
+	findAreaByLoc = (lng: number, lat: number): Promise<Ajax.Response<Admin.Area>> => super.get(`findAreaByLoc?lng=${lng}&lat=${lat}`);
 }
 
 export default new AreaApi(GATE_APP.admin, serviceModule);

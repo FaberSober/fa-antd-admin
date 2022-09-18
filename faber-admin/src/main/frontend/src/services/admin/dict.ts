@@ -1,5 +1,4 @@
 import queryString from 'querystring';
-import { requestGet } from '@/utils/request';
 import { GATE_APP } from '@/configs/server.config';
 import Admin from '@/props/admin';
 import { BaseApi } from '@/services/base';
@@ -10,19 +9,18 @@ const serviceModule = 'dict';
 
 class Dict extends BaseApi<Admin.Dict, number> {
 	/** 获取实体List */
-	listByCode = (dictTypeCode: string): Promise<Ajax.Response<Admin.Dict[]>> =>
-		requestGet(`${GATE_APP.admin}/${serviceModule}/listByCode?${queryString.stringify({ dictTypeCode })}`);
+	listByCode = (dictTypeCode: string): Promise<Ajax.Response<Admin.Dict[]>> => super.get(`listByCode?${queryString.stringify({ dictTypeCode })}`);
 
 	/** 获取实体List */
 	getByCodeAndText = (dictTypeCode: string, dictText: string): Promise<Ajax.Response<Admin.Dict[]>> =>
-		requestGet(`${GATE_APP.admin}/${serviceModule}/getByCodeAndText?${queryString.stringify({ dictTypeCode, dictText })}`);
+		super.get(`getByCodeAndText?${queryString.stringify({ dictTypeCode, dictText })}`);
 
 	/** 获取实体List */
 	getByCodeAndValue = (dictTypeCode: string, dictValue: string): Promise<Ajax.Response<Admin.Dict[]>> =>
-		requestGet(`${GATE_APP.admin}/${serviceModule}/getByCodeAndValue?${queryString.stringify({ dictTypeCode, dictValue })}`);
+		super.get(`getByCodeAndValue?${queryString.stringify({ dictTypeCode, dictValue })}`);
 
 	/** 获取系统配置参数 */
-	getSystemConfig = (): Promise<Ajax.Response<Admin.SystemConfigPo>> => requestGet(`${GATE_APP.admin}/${serviceModule}/getSystemConfig`);
+	getSystemConfig = (): Promise<Ajax.Response<Admin.SystemConfigPo>> => super.get(`getSystemConfig`);
 }
 
 export default new Dict(GATE_APP.admin, serviceModule);

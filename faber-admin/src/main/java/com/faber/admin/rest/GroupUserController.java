@@ -30,7 +30,7 @@ public class GroupUserController extends BaseController<GroupUserBiz, GroupUser>
         return baseBiz.getGroupUsers(groupId, params);
     }
 
-    @RequestMapping(value = "/{id}/addUsers", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}/addUsers", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse<Boolean> addUsers(@PathVariable int id, @RequestBody JSONObject json) {
         baseBiz.addUsers(id, json);

@@ -21,7 +21,7 @@ export default function AreaList(props: RouteComponentProps) {
     useTableQueryParams<Admin.Area>(modelService.page, { sorter: { field: 'areaCode', order: 'ascend' } }, serviceName);
 
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams);
-  const [handleDelete] = useDelete<number>(modelService.logicDeleteById, fetchPageList, serviceName);
+  const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName);
 
   /** 生成表格字段List */
   function genColumns(): FaberTable.ColumnsProp<Admin.Area>[] {
@@ -108,7 +108,7 @@ export default function AreaList(props: RouteComponentProps) {
         rowKey={(item) => item.id}
         onChange={handleTableChange}
         refreshList={() => fetchPageList()}
-        batchDelete={(ids) => modelService.batchLogicDelete(ids)}
+        batchDelete={(ids) => modelService.removeBatchByIds(ids)}
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
         scrollY={document.body.clientHeight - 275}

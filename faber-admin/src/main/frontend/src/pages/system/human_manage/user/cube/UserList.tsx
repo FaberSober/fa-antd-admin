@@ -32,7 +32,7 @@ function UserList({ departmentId }: IProps, ref: any) {
     );
 
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, { ...queryParams, extraParams: { departmentId } });
-  const [handleDelete] = useDelete<string>(modelService.logicDeleteById, fetchPageList, serviceName);
+  const [handleDelete] = useDelete<string>(modelService.remove, fetchPageList, serviceName);
 
   useEffect(() => setExtraParams({ departmentId }), [departmentId]);
 
@@ -147,7 +147,7 @@ function UserList({ departmentId }: IProps, ref: any) {
         rowKey={(item) => item.id}
         onChange={handleTableChange}
         refreshList={() => fetchPageList()}
-        batchDelete={(ids) => modelService.batchLogicDelete(ids)}
+        batchDelete={(ids) => modelService.removeBatchByIds(ids)}
         showComplexQuery={false}
         showBatchBelBtn={false}
         onSceneChange={(v) => setSceneId(v)}

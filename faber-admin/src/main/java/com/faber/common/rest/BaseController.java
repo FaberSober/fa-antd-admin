@@ -26,7 +26,7 @@ import java.util.Map;
  * <li>get - id查询</li>
  * <li>update - 更新</li>
  * <li>remove - id删除</li>
- * <li>batchDelete - ids批量删除</li>
+ * <li>removeBatchByIds - ids批量删除</li>
  * <li>all - 获取所有List</li>
  * <li>list - 获取List，带过滤查询条件</li>
  * <li>mineList - 获取List(限定登录用户创建)，带过滤查询条件</li>
@@ -44,9 +44,9 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
     @Autowired
     protected Biz baseBiz;
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Entity> save(@Valid @RequestBody Entity entity) {
+    public ObjectRestResponse<Entity> add(@Valid @RequestBody Entity entity) {
         baseBiz.save(entity);
         return ok(entity);
     }
@@ -58,30 +58,27 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
         return ok(entityList);
     }
 
-    @RequestMapping(value = "/getById/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<Entity> getById(@PathVariable Serializable id) {
+    public ObjectRestResponse<Entity> get(@PathVariable Serializable id) {
         Entity o = (Entity) baseBiz.getById(id);
         return ok(o);
     }
 
-    @RequestMapping(value = "/updateById", method = RequestMethod.PUT)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Entity> updateById(@Valid @RequestBody Entity entity) {
+    public ObjectRestResponse<Entity> update(@Valid @RequestBody Entity entity) {
         baseBiz.updateById(entity);
         return ok();
     }
 
-    @RequestMapping(value = "/removeById/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public ObjectRestResponse<Entity> removeById(@PathVariable Serializable id) {
+    public ObjectRestResponse<Entity> remove(@PathVariable Serializable id) {
         baseBiz.removeById(id);
         return ok();
     }
 
-    /**
-     * 批量删除
-     */
     @RequestMapping(value = "/removeBatchByIds", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse<Boolean> removeBatchByIds(@RequestBody List<Serializable> ids) {
@@ -103,14 +100,14 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
         return ok(list);
     }
 
-    @RequestMapping(value = "/mineList", method = RequestMethod.GET)
+    @RequestMapping(value = "/mineList", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse<List<Entity>> mineList(@RequestParam Map<String, Object> params) {
         List<Entity> list = baseBiz.mineList(params);
         return ok(list);
     }
 
-    @RequestMapping(value = "/count", method = RequestMethod.GET)
+    @RequestMapping(value = "/count", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse<Long> count(@RequestParam Map<String, Object> params) {
         long count = baseBiz.count(baseBiz.parseQuery(new Query(params)));

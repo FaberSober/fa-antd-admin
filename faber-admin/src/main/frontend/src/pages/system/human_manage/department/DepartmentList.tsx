@@ -21,7 +21,7 @@ export default function DepartmentList(props: RouteComponentProps) {
     useTableQueryParams<Admin.DepartmentPageVo>(modelService.page, { sorter: { field: 'crtTime', order: 'descend' } }, serviceName);
 
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams);
-  const [handleDelete] = useDelete<string>(modelService.logicDeleteById, fetchPageList, serviceName);
+  const [handleDelete] = useDelete<string>(modelService.remove, fetchPageList, serviceName);
 
   /** 生成表格字段List */
   function genColumns(): FaberTable.ColumnsProp<Admin.DepartmentPageVo>[] {
@@ -113,7 +113,7 @@ export default function DepartmentList(props: RouteComponentProps) {
         rowKey={(item) => item.id}
         onChange={handleTableChange}
         refreshList={() => fetchPageList()}
-        batchDelete={(ids) => modelService.batchLogicDelete(ids)}
+        batchDelete={(ids) => modelService.removeBatchByIds(ids)}
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
       />
