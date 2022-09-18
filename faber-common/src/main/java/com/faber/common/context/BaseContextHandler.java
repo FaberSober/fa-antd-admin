@@ -53,6 +53,15 @@ public class BaseContextHandler {
         return StringHelper.getObjectValue(value);
     }
 
+    public static Boolean getLogin() {
+        Object value = get(CommonConstants.CONTEXT_KEY_LOGIN);
+        return value != null && (Boolean) value;
+    }
+
+    public static void setLogin(Boolean login) {
+        set(CommonConstants.CONTEXT_KEY_LOGIN, login);
+    }
+
     public static void setToken(String token) {
         set(CommonConstants.CONTEXT_KEY_USER_TOKEN, token);
     }
@@ -77,41 +86,4 @@ public class BaseContextHandler {
         threadLocal.remove();
     }
 
-//    @RunWith(MockitoJUnitRunner.class)
-//    public static class UnitTest {
-//        private Logger logger = LoggerFactory.getLogger(UnitTest.class);
-//
-//        @Test
-//        public void testSetContextVariable() throws InterruptedException {
-//            BaseContextHandler.set("test", "main");
-//            new Thread(() -> {
-//                BaseContextHandler.set("test", "moo");
-//
-//                try {
-//                    Thread.sleep(3000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                assertEquals(BaseContextHandler.get("test"), "moo");
-//                logger.info("thread one done!");
-//            }).start();
-//            new Thread(() -> {
-//                BaseContextHandler.set("test", "moo2");
-//                assertEquals(BaseContextHandler.get("test"), "moo2");
-//                logger.info("thread two done!");
-//            }).start();
-//
-//            Thread.sleep(5000);
-//            assertEquals(BaseContextHandler.get("test"), "main");
-//            logger.info("main one done!");
-//        }
-//
-//        @Test
-//        public void testSetUserInfo() {
-//            BaseContextHandler.setUserID("test");
-//            assertEquals(BaseContextHandler.getUserID(), "test");
-//            BaseContextHandler.setUsername("test2");
-//            assertEquals(BaseContextHandler.getUsername(), "test2");
-//        }
-//    }
 }

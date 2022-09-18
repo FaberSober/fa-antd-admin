@@ -19,6 +19,8 @@ public class CommonConstants {
     // ---------------- 其他异常 ----------------
     public static final Integer EX_OTHER_CODE = 500;
 
+    // ---------------- 上下文信息 ----------------
+    public static final String CONTEXT_KEY_LOGIN = "currentLogin";
     public static final String CONTEXT_KEY_USER_ID = "currentUserId";
     public static final String CONTEXT_KEY_USERNAME = "currentUserName";
     public static final String CONTEXT_KEY_PHONE = "currentPhone";
@@ -41,6 +43,4 @@ public class CommonConstants {
 
     public final static String RESOURCE_ACTION_VISIT = "访问";
 
-    public final static String BOOLEAN_NUMBER_FALSE = "0";
-    public final static String BOOLEAN_NUMBER_TRUE = "1";
 }

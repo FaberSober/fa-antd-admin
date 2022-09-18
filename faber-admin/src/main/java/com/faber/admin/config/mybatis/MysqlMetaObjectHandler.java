@@ -1,6 +1,7 @@
 package com.faber.admin.config.mybatis;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.faber.common.context.BaseContextHandler;
 import com.faber.common.enums.DelStateEnum;
 import org.apache.ibatis.reflection.MetaObject;
 
@@ -16,15 +17,12 @@ public class MysqlMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-        System.out.println("*************************");
-        System.out.println("insert of mysql fill");
-        System.out.println("*************************");
-
-        // insert crtTime
 //        Object crtTime = this.getFieldValByName("crtTime", metaObject);
+        if (BaseContextHandler.getLogin()) {
+            this.strictInsertFill(metaObject, "crtUser", String.class, BaseContextHandler.getUserID());
+            this.strictInsertFill(metaObject, "crtName", String.class, BaseContextHandler.getName());
+        }
         this.strictInsertFill(metaObject, "crtTime", LocalDateTime.class, LocalDateTime.now());
-        this.strictInsertFill(metaObject, "crtUser", String.class, "1");
-        this.strictInsertFill(metaObject, "crtName", String.class, "admin");
         this.strictInsertFill(metaObject, "crtHost", String.class, "127.0.0.1");
 
         this.strictInsertFill(metaObject, "delState", DelStateEnum.class, DelStateEnum.VALID);
@@ -32,13 +30,11 @@ public class MysqlMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        System.out.println("*************************");
-        System.out.println("update of mysql fill");
-        System.out.println("*************************");
-
+        if (BaseContextHandler.getLogin()) {
+            this.strictUpdateFill(metaObject, "updUser", String.class, BaseContextHandler.getUserID());
+            this.strictUpdateFill(metaObject, "updName", String.class, BaseContextHandler.getName());
+        }
         this.strictUpdateFill(metaObject, "updTime", LocalDateTime.class, LocalDateTime.now());
-        this.strictUpdateFill(metaObject, "updUser", String.class, "1");
-        this.strictUpdateFill(metaObject, "updName", String.class, "admin");
         this.strictUpdateFill(metaObject, "updHost", String.class, "127.0.0.1");
     }
 

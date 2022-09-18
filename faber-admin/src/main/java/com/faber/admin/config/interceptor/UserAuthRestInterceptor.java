@@ -39,6 +39,7 @@ public class UserAuthRestInterceptor extends AbstractInterceptor {
         BaseContextHandler.setUsername(infoFromToken.getUniqueName());
         BaseContextHandler.setName(infoFromToken.getName());
         BaseContextHandler.setUserID(infoFromToken.getId());
+        BaseContextHandler.setLogin(true);
         return super.preHandle(request, response, handler);
     }
 
