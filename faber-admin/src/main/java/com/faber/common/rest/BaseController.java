@@ -1,5 +1,6 @@
 package com.faber.common.rest;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.msg.TableResultResponse;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -19,13 +21,12 @@ import java.util.Map;
 /**
  * <h3>通用Rest接口父类，包含基本的方法：</h3>
  * <ol>
- * <li>add - 新增</li>
+ * <li>save - 新增</li>
+ * <li>saveBatch - 新增批量</li>
  * <li>get - id查询</li>
  * <li>update - 更新</li>
  * <li>remove - id删除</li>
- * <li>logicDeleteById - id逻辑删除</li>
  * <li>batchDelete - ids批量删除</li>
- * <li>batchLogicDelete - ids批量逻辑删除</li>
  * <li>all - 获取所有List</li>
  * <li>list - 获取List，带过滤查询条件</li>
  * <li>mineList - 获取List(限定登录用户创建)，带过滤查询条件</li>
@@ -41,73 +42,39 @@ import java.util.Map;
 public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler {
 
     @Autowired
-    protected HttpServletRequest request;
-
-    @Autowired
     protected Biz baseBiz;
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Entity> add(@Valid @RequestBody Entity entity) {
+    public ObjectRestResponse<Entity> save(@Valid @RequestBody Entity entity) {
         baseBiz.save(entity);
         return ok(entity);
     }
 
-    @RequestMapping(value = "/batchInsert", method = RequestMethod.POST)
+    @RequestMapping(value = "/saveBatch", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<List<Entity>> batchInsert(@Valid @RequestBody List<Entity> entityList) {
+    public ObjectRestResponse<List<Entity>> saveBatch(@Valid @RequestBody List<Entity> entityList) {
         baseBiz.saveBatch(entityList);
         return ok(entityList);
     }
 
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getById/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<Entity> get(@PathVariable Serializable id) {
+    public ObjectRestResponse<Entity> getById(@PathVariable Serializable id) {
         Entity o = (Entity) baseBiz.getById(id);
         return ok(o);
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @RequestMapping(value = "/updateById", method = RequestMethod.PUT)
     @ResponseBody
-    public ObjectRestResponse<Entity> update(@Valid @RequestBody Entity entity) {
+    public ObjectRestResponse<Entity> updateById(@Valid @RequestBody Entity entity) {
         baseBiz.updateById(entity);
         return ok();
     }
 
-    /**
-     * 更新给定的全部字段
-     * @param entity
-     * @return
-     */
-    @RequestMapping(value = "/updateAll", method = RequestMethod.PUT)
+    @RequestMapping(value = "/removeById/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public ObjectRestResponse<Entity> updateAll(@Valid @RequestBody Entity entity) {
-        baseBiz.updateById(entity);
-        return ok();
-    }
-
-    /**
-     * 只更新传入的参数
-     * @param entity
-     * @return
-     */
-    @RequestMapping(value = "/updateSelective", method = RequestMethod.PUT)
-    @ResponseBody
-    public ObjectRestResponse<Entity> updateSelective(@Valid @RequestBody Entity entity) {
-        baseBiz.updateById(entity);
-        return ok();
-    }
-
-    @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
-    @ResponseBody
-    public ObjectRestResponse<Entity> remove(@PathVariable Serializable id) {
-        baseBiz.removeById(id);
-        return ok();
-    }
-
-    @RequestMapping(value = "/logicDeleteById/{id}", method = RequestMethod.DELETE)
-    @ResponseBody
-    public ObjectRestResponse<Entity> logicDeleteById(@PathVariable Serializable id) {
+    public ObjectRestResponse<Entity> removeById(@PathVariable Serializable id) {
         baseBiz.removeById(id);
         return ok();
     }
@@ -115,20 +82,10 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
     /**
      * 批量删除
      */
-    @RequestMapping(value = "/batchDelete", method = RequestMethod.POST)
+    @RequestMapping(value = "/removeBatchByIds", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Boolean> batchDelete(@RequestBody List<Serializable> ids) {
+    public ObjectRestResponse<Boolean> removeBatchByIds(@RequestBody List<Serializable> ids) {
         baseBiz.removeBatchByIds(ids);
-        return ok();
-    }
-
-    /**
-     * 批量逻辑删除
-     */
-    @RequestMapping(value = "/batchLogicDelete", method = RequestMethod.POST)
-    @ResponseBody
-    public ObjectRestResponse batchLogicDelete(@RequestBody Map<String, Object> params) {
-//        baseBiz.batchLogicDelete(params);
         return ok();
     }
 
@@ -178,4 +135,5 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
     public void exportExcel(@RequestBody Map<String, Object> params) throws IOException {
         baseBiz.exportExcel(params);
     }
+
 }

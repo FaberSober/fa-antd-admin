@@ -72,7 +72,8 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     }
 
     public List<T> mineList(Map<String, Object> params) {
-        return Collections.emptyList();
+        params.put("crtUser", getCurrentUserId());
+        return this.list(params);
     }
 
     /**

@@ -111,7 +111,7 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
      * @param dirId 文件夹ID
      * @return
      */
-    public List<Map<String, Object>> mineList(int dirId) {
+    public List<Map<String, Object>> mineFileList(int dirId) {
         List<Map<String, Object>> list = new ArrayList<>();
 
         // 我的文件夹
@@ -219,7 +219,7 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
                     save(newDiskDir);
 
                     // 文件夹下属子节点也要复制
-                    List<Map<String, Object>> childList = this.mineList(sourceDir.getId());
+                    List<Map<String, Object>> childList = this.mineFileList(sourceDir.getId());
                     Map<String, Object> subOprParams = new HashMap<>();
                     subOprParams.put("sourceList", childList);
                     subOprParams.put("toDirId", newDiskDir.getId());

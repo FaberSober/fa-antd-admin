@@ -44,7 +44,7 @@ public class DiskDirController extends BaseController<DiskDirBiz, DiskDir> {
     @RequestMapping(value = "/mine/list", method = RequestMethod.GET)
     @ResponseBody
     public ObjectRestResponse<Object> mineList(@RequestParam int dir) {
-        List<Map<String, Object>> list = baseBiz.mineList(dir);
+        List<Map<String, Object>> list = baseBiz.mineFileList(dir);
         return ok(list);
     }
 
