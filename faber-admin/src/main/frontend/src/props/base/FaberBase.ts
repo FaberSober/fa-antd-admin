@@ -1,20 +1,7 @@
 namespace FaberBase {
 	export enum DelState {
-		AVAILABLE = '0',
-		DELETED = '1',
-	}
-
-	export interface BaseStdEntity {
-		/** 创建时间 */
-		createtime?: string;
-		/** 更新时间 */
-		lasttime?: string;
-		/** 创建者ID */
-		createuser?: string;
-		/** 更新者ID */
-		lastuser?: string;
-		/** 删除状态 */
-		deleteFlag?: DelState;
+		AVAILABLE = 0,
+		DELETED = 1,
 	}
 
 	export interface BaseCrtEntity {
@@ -42,14 +29,6 @@ namespace FaberBase {
 	export interface BaseDelEntity extends BaseOprEntity {
 		/** 删除状态 */
 		delState?: DelState;
-		/** 删除时间 */
-		delTime?: string;
-		/** 删除人ID */
-		delUser?: string;
-		/** 删除人 */
-		delName?: string;
-		/** 删除IP */
-		delHost?: string;
 	}
 
 	// ------------------------------------- 鉴权 -------------------------------------
@@ -158,12 +137,11 @@ namespace FaberBase {
 		useruuid: string;
 	}
 
-  // ------------------------------------- echarts -------------------------------------
-  export interface EchartsValue {
-    value: number;
-    name: string;
-  }
-
+	// ------------------------------------- echarts -------------------------------------
+	export interface EchartsValue {
+		value: number;
+		name: string;
+	}
 }
 
 export default FaberBase;

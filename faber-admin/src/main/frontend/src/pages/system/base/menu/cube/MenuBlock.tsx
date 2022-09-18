@@ -31,7 +31,7 @@ export default function MenuBlock({ showOprBtn }: MenuBlockProps) {
 
   function fetchData() {
     setLoading(true)
-    menuBlockApi.list({ delState: FaberBase.DelState.AVAILABLE, sorter: 'sort ASC' }).then((res) => {
+    menuBlockApi.list({ sorter: 'sort ASC' }).then((res) => {
       setLoading(false)
       if (res && res.status === RES_CODE.OK) {
         setArray(res.data)

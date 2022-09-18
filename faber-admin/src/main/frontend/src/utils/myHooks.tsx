@@ -168,8 +168,6 @@ export function useTableQueryParams<T>(
       pageSize: queryParams.pagination.pageSize,
       ...queryParams.formValues,
       sorter: BaseTableUtils.getSorter(queryParams.sorter),
-      delState: FaberBase.DelState.AVAILABLE,
-      deleteFlag: FaberBase.DelState.AVAILABLE,
       sceneId: queryParams.sceneId,
       conditionList: queryParams.conditionList,
       // 外部补充查询条件
@@ -253,8 +251,6 @@ export function useExport(exportApi: (params: any) => Promise<undefined>, queryP
     const params = {
       ...queryParams.formValues,
       sorter: BaseTableUtils.getSorter(queryParams.sorter),
-      delState: FaberBase.DelState.AVAILABLE,
-      deleteFlag: FaberBase.DelState.AVAILABLE,
       sceneId: queryParams.sceneId,
       conditionList: queryParams.conditionList,
       // 外部补充查询条件

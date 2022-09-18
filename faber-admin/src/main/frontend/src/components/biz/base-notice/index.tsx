@@ -14,7 +14,7 @@ export default function BaseNotice() {
   const [array, setArray] = useState<Admin.Notice[]>([]);
 
   useEffect(() => {
-    noticeService.list({ delState: FaberBase.DelState.AVAILABLE, status: FaberBase.TrueOrFalse.TRUE, strongNotice: FaberBase.TrueOrFalse.TRUE }).then((res) => {
+    noticeService.list({ status: FaberBase.TrueOrFalse.TRUE, strongNotice: FaberBase.TrueOrFalse.TRUE }).then((res) => {
       if (res && res.status === RES_CODE.OK) {
         setArray(res.data);
       }

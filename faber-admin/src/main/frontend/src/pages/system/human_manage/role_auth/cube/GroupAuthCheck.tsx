@@ -56,7 +56,7 @@ export default function GroupAuthCheck({ groupId }: IProps) {
     }).catch(() => setRefreshing(false))
 
     // 获取所有Element
-    elementService.list({ delState: '0', blockId: viewBlock.id }).then((res) => {
+    elementService.list({ blockId: viewBlock.id }).then((res) => {
       if (res && res.status === RES_CODE.OK) {
         // 根据menuId分组
         const eleMap = groupBy(res.data, (i) => i.menuId);

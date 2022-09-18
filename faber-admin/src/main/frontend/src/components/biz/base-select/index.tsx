@@ -40,9 +40,7 @@ export default function BaseSelect<RecordType extends object = any>({
   useEffect(() => {
     function fetchList() {
       setLoading(true);
-      serviceApi
-        ?.list({ delState: '0' })
-        .then((res) => {
+      serviceApi.list({}).then((res) => {
           if (res && res.status === RES_CODE.OK) {
             const newList = [];
             if (showAll) {
@@ -55,8 +53,7 @@ export default function BaseSelect<RecordType extends object = any>({
             setArray(newList);
           }
           setLoading(false);
-        })
-        .catch(() => setLoading(false));
+        }).catch(() => setLoading(false));
     }
 
     fetchList();
