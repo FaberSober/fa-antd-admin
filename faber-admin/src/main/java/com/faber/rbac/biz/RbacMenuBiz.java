@@ -35,11 +35,4 @@ public class RbacMenuBiz extends BaseTreeBiz<RbacMenuMapper,RbacMenu> {
         return super.updateById(entity);
     }
 
-    @Override
-    public boolean removeById(Serializable id) {
-        // 删除，检查是否还包含子节点
-        return super.removeById(id);
-    }
-
-
 }

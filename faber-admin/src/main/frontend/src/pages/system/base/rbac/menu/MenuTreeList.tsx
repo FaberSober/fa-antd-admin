@@ -2,14 +2,16 @@ import React, {useContext, useEffect, useState} from 'react';
 import rbacMenuApi from '@/services/rbac/rbacMenu'
 import {FaberBase} from "@/props/base";
 import Rbac from '@/props/rbac';
-import {RES_CODE} from "@/configs/server.config";
 import {Button, Space, Table} from "antd";
 import RbacMenuModal from "@/pages/system/base/rbac/menu/modal/RbacMenuModal";
-import {PlusOutlined} from "@ant-design/icons";
+import {EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {ColumnsType} from "antd/es/table";
 import {FaFlexRestLayout} from "@/components/biz/base-layout";
 import {TableRowSelection} from "antd/es/table/interface";
 import {UserContext} from "@/layout/UserSimpleLayout";
+import FaberEnums from "@/props/base/FaberEnums";
+import {useDelete} from "@/utils/myHooks";
+import {AuthDelBtn, FaHref} from '@/components/biz/decorator'
 
 /**
  * @author xu.pengfei
@@ -18,6 +20,8 @@ import {UserContext} from "@/layout/UserSimpleLayout";
 export default function MenuTreeList() {
   const {loadingEffect} = useContext(UserContext)
   const [tree, setTree] = useState<FaberBase.TreeNode<Rbac.RbacMenu>[]>([])
+
+  const [handleDelete] = useDelete<number>(rbacMenuApi.remove, refreshData, '菜单');
 
   useEffect(() => {
     refreshData()
@@ -43,7 +47,27 @@ export default function MenuTreeList() {
   };
 
   const columns: ColumnsType<Rbac.RbacMenu> = [
-    { title: '名称', dataIndex: 'name', key: 'name', },
+    { title: '名称', dataIndex: 'name', width: 200, },
+    {
+      title: '菜单等级',
+      dataIndex: ['sourceData', 'level'],
+      render: (val) => FaberEnums.RbacMenuLevelEnumMap[val],
+      width: 120,
+    },
+    { title: '链接', dataIndex: ['sourceData', 'linkUrl'] },
+    {
+      title: '操作',
+      render: (text: string, record: Rbac.RbacMenu) => (
+        <Space>
+          <RbacMenuModal title="编辑菜单" record={record} fetchFinish={refreshData}>
+            <FaHref icon={<EditOutlined />} text="编辑" />
+          </RbacMenuModal>
+          <AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />
+        </Space>
+      ),
+      width: 220,
+      fixed: 'right',
+    },
   ];
 
   const loadingTree = loadingEffect[rbacMenuApi.getUrl('allTree')];
@@ -63,7 +87,6 @@ export default function MenuTreeList() {
           columns={columns}
           rowSelection={{ ...rowSelection }}
           pagination={false}
-          expandRowByClick
           loading={loadingTree}
         />
       </FaFlexRestLayout>

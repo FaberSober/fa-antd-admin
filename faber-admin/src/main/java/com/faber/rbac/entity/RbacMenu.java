@@ -46,9 +46,6 @@ public class RbacMenu extends BaseDelEntity {
     @ExcelProperty("菜单等级：0-模块/1-一级菜单/2-二级菜单/3-三级菜单/9-按钮")
     private RbacMenuLevelEnum level;
 
-    @ExcelProperty("ID路径【id-id-id】")
-    private String path;
-
     @ExcelProperty("图标标识")
     private String icon;
 

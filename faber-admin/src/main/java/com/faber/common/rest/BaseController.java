@@ -57,7 +57,7 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<Entity> get(@PathVariable Serializable id) {
+    public ObjectRestResponse<Entity> get(@PathVariable Key id) {
         Entity o = (Entity) baseBiz.getById(id);
         return ok(o);
     }

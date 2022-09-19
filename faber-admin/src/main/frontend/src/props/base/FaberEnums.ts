@@ -20,6 +20,14 @@ namespace FaberEnums {
     BUTTON = 9,
   }
 
+  export const RbacMenuLevelEnumMap = {
+    [RbacMenuLevelEnum.APP]: '模块',
+    [RbacMenuLevelEnum.LEVEL_1]: '一级菜单',
+    [RbacMenuLevelEnum.LEVEL_2]: '二级菜单',
+    [RbacMenuLevelEnum.LEVEL_3]: '三级菜单',
+    [RbacMenuLevelEnum.BUTTON]: '按钮',
+  }
+
   export enum RbacLinkTypeEnum {
     INNER = 1,
     OUT = 2,

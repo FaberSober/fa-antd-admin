@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {get} from 'lodash';
 import {Form, Input, Select} from 'antd';
 import DragModal from '@/components/modal/DragModal';
@@ -10,6 +10,7 @@ import Rbac from '@/props/rbac';
 import RbacMenuCascader from "@/pages/system/base/rbac/menu/helper/RbacMenuCascader";
 import FaberEnums from "@/props/base/FaberEnums";
 import {BaseBoolIntRadio} from "@/components/biz/base-dict";
+import {UserContext} from "@/layout/UserSimpleLayout";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
@@ -19,36 +20,28 @@ const serviceName = '菜单';
  * BASE-权限表实体新增、编辑弹框
  */
 export default function RbacMenuModal({ children, title, record, fetchFinish, ...props }: Ajax.CommonModalProps<Rbac.RbacMenu>) {
+  const {loadingEffect} = useContext(UserContext)
   const [form] = Form.useForm();
 
-  const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [parentItem, setParentItem] = useState<Rbac.RbacMenu|undefined>();
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    setLoading(true);
     modelService.add(params).then((res) => {
-        showResponse(res, `新增${serviceName}`);
-        if (res && res.status === RES_CODE.OK) {
-          setModalVisible(false);
-          if (fetchFinish) fetchFinish();
-        }
-        setLoading(false);
-      }).catch(() => setLoading(false));
+      showResponse(res, `新增${serviceName}`);
+      setModalVisible(false);
+      if (fetchFinish) fetchFinish();
+    })
   }
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
-    setLoading(true);
     modelService.update(params.id, params).then((res) => {
-        showResponse(res, `更新${serviceName}`);
-        if (res && res.status === RES_CODE.OK) {
-          setModalVisible(false);
-          if (fetchFinish) fetchFinish();
-        }
-        setLoading(false);
-      }).catch(() => setLoading(false));
+      showResponse(res, `更新${serviceName}`);
+      setModalVisible(false);
+      if (fetchFinish) fetchFinish();
+    })
   }
 
   /** 提交表单 */
@@ -70,7 +63,6 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
       parentId: get(record, 'parentId'),
       name: get(record, 'name'),
       level: get(record, 'level'),
-      path: get(record, 'path'),
       icon: get(record, 'icon'),
       status: get(record, 'status', FaberEnums.BoolEnum.YES),
       linkType: get(record, 'linkType', FaberEnums.RbacLinkTypeEnum.INNER),
@@ -83,6 +75,7 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
     form.setFieldsValue(getInitialValues())
   }
 
+  const loading = loadingEffect[modelService.getUrl('add')] || loadingEffect[modelService.getUrl('update')];
   return (
     <span>
       <span onClick={showModal}>{children}</span>
