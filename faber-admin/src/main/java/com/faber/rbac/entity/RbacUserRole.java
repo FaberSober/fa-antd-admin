@@ -9,9 +9,7 @@ import com.faber.common.bean.BaseDelEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
 import java.util.Date;
-import java.math.BigDecimal;
 
 
 /**
@@ -26,8 +24,7 @@ import java.math.BigDecimal;
 @Data
 @Accessors(chain = true)
 public class RbacUserRole extends BaseDelEntity {
-	private static final long serialVersionUID = 1L;
-	
+
     @ExcelProperty("ID")
     @TableId(type = IdType.AUTO)
     private Integer id;

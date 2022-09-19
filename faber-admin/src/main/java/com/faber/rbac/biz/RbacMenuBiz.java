@@ -1,10 +1,9 @@
 package com.faber.rbac.biz;
 
-import org.springframework.stereotype.Service;
-
+import com.faber.common.biz.BaseBiz;
 import com.faber.rbac.entity.RbacMenu;
 import com.faber.rbac.mapper.RbacMenuMapper;
-import com.faber.common.biz.BaseBiz;
+import org.springframework.stereotype.Service;
 
 /**
  * BASE-权限表

@@ -1,10 +1,9 @@
 package com.faber.rbac.biz;
 
-import org.springframework.stereotype.Service;
-
+import com.faber.common.biz.BaseBiz;
 import com.faber.rbac.entity.RbacRoleMenu;
 import com.faber.rbac.mapper.RbacRoleMenuMapper;
-import com.faber.common.biz.BaseBiz;
+import org.springframework.stereotype.Service;
 
 /**
  * BASE-角色权限对应表
