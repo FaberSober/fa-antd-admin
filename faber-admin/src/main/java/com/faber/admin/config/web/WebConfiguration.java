@@ -1,10 +1,7 @@
 package com.faber.admin.config.web;
 
 import cn.hutool.core.collection.ListUtil;
-import com.faber.admin.config.interceptor.ApiTokenInterceptor;
-import com.faber.admin.config.interceptor.GateLogInterceptor;
-import com.faber.admin.config.interceptor.PermissionInterceptor;
-import com.faber.admin.config.interceptor.UserAuthRestInterceptor;
+import com.faber.admin.config.interceptor.*;
 import com.faber.common.handler.GlobalExceptionHandler;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,13 +53,15 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // 请求URL日志拦截
-        registry.addInterceptor(getGateLogInterceptor()).addPathPatterns("/api/**");
+        registry.addInterceptor(getFirstEmptyInterceptor()).addPathPatterns("/api/**");
 
         // 系统内部/api接口权限校验
         registry.addInterceptor(getUserAuthRestInterceptor()).addPathPatterns(API_URLS);
         registry.addInterceptor(getPermissionInterceptor()).addPathPatterns(API_URLS);
 //        registry.addInterceptor(getCrosInterceptor()).addPathPatterns(getIncludePathPatterns());
+
+        // 请求URL日志拦截
+        registry.addInterceptor(getGateLogInterceptor()).addPathPatterns("/api/**");
 
         // 对外提供的api接口权限校验
         registry.addInterceptor(getApiTokenInterceptor()).addPathPatterns(OUTAPI_URLS);
@@ -86,6 +85,11 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
     @Bean
     GateLogInterceptor getGateLogInterceptor() {
         return new GateLogInterceptor();
+    }
+
+    @Bean
+    FirstEmptyInterceptor getFirstEmptyInterceptor() {
+        return new FirstEmptyInterceptor();
     }
 
     /**

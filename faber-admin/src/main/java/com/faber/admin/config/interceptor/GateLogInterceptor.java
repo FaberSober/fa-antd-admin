@@ -33,15 +33,6 @@ public class GateLogInterceptor extends AbstractInterceptor {
         log.setStartTime(System.currentTimeMillis());
         log.setCrtHost(IpUtils.getRequestIp(request));
 
-        // try get login userinfo
-        try {
-            IJWTInfo infoFromToken = super.getJwtInfo(request);
-            log.setCrtUser(infoFromToken.getId());
-            log.setCrtName(infoFromToken.getName());
-        } catch (Exception e) {
-
-        }
-
         gateLogThreadLocal.set(log);
 
         return super.preHandle(request, response, handler);

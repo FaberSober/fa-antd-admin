@@ -23,7 +23,7 @@ public class MysqlMetaObjectHandler implements MetaObjectHandler {
             this.strictInsertFill(metaObject, "crtName", String.class, BaseContextHandler.getName());
         }
         this.strictInsertFill(metaObject, "crtTime", LocalDateTime.class, LocalDateTime.now());
-        this.strictInsertFill(metaObject, "crtHost", String.class, "127.0.0.1");
+        this.strictInsertFill(metaObject, "crtHost", String.class, BaseContextHandler.getIp());
 
         this.strictInsertFill(metaObject, "delState", DelStateEnum.class, DelStateEnum.VALID);
     }
@@ -35,7 +35,7 @@ public class MysqlMetaObjectHandler implements MetaObjectHandler {
             this.strictUpdateFill(metaObject, "updName", String.class, BaseContextHandler.getName());
         }
         this.strictUpdateFill(metaObject, "updTime", LocalDateTime.class, LocalDateTime.now());
-        this.strictUpdateFill(metaObject, "updHost", String.class, "127.0.0.1");
+        this.strictUpdateFill(metaObject, "updHost", String.class, BaseContextHandler.getIp());
     }
 
 }

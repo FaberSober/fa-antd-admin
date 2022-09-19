@@ -53,6 +53,11 @@ public class BaseContextHandler {
         return StringHelper.getObjectValue(value);
     }
 
+    public static String getIp() {
+        Object value = get(CommonConstants.CONTEXT_KEY_USER_IP);
+        return StringHelper.getObjectValue(value);
+    }
+
     public static Boolean getLogin() {
         Object value = get(CommonConstants.CONTEXT_KEY_LOGIN);
         return value != null && (Boolean) value;
@@ -76,6 +81,10 @@ public class BaseContextHandler {
 
     public static void setUsername(String username) {
         set(CommonConstants.CONTEXT_KEY_USERNAME, username);
+    }
+
+    public static void setUserIp(String ip) {
+        set(CommonConstants.CONTEXT_KEY_USER_IP, ip);
     }
 
     private static String returnObjectValue(Object value) {
