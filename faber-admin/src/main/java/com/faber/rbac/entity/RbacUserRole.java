@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.FaberModalName;
+import com.faber.common.bean.BaseDelEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -24,7 +25,7 @@ import java.math.BigDecimal;
 @TableName("base_rbac_user_role")
 @Data
 @Accessors(chain = true)
-public class RbacUserRole implements Serializable {
+public class RbacUserRole extends BaseDelEntity {
 	private static final long serialVersionUID = 1L;
 	
     @ExcelProperty("ID")
@@ -39,29 +40,5 @@ public class RbacUserRole implements Serializable {
 
     @ExcelProperty("创建时间")
     private Date crtTime;
-
-    @ExcelProperty("创建用户ID")
-    private String crtUser;
-
-    @ExcelProperty("创建用户")
-    private String crtName;
-
-    @ExcelProperty("创建IP")
-    private String crtHost;
-
-    @ExcelProperty("更新时间")
-    private Date updTime;
-
-    @ExcelProperty("更新用户ID")
-    private String updUser;
-
-    @ExcelProperty("更新用户")
-    private String updName;
-
-    @ExcelProperty("更新IP")
-    private String updHost;
-
-    @ExcelProperty("删除状态0-正常/1-删除")
-    private Integer delState;
 
 }
