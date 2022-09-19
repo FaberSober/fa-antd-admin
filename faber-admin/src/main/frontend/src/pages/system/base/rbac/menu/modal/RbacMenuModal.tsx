@@ -23,6 +23,7 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
 
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [parentItem, setParentItem] = useState<Rbac.RbacMenu|undefined>();
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
@@ -54,6 +55,7 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
   function onFinish(fieldsValue: any) {
     const values = {
       ...fieldsValue,
+      linkUrl: record ? fieldsValue.linkUrl : `${parentItem?.linkUrl}${fieldsValue.linkUrl}`,
       // birthday: getDateStr000(fieldsValue.birthday),
     };
     if (record) {
@@ -95,7 +97,7 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
       >
         <Form form={form} onFinish={onFinish}>
           <Form.Item name="parentId" label="上级菜单" rules={[{ required: true }]} {...formItemFullLayout}>
-            <RbacMenuCascader showRoot />
+            <RbacMenuCascader showRoot onChangeWithItem={(key, raw) => setParentItem(raw)} />
           </Form.Item>
           <Form.Item name="name" label="名称" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input />
@@ -119,7 +121,7 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
             </Select>
           </Form.Item>
           <Form.Item name="linkUrl" label="链接地址" rules={[{ required: true }]} {...formItemFullLayout}>
-            <Input />
+            { record ? (<Input />) : <Input addonBefore={parentItem ? parentItem.linkUrl : undefined} /> }
           </Form.Item>
           <Form.Item name="icon" label="图标标识" rules={[{ required: false }]} {...formItemFullLayout}>
             <Input />

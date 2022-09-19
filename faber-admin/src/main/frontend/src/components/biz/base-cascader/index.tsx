@@ -21,7 +21,7 @@ export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderPro
   };
   value?: any;
   onChange?: (v: any) => void;
-  onChangeWithItem?: (key: any, data: any) => void;
+  onChangeWithItem?: (key: any, data: T|undefined) => void;
   rootName?: string;
   extraParams?: any;
   rootId?: number;
