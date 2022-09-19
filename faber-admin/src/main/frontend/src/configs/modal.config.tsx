@@ -121,7 +121,7 @@ const modal: Props = {
             path: '/system/base/gateLog',
             icon: () => <IconFont type="icon-clock" />,
           },
-          // 通知与公告
+          // 系统公告
           {
             permission: 'system:base:notice',
             name: 'system.notice',
