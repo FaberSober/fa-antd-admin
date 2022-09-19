@@ -100,7 +100,6 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
               <Select.Option value={FaberEnums.RbacMenuLevelEnum.APP}>模块</Select.Option>
               <Select.Option value={FaberEnums.RbacMenuLevelEnum.LEVEL_1}>一级菜单</Select.Option>
               <Select.Option value={FaberEnums.RbacMenuLevelEnum.LEVEL_2}>二级菜单</Select.Option>
-              <Select.Option value={FaberEnums.RbacMenuLevelEnum.LEVEL_3}>三级菜单</Select.Option>
               <Select.Option value={FaberEnums.RbacMenuLevelEnum.BUTTON}>按钮</Select.Option>
             </Select>
           </Form.Item>
