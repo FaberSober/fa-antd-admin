@@ -244,21 +244,10 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
     /**
      * 将list转换为tree形结构数据
      * @param beanList
-     * @param root tree结构的跟节点ID
+     * @param root
      * @return
      */
     protected List<TreeNode<T>> getMenuTree(List<T> beanList, Serializable root) {
-        return this.getMenuTree(beanList, root, false);
-    }
-
-    /**
-     * 将list转换为tree形结构数据
-     * @param beanList
-     * @param root
-     * @param countChildren 是否统计子节点数量，这个比较花时间。FIXME：改为代码计算的方式。
-     * @return
-     */
-    protected List<TreeNode<T>> getMenuTree(List<T> beanList, Serializable root, boolean countChildren) {
         List<TreeNode<T>> trees = new ArrayList<>();
         TreeNode<T> treeNode = null;
         for (T entity : beanList) {
@@ -267,13 +256,15 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
             treeNode.setParentId(this.getEntityParentId(entity));
             treeNode.setName(ObjectUtil.toString(this.getEntityName(entity)));
             // 判断节点是否还有子节点
-            if (countChildren) {
-                treeNode.setHasChildren(this.treeCountLayer(this.getEntityId(entity)) > 0);
-            }
+            treeNode.setHasChildren(this.countChildren(beanList, this.getEntityId(entity)) > 0);
             treeNode.setSourceData(entity);
             trees.add(treeNode);
         }
         return TreeUtil.build(trees, root);
+    }
+
+    protected long countChildren(List<T> beanList, Serializable id) {
+        return beanList.stream().filter(i -> getEntityParentId(i) == id).count();
     }
 
     /**

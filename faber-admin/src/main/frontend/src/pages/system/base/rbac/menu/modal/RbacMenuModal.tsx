@@ -48,7 +48,7 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
   function onFinish(fieldsValue: any) {
     const values = {
       ...fieldsValue,
-      linkUrl: record ? fieldsValue.linkUrl : `${parentItem?.linkUrl}${fieldsValue.linkUrl}`,
+      linkUrl: record ? fieldsValue.linkUrl : `${parentItem? parentItem.linkUrl : ''}${fieldsValue.linkUrl}`,
       // birthday: getDateStr000(fieldsValue.birthday),
     };
     if (record) {
