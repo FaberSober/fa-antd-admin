@@ -119,4 +119,28 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
         return ok();
     }
 
+    /**
+     * 节点位置上移
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/moveUp/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public ObjectRestResponse<Boolean> moveUp(@PathVariable Key id) {
+        baseBiz.moveUp(id);
+        return ok();
+    }
+
+    /**
+     * 节点位置下移
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/moveDown/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public ObjectRestResponse<Boolean> moveDown(@PathVariable Key id) {
+        baseBiz.moveDown(id);
+        return ok();
+    }
+
 }

@@ -1,8 +1,11 @@
 package com.faber.common.biz;
 
+import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -17,6 +20,7 @@ import com.faber.common.util.TreeUtil;
 import com.faber.common.vo.TreeNode;
 import com.faber.common.vo.TreePathVo;
 import com.faber.common.vo.TreePosChangeVo;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
@@ -241,6 +245,42 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
         });
     }
 
+    public void moveUp(Serializable id) {
+        T entity = getById(id);
+        List<T> list = this.treeListLayerNormal(getEntityParentId(entity));
+        List<Serializable> idList = list.stream().map(i -> getEntityId(i)).collect(Collectors.toList());
+        int oldIndex = idList.indexOf(id);
+        if (oldIndex == 0) return; // 无需移动
+
+        list.add(oldIndex - 1, list.remove(oldIndex));
+        for (int i = 0; i < list.size(); i++) {
+            T item = list.get(i);
+            int sort = getEntitySortId(item);
+            if (sort != i) {
+                setSort(item, i);
+                this.updateById(item);
+            }
+        }
+    }
+
+    public void moveDown(Serializable id) {
+        T entity = getById(id);
+        List<T> list = this.treeListLayerNormal(getEntityParentId(entity));
+        List<Serializable> idList = list.stream().map(i -> getEntityId(i)).collect(Collectors.toList());
+        int oldIndex = idList.indexOf(id);
+        if (oldIndex == list.size() - 1) return; // 无需移动
+
+        list.add(oldIndex + 1, list.remove(oldIndex));
+        for (int i = 0; i < list.size(); i++) {
+            T item = list.get(i);
+            int sort = getEntitySortId(item);
+            if (sort != i) {
+                setSort(item, i);
+                this.updateById(item);
+            }
+        }
+    }
+
     /**
      * 将list转换为tree形结构数据
      * @param beanList
@@ -283,6 +323,14 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
      */
     protected void setNextSort(T entity) {
         ReflectUtil.setFieldValue(entity, getSortedFieldName(), getMaxSort(getEntityParentId(entity)) + 1);
+    }
+
+    /**
+     * 设置entity的排序，为当前所属层级最大的sort+1
+     * @param entity
+     */
+    protected void setSort(T entity, int sort) {
+        ReflectUtil.setFieldValue(entity, getSortedFieldName(), sort);
     }
 
     /**

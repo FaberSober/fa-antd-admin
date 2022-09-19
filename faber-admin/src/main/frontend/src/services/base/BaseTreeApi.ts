@@ -23,4 +23,10 @@ export default class BaseTreeApi<T, KeyType, PageT = T> extends BaseApi<T, KeyTy
 
 	/** 给定选中的value，返回value向上查找的节点路径xxx，并返回路径xxx的层级的Tree */
 	treeFindPath = (id: KeyType): Promise<Ajax.Response<FaberBase.TreePathVo<T, KeyType>>> => this.get(`treeFindPath/${id}`);
+
+	/** 获取唯一实体 */
+	moveUp = (id: KeyType): Promise<Ajax.Response> => this.get(`moveUp/${id}`);
+
+	/** 获取唯一实体 */
+	moveDown = (id: KeyType): Promise<Ajax.Response> => this.get(`moveDown/${id}`);
 }

@@ -43,9 +43,18 @@ export default function RbacMenuTreeList() {
         return rbacMenuApi.removeBatchByIds(selectedRowKeys).then(res => {
           showResponse(res, "批量删除")
           refreshData()
+          setSelectedRowKeys([])
         })
       },
     })
+  }
+
+  function moveUp(id:number) {
+    rbacMenuApi.moveUp(id).then(refreshData)
+  }
+
+  function moveDown(id:number) {
+    rbacMenuApi.moveDown(id).then(refreshData)
   }
 
   const columns: ColumnsType<FaberBase.TreeNode<Rbac.RbacMenu>> = [
@@ -61,8 +70,8 @@ export default function RbacMenuTreeList() {
       title: '操作',
       render: (text: string, record: FaberBase.TreeNode<Rbac.RbacMenu>) => (
         <Space>
-          <FaHref icon={<ArrowUpOutlined />} />
-          <FaHref icon={<ArrowDownOutlined />} />
+          <FaHref onClick={() => moveUp(record.id)} icon={<ArrowUpOutlined />} />
+          <FaHref onClick={() => moveDown(record.id)} icon={<ArrowDownOutlined />} />
           <RbacMenuModal title="编辑菜单" record={record.sourceData} fetchFinish={refreshData}>
             <FaHref icon={<EditOutlined />} text="编辑" />
           </RbacMenuModal>
@@ -91,6 +100,7 @@ export default function RbacMenuTreeList() {
           dataSource={tree}
           columns={columns}
           rowSelection={{
+            selectedRowKeys,
             onChange: (selectedRowKeys, selectedRows) => {
               setSelectedRowKeys(selectedRows.map(i => i.id))
             },
