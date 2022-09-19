@@ -34,7 +34,7 @@ export default function MenuTreeList() {
   }
 
   // rowSelection objects indicates the need for row selection
-  const rowSelection: TableRowSelection<Rbac.RbacMenu> = {
+  const rowSelection: TableRowSelection<FaberBase.TreeNode<Rbac.RbacMenu>> = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
     },
@@ -46,7 +46,7 @@ export default function MenuTreeList() {
     },
   };
 
-  const columns: ColumnsType<Rbac.RbacMenu> = [
+  const columns: ColumnsType<FaberBase.TreeNode<Rbac.RbacMenu>> = [
     { title: '名称', dataIndex: 'name', width: 200, },
     {
       title: '菜单等级',
@@ -57,9 +57,9 @@ export default function MenuTreeList() {
     { title: '链接', dataIndex: ['sourceData', 'linkUrl'] },
     {
       title: '操作',
-      render: (text: string, record: Rbac.RbacMenu) => (
+      render: (text: string, record: FaberBase.TreeNode<Rbac.RbacMenu>) => (
         <Space>
-          <RbacMenuModal title="编辑菜单" record={record} fetchFinish={refreshData}>
+          <RbacMenuModal title="编辑菜单" record={record.sourceData} fetchFinish={refreshData}>
             <FaHref icon={<EditOutlined />} text="编辑" />
           </RbacMenuModal>
           <AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />

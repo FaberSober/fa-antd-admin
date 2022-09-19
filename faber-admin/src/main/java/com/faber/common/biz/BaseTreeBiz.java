@@ -10,6 +10,7 @@ import com.faber.common.annotation.SqlSorter;
 import com.faber.common.annotation.SqlTreeId;
 import com.faber.common.annotation.SqlTreeName;
 import com.faber.common.annotation.SqlTreeParentId;
+import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.constant.CommonConstants;
 import com.faber.common.vo.Query;
 import com.faber.common.util.TreeUtil;
@@ -20,6 +21,7 @@ import com.faber.common.vo.TreePosChangeVo;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,8 +32,6 @@ import java.util.stream.Collectors;
  * @param <T>
  */
 public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M, T> {
-
-    private static final Map<String, String> cacheEntityKeyNameMap = new HashMap<>();
 
     /**
      * 增强Tree数据查询，有的表可能会有一些自定义字段限制Tree结构的获取，子类可以覆盖重写此方法，来增加自定义字段的查询条件。
@@ -357,6 +357,52 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
             _logger.error(e.getMessage(), e);
         }
         return sort;
+    }
+
+
+    /**
+     * 通用Tree类型数据向下查询
+     *
+     * @param id 要查询的根节点ID
+     * @return 返回要查询的根节点向下所有节点的平铺List（包含id节点）
+     */
+    public List<T> findAllChildren(Serializable id) {
+        List<T> list = new ArrayList<>();
+
+        // 查询顶部节点
+        T topItem = super.getById(id);
+        if (topItem == null) return new ArrayList<>();
+
+        list.add(topItem);
+
+        Serializable topItemId = getEntityId(topItem);
+        List<T> children = this.findChildren(topItemId);
+        list.addAll(children);
+
+        return list;
+    }
+
+    /**
+     * 通用Tree类型数据向下递归查询
+     *
+     * @param parentId 要查询的父节点ID
+     * @return 返回要查询的根节点向下所有节点的平铺List（不包含parentId节点）
+     */
+    public List<T> findChildren(Serializable parentId) {
+        List<T> list = new ArrayList<>();
+
+        QueryWrapper<T> wrapper = new QueryWrapper<>();
+        wrapper.eq(getTreeParentIdFieldColumnName(), parentId);
+
+        List<T> children = super.list(wrapper);
+        if (children != null && !children.isEmpty()) {
+            list.addAll(children);
+            children.forEach(child -> {
+                Serializable childItemId = getEntityId(child);
+                list.addAll(findChildren(childItemId));
+            });
+        }
+        return list;
     }
 
     protected TreeNode<T> transEntityToTreeNode(T entity) {

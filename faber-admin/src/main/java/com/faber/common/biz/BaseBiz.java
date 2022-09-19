@@ -112,8 +112,8 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
                         ew.le(fieldName, entry.getValue());
                     } else if ("in".equals(opr)) {
                         if (entry.getValue() != null && StringUtils.isNotEmpty(entry.getValue().toString())) {
-//                            String[] ss = ((String) entry.getValue()).split(",");
-                            ew.in(fieldName, entry.getValue());
+//                            String[] ss = ;
+                            ew.in(fieldName, ((List) entry.getValue()).toArray());
                         }
                     }
                     continue;
@@ -383,56 +383,6 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         cacheAPI.removeByPre("user:" + userId);
         cacheAPI.removeByPre("permission:menu:u:" + userId);
         cacheAPI.removeByPre("permission:ele:u:" + userId);
-    }
-
-    /**
-     * 通用Tree类型数据向下查询
-     *
-     * @param id 要查询的根节点ID
-     * @return 返回要查询的根节点向下所有节点的平铺List（包含id节点）
-     */
-    public List<T> findAllChildren(Serializable id) {
-        List<T> list = new ArrayList<>();
-
-        // 查询顶部节点
-        T topItem = super.getById(id);
-        if (topItem == null) return new ArrayList<>();
-
-        if (topItem instanceof BaseDelEntity) {
-            checkBeanValid((BaseDelEntity) topItem);
-        }
-
-        list.add(topItem);
-
-        Object topItemId = ReflectUtil.getFieldValue(topItem, "id");
-        List<T> children = this.findChildren(topItemId);
-        list.addAll(children);
-
-        return list;
-    }
-
-    /**
-     * 通用Tree类型数据向下递归查询
-     *
-     * @param parentId 要查询的父节点ID
-     * @return 返回要查询的根节点向下所有节点的平铺List（不包含parentId节点）
-     */
-    public List<T> findChildren(Object parentId) {
-        List<T> list = new ArrayList<>();
-        Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-
-        QueryWrapper<T> wrapper = new QueryWrapper<>();
-        wrapper.eq("parentId", parentId);
-
-        List<T> children = super.list(wrapper);
-        if (children != null && !children.isEmpty()) {
-            list.addAll(children);
-            children.forEach(child -> {
-                Object childItemId = ReflectUtil.getFieldValue(child, "id");
-                list.addAll(findChildren(childItemId));
-            });
-        }
-        return list;
     }
 
     protected boolean hasField(String fieldName) {
