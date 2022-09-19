@@ -81,7 +81,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
     @ResponseBody
     public ObjectRestResponse<List<TreeNode<Entity>>> allTree() {
         List<TreeNode<Entity>> treeList = baseBiz.allTree();
-        return new ObjectRestResponse<List<TreeNode<Entity>>>().data(treeList);
+        return ok(treeList);
     }
 
     /**
@@ -92,7 +92,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
     @ResponseBody
     public ObjectRestResponse<List<TreeNode<Entity>>> getTree(@RequestBody Map<String, Object> params) {
         List<TreeNode<Entity>> treeList = baseBiz.getTree(params);
-        return new ObjectRestResponse<List<TreeNode<Entity>>>().data(treeList);
+        return ok(treeList);
     }
 
     /**
@@ -104,7 +104,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
     @ResponseBody
     public ObjectRestResponse<List<TreeNode<Entity>>> allTreeFromNode(@PathVariable("id") Key id) {
         List<TreeNode<Entity>> treeList = baseBiz.allTreeFromNode(id);
-        return new ObjectRestResponse<List<TreeNode<Entity>>>().data(treeList);
+        return ok(treeList);
     }
 
     /**
@@ -114,9 +114,9 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      */
     @RequestMapping(value = "/changePos", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse changePos(@Valid @RequestBody List<TreePosChangeVo> list) {
+    public ObjectRestResponse<Boolean> changePos(@Valid @RequestBody List<TreePosChangeVo> list) {
         baseBiz.changePos(list);
-        return new ObjectRestResponse().rel(true);
+        return ok();
     }
 
 }

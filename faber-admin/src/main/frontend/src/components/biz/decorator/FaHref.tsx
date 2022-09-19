@@ -5,8 +5,8 @@ import styles from './styles/FaLink.module.less'
 
 
 export interface FaLinkProps {
-  icon: ReactNode;
-  text: string;
+  icon?: ReactNode;
+  text?: string;
 }
 
 /**

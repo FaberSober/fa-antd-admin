@@ -2,16 +2,17 @@ import React, {useContext, useEffect, useState} from 'react';
 import rbacMenuApi from '@/services/rbac/rbacMenu'
 import {FaberBase} from "@/props/base";
 import Rbac from '@/props/rbac';
-import {Button, Space, Table} from "antd";
+import {Button, Modal, Space, Table} from "antd";
 import RbacMenuModal from "@/pages/system/base/rbac/menu/modal/RbacMenuModal";
-import {EditOutlined, PlusOutlined} from "@ant-design/icons";
+import {ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {ColumnsType} from "antd/es/table";
 import {FaFlexRestLayout} from "@/components/biz/base-layout";
-import {TableRowSelection} from "antd/es/table/interface";
 import {UserContext} from "@/layout/UserSimpleLayout";
 import FaberEnums from "@/props/base/FaberEnums";
 import {useDelete} from "@/utils/myHooks";
 import {AuthDelBtn, FaHref} from '@/components/biz/decorator'
+import {showResponse} from "@/utils/utils";
+
 
 /**
  * @author xu.pengfei
@@ -20,6 +21,7 @@ import {AuthDelBtn, FaHref} from '@/components/biz/decorator'
 export default function RbacMenuTreeList() {
   const {loadingEffect} = useContext(UserContext)
   const [tree, setTree] = useState<FaberBase.TreeNode<Rbac.RbacMenu>[]>([])
+  const [selectedRowKeys, setSelectedRowKeys] = useState<number[]>([])
 
   const [handleDelete] = useDelete<number>(rbacMenuApi.remove, refreshData, '菜单');
 
@@ -33,25 +35,25 @@ export default function RbacMenuTreeList() {
     })
   }
 
-  // rowSelection objects indicates the need for row selection
-  const rowSelection: TableRowSelection<FaberBase.TreeNode<Rbac.RbacMenu>> = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    },
-    onSelect: (record, selected, selectedRows) => {
-      console.log(record, selected, selectedRows);
-    },
-    onSelectAll: (selected, selectedRows, changeRows) => {
-      console.log(selected, selectedRows, changeRows);
-    },
-  };
+  function handleBatchDelete() {
+    Modal.confirm({
+      title: '批量删除',
+      content: '确认删除勾选的数据？',
+      onOk: () => {
+        return rbacMenuApi.removeBatchByIds(selectedRowKeys).then(res => {
+          showResponse(res, "批量删除")
+          refreshData()
+        })
+      },
+    })
+  }
 
   const columns: ColumnsType<FaberBase.TreeNode<Rbac.RbacMenu>> = [
     { title: '名称', dataIndex: 'name', width: 200, },
     {
       title: '菜单等级',
       dataIndex: ['sourceData', 'level'],
-      render: (val) => FaberEnums.RbacMenuLevelEnumMap[val],
+      render: (val:FaberEnums.RbacMenuLevelEnum) => FaberEnums.RbacMenuLevelEnumMap[val],
       width: 120,
     },
     { title: '链接', dataIndex: ['sourceData', 'linkUrl'] },
@@ -59,13 +61,15 @@ export default function RbacMenuTreeList() {
       title: '操作',
       render: (text: string, record: FaberBase.TreeNode<Rbac.RbacMenu>) => (
         <Space>
+          <FaHref icon={<ArrowUpOutlined />} />
+          <FaHref icon={<ArrowDownOutlined />} />
           <RbacMenuModal title="编辑菜单" record={record.sourceData} fetchFinish={refreshData}>
             <FaHref icon={<EditOutlined />} text="编辑" />
           </RbacMenuModal>
           <AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />
         </Space>
       ),
-      width: 220,
+      width: 180,
       fixed: 'right',
     },
   ];
@@ -74,10 +78,11 @@ export default function RbacMenuTreeList() {
   return (
     <div className="faber-full-content faber-flex-column">
       <Space style={{ margin: 12 }}>
+        <Button onClick={refreshData} loading={loadingTree}>刷新</Button>
         <RbacMenuModal title="新增菜单" fetchFinish={refreshData}>
           <Button type="primary" icon={<PlusOutlined />}>新增菜单</Button>
         </RbacMenuModal>
-        <Button onClick={refreshData} loading={loadingTree}>刷新</Button>
+        <Button danger onClick={handleBatchDelete} loading={loadingTree} disabled={selectedRowKeys.length === 0} icon={<DeleteOutlined />}>删除</Button>
       </Space>
 
       <FaFlexRestLayout>
@@ -85,9 +90,15 @@ export default function RbacMenuTreeList() {
           rowKey="id"
           dataSource={tree}
           columns={columns}
-          rowSelection={{ ...rowSelection }}
+          rowSelection={{
+            onChange: (selectedRowKeys, selectedRows) => {
+              setSelectedRowKeys(selectedRows.map(i => i.id))
+            },
+            checkStrictly: false,
+          }}
           pagination={false}
           loading={loadingTree}
+          scroll={{ y: document.body.clientHeight - 141 }}
         />
       </FaFlexRestLayout>
     </div>

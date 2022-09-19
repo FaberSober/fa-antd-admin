@@ -62,13 +62,13 @@ export default function UserSimpleLayout({ children }: IProps) {
   const [loading, setLoading] = useState<boolean>(true)
   const [systemConfig, setSystemConfig] = useState<Admin.SystemConfigPo>(defaultConfig);
   const [unreadCount, setUnreadCount] = useState(0);
-  const [loadingEffect, setLoadingEffect] = useState({});
+  const [loadingEffect, setLoadingEffect] = useState<any>({});
 
   useBus(
     ['@@api/CHANGE_URL_LOADING'],
-    ({ type, payload: { url, loading } }) => {
-      console.log(url, loading)
-      if (loading) {
+    ({ type, payload }) => {
+      const { url, loading: urlLoading } = payload
+      if (urlLoading) {
         setLoadingEffect({ ...loadingEffect, [url]: true })
       } else {
         const i = { ...loadingEffect }
