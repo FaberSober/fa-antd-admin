@@ -1,5 +1,12 @@
 import React, { useContext } from 'react';
-import {DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined, UnorderedListOutlined} from '@ant-design/icons';
+import {
+  DownloadOutlined,
+  EditOutlined,
+  PlusOutlined,
+  SearchOutlined,
+  UnorderedListOutlined,
+  UsergroupAddOutlined
+} from '@ant-design/icons';
 import { Button, Card, Form, Input, Space } from 'antd';
 import { ShiroPermissionContainer } from '@/components/auth';
 import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/biz/base-table';
@@ -46,10 +53,11 @@ export default function RbacRoleList() {
             <RbacRoleMenuDrawer record={record}>
               <FaHref icon={<UnorderedListOutlined />} text="权限" />
             </RbacRoleMenuDrawer>
+            <FaHref icon={<UsergroupAddOutlined />} text="用户" />
             <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} elements={user.elements} permission={undefined} />
           </Space>
         ),
-        width: 180,
+        width: 220,
         fixed: 'right',
         tcRequired: true,
         tcType: 'menu',
