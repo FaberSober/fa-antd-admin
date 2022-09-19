@@ -16,7 +16,7 @@ public class TreeNode<T> {
     private String name;
     private Integer sort;
     private boolean hasChildren;
-    List<TreeNode<T>> children = new ArrayList<TreeNode<T>>();
+    List<TreeNode<T>> children;
 
     private T sourceData;
 

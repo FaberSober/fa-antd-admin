@@ -44,6 +44,8 @@
 | :--- | :--- | :--- |
 | antd | antd前端组件 | https://ant-design.gitee.io/components/overview-cn/ |
 | fa-cron-react-editor | cron编辑器 | https://github.com/xrutayisire/react-js-cron |
+| use-bus | bus事件通知 | https://github.com/fabienjuif/use-bus |
+
 
 ### 升级npm依赖
 ```bash

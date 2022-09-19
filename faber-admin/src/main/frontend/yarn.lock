@@ -8082,6 +8082,11 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
+use-bus@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.npmmirror.com/use-bus/-/use-bus-2.5.2.tgz#af2721dbd0e2126ea1fd53eacf074a836a3a2aee"
+  integrity sha512-BZXI74mU6JJuuh9YoBexGpj1yZwU9bRvnVPl/bEUhcgC3D+BbqVbEU1RHdFqIVIODkZE/VfQJgNPid3FkCxhFQ==
+
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.nlark.com/util-deprecate/download/util-deprecate-1.0.2.tgz?cache=0&sync_timestamp=1624607944834&other_urls=https%3A%2F%2Fregistry.nlark.com%2Futil-deprecate%2Fdownload%2Futil-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"

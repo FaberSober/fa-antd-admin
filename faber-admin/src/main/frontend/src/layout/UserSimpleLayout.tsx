@@ -9,6 +9,7 @@ import {PageLoading} from "@/components/antd-pro";
 import FaberBase from "@/props/base/FaberBase";
 import BaseNotice from "@/components/biz/base-notice";
 import Admin from "@/props/admin";
+import useBus from 'use-bus'
 
 const defaultUser: FaberBase.UserInfo = {
   id: '0',
@@ -31,6 +32,8 @@ interface CProps {
   refreshUnreadCount: () => void;
   // -------------------- 消息 --------------------
   systemConfig: Admin.SystemConfigPo,
+  // -------------------- 全局api请求加载 --------------------
+  loadingEffect: any,
 }
 
 const defaultConfig = { title: '', logo: '', logoWithText: '', portalLink: '' }
@@ -42,6 +45,7 @@ export const UserContext = createContext<CProps>({
   unreadCount: 0,
   refreshUnreadCount: () => {},
   systemConfig: defaultConfig,
+  loadingEffect: {},
 });
 
 interface IProps extends RouteComponentProps {
@@ -58,6 +62,22 @@ export default function UserSimpleLayout({ children }: IProps) {
   const [loading, setLoading] = useState<boolean>(true)
   const [systemConfig, setSystemConfig] = useState<Admin.SystemConfigPo>(defaultConfig);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [loadingEffect, setLoadingEffect] = useState({});
+
+  useBus(
+    ['@@api/CHANGE_URL_LOADING'],
+    ({ type, payload: { url, loading } }) => {
+      console.log(url, loading)
+      if (loading) {
+        setLoadingEffect({ ...loadingEffect, [url]: true })
+      } else {
+        const i = { ...loadingEffect }
+        delete i[url]
+        setLoadingEffect(i)
+      }
+    },
+    [loadingEffect],
+  )
 
   useEffect(() => {
     fetchUserInfo();
@@ -108,6 +128,7 @@ export default function UserSimpleLayout({ children }: IProps) {
     unreadCount,
     refreshUnreadCount: fetchUnreadCount,
     systemConfig,
+    loadingEffect,
   };
 
   if (user === undefined) return <PageLoading style={{ height: '100vh', width: '100vw' }} />

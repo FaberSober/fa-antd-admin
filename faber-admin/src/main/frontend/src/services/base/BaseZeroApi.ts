@@ -20,4 +20,6 @@ export default class BaseZeroApi<T, KeyType, PageT = T> {
 	put = <E>(api: string, body: object, config?: AxiosRequestConfig) => requestPut<E>(`${this.apiPrefix}/${this.apiModal}/${api}`, body, config);
 
 	download = (api: string, body: object, config?: AxiosRequestConfig) => requestDownload(`${this.apiPrefix}/${this.apiModal}/${api}`, body, config);
+
+	getUrl = (api: string) => `${this.apiPrefix}/${this.apiModal}/${api}`;
 }

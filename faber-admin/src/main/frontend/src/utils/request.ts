@@ -4,6 +4,7 @@ import { message } from 'antd';
 import { TOKEN_KEY } from '@/configs/server.config';
 import { getToken } from './cache';
 import Ajax from '@/props/base/Ajax';
+import { dispatch } from 'use-bus'
 
 // Set config defaults when creating the instance
 const instance = axios.create({
@@ -54,6 +55,9 @@ instance.interceptors.request.use(
 			config.params = { _t: Date.parse(new Date()) / 1000, ...config.params };
 		}
 
+		// 通知全局api加载状态
+    dispatch({ type: '@@api/CHANGE_URL_LOADING', payload: { url: config.url, loading: true } })
+
 		return config;
 	},
 	(error) => Promise.reject(error),
@@ -61,8 +65,16 @@ instance.interceptors.request.use(
 
 // 添加响应拦截器
 instance.interceptors.response.use(
-	(response) => response,
+	(response) => {
+    // 通知全局api加载状态
+    dispatch({ type: '@@api/CHANGE_URL_LOADING', payload: { url: response.config.url, loading: false } })
+
+	  return response;
+  },
 	(error) => {
+    // 通知全局api加载状态
+    dispatch({ type: '@@api/CHANGE_URL_LOADING', payload: { url: error.request.url, loading: false } })
+
 		// 对响应错误做点什么
 		console.log('error', error);
 		const status: number = get(error, 'response.status', error.name);
