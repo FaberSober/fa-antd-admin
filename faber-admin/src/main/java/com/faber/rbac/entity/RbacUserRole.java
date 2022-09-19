@@ -9,8 +9,6 @@ import com.faber.common.bean.BaseDelEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
-
 
 /**
  * BASE-用户角色关联表
@@ -34,8 +32,5 @@ public class RbacUserRole extends BaseDelEntity {
 
     @ExcelProperty("角色ID")
     private Integer roleId;
-
-    @ExcelProperty("创建时间")
-    private Date crtTime;
 
 }

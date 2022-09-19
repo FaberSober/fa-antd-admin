@@ -146,7 +146,7 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
 
     public QueryWrapper<T> treeLayerNormalWrapper(Serializable parentId) {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
-        wrapper.eq(this.getTreeParentIdFieldName(), parentId);
+        wrapper.eq(this.getTreeParentIdFieldColumnName(), parentId);
         this.enhanceTreeQuery(wrapper);
         wrapper.orderByAsc(this.getSortedFieldColumnName());
         return wrapper;
@@ -210,7 +210,7 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
      */
     private List<T> loopFindChildren(List<Serializable> parentIds) {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
-        wrapper.in(getTreeParentIdFieldName(), Arrays.asList(parentIds));
+        wrapper.in(getTreeParentIdFieldColumnName(), Arrays.asList(parentIds));
         this.enhanceTreeQuery(wrapper);
         List<T> beanList = super.list(wrapper);
 
@@ -301,7 +301,7 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
      */
     protected Integer getMaxSort(Object parentId) {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
-        wrapper.eq(getTreeParentIdFieldName(), parentId);
+        wrapper.eq(getTreeParentIdFieldColumnName(), parentId);
         this.enhanceTreeQuery(wrapper);
         wrapper.orderByDesc(this.getSortedFieldColumnName());
         List<T> list = super.page(new Page<>(1, 1), wrapper).getRecords();
@@ -403,8 +403,16 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
         return this.getAnnotationFieldName(SqlTreeParentId.class);
     }
 
+    protected String getTreeParentIdFieldColumnName() {
+        return StrUtil.toUnderlineCase(this.getAnnotationFieldName(SqlTreeParentId.class));
+    }
+
     protected String getTreeNameFieldName() {
         return this.getAnnotationFieldName(SqlTreeName.class);
+    }
+
+    protected String getTreeNameFieldColumnName() {
+        return StrUtil.toUnderlineCase(this.getAnnotationFieldName(SqlTreeName.class));
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.faber.rbac.rest;
 
-import com.faber.common.rest.BaseController;
+import com.faber.common.rest.BaseTreeController;
 import com.faber.rbac.biz.RbacMenuBiz;
 import com.faber.rbac.entity.RbacMenu;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/rbac/rbacMenu")
-public class RbacMenuController extends BaseController<RbacMenuBiz,RbacMenu> {
+public class RbacMenuController extends BaseTreeController<RbacMenuBiz, RbacMenu> {
 
 }

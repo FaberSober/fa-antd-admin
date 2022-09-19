@@ -56,7 +56,7 @@ export default function App() {
 
                   {/* 系统管理 */}
                   <FragmentLayout path="base">
-                    <PageLazy path="menu" pageImport={() => import('@/pages/system/base/menu/MenuManage')} />
+                    <PageLazy path="menu" pageImport={() => import('@/pages/system/base/rbac/menu/MenuTreeList')} />
                     <PageLazy path="dict" pageImport={() => import('@/pages/system/base/dict/DictManage')} />
                     <PageLazy path="area" pageImport={() => import('@/pages/system/base/area/AreaList')} />
                     <PageLazy path="job" pageImport={() => import('@/pages/system/base/job/JobList')} />

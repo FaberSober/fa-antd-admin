@@ -10,6 +10,8 @@ namespace Rbac {
     parentId: string;
     /** 名称 */
     name: string;
+    /** 排序 */
+    sort: number;
     /** 菜单等级：0-模块/1-一级菜单/2-二级菜单/3-三级菜单/9-按钮 */
     level: FaberEnums.RbacMenuLevelEnum;
     /** ID路径【id-id-id】 */
@@ -41,9 +43,9 @@ namespace Rbac {
     /** ID */
     id: number;
     /** 角色ID */
-    roleId: string;
+    roleId: number;
     /** 权限ID */
-    menuId: string;
+    menuId: number;
   }
 
   /** BASE-用户角色关联表 */
@@ -53,7 +55,7 @@ namespace Rbac {
     /** 用户ID */
     userId: string;
     /** 角色ID */
-    roleId: string;
+    roleId: number;
   }
 
 }

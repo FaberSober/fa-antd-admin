@@ -20,7 +20,7 @@ export interface BaseTreeContextProps {
 
 export const BaseTreeContext = createContext<BaseTreeContextProps>({ renderCount: 1, updateRenderCount: () => {} })
 
-const root = { value: -1, label: '根节点', isLeaf: false, hasChildren: true };
+const root = { value: 0, label: '根节点', isLeaf: false, hasChildren: true };
 
 interface IProps<T, KeyType = number> extends TreeProps {
   showRoot?: boolean; // 是否展示操作按钮
@@ -126,7 +126,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
 
   function confirmDelItem(e: any, item: BaseTreeProps.TreeNode<RecordType, KeyType>) {
     if (e) e.stopPropagation();
-    if (`${item.value}` === '-1') {
+    if (`${item.value}` === '0') {
       message.error(`该${serviceName}为默认${serviceName}，不可删除`);
       return;
     }
@@ -146,7 +146,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
     if (data === undefined) return [];
     return data.map((item) => {
       const { label, value } = item;
-      const showBtn = value !== -1;
+      const showBtn = value !== 0;
       // 标题渲染
       const title = (
         <div className="treeTitleDiv">
@@ -211,7 +211,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
           setFlatDeptList(BaseTreeUtils.flatTreeList(newTreeData));
           if (expandedKeys === undefined || expandedKeys.length === 0) {
             if (showRoot) {
-              setExpandedKeys([-1]);
+              setExpandedKeys([0]);
             }
           }
 
@@ -289,7 +289,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
         ar = arr;
         i = index;
       });
-      if (dropPosition === -1) {
+      if (dropPosition === 0) {
         // @ts-ignore
         ar.splice(i, 0, dragObj);
       } else {

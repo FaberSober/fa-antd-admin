@@ -4,7 +4,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.faber.common.annotation.FaberModalName;
+import com.faber.common.annotation.*;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.enums.BoolEnum;
 import com.faber.common.enums.RbacLinkTypeEnum;
@@ -26,15 +26,22 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class RbacMenu extends BaseDelEntity {
 
+    @SqlTreeId
     @ExcelProperty("ID")
     @TableId(type = IdType.AUTO)
     private Integer id;
 
+    @SqlTreeParentId
     @ExcelProperty("父级ID")
     private Integer parentId;
 
+    @SqlTreeName
     @ExcelProperty("名称")
     private String name;
+
+    @SqlSorter
+    @ExcelProperty("排序")
+    private Integer sort;
 
     @ExcelProperty("菜单等级：0-模块/1-一级菜单/2-二级菜单/3-三级菜单/9-按钮")
     private RbacMenuLevelEnum level;

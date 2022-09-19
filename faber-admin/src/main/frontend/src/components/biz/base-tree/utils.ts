@@ -18,7 +18,7 @@ export function parseNode<T = any>(nodeList: FaberBase.TreeNode<T, any>[] | unde
 }
 
 /** 平铺Tree型结构 */
-export function flatTreeList(tree: BaseTreeProps.NodeProps[] = [], pid: string | number = -1): BaseTreeProps.FlatTreeNode[] {
+export function flatTreeList(tree: BaseTreeProps.NodeProps[] = [], pid: string | number = 0): BaseTreeProps.FlatTreeNode[] {
 	const list: BaseTreeProps.FlatTreeNode[] = [];
 	tree.forEach((item, index) => {
 		const { children, key, name } = item;

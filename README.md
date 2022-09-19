@@ -27,6 +27,9 @@
 2. druid数据源：http://localhost/druid/index.html
 3. 代码生成：http://localhost:7777
 
+## 一些约定
+1. tree结构数据，根结点的ID默认为0；
+
 # 使用插件
 ## 后端
 | 插件 | 官网 |
@@ -72,8 +75,9 @@ ncu -u --timeout 120000 --reject husky
 - [ ] 阿里云demo示例
 - [ ] tinymce编辑器集成
 - [ ] pdf阅读器集成
-- [ ] 切换MyBatis-Plus，delState类型变更为int
+- [X] 切换MyBatis-Plus，delState类型变更为int
 - [ ] SpringDoc：https://blog.csdn.net/wdj_yyds/article/details/125174042
+- [ ] 前端tree结构的根结点ID切换为0，并使用统一的枚举值
 
 # 前端代码迁移
 - [x] BaseBiz查询分组List

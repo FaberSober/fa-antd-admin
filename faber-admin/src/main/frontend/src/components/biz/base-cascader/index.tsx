@@ -8,7 +8,7 @@ import * as BaseTreeUtils from '@/components/biz/base-tree/utils';
 import BaseTreeProps from '../base-tree/interface';
 import { RES_CODE } from '@/configs/server.config';
 
-const root = { value: -1, label: '根节点', isLeaf: false, hasChildren: true };
+const root = { value: 0, label: '根节点', isLeaf: false, hasChildren: true };
 
 export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderProps, 'options'> {
   showRoot?: boolean;
@@ -24,6 +24,7 @@ export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderPro
   onChangeWithItem?: (key: any, data: any) => void;
   rootName?: string;
   extraParams?: any;
+  rootId?: number;
 }
 
 /**
@@ -38,6 +39,7 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
   onChange,
   onChangeWithItem,
   rootName = '根节点',
+  rootId = 0,
   extraParams,
   ...props
 }: BaseCascaderProps<RecordType, KeyType>) {
@@ -57,7 +59,7 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
       if (res && res.status === RES_CODE.OK) {
         let treeArr = BaseTreeUtils.parseNode(res.data);
         if (showRoot) {
-          treeArr = [{ ...{ ...root, label: rootName }, children: treeArr }];
+          treeArr = [{ ...root, value: rootId, label: rootName, children: treeArr }];
         }
         setOptions(treeArr);
       }

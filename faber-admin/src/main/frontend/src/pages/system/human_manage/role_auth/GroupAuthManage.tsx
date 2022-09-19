@@ -36,8 +36,8 @@ export default function GroupAuthManage(_: RouteComponentProps) {
   /** 点击选中tree节点的事件，这里可以获取点击节点的属性 */
   function onTreeSelect(keys: any[], event: any) {
     if (keys && keys[0]) {
-      // -1为根节点
-      if (`${keys[0]}` === '-1') {
+      // 0为根节点
+      if (`${keys[0]}` === '0') {
         setViewGroup(undefined);
       } else {
         groupApi.findOne(keys[0]).then((res) => {

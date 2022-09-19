@@ -31,7 +31,7 @@ public class CommonConstants {
     public static final String JWT_KEY_USER_ID = "userId";
     public static final String JWT_KEY_NAME = "name";
 
-    public final static int ROOT = -1;
+    public final static int ROOT = 0;
     public final static int DEFAULT_GROUP_TYPE = 0;
 
     /** 权限关联类型 */

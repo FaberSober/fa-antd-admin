@@ -7,7 +7,7 @@ import BaseTreeProps from '@/components/biz/base-tree/interface';
 import { RES_CODE } from '@/configs/server.config';
 import * as BaseTreeUtils from '@/components/biz/base-tree/utils';
 
-const root = { value: -1, label: '根节点', isLeaf: false, hasChildren: true };
+const root = { value: 0, label: '根节点', isLeaf: false, hasChildren: true };
 
 export interface BaseTreeSelectProps<T, KeyType = number> extends Omit<TreeSelectProps<T>, 'options'> {
   value?: any;
