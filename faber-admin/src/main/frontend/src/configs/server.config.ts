@@ -29,6 +29,8 @@ export const GATE_APP = {
 	article: '/api/article',
 	/** Demo服务 */
 	demo: '/api/demo',
+	/** rbac服务 */
+  rbac: '/api/rbac',
 };
 
 /** -------------------------------- WebSocket配置 -------------------------------- */
