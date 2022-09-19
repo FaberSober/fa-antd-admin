@@ -140,15 +140,13 @@ public class PermissionBiz {
      * 根据token获取{@link FrontUser}前端用户信息
      */
     public FrontUser getUserInfo() throws Exception {
-        String id = BaseContextHandler.getUserID();
-        if (id == null) {
-            return null;
-        }
-        UserInfo user = this.getUserById(id);
+        User user = userBiz.getUserById(BaseContextHandler.getUserID());
         if (user == null) throw new UserInvalidException();
+
         FrontUser frontUser = new FrontUser();
         BeanUtils.copyProperties(user, frontUser);
-        List<PermissionInfo> permissionInfos = this.getPermissionById(id);
+
+        List<PermissionInfo> permissionInfos = this.getPermissionById(user.getId());
         Stream<PermissionInfo> menus = permissionInfos.parallelStream().filter((permission) -> {
             return permission.getType().equals(CommonConstants.RESOURCE_TYPE_MENU);
         });

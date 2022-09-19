@@ -16,6 +16,7 @@ public class FrontUser {
     private String description;
     private String img;
     private String departmentId;
+
     private List<PermissionInfo> menus;
     private List<PermissionInfo> elements;
 
