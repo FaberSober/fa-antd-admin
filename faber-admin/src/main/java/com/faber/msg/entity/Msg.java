@@ -11,6 +11,7 @@ import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.enums.BoolEnum;
 import lombok.Data;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -26,6 +27,7 @@ import java.util.Date;
 @FaberModalName(name = "系统-消息")
 @TableName("base_msg")
 @Data
+@Accessors(chain = true)
 public class Msg extends BaseDelEntity {
     private static final long serialVersionUID = 1L;
 

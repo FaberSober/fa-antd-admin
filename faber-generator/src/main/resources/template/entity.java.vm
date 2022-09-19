@@ -1,12 +1,15 @@
 package ${package}.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.FaberModalName;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
 ###if(${hasBigDecimal})
 import java.math.BigDecimal;
 ###end
@@ -20,21 +23,20 @@ import java.math.BigDecimal;
  * @date ${datetime}
  */
 @FaberModalName(name = "${comments}")
-@Table(name = "${tableName}")
+@TableName(name = "${tableName}")
 @Data
+@Accessors(chain = true)
 public class ${className} implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 #foreach ($column in $columns)
 #if($column.columnName == $pk.columnName)
     @ExcelProperty("$column.comments")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     private $column.attrType $column.attrname;
 
 #else
     @ExcelProperty("$column.comments")
-    @Column(name = "$column.columnName")
     private $column.attrType $column.attrname;
 
 #end
