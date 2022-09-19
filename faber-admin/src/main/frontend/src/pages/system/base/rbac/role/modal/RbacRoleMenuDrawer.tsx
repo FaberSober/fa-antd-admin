@@ -38,8 +38,6 @@ export default function RbacRoleMenuDrawer({ children, title, record, success, .
   }
 
   function handleSave() {
-    console.log('checkedKeys', checkedKeys)
-    console.log('halfCheckedKeys', halfCheckedKeys)
     rbacRoleMenuApi.updateRoleMenu({
       roleId: record.id,
       checkedRoleIds: checkedKeys.map((i) => Number(i)),
@@ -75,7 +73,6 @@ export default function RbacRoleMenuDrawer({ children, title, record, success, .
                 fieldNames={{ title: 'name', key: 'id' }}
                 checkedKeys={checkedKeys}
                 onCheck={(checked, e  ) => {
-                  console.log('keys', checked, e.halfCheckedKeys)
                   // @ts-ignore
                   setCheckedKeys(checked)
                   setHalfCheckedKeys(e.halfCheckedKeys || [])
