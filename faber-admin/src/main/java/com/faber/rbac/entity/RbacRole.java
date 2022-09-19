@@ -21,7 +21,7 @@ import java.math.BigDecimal;
  * @date 2022-09-19 11:40:40
  */
 @FaberModalName(name = "BASE-角色表")
-@TableName(name = "base_rbac_role")
+@TableName("base_rbac_role")
 @Data
 @Accessors(chain = true)
 public class RbacRole implements Serializable {

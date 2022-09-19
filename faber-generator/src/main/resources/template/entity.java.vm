@@ -23,7 +23,7 @@ import java.math.BigDecimal;
  * @date ${datetime}
  */
 @FaberModalName(name = "${comments}")
-@TableName(name = "${tableName}")
+@TableName("${tableName}")
 @Data
 @Accessors(chain = true)
 public class ${className} implements Serializable {
