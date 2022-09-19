@@ -15,6 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/rbac/rbacUserRole")
-public class RbacUserRoleController extends BaseController<RbacUserRoleBiz,RbacUserRole> {
+public class RbacUserRoleController extends BaseController<RbacUserRoleBiz,RbacUserRole, Long> {
 
 }

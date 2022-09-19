@@ -15,6 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/rbac/rbacRoleMenu")
-public class RbacRoleMenuController extends BaseController<RbacRoleMenuBiz,RbacRoleMenu> {
+public class RbacRoleMenuController extends BaseController<RbacRoleMenuBiz,RbacRoleMenu, Long> {
 
 }

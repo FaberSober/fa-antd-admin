@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/admin/menuBlock")
-public class MenuBlockController extends BaseController<MenuBlockBiz, MenuBlock> {
+public class MenuBlockController extends BaseController<MenuBlockBiz, MenuBlock, Integer> {
 
 }

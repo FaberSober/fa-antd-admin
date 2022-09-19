@@ -15,6 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/rbac/rbacMenu")
-public class RbacMenuController extends BaseTreeController<RbacMenuBiz, RbacMenu> {
+public class RbacMenuController extends BaseTreeController<RbacMenuBiz, RbacMenu, Long> {
 
 }

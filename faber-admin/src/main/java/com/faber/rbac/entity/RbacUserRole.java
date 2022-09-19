@@ -25,12 +25,12 @@ public class RbacUserRole extends BaseDelEntity {
 
     @ExcelProperty("ID")
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     @ExcelProperty("用户ID")
     private String userId;
 
     @ExcelProperty("角色ID")
-    private Integer roleId;
+    private Long roleId;
 
 }

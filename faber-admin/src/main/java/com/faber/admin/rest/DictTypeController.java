@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/api/admin/dictType")
-public class DictTypeController extends BaseTreeController<DictTypeBiz, DictType> {
+public class DictTypeController extends BaseTreeController<DictTypeBiz, DictType, Integer> {
 
 }

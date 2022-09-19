@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/api/admin/area")
-public class AreaController extends BaseController<AreaBiz, Area> {
+public class AreaController extends BaseController<AreaBiz, Area, Integer> {
 
     @RequestMapping(value = "/findByAreaCode/{areaCode}", method = RequestMethod.GET)
     @ResponseBody

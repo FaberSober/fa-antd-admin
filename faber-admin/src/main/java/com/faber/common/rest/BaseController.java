@@ -36,7 +36,7 @@ import java.util.Map;
  * @param <Entity>
  */
 @Slf4j
-public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler {
+public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializable> extends BaseResHandler {
 
     @Autowired
     protected Biz baseBiz;
@@ -71,7 +71,7 @@ public class BaseController<Biz extends BaseBiz, Entity> extends BaseResHandler 
 
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public ObjectRestResponse<Entity> remove(@PathVariable Serializable id) {
+    public ObjectRestResponse<Entity> remove(@PathVariable Key id) {
         baseBiz.removeById(id);
         return ok();
     }

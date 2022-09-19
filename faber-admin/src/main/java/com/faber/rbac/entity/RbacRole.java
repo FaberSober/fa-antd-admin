@@ -26,7 +26,7 @@ public class RbacRole extends BaseDelEntity {
 
     @ExcelProperty("ID")
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     @ExcelProperty("角色名称")
     private String name;

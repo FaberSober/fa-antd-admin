@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/disk/file")
-public class DiskFileController extends BaseController<DiskFileBiz, DiskFile> {
+public class DiskFileController extends BaseController<DiskFileBiz, DiskFile, Integer> {
 
     /**
      * 更新文件名称

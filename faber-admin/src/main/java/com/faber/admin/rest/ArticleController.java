@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/api/admin/article")
-public class ArticleController extends BaseController<ArticleBiz, Article> {
+public class ArticleController extends BaseController<ArticleBiz, Article, Integer> {
 
     @RequestMapping(value = "/findOneBuzz", method = RequestMethod.POST)
     @ResponseBody

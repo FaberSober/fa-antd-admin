@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/api/admin/groupUser")
-public class GroupUserController extends BaseController<GroupUserBiz, GroupUser> {
+public class GroupUserController extends BaseController<GroupUserBiz, GroupUser, Integer> {
 
     @RequestMapping(value = "/{id}/groupUser", method = RequestMethod.GET)
     @ResponseBody

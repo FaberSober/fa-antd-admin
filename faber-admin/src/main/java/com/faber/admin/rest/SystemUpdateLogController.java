@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/base/systemUpdateLog")
-public class SystemUpdateLogController extends BaseController<SystemUpdateLogBiz,SystemUpdateLog> {
+public class SystemUpdateLogController extends BaseController<SystemUpdateLogBiz,SystemUpdateLog, Integer> {
 
 }

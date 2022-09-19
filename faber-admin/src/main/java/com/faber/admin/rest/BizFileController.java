@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/api/admin/bizFile")
-public class BizFileController extends BaseController<BizFileBiz, BizFile> {
+public class BizFileController extends BaseController<BizFileBiz, BizFile, Integer> {
 
 }

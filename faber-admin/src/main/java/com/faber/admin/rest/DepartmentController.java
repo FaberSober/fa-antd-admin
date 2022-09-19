@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/admin/department")
-public class DepartmentController extends BaseTreeController<DepartmentBiz, Department> {
+public class DepartmentController extends BaseTreeController<DepartmentBiz, Department, String> {
 
     /**
      * 获取部门详情

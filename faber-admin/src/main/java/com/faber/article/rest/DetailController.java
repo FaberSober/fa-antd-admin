@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/article/detail")
-public class DetailController extends BaseController<DetailBiz,Detail> {
+public class DetailController extends BaseController<DetailBiz,Detail, Integer> {
 
 }

@@ -29,11 +29,11 @@ public class RbacMenu extends BaseDelEntity {
     @SqlTreeId
     @ExcelProperty("ID")
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     @SqlTreeParentId
     @ExcelProperty("父级ID")
-    private Integer parentId;
+    private Long parentId;
 
     @SqlTreeName
     @ExcelProperty("名称")

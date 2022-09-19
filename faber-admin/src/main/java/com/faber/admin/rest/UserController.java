@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/admin/user")
-public class UserController extends BaseController<UserBiz, User> {
+public class UserController extends BaseController<UserBiz, User, String> {
 
     @Resource
     private PermissionBiz permissionBiz;

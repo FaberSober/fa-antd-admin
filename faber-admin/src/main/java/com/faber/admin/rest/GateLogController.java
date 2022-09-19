@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/api/admin/gateLog")
-public class GateLogController extends BaseController<GateLogBiz, GateLog> {
+public class GateLogController extends BaseController<GateLogBiz, GateLog, Integer> {
 
 }

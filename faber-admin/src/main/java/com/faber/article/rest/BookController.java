@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/article/book")
-public class BookController extends BaseController<BookBiz,Book> {
+public class BookController extends BaseController<BookBiz,Book, Integer> {
 
     /**
      * 获取书本的所有信息

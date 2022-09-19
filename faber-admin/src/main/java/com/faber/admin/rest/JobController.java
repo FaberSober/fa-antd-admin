@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/api/admin/job")
-public class JobController extends BaseController<JobBiz, Job> {
+public class JobController extends BaseController<JobBiz, Job, Integer> {
 
     /**
      * 立即执行一次定时任务

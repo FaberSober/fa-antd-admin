@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/api/admin/resourceAuthority")
-public class ResourceAuthorityController extends BaseController<ResourceAuthorityBiz, ResourceAuthority> {
+public class ResourceAuthorityController extends BaseController<ResourceAuthorityBiz, ResourceAuthority, Integer> {
 
     /**
      * 更新角色权限

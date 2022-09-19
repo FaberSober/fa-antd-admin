@@ -18,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api/admin/dict")
-public class DictController extends BaseController<DictBiz, Dict> {
+public class DictController extends BaseController<DictBiz, Dict, Integer> {
 
     @RequestMapping(value = "listByCode", method = RequestMethod.GET)
     @ResponseBody

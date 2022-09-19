@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/demo/student")
-public class StudentController extends BaseController<StudentBiz,Student> {
+public class StudentController extends BaseController<StudentBiz,Student, String> {
 
     /**
      * 分页查询

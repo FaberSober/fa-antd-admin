@@ -12,7 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/disk/dir")
-public class DiskDirController extends BaseController<DiskDirBiz, DiskDir> {
+public class DiskDirController extends BaseController<DiskDirBiz, DiskDir, Integer> {
 
     /**
      * 更新文件夹名称

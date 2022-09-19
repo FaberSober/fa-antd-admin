@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/api/admin/element")
-public class ElementController extends BaseController<ElementBiz, Element> {
+public class ElementController extends BaseController<ElementBiz, Element, Integer> {
 
 //    /**
 //     * 查找{@link Menu#getCode()}的子{@link Element}

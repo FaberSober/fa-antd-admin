@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/article/outline")
-public class OutlineController extends BaseTreeController<OutlineBiz,Outline> {
+public class OutlineController extends BaseTreeController<OutlineBiz,Outline, Integer> {
 
     @RequestMapping(value = "/findDetail/{id}", method = RequestMethod.GET)
     @ResponseBody

@@ -25,12 +25,12 @@ public class RbacRoleMenu extends BaseDelEntity {
 
     @ExcelProperty("ID")
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     @ExcelProperty("角色ID")
-    private Integer roleId;
+    private Long roleId;
 
     @ExcelProperty("权限ID")
-    private Integer menuId;
+    private Long menuId;
 
 }

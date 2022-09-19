@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/api/admin/menu")
-public class MenuController extends BaseTreeController<MenuBiz, Menu> {
+public class MenuController extends BaseTreeController<MenuBiz, Menu, Integer> {
 
     /**
      * 获取所有block下的菜单

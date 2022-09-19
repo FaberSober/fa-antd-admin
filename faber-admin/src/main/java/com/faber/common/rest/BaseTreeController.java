@@ -33,7 +33,7 @@ import java.util.Map;
  * @param <Entity>
  */
 @Slf4j
-public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity> extends BaseController<Biz, Entity> {
+public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key extends Serializable> extends BaseController<Biz, Entity, Key> {
 
     /**
      * 给定选中的value，返回value向上查找的节点路径[1, 1-1, 1-1-1]
@@ -42,7 +42,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity> extend
      */
     @RequestMapping(value = "/treePathLine/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<List<TreeNode<Entity>>> treePathLine(@PathVariable Serializable id) {
+    public ObjectRestResponse<List<TreeNode<Entity>>> treePathLine(@PathVariable Key id) {
         List<Entity> list = (List<Entity>) baseBiz.treePathLine(id);
         List<TreeNode<Entity>> nodeList = baseBiz.transEntityListToNodeList(list);
         return ok(nodeList);
@@ -55,7 +55,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity> extend
      */
     @RequestMapping(value = "/treeListLayer/{parentId}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<List<TreeNode<Entity>>> treeListLayer(@PathVariable Serializable parentId) {
+    public ObjectRestResponse<List<TreeNode<Entity>>> treeListLayer(@PathVariable Key parentId) {
         List<Entity> list = (List<Entity>) baseBiz.treeListLayer(parentId);
         List<TreeNode<Entity>> nodeList = baseBiz.transEntityListToNodeList(list);
         return ok(nodeList);
@@ -68,7 +68,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity> extend
      */
     @RequestMapping(value = "/treeFindPath/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<TreePathVo<Entity>> treeFindPath(@PathVariable Serializable id) {
+    public ObjectRestResponse<TreePathVo<Entity>> treeFindPath(@PathVariable Key id) {
         TreePathVo<Entity> data = (TreePathVo<Entity>) baseBiz.treeFindPath(id);
         return ok(data);
     }
@@ -102,7 +102,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity> extend
      */
     @RequestMapping(value = "/allTreeFromNode/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<List<TreeNode<Entity>>> allTreeFromNode(@PathVariable("id") Serializable id) {
+    public ObjectRestResponse<List<TreeNode<Entity>>> allTreeFromNode(@PathVariable("id") Key id) {
         List<TreeNode<Entity>> treeList = baseBiz.allTreeFromNode(id);
         return new ObjectRestResponse<List<TreeNode<Entity>>>().data(treeList);
     }

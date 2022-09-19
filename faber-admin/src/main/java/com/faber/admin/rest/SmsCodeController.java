@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/api/admin/smsCode")
-public class SmsCodeController extends BaseController<SmsCodeBiz, SmsCode> {
+public class SmsCodeController extends BaseController<SmsCodeBiz, SmsCode, Integer> {
 
     /**
      * 创建短信验证码

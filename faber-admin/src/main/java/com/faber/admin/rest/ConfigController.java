@@ -11,7 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin/config")
-public class ConfigController extends BaseController<ConfigBiz, Config> {
+public class ConfigController extends BaseController<ConfigBiz, Config, Integer> {
 
     /**
      * 查找所有场景配置

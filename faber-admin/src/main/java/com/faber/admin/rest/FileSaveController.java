@@ -15,7 +15,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api/admin/fileSave")
-public class FileSaveController extends BaseController<FileSaveBiz, FileSave> {
+public class FileSaveController extends BaseController<FileSaveBiz, FileSave, String> {
 
     @GetMapping("/getUploadToken")
     @ResponseBody

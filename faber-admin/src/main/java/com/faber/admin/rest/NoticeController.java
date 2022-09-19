@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/admin/notice")
-public class NoticeController extends BaseController<NoticeBiz, Notice> {
+public class NoticeController extends BaseController<NoticeBiz, Notice, Integer> {
 
 }

@@ -15,6 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/admin/jobLog")
-public class JobLogController extends BaseController<JobLogBiz,JobLog> {
+public class JobLogController extends BaseController<JobLogBiz,JobLog, Integer> {
 
 }
