@@ -1,6 +1,5 @@
 import React, {useContext, useState} from 'react';
 import {Button, Drawer, Space, Tree} from 'antd';
-import modelService from '@/services/rbac/rbacRole';
 import Rbac from '@/props/rbac';
 import {UserContext} from "@/layout/UserSimpleLayout";
 import {DragModalProps} from "@/components/modal/DragModal";
@@ -30,6 +29,11 @@ export default function RbacRoleMenuDrawer({ children, title, record, success, .
   function refreshData() {
     rbacMenuApi.allTree().then((res) => {
       setTree(res.data)
+
+      rbacRoleMenuApi.getRoleMenu(record.id).then((res) => {
+        setCheckedKeys(res.data.checkedRoleIds);
+        setHalfCheckedKeys(res.data.halfCheckedRoleIds);
+      })
     })
   }
 
@@ -50,7 +54,7 @@ export default function RbacRoleMenuDrawer({ children, title, record, success, .
     refreshData()
   }
 
-  const loading = loadingEffect[modelService.getUrl('add')]
+  const loading = loadingEffect[rbacRoleMenuApi.getUrl('updateRoleMenu')]
   return (
     <span>
       <span onClick={showModal}>{children}</span>
