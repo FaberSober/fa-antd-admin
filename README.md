@@ -80,6 +80,7 @@ ncu -u --timeout 120000 --reject husky
 - [X] 切换MyBatis-Plus，delState类型变更为int
 - [ ] SpringDoc：https://blog.csdn.net/wdj_yyds/article/details/125174042
 - [ ] 前端tree结构的根结点ID切换为0，并使用统一的枚举值
+- [ ] 导出Excel需要适配Enum类型属性的转换
 
 # 前端代码迁移
 - [x] BaseBiz查询分组List
