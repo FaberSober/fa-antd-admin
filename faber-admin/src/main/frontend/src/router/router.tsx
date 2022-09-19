@@ -51,12 +51,13 @@ export default function App() {
                   <FragmentLayout path="human_manage">
                     <PageLazy path="user" pageImport={() => import('@/pages/system/human_manage/user/UserDepartmentManage')} />
                     <PageLazy path="department" pageImport={() => import('@/pages/system/human_manage/department/DepartmentList')} />
+                    <PageLazy path="rbacRole" pageImport={() => import('@/pages/system/base/rbac/role/RbacRoleList')} />
                     <PageLazy path="role_auth" pageImport={() => import('@/pages/system/human_manage/role_auth/GroupAuthManage')} />
                   </FragmentLayout>
 
                   {/* 系统管理 */}
                   <FragmentLayout path="base">
-                    <PageLazy path="menu" pageImport={() => import('@/pages/system/base/rbac/menu/MenuTreeList')} />
+                    <PageLazy path="menu" pageImport={() => import('@/pages/system/base/rbac/menu/RbacMenuTreeList')} />
                     <PageLazy path="dict" pageImport={() => import('@/pages/system/base/dict/DictManage')} />
                     <PageLazy path="area" pageImport={() => import('@/pages/system/base/area/AreaList')} />
                     <PageLazy path="job" pageImport={() => import('@/pages/system/base/job/JobList')} />

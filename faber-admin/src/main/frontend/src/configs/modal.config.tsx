@@ -69,6 +69,13 @@ const modal: Props = {
             path: '/system/human_manage/department',
             icon: () => <IconFont type="icon-usermanagement" />,
           },
+          // 角色管理
+          {
+            // permission: 'system:base:rbacRole',
+            name: 'human_manage.rbacRole',
+            path: '/system/human_manage/rbacRole',
+            icon: () => <IconFont type="icon-user_management" />,
+          },
           // 角色权限管理
           {
             permission: 'system:base:groupAuthManage',

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 @Getter
-public enum BoolEnum implements IEnum<Integer> {
+public enum BoolEnum implements IEnum<Integer>, BaseEnum {
     NO(0, "否"),
     YES(1, "是");
 
@@ -23,5 +23,10 @@ public enum BoolEnum implements IEnum<Integer> {
     @Override
     public Integer getValue() {
         return code;
+    }
+
+    @Override
+    public String getValDesc() {
+        return val;
     }
 }

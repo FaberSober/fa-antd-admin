@@ -17,7 +17,7 @@ import {AuthDelBtn, FaHref} from '@/components/biz/decorator'
  * @author xu.pengfei
  * @date 2022/9/19
  */
-export default function MenuTreeList() {
+export default function RbacMenuTreeList() {
   const {loadingEffect} = useContext(UserContext)
   const [tree, setTree] = useState<FaberBase.TreeNode<Rbac.RbacMenu>[]>([])
 

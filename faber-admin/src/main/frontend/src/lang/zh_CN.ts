@@ -34,6 +34,7 @@ export default {
 	'menu.human_manage': '智能人事',
 	'menu.human_manage.user': '用户管理',
 	'menu.human_manage.department': '部门管理',
+	'menu.human_manage.rbacRole': '角色管理',
 	'menu.human_manage.groupAuthManage': '角色权限管理',
 
 	// 系统管理

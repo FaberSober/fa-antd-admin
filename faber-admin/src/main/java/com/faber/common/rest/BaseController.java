@@ -78,7 +78,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
 
     @RequestMapping(value = "/removeBatchByIds", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Boolean> removeBatchByIds(@RequestBody List<Serializable> ids) {
+    public ObjectRestResponse<Boolean> removeBatchByIds(@RequestBody List<Key> ids) {
         baseBiz.removeBatchByIds(ids);
         return ok();
     }

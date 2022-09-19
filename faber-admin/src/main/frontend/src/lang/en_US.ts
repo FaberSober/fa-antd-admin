@@ -34,6 +34,7 @@ export default {
 	'menu.human_manage': 'Human Manage',
 	'menu.human_manage.user': 'Human Resource',
 	'menu.human_manage.department': 'Department',
+	'menu.human_manage.rbacRole': 'Role Manage',
 	'menu.human_manage.groupAuthManage': 'Role Manage',
 
 	// 系统管理
