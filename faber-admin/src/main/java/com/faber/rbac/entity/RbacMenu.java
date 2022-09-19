@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.FaberModalName;
 import com.faber.common.bean.BaseDelEntity;
+import com.faber.common.enums.BoolEnum;
+import com.faber.common.enums.RbacLinkTypeEnum;
+import com.faber.common.enums.RbacMenuLevelEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -34,7 +37,7 @@ public class RbacMenu extends BaseDelEntity {
     private String name;
 
     @ExcelProperty("菜单等级：0-模块/1-一级菜单/2-二级菜单/3-三级菜单/9-按钮")
-    private Integer level;
+    private RbacMenuLevelEnum level;
 
     @ExcelProperty("ID路径【id-id-id】")
     private String path;
@@ -43,10 +46,10 @@ public class RbacMenu extends BaseDelEntity {
     private String icon;
 
     @ExcelProperty("是否启用0-禁用/1-启用")
-    private Integer status;
+    private BoolEnum status;
 
     @ExcelProperty("链接类型【1-内部链接(默认)2-外部链接】")
-    private Integer linkType;
+    private RbacLinkTypeEnum linkType;
 
     @ExcelProperty("链接地址【pathinfo#method】")
     private String linkUrl;

@@ -1,4 +1,5 @@
 import FaberBase from '@/props/base/FaberBase';
+import FaberEnums from "@/props/base/FaberEnums";
 
 namespace Rbac {
   /** BASE-权限表 */
@@ -10,15 +11,15 @@ namespace Rbac {
     /** 名称 */
     name: string;
     /** 菜单等级：0-模块/1-一级菜单/2-二级菜单/3-三级菜单/9-按钮 */
-    level: string;
+    level: FaberEnums.RbacMenuLevelEnum;
     /** ID路径【id-id-id】 */
     path: string;
     /** 图标标识 */
     icon: string;
     /** 是否启用0-禁用/1-启用 */
-    status: string;
+    status: FaberEnums.BoolEnum;
     /** 链接类型【1-内部链接(默认)2-外部链接】 */
-    linkType: string;
+    linkType: FaberEnums.RbacLinkTypeEnum;
     /** 链接地址【pathinfo#method】 */
     linkUrl: string;
   }
@@ -32,7 +33,7 @@ namespace Rbac {
     /** 角色描述 */
     remarks: string;
     /** 是否启用 */
-    status: string;
+    status: FaberEnums.BoolEnum;
   }
 
   /** BASE-角色权限对应表 */
