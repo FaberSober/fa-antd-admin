@@ -166,7 +166,7 @@ export function genTimeSorterColumn(title: string, dataIndex: string, width: num
   };
 }
 
-export function genCtrColumns(sorter: Ajax.Sorter, tcChecked: boolean = true): FaberTable.ColumnsProp<any> {
+export function genCtrColumns(sorter: Ajax.Sorter, tcChecked: boolean = true) {
   return [
     {
       title: '创建时间',
@@ -206,7 +206,7 @@ export function genCtrColumns(sorter: Ajax.Sorter, tcChecked: boolean = true): F
   ];
 }
 
-export function genUpdateColumns(sorter: Ajax.Sorter): FaberTable.ColumnsProp<any> {
+export function genUpdateColumns(sorter: Ajax.Sorter) {
   return [
     {
       title: '更新时间',

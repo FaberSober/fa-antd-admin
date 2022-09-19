@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import {DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined, UnorderedListOutlined} from '@ant-design/icons';
 import { Button, Card, Form, Input, Space } from 'antd';
 import { ShiroPermissionContainer } from '@/components/auth';
 import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/biz/base-table';
@@ -8,6 +8,8 @@ import { useExport, useTableQueryParams, clearForm, useDelete } from "@/utils/my
 import modelService from '@/services/rbac/rbacRole';
 import Rbac from '@/props/rbac';
 import RbacRoleModal from './modal/RbacRoleModal';
+import {FaHref} from "@/components/biz/decorator";
+import RbacRoleMenuDrawer from "@/pages/system/base/rbac/role/modal/RbacRoleMenuDrawer";
 
 const serviceName = '角色';
 const buzzModal = 'base_rbac_role';
@@ -38,16 +40,16 @@ export default function RbacRoleList() {
           <Space>
             <ShiroPermissionContainer roleList={user.elements}>
               <RbacRoleModal title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList}>
-                <a>
-                  <EditOutlined />
-                  编辑
-                </a>
+                <FaHref icon={<EditOutlined />} text="编辑" />
               </RbacRoleModal>
             </ShiroPermissionContainer>
+            <RbacRoleMenuDrawer record={record}>
+              <FaHref icon={<UnorderedListOutlined />} text="权限" />
+            </RbacRoleMenuDrawer>
             <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} elements={user.elements} permission={undefined} />
           </Space>
         ),
-        width: 120,
+        width: 180,
         fixed: 'right',
         tcRequired: true,
         tcType: 'menu',
