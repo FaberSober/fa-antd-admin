@@ -2,6 +2,7 @@ package com.faber.common.biz;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -358,28 +359,6 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
         return sort;
     }
 
-    /**
-     * 返回排序SQL-ASC
-     *
-     * @return
-     */
-    protected String getSorterAscendSql() {
-        String sortedFieldName = this.getSortedFieldColumnName();
-        if (sortedFieldName == null) return null;
-        return sortedFieldName + " ASC";
-    }
-
-    /**
-     * 返回排序SQL-DESC
-     *
-     * @return
-     */
-    protected String getSorterDescendSql() {
-        String sortedFieldName = this.getSortedFieldColumnName();
-        if (sortedFieldName == null) return null;
-        return sortedFieldName + " DESC";
-    }
-
     protected TreeNode<T> transEntityToTreeNode(T entity) {
         return this.transEntityToTreeNode(entity, true);
     }
@@ -409,7 +388,7 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
     }
 
     protected String getSortedFieldColumnName() {
-        return this.getAnnotationFieldName(SqlSorter.class, true);
+        return StrUtil.toUnderlineCase(this.getAnnotationFieldName(SqlSorter.class));
     }
 
     protected String getSortedFieldName() {
@@ -428,10 +407,6 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
         return this.getAnnotationFieldName(SqlTreeName.class);
     }
 
-    protected <AT extends Annotation> String getAnnotationFieldName(Class<AT> annotationClass) {
-        return this.getAnnotationFieldName(annotationClass, false);
-    }
-
     /**
      * 获取注解对应的实体字段名称
      *
@@ -439,32 +414,18 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
      * @param <AT>
      * @return
      */
-    protected <AT extends Annotation> String getAnnotationFieldName(Class<AT> annotationClass, boolean getSqlColumnName) {
-        String cacheKey = getEntityClass().getName() + "#" + annotationClass.getName() + "#" + getSqlColumnName;
-        if (cacheEntityKeyNameMap.containsKey(cacheKey)) {
-            return cacheEntityKeyNameMap.get(cacheKey);
-        }
-
+    protected <AT extends Annotation> String getAnnotationFieldName(Class<AT> annotationClass) {
         // 设置排序
         String findFieldName = null;
         for (Field field : getEntityClass().getDeclaredFields()) {
             AT annotation = field.getAnnotation(annotationClass);
             if (annotation != null) {
-                if (getSqlColumnName) {
-                    // FIXME 这里没有使用tk.mybatis了，需要找新的方式来获取字段在数据库中的字段名
-//                    Column annotationColumn = field.getAnnotation(Column.class);
-//                    if (annotationColumn != null) {
-//                        findFieldName = annotationColumn.name();
-//                    }
-                } else {
-                    findFieldName = field.getName();
-                }
+                findFieldName = field.getName();
             }
         }
         if (findFieldName == null) {
             _logger.error("{}类未设置@{}注解，未能查找到排序字段，请确认代码。", getEntityClass().getName(), annotationClass.getName());
         }
-        cacheEntityKeyNameMap.put(cacheKey, findFieldName);
         return findFieldName;
     }
 
