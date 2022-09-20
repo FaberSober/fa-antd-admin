@@ -1,6 +1,8 @@
 package com.faber.common.vo;
 
 
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 
@@ -33,6 +35,11 @@ public class Query extends LinkedHashMap<String, Object> {
     private List<Map> conditionList;
 
     public Query(Map<String, Object> params) {
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            if (ObjectUtil.isEmpty(entry.getValue())) {
+                params.remove(entry.getKey());
+            }
+        }
         this.putAll(params);
 
         // 分页参数

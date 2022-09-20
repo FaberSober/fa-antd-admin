@@ -113,7 +113,8 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
                     } else if ("in".equals(opr)) {
                         if (entry.getValue() != null && StringUtils.isNotEmpty(entry.getValue().toString())) {
 //                            String[] ss = ;
-                            ew.in(fieldName, ((List) entry.getValue()).toArray());
+                            List list = (List) entry.getValue();
+                            ew.in(list.size() > 0, fieldName, list);
                         }
                     }
                     continue;
@@ -146,7 +147,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
                     continue;
                 }
 
-                if (entry.getValue() != null && StringUtils.isNotEmpty(entry.getValue().toString())) {
+                if (StrUtil.isNotEmpty(entry.getValue().toString())) {
                     String fieldColumn = StrUtil.toUnderlineCase(entry.getKey());
                     if (forceEqual) {
                         ew.eq(fieldColumn, entry.getValue());
@@ -244,7 +245,8 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
                             ew.ne(key, value);
                         } break;
                         case "in": {
-                            ew.in(key, Arrays.asList(ObjectUtil.toString(value).split("，")));
+                            List<String> list = Arrays.asList(ObjectUtil.toString(value).split("，"));
+                            ew.in(list.size() > 0, key, list);
                         } break;
                         case "contain": {
                             ew.like(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value)));
