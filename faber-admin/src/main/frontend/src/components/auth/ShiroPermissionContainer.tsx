@@ -1,11 +1,9 @@
 import React, {ReactNode, useContext} from 'react';
 import { hasPermission } from '@/utils/utils';
-import FaberBase from '@/props/base/FaberBase';
 import {UserContext} from "@/layout/UserSimpleLayout";
 
 interface IProps {
   children: ReactNode;
-  roleList?: FaberBase.PermissionInfo[]; // 用户的权限列表组，TODO 这里修改为必填
   permission?: string; // 需要鉴定的权限字符串 TODO 这里修改为必填
 }
 
@@ -13,7 +11,7 @@ interface IProps {
  * Shiro Permission 包装容器，主要做一下鉴权。
  * 传入需要鉴定的权限字符串，如果用户有该权限，则会展示children组件，如果没有该权限，则不会展示children。
  */
-const ShiroPermissionContainer = ({ children, roleList, permission }: IProps) => {
+const ShiroPermissionContainer = ({ children, permission }: IProps) => {
   const { user } = useContext(UserContext)
 
   if (hasPermission([...user.menus, ...user.elements], permission)) {

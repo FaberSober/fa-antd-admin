@@ -64,6 +64,18 @@ namespace Rbac {
 		checkedRoleIds: number[];
 		halfCheckedRoleIds: number[];
 	}
+
+	export interface RbacUserRoleRetVo extends RbacUserRole {
+		name: string;
+		username: string;
+	}
+
+	// ------------------------------------------------- VO-Query -------------------------------------------------
+	export interface RbacUserRoleQueryVo extends FaberBase.BasePageProps {
+		roleId: number;
+		name?: string;
+		username?: string;
+	}
 }
 
 export default Rbac;

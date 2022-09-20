@@ -3,4 +3,24 @@
 
 <mapper namespace="com.faber.rbac.mapper.RbacUserRoleMapper">
 
+    <select id="pageVo" parameterType="com.faber.rbac.vo.query.RbacUserRoleQueryVo" resultType="com.faber.rbac.vo.RbacUserRoleRetVo">
+        SELECT t.*, u.`name`, u.username
+          FROM base_rbac_user_role t
+          LEFT JOIN base_user u ON t.user_id = u.id
+         WHERE t.del_state = 0
+           AND u.del_state = 0
+        <if test="roleId != null and roleId != ''">
+            AND t.role_id = #{roleId}
+        </if>
+        <if test="name != null and name != ''">
+            AND u.`name` LIKE concat('%', #{name}, '%')
+        </if>
+        <if test="username != null and username != ''">
+            AND u.`username` LIKE concat('%', #{username}, '%')
+        </if>
+        <if test="sorter != null and sorter != ''">
+            ORDER BY ${sorter}
+        </if>
+    </select>
+
 </mapper>

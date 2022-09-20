@@ -1,13 +1,17 @@
 import React from 'react';
 import {getDateStr, toLine, tryToFixed} from '@/utils/utils';
 import Ajax from '@/props/base/Ajax';
-import { Popconfirm } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
-import { ShiroPermissionContainer } from '@/components/auth';
-import FaberBase from '@/props/base/FaberBase';
-import { find, get, isEmpty, trim } from 'lodash';
-import { renderDatePicker, renderDateRangerPicker, renderTimePicker, renderTimeRangePicker } from '@/components/biz/condition-query/ConditionQueryUtils';
-import { FaberTable } from '@/components/biz/base-table';
+import {Popconfirm} from 'antd';
+import {DeleteOutlined} from '@ant-design/icons';
+import {ShiroPermissionContainer} from '@/components/auth';
+import {find, isEmpty, trim} from 'lodash';
+import {
+  renderDatePicker,
+  renderDateRangerPicker,
+  renderTimePicker,
+  renderTimeRangePicker
+} from '@/components/biz/condition-query/ConditionQueryUtils';
+import {FaberTable} from '@/components/biz/base-table';
 import {DictDataSelector} from "@/components/biz/base-dict";
 import {SortOrder} from "antd/es/table/interface";
 
@@ -254,16 +258,14 @@ export function genUpdateColumns(sorter: Ajax.Sorter) {
 export function AuthDelBtn<T>({
   record,
   handleDelete,
-  elements,
   permission,
 }: {
   record: T;
   handleDelete: (v: T) => void;
-  elements?: FaberBase.PermissionInfo[];
   permission?: string;
 }) {
   return (
-    <ShiroPermissionContainer roleList={elements} permission={permission}>
+    <ShiroPermissionContainer permission={permission}>
       <Popconfirm title="确认删除?" onConfirm={() => handleDelete(record)} getPopupContainer={() => document.body}>
         <a style={{ color: 'red' }}>
           <DeleteOutlined /> 删除

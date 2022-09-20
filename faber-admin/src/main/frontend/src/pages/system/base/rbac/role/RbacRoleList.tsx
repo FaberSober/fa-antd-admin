@@ -17,6 +17,7 @@ import Rbac from '@/props/rbac';
 import RbacRoleModal from './modal/RbacRoleModal';
 import {FaHref} from "@/components/biz/decorator";
 import RbacRoleMenuDrawer from "@/pages/system/base/rbac/role/modal/RbacRoleMenuDrawer";
+import RbacRoleUserDrawer from "@/pages/system/base/rbac/role/modal/RbacRoleUserDrawer";
 
 const serviceName = '角色';
 const buzzModal = 'base_rbac_role';
@@ -53,7 +54,9 @@ export default function RbacRoleList() {
             <RbacRoleMenuDrawer record={record}>
               <FaHref icon={<UnorderedListOutlined />} text="权限" />
             </RbacRoleMenuDrawer>
-            <FaHref icon={<UsergroupAddOutlined />} text="用户" />
+            <RbacRoleUserDrawer record={record}>
+              <FaHref icon={<UsergroupAddOutlined />} text="用户" />
+            </RbacRoleUserDrawer>
             <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} elements={user.elements} permission={undefined} />
           </Space>
         ),
@@ -74,8 +77,8 @@ export default function RbacRoleList() {
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <div>
             <Form form={form} layout="inline" onFinish={setFormValues}>
-              <Form.Item name="search" label="搜索">
-                <Input placeholder="请输入搜索内容" />
+              <Form.Item name="name" label="角色名称">
+                <Input placeholder="请输入角色名称" />
               </Form.Item>
             </Form>
           </div>

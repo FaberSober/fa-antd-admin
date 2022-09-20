@@ -1,14 +1,19 @@
 package com.faber.rbac.rest;
 
 import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.msg.TableResultResponse;
 import com.faber.common.rest.BaseController;
+import com.faber.common.vo.Query;
 import com.faber.rbac.biz.RbacUserRoleBiz;
 import com.faber.rbac.entity.RbacMenu;
 import com.faber.rbac.entity.RbacRole;
 import com.faber.rbac.entity.RbacUserRole;
+import com.faber.rbac.vo.RbacUserRoleRetVo;
+import com.faber.rbac.vo.query.RbacUserRoleQueryVo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * BASE-用户角色关联表
@@ -41,6 +46,15 @@ public class RbacUserRoleController extends BaseController<RbacUserRoleBiz,RbacU
     public ObjectRestResponse<List<RbacMenu>> getMyMenus() {
         List<RbacMenu> o = baseBiz.getMyMenus();
         return ok(o);
+    }
+
+    /**
+     * 分页查询
+     */
+    @RequestMapping(value = "/pageVo", method = RequestMethod.POST)
+    @ResponseBody
+    public TableResultResponse<RbacUserRoleRetVo> pageVo(@RequestBody RbacUserRoleQueryVo query) {
+        return baseBiz.pageVo(query);
     }
 
 }

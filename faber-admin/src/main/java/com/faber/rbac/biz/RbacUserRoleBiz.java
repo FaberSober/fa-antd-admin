@@ -1,17 +1,20 @@
 package com.faber.rbac.biz;
 
 import com.faber.common.biz.BaseBiz;
+import com.faber.common.msg.TableResultResponse;
 import com.faber.rbac.entity.RbacMenu;
 import com.faber.rbac.entity.RbacRole;
 import com.faber.rbac.entity.RbacRoleMenu;
 import com.faber.rbac.entity.RbacUserRole;
 import com.faber.rbac.mapper.RbacUserRoleMapper;
+import com.faber.rbac.vo.RbacUserRoleRetVo;
+import com.faber.rbac.vo.query.RbacUserRoleQueryVo;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,6 +58,12 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper,RbacUserRole> {
         if (menuIds.isEmpty()) return new ArrayList<>();
 
         return rbacMenuBiz.lambdaQuery().in(RbacMenu::getId, menuIds).list();
+    }
+
+    public TableResultResponse<RbacUserRoleRetVo> pageVo(RbacUserRoleQueryVo query) {
+        PageInfo<RbacUserRoleRetVo> info = PageHelper.startPage(query.getCurrentPage(), query.getPageSize())
+                .doSelectPageInfo(() -> baseMapper.pageVo(query));
+        return new TableResultResponse<>(info);
     }
 
 }
