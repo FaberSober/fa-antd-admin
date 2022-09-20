@@ -59,7 +59,6 @@ interface IProps extends RouteComponentProps {
  */
 export default function UserSimpleLayout({ children }: IProps) {
   const [user, setUser] = useState<FaberBase.UserInfo>(defaultUser);
-  const [loading, setLoading] = useState<boolean>(true)
   const [systemConfig, setSystemConfig] = useState<Admin.SystemConfigPo>(defaultConfig);
   const [unreadCount, setUnreadCount] = useState(0);
   const [loadingEffect, setLoadingEffect] = useState<any>({});
@@ -82,29 +81,13 @@ export default function UserSimpleLayout({ children }: IProps) {
   useEffect(() => {
     fetchUserInfo();
     fetchUnreadCount();
-    getSystemConfig();
+    // 获取系统配置参数
+    dictApi.getSystemConfig().then((res) => setSystemConfig(res.data))
   }, []);
 
   // 获取登录用户信息
   function fetchUserInfo() {
-    userApi.getUserInfo().then((res) => {
-      if (res && res.status === RES_CODE.OK) {
-        setUser(res.data);
-      }
-    });
-  }
-
-  // 获取系统配置参数
-  function getSystemConfig() {
-    setLoading(true)
-    dictApi.getSystemConfig().then((res) => {
-      setLoading(false)
-      if (res && res.status === RES_CODE.OK) {
-        if (res.data) {
-          setSystemConfig(res.data);
-        }
-      }
-    }).catch(() => setLoading(false))
+    userApi.getUserInfo().then((res) => setUser(res.data));
   }
 
   function handleLogout() {
@@ -114,11 +97,7 @@ export default function UserSimpleLayout({ children }: IProps) {
 
   // 未读消息数量
   function fetchUnreadCount() {
-    msgApi.countMine().then((res) => {
-      if (res && res.status === RES_CODE.OK) {
-        setUnreadCount(res.data.unreadCount);
-      }
-    });
+    msgApi.countMine().then((res) => setUnreadCount(res.data.unreadCount));
   }
 
   const contextValue: CProps = {
@@ -130,6 +109,8 @@ export default function UserSimpleLayout({ children }: IProps) {
     systemConfig,
     loadingEffect,
   };
+
+  const loading = loadingEffect[dictApi.getUrl('getSystemConfig')]
 
   if (user === undefined) return <PageLoading style={{ height: '100vh', width: '100vw' }} />
   if (loading) return <PageLoading style={{ height: '100vh', width: '100vw' }} />
