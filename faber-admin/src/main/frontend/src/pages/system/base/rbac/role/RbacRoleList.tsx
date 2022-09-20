@@ -82,17 +82,11 @@ export default function RbacRoleList() {
 
           <div>
             <Space>
-              <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
-                查询
-              </Button>
-              <Button onClick={() => clearForm(form)} loading={loading}>
-                重置
-              </Button>
+              <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
+              <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
               <ShiroPermissionContainer roleList={user.elements}>
                 <RbacRoleModal title={`新增${serviceName}信息`} fetchFinish={fetchPageList} destroyOnClose={false}>
-                  <Button icon={<PlusOutlined />} type="primary">
-                    新增
-                  </Button>
+                  <Button icon={<PlusOutlined />} type="primary">新增</Button>
                 </RbacRoleModal>
               </ShiroPermissionContainer>
               <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>

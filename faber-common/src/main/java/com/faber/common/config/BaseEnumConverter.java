@@ -8,6 +8,9 @@ import com.alibaba.excel.metadata.property.ExcelContentProperty;
 import com.faber.common.enums.BaseEnum;
 import org.springframework.stereotype.Component;
 
+/**
+ * FIXME：导出Excel需要适配Enum类型属性的转换
+ */
 @Component
 public class BaseEnumConverter implements Converter<BaseEnum> {
 
