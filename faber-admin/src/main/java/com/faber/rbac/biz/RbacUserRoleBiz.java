@@ -46,7 +46,7 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper,RbacUserRole> {
         return rbacRoleBiz.lambdaQuery().in(RbacRole::getId, roleIds).list();
     }
 
-    public List<RbacMenu> getMyRoleMenus() {
+    public List<RbacMenu> getMyMenus() {
         List<Long> roleIds = this.getMyRoleIds();
         if (roleIds.isEmpty()) return new ArrayList<>();
 

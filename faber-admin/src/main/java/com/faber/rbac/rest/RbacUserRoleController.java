@@ -36,10 +36,10 @@ public class RbacUserRoleController extends BaseController<RbacUserRoleBiz,RbacU
      * 获取登录账户的权限列表
      * @return
      */
-    @RequestMapping(value = "/getMyRoleMenus", method = RequestMethod.GET)
+    @RequestMapping(value = "/getMyMenus", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<List<RbacMenu>> getMyRoleMenus() {
-        List<RbacMenu> o = baseBiz.getMyRoleMenus();
+    public ObjectRestResponse<List<RbacMenu>> getMyMenus() {
+        List<RbacMenu> o = baseBiz.getMyMenus();
         return ok(o);
     }
 
