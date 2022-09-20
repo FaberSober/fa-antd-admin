@@ -1,6 +1,7 @@
 package com.faber.rbac.biz;
 
 import com.faber.common.biz.BaseBiz;
+import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.rbac.entity.RbacMenu;
 import com.faber.rbac.entity.RbacRole;
@@ -14,6 +15,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,6 +38,14 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper,RbacUserRole> {
 
     @Autowired
     private RbacMenuBiz rbacMenuBiz;
+
+    @Override
+    public boolean removeById(Serializable id) {
+        if ((Long)id == 1L) {
+            throw new BuzzException("不能删除默认的超级管理员角色");
+        }
+        return super.removeById(id);
+    }
 
     public List<Long> getMyRoleIds() {
         List<RbacUserRole> userRoleList = lambdaQuery().eq(RbacUserRole::getUserId, getCurrentUserId()).list();
