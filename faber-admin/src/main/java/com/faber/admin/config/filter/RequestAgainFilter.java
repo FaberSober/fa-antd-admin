@@ -23,8 +23,7 @@ import java.io.IOException;
  * 3. 记录请求日志；
  * 4. 销毁上下文中记录的登录用户信息；
  */
-@Component
-@WebFilter(filterName = "MyFilter", urlPatterns = "/api/*")
+@WebFilter(filterName = "RequestAgainFilter", urlPatterns = "/api/*")
 public class RequestAgainFilter implements Filter {
 
     @Autowired

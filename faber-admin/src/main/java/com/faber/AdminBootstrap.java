@@ -6,6 +6,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -18,6 +19,7 @@ import java.util.Set;
 @EnableScheduling
 @EnableAceCache
 @EnableTransactionManagement
+@ServletComponentScan
 public class AdminBootstrap {
 
     public static void main(String[] args) {
