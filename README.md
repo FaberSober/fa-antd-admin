@@ -34,7 +34,6 @@
 ## 后端
 | 插件 | 官网 |
 | :--- | :--- |
-| tk.mybatis | https://github.com/abel533/Mapper/wiki |
 | MyBatis-Plus | https://baomidou.com/ |
 | hutool | https://hutool.cn/docs/#/ |
 
@@ -42,9 +41,12 @@
 ## 前端
 | 插件 | 说明 | 官网 |
 | :--- | :--- | :--- |
+| vite | vitejs构建 | https://www.vitejs.net/ |
+| vite-plugin-pages | 目录路由生成 | https://github.com/hannoeru/vite-plugin-pages |
 | antd | antd前端组件 | https://ant-design.gitee.io/components/overview-cn/ |
 | fa-cron-react-editor | cron编辑器 | https://github.com/xrutayisire/react-js-cron |
 | use-bus | bus事件通知 | https://github.com/fabienjuif/use-bus |
+| tailwindcss | tailwindcss | https://tailwindcss.com/ |
 
 
 ### 升级npm依赖
