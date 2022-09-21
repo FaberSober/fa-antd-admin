@@ -17,7 +17,6 @@
         <npm.version>6.14.15</npm.version>
         <yarn.version>v1.22.10</yarn.version>
         <frontend-maven-plugin.version>1.7.5</frontend-maven-plugin.version>
-        <frontend-portal-src-dir>src/main/frontend-portal</frontend-portal-src-dir>
         <frontend-src-dir>src/main/frontend</frontend-src-dir>
     </properties>
     <dependencies>
@@ -215,7 +214,7 @@
                         <configuration>
                             <nodeVersion>${node.version}</nodeVersion>
                             <yarnVersion>${yarn.version}</yarnVersion>
-                            <workingDirectory>src/main/frontend-old</workingDirectory>
+                            <workingDirectory>${frontend-src-dir}</workingDirectory>
                             <installDirectory>${project.build.directory}</installDirectory>
                         </configuration>
                     </execution>
@@ -227,9 +226,9 @@
                         </goals>
                         <configuration>
                             <arguments>install</arguments>
-                            <!--                            <nodeVersion>${node.version}</nodeVersion>-->
-                            <!--                            <yarnVersion>${yarn.version}</yarnVersion>-->
-                            <workingDirectory>src/main/frontend-old</workingDirectory>
+                            <!-- <nodeVersion>${node.version}</nodeVersion>-->
+                            <!-- <yarnVersion>${yarn.version}</yarnVersion>-->
+                            <workingDirectory>${frontend-src-dir}</workingDirectory>
                             <installDirectory>${project.build.directory}</installDirectory>
                         </configuration>
                     </execution>
@@ -242,9 +241,9 @@
                         <phase>prepare-package</phase>
                         <configuration>
                             <arguments>build</arguments>
-                            <!--                            <nodeVersion>${node.version}</nodeVersion>-->
-                            <!--                            <yarnVersion>${yarn.version}</yarnVersion>-->
-                            <workingDirectory>src/main/frontend-old</workingDirectory>
+                            <!-- <nodeVersion>${node.version}</nodeVersion> -->
+                            <!-- <yarnVersion>${yarn.version}</yarnVersion> -->
+                            <workingDirectory>${frontend-src-dir}</workingDirectory>
                             <installDirectory>${project.build.directory}</installDirectory>
                         </configuration>
                     </execution>

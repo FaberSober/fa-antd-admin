@@ -5,7 +5,7 @@ import {
   useRoutes,
 } from 'react-router-dom'
 
-import './index.css'
+import './index.less'
 
 import routes from '~react-pages'
 
