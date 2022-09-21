@@ -2,7 +2,7 @@
   "name": "react",
   "private": true,
   "scripts": {
-    "dev": "nodemon --watch ../../dist/*.js -x 'cross-env DEBUG=vite-plugin-pages:* vite'",
+    "dev": "vite",
     "build": "cross-env DEBUG=vite-plugin-pages vite build",
     "serve": "vite preview"
   },
