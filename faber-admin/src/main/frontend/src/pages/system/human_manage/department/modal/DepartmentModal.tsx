@@ -6,8 +6,8 @@ import { showResponse } from '@/utils/utils';
 import { RES_CODE } from '@/configs/server.config';
 import modelService from '@/services/admin/department';
 import Admin from '@/props/admin';
-import DepartmentCascade from "@/pages/system/human_manage/user/helper/DepartmentCascade";
-import UserSearchSelect from "@/pages/system/human_manage/user/helper/UserSearchSelect";
+import DepartmentCascade from "@/pages/system/human_manage/user/userManage/helper/DepartmentCascade";
+import UserSearchSelect from "@/pages/system/human_manage/user/userManage/helper/UserSearchSelect";
 
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };

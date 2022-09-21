@@ -49,7 +49,7 @@ export default function App() {
 
                   {/* 智能人事 */}
                   <FragmentLayout path="human_manage">
-                    <PageLazy path="user" pageImport={() => import('@/pages/system/human_manage/user/UserDepartmentManage')} />
+                    <PageLazy path="user" pageImport={() => import('@/pages/system/human_manage/user/userManage/UserDepartmentManage')} />
                     <PageLazy path="department" pageImport={() => import('@/pages/system/human_manage/department/DepartmentList')} />
                     <PageLazy path="rbacRole" pageImport={() => import('@/pages/system/base/rbac/role/RbacRoleList')} />
                     <PageLazy path="role_auth" pageImport={() => import('@/pages/system/human_manage/role_auth/GroupAuthManage')} />

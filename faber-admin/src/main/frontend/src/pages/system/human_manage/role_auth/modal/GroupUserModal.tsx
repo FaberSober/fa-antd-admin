@@ -6,7 +6,7 @@ import { showResponse } from '@/utils/utils';
 import { RES_CODE } from '@/configs/server.config';
 import modelService from '@/services/admin/groupUser';
 import Admin from '@/props/admin';
-import UserSearchSelect from "@/pages/system/human_manage/user/helper/UserSearchSelect";
+import UserSearchSelect from "@/pages/system/human_manage/user/userManage/helper/UserSearchSelect";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 

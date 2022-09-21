@@ -6,6 +6,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,11 +36,8 @@ public class Query extends LinkedHashMap<String, Object> {
     private List<Map> conditionList;
 
     public Query(Map<String, Object> params) {
-        for (Map.Entry<String, Object> entry : params.entrySet()) {
-            if (ObjectUtil.isEmpty(entry.getValue())) {
-                params.remove(entry.getKey());
-            }
-        }
+        // 删除params中为空的元素
+        params.entrySet().removeIf(entry -> ObjectUtil.isEmpty(entry.getValue()));
         this.putAll(params);
 
         // 分页参数

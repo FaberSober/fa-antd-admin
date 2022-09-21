@@ -8,7 +8,7 @@ import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/biz/base-
 import modelService from '@/services/admin/user';
 import Admin from '@/props/admin';
 import UserModal from '../modal/UserModal';
-import DepartmentCascade from "@/pages/system/human_manage/user/helper/DepartmentCascade";
+import DepartmentCascade from "@/pages/system/human_manage/user/userManage/helper/DepartmentCascade";
 import { UserContext } from '@/layout/UserSimpleLayout';
 import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
 
