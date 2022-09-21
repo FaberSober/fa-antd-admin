@@ -1,9 +1,8 @@
-import { Link } from 'react-router-dom'
-import type { FC } from 'react'
-import { Button } from 'antd'
+import {Link} from 'react-router-dom'
+import {Button} from 'antd'
 import {HeartOutlined} from "@ant-design/icons";
 
-const index: FC = () => {
+export default function App() {
   return (
     <div>
         <div>
@@ -27,5 +26,3 @@ const index: FC = () => {
     </div>
   )
 }
-
-export default index
