@@ -1,9 +1,11 @@
 package com.faber.rbac.biz;
 
 import com.faber.common.biz.BaseBiz;
+import com.faber.common.constant.CommonConstants;
 import com.faber.common.enums.BoolEnum;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.TableResultResponse;
+import com.faber.common.vo.TreeNode;
 import com.faber.rbac.entity.RbacMenu;
 import com.faber.rbac.entity.RbacRole;
 import com.faber.rbac.entity.RbacRoleMenu;
@@ -69,6 +71,11 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper,RbacUserRole> {
         if (menuIds.isEmpty()) return new ArrayList<>();
 
         return rbacMenuBiz.lambdaQuery().in(RbacMenu::getId, menuIds).list();
+    }
+
+    public List<TreeNode<RbacMenu>> getMyMenusTree() {
+        List<RbacMenu> list = this.getMyMenus();
+        return rbacMenuBiz.getMenuTree(list, CommonConstants.ROOT);
     }
 
     public TableResultResponse<RbacUserRoleRetVo> pageVo(RbacUserRoleQueryVo query) {

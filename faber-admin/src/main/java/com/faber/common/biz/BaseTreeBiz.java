@@ -212,7 +212,7 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
      * @param parentIds 父节点ID数组
      * @return
      */
-    private List<T> loopFindChildren(List<Serializable> parentIds) {
+    public List<T> loopFindChildren(List<Serializable> parentIds) {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
         wrapper.in(getTreeParentIdFieldColumnName(), Arrays.asList(parentIds));
         this.enhanceTreeQuery(wrapper);
@@ -287,7 +287,7 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
      * @param root
      * @return
      */
-    protected List<TreeNode<T>> getMenuTree(List<T> beanList, Serializable root) {
+    public List<TreeNode<T>> getMenuTree(List<T> beanList, Serializable root) {
         List<TreeNode<T>> trees = new ArrayList<>();
         TreeNode<T> treeNode = null;
         for (T entity : beanList) {

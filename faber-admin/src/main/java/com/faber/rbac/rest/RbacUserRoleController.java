@@ -4,6 +4,7 @@ import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.rest.BaseController;
 import com.faber.common.vo.Query;
+import com.faber.common.vo.TreeNode;
 import com.faber.rbac.biz.RbacUserRoleBiz;
 import com.faber.rbac.entity.RbacMenu;
 import com.faber.rbac.entity.RbacRole;
@@ -45,6 +46,17 @@ public class RbacUserRoleController extends BaseController<RbacUserRoleBiz,RbacU
     @ResponseBody
     public ObjectRestResponse<List<RbacMenu>> getMyMenus() {
         List<RbacMenu> o = baseBiz.getMyMenus();
+        return ok(o);
+    }
+
+    /**
+     * 获取登录账户的权限列表Tree
+     * @return
+     */
+    @RequestMapping(value = "/getMyMenusTree", method = RequestMethod.GET)
+    @ResponseBody
+    public ObjectRestResponse<List<TreeNode<RbacMenu>>> getMyMenusTree() {
+        List<TreeNode<RbacMenu>> o = baseBiz.getMyMenusTree();
         return ok(o);
     }
 
