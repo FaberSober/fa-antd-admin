@@ -1,6 +1,7 @@
 package com.faber.rbac.biz;
 
 import com.faber.common.biz.BaseBiz;
+import com.faber.common.enums.BoolEnum;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.rbac.entity.RbacMenu;
@@ -56,11 +57,11 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper,RbacUserRole> {
         List<Long> roleIds = this.getMyRoleIds();
         if (roleIds.isEmpty()) return new ArrayList<>();
 
-        return rbacRoleBiz.lambdaQuery().in(RbacRole::getId, roleIds).list();
+        return rbacRoleBiz.lambdaQuery().eq(RbacRole::getStatus, BoolEnum.YES).in(RbacRole::getId, roleIds).list();
     }
 
     public List<RbacMenu> getMyMenus() {
-        List<Long> roleIds = this.getMyRoleIds();
+        List<Long> roleIds = this.getMyRoles().stream().map(RbacRole::getId).collect(Collectors.toList());
         if (roleIds.isEmpty()) return new ArrayList<>();
 
         List<RbacRoleMenu> roleMenuList = rbacRoleMenuBiz.lambdaQuery().in(RbacRoleMenu::getRoleId, roleIds).list();
