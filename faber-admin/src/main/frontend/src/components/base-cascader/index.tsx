@@ -4,7 +4,7 @@ import Ajax from '@/props/base/Ajax';
 import FaberBase from '@/props/base/FaberBase';
 import { CascaderProps } from 'antd/es/cascader';
 import { Cascader } from 'antd';
-import * as BaseTreeUtils from '@/components/biz/base-tree/utils';
+import * as BaseTreeUtils from '@/components/base-tree/utils';
 import BaseTreeProps from '../base-tree/interface';
 import { RES_CODE } from '@/configs/server.config';
 

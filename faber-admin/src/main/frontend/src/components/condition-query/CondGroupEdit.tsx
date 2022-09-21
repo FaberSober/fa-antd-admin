@@ -1,9 +1,9 @@
 import React from 'react';
-import ConditionQuery from "@/components/biz/condition-query/interface";
+import ConditionQuery from "@/components/condition-query/interface";
 import {Button, Input, Select, Space, Radio} from "antd";
 import {find, remove} from "lodash";
 import {CloseCircleFilled, DeleteOutlined, PlusOutlined} from "@ant-design/icons";
-import { BaseTableUtils, FaberTable } from '@/components/biz/base-table';
+import { BaseTableUtils, FaberTable } from '@/components/base-table';
 import {v1 as uuidv1} from "uuid";
 
 

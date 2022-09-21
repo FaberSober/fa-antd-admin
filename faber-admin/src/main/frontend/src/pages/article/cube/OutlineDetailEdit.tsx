@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { BaseHtmlNEditor } from '@/components/biz/base-editor';
+import { BaseHtmlNEditor } from '@/components/base-editor';
 import { Button, Empty } from 'antd';
 import outlineService from '@/services/article/outline';
 import detailService from '@/services/article/detail';

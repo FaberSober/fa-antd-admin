@@ -8,7 +8,7 @@ import modelService from '@/services/admin/dict';
 import Admin from '@/props/admin';
 import DictTypeCascade from "@/pages/system/base/dict/helper/DictTypeCascade";
 import { ClearOutlined } from '@ant-design/icons';
-import {UploadFileLocal, UploadFileQiniu} from "@/components/biz/base-uploader";
+import {UploadFileLocal, UploadFileQiniu} from "@/components/base-uploader";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 

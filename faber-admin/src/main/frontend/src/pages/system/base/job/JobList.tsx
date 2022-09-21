@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { DownloadOutlined, EditOutlined, PauseCircleOutlined, PlayCircleOutlined, PlusOutlined, SearchOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import { Badge, Button, Card, Form, Input, Popconfirm, Space } from 'antd';
 import { ShiroPermissionContainer } from '@/components/auth';
-import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/biz/base-table';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import { UserContext } from '@/layout/UserSimpleLayout';
 import { showResponse } from '@/utils/utils';
 import FaberBase from '@/props/base/FaberBase';

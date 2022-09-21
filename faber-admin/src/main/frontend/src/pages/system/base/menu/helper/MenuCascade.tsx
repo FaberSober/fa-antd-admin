@@ -1,6 +1,6 @@
 import React from 'react';
 import modelService from '@/services/admin/menu';
-import BaseCascader, { BaseCascaderProps } from '@/components/biz/base-cascader';
+import BaseCascader, { BaseCascaderProps } from '@/components/base-cascader';
 import Admin from '@/props/admin';
 import menuService from "@/services/admin/menu";
 

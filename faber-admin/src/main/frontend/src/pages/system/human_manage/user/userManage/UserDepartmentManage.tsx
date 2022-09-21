@@ -2,14 +2,14 @@ import React, { useRef, useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { RES_CODE } from '@/configs/server.config';
 import SplitPane from 'react-split-pane';
-import BaseTree from '@/components/biz/base-tree';
+import BaseTree from '@/components/base-tree';
 import DepartmentModal from "@/pages/system/human_manage/user/userManage/modal/DepartmentModal";
 import Admin from '@/props/admin';
 import departmentService from '@/services/admin/department';
 import UserList from "@/pages/system/human_manage/user/userManage/cube/UserList";
 import { PlusOutlined } from '@ant-design/icons';
 import { useLocalStorageState } from 'ahooks';
-import BaseTreeProps from "@/components/biz/base-tree/interface";
+import BaseTreeProps from "@/components/base-tree/interface";
 
 /**
  * 用户部门管理

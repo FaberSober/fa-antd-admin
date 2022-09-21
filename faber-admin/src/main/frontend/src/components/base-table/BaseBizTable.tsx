@@ -2,13 +2,13 @@ import React, {createContext, useEffect, useState} from 'react';
 import { find, sumBy, get } from 'lodash';
 import { ClearOutlined, DeleteOutlined, SettingOutlined } from '@ant-design/icons';
 import {Table, Button, Modal, Space} from 'antd';
-import TableColConfigModal from '../../modal/TableColConfigModal';
+import TableColConfigModal from '../modal/TableColConfigModal';
 import FaberTable from './interface';
 import { TableRowSelection } from 'antd/lib/table/interface';
 import useWindowResize from 'beautiful-react-hooks/useWindowResize';
 import { showResponse } from '@/utils/utils';
 import { dataIndexToString } from './utils';
-import ComplexQuery from '@/components/biz/condition-query/ComplexQuery'
+import ComplexQuery from '@/components/condition-query/ComplexQuery'
 
 interface CProps {
   localData: boolean; // 是否本地数据[查询场景、字段配置]

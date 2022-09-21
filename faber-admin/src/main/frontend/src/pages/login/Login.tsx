@@ -6,7 +6,7 @@ import { trim } from 'lodash'
 import { login } from '@/services/admin/auth';
 import { setToken } from '@/utils/cache';
 import { RES_CODE, SITE_INFO } from '@/configs/server.config';
-import { Captcha } from "@/components/biz/base-field";
+import { Captcha } from "@/components/base-field";
 import styles from './login.module.less'
 
 export default function Login() {

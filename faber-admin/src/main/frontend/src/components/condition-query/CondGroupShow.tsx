@@ -1,5 +1,5 @@
 import React from 'react';
-import ConditionQuery from "@/components/biz/condition-query/interface";
+import ConditionQuery from "@/components/condition-query/interface";
 import {Tag} from "antd";
 import {remove} from "lodash";
 import './SceneManageModal.less';

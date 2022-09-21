@@ -3,7 +3,7 @@ import {RouteComponentProps} from '@reach/router';
 import SplitPane from 'react-split-pane';
 import {CaretRightOutlined, PlusOutlined} from '@ant-design/icons';
 import {Collapse, Descriptions, Empty} from 'antd';
-import BaseTree from '@/components/biz/base-tree';
+import BaseTree from '@/components/base-tree';
 import menuService from '@/services/admin/menu';
 import Admin from '@/props/admin';
 import {RES_CODE} from '@/configs/server.config';

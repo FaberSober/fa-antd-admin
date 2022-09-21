@@ -8,7 +8,7 @@ import Admin from '@/props/admin';
 import DictModal from '../modal/DictModal';
 import { UserContext } from '@/layout/UserSimpleLayout';
 import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
-import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/biz/base-table';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import {isUrlImg, previewImage} from "@/utils/utils";
 
 

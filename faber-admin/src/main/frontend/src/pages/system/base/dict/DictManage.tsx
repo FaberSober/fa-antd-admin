@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { RES_CODE } from '@/configs/server.config';
 import SplitPane from 'react-split-pane';
-import BaseTree from '@/components/biz/base-tree';
+import BaseTree from '@/components/base-tree';
 import DictTypeModal from "@/pages/system/base/dict/modal/DictTypeModal";
 import { CaretRightOutlined, PlusOutlined } from '@ant-design/icons';
 import { Collapse, Descriptions } from 'antd';
@@ -10,7 +10,7 @@ import Admin from '@/props/admin';
 import dictTypeService from '@/services/admin/dictType';
 import DictList from "@/pages/system/base/dict/cube/DictList";
 import { useLocalStorageState } from 'ahooks';
-import BaseTreeProps from "@/components/biz/base-tree/interface";
+import BaseTreeProps from "@/components/base-tree/interface";
 
 /**
  * @author xu.pengfei

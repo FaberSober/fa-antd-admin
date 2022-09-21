@@ -7,8 +7,8 @@ import { SortableContainer, SortableElement, SortableHandle } from 'react-sortab
 import { DeleteOutlined, EditOutlined, MenuOutlined } from '@ant-design/icons';
 import { Checkbox, Popconfirm, Space, Tooltip } from 'antd';
 import Admin from '@/props/admin';
-import ConditionQueryModal from '@/components/biz/condition-query/ConditionQueryModal';
-import FaberTable from '@/components/biz/base-table/interface';
+import ConditionQueryModal from '@/components/condition-query/ConditionQueryModal';
+import FaberTable from '@/components/base-table/interface';
 import './SceneManageModal.less';
 
 interface IProps<T> extends DragModalProps {

@@ -6,7 +6,7 @@ import { showResponse } from '@/utils/utils';
 import { RES_CODE } from '@/configs/server.config';
 import modelService from '@/services/admin/area';
 import Admin from '@/props/admin';
-import { DictDataSelector } from '@/components/biz/base-dict';
+import { DictDataSelector } from '@/components/base-dict';
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 

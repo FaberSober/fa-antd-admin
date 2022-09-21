@@ -6,10 +6,10 @@ import { ShiroPermissionContainer } from '@/components/auth';
 import modelService from '@/services/admin/element';
 import Admin from '@/props/admin';
 import ElementModal from '../modal/ElementModal';
-import { getSortOrder } from '@/components/biz/base-table/utils';
+import { getSortOrder } from '@/components/base-table/utils';
 import { UserContext } from '@/layout/UserSimpleLayout';
 import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
-import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/biz/base-table';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import MenuManageContext from "@/pages/system/base/menu/context/MenuManageContext";
 
 const serviceName = '权限资源';

@@ -9,13 +9,13 @@ import {
 } from '@ant-design/icons';
 import { Button, Card, Form, Input, Space } from 'antd';
 import { ShiroPermissionContainer } from '@/components/auth';
-import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/biz/base-table';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import { UserContext } from "@/layout/UserSimpleLayout";
 import { useExport, useTableQueryParams, clearForm, useDelete } from "@/utils/myHooks";
 import modelService from '@/services/rbac/rbacRole';
 import Rbac from '@/props/rbac';
 import RbacRoleModal from './modal/RbacRoleModal';
-import {FaHref} from "@/components/biz/decorator";
+import {FaHref} from "@/components/decorator";
 import RbacRoleMenuDrawer from "@/pages/system/base/rbac/role/modal/RbacRoleMenuDrawer";
 import RbacRoleUserDrawer from "@/pages/system/base/rbac/role/modal/RbacRoleUserDrawer";
 

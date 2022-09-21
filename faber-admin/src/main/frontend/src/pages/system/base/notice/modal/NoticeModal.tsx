@@ -6,8 +6,8 @@ import { showResponse } from '@/utils/utils';
 import { RES_CODE } from '@/configs/server.config';
 import modelService from '@/services/admin/notice';
 import Admin from '@/props/admin';
-import { DictDataRadio } from '@/components/biz/base-dict';
-import {UploadImgLocal} from "@/components/biz/base-uploader";
+import { DictDataRadio } from '@/components/base-dict';
+import {UploadImgLocal} from "@/components/base-uploader";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 

@@ -6,7 +6,7 @@ import { showResponse } from '@/utils/utils';
 import { RES_CODE } from '@/configs/server.config';
 import modelService from '@/services/admin/job';
 import Admin from '@/props/admin';
-import {Cron, CronModal} from "@/components/biz/base-field";
+import {Cron, CronModal} from "@/components/base-field";
 
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };

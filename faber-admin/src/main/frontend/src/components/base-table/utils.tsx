@@ -10,9 +10,9 @@ import {
   renderDateRangerPicker,
   renderTimePicker,
   renderTimeRangePicker
-} from '@/components/biz/condition-query/ConditionQueryUtils';
-import {FaberTable} from '@/components/biz/base-table';
-import {DictDataSelector} from "@/components/biz/base-dict";
+} from '@/components/condition-query/ConditionQueryUtils';
+import {FaberTable} from '@/components/base-table/index';
+import {DictDataSelector} from "@/components/base-dict";
 import {SortOrder} from "antd/es/table/interface";
 
 

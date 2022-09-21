@@ -1,6 +1,6 @@
 import React from 'react';
 import modelService from '@/services/admin/department';
-import BaseCascader, { BaseCascaderProps } from '@/components/biz/base-cascader';
+import BaseCascader, { BaseCascaderProps } from '@/components/base-cascader';
 import Admin from '@/props/admin';
 
 export interface DepartmentCascadeProps extends Omit<BaseCascaderProps<Admin.Department>, 'serviceApi'> {}

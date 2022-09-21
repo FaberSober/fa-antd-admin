@@ -9,7 +9,7 @@ import modelService from '@/services/rbac/rbacMenu';
 import Rbac from '@/props/rbac';
 import RbacMenuCascader from "@/pages/system/base/rbac/menu/helper/RbacMenuCascader";
 import FaberEnums from "@/props/base/FaberEnums";
-import {BaseBoolIntRadio} from "@/components/biz/base-dict";
+import {BaseBoolIntRadio} from "@/components/base-dict";
 import {UserContext} from "@/layout/UserSimpleLayout";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };

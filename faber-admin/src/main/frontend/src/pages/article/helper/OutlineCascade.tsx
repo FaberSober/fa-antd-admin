@@ -1,5 +1,5 @@
 import React from 'react';
-import BaseCascader from '@/components/biz/base-cascader';
+import BaseCascader from '@/components/base-cascader';
 import modelService from '@/services/article/outline';
 
 interface OutlineCascadeProps {

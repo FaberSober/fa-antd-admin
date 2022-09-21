@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import Ajax from '@/props/base/Ajax';
-import ConditionQuery from '@/components/biz/condition-query/interface';
+import ConditionQuery from '@/components/condition-query/interface';
 import { ColumnProps, TableProps } from 'antd/lib/table';
 
 /**

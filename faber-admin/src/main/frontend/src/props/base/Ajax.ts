@@ -1,5 +1,5 @@
 import { DragModalProps } from '@/components/modal/DragModal';
-import ConditionQuery from '@/components/biz/condition-query/interface';
+import ConditionQuery from '@/components/condition-query/interface';
 
 declare global {
 	interface Window {

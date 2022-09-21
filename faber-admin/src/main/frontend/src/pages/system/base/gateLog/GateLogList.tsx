@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { DownloadOutlined, EyeOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Card, Form, Input, Space } from 'antd';
 import { ShiroPermissionContainer } from '@/components/auth';
-import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/biz/base-table';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import { UserContext } from "@/layout/UserSimpleLayout";
 import { useExport, useTableQueryParams, clearForm, useDelete } from "@/utils/myHooks";
 import modelService from '@/services/admin/gateLog';

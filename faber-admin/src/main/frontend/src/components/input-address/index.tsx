@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input } from 'antd';
-import LocMapModal from '@/components/biz/map-loc-select/LocMapModal';
+import LocMapModal from '@/components/map-loc-select/LocMapModal';
 import { CompassOutlined } from '@ant-design/icons';
 import {SITE_INFO} from "@/configs/server.config";
 

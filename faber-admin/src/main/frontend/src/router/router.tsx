@@ -8,7 +8,7 @@ import { SITE_INFO } from '@/configs/server.config';
 
 import LangLayout from "@/layout/LangLayout";
 import FragmentLayout from "@/layout/FragmentLayout";
-import PageLazy from "@/components/biz/lazy/PageLazy";
+import PageLazy from "@/components/lazy/PageLazy";
 
 // 业务模块
 import modalConfig from '@/configs/modal.config';

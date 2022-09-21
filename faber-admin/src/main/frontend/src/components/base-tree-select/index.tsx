@@ -3,9 +3,9 @@ import { TreeSelect } from 'antd';
 import Ajax from "@/props/base/Ajax";
 import FaberBase from '@/props/base/FaberBase';
 import { TreeSelectProps } from 'antd/es/tree-select';
-import BaseTreeProps from '@/components/biz/base-tree/interface';
+import BaseTreeProps from '@/components/base-tree/interface';
 import { RES_CODE } from '@/configs/server.config';
-import * as BaseTreeUtils from '@/components/biz/base-tree/utils';
+import * as BaseTreeUtils from '@/components/base-tree/utils';
 
 const root = { value: 0, label: '根节点', isLeaf: false, hasChildren: true };
 

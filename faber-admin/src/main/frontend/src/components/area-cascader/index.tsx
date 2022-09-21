@@ -6,7 +6,7 @@ import Admin from '@/props/admin';
 import areaService from '@/services/admin/area';
 import { RES_CODE } from '@/configs/server.config';
 import { CascaderOptionType } from 'antd/lib/cascader';
-import { BaseCascaderProps } from '@/components/biz/base-cascader';
+import { BaseCascaderProps } from '@/components/base-cascader';
 
 function getLastValue(values: number[]) {
   remove(values, (d) => isNil(d) || d === undefined);

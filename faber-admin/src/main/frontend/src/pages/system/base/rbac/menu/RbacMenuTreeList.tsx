@@ -6,11 +6,11 @@ import {Button, Modal, Space, Table} from "antd";
 import RbacMenuModal from "@/pages/system/base/rbac/menu/modal/RbacMenuModal";
 import {ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {ColumnsType} from "antd/es/table";
-import {FaFlexRestLayout} from "@/components/biz/base-layout";
+import {FaFlexRestLayout} from "@/components/base-layout";
 import {UserContext} from "@/layout/UserSimpleLayout";
 import FaberEnums from "@/props/base/FaberEnums";
 import {useDelete} from "@/utils/myHooks";
-import {AuthDelBtn, FaHref} from '@/components/biz/decorator'
+import {AuthDelBtn, FaHref} from '@/components/decorator'
 import {showResponse} from "@/utils/utils";
 
 

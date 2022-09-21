@@ -1,11 +1,11 @@
 import React, {CSSProperties, useContext, useRef} from 'react';
-import FaberTable from '@/components/biz/base-table/interface';
+import FaberTable from '@/components/base-table/interface';
 import { Button, Space } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
 import ConditionQueryModal from './ConditionQueryModal';
 import SceneDropMenu from './SceneDropMenu';
-import ConditionQuery from '@/components/biz/condition-query/interface';
-import {BaseBizTableContext} from "@/components/biz/base-table/BaseBizTable";
+import ConditionQuery from '@/components/condition-query/interface';
+import {BaseBizTableContext} from "@/components/base-table/BaseBizTable";
 
 interface IProps<T> {
   buzzModal: string

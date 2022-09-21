@@ -7,7 +7,7 @@ import { RES_CODE } from '@/configs/server.config';
 import { clearToken } from '@/utils/cache';
 import {PageLoading} from "@/components/antd-pro";
 import FaberBase from "@/props/base/FaberBase";
-import BaseNotice from "@/components/biz/base-notice";
+import BaseNotice from "@/components/base-notice";
 import Admin from "@/props/admin";
 import useBus from 'use-bus'
 

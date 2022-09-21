@@ -3,14 +3,14 @@ import {trim} from 'lodash';
 import {v1 as uuidv1} from 'uuid';
 import {Alert, Checkbox, Divider, Input, message} from 'antd';
 import DragModal from '@/components/modal/DragModal';
-import ConditionQuery from '@/components/biz/condition-query/interface';
+import ConditionQuery from '@/components/condition-query/interface';
 import configService from '@/services/admin/config';
 import Admin from '@/props/admin';
 import {showResponse} from '@/utils/utils';
-import FaberTable from '@/components/biz/base-table/interface';
-import {BaseBizTableContext} from "@/components/biz/base-table/BaseBizTable";
-import CondGroupShow from "@/components/biz/condition-query/CondGroupShow";
-import CondGroupEdit from "@/components/biz/condition-query/CondGroupEdit";
+import FaberTable from '@/components/base-table/interface';
+import {BaseBizTableContext} from "@/components/base-table/BaseBizTable";
+import CondGroupShow from "@/components/condition-query/CondGroupShow";
+import CondGroupEdit from "@/components/condition-query/CondGroupEdit";
 import {PlusOutlined} from "@ant-design/icons";
 
 

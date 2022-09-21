@@ -1,6 +1,6 @@
 import React from 'react';
 import Admin from '@/props/admin';
-import BaseTreeSelect, { BaseTreeSelectProps } from '@/components/biz/base-tree-select';
+import BaseTreeSelect, { BaseTreeSelectProps } from '@/components/base-tree-select';
 import modelService from '@/services/admin/group';
 
 export interface GroupTreeSelectProps extends Omit<BaseTreeSelectProps<Admin.Group>, 'serviceApi'> {

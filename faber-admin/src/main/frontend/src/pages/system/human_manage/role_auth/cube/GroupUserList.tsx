@@ -3,7 +3,7 @@ import { RouteComponentProps } from '@reach/router';
 import { EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Card, Form, Input, Space } from 'antd';
 import { ShiroPermissionContainer } from '@/components/auth';
-import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/biz/base-table';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import modelService from '@/services/admin/groupUser';
 import Admin from '@/props/admin';
 import GroupUserModal from '../modal/GroupUserModal';

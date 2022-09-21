@@ -8,9 +8,9 @@ import modelService from '@/services/admin/user';
 import groupUserApi from '@/services/admin/groupUser';
 import Admin from '@/props/admin';
 import DepartmentCascade from "@/pages/system/human_manage/user/userManage/helper/DepartmentCascade";
-import { DictDataRadio } from '@/components/biz/base-dict';
+import { DictDataRadio } from '@/components/base-dict';
 import GroupTreeSelect from "@/pages/system/human_manage/user/userManage/helper/GroupTreeSelect";
-import {UploadImgLocal} from "@/components/biz/base-uploader";
+import {UploadImgLocal} from "@/components/base-uploader";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 

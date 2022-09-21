@@ -6,7 +6,7 @@ import {DragModalProps} from "@/components/modal/DragModal";
 import {FaberBase} from "@/props/base";
 import rbacMenuApi from "@/services/rbac/rbacMenu";
 import rbacRoleMenuApi from "@/services/rbac/rbacRoleMenu";
-import {FaFlexRestLayout} from "@/components/biz/base-layout";
+import {FaFlexRestLayout} from "@/components/base-layout";
 import {showResponse} from "@/utils/utils";
 import RbacUserRoleList from "@/pages/system/base/rbac/role/list/RbacUserRoleList";
 

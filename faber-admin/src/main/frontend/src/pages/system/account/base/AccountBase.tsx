@@ -4,11 +4,11 @@ import {Button, Card, Form, Input} from 'antd';
 import Admin from '@/props/admin';
 import userService from '@/services/admin/user';
 import {RES_CODE} from '@/configs/server.config';
-import {DictDataRadio} from '@/components/biz/base-dict';
+import {DictDataRadio} from '@/components/base-dict';
 import {PageLoading} from '@/components/antd-pro';
 import {showResponse} from '@/utils/utils';
 import {UserContext} from '@/layout/UserSimpleLayout';
-import {UploadImgQiniu} from "@/components/biz/base-uploader";
+import {UploadImgQiniu} from "@/components/base-uploader";
 
 const formItemFullLayout = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
 const tailLayout = { wrapperCol: { offset: 8, span: 16 } };

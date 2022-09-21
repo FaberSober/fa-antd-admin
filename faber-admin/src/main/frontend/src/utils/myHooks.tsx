@@ -2,10 +2,10 @@ import React, { useCallback, useState, useRef, useEffect} from 'react'
 import FaberBase from "@/props/base/FaberBase";
 import Ajax from "@/props/base/Ajax";
 import { RES_CODE } from "@/configs/server.config";
-import * as BaseTableUtils from "@/components/biz/base-table/utils";
+import * as BaseTableUtils from "@/components/base-table/utils";
 import { TablePaginationConfig } from "antd";
 import { get, hasIn, isEqual } from 'lodash';
-import ConditionQuery from "@/components/biz/condition-query/interface";
+import ConditionQuery from "@/components/condition-query/interface";
 import { showResponse } from '@/utils/utils';
 import { useIntl } from 'react-intl';
 import queryString from 'querystring';

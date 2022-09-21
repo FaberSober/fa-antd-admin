@@ -2,12 +2,12 @@ import React, {useContext, useEffect, useImperativeHandle, useRef, useState} fro
 import { find } from 'lodash';
 import { Dropdown, Menu } from 'antd';
 import { DownOutlined, SettingOutlined } from '@ant-design/icons';
-import SceneManageModal from '@/components/biz/condition-query/SceneManageModal';
+import SceneManageModal from '@/components/condition-query/SceneManageModal';
 import Admin from '@/props/admin';
-import FaberTable from '@/components/biz/base-table/interface';
+import FaberTable from '@/components/base-table/interface';
 import configService from '@/services/admin/config';
 import { RES_CODE } from '@/configs/server.config';
-import {BaseBizTableContext} from "@/components/biz/base-table/BaseBizTable";
+import {BaseBizTableContext} from "@/components/base-table/BaseBizTable";
 
 const allSceneLabel = '全部数据';
 

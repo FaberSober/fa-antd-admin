@@ -1,7 +1,7 @@
 import React from 'react';
 import {PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import {Button, Card, Form, Input, Space} from 'antd';
-import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/biz/base-table';
+import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import {clearForm, useDelete, useTableQueryParams} from "@/utils/myHooks";
 import modelService from '@/services/rbac/rbacUserRole';
 import Rbac from '@/props/rbac';

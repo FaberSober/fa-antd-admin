@@ -3,12 +3,12 @@ import { RouteComponentProps } from '@reach/router';
 import { DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Card, Form, Image, Input, Space } from 'antd';
 import { ShiroPermissionContainer } from '@/components/auth';
-import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/biz/base-table';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import { UserContext } from '@/layout/UserSimpleLayout';
 import modelService from '@/services/admin/notice';
 import Admin from '@/props/admin';
 import NoticeModal from './modal/NoticeModal';
-import { DictDataSelector } from '@/components/biz/base-dict';
+import { DictDataSelector } from '@/components/base-dict';
 import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
 import { previewImage } from '@/utils/utils';
 

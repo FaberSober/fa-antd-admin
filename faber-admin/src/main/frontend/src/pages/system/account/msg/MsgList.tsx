@@ -6,9 +6,9 @@ import { UserContext } from '@/layout/UserSimpleLayout';
 import FaberBase from '@/props/base/FaberBase';
 import modelService from '@/services/admin/msg';
 import Admin from '@/props/admin';
-import { getValueFromDicts } from '@/components/biz/base-table/utils';
+import { getValueFromDicts } from '@/components/base-table/utils';
 import { clearForm, useTableQueryParams } from '@/utils/myHooks';
-import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/biz/base-table';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 
 const serviceName = '消息';
 const buzzModal = 'base_msg';

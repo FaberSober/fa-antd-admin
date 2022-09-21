@@ -7,7 +7,7 @@ import { RES_CODE } from '@/configs/server.config';
 import modelService from '@/services/article/outline';
 import Article from '@/props/article';
 import OutlineCascade from '@/pages/article/helper/OutlineCascade';
-import { UploadImgQiniu } from '@/components/biz/base-uploader';
+import { UploadImgQiniu } from '@/components/base-uploader';
 import { BookEditContext } from '@/pages/article/BookEdit';
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };

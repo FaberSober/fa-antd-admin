@@ -7,7 +7,7 @@ import Ajax from "@/props/base/Ajax";
 import modelService from '@/services/rbac/rbacRole';
 import Rbac from '@/props/rbac';
 import {UserContext} from "@/layout/UserSimpleLayout";
-import {BaseBoolIntRadio} from "@/components/biz/base-dict";
+import {BaseBoolIntRadio} from "@/components/base-dict";
 import FaberEnums from "@/props/base/FaberEnums";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };

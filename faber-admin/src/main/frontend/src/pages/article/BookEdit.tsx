@@ -7,11 +7,11 @@ import outlineService from '@/services/article/outline';
 import Article from '@/props/article';
 import { RES_CODE } from '@/configs/server.config';
 import SplitPane from 'react-split-pane';
-import BaseTree from '@/components/biz/base-tree';
+import BaseTree from '@/components/base-tree';
 import OutlineModal from './modal/OutlineModal';
 import { Helmet } from 'react-helmet-async';
 import OutlineDetailEdit from './cube/OutlineDetailEdit';
-import BaseTreeProps from "@/components/biz/base-tree/interface";
+import BaseTreeProps from "@/components/base-tree/interface";
 
 export interface BookEditContextProps {
   bookId?: number; // 书本ID
