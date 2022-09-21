@@ -30,7 +30,6 @@ public class GateLogInterceptor extends AbstractInterceptor {
         log.setMethod(request.getMethod());
         log.setAgent(request.getHeader("User-Agent"));
 
-        log.setStartTime(System.currentTimeMillis());
         log.setCrtHost(IpUtils.getRequestIp(request));
 
         gateLogThreadLocal.set(log);
@@ -43,7 +42,6 @@ public class GateLogInterceptor extends AbstractInterceptor {
         // write log
         GateLog log = gateLogThreadLocal.get();
         if (log != null) {
-            log.setDuration(System.currentTimeMillis() - log.getStartTime());
             log.setRetStatus(response.getStatus());
 
             // 获取IP地址

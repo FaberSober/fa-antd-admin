@@ -45,7 +45,7 @@ public class UserAuthRestInterceptor extends AbstractInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        BaseContextHandler.remove();
+//        BaseContextHandler.remove(); // 放到Filter中去执行
         super.afterCompletion(request, response, handler, ex);
     }
 }

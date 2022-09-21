@@ -1,9 +1,7 @@
 package com.faber.admin.entity;
 
-import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.SqlSearch;
@@ -11,14 +9,16 @@ import com.faber.common.bean.BaseCrtEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
 /**
  * URL请求日志
  */
 @TableName("base_gate_log")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@ToString
+@Accessors(chain = true)
 public class GateLog extends BaseCrtEntity {
 
     @TableId(type = IdType.AUTO)
@@ -26,39 +26,39 @@ public class GateLog extends BaseCrtEntity {
 
     @SqlSearch
     @ExcelProperty("请求URL")
-    // @Column(name = "url")
     private String url;
 
     @ExcelProperty("请求类型")
-    // @Column(name = "method")
     private String method;
 
     @ExcelProperty("访问客户端")
-    // @Column(name = "agent")
     private String agent;
 
     @ExcelProperty("请求花费时间")
-    // @Column(name = "duration")
     private Long duration;
 
     @ExcelProperty("省")
-    // @Column(name = "pro")
     private String pro;
 
     @ExcelProperty("市")
-    // @Column(name = "city")
     private String city;
 
     @ExcelProperty("地址")
-    // @Column(name = "addr")
     private String addr;
 
-    @ExcelProperty("返回码")
-    // @Column(name = "ret_status")
-    private Integer retStatus;
+    @ExcelProperty("请求内容")
+    private String request;
 
-    @ExcelIgnore
-    @TableField(exist = false)
-    private Long startTime;
+    @ExcelProperty("请求体大小")
+    private Integer reqSize;
+
+    @ExcelProperty("返回内容")
+    private String response;
+
+    @ExcelProperty("返回内容大小")
+    private Integer retSize;
+
+    @ExcelProperty("返回码")
+    private Integer retStatus;
 
 }
