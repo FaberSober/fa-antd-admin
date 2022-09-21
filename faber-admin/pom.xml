@@ -215,7 +215,7 @@
                         <configuration>
                             <nodeVersion>${node.version}</nodeVersion>
                             <yarnVersion>${yarn.version}</yarnVersion>
-                            <workingDirectory>${frontend-src-dir}</workingDirectory>
+                            <workingDirectory>src/main/frontend-old</workingDirectory>
                             <installDirectory>${project.build.directory}</installDirectory>
                         </configuration>
                     </execution>
@@ -229,7 +229,7 @@
                             <arguments>install</arguments>
                             <!--                            <nodeVersion>${node.version}</nodeVersion>-->
                             <!--                            <yarnVersion>${yarn.version}</yarnVersion>-->
-                            <workingDirectory>${frontend-src-dir}</workingDirectory>
+                            <workingDirectory>src/main/frontend-old</workingDirectory>
                             <installDirectory>${project.build.directory}</installDirectory>
                         </configuration>
                     </execution>
@@ -244,7 +244,7 @@
                             <arguments>build</arguments>
                             <!--                            <nodeVersion>${node.version}</nodeVersion>-->
                             <!--                            <yarnVersion>${yarn.version}</yarnVersion>-->
-                            <workingDirectory>${frontend-src-dir}</workingDirectory>
+                            <workingDirectory>src/main/frontend-old</workingDirectory>
                             <installDirectory>${project.build.directory}</installDirectory>
                         </configuration>
                     </execution>
