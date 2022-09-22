@@ -1,4 +1,5 @@
 import FaberBase from '@/props/base/FaberBase';
+import FaberEnums from "@/props/base/FaberEnums";
 
 namespace Admin {
 	// -------------------------------------------- 系统-配置表 --------------------------------------------
@@ -219,22 +220,14 @@ namespace Admin {
 		birthday: string;
 		/** 地址  */
 		address: string;
-		/** 经度 */
-		lng: number;
-		/** 纬度 */
-		lat: number;
 		/** 手机号  */
-		mobilePhone: string;
-		/**   */
-		telPhone: string;
+		tel: string;
 		/** 邮箱  */
 		email: string;
 		/** 性别  */
-		sex: string;
-		/** 类型  */
-		type: string;
-		/** 状态：1-有效/2-锁定  */
-		status: string;
+		sex: FaberEnums.SexEnum;
+		/** 状态是否有效  */
+		status: FaberEnums.BoolEnum;
 		/** 描述  */
 		description: string;
 		/** 头像URL  */

@@ -12,6 +12,10 @@ export interface UserWebQuery extends FaberBase.BasePageProps {
 }
 
 class User extends BaseApi<Admin.User, string, Admin.UserWeb> {
+
+  /** 获取用户信息 */
+  getLoginUser = (): Promise<Ajax.Response<Admin.User>> => this.get('getLoginUser');
+
 	/** 获取用户信息 */
 	getUserInfo = (): Promise<Ajax.Response<FaberBase.UserInfo>> => this.get(`front/info`);
 

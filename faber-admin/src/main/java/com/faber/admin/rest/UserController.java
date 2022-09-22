@@ -24,15 +24,26 @@ public class UserController extends BaseController<UserBiz, User, String> {
     private PermissionBiz permissionBiz;
 
     /**
+     * 获取登录账户信息
+     */
+    @RequestMapping(value = "/getLoginUser", method = RequestMethod.GET)
+    @ResponseBody
+    public ObjectRestResponse<User> getLoginUser() {
+        User o = baseBiz.getLoginUser();
+        return ok(o);
+    }
+
+    /**
      * 传入token返回用户信息
      * @return
      * @throws Exception
      */
+    @Deprecated
     @RequestMapping(value = "/front/info", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<FrontUser> getUserInfo() throws Exception {
-        FrontUser userInfo = permissionBiz.getUserInfo();
-        return new ObjectRestResponse<FrontUser>().data(userInfo);
+    public ObjectRestResponse<FrontUser> frontInfo() throws Exception {
+        FrontUser o = permissionBiz.frontInfo();
+        return ok(o);
     }
 
     @RequestMapping(value = "/resetPwd", method = RequestMethod.POST)

@@ -10,13 +10,12 @@ import java.io.Serializable;
 @Data
 public class UserInfo implements Serializable {
 
-    public String id;
-    public String username;
-//    public String password;
-    public String name;
+    private String id;
+    private String departmentId;
+    private String username;
+    private String name;
     private String description;
     private String img;
-    private String departmentId;
-    private String mobilePhone;
+    private String tel;
 
 }

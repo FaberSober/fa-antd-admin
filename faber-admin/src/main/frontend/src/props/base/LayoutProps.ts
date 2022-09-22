@@ -52,7 +52,7 @@ namespace LayoutProps {
 
   /** BaseChildProps */
   export interface BaseChildProps {
-    children?: ReactNode | Element;
+    children?: ReactNode;
   }
 }
 

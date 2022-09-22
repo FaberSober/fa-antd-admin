@@ -10,15 +10,20 @@ import com.faber.common.annotation.FaberModalName;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlSearch;
 import com.faber.common.bean.BaseDelEntity;
+import com.faber.common.enums.BoolEnum;
+import com.faber.common.enums.SexEnum;
 import com.faber.common.validator.TelNoValidator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
+import java.util.Date;
 import java.util.List;
 
 @FaberModalName(name = "账户")
 @Data
+@Accessors(chain = true)
 @TableName("base_user")
 public class User extends BaseDelEntity {
 
@@ -26,29 +31,23 @@ public class User extends BaseDelEntity {
     @SqlEquals
     private String id;
 
-    // 部门ID
     @SqlEquals
     @ExcelIgnore
-    // @Column(name = "department_id")
     private String departmentId;
 
     @SqlSearch
     @ExcelProperty("用户名")
-    // @Column(name = "username")
     private String username;
 
     @ExcelIgnore
-    // @Column(name = "password")
     private String password;
 
     @SqlSearch
     @ExcelProperty("姓名")
-    // @Column(name = "name")
     private String name;
 
     @ExcelProperty("生日")
-    // @Column(name = "birthday")
-    private String birthday;
+    private Date birthday;
 
     @ExcelProperty("联系地址")
     private String address;
@@ -56,46 +55,28 @@ public class User extends BaseDelEntity {
     @TelNoValidator
     @ExcelProperty("手机号")
     @SqlSearch
-    // @Column(name = "mobile_phone")
-    private String mobilePhone;
-
-    @ExcelIgnore
-    @Deprecated
-    @TelNoValidator
-    // @Column(name = "tel_phone")
-    private String telPhone;
+    private String tel;
 
     @SqlSearch
     @ExcelProperty("邮箱")
-    // @Column(name = "email")
     private String email;
 
     @SqlEquals
     @ExcelIgnore
-    // @Column(name = "sex")
-    private String sex;
+    private SexEnum sex;
 
     @SqlEquals
     @ExcelIgnore
-    // @Column(name = "type")
-    private String type;
-
-    @SqlEquals
-    @ExcelIgnore
-    // @Column(name = "status")
-    private String status;
+    private BoolEnum status;
 
     @ExcelProperty("备注")
-    // @Column(name = "description")
     private String description;
 
     @ExcelIgnore
-    // @Column(name = "img")
     private String img;
 
     @ExcelIgnore
     @ExcelProperty("api token")
-    // @Column(name = "api_token")
     private String apiToken;
 
     @ToString

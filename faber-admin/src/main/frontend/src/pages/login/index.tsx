@@ -1,4 +1,5 @@
 import React, {useContext, useState} from 'react';
+import { useNavigate } from "react-router-dom";
 import {FieldNumberOutlined, LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Form, Input} from 'antd';
 import {trim} from 'lodash'
@@ -12,13 +13,14 @@ import styles from './login.module.less'
 export default function Login() {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
+  const navigate = useNavigate();
 
   const [code, setCode] = useState('');
 
   function onFinish(fieldsValue: any) {
     login(fieldsValue.username, fieldsValue.password).then((res) => {
       setToken(res.data);
-      // navigate(SITE_INFO.HOME_LINK);
+      navigate(SITE_INFO.HOME_LINK);
     })
   }
 

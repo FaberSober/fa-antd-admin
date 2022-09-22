@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
-import { RouteComponentProps } from '@reach/router';
 
-interface IProps extends RouteComponentProps {
+interface IProps {
   children: ReactNode | Element;
 }
 

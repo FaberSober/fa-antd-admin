@@ -30,32 +30,26 @@ public class Department extends BaseDelEntity {
 
     // 父部门ID
     @SqlEquals
-    // @Column(name = "parent_id")
     @SqlTreeParentId
     private String parentId;
 
     // 部门名称
-    // @Column(name = "name")
     @SqlTreeName
     private String name;
 
     // 描述
-    // @Column(name = "description")
     private String description;
 
     // 排序
     @SqlSorter
-    // @Column(name = "sort")
     private Integer sort;
 
     // 类型
     @SqlEquals
-    // @Column(name = "type")
     private String type;
 
     @SqlEquals
     @ExcelProperty("负责人ID")
-    // @Column(name = "manager_id")
     private String managerId;
 
     @ToString

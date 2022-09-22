@@ -6,10 +6,10 @@ package com.faber.admin.util.jwt;
 public interface IJWTInfo {
 
     /** 获取用户名 */
-    String getUniqueName();
+    String getUsername();
 
     /** 获取用户ID */
-    String getId();
+    String getUserId();
 
     /** 获取名称 */
     String getName();

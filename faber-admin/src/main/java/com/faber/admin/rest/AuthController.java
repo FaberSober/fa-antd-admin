@@ -4,6 +4,7 @@ import com.faber.admin.biz.AuthBiz;
 import com.faber.admin.config.annotation.IgnoreUserToken;
 import com.faber.admin.util.user.JwtAuthenticationRequest;
 import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.utils.BaseResHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,17 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 @Slf4j
-public class AuthController {
+public class AuthController extends BaseResHandler {
 
     @Autowired
     private AuthBiz authBiz;
 
     @RequestMapping(value = "/jwt/token", method = RequestMethod.POST)
     @IgnoreUserToken
-    public ObjectRestResponse<String> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws Exception {
-        log.info(authenticationRequest.getUsername() + " require logging...");
-        final String token = authBiz.login(authenticationRequest);
-        return new ObjectRestResponse<String>().data(token);
+    public ObjectRestResponse<String> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authRequest) throws Exception {
+        String token = authBiz.login(authRequest);
+        return ok(token);
     }
 
 }

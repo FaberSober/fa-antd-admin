@@ -72,8 +72,7 @@ public abstract class AbstractInterceptor implements HandlerInterceptor {
                 }
             }
         }
-        IJWTInfo infoFromToken = userAuthUtil.getInfoFromToken(token);
-        return infoFromToken;
+        return userAuthUtil.getInfoFromToken(token);
     }
 
 }

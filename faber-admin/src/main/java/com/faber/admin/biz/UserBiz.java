@@ -13,6 +13,8 @@ import com.faber.admin.vo.UserWeb;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.constant.DictConstants;
 import com.faber.common.constant.UserConstant;
+import com.faber.common.context.BaseContextHandler;
+import com.faber.common.enums.BoolEnum;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.exception.NoDataException;
 import com.faber.common.msg.TableResultResponse;
@@ -59,6 +61,13 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     @Resource
     private GroupUserBiz groupUserBiz;
 
+    public User getLoginUser() {
+        User user = getUserById(BaseContextHandler.getUserID());
+        if (user.getStatus() == BoolEnum.NO) throw new BuzzException("无效账户");
+        user.setPassword(null);
+        return user;
+    }
+
     /**
      * 新增、编辑时，校验数据合理性
      * @param entity
@@ -66,7 +75,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     private void checkBeanValid(User entity) {
         // 插入时校验手机号是否重复
         long telCount = lambdaQuery()
-                .eq(User::getMobilePhone, entity.getMobilePhone())
+                .eq(User::getTel, entity.getTel())
                 .ne(entity.getId() != null, User::getId, entity.getId())
                 .count();
         if (telCount > 0) throw new BuzzException("手机号重复");
@@ -132,8 +141,8 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         return lambdaQuery().eq(User::getUsername, username).one();
     }
 
-    public User getUserByMobilePhone(String mobilePhone) {
-        return lambdaQuery().eq(User::getMobilePhone, mobilePhone).one();
+    public User getUserByTel(String tel) {
+        return lambdaQuery().eq(User::getTel, tel).one();
     }
 
 //    @Cache(key = "user{1}")
@@ -208,7 +217,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     public boolean accountBaseUpdate(String userId, UserAccountVo vo) {
         // 插入时校验手机号是否重复
         long telCount = lambdaQuery()
-                .eq(User::getMobilePhone, vo.getMobilePhone())
+                .eq(User::getTel, vo.getMobilePhone())
                 .ne(User::getId, userId)
                 .count();
         if (telCount > 0) throw new BuzzException("手机号重复");

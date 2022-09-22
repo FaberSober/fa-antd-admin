@@ -47,7 +47,7 @@ public class MsgHelperImpl implements MsgHelper {
             // 发送模板短信
             if (msgSendConfig.isSendSms()) {
                 try {
-                    smsConfiguration.sendSms(user.getMobilePhone(), msgSendConfig);
+                    smsConfiguration.sendSms(user.getTel(), msgSendConfig);
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                 }

@@ -61,18 +61,17 @@ public class PermissionBiz {
      * @param password
      * @return
      */
-    public UserInfo validate(String account, String password) {
-        UserInfo info = new UserInfo();
+    public User validate(String account, String password) {
         User user = userBiz.getUserByUsername(account);
         if (user == null) {
-            user = userBiz.getUserByMobilePhone(account);
+            user = userBiz.getUserByTel(account);
         }
         UserCheckUtil.checkUserValid(user);
-        if (encoder.matches(password, user.getPassword())) {
-            BeanUtils.copyProperties(user, info);
-            info.setId(user.getId());
+
+        if (!encoder.matches(password, user.getPassword())) {
+            throw new UserInvalidException("用户名或密码错误！");
         }
-        return info;
+        return user;
     }
 
     public List<PermissionInfo> getAllPermission() {
@@ -135,11 +134,10 @@ public class PermissionBiz {
         }
     }
 
-
     /**
      * 根据token获取{@link FrontUser}前端用户信息
      */
-    public FrontUser getUserInfo() throws Exception {
+    public FrontUser frontInfo() throws Exception {
         User user = userBiz.getUserById(BaseContextHandler.getUserID());
         if (user == null) throw new UserInvalidException();
 

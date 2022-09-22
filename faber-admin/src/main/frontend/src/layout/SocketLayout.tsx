@@ -1,11 +1,10 @@
 import React, {ReactNode, useContext, useEffect} from 'react';
-import {RouteComponentProps} from "@reach/router";
 import {UserContext} from "@/layout/UserSimpleLayout";
 import useSocketIO from "@/utils/hooks/useSocketIO";
 import SocketLayoutContext, {SocketLayoutContextProps} from "@/layout/context/SocketLayoutContext";
 
 
-export interface SocketLayoutProps extends RouteComponentProps {
+export interface SocketLayoutProps {
   children?: ReactNode | Element;
 }
 

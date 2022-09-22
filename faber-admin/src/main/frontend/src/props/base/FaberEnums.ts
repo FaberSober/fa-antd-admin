@@ -11,6 +11,12 @@ namespace FaberEnums {
     DELETED = 1,
   }
 
+  export enum SexEnum {
+    FEMALE = 0,
+    MALE = 1,
+    UNKNOWN = 2,
+  }
+
   // ------------------------------------ RBAC ------------------------------------
   export enum RbacMenuLevelEnum {
     APP = 0,

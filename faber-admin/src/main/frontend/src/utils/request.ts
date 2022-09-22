@@ -39,8 +39,8 @@ instance.interceptors.request.use(
 		// 在发送请求之前做些什么
 		const token = getToken();
 		if (token) {
-			// eslint-disable-next-line no-param-reassign
-			config.headers[TOKEN_KEY] = token;
+			// @ts-ignore
+      config.headers[TOKEN_KEY] = token;
 		}
 
 		// axios 拦截器统一在接口增加时间戳参数，防止走缓存。
@@ -73,7 +73,7 @@ instance.interceptors.response.use(
   },
 	(error) => {
     // 通知全局api加载状态
-    dispatch({ type: '@@api/CHANGE_URL_LOADING', payload: { url: error.request.url, loading: false } })
+    dispatch({ type: '@@api/CHANGE_URL_LOADING', payload: { url: error.config.url, loading: false } })
 
 		// 对响应错误做点什么
 		console.log('error', error);
@@ -88,7 +88,7 @@ instance.interceptors.response.use(
 			const blob = new Blob([error.response.data], {
 				type: 'application/json;charset=utf-8',
 			});
-			console.log('blob', blob);
+			// console.log('blob', blob);
 			//将Blob 对象转换成字符串
 			var reader = new FileReader();
 			reader.readAsText(blob, 'utf-8');

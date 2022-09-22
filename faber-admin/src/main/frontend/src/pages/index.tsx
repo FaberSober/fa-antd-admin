@@ -10,8 +10,8 @@ export default function App() {
         <Link to="/blog">
           blog
         </Link> |
-        <Link to="/about">
-          about
+        <Link to="/login">
+          login
         </Link> |
         <Link to="/components">
           components

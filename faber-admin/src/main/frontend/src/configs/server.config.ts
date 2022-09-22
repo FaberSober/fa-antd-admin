@@ -16,7 +16,7 @@ export const SITE_INFO = {
 		'//at.alicdn.com/t/font_2473438_1jgmoopagcl.js', // icon-area, icon-china, icon-Quartzguanli, icon-job, icon-usermanagement, icon-role
 	],
 	HELP_DOC_SITE: 'http://doc.xxx.dward.cn/docs/xxx-doc-help',
-	HOME_LINK: '/home/dashboard', // 首页跳转链接
+	HOME_LINK: '/admin', // 首页跳转链接
 };
 
 /** -------------------------------- 网关配置 -------------------------------- */
