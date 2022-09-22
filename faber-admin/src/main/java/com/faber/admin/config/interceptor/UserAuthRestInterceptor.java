@@ -30,15 +30,15 @@ public class UserAuthRestInterceptor extends AbstractInterceptor {
             return super.preHandle(request, response, handler);
         }
 
-        IJWTInfo infoFromToken = super.getJwtInfo(request);
+        IJWTInfo jwtInfo = super.getJwtInfo(request);
 
         // 判断用户状态是否正常
-        User user = userBiz.getUserById(infoFromToken.getUserId());
+        User user = userBiz.getUserById(jwtInfo.getUserId());
         UserCheckUtil.checkUserValid(user);
 
-        BaseContextHandler.setUsername(infoFromToken.getUsername());
-        BaseContextHandler.setName(infoFromToken.getName());
-        BaseContextHandler.setUserID(infoFromToken.getUserId());
+        BaseContextHandler.setUsername(jwtInfo.getUsername());
+        BaseContextHandler.setName(jwtInfo.getName());
+        BaseContextHandler.setUserID(jwtInfo.getUserId());
         BaseContextHandler.setLogin(true);
         return super.preHandle(request, response, handler);
     }

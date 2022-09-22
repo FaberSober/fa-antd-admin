@@ -105,6 +105,21 @@ namespace FaberBase {
 		tree: TreeNode<T, KeyType>[];
 	}
 
+  /**
+   * 运用于BaseTree的node节点
+   */
+  export interface BaseTreeNode<T = any, KeyType = number> {
+    id?: KeyType;
+    parentId?: KeyType;
+    name?: string;
+    // tree
+    label: string;
+    value: KeyType;
+    isLeaf: boolean;
+    children: TreeNode<T>[] | undefined;
+    sourceData?: T;
+  }
+
 	// ------------------------------------- 常用枚举 -------------------------------------
 	export enum TrueOrFalse {
 		FALSE = '0',
