@@ -19,6 +19,7 @@ export default function MenuLayout({ children }: LayoutProps.BaseChildProps) {
   return (
     <Layout style={{ height: '100vh', width: '100vw' }}>
       <Layout.Header className={styles.header}>
+        {/* TODO 路由展示 */}
         <LangToggle />
         <HelpCube />
         <UserAvatar />
@@ -29,12 +30,9 @@ export default function MenuLayout({ children }: LayoutProps.BaseChildProps) {
 
         <Layout style={{ width: 'calc(100% - 200px)' }}>
           {hasRoutePermission ? (
-            <>
-              {/* TODO 路由展示 */}
-              <div style={{ padding: 8, margin: 0, overflowX: 'hidden', overflowY: 'auto', position: 'relative', height: '100%' }}>
-                {children}
-              </div>
-            </>
+            <div style={{ padding: 8, margin: 0, overflowX: 'hidden', overflowY: 'auto', position: 'relative', height: '100%' }}>
+              {children}
+            </div>
           ) : (
             <Empty description={<FormattedMessage id="app.exception.description.403" />} />
           )}
