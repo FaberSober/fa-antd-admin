@@ -1,5 +1,4 @@
 import React, {createContext, useEffect, useState} from 'react';
-import useBus from "use-bus";
 import {LayoutProps} from "@/props/base";
 import {PageLoading} from "@/components/antd-pro";
 import Admin from "@/props/admin";
@@ -8,12 +7,15 @@ import rbacUserRoleApi from '@/services/rbac/rbacUserRole'
 import Rbac from "@/props/rbac";
 import FaberBase from "@/props/base/FaberBase";
 import {flatTreeList} from '@/utils/treeUtils'
+import {clearToken} from "@/utils/cache";
+import {useNavigate} from "react-router-dom";
 
 export interface UserLayoutContextProps {
   user: Admin.User,
   roles: Rbac.RbacRole[],
   menuList: Rbac.RbacMenu[],
   menuTree: FaberBase.TreeNode<Rbac.RbacMenu>[],
+  logout: () => void; // 登出
 }
 
 export const UserLayoutContext = createContext<UserLayoutContextProps>({
@@ -22,6 +24,7 @@ export const UserLayoutContext = createContext<UserLayoutContextProps>({
   roles: [],
   menuList: [],
   menuTree: [],
+  logout: () => {},
 });
 
 /**
@@ -30,6 +33,8 @@ export const UserLayoutContext = createContext<UserLayoutContextProps>({
  * @date 2022/9/21
  */
 export default function UserLayout({ children }: LayoutProps.BaseChildProps) {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState<Admin.User>();
   const [roles, setRoles] = useState<Rbac.RbacRole[]>([]);
   const [menuList, setMenuList] = useState<Rbac.RbacMenu[]>([]);
@@ -44,6 +49,11 @@ export default function UserLayout({ children }: LayoutProps.BaseChildProps) {
     })
   }, [])
 
+  function logout() {
+    clearToken();
+    navigate('/login');
+  }
+
   if (user === undefined) return <PageLoading />
 
   const contextValue: UserLayoutContextProps = {
@@ -51,6 +61,7 @@ export default function UserLayout({ children }: LayoutProps.BaseChildProps) {
     roles,
     menuList,
     menuTree,
+    logout,
   };
 
   return (

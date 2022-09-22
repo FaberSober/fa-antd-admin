@@ -2,11 +2,11 @@ import React, {useContext, useMemo} from 'react';
 import {LogoutOutlined} from '@ant-design/icons';
 import {Avatar, Menu, Popover} from 'antd';
 import {useIntl} from 'react-intl';
-import {UserContext} from '@/layout/UserSimpleLayout';
+import {UserLayoutContext} from "@/layout/UserLayout";
 
 const UserPopoverContent = () => {
   const intl = useIntl();
-  const { logout } = useContext(UserContext);
+  const { logout } = useContext(UserLayoutContext);
 
   // 头像下拉弹框-菜单点击
   function handleHeadDropdownClick(key: string) {
@@ -37,8 +37,8 @@ const UserPopoverContent = () => {
 /**
  * 用户头像+用户名
  */
-const UserAvatar = () => {
-  const { user } = useContext(UserContext);
+export default function UserAvatar() {
+  const { user } = useContext(UserLayoutContext);
   return (
     <Popover placement="bottomRight" content={<UserPopoverContent />} trigger="click" getPopupContainer={() => document.body}>
       <div style={{ padding: '0 12px', cursor: 'pointer', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -48,5 +48,3 @@ const UserAvatar = () => {
     </Popover>
   );
 };
-
-export default UserAvatar;

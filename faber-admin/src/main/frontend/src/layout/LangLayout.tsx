@@ -12,6 +12,7 @@ import zhCNMessage from '@/lang/zh_CN';
 import enCNMessage from '@/lang/en_US';
 import dayjs from 'dayjs';
 import { SmileOutlined } from '@ant-design/icons';
+import {LayoutProps} from "@/props/base";
 
 function handleAntdMessages(lang: string) {
   switch (lang) {
@@ -45,10 +46,6 @@ interface CProps {
 
 export const LangContext = createContext<CProps>({ locale: 'zh_CN', setLocale: () => {} });
 
-interface IProps {
-  children?: ReactNode | Element;
-}
-
 // 全局表单提示校验
 const validateMessages = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -66,7 +63,7 @@ const customizeRenderEmpty = () => (
 /**
  * 国际化组件
  */
-function LangLayout({ children }: IProps) {
+function LangLayout({ children }: LayoutProps.BaseChildProps) {
   const [locale, setLocale] = useState('zh_CN');
 
   return (
