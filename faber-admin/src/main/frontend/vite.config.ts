@@ -13,19 +13,6 @@ export default defineConfig(({ command, mode }) => {
       Pages({
         exclude: ['**/components/*.tsx', '**/modal/*.tsx'],
       }),
-      // 按需导入
-      // https://github.com/onebay/vite-plugin-imp
-      // VitePluginImp({
-      //   libList: [
-      //     {
-      //       libName: "antd",
-      //       // 不写 libList,默认是按需导入css,
-      //       // 想要使用 less, 需要改为加载 es 的 index.js,
-      //       // 里面加载了组件所需的一些 less 文件
-      //       style: (name) => `antd/es/${name}/style/index.js`,
-      //     },
-      //   ],
-      // }),
     ],
     //* css模块化
     css: {
@@ -57,11 +44,10 @@ export default defineConfig(({ command, mode }) => {
     resolve: {
       alias: [
         { find: /^~@/, replacement: path.resolve(__dirname, 'src') },
-        // { find: /^~/, replacement: '' },
         { find: '@', replacement: path.resolve(__dirname, 'src') },
         // fix less import by: @import ~
         // less import no support webpack alias '~' · Issue #2185 · vitejs/vite
-        { find: /^~antd/, replacement: "antd" },
+        // { find: /^~antd/, replacement: "antd" },
       ],
     },
     server: {

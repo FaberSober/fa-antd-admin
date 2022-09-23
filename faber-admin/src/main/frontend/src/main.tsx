@@ -5,6 +5,8 @@ import {
   useRoutes,
 } from 'react-router-dom'
 
+
+import 'antd/dist/antd.variable.min.css';
 import './index.less'
 
 import routes from '~react-pages'

@@ -14,6 +14,7 @@
     "beautiful-react-hooks": "3.11.1",
     "fa-cron-react-editor": "0.0.13",
     "lodash": "4.17.21",
+    "moment": "^2.29.4",
     "path-to-regexp": "6.2.1",
     "pdfjs-dist": "2.16.105",
     "querystring": "0.2.1",
