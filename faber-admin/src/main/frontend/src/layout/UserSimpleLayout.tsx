@@ -1,5 +1,4 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
-import { RouteComponentProps, navigate } from '@reach/router';
 import userApi from '@/services/admin/user';
 import msgApi from '@/services/admin/msg';
 import dictApi from '@/services/admin/dict';
@@ -48,7 +47,7 @@ export const UserContext = createContext<CProps>({
   loadingEffect: {},
 });
 
-interface IProps extends RouteComponentProps {
+interface IProps {
   children?: ReactNode | Element;
 }
 

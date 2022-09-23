@@ -1,9 +1,8 @@
 import React, {ReactNode, Suspense} from 'react'
-import { RouteComponentProps } from '@reach/router'
 import { PageLoading } from "@/components/antd-pro";
 import LayoutProps from "@/props/base/LayoutProps";
 
-interface IProps extends RouteComponentProps {
+interface IProps {
   pageImport: () => Promise<any>;
   children?: ReactNode;
   /** 顶部菜单模块配置 */

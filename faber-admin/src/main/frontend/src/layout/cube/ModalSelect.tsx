@@ -3,13 +3,13 @@ import { each } from 'lodash';
 import { AppstoreOutlined } from '@ant-design/icons';
 import { Popover, Card, Row, Col } from 'antd';
 import { FormattedMessage } from 'react-intl';
-import { RouteComponentProps, useNavigate } from '@reach/router';
 import LayoutProps from '@/props/base/LayoutProps';
 
 // 业务模块
 import modalConfig from '@/configs/modal.config';
+import {useNavigate} from "react-router-dom";
 
-interface Props extends RouteComponentProps {
+interface Props {
   /** 顶部菜单模块配置 */
   headerModal: LayoutProps.HeaderModal;
 }

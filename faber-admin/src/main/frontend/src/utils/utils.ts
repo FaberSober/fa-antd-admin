@@ -6,18 +6,19 @@ import Ajax from '@/props/base/Ajax';
 import FaberBase from '@/props/base/FaberBase';
 import { RangeValue } from 'rc-picker/lib/interface';
 import { parse } from 'querystring';
+import Rbac from "@/props/rbac";
 
 export const REGEX_TEL_NO = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/;
 
 /**
  * 检查是否有权限
- * @param {array} elements 用户角色列表
+ * @param {array} menus 用户菜单权限列表
  * @param {string} permissionCode 需要鉴定的权限点
  */
-export function hasPermission(elements?: FaberBase.PermissionInfo[], permissionCode?: string | undefined) {
+export function hasPermission(menus?: Rbac.RbacMenu[], permissionCode?: string | undefined) {
 	if (isUndefined(permissionCode)) return true;
-	if (isUndefined(elements) || elements.length === 0) return false;
-	return findIndex(elements, (e) => e.code === permissionCode) > -1;
+	if (isUndefined(menus) || menus.length === 0) return false;
+	return findIndex(menus, (e) => e.linkUrl === permissionCode) > -1;
 }
 
 export function parseUrlParams() {

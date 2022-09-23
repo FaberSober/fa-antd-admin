@@ -1,10 +1,9 @@
 import React, { ReactNode, useContext } from 'react';
-import { RouteComponentProps } from '@reach/router';
 import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons';
 import './Sider.less';
 import { UserMenuContext } from '@/layout/UserMenuLayout';
 
-interface IProps extends RouteComponentProps {
+interface IProps {
   collapse?: boolean; // 是否折叠
   onCollapse?: (collapse: boolean) => void;
   width?: number; // 展开宽度

@@ -1,5 +1,4 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { Link } from '@reach/router';
 import msgService from '@/services/admin/msg';
 import Admin from '@/props/admin';
 import FaberBase from '@/props/base/FaberBase';
@@ -8,6 +7,7 @@ import { Avatar, Badge, List, Popover } from 'antd';
 import { get } from 'lodash';
 import { BellOutlined } from '@ant-design/icons';
 import { UserContext } from '@/layout/UserSimpleLayout';
+import {Link} from "react-router-dom";
 
 function MsgList() {
   const { unreadCount, refreshUnreadCount } = useContext(UserContext);

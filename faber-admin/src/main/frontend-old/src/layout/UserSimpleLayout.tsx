@@ -1,5 +1,4 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
-import { RouteComponentProps, navigate } from '@reach/router';
 import userApi from '@/services/admin/user';
 import msgApi from '@/services/admin/msg';
 import dictApi from '@/services/admin/dict';
@@ -10,6 +9,7 @@ import FaberBase from "@/props/base/FaberBase";
 import BaseNotice from "@/components/base-notice";
 import Admin from "@/props/admin";
 import useBus from 'use-bus'
+import {useNavigate} from "@reach/router";
 
 const defaultUser: FaberBase.UserInfo = {
   id: '0',
@@ -58,6 +58,8 @@ interface IProps extends RouteComponentProps {
  * @date 2021/1/4
  */
 export default function UserSimpleLayout({ children }: IProps) {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState<FaberBase.UserInfo>(defaultUser);
   const [systemConfig, setSystemConfig] = useState<Admin.SystemConfigPo>(defaultConfig);
   const [unreadCount, setUnreadCount] = useState(0);

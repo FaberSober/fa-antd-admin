@@ -3,7 +3,6 @@ import {Menu, MenuProps} from 'antd';
 import {Sider} from '@/components/antd-pro';
 import {UserMenuContext} from '@/layout/UserMenuLayout';
 import {useIntl} from 'react-intl';
-import {useLocation} from '@reach/router';
 import {pathToRegexp} from 'path-to-regexp';
 import {UserContext} from '@/layout/UserSimpleLayout';
 import LayoutProps from '@/props/base/LayoutProps';
@@ -46,7 +45,7 @@ export default function SiderMenu({ topMenus }: Props) {
   const { user } = useContext(UserContext);
   const { collapse, toggleCollapse, changeCurRoute } = useContext(UserMenuContext);
 
-  const location = useLocation();
+  const location = window.location;
   const [clicked, setClicked] = useState(false); // 用户是否点击过菜单，切换过openKeys
   const [openKeys, setOpenKeys] = useState<string[]>([]);
 

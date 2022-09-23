@@ -9,7 +9,6 @@ import ConditionQuery from "@/components/condition-query/interface";
 import { showResponse } from '@/utils/utils';
 import { useIntl } from 'react-intl';
 import queryString from 'querystring';
-import { useLocation } from '@reach/router';
 
 
 /**
@@ -45,9 +44,7 @@ export function useClientRect() {
 }
 
 export function useLocationParams() {
-  const location = useLocation();
-  const parsed = queryString.parse(location.search);
-  return parsed;
+  return queryString.parse(location.search);
 }
 
 export interface UseTableQueryParamsResProps<T> {
