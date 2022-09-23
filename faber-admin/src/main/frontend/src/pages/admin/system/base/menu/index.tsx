@@ -108,7 +108,7 @@ export default function RbacMenuTreeList() {
           }}
           pagination={false}
           loading={loadingTree}
-          scroll={{ y: document.body.clientHeight - 141 }}
+          scroll={{ y: document.body.clientHeight - 181 }}
         />
       </FaFlexRestLayout>
     </div>

@@ -16,6 +16,8 @@ import MenuAppHorizontal from "./cube/MenuAppHorizontal";
 import SideMenu from "./cube/SideMenu";
 import FaberEnums from "@/props/base/FaberEnums";
 import {useNavigate} from "react-router-dom";
+import OpenTabs from "@/layout/menu/cube/OpenTabs";
+import {FaFlexRestLayout} from "@/components/base-layout";
 
 
 /**
@@ -28,7 +30,8 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
   const [menuList, setMenuList] = useState<Rbac.RbacMenu[]>([]);
   const [menuFullTree, setMenuFullTree] = useState<FaberBase.TreeNode<Rbac.RbacMenu>[]>([]);
   const [menuTree, setMenuTree] = useState<FaberBase.TreeNode<Rbac.RbacMenu>[]>([]);
-  const [menuSelAppId, setMenuSelAppIndex] = useState<string>();
+  const [menuSelAppId, setMenuSelAppId] = useState<string>();
+  const [menuSelMenuId, setMenuSelMenuId] = useState<string>();
   const [menuSelPath, setMenuSelPath] = useState<string[]>([]);
   const [collapse, setCollapse] = useState<boolean>(false);
   const [openSideMenuKeys, setOpenSideMenuKeys] = useState<string[]>([]);
@@ -41,7 +44,7 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
 
       const blocks = res.data.filter((i) => i.sourceData.level === FaberEnums.RbacMenuLevelEnum.APP)
       if (blocks.length > 0) {
-        setMenuSelAppIndex(blocks[0].id)
+        setMenuSelAppId(blocks[0].id)
         setMenuTree(blocks[0].children || [])
       } else {
         setMenuTree([])
@@ -55,7 +58,15 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
     menuTree,
     menuSelAppId,
     menuSelPath,
+    menuSelMenuId,
+    setMenuSelMenuId: (id: string) => {
+      setMenuSelMenuId(id)
+      const menu = find(menuList, (i) => i.id === id) as Rbac.RbacMenu
+      // 打开页面
+      navigate(menu.linkUrl)
+    },
     setMenuSelPath: (key: string, keyPath: string[]) => {
+      setMenuSelMenuId(key)
       setMenuSelPath(keyPath)
       const menu = find(menuList, (i) => i.id === key) as Rbac.RbacMenu
 
@@ -69,7 +80,7 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
       navigate(menu.linkUrl)
     },
     setMenuSelAppId: (id) => {
-      setMenuSelAppIndex(id)
+      setMenuSelAppId(id)
       const selTree = find(menuFullTree, (i) => i.sourceData.id === id)
       setMenuTree(selTree ? selTree.children : [])
       setMenuSelPath([])
@@ -79,6 +90,7 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
     openSideMenuKeys,
     setOpenSideMenuKeys,
     openTabs,
+    setOpenTabs,
   };
 
   const hasRoutePermission = true; // TODO 判断是否有路由权限
@@ -99,9 +111,13 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
 
           <Layout style={{ width }}>
             {hasRoutePermission ? (
-              <div className="faber-main">
-                {/* TODO 路由展示 */}
-                {children}
+              <div className="faber-full faber-flex-column">
+                <OpenTabs />
+                <FaFlexRestLayout>
+                  <div className="faber-main">
+                    {children}
+                  </div>
+                </FaFlexRestLayout>
               </div>
             ) : (
               <Empty description={<FormattedMessage id="app.exception.description.403"/>}/>
