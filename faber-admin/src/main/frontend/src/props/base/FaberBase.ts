@@ -90,7 +90,7 @@ namespace FaberBase {
 	/**
 	 * 通用返回的Tree节点
 	 */
-	export interface TreeNode<T = any, KeyType = number> {
+	export interface TreeNode<T = any, KeyType = string> {
 		id: KeyType;
 		parentId: KeyType;
 		name: string;

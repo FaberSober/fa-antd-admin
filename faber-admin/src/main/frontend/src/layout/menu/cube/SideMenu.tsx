@@ -1,16 +1,16 @@
 import React, {useContext} from 'react';
 import {Menu} from "antd";
 import {isNil} from "lodash"
-import {UserLayoutContext} from "@/layout/UserLayout";
 import FaberBase from "@/props/base/FaberBase";
 import Rbac from "@/props/rbac";
+import MenuLayoutContext from "@/layout/menu/context/MenuLayoutContext";
 
 /**
  * @author xu.pengfei
  * @date 2022/9/22 22:29
  */
 export default function SideMenu() {
-  const { menuTree } = useContext(UserLayoutContext)
+  const { menuTree } = useContext(MenuLayoutContext)
 
   // const items = [
   //   { label: '菜单项一', key: 'item-1' }, // 菜单项务必填写 key
@@ -34,12 +34,15 @@ export default function SideMenu() {
   const items = loop(menuTree)
 
   return (
-    <Menu
-      mode="inline"
-      // openKeys={openKeys}
-      // onOpenChange={onOpenChange}
-      style={{ width: 200 }}
-      items={items}
-    />
+    <div className="faber-flex-column" style={{ width: 200, height: '100%', overflowY: 'auto', overflowX: 'hidden' }}>
+      <Menu
+        // theme="dark"
+        mode="inline"
+        // openKeys={openKeys}
+        // onOpenChange={onOpenChange}
+        style={{ width: 200 }}
+        items={items}
+      />
+    </div>
   )
 }

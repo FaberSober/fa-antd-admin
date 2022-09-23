@@ -102,6 +102,7 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         ObjectMapper objectMapper = converter.getObjectMapper();
         // 生成JSON时,将所有Long转换成String
+        // 因为js中得数字类型不能包含所有的java long值
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
         simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);

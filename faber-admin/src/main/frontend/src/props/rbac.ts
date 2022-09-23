@@ -5,7 +5,7 @@ namespace Rbac {
 	/** BASE-权限表 */
 	export interface RbacMenu extends FaberBase.BaseDelEntity {
 		/** ID */
-		id: number;
+		id: string;
 		/** 父级ID */
 		parentId: string;
 		/** 名称 */
@@ -27,7 +27,7 @@ namespace Rbac {
 	/** BASE-角色表 */
 	export interface RbacRole extends FaberBase.BaseDelEntity {
 		/** ID */
-		id: number;
+		id: string;
 		/** 角色名称 */
 		name: string;
 		/** 角色描述 */
@@ -39,11 +39,11 @@ namespace Rbac {
 	/** BASE-角色权限对应表 */
 	export interface RbacRoleMenu extends FaberBase.BaseDelEntity {
 		/** ID */
-		id: number;
+		id: string;
 		/** 角色ID */
-		roleId: number;
+		roleId: string;
 		/** 权限ID */
-		menuId: number;
+		menuId: string;
 		/** 是否半勾选0-否/1-是 */
 		halfChecked: FaberEnums.BoolEnum;
 	}
@@ -51,16 +51,16 @@ namespace Rbac {
 	/** BASE-用户角色关联表 */
 	export interface RbacUserRole extends FaberBase.BaseDelEntity {
 		/** ID */
-		id: number;
+		id: string;
 		/** 用户ID */
 		userId: string;
 		/** 角色ID */
-		roleId: number;
+		roleId: string;
 	}
 
 	// ------------------------------------------------- VO -------------------------------------------------
 	export interface RoleMenuVo {
-		roleId: number;
+		roleId: string;
 		checkedRoleIds: number[];
 		halfCheckedRoleIds: number[];
 	}
@@ -72,7 +72,7 @@ namespace Rbac {
 
 	// ------------------------------------------------- VO-Query -------------------------------------------------
 	export interface RbacUserRoleQueryVo extends FaberBase.BasePageProps {
-		roleId: number;
+		roleId: string;
 		name?: string;
 		username?: string;
 	}
