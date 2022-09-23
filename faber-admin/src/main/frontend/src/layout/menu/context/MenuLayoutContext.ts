@@ -12,6 +12,8 @@ export interface MenuLayoutContextProps {
   setMenuSelAppId: (id: string) => void,
   collapse: boolean,
   setCollapse: (v: boolean) => void,
+  openSideMenuKeys: string[],
+  setOpenSideMenuKeys: (v: string[]) => void,
 }
 
 const MenuLayoutContext = createContext<MenuLayoutContextProps>({
@@ -23,6 +25,8 @@ const MenuLayoutContext = createContext<MenuLayoutContextProps>({
   setMenuSelAppId: () => {},
   collapse: false,
   setCollapse: () => {},
+  openSideMenuKeys: [],
+  setOpenSideMenuKeys: () => {},
 });
 
 export default MenuLayoutContext;

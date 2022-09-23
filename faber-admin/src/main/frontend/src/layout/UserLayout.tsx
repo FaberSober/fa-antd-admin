@@ -7,18 +7,23 @@ import rbacUserRoleApi from '@/services/rbac/rbacUserRole'
 import Rbac from "@/props/rbac";
 import {clearToken} from "@/utils/cache";
 import {useNavigate} from "react-router-dom";
+import dictApi from "@/services/admin/dict";
 
 export interface UserLayoutContextProps {
   user: Admin.User,
   roles: Rbac.RbacRole[],
   logout: () => void; // 登出
+  systemConfig: Admin.SystemConfigPo,
 }
+
+const defaultConfig = { title: '', logo: '', logoWithText: '', portalLink: '' }
 
 // @ts-ignore
 export const UserLayoutContext = createContext<UserLayoutContextProps>({
   user: undefined,
   roles: [],
   logout: () => {},
+  systemConfig: defaultConfig,
 });
 
 /**
@@ -31,10 +36,13 @@ export default function UserLayout({ children }: LayoutProps.BaseChildProps) {
 
   const [user, setUser] = useState<Admin.User>();
   const [roles, setRoles] = useState<Rbac.RbacRole[]>([]);
+  const [systemConfig, setSystemConfig] = useState<Admin.SystemConfigPo>(defaultConfig);
 
   useEffect(() => {
     userApi.getLoginUser().then((res) => setUser(res.data))
     rbacUserRoleApi.getMyRoles().then((res) => setRoles(res.data))
+    // 获取系统配置参数
+    dictApi.getSystemConfig().then((res) => setSystemConfig(res.data))
   }, [])
 
   function logout() {
@@ -48,6 +56,7 @@ export default function UserLayout({ children }: LayoutProps.BaseChildProps) {
     user,
     roles,
     logout,
+    systemConfig,
   };
 
   return (

@@ -12,7 +12,7 @@ import {FaFlexRestLayout} from "@/components/base-layout";
  * @date 2022/9/22 22:29
  */
 export default function SideMenu() {
-  const { menuTree, collapse, setCollapse } = useContext(MenuLayoutContext)
+  const { menuTree, collapse, setCollapse, openSideMenuKeys, setOpenSideMenuKeys } = useContext(MenuLayoutContext)
 
   function loop(list: FaberBase.TreeNode<Rbac.RbacMenu>[] | undefined): any[] | undefined {
     if (isNil(list) || list.length === 0) return undefined;
@@ -22,8 +22,17 @@ export default function SideMenu() {
       children: loop(i.children),
     }))
   }
-
   const items = loop(menuTree)
+
+  const rootSubmenuKeys = menuTree.map(i => i.id)
+  const onOpenChange = keys => {
+    const latestOpenKey = keys.find(key => openSideMenuKeys.indexOf(key) === -1);
+    if (rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
+      setOpenSideMenuKeys(keys);
+    } else {
+      setOpenSideMenuKeys(latestOpenKey ? [latestOpenKey] : []);
+    }
+  };
 
   const width = collapse ? 44 : 200
   return (
@@ -37,6 +46,8 @@ export default function SideMenu() {
           style={{ width }}
           items={items}
           inlineCollapsed={collapse}
+          openKeys={openSideMenuKeys}
+          onOpenChange={onOpenChange}
         />
       </FaFlexRestLayout>
 

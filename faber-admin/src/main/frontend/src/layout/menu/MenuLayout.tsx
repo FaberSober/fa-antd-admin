@@ -3,7 +3,6 @@ import {Empty, Layout} from "antd";
 import {find} from 'lodash';
 import {FormattedMessage} from "react-intl";
 import styles from "./MenuLayout.module.less";
-import SideMenu from "@/layout/menu/cube/SideMenu";
 import LangToggle from "@/layout/cube/LangToggle";
 import HelpCube from "@/layout/cube/HelpCube";
 import UserAvatar from "@/layout/cube/UserAvatar";
@@ -12,7 +11,9 @@ import {FaberBase, LayoutProps} from "@/props/base";
 import rbacUserRoleApi from "@/services/rbac/rbacUserRole";
 import {flatTreeList} from "@/utils/treeUtils";
 import MenuLayoutContext, {MenuLayoutContextProps} from './context/MenuLayoutContext'
+import Logo from "./cube/Logo";
 import MenuAppHorizontal from "./cube/MenuAppHorizontal";
+import SideMenu from "./cube/SideMenu";
 import FaberEnums from "@/props/base/FaberEnums";
 
 
@@ -27,6 +28,7 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
   const [menuSelAppId, setMenuSelAppIndex] = useState<string>();
   const [menuSelPath, setMenuSelPath] = useState<FaberBase.TreeNode<Rbac.RbacMenu>[]>([]);
   const [collapse, setCollapse] = useState<boolean>(false);
+  const [openSideMenuKeys, setOpenSideMenuKeys] = useState<string[]>([]);
 
   useEffect(() => {
     rbacUserRoleApi.getMyMenusTree().then((res) => {
@@ -58,6 +60,8 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
     },
     collapse,
     setCollapse,
+    openSideMenuKeys,
+    setOpenSideMenuKeys,
   };
 
   const hasRoutePermission = true; // TODO 判断是否有路由权限
@@ -66,7 +70,7 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
     <MenuLayoutContext.Provider value={contextValue}>
       <Layout style={{height: '100vh', width: '100vw'}}>
         <Layout.Header className={styles.header}>
-          <div>Logo</div>
+          <Logo />
           <MenuAppHorizontal/>
           <LangToggle/>
           <HelpCube/>
@@ -78,14 +82,7 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
 
           <Layout style={{ width }}>
             {hasRoutePermission ? (
-              <div style={{
-                padding: 8,
-                margin: 0,
-                overflowX: 'hidden',
-                overflowY: 'auto',
-                position: 'relative',
-                height: '100%'
-              }}>
+              <div className="faber-main">
                 {/* TODO 路由展示 */}
                 {children}
               </div>

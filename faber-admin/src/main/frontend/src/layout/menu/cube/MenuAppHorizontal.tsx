@@ -18,14 +18,13 @@ export default function MenuAppHorizontal() {
     label: i.name,
   }))
   return (
-    <div>
-      <Menu
-        mode="horizontal"
-        theme="dark"
-        items={items}
-        selectedKeys={menuSelAppId ? [menuSelAppId] : []}
-        onSelect={({ key }) => setMenuSelAppId(key)}
-      />
-    </div>
+    <Menu
+      mode="horizontal"
+      theme="dark"
+      items={items}
+      selectedKeys={menuSelAppId ? [menuSelAppId] : []}
+      onSelect={({ key }) => setMenuSelAppId(key)}
+      style={{ flex: 1 }}
+    />
   )
 }
