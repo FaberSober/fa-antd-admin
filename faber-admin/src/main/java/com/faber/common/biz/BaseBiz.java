@@ -1,5 +1,6 @@
 package com.faber.common.biz;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -333,9 +334,9 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
 
         FaberModalName anno = clazz.getAnnotation(FaberModalName.class);
 
-        String fileName = System.currentTimeMillis() + "";
+        String fileName = DateUtil.now() + "";
         if (anno != null) {
-            fileName = anno.name();
+            fileName = anno.name() + "_" + fileName;
         }
 
         // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman

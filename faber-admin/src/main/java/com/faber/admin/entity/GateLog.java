@@ -4,6 +4,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.faber.common.annotation.FaberModalName;
 import com.faber.common.annotation.SqlSearch;
 import com.faber.common.bean.BaseCrtEntity;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import lombok.experimental.Accessors;
 /**
  * URL请求日志
  */
+@FaberModalName(name = "URL请求日志")
 @TableName("base_gate_log")
 @Data
 @ToString

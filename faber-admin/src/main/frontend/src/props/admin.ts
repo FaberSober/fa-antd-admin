@@ -518,6 +518,14 @@ namespace Admin {
     city: string;
     /** 地址 */
     addr: string;
+    /** 请求内容 */
+    request: string;
+    /** 请求体大小 */
+    reqSize: number;
+    /** 返回内容 */
+    response: string;
+    /** 返回内容大小 */
+    retSize: number;
     /** 返回码 */
     retStatus: string;
   }

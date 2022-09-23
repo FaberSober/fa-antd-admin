@@ -1,5 +1,6 @@
 package com.faber.common.rest;
 
+import com.faber.common.annotation.LogNoRet;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.msg.TableResultResponse;
@@ -124,6 +125,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
     /**
      * 导出Excel[分页查询]
      */
+    @LogNoRet
     @RequestMapping(value = "/exportExcel", method = RequestMethod.POST)
     @ResponseBody
     public void exportExcel(@RequestBody Map<String, Object> params) throws IOException {
