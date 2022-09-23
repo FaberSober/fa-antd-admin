@@ -10,7 +10,7 @@ import MenuLayoutContext from "@/layout/menu/context/MenuLayoutContext";
  * @date 2022/9/23
  */
 export default function MenuAppHorizontal() {
-  const { menuFullTree, menuSelAppId, changeMenuSelAppId } = useContext(MenuLayoutContext)
+  const { menuFullTree, menuSelAppId, setMenuSelAppId } = useContext(MenuLayoutContext)
 
   const blocks = menuFullTree.filter((i) => i.sourceData.level === FaberEnums.RbacMenuLevelEnum.APP)
   const items = blocks.map((i) => ({
@@ -24,7 +24,7 @@ export default function MenuAppHorizontal() {
         theme="dark"
         items={items}
         selectedKeys={menuSelAppId ? [menuSelAppId] : []}
-        onSelect={({ key }) => changeMenuSelAppId(key)}
+        onSelect={({ key }) => setMenuSelAppId(key)}
       />
     </div>
   )

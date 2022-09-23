@@ -9,7 +9,9 @@ export interface MenuLayoutContextProps {
   menuTree: FaberBase.TreeNode<Rbac.RbacMenu>[],
   menuSelAppId: string | undefined, // 选中的菜单模块id
   menuSelPath: FaberBase.TreeNode<Rbac.RbacMenu>[], // 选中的菜单路径
-  changeMenuSelAppId: (id: string) => void,
+  setMenuSelAppId: (id: string) => void,
+  collapse: boolean,
+  setCollapse: (v: boolean) => void,
 }
 
 const MenuLayoutContext = createContext<MenuLayoutContextProps>({
@@ -18,7 +20,9 @@ const MenuLayoutContext = createContext<MenuLayoutContextProps>({
   menuTree: [],
   menuSelAppId: undefined,
   menuSelPath: [],
-  changeMenuSelAppId: () => {},
+  setMenuSelAppId: () => {},
+  collapse: false,
+  setCollapse: () => {},
 });
 
 export default MenuLayoutContext;

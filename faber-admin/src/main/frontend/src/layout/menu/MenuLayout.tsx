@@ -26,6 +26,7 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
   const [menuTree, setMenuTree] = useState<FaberBase.TreeNode<Rbac.RbacMenu>[]>([]);
   const [menuSelAppId, setMenuSelAppIndex] = useState<string>();
   const [menuSelPath, setMenuSelPath] = useState<FaberBase.TreeNode<Rbac.RbacMenu>[]>([]);
+  const [collapse, setCollapse] = useState<boolean>(false);
 
   useEffect(() => {
     rbacUserRoleApi.getMyMenusTree().then((res) => {
@@ -49,15 +50,18 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
     menuTree,
     menuSelAppId,
     menuSelPath,
-    changeMenuSelAppId: (id) => {
+    setMenuSelAppId: (id) => {
       setMenuSelAppIndex(id)
       const selTree = find(menuFullTree, (i) => i.sourceData.id === id)
       setMenuTree(selTree ? selTree.children : [])
       setMenuSelPath([])
     },
+    collapse,
+    setCollapse,
   };
 
   const hasRoutePermission = true; // TODO 判断是否有路由权限
+  const width = collapse ? 'calc(100% - 44px)' : 'calc(100% - 200px)';
   return (
     <MenuLayoutContext.Provider value={contextValue}>
       <Layout style={{height: '100vh', width: '100vw'}}>
@@ -72,7 +76,7 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
         <Layout style={{flexDirection: 'row'}}>
           <SideMenu/>
 
-          <Layout style={{width: 'calc(100% - 200px)'}}>
+          <Layout style={{ width }}>
             {hasRoutePermission ? (
               <div style={{
                 padding: 8,
