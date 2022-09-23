@@ -2,22 +2,22 @@ import React, {useEffect, useState} from 'react';
 import {Empty, Layout} from "antd";
 import {find, isNil} from 'lodash';
 import {FormattedMessage} from "react-intl";
-import styles from "./MenuLayout.module.less";
-import LangToggle from "@/layout/cube/LangToggle";
-import HelpCube from "@/layout/cube/HelpCube";
-import UserAvatar from "@/layout/cube/UserAvatar";
+import {useNavigate} from "react-router-dom";
+import {FaFlexRestLayout} from "@/components/base-layout";
+import FaberEnums from "@/props/base/FaberEnums";
 import Rbac from "@/props/rbac";
+import {flatTreeList} from "@/utils/treeUtils";
 import {FaberBase, LayoutProps} from "@/props/base";
 import rbacUserRoleApi from "@/services/rbac/rbacUserRole";
-import {flatTreeList} from "@/utils/treeUtils";
 import MenuLayoutContext, {MenuLayoutContextProps} from './context/MenuLayoutContext'
 import Logo from "./cube/Logo";
 import MenuAppHorizontal from "./cube/MenuAppHorizontal";
 import SideMenu from "./cube/SideMenu";
-import FaberEnums from "@/props/base/FaberEnums";
-import {useNavigate} from "react-router-dom";
+import LangToggle from "@/layout/menu/cube/LangToggle";
+import HelpCube from "@/layout/menu/cube/HelpCube";
+import UserAvatar from "@/layout/menu/cube/UserAvatar";
 import OpenTabs from "@/layout/menu/cube/OpenTabs";
-import {FaFlexRestLayout} from "@/components/base-layout";
+import styles from "./MenuLayout.module.less";
 
 
 /**
@@ -59,7 +59,7 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
     menuSelAppId,
     menuSelPath,
     menuSelMenuId,
-    setMenuSelMenuId: (id: string) => {
+    setMenuSelMenuId: (id) => {
       setMenuSelMenuId(id)
       const menu = find(menuList, (i) => i.id === id) as Rbac.RbacMenu
       // 打开页面
@@ -82,7 +82,7 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
     setMenuSelAppId: (id) => {
       setMenuSelAppId(id)
       const selTree = find(menuFullTree, (i) => i.sourceData.id === id)
-      setMenuTree(selTree ? selTree.children : [])
+      setMenuTree(selTree && selTree.children ? selTree.children : [])
       setMenuSelPath([])
     },
     collapse,
