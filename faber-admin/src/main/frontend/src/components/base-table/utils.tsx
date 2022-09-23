@@ -178,7 +178,7 @@ export function genCtrColumns(sorter: Ajax.Sorter, tcChecked: boolean = true) {
       sorter: true,
       sortOrder: getSortOrder(sorter, 'crtTime'),
       tcChecked,
-      width: 180,
+      width: 160,
       tcCondComponent: renderTimePicker,
       tcCondBetweenComponent: renderTimeRangePicker,
     },

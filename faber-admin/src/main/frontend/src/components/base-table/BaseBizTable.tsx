@@ -39,7 +39,7 @@ export default function BaseBizTable<RecordType extends object = any>({
   rowClickSingleSelected = true,
   onSelectedRowsChange,
   showBatchBelBtn = true,
-  scrollYOccupied = 275,
+  scrollYOccupied = 315,
   scrollY,
   ...props
 }: FaberTable.BaseTableProps<RecordType>) {
