@@ -1,10 +1,8 @@
-import React, { useContext } from 'react';
-import { DownloadOutlined, EyeOutlined, SearchOutlined } from '@ant-design/icons';
-import { Button, Card, Form, Input, Space } from 'antd';
-import { ShiroPermissionContainer } from '@/components/auth';
-import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
-import { UserContext } from "@/layout/UserSimpleLayout";
-import { useExport, useTableQueryParams, clearForm, useDelete } from "@/utils/myHooks";
+import React from 'react';
+import {DownloadOutlined, EyeOutlined, SearchOutlined} from '@ant-design/icons';
+import {Button, Card, Form, Input, Space} from 'antd';
+import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
+import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
 import modelService from '@/services/admin/gateLog';
 import Admin from '@/props/admin';
 import GateLogDrawer from './drawer/GateLogDrawer';
@@ -13,7 +11,6 @@ const serviceName = 'URL请求日志';
 const buzzModal = 'base_gate_log';
 
 export default function GateLogList() {
-  const { user } = useContext(UserContext);
   const [form] = Form.useForm();
 
   const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } = useTableQueryParams<Admin.GateLog>(modelService.page, {}, serviceName)
@@ -29,6 +26,8 @@ export default function GateLogList() {
       BaseTableUtils.genSimpleSorterColumn('请求URL', 'url', undefined, sorter),
       BaseTableUtils.genSimpleSorterColumn('请求类型', 'method', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('客户端', 'agent', 100, sorter, false),
+      BaseTableUtils.genSimpleSorterColumn('请求大小', 'reqSize', 100, sorter),
+      BaseTableUtils.genSimpleSorterColumn('返回大小', 'retSize', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('花费时间', 'duration', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('省', 'pro', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('市', 'city', 100, sorter),
