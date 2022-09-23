@@ -8,13 +8,14 @@ import com.faber.common.context.BaseContextHandler;
 import com.faber.common.util.IpUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 请求重复读取日志记录Filter
@@ -25,6 +26,11 @@ import java.io.IOException;
  */
 @WebFilter(filterName = "RequestAgainFilter", urlPatterns = "/api/*")
 public class RequestAgainFilter implements Filter {
+
+    /**
+     * 列表的api不记录日志
+     */
+    private static final List<String> NO_LOG_APIS = Arrays.asList("/api/admin/gateLog/page");
 
     @Autowired
     private GateLogBiz gateLogBiz;
@@ -49,7 +55,8 @@ public class RequestAgainFilter implements Filter {
         outputStream.flush();
         outputStream.close();
 
-        {
+        if (!NO_LOG_APIS.contains(requestWrapper.getRequestURI())) {
+            String logNoRet = responseWrapper.getHeader("LogNoRet");
             GateLog log = new GateLog();
 
             // request basic information
@@ -61,7 +68,7 @@ public class RequestAgainFilter implements Filter {
             log.setRequest(requestWrapper.getBody());
             log.setReqSize(log.getRequest().length());
 
-            log.setResponse(responseData);
+            log.setResponse("1".equals(logNoRet) ? "" : responseData);
             log.setRetSize(responseData.length());
 
             log.setDuration(System.currentTimeMillis() - startTime);

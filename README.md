@@ -49,6 +49,10 @@
 | tailwindcss | tailwindcss | https://tailwindcss.com |
 | react-use | React Hooks — 👍 | https://github.com/streamich/react-use |
 
+## 后端注解
+| 注解 | 说明 |
+| :--- | :--- |
+| @LogNoRet | 不记录系统日志，如查询类的page分页，返回信息太大，不记录到系统日志中 |
 
 ### 升级npm依赖
 ```bash

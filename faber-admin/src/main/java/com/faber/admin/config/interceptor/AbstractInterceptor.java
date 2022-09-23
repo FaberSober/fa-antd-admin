@@ -6,6 +6,7 @@ import com.faber.admin.config.annotation.Permission;
 import com.faber.admin.config.redis.KeyConfiguration;
 import com.faber.admin.util.jwt.IJWTInfo;
 import com.faber.admin.util.jwt.UserAuthUtil;
+import com.faber.common.annotation.LogNoRet;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
@@ -57,6 +58,19 @@ public abstract class AbstractInterceptor implements HandlerInterceptor {
         ApiToken annotation = handlerMethod.getBeanType().getAnnotation(ApiToken.class);
         if (annotation == null) {
             annotation = handlerMethod.getMethodAnnotation(ApiToken.class);
+        }
+        return annotation;
+    }
+
+    protected LogNoRet getLogNoRet(Object handler) {
+        if (!(handler instanceof HandlerMethod)) {
+            return null;
+        }
+        HandlerMethod handlerMethod = (HandlerMethod) handler;
+        // 配置该注解，说明不进行用户拦截
+        LogNoRet annotation = handlerMethod.getBeanType().getAnnotation(LogNoRet.class);
+        if (annotation == null) {
+            annotation = handlerMethod.getMethodAnnotation(LogNoRet.class);
         }
         return annotation;
     }

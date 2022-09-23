@@ -61,7 +61,7 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
 //        registry.addInterceptor(getCrosInterceptor()).addPathPatterns(getIncludePathPatterns());
 
         // 请求URL日志拦截
-//        registry.addInterceptor(getGateLogInterceptor()).addPathPatterns("/api/**");
+        registry.addInterceptor(getGateLogInterceptor()).addPathPatterns("/api/**");
 
         // 对外提供的api接口权限校验
         registry.addInterceptor(getApiTokenInterceptor()).addPathPatterns(OUTAPI_URLS);
@@ -82,10 +82,10 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
         return new ApiTokenInterceptor();
     }
 
-//    @Bean
-//    GateLogInterceptor getGateLogInterceptor() {
-//        return new GateLogInterceptor();
-//    }
+    @Bean
+    GateLogInterceptor getGateLogInterceptor() {
+        return new GateLogInterceptor();
+    }
 
     @Bean
     FirstEmptyInterceptor getFirstEmptyInterceptor() {
