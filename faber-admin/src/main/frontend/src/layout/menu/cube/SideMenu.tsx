@@ -36,7 +36,7 @@ export default function SideMenu() {
 
   const width = collapse ? 44 : 200
   return (
-    <div className="faber-flex-column" style={{ width, height: '100%', backgroundColor: '#fff' }}>
+    <div className="faber-flex-column" style={{ width, height: '100%', backgroundColor: '#fff', borderRight: '1px solid #eee' }}>
       <FaFlexRestLayout style={{ overflowY: 'auto', overflowX: 'hidden' }}>
         <Menu
           // theme="dark"
@@ -55,7 +55,7 @@ export default function SideMenu() {
 
       <div
         className="sider-toggle-div"
-        style={{ width }}
+        style={{ width: width - 1 }}
         onClick={() => setCollapse(!collapse)}
       >
         {collapse ? <DoubleRightOutlined /> : <DoubleLeftOutlined />}
