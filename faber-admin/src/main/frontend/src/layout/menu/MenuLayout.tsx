@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Empty, Layout} from "antd";
-import {find} from 'lodash';
+import {find, isNil} from 'lodash';
 import {FormattedMessage} from "react-intl";
 import styles from "./MenuLayout.module.less";
 import LangToggle from "@/layout/cube/LangToggle";
@@ -15,6 +15,7 @@ import Logo from "./cube/Logo";
 import MenuAppHorizontal from "./cube/MenuAppHorizontal";
 import SideMenu from "./cube/SideMenu";
 import FaberEnums from "@/props/base/FaberEnums";
+import {useNavigate} from "react-router-dom";
 
 
 /**
@@ -22,13 +23,16 @@ import FaberEnums from "@/props/base/FaberEnums";
  * @date 2022/9/22 22:23
  */
 export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
+  const navigate = useNavigate();
+
   const [menuList, setMenuList] = useState<Rbac.RbacMenu[]>([]);
   const [menuFullTree, setMenuFullTree] = useState<FaberBase.TreeNode<Rbac.RbacMenu>[]>([]);
   const [menuTree, setMenuTree] = useState<FaberBase.TreeNode<Rbac.RbacMenu>[]>([]);
   const [menuSelAppId, setMenuSelAppIndex] = useState<string>();
-  const [menuSelPath, setMenuSelPath] = useState<FaberBase.TreeNode<Rbac.RbacMenu>[]>([]);
+  const [menuSelPath, setMenuSelPath] = useState<string[]>([]);
   const [collapse, setCollapse] = useState<boolean>(false);
   const [openSideMenuKeys, setOpenSideMenuKeys] = useState<string[]>([]);
+  const [openTabs, setOpenTabs] = useState<Rbac.RbacMenu[]>([]);
 
   useEffect(() => {
     rbacUserRoleApi.getMyMenusTree().then((res) => {
@@ -39,7 +43,6 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
       if (blocks.length > 0) {
         setMenuSelAppIndex(blocks[0].id)
         setMenuTree(blocks[0].children || [])
-        setMenuList(flatTreeList(blocks[0].children))
       } else {
         setMenuTree([])
       }
@@ -52,6 +55,19 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
     menuTree,
     menuSelAppId,
     menuSelPath,
+    setMenuSelPath: (key: string, keyPath: string[]) => {
+      setMenuSelPath(keyPath)
+      const menu = find(menuList, (i) => i.id === key) as Rbac.RbacMenu
+
+      // 加入已经打开的tabs
+      const tab = find(openTabs, (i) => i.id === menu.id)
+      if (isNil(tab)) {
+        setOpenTabs([ ...openTabs, menu ])
+      }
+
+      // 打开页面
+      navigate(menu.linkUrl)
+    },
     setMenuSelAppId: (id) => {
       setMenuSelAppIndex(id)
       const selTree = find(menuFullTree, (i) => i.sourceData.id === id)
@@ -62,6 +78,7 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
     setCollapse,
     openSideMenuKeys,
     setOpenSideMenuKeys,
+    openTabs,
   };
 
   const hasRoutePermission = true; // TODO 判断是否有路由权限

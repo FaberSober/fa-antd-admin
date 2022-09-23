@@ -12,7 +12,7 @@ import {FaFlexRestLayout} from "@/components/base-layout";
  * @date 2022/9/22 22:29
  */
 export default function SideMenu() {
-  const { menuTree, collapse, setCollapse, openSideMenuKeys, setOpenSideMenuKeys } = useContext(MenuLayoutContext)
+  const { menuTree, collapse, setCollapse, openSideMenuKeys, setOpenSideMenuKeys, menuSelPath, setMenuSelPath } = useContext(MenuLayoutContext)
 
   function loop(list: FaberBase.TreeNode<Rbac.RbacMenu>[] | undefined): any[] | undefined {
     if (isNil(list) || list.length === 0) return undefined;
@@ -48,6 +48,8 @@ export default function SideMenu() {
           inlineCollapsed={collapse}
           openKeys={openSideMenuKeys}
           onOpenChange={onOpenChange}
+          selectedKeys={menuSelPath}
+          onSelect={({ key, keyPath}) => setMenuSelPath(key, keyPath)}
         />
       </FaFlexRestLayout>
 
