@@ -2,7 +2,7 @@ import React, { createContext, useState } from 'react';
 import { ConfigProvider } from 'antd';
 // moment国际化
 import 'moment/dist/locale/zh-cn';
-import 'moment/dist/locale/en';
+// import 'moment/dist/locale/en';
 // antd国际化配置
 import zhCN from 'antd/lib/locale/zh_CN';
 import enUS from 'antd/lib/locale/en_US';
