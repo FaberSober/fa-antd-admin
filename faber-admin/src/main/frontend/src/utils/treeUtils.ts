@@ -43,8 +43,8 @@ export function findTreePath<T>(tree: FaberBase.TreeNode<T>[]|undefined, checkFu
       return [item];
     }
     const childFound = findTreePath(item.children, checkFun);
-    if (childFound) {
-      findPath.push(...childFound)
+    if (childFound && childFound.length > 0) {
+      findPath.push(item, ...childFound)
     }
   }
   return findPath;

@@ -58,7 +58,25 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
 
   function parseLocationMenu(tree: FaberBase.TreeNode<Rbac.RbacMenu>[]) {
     const menuPath = findTreePath(tree, (menu) => menu.sourceData.linkUrl === location.pathname);
-    console.log('menuPath', menuPath)
+    // console.log('menuPath', menuPath)
+    if (menuPath && menuPath.length > 0) {
+      const [id0, ...restIds] = menuPath
+      const lastMenu = menuPath[menuPath.length - 1]
+
+      const blocks = tree.filter((i) => i.sourceData.level === FaberEnums.RbacMenuLevelEnum.APP)
+      const blockFind = find(blocks, (i) => i.id === id0.id)
+      if (blockFind) {
+        setMenuSelAppId(blockFind.id)
+        setMenuTree(blockFind.children || [])
+      } else {
+        setMenuTree([])
+      }
+
+      setMenuSelMenuId(lastMenu.id)
+      setMenuSelPath(restIds.map(i => i.id))
+      setOpenSideMenuKeys(restIds.map(i => i.id))
+      setOpenTabs([lastMenu.sourceData])
+    }
   }
 
   const contextValue: MenuLayoutContextProps = {
