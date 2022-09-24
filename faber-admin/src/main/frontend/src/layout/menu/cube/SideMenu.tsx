@@ -20,6 +20,7 @@ export default function SideMenu() {
       key: i.id,
       label: i.name,
       children: loop(i.children),
+      icon: i.sourceData.icon ? <i className={i.sourceData.icon} /> : null,
     }))
   }
   const items = loop(menuTree)

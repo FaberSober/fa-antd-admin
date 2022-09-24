@@ -60,6 +60,12 @@ export default function RbacMenuTreeList() {
   const columns: ColumnsType<FaberBase.TreeNode<Rbac.RbacMenu>> = [
     { title: '名称', dataIndex: 'name', width: 200, },
     {
+      title: '图标',
+      dataIndex: ['sourceData', 'icon'],
+      render: (val:string|undefined) => val ? <i className={val} /> : null,
+      width: 100,
+    },
+    {
       title: '菜单等级',
       dataIndex: ['sourceData', 'level'],
       render: (val:FaberEnums.RbacMenuLevelEnum) => FaberEnums.RbacMenuLevelEnumMap[val],

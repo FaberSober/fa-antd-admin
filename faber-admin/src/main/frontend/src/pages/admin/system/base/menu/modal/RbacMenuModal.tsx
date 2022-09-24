@@ -10,6 +10,7 @@ import FaberEnums from "@/props/base/FaberEnums";
 import {BaseBoolIntRadio} from "@/components/base-dict";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import RbacMenuCascader from "../helper/RbacMenuCascader";
+import FontAwesomeSelect from "@/components/icons/FontAwesomeSelect";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
@@ -115,7 +116,7 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
             { record ? (<Input />) : <Input addonBefore={parentItem ? parentItem.linkUrl : undefined} /> }
           </Form.Item>
           <Form.Item name="icon" label="图标标识" rules={[{ required: false }]} {...formItemFullLayout}>
-            <Input />
+            <FontAwesomeSelect />
           </Form.Item>
         </Form>
       </DragModal>

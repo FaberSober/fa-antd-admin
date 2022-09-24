@@ -16,6 +16,7 @@ export default function MenuAppHorizontal() {
   const items = blocks.map((i) => ({
     key: i.id,
     label: i.name,
+    icon: i.sourceData.icon ? <i className={i.sourceData.icon} /> : null,
   }))
   return (
     <Menu
