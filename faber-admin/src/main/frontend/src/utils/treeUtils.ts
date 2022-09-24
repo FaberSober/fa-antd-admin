@@ -1,4 +1,4 @@
-import { isNil, trim } from 'lodash';
+import { each, isNil, trim } from 'lodash';
 import FaberBase from '@/props/base/FaberBase';
 
 export function parseNode<T = any>(nodeList: FaberBase.TreeNode<T, any>[] | undefined): FaberBase.BaseTreeNode<T>[] | undefined {
@@ -27,6 +27,27 @@ export function flatTreeList<T>(tree: FaberBase.TreeNode<T>[] = []): T[] {
     list.push(sourceData);
   });
   return list;
+}
+
+/**
+ * 根据条件，查询树钟一个节点的完整路径
+ * @param tree
+ * @param checkFun
+ */
+export function findTreePath<T>(tree: FaberBase.TreeNode<T>[]|undefined, checkFun: (item: FaberBase.TreeNode<T>) => boolean): FaberBase.TreeNode<T>[] {
+  if (isNil(tree) || tree.length === 0) return [];
+  const findPath = [];
+  for (let i = 0; i < tree.length; i += 1) {
+    const item = tree[i];
+    if (checkFun(item)) {
+      return [item];
+    }
+    const childFound = findTreePath(item.children, checkFun);
+    if (childFound) {
+      findPath.push(...childFound)
+    }
+  }
+  return findPath;
 }
 
 function findPathInner(options: any[] | undefined, destId: any): any {

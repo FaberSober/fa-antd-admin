@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {Empty, Layout} from "antd";
 import {find, isNil} from 'lodash';
 import {FormattedMessage} from "react-intl";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 import {FaFlexRestLayout} from "@/components/base-layout";
 import FaberEnums from "@/props/base/FaberEnums";
 import Rbac from "@/props/rbac";
-import {flatTreeList} from "@/utils/treeUtils";
+import {flatTreeList, findTreePath} from "@/utils/treeUtils";
 import {FaberBase, LayoutProps} from "@/props/base";
 import rbacUserRoleApi from "@/services/rbac/rbacUserRole";
 import MenuLayoutContext, {MenuLayoutContextProps} from './context/MenuLayoutContext'
@@ -26,6 +26,7 @@ import styles from "./MenuLayout.module.less";
  */
 export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [menuList, setMenuList] = useState<Rbac.RbacMenu[]>([]);
   const [menuFullTree, setMenuFullTree] = useState<FaberBase.TreeNode<Rbac.RbacMenu>[]>([]);
@@ -49,8 +50,16 @@ export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
       } else {
         setMenuTree([])
       }
+
+      // 初始化选中的菜单
+      parseLocationMenu(res.data)
     })
   }, [])
+
+  function parseLocationMenu(tree: FaberBase.TreeNode<Rbac.RbacMenu>[]) {
+    const menuPath = findTreePath(tree, (menu) => menu.sourceData.linkUrl === location.pathname);
+    console.log('menuPath', menuPath)
+  }
 
   const contextValue: MenuLayoutContextProps = {
     menuFullTree,
