@@ -24,9 +24,7 @@ function App() {
 const app = createRoot(document.getElementById('root')!)
 
 app.render(
-  <StrictMode>
-    <Router>
-      <App />
-    </Router>
-  </StrictMode>,
+  <Router>
+    <App />
+  </Router>,
 )
