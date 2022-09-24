@@ -1,6 +1,8 @@
+import React from "react";
 import {Link} from 'react-router-dom'
 import {Button} from 'antd'
 import {HeartOutlined} from "@ant-design/icons";
+
 
 export default function App() {
   return (
@@ -23,6 +25,15 @@ export default function App() {
       <div>
         <Button type="primary" icon={<HeartOutlined />}>Hello</Button>
       </div>
+      <div style={{ fontSize: '30px' }}>
+        icon:
+        <i className="fa-solid fa-user"></i>
+
+        <i className="fa-regular fa-user"></i>
+
+        <i className="fa-brands fa-github-square"></i>
+      </div>
+
     </div>
   )
 }
