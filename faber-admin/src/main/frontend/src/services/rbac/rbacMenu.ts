@@ -3,6 +3,6 @@ import { BaseTreeApi } from '@/services/base';
 import Rbac from '@/props/rbac';
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */
-class RbacMenuApi extends BaseTreeApi<Rbac.RbacMenu, number> {}
+class RbacMenuApi extends BaseTreeApi<Rbac.RbacMenu, string> {}
 
 export default new RbacMenuApi(GATE_APP.rbac, 'rbacMenu');

@@ -10,6 +10,8 @@ export const ApiEffectLayoutContext = createContext<ApiEffectLayoutContextProps>
   loadingEffect: {},
 });
 
+let loadingEffectOrigin:any = {};
+
 /**
  * @author xu.pengfei
  * @date 2022/9/21
@@ -21,17 +23,16 @@ export default function ApiEffectLayout({ children }: LayoutProps.BaseChildProps
     ['@@api/CHANGE_URL_LOADING'],
     ({ type, payload }) => {
       const { url, loading: urlLoading } = payload
+      // console.log('@@api/CHANGE_URL_LOADING', url, urlLoading)
       if (urlLoading) {
-        setLoadingEffect({ ...loadingEffect, [url]: true })
+        loadingEffectOrigin[url] = true;
       } else {
-        const i = { ...loadingEffect }
-        delete i[url]
-        setLoadingEffect(i)
+        delete loadingEffectOrigin[url]
       }
+      setLoadingEffect({ ...loadingEffectOrigin })
     },
-    [loadingEffect],
+    [],
   )
-
 
   const contextValue: ApiEffectLayoutContextProps = {
     loadingEffect,

@@ -3,7 +3,7 @@ import BaseCascader, { BaseCascaderProps } from '@/components/base-cascader';
 import api from '@/services/rbac/rbacMenu';
 import Rbac from '@/props/rbac';
 
-export interface RbacMenuCascaderProps extends Omit<BaseCascaderProps<Rbac.RbacMenu>, 'serviceApi'> {}
+export interface RbacMenuCascaderProps extends Omit<BaseCascaderProps<Rbac.RbacMenu, string>, 'serviceApi'> {}
 
 /**
  * @author xu.pengfei

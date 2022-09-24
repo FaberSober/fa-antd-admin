@@ -21,9 +21,9 @@ import Rbac from '@/props/rbac';
 export default function RbacMenuTreeList() {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [tree, setTree] = useState<FaberBase.TreeNode<Rbac.RbacMenu>[]>([])
-  const [selectedRowKeys, setSelectedRowKeys] = useState<number[]>([])
+  const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
 
-  const [handleDelete] = useDelete<number>(rbacMenuApi.remove, refreshData, '菜单');
+  const [handleDelete] = useDelete<string>(rbacMenuApi.remove, refreshData, '菜单');
 
   useEffect(() => {
     refreshData()
@@ -49,11 +49,11 @@ export default function RbacMenuTreeList() {
     })
   }
 
-  function moveUp(id:number) {
+  function moveUp(id:string) {
     rbacMenuApi.moveUp(id).then(refreshData)
   }
 
-  function moveDown(id:number) {
+  function moveDown(id:string) {
     rbacMenuApi.moveDown(id).then(refreshData)
   }
 

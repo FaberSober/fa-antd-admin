@@ -5,7 +5,7 @@ import Ajax from '@/props/base/Ajax';
 import FaberBase from "../../props/base/FaberBase";
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */
-class RbacUserRoleApi extends BaseApi<Rbac.RbacUserRole, number> {
+class RbacUserRoleApi extends BaseApi<Rbac.RbacUserRole, string> {
 	/** 获取登录账户的角色列表 */
 	getMyRoles = (): Promise<Ajax.Response<Rbac.RbacRole[]>> => this.get('getMyRoles');
 

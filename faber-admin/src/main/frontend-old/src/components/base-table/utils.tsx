@@ -217,7 +217,7 @@ export function genUpdateColumns(sorter: Ajax.Sorter) {
       dataIndex: 'updTime',
       sorter: true,
       sortOrder: getSortOrder(sorter, 'updTime'),
-      width: 180,
+      width: 160,
       tcCondComponent: renderTimePicker,
       tcCondBetweenComponent: renderTimeRangePicker,
     },

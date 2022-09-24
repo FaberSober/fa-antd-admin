@@ -10,7 +10,7 @@ import { RES_CODE } from '@/configs/server.config';
 
 const root = { value: 0, label: '根节点', isLeaf: false, hasChildren: true };
 
-export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderProps, 'options'> {
+export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderProps<T>, 'options'> {
   showRoot?: boolean;
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
@@ -21,7 +21,7 @@ export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderPro
   };
   value?: any;
   onChange?: (v: any) => void;
-  onChangeWithItem?: (key: any, data: T|undefined) => void;
+  onChangeWithItem?: (key: KeyType|undefined, data: T|undefined) => void;
   rootName?: string;
   extraParams?: any;
   rootId?: number;
