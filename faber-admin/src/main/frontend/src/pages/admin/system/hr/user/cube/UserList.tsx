@@ -51,7 +51,7 @@ function UserList({ departmentId }: IProps, ref: any) {
           <DepartmentCascade value={value} onChangeWithItem={(v: any, item: any) => callback(v, index, get(item, 'name'))} {...props} />
         ),
       },
-      BaseTableUtils.genSimpleSorterColumn('手机号', 'mobilePhone', 120, sorter),
+      BaseTableUtils.genSimpleSorterColumn('手机号', 'tel', 120, sorter),
       BaseTableUtils.genSimpleSorterColumn('账户', 'username', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('姓名', 'name', 100, sorter),
       {
@@ -98,7 +98,7 @@ function UserList({ departmentId }: IProps, ref: any) {
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <div>
             <Form form={form} layout="inline" onFinish={setFormValues}>
-              <Form.Item name="mobilePhone" label="手机号">
+              <Form.Item name="tel" label="手机号">
                 <Input placeholder="请输入手机号" />
               </Form.Item>
               <Form.Item name="name" label="姓名">

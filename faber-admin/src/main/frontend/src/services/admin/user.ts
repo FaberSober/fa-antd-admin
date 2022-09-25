@@ -8,7 +8,7 @@ const serviceModule = 'user';
 
 export interface UserWebQuery extends FaberBase.BasePageProps {
 	name: string;
-	mobilePhone: string;
+	tel: string;
 }
 
 class User extends BaseApi<Admin.User, string, Admin.UserWeb> {

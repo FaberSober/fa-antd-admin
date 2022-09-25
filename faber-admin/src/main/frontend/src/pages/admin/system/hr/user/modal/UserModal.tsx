@@ -94,7 +94,7 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
     return {
       name: get(record, 'name'),
       username: get(record, 'username'),
-      mobilePhone: get(record, 'mobilePhone'),
+      tel: get(record, 'tel'),
       email: get(record, 'email'),
       departmentId: get(record, 'departmentId', departmentId),
       sex: get(record, 'sex'),
@@ -152,7 +152,7 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
           <Form.Item name="username" label="账户" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input />
           </Form.Item>
-          <Form.Item name="mobilePhone" label="手机号" rules={[{ required: true }]} {...formItemFullLayout}>
+          <Form.Item name="tel" label="手机号" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input />
           </Form.Item>
           <Form.Item name="status" label="状态" rules={[{ required: true }]} {...formItemFullLayout}>

@@ -292,7 +292,7 @@ namespace Admin {
 		typeName: string;
 		name: string;
 		username: string;
-		mobilePhone: string;
+		tel: string;
 		email: string;
 	}
 
@@ -339,27 +339,6 @@ namespace Admin {
 		strongNotice: FaberEnums.BoolEnum;
 	}
 
-	// -------------------------------------------- 系统-消息 --------------------------------------------
-	/** Base-消息 */
-	export interface Msg extends FaberBase.BaseDelEntity {
-		/** ID */
-		id: number;
-		/** 消息来源用户ID  */
-		fromUserId: string;
-		/** 接收用户ID  */
-		toUserId: string;
-		/** 消息内容  */
-		content: string;
-		/** 是否已读  */
-		isRead: string;
-		/** 已读时间  */
-		readTime: string;
-		/** 业务类型  */
-		buzzType: string;
-		/** 业务ID  */
-		buzzId: string;
-	}
-
 	// -------------------------------------------- 系统-系统定时任务 --------------------------------------------
 	/** 系统定时任务 */
 	export interface Job extends FaberBase.BaseDelEntity {
@@ -369,7 +348,7 @@ namespace Admin {
 		jobName: string;
 		/** cron表达式  */
 		cron: string;
-		/** 状态:0未启动false/1启动true  */
+		/** 是否启动  */
 		status: FaberEnums.BoolEnum;
 		/** 任务执行方法  */
 		clazzPath: string;
@@ -454,7 +433,7 @@ namespace Admin {
 		/** 消息内容  */
 		content: string;
 		/** 是否已读  */
-		isRead: string;
+		isRead: FaberEnums.BoolEnum;
 		/** 已读时间  */
 		readTime: string;
 		/** 业务类型  */
