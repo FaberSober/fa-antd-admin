@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {CheckOutlined, SearchOutlined} from '@ant-design/icons';
 import {Badge, Button, Card, Form, Input, Space} from 'antd';
 import modelService from '@/services/admin/msg';
@@ -8,18 +8,19 @@ import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table'
 import {UserLayoutContext} from "@/layout/UserLayout";
 import FaberEnums from "@/props/base/FaberEnums";
 import BaseBoolIntSelector from "@/components/base-dict/BaseBoolIntSelector";
+import {FaHref} from "@/components/decorator";
+import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 
 const serviceName = '消息';
 const buzzModal = 'base_msg';
 
 export default function MsgList() {
+  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const {user} = useContext(UserLayoutContext)
   const [form] = Form.useForm();
 
-  const [batchReading, setBatchReading] = useState(false);
-
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, setExtraParams, fetchPageList, loading, list, dicts, paginationProps } =
-    useTableQueryParams<Admin.MsgPageVo>(
+  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, setExtraParams, fetchPageList, loading, list, paginationProps } =
+    useTableQueryParams<Admin.Msg>(
       modelService.page,
       { extraParams: { toUserId: user.id }, sorter: { field: 'crtTime', order: 'descend' } },
       serviceName
@@ -29,10 +30,8 @@ export default function MsgList() {
     setExtraParams({ toUserId: user.id });
   }, [user.id]);
 
-  function handleBatchRead(ids: number[]) {
-    setBatchReading(true);
-    modelService.batchRead({ ids }).then((res) => {
-      setBatchReading(false);
+  function handleBatchRead(ids: string[]) {
+    modelService.batchRead(ids).then((res) => {
       fetchPageList();
       // TODO 全局消息数量刷新
       // refreshUnreadCount();
@@ -40,8 +39,8 @@ export default function MsgList() {
   }
 
   /** 消息已读 */
-  function handleReadOne(id: number) {
-    modelService.batchRead({ ids: [id] }).then((res) => {
+  function handleReadOne(id: string) {
+    modelService.batchRead([id]).then((res) => {
       fetchPageList();
       // TODO 全局消息数量刷新
       // refreshUnreadCount();
@@ -49,7 +48,7 @@ export default function MsgList() {
   }
 
   /** 生成表格字段List */
-  function genColumns(): FaberTable.ColumnsProp<Admin.MsgPageVo>[] {
+  function genColumns(): FaberTable.ColumnsProp<Admin.Msg>[] {
     const { sorter } = queryParams;
     return [
       // BaseTableUtils.genSimpleSorterColumn('ID', 'id', 70, sorter, false),
@@ -62,22 +61,16 @@ export default function MsgList() {
           </div>
         ),
       },
-      {
-        ...BaseTableUtils.genSimpleSorterColumn('来源用户', 'fromUserId', 100, sorter),
-        render: (val, record) => record.fromUser?.name,
-      },
+      BaseTableUtils.genSimpleSorterColumn('来源用户', 'fromUserName', 100, sorter),
       BaseTableUtils.genBoolSorterColumn('是否已读', 'isRead', 100, sorter),
       ...BaseTableUtils.genCtrColumns(sorter),
-      ...BaseTableUtils.genUpdateColumns(sorter),
       {
         title: '操作',
         dataIndex: 'opr',
-        render: (text: string, record: Admin.MsgPageVo) => (
+        render: (text: string, record: Admin.Msg) => (
           <Space>
             {record.isRead !== FaberEnums.BoolEnum.YES && (
-              <a onClick={() => handleReadOne(record.id)}>
-                <CheckOutlined /> 已读
-              </a>
+              <FaHref onClick={() => handleReadOne(record.id)} icon={<CheckOutlined />} text="已读" />
             )}
           </Space>
         ),
@@ -89,6 +82,7 @@ export default function MsgList() {
     ];
   }
 
+  const batchReading = loadingEffect[modelService.getUrl('batchRead')]
   return (
     <Card>
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', marginBottom: 12 }}>

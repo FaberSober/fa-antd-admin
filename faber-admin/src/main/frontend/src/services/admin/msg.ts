@@ -7,15 +7,15 @@ import { BaseApi } from '@/services/base';
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */
 const serviceModule = 'msg';
 
-class Msg extends BaseApi<Admin.Msg, number, Admin.MsgPageVo> {
+class Msg extends BaseApi<Admin.Msg, string> {
 	/** 获取实体 分页 */
-	pageMine = (params: FaberBase.BasePageProps): Promise<Ajax.Response<Ajax.Page<Admin.MsgPageVo>>> => this.post(`page/mine`, params);
+	pageMine = (params: FaberBase.BasePageProps): Promise<Ajax.Response<Ajax.Page<Admin.Msg>>> => this.post(`pageMine`, params);
 
 	/** 批量已读 */
-	batchRead = (params: { ids: number[] }): Promise<Ajax.Response> => this.post(`batchRead`, params);
+	batchRead = (ids: string[]): Promise<Ajax.Response> => this.post(`batchRead`, ids);
 
 	/** 消息数量统计 */
-	countMine = (): Promise<Ajax.Response<{ unreadCount: number }>> => this.get(`count/mine`);
+	countMine = (): Promise<Ajax.Response<{ unreadCount: number }>> => this.get(`countMine`);
 }
 
 export default new Msg(GATE_APP.admin, serviceModule);

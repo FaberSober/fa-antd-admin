@@ -51,10 +51,9 @@ public class MsgBiz extends BaseBiz<MsgMapper, Msg> {
 
     /**
      * 消息批量已读
-     * @param params
+     * @param ids
      */
-    public void batchRead(Map<String, Object> params) {
-        List<Integer> ids = (List<Integer>) params.get("ids");
+    public void batchRead(List<Long> ids) {
 
         Date now = new Date();
         lambdaUpdate()
@@ -74,26 +73,26 @@ public class MsgBiz extends BaseBiz<MsgMapper, Msg> {
         this.save(bean);
     }
 
-    @Override
-    public TableResultResponse<Msg> selectPageByQuery(Query query) {
-        TableResultResponse<Msg> table = super.selectPageByQuery(query);
-        List<Msg> list = new ArrayList<>();
-        table.getData().getRows().forEach(bean -> {
-            MsgPageVo vo = new MsgPageVo();
-            BeanUtil.copyProperties(bean, vo);
-
-            vo.setBuzzName(Msg.BuzzType.valueOf(bean.getBuzzType()).getDesc());
-
-            vo.setFromUser(userBiz.findUserInfoById(vo.getFromUserId()));
-            vo.setToUser(userBiz.findUserInfoById(vo.getToUserId()));
-            list.add(vo);
-        });
-        table.getData().setRows(list);
-        // 添加字典值
-        table.getData()
-                .addDict("isRead", dictBiz.getByCode("common.enum.true_or_false"))
-                .addDict("buzzType", dictBiz.getByCode("common.msg.buzz_type"));
-        return table;
-    }
+//    @Override
+//    public TableResultResponse<Msg> selectPageByQuery(Query query) {
+//        TableResultResponse<Msg> table = super.selectPageByQuery(query);
+//        List<Msg> list = new ArrayList<>();
+//        table.getData().getRows().forEach(bean -> {
+//            MsgPageVo vo = new MsgPageVo();
+//            BeanUtil.copyProperties(bean, vo);
+//
+//            vo.setBuzzName(Msg.BuzzType.valueOf(bean.getBuzzType()).getDesc());
+//
+//            vo.setFromUser(userBiz.findUserInfoById(vo.getFromUserId()));
+//            vo.setToUser(userBiz.findUserInfoById(vo.getToUserId()));
+//            list.add(vo);
+//        });
+//        table.getData().setRows(list);
+//        // 添加字典值
+//        table.getData()
+//                .addDict("isRead", dictBiz.getByCode("common.enum.true_or_false"))
+//                .addDict("buzzType", dictBiz.getByCode("common.msg.buzz_type"));
+//        return table;
+//    }
 
 }

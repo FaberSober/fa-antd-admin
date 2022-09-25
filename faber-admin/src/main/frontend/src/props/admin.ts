@@ -425,9 +425,13 @@ namespace Admin {
 	/** Base-消息 */
 	export interface Msg extends FaberBase.BaseDelEntity {
 		/** ID */
-		id: number;
-		/** 消息来源用户ID  */
+		id: string;
+		/** 来源用户  */
+    fromUserName: string;
+		/** 来源用户ID  */
 		fromUserId: string;
+		/** 接收用户  */
+		toUserName: string;
 		/** 接收用户ID  */
 		toUserId: string;
 		/** 消息内容  */

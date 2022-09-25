@@ -10,6 +10,7 @@ import com.faber.msg.vo.MsgStatisticVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -20,7 +21,7 @@ public class MsgController extends BaseController<MsgBiz, Msg, Integer> {
      * 消息数量统计。
      * 1. 未读消息数量；
      */
-    @RequestMapping(value = "/count/mine", method = RequestMethod.GET)
+    @RequestMapping(value = "/countMine", method = RequestMethod.GET)
     @ResponseBody
     public ObjectRestResponse<MsgStatisticVO> countMine() {
         MsgStatisticVO data = baseBiz.countMine();
@@ -30,7 +31,7 @@ public class MsgController extends BaseController<MsgBiz, Msg, Integer> {
     /**
      * 分页查询
      */
-    @RequestMapping(value = "/page/mine", method = RequestMethod.POST)
+    @RequestMapping(value = "/pageMine", method = RequestMethod.POST)
     @ResponseBody
     public TableResultResponse<Msg> pageMine(@RequestBody Map<String, Object> params) {
         params.put("toUserId", getCurrentUserId());
@@ -41,13 +42,13 @@ public class MsgController extends BaseController<MsgBiz, Msg, Integer> {
 
     /**
      * 批量已读
-     * @param params
+     * @param ids
      * @return
      */
     @RequestMapping(value = "/batchRead", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Boolean> batchRead(@Valid @RequestBody Map<String, Object> params) {
-        baseBiz.batchRead(params);
+    public ObjectRestResponse<Boolean> batchRead(@RequestBody List<Long> ids) {
+        baseBiz.batchRead(ids);
         return ok();
     }
 

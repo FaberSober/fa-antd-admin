@@ -31,41 +31,39 @@ import java.util.Date;
 public class Msg extends BaseDelEntity {
     private static final long serialVersionUID = 1L;
 
-    // ID
     @ExcelProperty("ID")
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
-    // 消息来源用户ID
+    @ExcelProperty("来源用户")
+    private String fromUserName;
+
     @SqlEquals
-    @ExcelProperty("消息来源用户ID")
+    @ExcelProperty("来源用户ID")
     private String fromUserId;
 
-    // 接收用户ID
+    @ExcelProperty("接收用户")
+    private String toUserName;
+
     @SqlEquals
     @ExcelProperty("接收用户ID")
     private String toUserId;
 
-    // 消息内容
     @SqlSearch
     @ExcelProperty("消息内容")
     private String content;
 
-    // 是否已读
     @SqlEquals
     @ExcelProperty("是否已读")
     private BoolEnum isRead;
 
-    // 已读时间
     @ExcelProperty("已读时间")
     private Date readTime;
 
-    // 业务类型
     @SqlEquals
     @ExcelProperty("业务类型")
     private Integer buzzType;
 
-    // 业务ID
     @SqlEquals
     @ExcelProperty("业务ID")
     private String buzzId;
