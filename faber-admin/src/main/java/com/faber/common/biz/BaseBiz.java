@@ -12,8 +12,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.faber.admin.entity.Config;
-import com.faber.admin.entity.Element;
-import com.faber.admin.entity.Menu;
 import com.faber.admin.mapper.ConfigMapper;
 import com.faber.common.annotation.FaberModalName;
 import com.faber.common.annotation.SqlEquals;
@@ -372,8 +370,6 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
 
     /**
      * 删除所有权限缓存，适用情景：
-     * 1. 菜单{@link Menu}CRUD
-     * 2. 资源{@link Element}CRUD
      */
     protected void clearMenuAndElementCache() {
         cacheAPI.removeByPre("permission");

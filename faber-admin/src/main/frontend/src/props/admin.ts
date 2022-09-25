@@ -36,65 +36,6 @@ namespace Admin {
 		system: string;
 	}
 
-	// -------------------------------------------- 系统-菜单模块 --------------------------------------------
-	/** BASE-菜单模块 */
-	export interface MenuBlock extends FaberBase.BaseDelEntity {
-		/** ID */
-		id: number;
-		/** 模块名称 */
-		name: string;
-		/** 模块编码 */
-		no: string;
-		/** 排序 */
-		sort: string;
-	}
-
-	// -------------------------------------------- 系统-菜单 --------------------------------------------
-	export interface Menu extends FaberBase.BaseDelEntity {
-		id: number;
-		/** 所属模块ID */
-		blockId: number;
-		code: string;
-		title: string;
-		parentId: number;
-		href: string;
-		icon: string;
-		type: string;
-		description: string;
-		path: string;
-		orderNum: number;
-	}
-
-	// -------------------------------------------- 系统-页面元素权限点 --------------------------------------------
-	export interface Element extends FaberBase.BaseDelEntity {
-		/** ID */
-		id: number;
-		/** 所属模块ID */
-		blockId: number;
-		/** 资源编码 */
-		code: string;
-		/** 资源类型 */
-		type: string;
-		/** 资源名称 */
-		name: string;
-		/** 资源路径 */
-		uri: string;
-		/** 资源关联菜单 */
-		menuId: string;
-		/** 父权限ID */
-		parentId: string;
-		/** 资源树状检索路径 */
-		path: string;
-		/** 资源请求类型 */
-		method: string;
-		/** 描述 */
-		description: string;
-	}
-
-	export interface ElementWebVO extends Element {
-		menu: Menu;
-	}
-
 	// -------------------------------------------- 系统-字典值 --------------------------------------------
 	/** 字典分类 */
 	export interface DictType extends FaberBase.BaseDelEntity {
@@ -255,46 +196,6 @@ namespace Admin {
 		departmentId: string;
 	}
 
-	// -------------------------------------------- 系统-角色组 --------------------------------------------
-	export interface Group extends FaberBase.BaseDelEntity {
-		/** ID */
-		id: number;
-		/** 编码 */
-		code: string;
-		/** 名称 */
-		name: string;
-		/** 描述 */
-		description: string;
-		/** 上级节点 */
-		parentId: number;
-		/** 排序ID */
-		sortId: number;
-		/** 角色组 */
-		groupType: number;
-	}
-
-	// -------------------------------------------- 系统-角色用户 --------------------------------------------
-	export interface GroupUser extends FaberBase.BaseDelEntity {
-		/** ID */
-		id: number;
-		/** 角色ID */
-		groupId: number;
-		/** 用户ID */
-		userId: string;
-		/** 描述 */
-		description: string;
-		/** 类型 */
-		type: string;
-	}
-
-	export interface GroupUserVo extends GroupUser {
-		/** 类型名称 */
-		typeName: string;
-		name: string;
-		username: string;
-		tel: string;
-		email: string;
-	}
 
 	// -------------------------------------------- 系统-上传文件 --------------------------------------------
 	export interface FileSave extends FaberBase.BaseDelEntity {
@@ -303,25 +204,6 @@ namespace Admin {
 		name: string;
 		url: string;
 		size: number;
-	}
-
-	export enum AuthorityType {
-		GROUP = 'group',
-	}
-
-	export enum ResourceType {
-		MENU = 'menu',
-		BUTTON = 'button',
-	}
-
-	export interface ResourceAuthority {
-		id: number;
-		/** 授权ID */
-		authorityId: string;
-		authorityType: Admin.AuthorityType;
-		/** 资源ID */
-		resourceId: string;
-		resourceType: Admin.ResourceType;
 	}
 
 	// -------------------------------------------- 系统-通知与公告 --------------------------------------------
@@ -451,23 +333,6 @@ namespace Admin {
 		buzzName?: string;
 		fromUser?: FaberBase.UserInfo;
 		toUser?: FaberBase.UserInfo;
-	}
-
-	// -------------------------------------------- 系统-角色分组 --------------------------------------------
-	export interface GroupType extends FaberBase.BaseDelEntity {
-		/** ID */
-		id: number;
-		/** 编码 */
-		code: string;
-		/** 名称 */
-		name: string;
-		/** 描述 */
-		description: string;
-	}
-
-	export enum GroupTypeEnums {
-		INNER = 1, // 内业
-		OUTER = 2, // 外业
 	}
 
 	// -------------------------------------------- 系统配置参数 --------------------------------------------
