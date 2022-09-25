@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.FaberModalName;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.bean.BaseDelEntity;
+import com.faber.common.enums.BoolEnum;
 import lombok.Data;
 
 
@@ -38,11 +39,11 @@ public class Notice extends BaseDelEntity {
     @SqlEquals
     @ExcelProperty("是否有效：1-有效、2-失效")
     // @Column(name = "status")
-    private String status;
+    private BoolEnum status;
 
     @SqlEquals
     @ExcelProperty("是否强提醒")
     // @Column(name = "strong_notice")
-    private String strongNotice;
+    private BoolEnum strongNotice;
 
 }

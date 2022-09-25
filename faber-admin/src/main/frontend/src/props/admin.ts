@@ -333,10 +333,10 @@ namespace Admin {
 		title: string;
 		/** 内容  */
 		content: string;
-		/** 状态：1-有效、0-失效  */
-		status: FaberBase.TrueOrFalse;
+		/** 是否有效  */
+		status: FaberEnums.BoolEnum;
 		/** 是否强提醒  */
-		strongNotice: FaberBase.TrueOrFalse;
+		strongNotice: FaberEnums.BoolEnum;
 	}
 
 	// -------------------------------------------- 系统-消息 --------------------------------------------
