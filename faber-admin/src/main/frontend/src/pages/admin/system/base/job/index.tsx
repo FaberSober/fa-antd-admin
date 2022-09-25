@@ -1,15 +1,20 @@
-import React, { useContext } from 'react';
-import { DownloadOutlined, EditOutlined, PauseCircleOutlined, PlayCircleOutlined, PlusOutlined, SearchOutlined, ThunderboltOutlined } from '@ant-design/icons';
-import { Badge, Button, Card, Form, Input, Popconfirm, Space } from 'antd';
-import { ShiroPermissionContainer } from '@/components/auth';
-import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
-import { UserContext } from '@/layout/UserSimpleLayout';
-import { showResponse } from '@/utils/utils';
-import FaberBase from '@/props/base/FaberBase';
+import React from 'react';
+import {
+  DownloadOutlined,
+  EditOutlined,
+  PauseCircleOutlined,
+  PlayCircleOutlined,
+  PlusOutlined,
+  SearchOutlined,
+  ThunderboltOutlined
+} from '@ant-design/icons';
+import {Badge, Button, Card, Form, Input, Popconfirm, Space} from 'antd';
+import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
+import {showResponse} from '@/utils/utils';
 import modelService from '@/services/admin/job';
 import Admin from '@/props/admin';
 import JobModal from './modal/JobModal';
-import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
+import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
 import JobLogDrawer from "./jobLog/JobLogDrawer";
 import {FaHref} from "@/components/decorator";
 import FaberEnums from "@/props/base/FaberEnums";

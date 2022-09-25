@@ -1,7 +1,7 @@
 import React, {ReactNode, useContext, useEffect} from 'react';
-import {UserContext} from "@/layout/UserSimpleLayout";
 import useSocketIO from "@/utils/hooks/useSocketIO";
 import SocketLayoutContext, {SocketLayoutContextProps} from "@/layout/context/SocketLayoutContext";
+import {UserLayoutContext} from "@/layout/UserLayout";
 
 
 export interface SocketLayoutProps {
@@ -14,8 +14,9 @@ export interface SocketLayoutProps {
  * @date 2021/11/11 14:43
  */
 export default function SocketLayout({ children }: SocketLayoutProps) {
-  const { user, systemConfig } = useContext(UserContext)
-  const { ready, socketEmit, socketInstance } = useSocketIO(systemConfig.socketServer)
+  const { user, systemConfig } = useContext(UserLayoutContext)
+  // const { ready, socketEmit, socketInstance } = useSocketIO(systemConfig.socketServer)
+  const { ready, socketEmit, socketInstance } = useSocketIO("")
 
   useEffect(() => {
     if (!ready) return

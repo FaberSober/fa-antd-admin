@@ -1,13 +1,13 @@
 import React, {useContext, useState} from 'react';
 import {Button, Drawer, Space, Tree} from 'antd';
 import Rbac from '@/props/rbac';
-import {UserContext} from "@/layout/UserSimpleLayout";
 import {DragModalProps} from "@/components/modal/DragModal";
 import {FaberBase} from "@/props/base";
 import rbacMenuApi from "@/services/rbac/rbacMenu";
 import rbacRoleMenuApi from "@/services/rbac/rbacRoleMenu";
 import {FaFlexRestLayout} from "@/components/base-layout";
 import {showResponse} from "@/utils/utils";
+import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 
 
 export interface RbacRoleMenuDrawerProps extends DragModalProps {
@@ -19,7 +19,7 @@ export interface RbacRoleMenuDrawerProps extends DragModalProps {
  * BASE-角色表实体新增、编辑弹框
  */
 export default function RbacRoleMenuDrawer({ children, title, record, success, ...props }: RbacRoleMenuDrawerProps) {
-  const {loadingEffect} = useContext(UserContext)
+  const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [tree, setTree] = useState<FaberBase.TreeNode<Rbac.RbacMenu>[]>([])
   const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([]);
   const [halfCheckedKeys, setHalfCheckedKeys] = useState<React.Key[]>([]);

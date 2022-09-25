@@ -1,20 +1,17 @@
-import React, { useContext } from 'react';
-import { DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import { Button, Card, Form, Input, Space } from 'antd';
-import { ShiroPermissionContainer } from '@/components/auth';
-import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
+import React from 'react';
+import {DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
+import {Button, Card, Form, Input, Space} from 'antd';
+import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import modelService from '@/services/admin/area';
 import Admin from '@/props/admin';
 import AreaModal from './modal/AreaModal';
-import { UserContext } from '@/layout/UserSimpleLayout';
-import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
+import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
 import {FaHref} from "@/components/decorator";
 
 const serviceName = '中国行政地区表';
 const buzzModal = 'base_area';
 
 export default function AreaList() {
-  const { user } = useContext(UserContext);
   const [form] = Form.useForm();
 
   const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } =

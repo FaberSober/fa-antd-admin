@@ -1,8 +1,7 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {DownloadOutlined, SearchOutlined} from '@ant-design/icons';
-import {Button, Card, Form, Input, Space} from 'antd';
+import {Button, Form, Input, Space} from 'antd';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
-import {UserContext} from "@/layout/UserSimpleLayout";
 import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
 import modelService from '@/services/admin/jobLog';
 import Admin from '@/props/admin';
@@ -16,7 +15,6 @@ export interface JobLogListProps {
 }
 
 export default function JobLogList({ jobId }: JobLogListProps) {
-  const { user } = useContext(UserContext);
   const [form] = Form.useForm();
 
   const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, setExtraParams, fetchPageList, loading, list, dicts, paginationProps } =

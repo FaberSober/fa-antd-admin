@@ -6,9 +6,9 @@ import {showResponse} from '@/utils/utils';
 import Ajax from "@/props/base/Ajax";
 import modelService from '@/services/rbac/rbacRole';
 import Rbac from '@/props/rbac';
-import {UserContext} from "@/layout/UserSimpleLayout";
 import {BaseBoolIntRadio} from "@/components/base-dict";
 import FaberEnums from "@/props/base/FaberEnums";
+import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
@@ -18,7 +18,7 @@ const serviceName = '角色';
  * BASE-角色表实体新增、编辑弹框
  */
 export default function RbacRoleModal({ children, title, record, fetchFinish, ...props }: Ajax.CommonModalProps<Rbac.RbacRole>) {
-  const {loadingEffect} = useContext(UserContext)
+  const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 
   const [modalVisible, setModalVisible] = useState(false);

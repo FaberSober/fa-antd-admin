@@ -8,13 +8,16 @@ import Rbac from "@/props/rbac";
 import {clearToken} from "@/utils/cache";
 import {useNavigate} from "react-router-dom";
 import dictApi from "@/services/admin/dict";
+import msgApi from "@/services/admin/msg";
 
 export interface UserLayoutContextProps {
   user: Admin.User,
   roles: Rbac.RbacRole[],
-  refreshUser: () => void; // 刷新用户
-  logout: () => void; // 登出
+  refreshUser: () => void, // 刷新用户
+  logout: () => void, // 登出
   systemConfig: Admin.SystemConfigPo,
+  unreadCount: number,
+  refreshUnreadCount: () => void,
 }
 
 const defaultConfig = { title: '', logo: '', logoWithText: '', portalLink: '' }
@@ -26,6 +29,8 @@ export const UserLayoutContext = createContext<UserLayoutContextProps>({
   refreshUser: () => {},
   logout: () => {},
   systemConfig: defaultConfig,
+  unreadCount: 0,
+  refreshUnreadCount: () => {},
 });
 
 /**
@@ -39,6 +44,7 @@ export default function UserLayout({ children }: LayoutProps.BaseChildProps) {
   const [user, setUser] = useState<Admin.User>();
   const [roles, setRoles] = useState<Rbac.RbacRole[]>([]);
   const [systemConfig, setSystemConfig] = useState<Admin.SystemConfigPo>(defaultConfig);
+  const [unreadCount, setUnreadCount] = useState<number>(0);
 
   useEffect(() => {
     refreshUser()
@@ -56,6 +62,10 @@ export default function UserLayout({ children }: LayoutProps.BaseChildProps) {
     navigate('/login');
   }
 
+  function refreshUnreadCount() {
+    msgApi.countMine().then(res => setUnreadCount(res.data.unreadCount))
+  }
+
   if (user === undefined) return <PageLoading />
 
   const contextValue: UserLayoutContextProps = {
@@ -64,6 +74,8 @@ export default function UserLayout({ children }: LayoutProps.BaseChildProps) {
     refreshUser,
     logout,
     systemConfig,
+    unreadCount,
+    refreshUnreadCount,
   };
 
   return (

@@ -1,16 +1,16 @@
-import React, { CSSProperties, useContext, useEffect, useState } from 'react';
+import React, {CSSProperties, useContext, useEffect, useState} from 'react';
 import msgService from '@/services/admin/msg';
 import Admin from '@/props/admin';
 import FaberBase from '@/props/base/FaberBase';
-import { RES_CODE } from '@/configs/server.config';
-import { Avatar, Badge, List, Popover } from 'antd';
-import { get } from 'lodash';
-import { BellOutlined } from '@ant-design/icons';
-import { UserContext } from '@/layout/UserSimpleLayout';
+import {RES_CODE} from '@/configs/server.config';
+import {Avatar, Badge, List, Popover} from 'antd';
+import {get} from 'lodash';
+import {BellOutlined} from '@ant-design/icons';
 import {Link} from "react-router-dom";
+import {UserLayoutContext} from "@/layout/UserLayout";
 
 function MsgList() {
-  const { unreadCount, refreshUnreadCount } = useContext(UserContext);
+  const { unreadCount, refreshUnreadCount } = useContext(UserLayoutContext);
 
   const [data, setData] = useState<Admin.MsgPageVo[]>([]);
 
@@ -23,12 +23,12 @@ function MsgList() {
       if (res && res.status === RES_CODE.OK) {
         setData(res.data.rows);
       }
-      // refreshUnreadCount();
+      refreshUnreadCount();
     });
   }
 
-  function handleReadOne(id: number) {
-    msgService.batchRead({ ids: [id] }).then(() => {
+  function handleReadOne(id: string) {
+    msgService.batchRead([id]).then(() => {
       refreshUnreadCount();
       // fetchMsgList();
     });
@@ -70,7 +70,7 @@ function MsgList() {
  * @date 2021/1/7
  */
 export default function MsgBadgeCube() {
-  const { unreadCount } = useContext(UserContext);
+  const { unreadCount } = useContext(UserLayoutContext);
 
   return (
     <Popover placement="bottomRight" content={<MsgList />} trigger="click">
