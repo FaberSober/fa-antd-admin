@@ -20,8 +20,7 @@ public class GroupUserVo {
     private String username;
     private String birthday;
     private String address;
-    private String mobilePhone;
-    private String telPhone;
+    private String tel;
     private String email;
     private String sex;
 

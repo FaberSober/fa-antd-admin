@@ -115,7 +115,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         entity.setPassword(beanDB.getPassword());
 
         // 关联角色
-        groupUserBiz.changeUserGroup(entity.getId(), entity.getGroupIds());
+//        groupUserBiz.changeUserGroup(entity.getId(), entity.getGroupIds());
 
         return super.updateById(entity);
     }
@@ -217,7 +217,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     public boolean accountBaseUpdate(String userId, UserAccountVo vo) {
         // 插入时校验手机号是否重复
         long telCount = lambdaQuery()
-                .eq(User::getTel, vo.getMobilePhone())
+                .eq(User::getTel, vo.getTel())
                 .ne(User::getId, userId)
                 .count();
         if (telCount > 0) throw new BuzzException("手机号重复");
@@ -229,9 +229,10 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
                 .count();
         if (usernameCount > 0) throw new BuzzException("账户重复");
 
-        User user = getUserById(userId);
+        User user = getById(userId);
         BeanUtils.copyProperties(vo, user);
-        return updateById(user);
+
+        return super.updateById(user);
     }
 
 //    @CacheClear(pre = "user{1}")

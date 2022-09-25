@@ -12,16 +12,18 @@ import dictApi from "@/services/admin/dict";
 export interface UserLayoutContextProps {
   user: Admin.User,
   roles: Rbac.RbacRole[],
+  refreshUser: () => void; // 刷新用户
   logout: () => void; // 登出
   systemConfig: Admin.SystemConfigPo,
 }
 
 const defaultConfig = { title: '', logo: '', logoWithText: '', portalLink: '' }
 
-// @ts-ignore
 export const UserLayoutContext = createContext<UserLayoutContextProps>({
+  // @ts-ignore
   user: undefined,
   roles: [],
+  refreshUser: () => {},
   logout: () => {},
   systemConfig: defaultConfig,
 });
@@ -39,11 +41,15 @@ export default function UserLayout({ children }: LayoutProps.BaseChildProps) {
   const [systemConfig, setSystemConfig] = useState<Admin.SystemConfigPo>(defaultConfig);
 
   useEffect(() => {
-    userApi.getLoginUser().then((res) => setUser(res.data))
+    refreshUser()
     rbacUserRoleApi.getMyRoles().then((res) => setRoles(res.data))
     // 获取系统配置参数
     dictApi.getSystemConfig().then((res) => setSystemConfig(res.data))
   }, [])
+
+  function refreshUser() {
+    userApi.getLoginUser().then((res) => setUser(res.data))
+  }
 
   function logout() {
     clearToken();
@@ -55,6 +61,7 @@ export default function UserLayout({ children }: LayoutProps.BaseChildProps) {
   const contextValue: UserLayoutContextProps = {
     user,
     roles,
+    refreshUser,
     logout,
     systemConfig,
   };
