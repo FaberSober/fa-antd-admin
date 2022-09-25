@@ -17,8 +17,8 @@ const tailLayout = { wrapperCol: { offset: 8, span: 16 } };
  * @date 2020/12/26
  */
 export default function AccountBase() {
-  const { refreshUser } = useContext(UserLayoutContext);
   const { loadingEffect } = useContext(ApiEffectLayoutContext);
+  const { refreshUser } = useContext(UserLayoutContext);
   const [form] = Form.useForm();
 
   const [userDetail, setUserDetail] = useState<Admin.User>();
@@ -41,7 +41,7 @@ export default function AccountBase() {
   }, []);
 
   function onFinish(fieldValues: any) {
-    userService.accountBaseUpdate(fieldValues).then((res) => {
+    userService.updateMine(fieldValues).then((res) => {
       showResponse(res, '更新账户基本信息');
       refreshUser();
     })
@@ -49,7 +49,7 @@ export default function AccountBase() {
 
   if (userDetail === undefined) return <PageLoading />;
 
-  const loading = loadingEffect[userService.getUrl('account/base/update')]
+  const loading = loadingEffect[userService.getUrl('updateMine')]
   return (
     <Card title="基本信息">
       <div>

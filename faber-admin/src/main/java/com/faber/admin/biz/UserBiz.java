@@ -214,7 +214,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     }
 
 //    @CacheClear(pre = "user{1}")
-    public boolean accountBaseUpdate(String userId, UserAccountVo vo) {
+    public boolean updateMine(String userId, UserAccountVo vo) {
         // 插入时校验手机号是否重复
         long telCount = lambdaQuery()
                 .eq(User::getTel, vo.getTel())
@@ -236,7 +236,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     }
 
 //    @CacheClear(pre = "user{1}")
-    public boolean accountBaseUpdatePwd(String userId, Map<String, Object> params) {
+    public boolean updateMyPwd(String userId, Map<String, Object> params) {
         String oldPwd = (String) params.get("oldPwd");
         String newPwd = (String) params.get("newPwd");
 

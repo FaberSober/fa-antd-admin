@@ -27,10 +27,10 @@ class User extends BaseApi<Admin.User, string, Admin.UserWeb> {
 	accountBase = (): Promise<Ajax.Response<Admin.User>> => this.get(`account/base`);
 
 	/** 更新个人账户基本信息 */
-	accountBaseUpdate = (params: any): Promise<Ajax.Response> => this.post(`account/base/update`, params);
+  updateMine = (params: any): Promise<Ajax.Response> => this.post('updateMine', params);
 
 	/** 更新个人账户密码 */
-	accountBaseUpdatePwd = (params: any): Promise<Ajax.Response> => this.post(`account/base/updatePwd`, params);
+  updateMyPwd = (params: any): Promise<Ajax.Response> => this.post('updateMyPwd', params);
 
 	/** 更新账户ApiToken */
 	accountBaseUpdateApiToken = (params: any): Promise<Ajax.Response> => this.post(`account/base/updateApiToken`, params);

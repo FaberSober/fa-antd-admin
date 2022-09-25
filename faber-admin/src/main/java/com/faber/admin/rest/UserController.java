@@ -66,20 +66,20 @@ public class UserController extends BaseController<UserBiz, User, String> {
     /**
      * 更新个人账户基本信息
      */
-    @RequestMapping(value = "/account/base/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateMine", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Boolean> accountBaseUpdate(@Valid @RequestBody UserAccountVo vo) {
-        baseBiz.accountBaseUpdate(getCurrentUserId(), vo);
+    public ObjectRestResponse<Boolean> updateMine(@Valid @RequestBody UserAccountVo vo) {
+        baseBiz.updateMine(getCurrentUserId(), vo);
         return ok();
     }
 
     /**
      * 更新个人账户密码
      */
-    @RequestMapping(value = "/account/base/updatePwd", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateMyPwd", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Boolean> accountBaseUpdatePwd(@RequestBody Map<String, Object> params) {
-        baseBiz.accountBaseUpdatePwd(getCurrentUserId(), params);
+    public ObjectRestResponse<Boolean> updateMyPwd(@RequestBody Map<String, Object> params) {
+        baseBiz.updateMyPwd(getCurrentUserId(), params);
         return ok();
     }
 
