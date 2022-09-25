@@ -15,10 +15,10 @@ public class AuthBiz {
     private JwtTokenUtil jwtTokenUtil;
 
     @Resource
-    private PermissionBiz permissionBiz;
+    private UserBiz userBiz;
 
     public String login(JwtAuthenticationRequest authenticationRequest) throws Exception {
-        User user = permissionBiz.validate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        User user = userBiz.validate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         return jwtTokenUtil.generateToken(new JWTInfo(user.getUsername(), user.getId(), user.getName()));
     }
 

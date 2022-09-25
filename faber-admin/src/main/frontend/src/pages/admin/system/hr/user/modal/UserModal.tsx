@@ -104,7 +104,7 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
       img: get(record, 'img', '/origin/api/admin/file/local/getFile/head'),
       lng: get(record, 'lng', addLoc?.lng),
       lat: get(record, 'lat', addLoc?.lat),
-      groupIds: [],
+      // groupIds: [],
     }
   }
 
@@ -157,9 +157,6 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
           </Form.Item>
           <Form.Item name="status" label="状态" rules={[{ required: true }]} {...formItemFullLayout}>
             <DictDataRadio dictLabel="common_user_status" />
-          </Form.Item>
-          <Form.Item name="groupIds" label="角色" rules={[{ required: true }, { type: 'array', max: 1 }]} {...formItemFullLayout}>
-            <GroupTreeSelect showRoot={false} multiple treeDefaultExpandAll extraParams={{ groupType: Admin.GroupTypeEnums.INNER }} />
           </Form.Item>
           <Form.Item name="email" label="邮箱" {...formItemFullLayout}>
             <Input />

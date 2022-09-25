@@ -7,6 +7,7 @@ import com.ace.cache.api.CacheAPI;
 import com.faber.admin.entity.Department;
 import com.faber.admin.entity.User;
 import com.faber.admin.mapper.UserMapper;
+import com.faber.admin.util.user.UserCheckUtil;
 import com.faber.admin.vo.UserAccountVo;
 import com.faber.admin.vo.UserInfo;
 import com.faber.admin.vo.UserWeb;
@@ -17,6 +18,7 @@ import com.faber.common.context.BaseContextHandler;
 import com.faber.common.enums.BoolEnum;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.exception.NoDataException;
+import com.faber.common.exception.auth.UserInvalidException;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.vo.Query;
 import org.apache.commons.collections4.MapUtils;
@@ -52,14 +54,40 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
 
     @Lazy
     @Resource
-    private PermissionBiz permissionBiz;
-
-    @Lazy
-    @Resource
     private DepartmentBiz departmentBiz;
 
     @Resource
     private GroupUserBiz groupUserBiz;
+
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
+    /**
+     * 登录账户
+     * @param account
+     * @param password
+     * @return
+     */
+    public User validate(String account, String password) {
+        User user = this.getUserByUsername(account);
+        if (user == null) {
+            user = this.getUserByTel(account);
+        }
+        UserCheckUtil.checkUserValid(user);
+
+        if (!encoder.matches(password, user.getPassword())) {
+            throw new UserInvalidException("用户名或密码错误！");
+        }
+        return user;
+    }
+
+    public void validateCurrentUserPwd(String password) {
+        User user = this.getUserByUsername(BaseContextHandler.getUsername());
+        UserCheckUtil.checkUserValid(user);
+        if (encoder.matches(password, user.getPassword())) {
+            return;
+        }
+        throw new UserInvalidException("密码验证失败");
+    }
 
     public User getLoginUser() {
         User user = getUserById(BaseContextHandler.getUserID());
@@ -244,7 +272,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
 
         User user = getById(userId);
 
-        permissionBiz.validateCurrentUserPwd(oldPwd);
+        this.validateCurrentUserPwd(oldPwd);
 
         String password = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT).encode(newPwd);
         user.setPassword(password);
@@ -263,7 +291,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         String passwordCheck = (String) params.get("passwordCheck");
         List<Integer> ids = (List<Integer>) params.get("ids");
 
-        permissionBiz.validateCurrentUserPwd(passwordCheck);
+        this.validateCurrentUserPwd(passwordCheck);
 
         if (StringUtils.isEmpty(newPwd)) {
             throw new BuzzException("新密码不能为空");
@@ -287,7 +315,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         String passwordCheck = (String) params.get("passwordCheck");
         List<Integer> ids = (List<Integer>) params.get("ids");
 
-        permissionBiz.validateCurrentUserPwd(passwordCheck);
+        this.validateCurrentUserPwd(passwordCheck);
 
         ids.forEach(id -> {
             removeById(id);

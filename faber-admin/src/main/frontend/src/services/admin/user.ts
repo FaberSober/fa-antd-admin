@@ -16,9 +16,6 @@ class User extends BaseApi<Admin.User, string, Admin.UserWeb> {
   /** 获取用户信息 */
   getLoginUser = (): Promise<Ajax.Response<Admin.User>> => this.get('getLoginUser');
 
-	/** 获取用户信息 */
-	getUserInfo = (): Promise<Ajax.Response<FaberBase.UserInfo>> => this.get(`front/info`);
-
 	/** 分页查询 */
 	pageOut = (params: UserWebQuery): Promise<Ajax.Response<Ajax.Page<Admin.UserWeb>>> => this.post(`pageOut`, params);
 
