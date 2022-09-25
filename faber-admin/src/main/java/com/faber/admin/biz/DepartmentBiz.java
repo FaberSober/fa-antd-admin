@@ -81,7 +81,6 @@ public class DepartmentBiz extends BaseTreeBiz<DepartmentMapper, Department> {
 
     public DepartmentInfo getInfoById(String id) {
         Department entity = getById(id);
-        checkBeanValid(entity);
 
         DepartmentInfo info = new DepartmentInfo();
         BeanUtil.copyProperties(entity, info);

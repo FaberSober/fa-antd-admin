@@ -56,9 +56,6 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     @Resource
     private DepartmentBiz departmentBiz;
 
-    @Resource
-    private GroupUserBiz groupUserBiz;
-
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     /**
@@ -127,7 +124,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         super.save(entity);
 
         // 关联角色
-        groupUserBiz.changeUserGroup(entity.getId(), entity.getGroupIds());
+//        groupUserBiz.changeUserGroup(entity.getId(), entity.getGroupIds());
 
         return true;
     }
