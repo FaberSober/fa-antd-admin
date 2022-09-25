@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.FaberModalName;
+import com.faber.common.annotation.SqlEquals;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
@@ -30,6 +31,7 @@ public class JobLog implements Serializable {
     @TableId(type = IdType.AUTO)
     private Integer id;
 
+    @SqlEquals
     @ExcelProperty("任务ID")
     // @Column(name = "job_id")
     private Integer jobId;

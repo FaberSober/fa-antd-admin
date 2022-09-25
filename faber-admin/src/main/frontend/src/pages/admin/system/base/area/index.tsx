@@ -59,7 +59,7 @@ export default function AreaList() {
   }
 
   return (
-    <div className="faber-full-content">
+    <Card>
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', marginBottom: 12 }}>
         <div style={{ display: 'flex' }}>
           <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
@@ -98,6 +98,6 @@ export default function AreaList() {
         onConditionChange={(cL) => setConditionList(cL)}
         scrollY={document.body.clientHeight - 275}
       />
-    </div>
+    </Card>
   );
 }

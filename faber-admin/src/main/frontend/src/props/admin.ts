@@ -370,7 +370,7 @@ namespace Admin {
 		/** cron表达式  */
 		cron: string;
 		/** 状态:0未启动false/1启动true  */
-		status: string;
+		status: FaberEnums.BoolEnum;
 		/** 任务执行方法  */
 		clazzPath: string;
 		/** 任务描述  */

@@ -153,7 +153,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
                     if (forceEqual) {
                         ew.eq(fieldColumn, entry.getValue());
                     } else {
-                        ew.like(fieldColumn, SqlUtils.filterLikeValue((String)entry.getValue()));
+                        ew.like(fieldColumn, SqlUtils.filterLikeValue(StrUtil.toString(entry.getValue())));
                     }
                 }
             }
