@@ -252,7 +252,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     }
 
 //    @CacheClear(pre = "user{1}")
-    public boolean accountBaseUpdateApiToken(String userId) {
+    public boolean updateMyApiToken(String userId) {
         User user = getById(userId);
         user.setApiToken(UUID.fastUUID().toString(true));
         return updateById(user);
@@ -295,6 +295,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         });
     }
 
+    @Deprecated
     public UserInfo findUserInfoById(String id) {
         if (id == null) return null;
         User user = getById(id);

@@ -23,8 +23,6 @@ class User extends BaseApi<Admin.User, string, Admin.UserWeb> {
 	pageOut = (params: UserWebQuery): Promise<Ajax.Response<Ajax.Page<Admin.UserWeb>>> => this.post(`pageOut`, params);
 
 	/** ------------------------------------------ 个人账户 操作接口 ------------------------------------------ */
-	/** 获取个人账户基本信息 */
-	accountBase = (): Promise<Ajax.Response<Admin.User>> => this.get(`account/base`);
 
 	/** 更新个人账户基本信息 */
   updateMine = (params: any): Promise<Ajax.Response> => this.post('updateMine', params);
@@ -32,14 +30,6 @@ class User extends BaseApi<Admin.User, string, Admin.UserWeb> {
 	/** 更新个人账户密码 */
   updateMyPwd = (params: any): Promise<Ajax.Response> => this.post('updateMyPwd', params);
 
-	/** 更新账户ApiToken */
-	accountBaseUpdateApiToken = (params: any): Promise<Ajax.Response> => this.post(`account/base/updateApiToken`, params);
-
-	/** 更新个人账户密码 */
-	accountAdminUpdatePwd = (params: any): Promise<Ajax.Response> => this.post(`account/admin/updatePwd`, params);
-
-	/** 更新个人账户密码 */
-	accountAdminDelete = (params: any): Promise<Ajax.Response> => this.post(`account/admin/delete`, params);
 }
 
 export default new User(GATE_APP.admin, serviceModule);

@@ -54,16 +54,6 @@ public class UserController extends BaseController<UserBiz, User, String> {
     }
 
     /**
-     * 获取个人账户基本信息
-     */
-    @RequestMapping(value = "/account/base", method = RequestMethod.GET)
-    @ResponseBody
-    public ObjectRestResponse<User> accountBase() {
-        User user = baseBiz.getById(getCurrentUserId());
-        return ok(user);
-    }
-
-    /**
      * 更新个人账户基本信息
      */
     @RequestMapping(value = "/updateMine", method = RequestMethod.POST)
@@ -86,17 +76,17 @@ public class UserController extends BaseController<UserBiz, User, String> {
     /**
      * 更新账户ApiToken
      */
-    @RequestMapping(value = "/account/base/updateApiToken", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateMyApiToken", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Boolean> accountBaseUpdateApiToken(@RequestBody Map<String, Object> params) {
-        baseBiz.accountBaseUpdateApiToken(getCurrentUserId());
+    public ObjectRestResponse<Boolean> updateMyApiToken(@RequestBody Map<String, Object> params) {
+        baseBiz.updateMyApiToken(getCurrentUserId());
         return ok();
     }
 
     /**
      * 管理员批量更新账户密码
      */
-    @RequestMapping(value = "/account/admin/updatePwd", method = RequestMethod.POST)
+    @RequestMapping(value = "/accountAdminUpdatePwd", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse<Boolean> accountAdminUpdatePwd(@RequestBody Map<String, Object> params) {
         baseBiz.accountAdminUpdatePwd(params);
@@ -106,7 +96,7 @@ public class UserController extends BaseController<UserBiz, User, String> {
     /**
      * 管理员批量删除账户
      */
-    @RequestMapping(value = "/account/admin/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/accountAdminDelete", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse<Boolean> accountAdminDelete(@RequestBody Map<String, Object> params) {
         baseBiz.accountAdminDelete(params);
