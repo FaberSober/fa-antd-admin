@@ -5,11 +5,9 @@ import DragModal, { DragModalProps } from '@/components/modal/DragModal';
 import { showResponse } from '@/utils/utils';
 import { RES_CODE } from '@/configs/server.config';
 import modelService from '@/services/admin/user';
-import groupUserApi from '@/services/admin/groupUser';
 import Admin from '@/props/admin';
 import { DictDataRadio } from '@/components/base-dict';
 import DepartmentCascade from "../helper/DepartmentCascade";
-import GroupTreeSelect from "../helper/GroupTreeSelect";
 import {UploadImgLocal} from "@/components/base-uploader";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
@@ -122,11 +120,11 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
   function initFormData() {
     form.setFieldsValue(getInitialValues())
     if (record !== undefined) {
-      groupUserApi.list({ userId: record.id }).then((res) => {
-        if (res && res.status === RES_CODE.OK) {
-          form.setFieldsValue({ groupIds: res.data.map((i) => i.groupId) })
-        }
-      });
+      // groupUserApi.list({ userId: record.id }).then((res) => {
+      //   if (res && res.status === RES_CODE.OK) {
+      //     form.setFieldsValue({ groupIds: res.data.map((i) => i.groupId) })
+      //   }
+      // });
     }
   }
 
