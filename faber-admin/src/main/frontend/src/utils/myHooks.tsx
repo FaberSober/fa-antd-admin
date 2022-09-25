@@ -35,7 +35,7 @@ export function useInterval(callback: () => void, delay: number) {
 
 export function useClientRect() {
   const [rect, setRect] = useState(null);
-  const ref = useCallback((node) => {
+  const ref = useCallback((node:any) => {
     if (node !== null) {
       setRect(node.getBoundingClientRect());
     }

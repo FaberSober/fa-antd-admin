@@ -43,6 +43,7 @@
 | :--- | :--- | :--- |
 | vite | vitejs构建 | https://www.vitejs.net/ |
 | vite-plugin-pages | 目录路由生成 | https://github.com/hannoeru/vite-plugin-pages |
+| react-router v6 | 路由 | https://github.com/hannoeru/vite-plugin-pages |
 | antd | antd前端组件 | https://ant-design.gitee.io/components/overview-cn/ |
 | fa-cron-react-editor | cron编辑器 | https://github.com/xrutayisire/react-js-cron |
 | use-bus | bus事件通知 | https://github.com/fabienjuif/use-bus |

@@ -11,7 +11,8 @@ export default defineConfig(({ command, mode }) => {
     plugins: [
       react(),
       Pages({
-        exclude: ['**/components/*.tsx', '**/modal/*.tsx'],
+        exclude: ['**/components/*.tsx', '**/modal/*.tsx', '**/cube/*.tsx', '**/drawer/*.tsx'],
+        importMode: 'sync',
       }),
       // 按需导入
       // https://github.com/onebay/vite-plugin-imp

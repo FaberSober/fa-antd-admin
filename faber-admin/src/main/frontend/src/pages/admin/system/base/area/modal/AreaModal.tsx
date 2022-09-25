@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import { get } from 'lodash';
 import { Form, Input } from 'antd';
 import DragModal, { DragModalProps } from '@/components/modal/DragModal';
@@ -7,6 +7,8 @@ import { RES_CODE } from '@/configs/server.config';
 import modelService from '@/services/admin/area';
 import Admin from '@/props/admin';
 import { DictDataSelector } from '@/components/base-dict';
+import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
+import FaberEnums from "@/props/base/FaberEnums";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
@@ -22,48 +24,37 @@ interface IProps extends DragModalProps {
  * 中国行政地区表实体新增、编辑弹框
  */
 export default function AreaModal({ children, title, record, fetchFinish, ...props }: IProps) {
-  const formRef = useRef<any | null>(null);
+  const {loadingEffect} = useContext(ApiEffectLayoutContext)
+  const [form] = Form.useForm();
 
-  const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    setLoading(true);
-    modelService
-      .add(params)
-      .then((res) => {
+    modelService.add(params).then((res) => {
         showResponse(res, `新增${serviceName}`);
         if (res && res.status === RES_CODE.OK) {
           setModalVisible(false);
           if (fetchFinish) fetchFinish();
         }
-        setLoading(false);
       })
-      .catch(() => setLoading(false));
   }
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
-    setLoading(true);
-    modelService
-      .update(params.id, params)
-      .then((res) => {
+    modelService.update(params.id, params).then((res) => {
         showResponse(res, `更新${serviceName}`);
         if (res && res.status === RES_CODE.OK) {
           setModalVisible(false);
           if (fetchFinish) fetchFinish();
         }
-        setLoading(false);
       })
-      .catch(() => setLoading(false));
   }
 
   /** 提交表单 */
   function onFinish(fieldsValue: any) {
     const values = {
       ...fieldsValue,
-      // birthday: getDateStr000(fieldsValue.birthday),
     };
     if (record) {
       invokeUpdateTask({ ...record, ...values });
@@ -72,35 +63,41 @@ export default function AreaModal({ children, title, record, fetchFinish, ...pro
     }
   }
 
+  function getInitialValues() {
+    return {
+      level: get(record, 'level'),
+      parentCode: get(record, 'parentCode'),
+      areaCode: get(record, 'areaCode'),
+      zipCode: get(record, 'zipCode'),
+      cityCode: get(record, 'cityCode'),
+      name: get(record, 'name'),
+      shortName: get(record, 'shortName'),
+      mergerName: get(record, 'mergerName'),
+      pinyin: get(record, 'pinyin'),
+      lng: get(record, 'lng'),
+      lat: get(record, 'lat'),
+    }
+  }
+
+  function showModal() {
+    setModalVisible(true)
+    form.setFieldsValue(getInitialValues())
+  }
+
+  const loading = loadingEffect[modelService.getUrl('add')] || loadingEffect[modelService.getUrl('update')];
   return (
     <span>
-      <span onClick={() => setModalVisible(true)}>{children}</span>
+      <span onClick={showModal}>{children}</span>
       <DragModal
         title={title}
         open={modalVisible}
-        onOk={() => formRef.current.submit()}
+        onOk={() => form.submit()}
         confirmLoading={loading}
         onCancel={() => setModalVisible(false)}
         width={700}
         {...props}
       >
-        <Form
-          ref={formRef}
-          onFinish={onFinish}
-          initialValues={{
-            level: get(record, 'level'),
-            parentCode: get(record, 'parentCode'),
-            areaCode: get(record, 'areaCode'),
-            zipCode: get(record, 'zipCode'),
-            cityCode: get(record, 'cityCode'),
-            name: get(record, 'name'),
-            shortName: get(record, 'shortName'),
-            mergerName: get(record, 'mergerName'),
-            pinyin: get(record, 'pinyin'),
-            lng: get(record, 'lng'),
-            lat: get(record, 'lat'),
-          }}
-        >
+        <Form form={form} onFinish={onFinish}>
           <Form.Item name="level" label="层级" rules={[{ required: true }]} {...formItemFullLayout}>
             <DictDataSelector dictLabel="common_area_level" />
           </Form.Item>
