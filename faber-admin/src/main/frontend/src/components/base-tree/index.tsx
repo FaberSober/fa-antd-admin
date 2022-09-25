@@ -11,6 +11,7 @@ import Ajax from '@/props/base/Ajax';
 import FaberBase from '@/props/base/FaberBase';
 import './index.less';
 import { TreeProps } from 'antd/es/tree';
+import {FaHref} from "@/components/decorator";
 
 
 export interface BaseTreeContextProps {
@@ -32,7 +33,7 @@ interface IProps<T, KeyType = number> extends TreeProps {
   showTips?: boolean; // 是否展示操作按钮
   tips?: string; // 是否展示操作按钮
   serviceName?: string; // 业务模块名称
-  ServiceModal?: ReactNode; // 业务新增、编辑弹框
+  ServiceModal?: ReactNode|Element; // 业务新增、编辑弹框
   className?: any;
   bodyStyle?: CSSProperties; // body补充样式
   treeStyle?: CSSProperties; // body补充样式
@@ -96,7 +97,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
     fetchCourtTree();
   }, [renderCount, extraEffectArgs]);
 
-  function handleAddItem(e: any, item?: BaseTreeProps.TreeNode) {
+  function handleAddItem(e?: any, item?: BaseTreeProps.TreeNode) {
     if (e) e.stopPropagation();
     setClickItem(item);
     setEditItemModalVisible(false);
@@ -325,9 +326,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
         <div style={{ padding: 12, display: 'flex', alignItems: 'center' }}>
           <div style={{ flex: 1 }}>
             {showTopAddBtn && (
-              <Button onClick={handleAddItem} icon={<PlusOutlined />}>
-                新增{serviceName}
-              </Button>
+              <FaHref onClick={handleAddItem} icon={<PlusOutlined />} text={`新增${serviceName}`} />
             )}
           </div>
           <Space>
