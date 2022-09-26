@@ -14,7 +14,7 @@
 3. 启动前端服务，
    1. 进入前端项目地址：`faber-admin/src/main/frontend`
    2. 安装依赖：`yarn`
-   3. 启动项目：`yarn start`
+   3. 启动项目：`yarn dev`
 
 ## 打包部署
 1. 在项目根目录下执行：`mvn clean package -Dmaven.test.skip=true`
