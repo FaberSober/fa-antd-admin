@@ -4,7 +4,7 @@
 
 ## 项目说明
 一个前后端分离的springboot项目，未使用微服务，部署简单。maven一键打包前后端代码，只需部署一个最终的jar来启动服务。适合小型项目。
-- 前端：react17 + antd4.x + vite3(快速开发 + 打包生产)
+- 前端：react18 + antd4.x + vite3(快速开发 + 打包生产)
 - 后端：springboot2.4.x
 - 环境：mysql5.7 + redis4
 
