@@ -9,13 +9,14 @@ import {
 import './index.less'
 
 import routes from '~react-pages'
+import {PageLoading} from "@/components/antd-pro";
 
 // eslint-disable-next-line no-console
 console.log(routes)
 
 function App() {
   return (
-    <Suspense fallback={<p>Loading...</p>}>
+    <Suspense fallback={<PageLoading />}>
       {useRoutes(routes)}
     </Suspense>
   )
