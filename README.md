@@ -101,3 +101,6 @@ ncu -u --timeout 120000 --reject husky
 
 ## 2022-09-07
 1. 增加定时任务执行日志
+
+# 参考资料
+[RABC 权限拦截设置](https://blog.csdn.net/ytsydmx/article/details/123801763)
