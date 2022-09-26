@@ -20,13 +20,13 @@ export default function SideMenu() {
       key: i.id,
       label: i.name,
       children: loop(i.children),
-      icon: i.sourceData.icon ? <i className={i.sourceData.icon} /> : null,
+      icon: i.sourceData.icon ? <div className="faber-flex-column-center" style={{ width: 20, display: 'inline-block' }}><i className={i.sourceData.icon} /></div> : null,
     }))
   }
   const items = loop(menuTree)
 
   const rootSubmenuKeys = menuTree.map(i => i.id)
-  const onOpenChange = keys => {
+  const onOpenChange = (keys:string[]) => {
     const latestOpenKey = keys.find(key => openSideMenuKeys.indexOf(key) === -1);
     if (rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
       setOpenSideMenuKeys(keys);
