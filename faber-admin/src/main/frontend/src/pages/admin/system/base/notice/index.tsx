@@ -28,7 +28,7 @@ export default function NoticeList() {
     return [
       // BaseTableUtils.genSimpleSorterColumn('ID', 'id', 70, sorter),
       BaseTableUtils.genSimpleSorterColumn('标题', 'title', 200, sorter),
-      BaseTableUtils.genSimpleSorterColumn('内容', 'content', 300, sorter),
+      BaseTableUtils.genSimpleSorterColumn('内容', 'content', undefined, sorter),
       {
         ...BaseTableUtils.genSimpleSorterColumn('图片', 'url', 100, sorter),
         sorter: false,

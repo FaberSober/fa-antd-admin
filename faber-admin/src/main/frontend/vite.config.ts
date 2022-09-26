@@ -12,7 +12,7 @@ export default defineConfig(({ command, mode }) => {
     plugins: [
       react(),
       Pages({
-        exclude: ['**/components/*.tsx', '**/modal/*.tsx', '**/cube/*.tsx', '**/drawer/*.tsx'],
+        exclude: ['**/components/*.tsx', '**/modal/*.tsx', '**/cube/*.tsx', '**/drawer/*.tsx', '**/helper/*.tsx'],
         importMode: 'sync',
       }),
       // 按需导入
