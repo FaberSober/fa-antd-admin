@@ -70,7 +70,7 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper,RbacUserRole> {
         List<Long> menuIds = roleMenuList.stream().map(RbacRoleMenu::getMenuId).collect(Collectors.toList());
         if (menuIds.isEmpty()) return new ArrayList<>();
 
-        return rbacMenuBiz.lambdaQuery().in(RbacMenu::getId, menuIds).list();
+        return rbacMenuBiz.lambdaQuery().in(RbacMenu::getId, menuIds).orderByAsc(RbacMenu::getSort).list();
     }
 
     public List<TreeNode<RbacMenu>> getMyMenusTree() {
