@@ -24,6 +24,10 @@ public class RbacMenuBiz extends BaseTreeBiz<RbacMenuMapper,RbacMenu> {
     @Override
     public boolean save(RbacMenu entity) {
         super.setNextSort(entity);
+
+        long count = lambdaQuery().eq(RbacMenu::getLinkUrl, entity.getLinkUrl()).count();
+        if (count > 0) throw new BuzzException("链接已存在，不可重复录入");
+
         return super.save(entity);
     }
 
@@ -32,6 +36,10 @@ public class RbacMenuBiz extends BaseTreeBiz<RbacMenuMapper,RbacMenu> {
         if (ObjectUtil.equal(entity.getParentId(), entity.getId())) {
             throw new BuzzException("父节点不能是自身");
         }
+
+        long count = lambdaQuery().eq(RbacMenu::getLinkUrl, entity.getLinkUrl()).ne(RbacMenu::getId, entity.getId()).count();
+        if (count > 0) throw new BuzzException("链接已存在，不可重复录入");
+
         return super.updateById(entity);
     }
 

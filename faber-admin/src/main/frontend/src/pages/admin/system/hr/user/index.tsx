@@ -58,9 +58,9 @@ export default function UserDepartmentManage() {
             {
               key: 'add-dict',
               menuTitle: (
-                <>
+                <div>
                   <PlusOutlined /> 新增账户
-                </>
+                </div>
               ),
               onMenuClick: () => listRef.current.showAddModal(),
             },

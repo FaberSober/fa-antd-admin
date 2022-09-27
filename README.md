@@ -104,8 +104,8 @@ ncu -u --timeout 120000 --reject husky
 # RoadMap
 - [X] 账户表改为逻辑删除
 - [X] 不能删除自身账户和admin账户
-- [ ] 权限element#code不能重复
-- [ ] 优化权限菜单操作、展示效果
+- [X] 权限rbac_menu#link_url不能重复
+- [X] 优化权限菜单操作、展示效果
 - [ ] 删掉无用的Bean属性
 - [ ] 登录设备日志记录
 - [X] 请求URL日志记录
@@ -122,7 +122,7 @@ ncu -u --timeout 120000 --reject husky
 - [X] 切换MyBatis-Plus，delState类型变更为int
 - [ ] SpringDoc：https://blog.csdn.net/wdj_yyds/article/details/125174042
 - [ ] 前端tree结构的根结点ID切换为0，并使用统一的枚举值
-- [ ] 导出Excel需要适配Enum类型属性的转换
+- [X] 导出Excel需要适配Enum类型属性的转换
 - [ ] 剔除多余的hooks使用
 
 # 前端代码迁移
