@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.FaberModalName;
 import com.faber.common.bean.BaseDelEntity;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 
 /**
@@ -20,7 +19,6 @@ import lombok.experimental.Accessors;
 @FaberModalName(name = "BASE-用户角色关联表")
 @TableName("base_rbac_user_role")
 @Data
-@Accessors(chain = true)
 public class RbacUserRole extends BaseDelEntity {
 
     @ExcelProperty("ID")

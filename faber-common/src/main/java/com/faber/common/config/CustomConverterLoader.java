@@ -1,8 +1,10 @@
 package com.faber.common.config;
 
+import cn.hutool.core.util.ClassUtil;
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.converters.ConverterKeyBuild;
 import com.alibaba.excel.converters.DefaultConverterLoader;
+import com.baomidou.mybatisplus.annotation.IEnum;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,11 +27,15 @@ public class CustomConverterLoader {
 
         Map<ConverterKeyBuild.ConverterKey, Converter<?>> defaultWriteConverter = DefaultConverterLoader.loadDefaultWriteConverter();
         defaultWriteConverter.put(ConverterKeyBuild.buildKey(localDateConverter.supportJavaTypeKey()), localDateConverter);
-        defaultWriteConverter.put(ConverterKeyBuild.buildKey(baseEnumConverter.supportJavaTypeKey()), baseEnumConverter);
 
         Map<ConverterKeyBuild.ConverterKey, Converter<?>> allConverter = DefaultConverterLoader.loadAllConverter();
         allConverter.put(ConverterKeyBuild.buildKey(localDateConverter.supportJavaTypeKey(), localDateConverter.supportExcelTypeKey()), localDateConverter);
-        allConverter.put(ConverterKeyBuild.buildKey(baseEnumConverter.supportJavaTypeKey(), baseEnumConverter.supportExcelTypeKey()), baseEnumConverter);
+
+        // 扫描com.faber.common.enums包下的枚举类
+        ClassUtil.scanPackageBySuper("com.faber.common.enums", IEnum.class).forEach((clazz -> {
+            defaultWriteConverter.put(ConverterKeyBuild.buildKey(clazz), baseEnumConverter);
+            allConverter.put(ConverterKeyBuild.buildKey(clazz, baseEnumConverter.supportExcelTypeKey()), baseEnumConverter);
+        }));
 
         return converters;
     }

@@ -7,10 +7,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.FaberModalName;
 import com.faber.common.bean.BaseDelEntity;
-import com.faber.common.config.BaseEnumConverter;
 import com.faber.common.enums.BoolEnum;
 import lombok.Data;
-import lombok.experimental.Accessors;
+import lombok.ToString;
 
 
 /**
@@ -23,7 +22,7 @@ import lombok.experimental.Accessors;
 @FaberModalName(name = "BASE-角色表")
 @TableName("base_rbac_role")
 @Data
-@Accessors(chain = true)
+@ToString
 public class RbacRole extends BaseDelEntity {
 
     @ColumnWidth(8)
@@ -37,7 +36,7 @@ public class RbacRole extends BaseDelEntity {
     @ExcelProperty("角色描述")
     private String remarks;
 
-    @ExcelProperty(value = "是否启用", converter = BaseEnumConverter.class)
+    @ExcelProperty("是否启用")
     private BoolEnum status;
 
 }

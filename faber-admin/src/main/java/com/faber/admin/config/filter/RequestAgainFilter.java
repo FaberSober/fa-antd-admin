@@ -6,6 +6,7 @@ import com.faber.admin.config.filter.wrapper.BodyHttpServletResponseWrapper;
 import com.faber.admin.entity.GateLog;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.util.IpUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,6 +25,7 @@ import java.util.List;
  * 3. 记录请求日志；
  * 4. 销毁上下文中记录的登录用户信息；
  */
+@Slf4j
 @WebFilter(filterName = "RequestAgainFilter", urlPatterns = "/api/*")
 public class RequestAgainFilter implements Filter {
 
@@ -92,6 +94,6 @@ public class RequestAgainFilter implements Filter {
      */
     @Override
     public void destroy() {
-        System.out.println("销毁过滤器!");
+        log.debug("销毁过滤器!");
     }
 }

@@ -1,16 +1,12 @@
 package com.faber.common.enums;
 
-import com.alibaba.fastjson.annotation.JSONType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Getter
-@JSONType(serializeEnumAsJavaBean = true)
+//@JSONType(serializeEnumAsJavaBean = true)
 public enum RbacMenuLevelEnum implements IEnum<Integer> {
     APP(0, "模块"),
     LEVEL_1(1, "一级菜单"),

@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.FaberModalName;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,7 +24,6 @@ import java.math.BigDecimal;
 @FaberModalName(name = "${comments}")
 @TableName("${tableName}")
 @Data
-@Accessors(chain = true)
 public class ${className} implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

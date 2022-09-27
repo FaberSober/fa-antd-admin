@@ -8,7 +8,6 @@ import com.faber.common.annotation.FaberModalName;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.enums.BoolEnum;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 
 /**
@@ -21,7 +20,6 @@ import lombok.experimental.Accessors;
 @FaberModalName(name = "BASE-角色权限对应表")
 @TableName("base_rbac_role_menu")
 @Data
-@Accessors(chain = true)
 public class RbacRoleMenu extends BaseDelEntity {
 
     @ExcelProperty("ID")
@@ -34,7 +32,7 @@ public class RbacRoleMenu extends BaseDelEntity {
     @ExcelProperty("权限ID")
     private Long menuId;
 
-    @ExcelProperty("是否半勾选0-否/1-是")
+    @ExcelProperty("是否半勾选")
     private BoolEnum halfChecked;
 
 }

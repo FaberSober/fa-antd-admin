@@ -16,14 +16,12 @@ import com.faber.common.validator.TelNoValidator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import java.util.Date;
 import java.util.List;
 
 @FaberModalName(name = "账户")
 @Data
-@Accessors(chain = true)
 @TableName("base_user")
 public class User extends BaseDelEntity {
 

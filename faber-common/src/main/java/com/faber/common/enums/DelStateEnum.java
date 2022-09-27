@@ -24,4 +24,5 @@ public enum DelStateEnum implements IEnum<Integer> {
     public Integer getValue() {
         return code;
     }
+
 }

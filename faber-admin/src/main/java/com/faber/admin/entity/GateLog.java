@@ -7,11 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.FaberModalName;
 import com.faber.common.annotation.SqlSearch;
 import com.faber.common.bean.BaseCrtEntity;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 
 /**
  * URL请求日志
@@ -20,7 +17,6 @@ import lombok.experimental.Accessors;
 @TableName("base_gate_log")
 @Data
 @ToString
-@Accessors(chain = true)
 public class GateLog extends BaseCrtEntity {
 
     @TableId(type = IdType.AUTO)

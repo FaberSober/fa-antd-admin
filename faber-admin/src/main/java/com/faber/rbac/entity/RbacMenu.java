@@ -10,7 +10,6 @@ import com.faber.common.enums.BoolEnum;
 import com.faber.common.enums.RbacLinkTypeEnum;
 import com.faber.common.enums.RbacMenuLevelEnum;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 
 /**
@@ -23,7 +22,6 @@ import lombok.experimental.Accessors;
 @FaberModalName(name = "BASE-权限表")
 @TableName("base_rbac_menu")
 @Data
-@Accessors(chain = true)
 public class RbacMenu extends BaseDelEntity {
 
     @SqlTreeId

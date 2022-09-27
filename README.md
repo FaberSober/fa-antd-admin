@@ -30,12 +30,45 @@
 ## 一些约定
 1. tree结构数据，根结点的ID默认为0；
 
+### 2. 枚举类型定义约定
+```java
+package com.faber.common.enums;
+
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.baomidou.mybatisplus.annotation.IEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.Getter;
+
+@Getter
+public enum BoolEnum implements IEnum<Integer> {
+    NO(0, "否"),
+    YES(1, "是");
+
+    @JsonValue
+    @EnumValue
+    private final Integer code; // 1. 使用code表示枚举值
+    private final String val; // 2. 使用val表示枚举字段
+
+    BoolEnum(Integer code, String val) {
+        this.code = code;
+        this.val = val;
+    }
+
+    @Override
+    public Integer getValue() {
+        return code;
+    }
+
+}
+
+```
+
 # 使用插件
 ## 后端
 | 插件 | 官网 |
 | :--- | :--- |
 | MyBatis-Plus | https://baomidou.com/ |
-| hutool | https://hutool.cn/docs/#/ |
+| hutool | https://hutool.cn/docs/ |
 | easyexcel | https://easyexcel.opensource.alibaba.com/ |
 
 
@@ -105,3 +138,4 @@ ncu -u --timeout 120000 --reject husky
 
 # 参考资料
 [RABC 权限拦截设置](https://blog.csdn.net/ytsydmx/article/details/123801763)
+[EasyExcel与@Accessors(chain = true)不兼容分析](https://blog.csdn.net/qq_28036249/article/details/108035369)

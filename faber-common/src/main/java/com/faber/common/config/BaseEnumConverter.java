@@ -1,23 +1,29 @@
 package com.faber.common.config;
 
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.ReflectUtil;
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.enums.CellDataTypeEnum;
 import com.alibaba.excel.metadata.GlobalConfiguration;
 import com.alibaba.excel.metadata.data.ReadCellData;
 import com.alibaba.excel.metadata.data.WriteCellData;
 import com.alibaba.excel.metadata.property.ExcelContentProperty;
-import com.faber.common.enums.BaseEnum;
+import com.baomidou.mybatisplus.annotation.IEnum;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
 /**
- * FIXME：导出Excel需要适配Enum类型属性的转换
+ * 导出Excel适配Enum类型属性的转换。
+ * 约定如下：
  */
 @Component
-public class BaseEnumConverter implements Converter<BaseEnum> {
+public class BaseEnumConverter implements Converter<IEnum> {
 
     @Override
     public Class supportJavaTypeKey() {
-        return BaseEnum.class;
+        return IEnum.class;
     }
 
     @Override
@@ -26,15 +32,25 @@ public class BaseEnumConverter implements Converter<BaseEnum> {
     }
 
     @Override
-    public BaseEnum convertToJavaData(ReadCellData<?> cellData, ExcelContentProperty contentProperty, GlobalConfiguration globalConfiguration) throws Exception {
-        // FIXME：取值转换为BaseEnum对象
-        String stringValue = cellData.getStringValue();
-        return null;
+    public IEnum convertToJavaData(ReadCellData<?> cellData, ExcelContentProperty contentProperty, GlobalConfiguration globalConfiguration) throws Exception {
+        Class<IEnum> clazzField = (Class<IEnum>) contentProperty.getField().getType();
+
+        Object bVal = cellData.getStringValue();
+
+        // 通过枚举的values方法获取全部枚举
+        Method methodValues = ReflectUtil.getMethod(clazzField, "values");
+        return Arrays.stream((IEnum[]) ReflectUtil.invokeStatic(methodValues))
+                .filter(a -> {
+                    Object aVal = ReflectUtil.getFieldValue(a, "val");
+                    return ObjectUtil.equal(aVal, bVal);
+                })
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
-    public WriteCellData<String> convertToExcelData(BaseEnum value, ExcelContentProperty contentProperty, GlobalConfiguration globalConfiguration) throws Exception {
-        return new WriteCellData(value.getValDesc());
+    public WriteCellData<String> convertToExcelData(IEnum value, ExcelContentProperty contentProperty, GlobalConfiguration globalConfiguration) throws Exception {
+        return new WriteCellData((String)ReflectUtil.getFieldValue(value, "val"));
     }
 
 }

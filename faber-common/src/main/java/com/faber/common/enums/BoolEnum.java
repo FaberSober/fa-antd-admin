@@ -1,15 +1,12 @@
 package com.faber.common.enums;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
-import java.util.Arrays;
-
 @Getter
-public enum BoolEnum implements IEnum<Integer>, BaseEnum {
+public enum BoolEnum implements IEnum<Integer> {
     NO(0, "否"),
     YES(1, "是");
 
@@ -28,16 +25,15 @@ public enum BoolEnum implements IEnum<Integer>, BaseEnum {
         return code;
     }
 
-    @Override
-    public String getValDesc() {
-        return val;
-    }
-
-    @Override
-    public BaseEnum parseFromString(String val) {
-        return Arrays.stream(BoolEnum.values())
-                .filter(a -> ObjectUtil.equal(a.val, val))
-                .findFirst().orElse(null);
-    }
+//    @Override
+//    public String getValDesc() {
+//        return val;
+//    }
+//
+//    public static BoolEnum parseFromString(String val) {
+//        return Arrays.stream(BoolEnum.values())
+//                .filter(a -> ObjectUtil.equal(a.val, val))
+//                .findFirst().orElse(null);
+//    }
 
 }
