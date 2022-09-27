@@ -46,7 +46,9 @@ public class MsgBiz extends BaseBiz<MsgMapper, Msg> {
                 .eq(Msg::getIsRead, BoolEnum.NO)
                 .count();
 
-        return new MsgStatisticVO().setUnreadCount(unreadCount);
+        MsgStatisticVO vo = new MsgStatisticVO();
+        vo.setUnreadCount(unreadCount);
+        return vo;
     }
 
     /**

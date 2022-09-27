@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.FaberModalName;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.enums.BoolEnum;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -20,6 +22,8 @@ import lombok.Data;
 @FaberModalName(name = "BASE-角色权限对应表")
 @TableName("base_rbac_role_menu")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RbacRoleMenu extends BaseDelEntity {
 
     @ExcelProperty("ID")

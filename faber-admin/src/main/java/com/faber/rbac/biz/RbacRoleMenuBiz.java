@@ -33,10 +33,11 @@ public class RbacRoleMenuBiz extends BaseBiz<RbacRoleMenuMapper, RbacRoleMenu> {
     }
 
     public RoleMenuVo getRoleMenu(Long roleId) {
-        return new RoleMenuVo()
-                .setRoleId(roleId)
-                .setCheckedRoleIds(this.getMenuIdsWithHalfCheck(roleId, BoolEnum.NO))
-                .setHalfCheckedRoleIds(this.getMenuIdsWithHalfCheck(roleId, BoolEnum.YES));
+        RoleMenuVo vo = new RoleMenuVo();
+        vo.setRoleId(roleId);
+        vo.setCheckedRoleIds(this.getMenuIdsWithHalfCheck(roleId, BoolEnum.NO));
+        vo.setHalfCheckedRoleIds(this.getMenuIdsWithHalfCheck(roleId, BoolEnum.YES));
+        return vo;
     }
 
     public void updateRoleMenu(RoleMenuVo roleMenuVo) {
@@ -46,10 +47,10 @@ public class RbacRoleMenuBiz extends BaseBiz<RbacRoleMenuMapper, RbacRoleMenu> {
 
         List<RbacRoleMenu> list = new ArrayList<>();
         for (Long menuId : roleMenuVo.getCheckedRoleIds()) {
-            list.add(new RbacRoleMenu().setRoleId(roleId).setMenuId(menuId).setHalfChecked(BoolEnum.NO));
+            list.add(new RbacRoleMenu(null, roleId, menuId, BoolEnum.NO));
         }
         for (Long menuId : roleMenuVo.getHalfCheckedRoleIds()) {
-            list.add(new RbacRoleMenu().setRoleId(roleId).setMenuId(menuId).setHalfChecked(BoolEnum.YES));
+            list.add(new RbacRoleMenu(null, roleId, menuId, BoolEnum.YES));
         }
 
         this.saveBatch(list);
