@@ -1,7 +1,6 @@
 package com.faber.common.context;
 
 import com.faber.common.constant.CommonConstants;
-import com.faber.common.util.StringHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,18 +43,15 @@ public class BaseContextHandler {
 
 
     public static String getName() {
-        Object value = get(CommonConstants.CONTEXT_KEY_USER_NAME);
-        return StringHelper.getObjectValue(value);
+        return (String) get(CommonConstants.CONTEXT_KEY_USER_NAME);
     }
 
     public static String getToken() {
-        Object value = get(CommonConstants.CONTEXT_KEY_USER_TOKEN);
-        return StringHelper.getObjectValue(value);
+        return (String) get(CommonConstants.CONTEXT_KEY_USER_TOKEN);
     }
 
     public static String getIp() {
-        Object value = get(CommonConstants.CONTEXT_KEY_USER_IP);
-        return StringHelper.getObjectValue(value);
+        return (String) get(CommonConstants.CONTEXT_KEY_USER_IP);
     }
 
     public static Boolean getLogin() {

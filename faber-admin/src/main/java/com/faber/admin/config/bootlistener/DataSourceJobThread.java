@@ -1,10 +1,9 @@
 package com.faber.admin.config.bootlistener;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.faber.admin.biz.JobBiz;
 import com.faber.admin.config.quartz.JobTask;
 import com.faber.admin.entity.Job;
-import com.faber.admin.mapper.JobMapper;
-import com.faber.common.util.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 
