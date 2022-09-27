@@ -12,7 +12,7 @@ import com.faber.admin.vo.UserAccountVo;
 import com.faber.admin.vo.UserInfo;
 import com.faber.admin.vo.UserWeb;
 import com.faber.common.biz.BaseBiz;
-import com.faber.common.constant.UserConstant;
+import com.faber.common.constant.CommonConstants;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.enums.BoolEnum;
 import com.faber.common.exception.BuzzException;
@@ -117,7 +117,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         this.checkBeanValid(entity);
 
         // 初始化密码888888
-        String password = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT).encode("888888");
+        String password = new BCryptPasswordEncoder(CommonConstants.PW_ENCODER_SALT).encode("888888");
         entity.setPassword(password);
 
         super.save(entity);
@@ -228,7 +228,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         User beanDB = getById(id);
         if (beanDB == null) throw new NoDataException();
 
-        String password = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT).encode(newPwd);
+        String password = new BCryptPasswordEncoder(CommonConstants.PW_ENCODER_SALT).encode(newPwd);
         beanDB.setPassword(password);
         return updateById(beanDB);
     }
@@ -266,7 +266,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
 
         this.validateCurrentUserPwd(oldPwd);
 
-        String password = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT).encode(newPwd);
+        String password = new BCryptPasswordEncoder(CommonConstants.PW_ENCODER_SALT).encode(newPwd);
         user.setPassword(password);
         return updateById(user);
     }
@@ -293,7 +293,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
             throw new BuzzException("新密码长度错误");
         }
 
-        String password = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT).encode(newPwd.trim());
+        String password = new BCryptPasswordEncoder(CommonConstants.PW_ENCODER_SALT).encode(newPwd.trim());
         ids.forEach(id -> {
             User user = getById(id);
             user.setPassword(password);

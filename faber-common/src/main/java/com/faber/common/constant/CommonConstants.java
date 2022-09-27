@@ -15,6 +15,9 @@ public class CommonConstants {
     // ---------------- 其他异常 ----------------
     public static final Integer EX_OTHER_CODE = 500;
 
+    /** 密码盐 */
+    public static int PW_ENCODER_SALT = 12;
+
     // ---------------- 上下文信息 ----------------
     public static final String CONTEXT_KEY_LOGIN = "currentLogin";
     public static final String CONTEXT_KEY_USER_ID = "currentUserId";
