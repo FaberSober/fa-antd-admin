@@ -7,6 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.ace.cache.api.CacheAPI;
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -350,6 +351,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         EasyExcel
                 .write(response.getOutputStream(), clazz)
                 .registerWriteHandler(EasyExcelUtils.genHeaderWriteStyle())
+                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy())
 //                .registerConverter(new BaseEnumConverter())
 //                .registerConverter(new LocalDateTimeConverter())
                 .sheet("Sheet1")

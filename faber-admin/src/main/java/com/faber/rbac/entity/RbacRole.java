@@ -1,6 +1,7 @@
 package com.faber.rbac.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -25,6 +26,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class RbacRole extends BaseDelEntity {
 
+    @ColumnWidth(8)
     @ExcelProperty("ID")
     @TableId(type = IdType.AUTO)
     private Long id;

@@ -4,7 +4,6 @@ import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.faber.common.config.LocalDateTimeConverter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,7 +16,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 public abstract class BaseUpdEntity extends BaseCrtEntity {
 
-    @ExcelProperty(value = "更新时间", converter = LocalDateTimeConverter.class)
+    @ExcelProperty("更新时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updTime;
