@@ -16,6 +16,8 @@ import com.faber.admin.mapper.ConfigMapper;
 import com.faber.common.annotation.FaberModalName;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.bean.BaseDelEntity;
+import com.faber.common.config.BaseEnumConverter;
+import com.faber.common.config.LocalDateTimeConverter;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.enums.DelStateEnum;
 import com.faber.common.exception.BuzzException;
@@ -345,7 +347,13 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
         response.setHeader("faber-filename", fileName + ".xlsx");
 
-        EasyExcel.write(response.getOutputStream(), clazz).registerWriteHandler(EasyExcelUtils.genHeaderWriteStyle()).sheet("模板").doWrite(list);
+        EasyExcel
+                .write(response.getOutputStream(), clazz)
+                .registerWriteHandler(EasyExcelUtils.genHeaderWriteStyle())
+//                .registerConverter(new BaseEnumConverter())
+//                .registerConverter(new LocalDateTimeConverter())
+                .sheet("Sheet1")
+                .doWrite(list);
     }
 
     public String getCurrentName() {

@@ -1,5 +1,6 @@
 package com.faber.common.bean;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.faber.common.enums.DelStateEnum;
@@ -12,6 +13,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public abstract class BaseDelEntity extends BaseUpdEntity {
 
+    @ExcelIgnore
     @TableLogic(value = "0", delval = "1")
     @TableField(select = false)
     private DelStateEnum delState;

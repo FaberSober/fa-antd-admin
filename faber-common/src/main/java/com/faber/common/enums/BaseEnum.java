@@ -4,4 +4,6 @@ public interface BaseEnum {
 
     String getValDesc();
 
+    BaseEnum parseFromString(String val);
+
 }

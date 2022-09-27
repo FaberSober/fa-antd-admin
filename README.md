@@ -36,6 +36,7 @@
 | :--- | :--- |
 | MyBatis-Plus | https://baomidou.com/ |
 | hutool | https://hutool.cn/docs/#/ |
+| easyexcel | https://easyexcel.opensource.alibaba.com/ |
 
 
 ## 前端

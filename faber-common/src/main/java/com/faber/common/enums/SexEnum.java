@@ -1,9 +1,12 @@
 package com.faber.common.enums;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+
+import java.util.Arrays;
 
 @Getter
 public enum SexEnum implements IEnum<Integer>, BaseEnum {
@@ -29,5 +32,12 @@ public enum SexEnum implements IEnum<Integer>, BaseEnum {
     @Override
     public String getValDesc() {
         return val;
+    }
+
+    @Override
+    public BaseEnum parseFromString(String val) {
+        return Arrays.stream(SexEnum.values())
+                .filter(a -> ObjectUtil.equal(a.val, val))
+                .findFirst().orElse(null);
     }
 }
