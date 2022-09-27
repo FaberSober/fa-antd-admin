@@ -87,7 +87,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     }
 
     public User getLoginUser() {
-        User user = getUserById(BaseContextHandler.getUserID());
+        User user = getUserById(BaseContextHandler.getUserId());
         if (user.getStatus() == BoolEnum.NO) throw new BuzzException("无效账户");
         user.setPassword(null);
         return user;

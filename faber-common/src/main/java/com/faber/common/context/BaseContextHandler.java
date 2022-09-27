@@ -32,7 +32,7 @@ public class BaseContextHandler {
         return map.get(key);
     }
 
-    public static String getUserID() {
+    public static String getUserId() {
         Object value = get(CommonConstants.CONTEXT_KEY_USER_ID);
         return returnObjectValue(value);
     }
@@ -75,8 +75,8 @@ public class BaseContextHandler {
         set(CommonConstants.CONTEXT_KEY_USER_NAME, name);
     }
 
-    public static void setUserID(String userID) {
-        set(CommonConstants.CONTEXT_KEY_USER_ID, userID);
+    public static void setUserId(String userId) {
+        set(CommonConstants.CONTEXT_KEY_USER_ID, userId);
     }
 
     public static void setUsername(String username) {

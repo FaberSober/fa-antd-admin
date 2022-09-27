@@ -1,36 +1,32 @@
 import React from 'react';
-import { DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { DownloadOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Card, Form, Input, Space } from 'antd';
-import { ShiroPermissionContainer } from '@/components/auth';
 import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import { useExport, useTableQueryParams, clearForm, useDelete } from "@/utils/myHooks";
-import modelService from '@/services/${moduleName}/${secondModuleName}';
-import ${moduleNameUpperCaseFirstOne} from '@/props/${moduleName}';
-import ${className}Modal from './modal/${className}Modal';
+import modelService from '@/services/admin/logLogin';
+import Admin from '@/props/admin';
 
-const serviceName = '${comments}';
-const buzzModal = '${tableName}';
+const serviceName = '登录日志';
+const buzzModal = 'base_log_login';
 
-export default function ${className}List() {
+export default function LogLoginList() {
   const [form] = Form.useForm();
 
   const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, paginationProps } =
-          useTableQueryParams<${moduleNameUpperCaseFirstOne}.${className}>(modelService.page, {}, serviceName)
+    useTableQueryParams<Admin.LogLogin>(modelService.page, {}, serviceName)
 
   const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName)
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams)
 
   /** 生成表格字段List */
-  function genColumns():FaberTable.ColumnsProp<${moduleNameUpperCaseFirstOne}.${className}>[] {
+  function genColumns():FaberTable.ColumnsProp<Admin.LogLogin>[] {
     const { sorter } = queryParams;
     return [
-#foreach ($column in $columns)
-#if($column.columnName == $pk.columnName)
-      BaseTableUtils.genIdColumn('${column.comments}', '${column.attrname}', 70, sorter),
-#elseif ($column.attrname != 'crtTime' and $column.attrname != 'crtUser' and $column.attrname != 'crtName' and $column.attrname != 'crtHost' and $column.attrname != 'updTime' and $column.attrname != 'updUser' and $column.attrname != 'updName' and $column.attrname != 'updHost' and $column.attrname != 'delState' and $column.attrname != 'delTime' and $column.attrname != 'delUser' and $column.attrname != 'delName' and $column.attrname != 'delHost')
-      BaseTableUtils.genSimpleSorterColumn('${column.comments}', '${column.attrname}', 100, sorter),
-#end
-#end
+      BaseTableUtils.genIdColumn('序号', 'id', 70, sorter),
+      BaseTableUtils.genSimpleSorterColumn('访问客户端', 'agent', undefined, sorter),
+      BaseTableUtils.genSimpleSorterColumn('省', 'pro', 100, sorter),
+      BaseTableUtils.genSimpleSorterColumn('市', 'city', 100, sorter),
+      BaseTableUtils.genSimpleSorterColumn('地址', 'addr', 100, sorter),
       ...BaseTableUtils.genCtrColumns(sorter),
       ...BaseTableUtils.genUpdateColumns(sorter),
       {
@@ -38,14 +34,6 @@ export default function ${className}List() {
         dataIndex: 'opr',
         render: (_, record) => (
           <Space>
-            <ShiroPermissionContainer>
-              <${className}Modal title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList}>
-                <a>
-                  <EditOutlined />
-                  编辑
-                </a>
-              </${className}Modal>
-            </ShiroPermissionContainer>
             <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />
           </Space>
         ),
@@ -80,13 +68,6 @@ export default function ${className}List() {
               <Button onClick={() => clearForm(form)} loading={loading}>
                 重置
               </Button>
-              <ShiroPermissionContainer>
-                <${className}Modal title={`新增${serviceName}信息`} fetchFinish={fetchPageList} destroyOnClose={false}>
-                  <Button icon={<PlusOutlined />} type="primary">
-                    新增
-                  </Button>
-                </${className}Modal>
-              </ShiroPermissionContainer>
               <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
             </Space>
           </div>

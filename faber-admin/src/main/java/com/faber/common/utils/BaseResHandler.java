@@ -15,7 +15,7 @@ public class BaseResHandler {
     }
 
     public String getCurrentUserId() {
-        return BaseContextHandler.getUserID();
+        return BaseContextHandler.getUserId();
     }
 
     protected <T> ObjectRestResponse<T> ok() {

@@ -50,7 +50,7 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
     }
 
     public void deleteMine(JSONObject json) {
-        String userId = BaseContextHandler.getUserID();
+        String userId = BaseContextHandler.getUserId();
         String ids = json.getString("ids");
         String[] idArr = ids.split(",");
         Arrays.asList(idArr).parallelStream().forEach(id -> {

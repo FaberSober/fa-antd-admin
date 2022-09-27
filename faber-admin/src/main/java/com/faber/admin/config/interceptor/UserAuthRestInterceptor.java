@@ -38,7 +38,7 @@ public class UserAuthRestInterceptor extends AbstractInterceptor {
 
         BaseContextHandler.setUsername(jwtInfo.getUsername());
         BaseContextHandler.setName(jwtInfo.getName());
-        BaseContextHandler.setUserID(jwtInfo.getUserId());
+        BaseContextHandler.setUserId(jwtInfo.getUserId());
         BaseContextHandler.setLogin(true);
         return super.preHandle(request, response, handler);
     }

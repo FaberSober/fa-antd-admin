@@ -48,7 +48,7 @@ public class EntityUtils {
             name = BaseContextHandler.getUsername();
         }
         if (StringUtils.isBlank(id)) {
-            id = BaseContextHandler.getUserID();
+            id = BaseContextHandler.getUserId();
         }
 
         ReqUserInfo reqUserInfo = new ReqUserInfo();

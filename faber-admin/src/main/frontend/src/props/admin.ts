@@ -378,6 +378,21 @@ namespace Admin {
     retStatus: string;
   }
 
+  // -------------------------------------------- 系统-登录日志 --------------------------------------------
+  /** BASE-登录日志 */
+  export interface LogLogin extends FaberBase.BaseDelEntity {
+    /** 序号 */
+    id: number;
+    /** 访问客户端 */
+    agent: string;
+    /** 省 */
+    pro: string;
+    /** 市 */
+    city: string;
+    /** 地址 */
+    addr: string;
+  }
+
 }
 
 export default Admin;

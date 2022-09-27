@@ -44,7 +44,7 @@ public class ApiTokenInterceptor extends AbstractInterceptor {
 
         BaseContextHandler.setUsername(user.getUsername());
         BaseContextHandler.setName(user.getName());
-        BaseContextHandler.setUserID(user.getId() + "");
+        BaseContextHandler.setUserId(user.getId() + "");
         return super.preHandle(request, response, handler);
     }
 
@@ -62,6 +62,6 @@ public class ApiTokenInterceptor extends AbstractInterceptor {
         User user = userBiz.getUserById("1");
         BaseContextHandler.setUsername(user.getUsername());
         BaseContextHandler.setName(user.getName());
-        BaseContextHandler.setUserID(user.getId() + "");
+        BaseContextHandler.setUserId(user.getId() + "");
     }
 }

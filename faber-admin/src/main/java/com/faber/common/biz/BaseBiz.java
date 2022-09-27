@@ -17,8 +17,6 @@ import com.faber.admin.mapper.ConfigMapper;
 import com.faber.common.annotation.FaberModalName;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.bean.BaseDelEntity;
-import com.faber.common.config.BaseEnumConverter;
-import com.faber.common.config.LocalDateTimeConverter;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.enums.DelStateEnum;
 import com.faber.common.exception.BuzzException;
@@ -39,7 +37,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.net.URLEncoder;
@@ -367,7 +364,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     }
 
     public String getCurrentUserId() {
-        return BaseContextHandler.getUserID();
+        return BaseContextHandler.getUserId();
     }
 
     protected ObjectRestResponse<Boolean> ok() {
