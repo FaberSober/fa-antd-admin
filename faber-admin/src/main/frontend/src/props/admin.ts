@@ -351,7 +351,7 @@ namespace Admin {
   /** BASE-URL请求日志 */
   export interface LogApi extends FaberBase.BaseCrtEntity {
     /** 序号 */
-    id: number;
+    id: string;
     /** 请求URL */
     url: string;
     /** 请求类型 */

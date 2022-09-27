@@ -13,9 +13,10 @@ const buzzModal = 'base_log_api';
 export default function LogApiList() {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } = useTableQueryParams<Admin.LogApi>(modelService.page, {}, serviceName)
+  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } =
+    useTableQueryParams<Admin.LogApi>(modelService.page, {}, serviceName)
 
-  const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName)
+  const [handleDelete] = useDelete<string>(modelService.remove, fetchPageList, serviceName)
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams)
 
   /** 生成表格字段List */

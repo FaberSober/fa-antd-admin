@@ -1,5 +1,4 @@
 import React, { useCallback, useState, useRef, useEffect} from 'react'
-import FaberBase from "@/props/base/FaberBase";
 import Ajax from "@/props/base/Ajax";
 import { RES_CODE } from "@/configs/server.config";
 import * as BaseTableUtils from "@/components/base-table/utils";
@@ -174,7 +173,9 @@ export function useTableQueryParams<T>(
       .then((res) => {
         setLoading(false);
         if (res && res.status === RES_CODE.OK) {
-          setRet({ list: res.data.rows, dicts: res.data.dicts, showPagination: res.data.pagination })
+          const { pagination: page } = res.data;
+          const pagination: Ajax.Pagination = { current: Number(page.current), pageSize: Number(page.pageSize), total: Number(page.total) }
+          setRet({ list: res.data.rows, dicts: res.data.dicts, showPagination: pagination })
         }
       })
       .catch(() => setLoading(false));

@@ -16,18 +16,18 @@ import java.util.Map;
 /**
  * <h2>通用Tree形结构数据的Controller接口父类，包含基本的方法：</h2>
  * <h3>1. 一次性返回所有的节点，适用于节点总数较少的情况，如：节点查询</h3>
- * 1. allTree - 获取所有节点Tree<br/>
- * 2. allTreeFromNode - 从指定节点，返回向下获取所有节点Tree<br/>
+ * 1. {@link BaseTreeController#allTree} - 获取所有节点Tree<br/>
+ * 2. {@link BaseTreeController#allTreeFromNode} - 从指定节点，返回向下获取所有节点Tree<br/>
  * <br/>
  *
  * <h3>2. 一次只返回当前层级的节点List，适用于节点总数很多的情况，如：地区查询</h3>
- * 1. treePathLine - 给定选中的value，返回value向上查找的节点路径xxx<br/>
- * 2. treeListLayer - 给定parentId，返回当前层级的节点List<br/>
- * 2. treeFindPath - 给定选中的value，返回value向上查找的节点路径xxx，并返回路径xxx的层级的Tree<br/>
+ * 1. {@link BaseTreeController#treePathLine} - 给定选中的value，返回value向上查找的节点路径xxx<br/>
+ * 2. {@link BaseTreeController#treeListLayer} - 给定parentId，返回当前层级的节点List<br/>
+ * 2. {@link BaseTreeController#treeFindPath} - 给定选中的value，返回value向上查找的节点路径xxx，并返回路径xxx的层级的Tree<br/>
  * <br/>
  *
  * <h3>3. 其他帮助方法</h3>
- * 1. changePos - 改变节点列表位置[排序、父节点]<br/>
+ * 1. {@link BaseTreeController#changePos} - 改变节点列表位置[排序、父节点]<br/>
  *
  * @param <Biz>
  * @param <Entity>

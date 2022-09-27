@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/api/admin/logApi")
-public class LogApiController extends BaseController<LogApiBiz, LogApi, Integer> {
+public class LogApiController extends BaseController<LogApiBiz, LogApi, Long> {
 
 }

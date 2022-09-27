@@ -18,20 +18,24 @@ import java.util.Map;
 
 /**
  * <h3>通用Rest接口父类，包含基本的方法：</h3>
- * <ol>
- * <li>save - 新增</li>
- * <li>saveBatch - 新增批量</li>
- * <li>get - id查询</li>
- * <li>update - 更新</li>
- * <li>remove - id删除</li>
- * <li>removeBatchByIds - ids批量删除</li>
- * <li>all - 获取所有List</li>
- * <li>list - 获取List，带过滤查询条件</li>
- * <li>mineList - 获取List(限定登录用户创建)，带过滤查询条件</li>
- * <li>count - 过滤条件统计数量</li>
- * <li>page - 分页获取</li>
- * <li>exportExcel - 过滤条件导出Excel</li>
- * </ol>
+ *
+ * <table>
+ *     <thead><tr><td>方法</td><td>说明</td></tr></thead>
+ *     <tbody>
+ *         <tr><td>{@link BaseController#add}</td>                  <td>新增</td></tr>
+ *         <tr><td>{@link BaseController#saveBatch}</td>            <td>新增批量</td></tr>
+ *         <tr><td>{@link BaseController#get}</td>                  <td>id查询</td></tr>
+ *         <tr><td>{@link BaseController#update}</td>               <td>更新</td></tr>
+ *         <tr><td>{@link BaseController#remove}</td>               <td>id删除</td></tr>
+ *         <tr><td>{@link BaseController#removeBatchByIds}</td>     <td>ids批量删除</td></tr>
+ *         <tr><td>{@link BaseController#all}</td>                  <td>获取所有List</td></tr>
+ *         <tr><td>{@link BaseController#list}</td>                 <td>获取List，带过滤查询条件</td></tr>
+ *         <tr><td>{@link BaseController#mineList}</td>             <td>获取List(限定登录用户创建)，带过滤查询条件</td></tr>
+ *         <tr><td>{@link BaseController#count}</td>                <td>过滤条件统计数量</td></tr>
+ *         <tr><td>{@link BaseController#page}</td>                 <td>分页获取</td></tr>
+ *         <tr><td>{@link BaseController#exportExcel}</td>          <td>过滤条件导出Excel</td></tr>
+ *     </tbody>
+ * </table>
  *
  * @param <Biz>    {@link BaseBiz}
  * @param <Entity>

@@ -20,7 +20,7 @@ import lombok.ToString;
 public class LogApi extends BaseCrtEntity {
 
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     @SqlSearch
     @ExcelProperty("请求URL")
