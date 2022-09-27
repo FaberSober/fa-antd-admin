@@ -1,12 +1,10 @@
 package com.faber.admin.biz;
 
-import cn.hutool.core.util.EnumUtil;
 import com.faber.admin.entity.Area;
 import com.faber.admin.mapper.AreaMapper;
 import com.faber.admin.vo.AreaPathVo;
 import com.faber.admin.vo.AreaTree;
 import com.faber.common.biz.BaseBiz;
-import com.faber.common.constant.DictConstants;
 import com.faber.common.enums.AreaLevelEnum;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.map.AMapUtils;
@@ -62,7 +60,7 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
     @Override
     public TableResultResponse<Area> selectPageByQuery(Query query) {
         TableResultResponse<Area> table = super.selectPageByQuery(query);
-        table.getData().addDict("level", dictBiz.getByCode(DictConstants.AreaLevel.DICT_LABEL));
+        table.getData().addDict("level", dictBiz.getByCode("common_area_level"));
         return table;
     }
 
@@ -263,7 +261,7 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
                 .eq(parentCode != null, Area::getParentCode, parentCode)
                 .eq(level != null, Area::getLevel, level)
                 .list();
-        String levelLabel =DictConstants.AreaLevel.LABEL.get(level +"");
+        String levelLabel = AreaLevelEnum.getByValue(level).getDesc();
         if (list == null || list.isEmpty()) {
             // 2. 若完整匹配未匹配到，去除后缀再次匹配
             String checkName = name;

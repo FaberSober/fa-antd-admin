@@ -1,9 +1,7 @@
 package com.faber.admin.util.user;
 
 import com.faber.admin.entity.User;
-import com.faber.common.constant.DictConstants;
 import com.faber.common.enums.BoolEnum;
-import com.faber.common.enums.DelStateEnum;
 import com.faber.common.exception.auth.UserInvalidException;
 
 public class UserCheckUtil {

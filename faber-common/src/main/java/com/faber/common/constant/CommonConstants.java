@@ -30,4 +30,15 @@ public class CommonConstants {
     // ---------------- Tree形数据根节点默认ID=0 ----------------
     public final static int ROOT = 0;
 
+
+    /**
+     * 中国地区编码-中国编码-6位
+     */
+    public final static int AREA_CODE_CHINA = 100000;
+
+    /**
+     * 中国地区编码-中国编码-6位
+     */
+    public final static long AREA_CODE_CHINA_12 = 100000000000L;
+
 }

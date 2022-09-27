@@ -12,7 +12,6 @@ import com.faber.admin.vo.UserAccountVo;
 import com.faber.admin.vo.UserInfo;
 import com.faber.admin.vo.UserWeb;
 import com.faber.common.biz.BaseBiz;
-import com.faber.common.constant.DictConstants;
 import com.faber.common.constant.UserConstant;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.enums.BoolEnum;
