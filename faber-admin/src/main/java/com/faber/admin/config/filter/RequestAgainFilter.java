@@ -32,7 +32,7 @@ public class RequestAgainFilter implements Filter {
     /**
      * 列表的api不记录日志
      */
-    private static final List<String> NO_LOG_APIS = Arrays.asList("/api/admin/gateLog/page");
+    private static final List<String> NO_LOG_APIS = Arrays.asList("/api/admin/logApi/page");
 
     @Autowired
     private LogApiBiz logApiBiz;
