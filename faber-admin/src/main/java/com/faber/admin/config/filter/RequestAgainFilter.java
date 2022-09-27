@@ -1,9 +1,9 @@
 package com.faber.admin.config.filter;
 
-import com.faber.admin.biz.GateLogBiz;
+import com.faber.admin.biz.LogApiBiz;
 import com.faber.admin.config.filter.wrapper.BodyHttpServletRequestWrapper;
 import com.faber.admin.config.filter.wrapper.BodyHttpServletResponseWrapper;
-import com.faber.admin.entity.GateLog;
+import com.faber.admin.entity.LogApi;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.util.IpUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +35,7 @@ public class RequestAgainFilter implements Filter {
     private static final List<String> NO_LOG_APIS = Arrays.asList("/api/admin/gateLog/page");
 
     @Autowired
-    private GateLogBiz gateLogBiz;
+    private LogApiBiz logApiBiz;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -59,7 +59,7 @@ public class RequestAgainFilter implements Filter {
 
         if (!NO_LOG_APIS.contains(requestWrapper.getRequestURI())) {
             String logNoRet = responseWrapper.getHeader("LogNoRet");
-            GateLog log = new GateLog();
+            LogApi log = new LogApi();
 
             // request basic information
             log.setUrl(requestWrapper.getRequestURI());
@@ -82,7 +82,7 @@ public class RequestAgainFilter implements Filter {
             log.setCity(ipAddr.getCity());
             log.setAddr(ipAddr.getAddr());
 
-            gateLogBiz.save(log);
+            logApiBiz.save(log);
         }
 
         BaseContextHandler.remove(); // 销毁上下文中记录的登录用户信息

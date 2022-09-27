@@ -3,23 +3,23 @@ import {DownloadOutlined, EyeOutlined, SearchOutlined} from '@ant-design/icons';
 import {Button, Card, Form, Input, Space} from 'antd';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
-import modelService from '@/services/admin/gateLog';
+import modelService from '@/services/admin/logApi';
 import Admin from '@/props/admin';
-import GateLogDrawer from './drawer/GateLogDrawer';
+import LogApiDrawer from './drawer/LogApiDrawer';
 
 const serviceName = 'URL请求日志';
-const buzzModal = 'base_gate_log';
+const buzzModal = 'base_log_api';
 
-export default function GateLogList() {
+export default function LogApiList() {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } = useTableQueryParams<Admin.GateLog>(modelService.page, {}, serviceName)
+  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } = useTableQueryParams<Admin.LogApi>(modelService.page, {}, serviceName)
 
   const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName)
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams)
 
   /** 生成表格字段List */
-  function genColumns():FaberTable.ColumnsProp<Admin.GateLog>[] {
+  function genColumns():FaberTable.ColumnsProp<Admin.LogApi>[] {
     const { sorter } = queryParams;
     return [
       BaseTableUtils.genIdColumn('序号', 'id', 70, sorter),
@@ -39,9 +39,9 @@ export default function GateLogList() {
         dataIndex: 'opr',
         render: (_, record) => (
           <Space>
-            <GateLogDrawer record={record}>
+            <LogApiDrawer record={record}>
               <a><EyeOutlined />查看</a>
-            </GateLogDrawer>
+            </LogApiDrawer>
             <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} permission={undefined} />
           </Space>
         ),

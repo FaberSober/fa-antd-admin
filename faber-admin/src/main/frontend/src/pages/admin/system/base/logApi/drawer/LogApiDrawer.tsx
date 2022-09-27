@@ -4,14 +4,14 @@ import {DragModalProps} from '@/components/modal/DragModal';
 import Admin from '@/props/admin';
 
 export interface GateLogDrawerProps extends DragModalProps {
-  record: Admin.GateLog;
+  record: Admin.LogApi;
 }
 
 /**
  * BASE-URL请求日志
  实体新增、编辑弹框
  */
-export default function GateLogDrawer({ children, record, ...props }: GateLogDrawerProps) {
+export default function LogApiDrawer({ children, record, ...props }: GateLogDrawerProps) {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (

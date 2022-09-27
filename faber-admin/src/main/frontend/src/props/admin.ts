@@ -349,7 +349,7 @@ namespace Admin {
 
   // -------------------------------------------- 系统-URL请求日志 --------------------------------------------
   /** BASE-URL请求日志 */
-  export interface GateLog extends FaberBase.BaseCrtEntity {
+  export interface LogApi extends FaberBase.BaseCrtEntity {
     /** 序号 */
     id: number;
     /** 请求URL */

@@ -1,8 +1,8 @@
 package com.faber.admin.util.logs;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.faber.admin.biz.GateLogBiz;
-import com.faber.admin.entity.GateLog;
+import com.faber.admin.biz.LogApiBiz;
+import com.faber.admin.entity.LogApi;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -16,14 +16,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 @Slf4j
 public class DBLog extends Thread {
     private static DBLog dblog = null;
-    private static BlockingQueue<GateLog> logInfoQueue = new LinkedBlockingQueue<GateLog>(1024);
+    private static BlockingQueue<LogApi> logInfoQueue = new LinkedBlockingQueue<LogApi>(1024);
 
-    private GateLogBiz gateLogBiz;
+    private LogApiBiz logApiBiz;
 
     public static synchronized DBLog getInstance() {
         if (dblog == null) {
             dblog = new DBLog();
-            dblog.gateLogBiz = SpringUtil.getBean(GateLogBiz.class);
+            dblog.logApiBiz = SpringUtil.getBean(LogApiBiz.class);
         }
         return dblog;
     }
@@ -32,7 +32,7 @@ public class DBLog extends Thread {
         super("DBLog.WriterThread");
     }
 
-    public void offerQueue(GateLog logInfo) {
+    public void offerQueue(LogApi logInfo) {
         try {
             logInfoQueue.offer(logInfo);
         } catch (Exception e) {
@@ -42,15 +42,15 @@ public class DBLog extends Thread {
 
     @Override
     public void run() {
-        List<GateLog> bufferedLogList = new ArrayList<GateLog>(); // 缓冲队列
+        List<LogApi> bufferedLogList = new ArrayList<LogApi>(); // 缓冲队列
         while (true) {
             try {
                 bufferedLogList.add(logInfoQueue.take());
                 logInfoQueue.drainTo(bufferedLogList);
                 if (bufferedLogList != null && bufferedLogList.size() > 0) {
                     // 写入日志
-                    for (GateLog log : bufferedLogList) {
-                        gateLogBiz.save(log);
+                    for (LogApi log : bufferedLogList) {
+                        logApiBiz.save(log);
                     }
                 }
             } catch (Exception e) {

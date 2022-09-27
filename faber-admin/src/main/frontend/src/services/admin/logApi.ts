@@ -3,6 +3,6 @@ import { BaseApi } from '@/services/base';
 import Admin from '@/props/admin';
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */
-class GateLogApi extends BaseApi<Admin.GateLog, number> {}
+class LogApiApi extends BaseApi<Admin.LogApi, number> {}
 
-export default new GateLogApi(GATE_APP.admin, 'gateLog');
+export default new LogApiApi(GATE_APP.admin, 'logApi');

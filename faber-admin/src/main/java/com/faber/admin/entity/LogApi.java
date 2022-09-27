@@ -14,10 +14,10 @@ import lombok.ToString;
  * URL请求日志
  */
 @FaberModalName(name = "URL请求日志")
-@TableName("base_gate_log")
+@TableName("base_log_api")
 @Data
 @ToString
-public class GateLog extends BaseCrtEntity {
+public class LogApi extends BaseCrtEntity {
 
     @TableId(type = IdType.AUTO)
     private Integer id;
