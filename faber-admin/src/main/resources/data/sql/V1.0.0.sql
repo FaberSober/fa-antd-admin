@@ -11,7 +11,7 @@
  Target Server Version : 50727
  File Encoding         : 65001
 
- Date: 26/09/2022 10:05:24
+ Date: 27/09/2022 16:39:28
 */
 
 SET NAMES utf8mb4;
@@ -191,12 +191,13 @@ CREATE TABLE `base_config` (
   `upd_host` varchar(255) DEFAULT NULL COMMENT '更新IP',
   `del_state` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除状态0-正常/1-删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='BASE-系统-配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='BASE-系统-配置表';
 
 -- ----------------------------
 -- Records of base_config
 -- ----------------------------
 BEGIN;
+INSERT INTO `base_config` (`id`, `buzz_modal`, `type`, `name`, `data`, `system`, `default_scene`, `hide`, `sort`, `belong_user_id`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (3, 'base_log_api', 'TABLE_COLUMNS', '表格字段展示配置', '{\"columns\":[{\"dataIndex\":\"id\",\"tcRequired\":false,\"tcChecked\":true,\"width\":70,\"sort\":0},{\"dataIndex\":\"url\",\"tcChecked\":true,\"sort\":1},{\"dataIndex\":\"method\",\"tcChecked\":true,\"width\":100,\"sort\":2},{\"dataIndex\":\"agent\",\"tcChecked\":false,\"width\":100,\"sort\":3},{\"dataIndex\":\"reqSize\",\"tcChecked\":true,\"width\":100,\"sort\":4},{\"dataIndex\":\"retSize\",\"tcChecked\":true,\"width\":100,\"sort\":5},{\"dataIndex\":\"duration\",\"tcChecked\":true,\"width\":100,\"sort\":6},{\"dataIndex\":\"pro\",\"tcChecked\":true,\"width\":100,\"sort\":7},{\"dataIndex\":\"city\",\"tcChecked\":true,\"width\":100,\"sort\":8},{\"dataIndex\":\"addr\",\"tcChecked\":true,\"width\":150,\"sort\":9},{\"dataIndex\":\"retStatus\",\"tcChecked\":true,\"width\":100,\"sort\":10},{\"dataIndex\":\"crtTime\",\"tcChecked\":true,\"width\":170,\"sort\":11},{\"dataIndex\":\"crtUser\",\"width\":120,\"sort\":12},{\"dataIndex\":\"crtName\",\"tcChecked\":false,\"width\":100,\"sort\":13},{\"dataIndex\":\"crtHost\",\"tcChecked\":true,\"width\":150,\"sort\":14},{\"dataIndex\":\"opr\",\"tcRequired\":true,\"width\":120,\"sort\":15}]}', 0, 0, 0, 0, '1', '2022-09-27 16:37:27', '1', '超级管理员', '127.0.0.1', NULL, NULL, NULL, NULL, 0);
 COMMIT;
 
 -- ----------------------------
@@ -227,7 +228,7 @@ CREATE TABLE `base_department` (
 -- Records of base_department
 -- ----------------------------
 BEGIN;
-INSERT INTO `base_department` (`id`, `name`, `description`, `parent_id`, `sort`, `type`, `manager_id`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES ('1', '办公室', NULL, '0', 1, NULL, NULL, '2020-06-26 16:07:35', '1', 'admin', '123.116.43.116', '2020-06-26 16:07:35', '1', 'admin', '123.116.43.116', 0);
+INSERT INTO `base_department` (`id`, `name`, `description`, `parent_id`, `sort`, `type`, `manager_id`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES ('1', '办公室', NULL, '0', 1, NULL, '1', '2020-06-26 16:07:35', '1', 'admin', '123.116.43.116', '2020-06-26 16:07:35', '1', 'admin', '123.116.43.116', 0);
 COMMIT;
 
 -- ----------------------------
@@ -360,37 +361,6 @@ BEGIN;
 COMMIT;
 
 -- ----------------------------
--- Table structure for base_gate_log
--- ----------------------------
-DROP TABLE IF EXISTS `base_gate_log`;
-CREATE TABLE `base_gate_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
-  `url` text NOT NULL COMMENT '请求URL',
-  `method` varchar(10) NOT NULL COMMENT '请求类型',
-  `agent` text COMMENT '访问客户端',
-  `duration` int(11) NOT NULL COMMENT '请求花费时间',
-  `pro` varchar(10) DEFAULT NULL COMMENT '省',
-  `city` varchar(10) DEFAULT NULL COMMENT '市',
-  `addr` varchar(255) DEFAULT NULL COMMENT '地址',
-  `request` longtext COMMENT '请求内容',
-  `req_size` int(11) DEFAULT NULL COMMENT '请求体大小',
-  `response` longtext COMMENT '返回内容',
-  `ret_size` int(11) DEFAULT NULL COMMENT '返回内容大小',
-  `ret_status` int(11) NOT NULL COMMENT '返回码',
-  `crt_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '操作时间',
-  `crt_user` varchar(255) DEFAULT NULL COMMENT '操作人ID',
-  `crt_name` varchar(255) DEFAULT NULL COMMENT '操作人',
-  `crt_host` varchar(255) DEFAULT NULL COMMENT '操作主机',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='BASE-URL请求日志';
-
--- ----------------------------
--- Records of base_gate_log
--- ----------------------------
-BEGIN;
-COMMIT;
-
--- ----------------------------
 -- Table structure for base_job
 -- ----------------------------
 DROP TABLE IF EXISTS `base_job`;
@@ -437,6 +407,37 @@ CREATE TABLE `base_job_log` (
 
 -- ----------------------------
 -- Records of base_job_log
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for base_log_api
+-- ----------------------------
+DROP TABLE IF EXISTS `base_log_api`;
+CREATE TABLE `base_log_api` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
+  `url` text NOT NULL COMMENT '请求URL',
+  `method` varchar(10) NOT NULL COMMENT '请求类型',
+  `agent` text COMMENT '访问客户端',
+  `duration` int(11) NOT NULL COMMENT '请求花费时间',
+  `pro` varchar(10) DEFAULT NULL COMMENT '省',
+  `city` varchar(10) DEFAULT NULL COMMENT '市',
+  `addr` varchar(255) DEFAULT NULL COMMENT '地址',
+  `request` longtext COMMENT '请求内容',
+  `req_size` int(11) DEFAULT NULL COMMENT '请求体大小',
+  `response` longtext COMMENT '返回内容',
+  `ret_size` int(11) DEFAULT NULL COMMENT '返回内容大小',
+  `ret_status` int(11) NOT NULL COMMENT '返回码',
+  `crt_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '操作时间',
+  `crt_user` varchar(255) DEFAULT NULL COMMENT '操作人ID',
+  `crt_name` varchar(255) DEFAULT NULL COMMENT '操作人',
+  `crt_host` varchar(255) DEFAULT NULL COMMENT '操作主机',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='BASE-URL请求日志';
+
+-- ----------------------------
+-- Records of base_log_api
 -- ----------------------------
 BEGIN;
 COMMIT;
@@ -533,8 +534,8 @@ CREATE TABLE `base_rbac_menu` (
 -- Records of base_rbac_menu
 -- ----------------------------
 BEGIN;
-INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (1, 0, '首页', 0, 0, 'fa-solid fa-house', 1, 2, '/admin/home', '2022-09-19 14:35:35', '1', '超级管理员1', '127.0.0.1', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
-INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (2, 1, '首页', 0, 2, 'fa-solid fa-house', 1, 2, '/admin/home/home', '2022-09-19 14:59:33', '1', '超级管理员1', '127.0.0.1', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
+INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (1, 0, '首页', 0, 0, 'fa-solid fa-house', 1, 1, '/admin/home', '2022-09-19 14:35:35', '1', '超级管理员1', '127.0.0.1', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
+INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (2, 1, '首页', 0, 2, 'fa-solid fa-house', 1, 1, '/admin/home/home', '2022-09-19 14:59:33', '1', '超级管理员1', '127.0.0.1', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
 INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (3, 0, '系统管理', 1, 0, 'fa-solid fa-gear', 1, 1, '/admin/system', '2022-09-19 16:56:23', '1', '超级管理员1', '127.0.0.1', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
 INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (4, 3, '智能人事', 0, 1, 'fa-solid fa-users', 1, 1, '/admin/system/hr', '2022-09-19 16:58:28', '1', '超级管理员1', '192.168.1.107', '2022-09-19 20:48:43', '1', '超级管理员1', '192.168.58.1', 0);
 INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (5, 3, '系统管理', 1, 1, 'fa-solid fa-gears', 1, 1, '/admin/system/base', '2022-09-19 16:58:56', '1', '超级管理员1', '192.168.1.107', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
@@ -546,9 +547,9 @@ INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`
 INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (11, 5, '字典管理', 1, 2, NULL, 1, 1, '/admin/system/base/dict', '2022-09-19 17:14:44', '1', '超级管理员1', '127.0.0.1', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
 INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (12, 5, '中国地区管理', 2, 2, NULL, 1, 1, '/admin/system/base/area', '2022-09-19 17:15:00', '1', '超级管理员1', '127.0.0.1', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
 INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (13, 5, '定时任务', 3, 2, NULL, 1, 1, '/admin/system/base/job', '2022-09-19 17:15:14', '1', '超级管理员1', '127.0.0.1', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
-INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (14, 5, '请求日志', 4, 2, NULL, 1, 1, '/admin/system/base/gateLog', '2022-09-19 17:15:33', '1', '超级管理员1', '127.0.0.1', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
+INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (14, 5, '请求日志', 4, 2, NULL, 1, 1, '/admin/system/base/logApi', '2022-09-19 17:15:33', '1', '超级管理员1', '127.0.0.1', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
 INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (15, 5, '系统公告', 5, 2, NULL, 1, 1, '/admin/system/base/notice', '2022-09-19 17:16:13', '1', '超级管理员1', '127.0.0.1', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
-INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (16, 5, '登录日志', 6, 2, NULL, 1, 1, '/admin/system/base/loginLog', '2022-09-19 17:16:36', '1', '超级管理员1', '127.0.0.1', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
+INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (16, 5, '登录日志', 6, 2, NULL, 1, 1, '/admin/system/base/logLogin', '2022-09-19 17:16:36', '1', '超级管理员1', '127.0.0.1', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
 INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (17, 6, '基本信息', 0, 2, NULL, 1, 1, '/admin/system/account/base', '2022-09-19 17:17:05', '1', '超级管理员1', '127.0.0.1', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
 INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (18, 6, '更新密码', 1, 2, NULL, 1, 1, '/admin/system/account/security', '2022-09-19 17:17:52', '1', '超级管理员1', '127.0.0.1', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
 INSERT INTO `base_rbac_menu` (`id`, `parent_id`, `name`, `sort`, `level`, `icon`, `status`, `link_type`, `link_url`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES (19, 6, '消息中心', 2, 2, NULL, 1, 1, '/admin/system/account/msg', '2022-09-19 17:18:06', '1', '超级管理员1', '127.0.0.1', '2022-09-19 20:48:33', '1', '超级管理员1', '192.168.58.1', 0);
@@ -729,7 +730,7 @@ CREATE TABLE `base_user` (
 -- Records of base_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `base_user` (`id`, `department_id`, `username`, `password`, `name`, `tel`, `birthday`, `sex`, `address`, `email`, `status`, `description`, `img`, `api_token`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES ('1', '1', 'admin', '$2a$12$7NC7F4kdFrmqRPnocvDGpuJ392qGz/K4d7GdNbB2CSnn/CDkOAiBC', '超级管理员', '13811112222', '2000-01-01', 1, '南京市、江宁区、将军大道', 'faberxu@gmail.com', 1, '个人简介', 'http://ztfp-test-file.dward.cn/static/upload/user/img/9362eee0-fd56-11e9-8980-39c97916451b/头像.jpg', 'd1d6e6d1ebcb4437bd082c3046671582', '2022-09-22 21:55:23', '1', 'admin', '127.0.0.1', '2022-08-12 10:49:58', '1', 'admin', '127.0.0.1', 0);
+INSERT INTO `base_user` (`id`, `department_id`, `username`, `password`, `name`, `tel`, `birthday`, `sex`, `address`, `email`, `status`, `description`, `img`, `api_token`, `crt_time`, `crt_user`, `crt_name`, `crt_host`, `upd_time`, `upd_user`, `upd_name`, `upd_host`, `del_state`) VALUES ('1', '1', 'admin', '$2a$12$7NC7F4kdFrmqRPnocvDGpuJ392qGz/K4d7GdNbB2CSnn/CDkOAiBC', '超级管理员', '13811112222', '2000-01-01', 2, '南京市、江宁区、将军大道', 'faberxu@gmail.com', 1, '个人简介', 'http://ztfp-test-file.dward.cn/static/upload/user/img/9362eee0-fd56-11e9-8980-39c97916451b/头像.jpg', 'd1d6e6d1ebcb4437bd082c3046671582', '2022-09-22 21:55:23', '1', 'admin', '127.0.0.1', '2022-08-12 10:49:58', '1', 'admin', '127.0.0.1', 0);
 COMMIT;
 
 -- ----------------------------
