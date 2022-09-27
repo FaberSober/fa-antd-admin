@@ -5,10 +5,6 @@ package com.faber.common.constant;
  */
 public class CommonConstants {
 
-    /** 权限资源类型 */
-    public final static String RESOURCE_TYPE_MENU = "menu";
-    public final static String RESOURCE_TYPE_BTN = "button";
-
     // ---------------- 用户token异常 ----------------
     public static final Integer EX_USER_INVALID_CODE = 40101;
     public static final Integer EX_USER_PASS_INVALID_CODE = 40001;
@@ -31,17 +27,7 @@ public class CommonConstants {
     public static final String JWT_KEY_USER_ID = "userId";
     public static final String JWT_KEY_NAME = "name";
 
+    // ---------------- Tree形数据根节点默认ID=0 ----------------
     public final static int ROOT = 0;
-    public final static int DEFAULT_GROUP_TYPE = 0;
-
-    /** 权限关联类型 */
-    public final static String AUTHORITY_TYPE_GROUP = "group";
-
-    public final static String RESOURCE_REQUEST_METHOD_GET = "GET";
-    public final static String RESOURCE_REQUEST_METHOD_PUT = "PUT";
-    public final static String RESOURCE_REQUEST_METHOD_DELETE = "DELETE";
-    public final static String RESOURCE_REQUEST_METHOD_POST = "POST";
-
-    public final static String RESOURCE_ACTION_VISIT = "访问";
 
 }

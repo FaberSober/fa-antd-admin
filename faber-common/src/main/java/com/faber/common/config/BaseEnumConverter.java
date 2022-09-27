@@ -11,7 +11,6 @@ import com.alibaba.excel.metadata.property.ExcelContentProperty;
 import com.baomidou.mybatisplus.annotation.IEnum;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Method;
 import java.util.Arrays;
 
 /**
@@ -38,10 +37,9 @@ public class BaseEnumConverter implements Converter<IEnum> {
         Object bVal = cellData.getStringValue();
 
         // 通过枚举的values方法获取全部枚举
-        Method methodValues = ReflectUtil.getMethod(clazzField, "values");
-        return Arrays.stream((IEnum[]) ReflectUtil.invokeStatic(methodValues))
+        return Arrays.stream(clazzField.getEnumConstants())
                 .filter(a -> {
-                    Object aVal = ReflectUtil.getFieldValue(a, "val");
+                    Object aVal = ReflectUtil.getFieldValue(a, "desc");
                     return ObjectUtil.equal(aVal, bVal);
                 })
                 .findFirst()
@@ -50,7 +48,7 @@ public class BaseEnumConverter implements Converter<IEnum> {
 
     @Override
     public WriteCellData<String> convertToExcelData(IEnum value, ExcelContentProperty contentProperty, GlobalConfiguration globalConfiguration) throws Exception {
-        return new WriteCellData((String)ReflectUtil.getFieldValue(value, "val"));
+        return new WriteCellData((String)ReflectUtil.getFieldValue(value, "desc"));
     }
 
 }

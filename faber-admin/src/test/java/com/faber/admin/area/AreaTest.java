@@ -3,6 +3,7 @@ package com.faber.admin.area;
 import com.faber.AdminBootstrap;
 import com.faber.admin.biz.AreaBiz;
 import com.faber.admin.entity.Area;
+import com.faber.common.enums.AreaLevelEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class AreaTest {
     @Test
     public void testParseLocation() {
         String loc = "淮安市淮安区车桥镇车东村";
-        List<Area> list = areaBiz.findDeepestArea(loc, 1);
+        List<Area> list = areaBiz.findDeepestArea(loc, AreaLevelEnum.CITY);
         for (Area area : list) {
             System.out.println(area);
         }

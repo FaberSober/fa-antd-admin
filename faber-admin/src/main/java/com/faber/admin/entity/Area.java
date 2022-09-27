@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlSearch;
 import com.faber.common.constant.DictConstants;
+import com.faber.common.enums.AreaLevelEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
@@ -31,66 +32,52 @@ public class Area implements Serializable {
     @TableId(type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * 层级{@link DictConstants.AreaLevel}
-     */
     @NotNull
     @SqlEquals
-    // @Column(name = "level")
-    private Integer level;
+    private AreaLevelEnum level;
 
     //父级行政代
     @NotNull
     @SqlEquals
-    // @Column(name = "parent_code")
     private Long parentCode;
 
     //行政代码
     @NotNull
     @SqlEquals
-    // @Column(name = "area_code")
     private Long areaCode;
 
     //邮政编码
     @SqlEquals
-    // @Column(name = "zip_code")
     private Integer zipCode;
 
     //区号
     @SqlEquals
-    // @Column(name = "city_code")
     private String cityCode;
 
     //名称
     @SqlSearch
     @NotBlank
-    // @Column(name = "name")
     private String name;
 
     //简称
     @NotBlank
-    // @Column(name = "short_name")
     private String shortName;
 
     //组合名
     @SqlSearch
     @NotBlank
-    // @Column(name = "merger_name")
     private String mergerName;
 
     //拼音
     @NotBlank
-    // @Column(name = "pinyin")
     private String pinyin;
 
     //经度
     @NotNull
-    // @Column(name = "lng")
     private BigDecimal lng;
 
     //纬度
     @NotNull
-    // @Column(name = "lat")
     private BigDecimal lat;
 
     @ToString

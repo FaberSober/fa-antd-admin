@@ -1,11 +1,13 @@
 package com.faber.admin.biz;
 
+import cn.hutool.core.util.EnumUtil;
 import com.faber.admin.entity.Area;
 import com.faber.admin.mapper.AreaMapper;
 import com.faber.admin.vo.AreaPathVo;
 import com.faber.admin.vo.AreaTree;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.constant.DictConstants;
+import com.faber.common.enums.AreaLevelEnum;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.map.AMapUtils;
 import com.faber.common.msg.TableResultResponse;
@@ -92,7 +94,7 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
             area.setShortName("中国");
             area.setMergerName("中国");
             area.setId(0);
-            area.setLevel(DictConstants.AreaLevel.Value.NATION);
+            area.setLevel(AreaLevelEnum.NATION);
             return area;
         }
 
@@ -114,7 +116,7 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
         if (area == null) return new ArrayList<>();
         if (area.getLevel() == null) throw new BuzzException("地区编码重复，需要联系管理员修改配置");
         List<Area> list = new ArrayList<>();
-        if (area.getLevel() != DictConstants.AreaLevel.Value.PROVINCE && area.getLevel() != DictConstants.AreaLevel.Value.NATION) {
+        if (area.getLevel() != AreaLevelEnum.PROVINCE && area.getLevel() != AreaLevelEnum.NATION) {
             list.addAll(pathLine(area.getParentCode()));
         }
         list.add(area);
@@ -157,7 +159,7 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
             treeNode.setParentId(c.getParentCode());
             treeNode.setName(c.getName());
             treeNode.setChildren(children);
-            treeNode.setHasChildren(c.getLevel() != DictConstants.AreaLevel.Value.VILLAGE);
+            treeNode.setHasChildren(c.getLevel() != AreaLevelEnum.VILLAGE);
 
             nodeList.add(treeNode);
         });
@@ -172,10 +174,10 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
      * @param level
      * @return
      */
-    public List<Area> findDeepestArea(String name, int level) {
+    public List<Area> findDeepestArea(String name, AreaLevelEnum level) {
         List<Area> list = new ArrayList<>();
         String followName = name;
-        for (int i = level; i <= DictConstants.AreaLevel.Value.VILLAGE; i++) {
+        for (int i = level.getValue(); i <= AreaLevelEnum.VILLAGE.getValue(); i++) {
             Long parentCode = null;
             if (list.size() > 0) {
                 Area preArea = list.get(list.size() - 1);
@@ -188,14 +190,15 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
                     followName = followName.replaceFirst(preArea.getShortName(), "");
                 }
             }
-            Area area = findChopPreArea(followName, i, 0, parentCode);
+
+            Area area = findChopPreArea(followName, AreaLevelEnum.getByValue(i), 0, parentCode);
             if (area == null) break;
             list.add(area);
         }
         return list;
     }
 
-    public Area findChopPreArea(String name, int level, int chopIndex, Long parentCode) {
+    public Area findChopPreArea(String name, AreaLevelEnum level, int chopIndex, Long parentCode) {
         if (chopIndex > name.length()) return null;
         String chopName = name.substring(chopIndex); // 切割前N个字符
         Area area = findFirstArea(chopName, level, 1, parentCode);
@@ -206,7 +209,7 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
         return area;
     }
 
-    private Area findFirstArea(String name, int level, int length, Long parentCode) {
+    private Area findFirstArea(String name, AreaLevelEnum level, int length, Long parentCode) {
         if (length > name.length()) return null;
         String tryName = name.substring(0, length);
         Area area = findArea(level, tryName, parentCode);
@@ -217,7 +220,7 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
         return area;
     }
 
-    private Area findArea(int level, String name, Long parentCode) {
+    private Area findArea(AreaLevelEnum level, String name, Long parentCode) {
         List<Area> list = lambdaQuery().eq(Area::getLevel, level)
                 .like(Area::getName, name)
                 .eq(parentCode != null, Area::getParentCode, parentCode)

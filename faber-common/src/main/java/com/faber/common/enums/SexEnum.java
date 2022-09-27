@@ -13,17 +13,12 @@ public enum SexEnum implements IEnum<Integer> {
 
     @JsonValue
     @EnumValue
-    private final Integer code;
-    private final String val;
+    private final Integer value;
+    private final String desc;
 
-    SexEnum(Integer code, String val) {
-        this.code = code;
-        this.val = val;
-    }
-
-    @Override
-    public Integer getValue() {
-        return code;
+    SexEnum(Integer value, String desc) {
+        this.value = value;
+        this.desc = desc;
     }
 
 }

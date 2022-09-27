@@ -8,37 +8,6 @@ import java.util.Map;
  */
 public class DictConstants {
 
-    /** 权限资源类型 */
-    public final static class CommonUserStatus {
-        public static final String DICT_LABEL = "common_user_status";
-
-        public static final class Value {
-            public static final String NORMAL = "1";
-            public static final String FROZEN = "2";
-        }
-    }
-
-    /** 权限资源类型 */
-    public final static class CommonSex {
-        public static final String DICT_LABEL = "common_sex";
-
-        public static final class Value {
-            public static final String SECRET = "0";
-            public static final String MAIL = "1";
-            public static final String FEMAIL = "2";
-        }
-    }
-
-    /** 权限资源类型 */
-    public final static class StoreMemberMoneyType {
-        public static final String DICT_LABEL = "store_member_money_type";
-
-        public static final class Value {
-            public static final String CHARGE = "1";
-            public static final String PAY = "2";
-        }
-    }
-
     /** 地区-层级 */
     public final static class AreaLevel {
         public static final String DICT_LABEL = "common_area_level";

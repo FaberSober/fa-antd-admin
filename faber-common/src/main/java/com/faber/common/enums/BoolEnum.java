@@ -12,28 +12,12 @@ public enum BoolEnum implements IEnum<Integer> {
 
     @JsonValue
     @EnumValue
-    private final Integer code;
-    private final String val;
+    private final Integer value;
+    private final String desc;
 
-    BoolEnum(Integer code, String val) {
-        this.code = code;
-        this.val = val;
+    BoolEnum(Integer value, String desc) {
+        this.value = value;
+        this.desc = desc;
     }
-
-    @Override
-    public Integer getValue() {
-        return code;
-    }
-
-//    @Override
-//    public String getValDesc() {
-//        return val;
-//    }
-//
-//    public static BoolEnum parseFromString(String val) {
-//        return Arrays.stream(BoolEnum.values())
-//                .filter(a -> ObjectUtil.equal(a.val, val))
-//                .findFirst().orElse(null);
-//    }
 
 }

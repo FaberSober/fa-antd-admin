@@ -219,10 +219,6 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         });
         userTable.getData().setRows(list);
 
-        // 枚举值
-        userTable.getData().addDict("status", dictBiz.getByCode(DictConstants.CommonUserStatus.DICT_LABEL));
-        userTable.getData().addDict("sex", dictBiz.getByCode(DictConstants.CommonSex.DICT_LABEL));
-
         return userTable;
     }
 
