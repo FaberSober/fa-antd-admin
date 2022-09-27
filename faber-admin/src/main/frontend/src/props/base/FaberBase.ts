@@ -69,7 +69,7 @@ namespace FaberBase {
 	 */
 	export interface BasePageProps {
 		sorter?: string; // 排序
-		currentPage?: number;
+		current?: number;
 		pageSize?: number;
 		/**
 		 * 允许用户扩充 Item 字段

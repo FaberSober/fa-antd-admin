@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class BasePageQuery implements Serializable {
 
     /** 当前页码 */
-    private int currentPage = 1;
+    private int current = 1;
 
     /** 每页条数 */
     private int pageSize = 10;
@@ -22,7 +22,7 @@ public class BasePageQuery implements Serializable {
     private String queryUserId;
 
     public long getSkip() {
-        return (long) (this.getCurrentPage() - 1) * this.getPageSize();
+        return (long) (this.getCurrent() - 1) * this.getPageSize();
     }
 
 }

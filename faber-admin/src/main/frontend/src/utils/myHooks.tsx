@@ -160,7 +160,7 @@ export function useTableQueryParams<T>(
   function fetchPageList() {
     setLoading(true);
     const params = {
-      currentPage: queryParams.pagination.current,
+      current: queryParams.pagination.current,
       pageSize: queryParams.pagination.pageSize,
       ...queryParams.formValues,
       sorter: BaseTableUtils.getSorter(queryParams.sorter),

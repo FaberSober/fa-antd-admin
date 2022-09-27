@@ -41,13 +41,13 @@ public class Query extends LinkedHashMap<String, Object> {
         this.putAll(params);
 
         // 分页参数
-        if (params.get("currentPage") != null) {
-            this.page = Integer.parseInt(params.get("currentPage").toString());
+        if (params.get("current") != null) {
+            this.page = Integer.parseInt(params.get("current").toString());
         }
         if (params.get("pageSize") != null) {
             this.limit = Integer.parseInt(params.get("pageSize").toString());
         }
-        this.remove("currentPage");
+        this.remove("current");
         this.remove("pageSize");
 
         // 排序
