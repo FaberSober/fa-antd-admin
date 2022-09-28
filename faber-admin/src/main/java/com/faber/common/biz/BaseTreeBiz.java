@@ -214,7 +214,7 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
      */
     public List<T> loopFindChildren(List<Serializable> parentIds) {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
-        wrapper.in(getTreeParentIdFieldColumnName(), Arrays.asList(parentIds));
+        wrapper.in(getTreeParentIdFieldColumnName(), parentIds);
         this.enhanceTreeQuery(wrapper);
         List<T> beanList = super.list(wrapper);
 
