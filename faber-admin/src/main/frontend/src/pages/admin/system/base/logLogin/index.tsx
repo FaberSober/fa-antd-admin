@@ -24,9 +24,9 @@ export default function LogLoginList() {
     return [
       BaseTableUtils.genIdColumn('序号', 'id', 70, sorter),
       BaseTableUtils.genSimpleSorterColumn('访问客户端', 'agent', undefined, sorter),
-      BaseTableUtils.genSimpleSorterColumn('省', 'pro', 100, sorter),
-      BaseTableUtils.genSimpleSorterColumn('市', 'city', 100, sorter),
-      BaseTableUtils.genSimpleSorterColumn('地址', 'addr', 100, sorter),
+      BaseTableUtils.genSimpleSorterColumn('省', 'pro', 70, sorter),
+      BaseTableUtils.genSimpleSorterColumn('市', 'city', 70, sorter),
+      BaseTableUtils.genSimpleSorterColumn('地址', 'addr', 150, sorter),
       ...BaseTableUtils.genCtrColumns(sorter),
       ...BaseTableUtils.genUpdateColumns(sorter),
       {
