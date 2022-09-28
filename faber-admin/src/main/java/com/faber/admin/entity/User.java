@@ -2,6 +2,7 @@ package com.faber.admin.entity;
 
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -25,6 +26,7 @@ import java.util.List;
 @TableName("base_user")
 public class User extends BaseDelEntity {
 
+    @ColumnWidth(7)
     @TableId(type = IdType.ASSIGN_UUID)
     @SqlEquals
     private String id;
@@ -60,11 +62,11 @@ public class User extends BaseDelEntity {
     private String email;
 
     @SqlEquals
-    @ExcelIgnore
+    @ExcelProperty("性别")
     private SexEnum sex;
 
     @SqlEquals
-    @ExcelIgnore
+    @ExcelProperty("状态")
     private BoolEnum status;
 
     @ExcelProperty("角色名称")
@@ -73,23 +75,12 @@ public class User extends BaseDelEntity {
     @ExcelProperty("备注")
     private String description;
 
-    @ExcelIgnore
+    @ExcelProperty("头像")
     private String img;
 
     @ExcelIgnore
     @ExcelProperty("api token")
     private String apiToken;
-
-    @ToString
-    @AllArgsConstructor
-    public enum Status {
-        VALID("1", "有效"),
-        FROZEN("2", "冻结");
-
-        public final String value;
-        public final String text;
-
-    }
 
     /**
      * 新增、编辑时，关联的角色ID
@@ -97,5 +88,9 @@ public class User extends BaseDelEntity {
     @ExcelIgnore
     @TableField(exist = false)
     private List<Long> roleIds;
+
+    @ExcelProperty("部门")
+    @TableField(exist = false, property = "t.name")
+    private String departmentName;
 
 }

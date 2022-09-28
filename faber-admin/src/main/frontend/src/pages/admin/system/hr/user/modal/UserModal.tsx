@@ -35,7 +35,7 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
 
   useImperativeHandle(ref, () => ({
     showModal: () => {
-      setModalVisible(true);
+      showModal();
     },
   }));
 
@@ -107,18 +107,9 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
     }
   }
 
-  useEffect(() => {
-    if (props.open) {
-      initFormData()
-    }
-  }, [props.open])
-
   function showModal() {
     setModalVisible(true)
-    initFormData()
-  }
 
-  function initFormData() {
     form.setFieldsValue(getInitialValues())
     if (record !== undefined) {
       rbacUserRoleApi.getUserRoles(record.id).then((res) => {
@@ -156,13 +147,13 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
             <RbacRoleSelect mode="multiple" />
           </Form.Item>
           <Form.Item name="status" label="状态" rules={[{ required: true }]} {...formItemFullLayout}>
-            <DictDataRadio dictLabel="common_user_status" />
+            <DictDataRadio dictLabel="common_user_status" transValue={(v) => Number(v)} />
           </Form.Item>
           <Form.Item name="email" label="邮箱" {...formItemFullLayout}>
             <Input />
           </Form.Item>
           <Form.Item name="sex" label="性别" {...formItemFullLayout}>
-            <DictDataRadio dictLabel="common_sex" />
+            <DictDataRadio dictLabel="common_sex" transValue={(v) => Number(v)} />
           </Form.Item>
           <Form.Item name="img" label="头像" {...formItemFullLayout}>
             <UploadImgLocal prefix="/head/img" />

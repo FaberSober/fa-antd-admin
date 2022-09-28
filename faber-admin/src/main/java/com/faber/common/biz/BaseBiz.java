@@ -141,10 +141,10 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
                     matchClazz = matchClazz.getSuperclass();
                 }
 
-                if (!fieldFind) {
-                    _logger.warn("No field {} Found", entry.getKey());
-                    continue;
-                }
+//                if (!fieldFind) {
+//                    _logger.warn("No field {} Found", entry.getKey());
+//                    continue;
+//                }
 
                 if (StrUtil.isNotEmpty(entry.getValue().toString())) {
                     String fieldColumn = StrUtil.toUnderlineCase(entry.getKey());

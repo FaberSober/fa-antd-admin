@@ -1,18 +1,17 @@
 package com.faber.admin.biz;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.IterUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.ObjectUtil;
 import com.ace.cache.api.CacheAPI;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.faber.admin.entity.Department;
 import com.faber.admin.entity.User;
 import com.faber.admin.mapper.UserMapper;
 import com.faber.admin.util.user.UserCheckUtil;
 import com.faber.admin.vo.UserAccountVo;
 import com.faber.admin.vo.UserInfo;
-import com.faber.admin.vo.UserWeb;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.constant.CommonConstants;
 import com.faber.common.context.BaseContextHandler;
@@ -25,6 +24,8 @@ import com.faber.common.msg.TableResultResponse;
 import com.faber.common.vo.Query;
 import com.faber.rbac.biz.RbacUserRoleBiz;
 import com.faber.rbac.entity.RbacRole;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -35,7 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -218,24 +218,12 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
 
     @Override
     public TableResultResponse<User> selectPageByQuery(Query query) {
-        TableResultResponse<User> userTable = super.selectPageByQuery(query);
+        QueryWrapper<User> wrapper = parseQuery(query);
+        if (query.getLimit() > 1000) throw new BuzzException("查询结果数量大于1000，请缩小查询范围");
 
-        List<User> list = new ArrayList<>();
-        userTable.getData().getRows().forEach(user -> {
-            UserWeb userWeb = new UserWeb();
-            BeanUtil.copyProperties(user, userWeb);
-
-            // 获取部门信息
-            Department department = departmentBiz.getById(user.getDepartmentId());
-            if (department != null) {
-                userWeb.setDepartmentName(department.getName());
-            }
-
-            userWeb.setPassword(null);
-
-            list.add(userWeb);
-        });
-        userTable.getData().setRows(list);
+        PageInfo<User> result = PageHelper.startPage(query.getPage(), query.getLimit())
+                .doSelectPageInfo(() -> baseMapper.listJoin(wrapper));
+        TableResultResponse<User> userTable = new TableResultResponse<>(result);
 
         // 枚举值
         userTable.getData().addDict("status", dictBiz.getByCode(DictTypeCodeEnum.COMMON_USER_STATUS));
