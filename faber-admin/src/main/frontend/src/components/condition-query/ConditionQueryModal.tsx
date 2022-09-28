@@ -24,7 +24,7 @@ export interface ConditionQueryModalProps<T> {
 }
 
 function genOneEmptyCondGroup(): ConditionQuery.CondGroup {
-  return { id: uuidv1(), type: ConditionQuery.Type.AND, condList: [{ id: uuidv1(), opr: 'equal' }] };
+  return { id: uuidv1(), type: ConditionQuery.Type.AND, condList: [{ id: uuidv1(), opr: ConditionQuery.CondOpr.equal }] };
 }
 
 /**

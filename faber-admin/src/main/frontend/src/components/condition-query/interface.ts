@@ -1,16 +1,16 @@
 namespace ConditionQuery {
 	/** 自定义筛选条件-类型 */
 	export enum CondOpr {
-		equal = 'equal', // '等于',
-		not_equal = 'not_equal', // '不等于',
-		contain = 'contain', //  '包含',
-		not_contain = 'not_contain', // '不包含',
-		start_contain = 'start_contain', // '开始于',
-		end_contain = 'end_contain', // '结束于',
-		greater = 'greater', // '大于',
-		greater_equal = 'greater_equal', // '大于等于',
-		less = 'less', // '小于',
-		less_equal = 'less_equal', // '小于等于',
+		equal = 'eq', // '等于',
+		not_equal = 'ne', // '不等于',
+		contain = 'like', //  '包含',
+		not_contain = 'notLike', // '不包含',
+		start_contain = 'likeLeft', // '开始于',
+		end_contain = 'likeRight', // '结束于',
+		greater = 'gt', // '大于',
+		greater_equal = 'ge', // '大于等于',
+		less = 'lt', // '小于',
+		less_equal = 'le', // '小于等于',
 		between = 'between', // '介于',
 		in = 'in', // 'IN',
 	}

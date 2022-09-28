@@ -1,8 +1,10 @@
 package com.faber.common.vo;
 
 
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.faber.common.vo.query.ConditionGroup;
 import lombok.Data;
 
 import java.util.LinkedHashMap;
@@ -31,7 +33,7 @@ public class Query extends LinkedHashMap<String, Object> {
      * type: or\and
      * condList: 单属性查询列表
      */
-    private List<Map> conditionList;
+    private List<ConditionGroup> conditionList;
 
     public Query(Map<String, Object> params) {
         // 删除params中为空的元素
@@ -68,8 +70,9 @@ public class Query extends LinkedHashMap<String, Object> {
 
         // 高级查询组合条件
         if (params.get("conditionList") != null) {
-            this.conditionList = (List<Map>) params.get("conditionList");
+            this.conditionList = (List<ConditionGroup>) params.get("conditionList");
         }
+
         this.remove("conditionList");
     }
 

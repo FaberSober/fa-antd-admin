@@ -175,13 +175,13 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
 //        }
 
         // 高级查询-过滤条件List
-        if (query.getConditionList() != null && query.getConditionList().size() > 0) {
-            for (Map map : query.getConditionList()) {
-                String type = (String) map.get("type");
-                List<Map> condList = (List<Map>) map.get("condList");
-                this.processConditionList(type, condList, wrapper);
-            }
-        }
+//        if (query.getConditionList() != null && query.getConditionList().size() > 0) {
+//            for (Map map : query.getConditionList()) {
+//                String type = (String) map.get("type");
+//                List<Map> condList = (List<Map>) map.get("condList");
+//                this.processConditionList(type, condList, wrapper);
+//            }
+//        }
 
         // sceneId 场景ID查询
         if (query.getSceneId() != null && query.getSceneId() > 0) {
