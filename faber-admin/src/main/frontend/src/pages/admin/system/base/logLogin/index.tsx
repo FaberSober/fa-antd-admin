@@ -37,7 +37,7 @@ export default function LogLoginList() {
             <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />
           </Space>
         ),
-        width: 120,
+        width: 70,
         fixed: 'right',
         tcRequired: true,
         tcType: 'menu',

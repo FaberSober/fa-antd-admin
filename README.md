@@ -41,35 +41,32 @@ import lombok.Getter;
 
 @Getter
 public enum BoolEnum implements IEnum<Integer> {
-    NO(0, "否"),
-    YES(1, "是");
+   NO(0, "否"),
+   YES(1, "是");
 
-    @JsonValue
-    @EnumValue
-    private final Integer code; // 1. 使用code表示枚举值
-    private final String val; // 2. 使用val表示枚举字段
+   @JsonValue
+   @EnumValue
+   private final Integer value;
+   private final String desc;
 
-    BoolEnum(Integer code, String val) {
-        this.code = code;
-        this.val = val;
-    }
-
-    @Override
-    public Integer getValue() {
-        return code;
-    }
+   BoolEnum(Integer value, String desc) {
+      this.value = value;
+      this.desc = desc;
+   }
 
 }
-
 ```
 
 # 使用插件
 ## 后端
-| 插件 | 官网 |
-| :--- | :--- |
-| MyBatis-Plus | https://baomidou.com/ |
-| hutool | https://hutool.cn/docs/ |
-| easyexcel | https://easyexcel.opensource.alibaba.com/ |
+| 插件 | 说明 | 官网 |
+| :--- | :--- | :--- |
+| MyBatis-Plus | 数据库操作增强 | https://baomidou.com/ |
+| easyexcel | excel操作 | https://easyexcel.opensource.alibaba.com/ |
+| Spring Validation | 参数校验 | http://www.45fan.com/article.php?aid=1D2CNY5HBM62RmJc/ |
+| guava | google工具包 | https://github.com/google/guava/ |
+| hutool | 常用工具包 | https://hutool.cn/docs/ |
+| hutool-crypto | 对称加密-SymmetricCrypto | https://www.hutool.cn/docs/#/crypto/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-SymmetricCrypto?id=%e4%bb%8b%e7%bb%8d |
 
 
 ## 前端
@@ -125,6 +122,7 @@ ncu -u --timeout 120000 --reject husky
 - [X] 导出Excel需要适配Enum类型属性的转换
 - [ ] 剔除多余的hooks使用
 - [ ] socket整理
+- [ ] 集成Spring Validation
 
 # 前端代码迁移
 - [x] BaseBiz查询分组List
