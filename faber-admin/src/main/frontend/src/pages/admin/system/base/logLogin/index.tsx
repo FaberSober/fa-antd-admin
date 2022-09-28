@@ -54,8 +54,8 @@ export default function LogLoginList() {
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <div>
             <Form form={form} layout="inline" onFinish={setFormValues}>
-              <Form.Item name="search" label="搜索">
-                <Input placeholder="请输入搜索内容" />
+              <Form.Item name="crtName" label="创建用户">
+                <Input placeholder="请输入创建用户" />
               </Form.Item>
             </Form>
           </div>
