@@ -25,7 +25,18 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/rbac/rbacUserRole")
-public class RbacUserRoleController extends BaseController<RbacUserRoleBiz,RbacUserRole, Long> {
+public class RbacUserRoleController extends BaseController<RbacUserRoleBiz, RbacUserRole, Long> {
+
+    /**
+     * 获取账户的角色列表
+     * @return
+     */
+    @RequestMapping(value = "/getUserRoles/{userId}", method = RequestMethod.GET)
+    @ResponseBody
+    public ObjectRestResponse<List<RbacRole>> getUserRoles(@PathVariable String userId) {
+        List<RbacRole> o = baseBiz.getUserRoles(userId);
+        return ok(o);
+    }
 
     /**
      * 获取登录账户的角色列表
@@ -34,7 +45,7 @@ public class RbacUserRoleController extends BaseController<RbacUserRoleBiz,RbacU
     @RequestMapping(value = "/getMyRoles", method = RequestMethod.GET)
     @ResponseBody
     public ObjectRestResponse<List<RbacRole>> getMyRoles() {
-        List<RbacRole> o = baseBiz.getMyRoles();
+        List<RbacRole> o = baseBiz.getUserRoles(getCurrentUserId());
         return ok(o);
     }
 
@@ -45,7 +56,7 @@ public class RbacUserRoleController extends BaseController<RbacUserRoleBiz,RbacU
     @RequestMapping(value = "/getMyMenus", method = RequestMethod.GET)
     @ResponseBody
     public ObjectRestResponse<List<RbacMenu>> getMyMenus() {
-        List<RbacMenu> o = baseBiz.getMyMenus();
+        List<RbacMenu> o = baseBiz.getUserMenus(getCurrentUserId());
         return ok(o);
     }
 
@@ -56,7 +67,7 @@ public class RbacUserRoleController extends BaseController<RbacUserRoleBiz,RbacU
     @RequestMapping(value = "/getMyMenusTree", method = RequestMethod.GET)
     @ResponseBody
     public ObjectRestResponse<List<TreeNode<RbacMenu>>> getMyMenusTree() {
-        List<TreeNode<RbacMenu>> o = baseBiz.getMyMenusTree();
+        List<TreeNode<RbacMenu>> o = baseBiz.getUserMenusTree(getCurrentUserId());
         return ok(o);
     }
 

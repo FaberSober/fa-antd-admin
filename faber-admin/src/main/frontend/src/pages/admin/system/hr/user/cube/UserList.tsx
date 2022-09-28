@@ -44,6 +44,10 @@ function UserList({ departmentId }: IProps, ref: any) {
     const { sorter } = queryParams;
     return [
       BaseTableUtils.genSimpleSorterColumn('ID', 'id', 340, sorter, false),
+      BaseTableUtils.genSimpleSorterColumn('手机号', 'tel', 120, sorter),
+      BaseTableUtils.genSimpleSorterColumn('账户', 'username', 100, sorter),
+      BaseTableUtils.genSimpleSorterColumn('姓名', 'name', 100, sorter),
+      BaseTableUtils.genSimpleSorterColumn('角色', 'roleNames', undefined, sorter),
       {
         ...BaseTableUtils.genSimpleSorterColumn('部门', 'departmentId', 200, sorter),
         render: (val: any, record: any) => record.departmentName,
@@ -51,18 +55,11 @@ function UserList({ departmentId }: IProps, ref: any) {
           <DepartmentCascade value={value} onChangeWithItem={(v: any, item: any) => callback(v, index, get(item, 'name'))} {...props} />
         ),
       },
-      BaseTableUtils.genSimpleSorterColumn('手机号', 'tel', 120, sorter),
-      BaseTableUtils.genSimpleSorterColumn('账户', 'username', 100, sorter),
-      BaseTableUtils.genSimpleSorterColumn('姓名', 'name', 100, sorter),
-      {
-        ...BaseTableUtils.genSimpleSorterColumn('角色', 'roleNames', 100, sorter),
-        sorter: false,
-      },
       BaseTableUtils.genDictSorterColumn('状态', 'status', 100, sorter, dicts, 'common_user_status'),
       BaseTableUtils.genDictSorterColumn('性别', 'sex', 100, sorter, dicts, 'common_sex'),
       BaseTableUtils.genSimpleSorterColumn('邮箱', 'email', 150, sorter, false),
       BaseTableUtils.genSimpleSorterColumn('地址', 'address', 200, sorter, false),
-      BaseTableUtils.genSimpleSorterColumn('描述', 'description', undefined, sorter),
+      BaseTableUtils.genSimpleSorterColumn('描述', 'description', undefined, sorter, false),
       ...BaseTableUtils.genCtrColumns(sorter),
       ...BaseTableUtils.genUpdateColumns(sorter),
       {

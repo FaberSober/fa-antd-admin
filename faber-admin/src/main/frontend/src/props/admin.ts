@@ -170,6 +170,8 @@ namespace Admin {
 		/** 状态是否有效  */
 		status: FaberEnums.BoolEnum;
 		/** 描述  */
+    roleNames: string;
+		/** 描述  */
 		description: string;
 		/** 头像URL  */
 		img: string;

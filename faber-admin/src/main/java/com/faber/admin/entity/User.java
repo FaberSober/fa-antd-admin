@@ -67,6 +67,9 @@ public class User extends BaseDelEntity {
     @ExcelIgnore
     private BoolEnum status;
 
+    @ExcelProperty("角色名称")
+    private String roleNames;
+
     @ExcelProperty("备注")
     private String description;
 
@@ -93,6 +96,6 @@ public class User extends BaseDelEntity {
      */
     @ExcelIgnore
     @TableField(exist = false)
-    private List<Integer> groupIds;
+    private List<Long> roleIds;
 
 }

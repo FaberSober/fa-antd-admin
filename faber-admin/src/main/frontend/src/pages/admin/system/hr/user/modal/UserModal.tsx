@@ -1,12 +1,13 @@
 import React, {useEffect, useImperativeHandle, useState} from 'react';
-import { get } from 'lodash';
-import {Button, Col, Form, Input, Row} from 'antd';
-import DragModal, { DragModalProps } from '@/components/modal/DragModal';
-import { showResponse } from '@/utils/utils';
-import { RES_CODE } from '@/configs/server.config';
+import {get} from 'lodash';
+import {Form, Input} from 'antd';
+import DragModal, {DragModalProps} from '@/components/modal/DragModal';
+import {showResponse} from '@/utils/utils';
+import {RES_CODE} from '@/configs/server.config';
 import modelService from '@/services/admin/user';
+import rbacUserRoleApi from '@/services/rbac/rbacUserRole';
 import Admin from '@/props/admin';
-import { DictDataRadio } from '@/components/base-dict';
+import {DictDataRadio} from '@/components/base-dict';
 import DepartmentCascade from "../helper/DepartmentCascade";
 import {UploadImgLocal} from "@/components/base-uploader";
 import RbacRoleSelect from "@/pages/admin/system/hr/role/components/RbacRoleSelect";
@@ -80,7 +81,6 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
   function onFinish(fieldsValue: any) {
     const values = {
       ...fieldsValue,
-      // birthday: getDateStr000(fieldsValue.birthday),
     };
     if (record) {
       invokeUpdateTask({ ...record, ...values });
@@ -103,7 +103,7 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
       img: get(record, 'img', '/origin/api/admin/file/local/getFile/head'),
       lng: get(record, 'lng', addLoc?.lng),
       lat: get(record, 'lat', addLoc?.lat),
-      // groupIds: [],
+      roleIds: [],
     }
   }
 
@@ -121,11 +121,9 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
   function initFormData() {
     form.setFieldsValue(getInitialValues())
     if (record !== undefined) {
-      // groupUserApi.list({ userId: record.id }).then((res) => {
-      //   if (res && res.status === RES_CODE.OK) {
-      //     form.setFieldsValue({ groupIds: res.data.map((i) => i.groupId) })
-      //   }
-      // });
+      rbacUserRoleApi.getUserRoles(record.id).then((res) => {
+        form.setFieldsValue({ roleIds: res.data.map((i) => i.id) })
+      })
     }
   }
 

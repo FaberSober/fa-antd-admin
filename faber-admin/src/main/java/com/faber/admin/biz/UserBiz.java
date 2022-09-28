@@ -1,6 +1,8 @@
 package com.faber.admin.biz;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.IterUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.ObjectUtil;
 import com.ace.cache.api.CacheAPI;
@@ -21,6 +23,8 @@ import com.faber.common.exception.NoDataException;
 import com.faber.common.exception.auth.UserInvalidException;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.vo.Query;
+import com.faber.rbac.biz.RbacUserRoleBiz;
+import com.faber.rbac.entity.RbacRole;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -55,6 +59,10 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     @Lazy
     @Resource
     private DepartmentBiz departmentBiz;
+
+    @Lazy
+    @Resource
+    private RbacUserRoleBiz rbacUserRoleBiz;
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
@@ -113,6 +121,20 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         if (usernameCount > 0) throw new BuzzException("账户重复");
     }
 
+    /**
+     * 更新用户角色
+     * @param entity
+     */
+    public void updateUserRoles(User entity) {
+        // 关联角色
+        rbacUserRoleBiz.changeUserRoles(entity.getId(), entity.getRoleIds());
+        // 冗余角色名称
+        List<RbacRole> roleList = rbacUserRoleBiz.getUserRoles(entity.getId());
+        String roleNames = IterUtil.join(roleList.stream().map(RbacRole::getName).iterator(), ",");
+
+        lambdaUpdate().eq(User::getId, entity.getId()).set(User::getRoleNames, roleNames).update();
+    }
+
     @Override
     public boolean save(User entity) {
         this.checkBeanValid(entity);
@@ -123,8 +145,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
 
         super.save(entity);
 
-        // 关联角色
-//        groupUserBiz.changeUserGroup(entity.getId(), entity.getGroupIds());
+        this.updateUserRoles(entity);
 
         return true;
     }
@@ -139,8 +160,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         // 修改用户，不能修改用户密码
         entity.setPassword(beanDB.getPassword());
 
-        // 关联角色
-//        groupUserBiz.changeUserGroup(entity.getId(), entity.getGroupIds());
+        this.updateUserRoles(entity);
 
         return super.updateById(entity);
     }
