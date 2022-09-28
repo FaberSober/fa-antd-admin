@@ -1,12 +1,15 @@
 package com.faber.common.vo;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.faber.common.vo.query.ConditionGroup;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +18,7 @@ import java.util.Map;
  * 查询参数：分页、排序
  */
 @Data
+@NoArgsConstructor
 public class Query extends LinkedHashMap<String, Object> {
     private static final long serialVersionUID = 1L;
     /** 当前页码 */
@@ -70,10 +74,22 @@ public class Query extends LinkedHashMap<String, Object> {
 
         // 高级查询组合条件
         if (params.get("conditionList") != null) {
-            this.conditionList = (List<ConditionGroup>) params.get("conditionList");
+            List<Map> list  = (List<Map>) params.get("conditionList");
+            if (list != null && !list.isEmpty()) {
+                for (Map map : list) {
+                    ConditionGroup item = new ConditionGroup();
+                    BeanUtil.copyProperties(map, item);
+                    this.addConditionGroup(item);
+                }
+            }
         }
 
         this.remove("conditionList");
+    }
+
+    public void addConditionGroup(ConditionGroup item) {
+        if (this.conditionList == null) this.conditionList = new ArrayList<>();
+        this.conditionList.add(item);
     }
 
     public int getStart() {

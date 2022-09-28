@@ -121,8 +121,8 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
      */
     @RequestMapping(value = "/page", method = RequestMethod.POST)
     @ResponseBody
-    public TableResultResponse<Entity> page(@RequestBody Map<String, Object> params) {
-        Query query = new Query(params);
+    public TableResultResponse<Entity> page(@RequestBody Query query) {
+//        Query query = new Query(params);
         return baseBiz.selectPageByQuery(query);
     }
 

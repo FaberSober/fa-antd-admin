@@ -151,22 +151,22 @@ public class WrapperUtils {
                         break;
                     case LIKE_RIGHT:
                         ew.likeRight(column, SqlUtils.filterLikeValue(ObjectUtil.toString(value)));
-                    break;
+                        break;
                     case GT:
                         ew.gt(column, value);
-                    break;
+                        break;
                     case GE:
                         ew.ge(column, value);
-                    break;
+                        break;
                     case LT:
                         ew.lt(column, value);
-                    break;
+                        break;
                     case LE:
                         ew.le(column, value);
-                    break;
+                        break;
                     case BETWEEN:
                         ew.between(column, cond.getBegin(), cond.getEnd());
-                    break;
+                        break;
                 }
             }
         });

@@ -23,6 +23,7 @@ import com.faber.common.enums.DelStateEnum;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.msg.TableResultResponse;
+import com.faber.common.mybatis.WrapperUtils;
 import com.faber.common.util.EasyExcelUtils;
 import com.faber.common.vo.Query;
 import com.faber.common.util.SqlUtils;
@@ -86,7 +87,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
 
     public QueryWrapper<T> parseQuery(Query query) {
         Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-        return this.parseQuery(query, clazz);
+        return WrapperUtils.parseQuery(query, clazz);
     }
 
     public QueryWrapper<T> parseQuery(Query query, Class clazz) {

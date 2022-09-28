@@ -31,7 +31,7 @@ export default function CondGroupShow({ condGroup, onChange }: CondGroupShowProp
       {condGroup.condList.map((cond, index) => {
         const { id, key, opr, value, begin, end, name } = cond;
         let condStr;
-        if (opr === 'between') {
+        if (opr === ConditionQuery.CondOpr.between) {
           if (key === undefined || begin === undefined || end === undefined) {
             return null;
           }

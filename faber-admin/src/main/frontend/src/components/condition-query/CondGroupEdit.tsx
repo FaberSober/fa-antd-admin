@@ -71,7 +71,7 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
     setConditionList([...condGroup.condList, { id: uuidv1(), opr: ConditionQuery.CondOpr.equal }]);
   }
 
-  function setConditionList(condList) {
+  function setConditionList(condList: ConditionQuery.Cond[]) {
     onChange({ ...condGroup, condList })
   }
 
@@ -99,7 +99,7 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
     if (onDelete) onDelete();
   }
 
-  function handleTypeChange(type) {
+  function handleTypeChange(type:ConditionQuery.Type) {
     console.log('handleTypeChange', type)
     if (onChange) {
       onChange({ ...condGroup, type })
@@ -143,21 +143,21 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
               {/* 筛选操作符 */}
               <Select style={{ width: 100, marginRight: 12 }} value={opr} onChange={(v) => handleChangeOpt(v, index)}>
                 <Select.Option value={ConditionQuery.CondOpr.equal}>等于</Select.Option>
-                <Select.Option value="not_equal">不等于</Select.Option>
-                <Select.Option value="greater">大于</Select.Option>
-                <Select.Option value="greater_equal">大于等于</Select.Option>
-                <Select.Option value="less">小于</Select.Option>
-                <Select.Option value="less_equal">小于等于</Select.Option>
-                <Select.Option value="in">IN</Select.Option>
-                <Select.Option value="contain">包含</Select.Option>
-                <Select.Option value="not_contain">不包含</Select.Option>
-                <Select.Option value="start_contain">开始于</Select.Option>
-                <Select.Option value="end_contain">结束于</Select.Option>
-                <Select.Option value="between">{ConditionQuery.OPR_MAP.between}</Select.Option>
+                <Select.Option value={ConditionQuery.CondOpr.not_equal}>不等于</Select.Option>
+                <Select.Option value={ConditionQuery.CondOpr.greater}>大于</Select.Option>
+                <Select.Option value={ConditionQuery.CondOpr.greater_equal}>大于等于</Select.Option>
+                <Select.Option value={ConditionQuery.CondOpr.less}>小于</Select.Option>
+                <Select.Option value={ConditionQuery.CondOpr.less_equal}>小于等于</Select.Option>
+                <Select.Option value={ConditionQuery.CondOpr.in}>IN</Select.Option>
+                <Select.Option value={ConditionQuery.CondOpr.contain}>包含</Select.Option>
+                <Select.Option value={ConditionQuery.CondOpr.not_contain}>不包含</Select.Option>
+                <Select.Option value={ConditionQuery.CondOpr.start_contain}>开始于</Select.Option>
+                <Select.Option value={ConditionQuery.CondOpr.end_contain}>结束于</Select.Option>
+                <Select.Option value={ConditionQuery.CondOpr.between}>{ConditionQuery.OPR_MAP.between}</Select.Option>
               </Select>
               {/* 筛选值 */}
               {/* 单值输入 */}
-              {opr !== 'between' ? (
+              {opr !== ConditionQuery.CondOpr.between ? (
                 <>
                   {tcCondComponent ? (
                     tcCondComponent({
@@ -178,7 +178,7 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
                 </>
               ) : null}
               {/* 双值输入 */}
-              {opr === 'between' ? (
+              {opr === ConditionQuery.CondOpr.between ? (
                 <>
                   {tcCondBetweenComponent ? (
                     tcCondBetweenComponent({
