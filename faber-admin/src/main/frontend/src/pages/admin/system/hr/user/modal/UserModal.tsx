@@ -9,6 +9,7 @@ import Admin from '@/props/admin';
 import { DictDataRadio } from '@/components/base-dict';
 import DepartmentCascade from "../helper/DepartmentCascade";
 import {UploadImgLocal} from "@/components/base-uploader";
+import RbacRoleSelect from "@/pages/admin/system/hr/role/components/RbacRoleSelect";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
@@ -152,6 +153,9 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
           </Form.Item>
           <Form.Item name="tel" label="手机号" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input />
+          </Form.Item>
+          <Form.Item name="roleIds" label="角色" rules={[{ required: true }]} {...formItemFullLayout}>
+            <RbacRoleSelect mode="multiple" />
           </Form.Item>
           <Form.Item name="status" label="状态" rules={[{ required: true }]} {...formItemFullLayout}>
             <DictDataRadio dictLabel="common_user_status" />

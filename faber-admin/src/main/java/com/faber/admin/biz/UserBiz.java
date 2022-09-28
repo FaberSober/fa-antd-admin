@@ -15,6 +15,7 @@ import com.faber.common.biz.BaseBiz;
 import com.faber.common.constant.CommonConstants;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.enums.BoolEnum;
+import com.faber.common.enums.DictTypeCodeEnum;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.exception.NoDataException;
 import com.faber.common.exception.auth.UserInvalidException;
@@ -197,8 +198,6 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
 
     @Override
     public TableResultResponse<User> selectPageByQuery(Query query) {
-        // 查询时，只查询有效的业务实体
-//        query.put("delState", BaseDelEntity.DEL_STATE.AVAILABLE);
         TableResultResponse<User> userTable = super.selectPageByQuery(query);
 
         List<User> list = new ArrayList<>();
@@ -217,6 +216,10 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
             list.add(userWeb);
         });
         userTable.getData().setRows(list);
+
+        // 枚举值
+        userTable.getData().addDict("status", dictBiz.getByCode(DictTypeCodeEnum.COMMON_USER_STATUS));
+        userTable.getData().addDict("sex", dictBiz.getByCode(DictTypeCodeEnum.COMMON_SEX));
 
         return userTable;
     }

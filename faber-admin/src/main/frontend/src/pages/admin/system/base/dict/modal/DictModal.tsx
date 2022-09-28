@@ -158,7 +158,7 @@ function DictModal({ children, title, record, fetchFinish, type, ...props }: IPr
             </Form.Item>
           )}
           <Form.Item name="sort" label="排序" rules={[{ required: true }]} {...formItemFullLayout}>
-            <InputNumber step={1} min={1} />
+            <InputNumber step={1} min={0} />
           </Form.Item>
           <Form.Item name="description" label="描述" {...formItemFullLayout}>
             <Input.TextArea />

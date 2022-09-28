@@ -6,6 +6,7 @@ import com.faber.admin.entity.DictType;
 import com.faber.admin.mapper.DictMapper;
 import com.faber.admin.vo.SystemConfigPo;
 import com.faber.common.biz.BaseBiz;
+import com.faber.common.enums.DictTypeCodeEnum;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.vo.Query;
@@ -57,8 +58,8 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
         return baseMapper.selectByTypeCode(dictTypeCode);
     }
 
-    public List<DictOption> getByCode(String code) {
-        List<Dict> dictList = baseMapper.selectByTypeCode(code);
+    public List<DictOption> getByCode(DictTypeCodeEnum codeEnum) {
+        List<Dict> dictList = baseMapper.selectByTypeCode(codeEnum.getValue());
         List<DictOption> options = new ArrayList<>();
         dictList.forEach(d -> {
             options.add(new DictOption(d.getValue(), d.getText(), d.getColor(), d.getSort()));

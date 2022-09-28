@@ -62,11 +62,8 @@ public class DepartmentBiz extends BaseTreeBiz<DepartmentMapper, Department> {
     public TableResultResponse<Department> selectPageByQuery(Query query) {
         TableResultResponse<Department> table = super.selectPageByQuery(query);
 
-
         List<Department> list = table.getData().getRows().stream().map(this::decorate).collect(Collectors.toList());
         table.getData().setRows(list);
-
-        table.addDict("type", dictBiz.getByCode("common:department:type"));
 
         return table;
     }

@@ -6,6 +6,7 @@ import com.faber.admin.vo.AreaPathVo;
 import com.faber.admin.vo.AreaTree;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.enums.AreaLevelEnum;
+import com.faber.common.enums.DictTypeCodeEnum;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.map.AMapUtils;
 import com.faber.common.msg.TableResultResponse;
@@ -60,7 +61,7 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
     @Override
     public TableResultResponse<Area> selectPageByQuery(Query query) {
         TableResultResponse<Area> table = super.selectPageByQuery(query);
-        table.getData().addDict("level", dictBiz.getByCode("common_area_level"));
+        table.getData().addDict("level", dictBiz.getByCode(DictTypeCodeEnum.COMMON_AREA_LEVEL));
         return table;
     }
 
