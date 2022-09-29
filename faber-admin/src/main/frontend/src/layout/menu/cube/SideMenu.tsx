@@ -6,6 +6,7 @@ import Rbac from "@/props/rbac";
 import MenuLayoutContext from "@/layout/menu/context/MenuLayoutContext";
 import {DoubleLeftOutlined, DoubleRightOutlined} from "@ant-design/icons";
 import {FaFlexRestLayout} from "@/components/base-layout";
+import FaberEnums from "@/props/base/FaberEnums";
 
 /**
  * @author xu.pengfei
@@ -16,7 +17,9 @@ export default function SideMenu() {
 
   function loop(list: FaberBase.TreeNode<Rbac.RbacMenu>[] | undefined): any[] | undefined {
     if (isNil(list) || list.length === 0) return undefined;
-    return list.map((i) => ({
+    const menuList = list.filter(i => i.sourceData.level !== FaberEnums.RbacMenuLevelEnum.BUTTON);
+    if (menuList.length === 0) return undefined;
+    return menuList.map((i) => ({
       key: i.id,
       label: i.name,
       children: loop(i.children),
