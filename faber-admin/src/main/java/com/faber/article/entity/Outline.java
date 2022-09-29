@@ -16,7 +16,7 @@ import lombok.Data;
  * @email faberxu@gmail.com
  * @date 2020-12-31 13:53:39
  */
-@FaberModalName(name = "文章-大纲")
+@FaModalName(name = "文章-大纲")
 @TableName("article_outline")
 @Data
 public class Outline extends BaseDelEntity {

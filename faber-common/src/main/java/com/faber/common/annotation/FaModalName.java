@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value={ElementType.FIELD,ElementType.TYPE})
-public @interface FaberModalName {
+public @interface FaModalName {
 
     String name() default "";
 

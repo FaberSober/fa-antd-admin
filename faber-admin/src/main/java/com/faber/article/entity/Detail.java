@@ -4,7 +4,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.faber.common.annotation.FaberModalName;
+import com.faber.common.annotation.FaModalName;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.bean.BaseDelEntity;
 import lombok.Data;
@@ -17,7 +17,7 @@ import lombok.Data;
  * @email faberxu@gmail.com
  * @date 2020-12-31 13:53:39
  */
-@FaberModalName(name = "文章-详情")
+@FaModalName(name = "文章-详情")
 @TableName("article_detail")
 @Data
 public class Detail extends BaseDelEntity {

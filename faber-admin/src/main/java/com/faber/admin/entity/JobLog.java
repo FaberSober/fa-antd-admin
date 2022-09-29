@@ -4,7 +4,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.faber.common.annotation.FaberModalName;
+import com.faber.common.annotation.FaModalName;
 import com.faber.common.annotation.SqlEquals;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +21,7 @@ import java.util.Date;
  * @email faberxu@gmail.com
  * @date 2022-09-07 16:03:51
  */
-@FaberModalName(name = "BASE-系统定时任务-执行日志")
+@FaModalName(name = "BASE-系统定时任务-执行日志")
 @TableName("base_job_log")
 @Data
 public class JobLog implements Serializable {

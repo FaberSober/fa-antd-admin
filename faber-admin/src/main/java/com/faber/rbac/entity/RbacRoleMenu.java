@@ -4,7 +4,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.faber.common.annotation.FaberModalName;
+import com.faber.common.annotation.FaModalName;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.enums.BoolEnum;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
  * @email faberxu@gmail.com
  * @date 2022-09-19 11:40:40
  */
-@FaberModalName(name = "BASE-角色权限对应表")
+@FaModalName(name = "BASE-角色权限对应表")
 @TableName("base_rbac_role_menu")
 @Data
 @NoArgsConstructor

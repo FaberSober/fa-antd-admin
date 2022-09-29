@@ -3,7 +3,7 @@ package com.faber.disk.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.faber.common.annotation.FaberModalName;
+import com.faber.common.annotation.FaModalName;
 import com.faber.common.bean.BaseDelEntity;
 import lombok.Data;
 
@@ -15,7 +15,7 @@ import lombok.Data;
  * @email faberxu@gmail.com
  * @date 2020-07-13 10:36:38
  */
-@FaberModalName(name = "云盘/文件")
+@FaModalName(name = "云盘/文件")
 @TableName("disk_file")
 @Data
 public class DiskFile extends BaseDelEntity {

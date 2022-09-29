@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.faber.rbac.entity.RbacUserRole;
 import com.faber.rbac.vo.RbacUserRoleRetVo;
 import com.faber.rbac.vo.query.RbacUserRoleQueryVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,5 +18,7 @@ import java.util.List;
 public interface RbacUserRoleMapper extends BaseMapper<RbacUserRole> {
 
     List<RbacUserRoleRetVo> pageVo(RbacUserRoleQueryVo query);
+
+    int countByUserIdAndLinkUrl(@Param("userId") String userId, @Param("linkUrl") String linkUrl);
 	
 }

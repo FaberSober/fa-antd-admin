@@ -2,7 +2,7 @@ import FaberBase from '@/props/base/FaberBase';
 import Ajax from '@/props/base/Ajax';
 import BaseZeroApi from './BaseZeroApi';
 
-export default class BaseApi<T, KeyType, PageT = T> extends BaseZeroApi<T, KeyType, PageT> {
+export default class BaseApi<T, KeyType, PageT = T> extends BaseZeroApi {
 	/** 增加实体信息 */
 	add = (params: any): Promise<Ajax.Response<T>> => this.post('add', params);
 

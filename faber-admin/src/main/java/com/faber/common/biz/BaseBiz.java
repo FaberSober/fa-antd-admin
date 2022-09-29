@@ -3,7 +3,6 @@ package com.faber.common.biz;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import cn.hutool.json.JSONUtil;
 import com.ace.cache.api.CacheAPI;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
@@ -13,7 +12,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.faber.admin.entity.Config;
 import com.faber.admin.mapper.ConfigMapper;
-import com.faber.common.annotation.FaberModalName;
+import com.faber.common.annotation.FaModalName;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.enums.DelStateEnum;
@@ -163,7 +162,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     protected void sendFileExcel(Class<T> clazz, List<T> list) throws IOException {
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
 
-        FaberModalName anno = clazz.getAnnotation(FaberModalName.class);
+        FaModalName anno = clazz.getAnnotation(FaModalName.class);
 
         String fileName = DateUtil.now() + "";
         if (anno != null) {

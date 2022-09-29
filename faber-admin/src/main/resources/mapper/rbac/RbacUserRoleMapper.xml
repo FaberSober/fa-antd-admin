@@ -23,4 +23,12 @@
         </if>
     </select>
 
+    <select id="countByUserIdAndLinkUrl" parameterType="map" resultType="int">
+        SELECT count(0) FROM base_rbac_menu WHERE del_state = 0 AND id IN (
+            SELECT menu_id FROM base_rbac_role_menu WHERE del_state = 0 AND role_id IN (
+                SELECT role_id FROM base_rbac_user_role WHERE del_state = 0 AND user_id = #{userId}
+            )
+        ) AND link_url = #{linkUrl}
+    </select>
+
 </mapper>

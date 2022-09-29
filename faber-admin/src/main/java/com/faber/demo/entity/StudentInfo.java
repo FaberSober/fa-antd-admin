@@ -4,7 +4,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.faber.common.annotation.FaberModalName;
+import com.faber.common.annotation.FaModalName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,7 +17,7 @@ import java.io.Serializable;
  * @email faberxu@gmail.com
  * @date 2020-06-02 17:14:45
  */
-@FaberModalName(name = "学生-扩充信息表")
+@FaModalName(name = "学生-扩充信息表")
 @TableName("demo_student_info")
 @Data
 public class StudentInfo implements Serializable {

@@ -4,7 +4,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.faber.common.annotation.FaberModalName;
+import com.faber.common.annotation.FaModalName;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlSearch;
 import com.faber.common.bean.BaseDelEntity;
@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
  * @date 2019-08-21 14:48:06
  */
 @EqualsAndHashCode(callSuper = true)
-@FaberModalName(name = "定时任务")
+@FaModalName(name = "定时任务")
 @TableName("base_job")
 @Data
 public class Job extends BaseDelEntity {

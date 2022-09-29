@@ -1,7 +1,7 @@
 import { requestDelete, requestDownload, requestGet, requestPost, requestPut } from '@/utils/request';
 import { AxiosRequestConfig } from 'axios';
 
-export default class BaseZeroApi<T, KeyType, PageT = T> {
+export default class BaseZeroApi {
 	public apiPrefix: string;
 
 	public apiModal: string;
@@ -22,4 +22,5 @@ export default class BaseZeroApi<T, KeyType, PageT = T> {
 	download = (api: string, body: object, config?: AxiosRequestConfig) => requestDownload(`${this.apiPrefix}/${this.apiModal}/${api}`, body, config);
 
 	getUrl = (api: string) => `${this.apiPrefix}/${this.apiModal}/${api}`;
+
 }

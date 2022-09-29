@@ -1,7 +1,13 @@
 package com.faber.admin.config.interceptor;
 
+import cn.hutool.core.util.StrUtil;
 import com.faber.admin.config.annotation.IgnoreUserToken;
+import com.faber.admin.config.annotation.Permission;
+import com.faber.common.context.BaseContextHandler;
+import com.faber.common.exception.auth.UserNoPermissionException;
+import com.faber.rbac.biz.RbacUserRoleBiz;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class PermissionInterceptor extends AbstractInterceptor {
 
+    @Autowired
+    private RbacUserRoleBiz rbacUserRoleBiz;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 配置该注解，说明不进行用户拦截
@@ -19,9 +28,15 @@ public class PermissionInterceptor extends AbstractInterceptor {
         if (annotation != null) {
             return super.preHandle(request, response, handler);
         }
-        return super.preHandle(request, response, handler);
 
-        // TODO permission check
+        Permission permission = super.getPermission(handler);
+        if (permission == null || StrUtil.isEmpty(permission.permission())) {
+            return super.preHandle(request, response, handler);
+        }
+        boolean hasPermission = rbacUserRoleBiz.checkUserLinkUrl(BaseContextHandler.getUserId(), permission.permission());
+        if (!hasPermission) throw new UserNoPermissionException("无权访问");
+
+        return super.preHandle(request, response, handler);
     }
 
     @Override

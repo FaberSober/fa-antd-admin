@@ -4,7 +4,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.faber.common.annotation.FaberModalName;
+import com.faber.common.annotation.FaModalName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,7 +18,7 @@ import java.util.Date;
  * @email faberxu@gmail.com
  * @date 2022-08-17 17:10:02
  */
-@FaberModalName(name = "BASE-系统版本更新日志表")
+@FaModalName(name = "BASE-系统版本更新日志表")
 @TableName("base_system_update_log")
 @Data
 public class SystemUpdateLog implements Serializable {

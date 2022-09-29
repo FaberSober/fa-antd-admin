@@ -6,7 +6,7 @@ import React from 'react';
  */
 export default function index() {
   return (
-    <div style={{ fontSize: '30px' }}>
+    <div className="faber-full-content fa-bg-white fa-padding-12" style={{ fontSize: '30px' }}>
       <i className="fa-solid fa-user"></i>
 
       <i className="fa-regular fa-user"></i>

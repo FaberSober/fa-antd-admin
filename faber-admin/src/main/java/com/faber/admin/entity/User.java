@@ -7,21 +7,19 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.faber.common.annotation.FaberModalName;
+import com.faber.common.annotation.FaModalName;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlSearch;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.enums.BoolEnum;
 import com.faber.common.enums.SexEnum;
 import com.faber.common.validator.TelNoValidator;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
 
 import java.util.Date;
 import java.util.List;
 
-@FaberModalName(name = "账户")
+@FaModalName(name = "账户")
 @Data
 @TableName("base_user")
 public class User extends BaseDelEntity {

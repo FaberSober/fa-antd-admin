@@ -64,7 +64,7 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper,RbacUserRole> {
     }
 
     public List<RbacMenu> getUserMenus(String userId) {
-        List<Long> roleIds = this.getUserRoles(userId).stream().map(RbacRole::getId).collect(Collectors.toList());
+        List<Long> roleIds = this.getUserRoleIds(userId);
         if (roleIds.isEmpty()) return new ArrayList<>();
 
         List<RbacRoleMenu> roleMenuList = rbacRoleMenuBiz.lambdaQuery().in(RbacRoleMenu::getRoleId, roleIds).list();
@@ -77,6 +77,16 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper,RbacUserRole> {
     public List<TreeNode<RbacMenu>> getUserMenusTree(String userId) {
         List<RbacMenu> list = this.getUserMenus(userId);
         return rbacMenuBiz.getMenuTree(list, CommonConstants.ROOT);
+    }
+
+    /**
+     * 校验用户是否有该权限点{@link RbacMenu#getLinkUrl()}
+     * @param userId
+     * @param linkUrl
+     * @return
+     */
+    public boolean checkUserLinkUrl(String userId, String linkUrl) {
+        return baseMapper.countByUserIdAndLinkUrl(userId, linkUrl) > 0;
     }
 
     public TableResultResponse<RbacUserRoleRetVo> pageVo(RbacUserRoleQueryVo query) {

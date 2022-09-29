@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.faber.common.annotation.FaberModalName;
+import com.faber.common.annotation.FaModalName;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlSearch;
 import com.faber.common.annotation.SqlSorter;
@@ -17,7 +17,7 @@ import lombok.Data;
 /**
  * 字典值
  */
-@FaberModalName(name = "字典值")
+@FaModalName(name = "字典值")
 @TableName("base_dict")
 @Data
 public class Dict extends BaseDelEntity {

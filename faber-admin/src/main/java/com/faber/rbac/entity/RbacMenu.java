@@ -19,7 +19,7 @@ import lombok.Data;
  * @email faberxu@gmail.com
  * @date 2022-09-19 11:40:40
  */
-@FaberModalName(name = "BASE-权限表")
+@FaModalName(name = "BASE-权限表")
 @TableName("base_rbac_menu")
 @Data
 public class RbacMenu extends BaseDelEntity {
