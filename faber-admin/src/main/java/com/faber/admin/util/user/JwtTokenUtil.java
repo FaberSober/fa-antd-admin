@@ -37,7 +37,7 @@ public class JwtTokenUtil {
                 .setPayload("id", jwtInfo.getUserId())
                 .setPayload("source", jwtInfo.getSource())
                 .setKey(key)
-                .setExpiresAt(new Date(System.currentTimeMillis() + expire))
+                .setExpiresAt(new Date(System.currentTimeMillis() + expire * 1000L))
                 .sign();
     }
 
