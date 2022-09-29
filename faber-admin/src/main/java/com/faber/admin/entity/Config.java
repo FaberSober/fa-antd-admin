@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.enums.BoolEnum;
 import lombok.Data;
+import lombok.ToString;
 
 
 /**
@@ -17,6 +18,7 @@ import lombok.Data;
  */
 @TableName("base_config")
 @Data
+@ToString
 public class Config extends BaseDelEntity {
     private static final long serialVersionUID = 1L;
 

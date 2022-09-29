@@ -16,7 +16,7 @@ import java.util.Map;
  * https://blog.csdn.net/qq_38974638/article/details/119295809
  */
 @Configuration
-public class CustomConverterLoader {
+public class MyEasyExcelConverterLoader {
 
     @Bean
     public DefaultConverterLoader defaultConverterLoader() {

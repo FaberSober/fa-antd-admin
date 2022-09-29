@@ -1,11 +1,8 @@
 package com.faber.common.biz;
 
-import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -13,21 +10,19 @@ import com.faber.common.annotation.SqlSorter;
 import com.faber.common.annotation.SqlTreeId;
 import com.faber.common.annotation.SqlTreeName;
 import com.faber.common.annotation.SqlTreeParentId;
-import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.constant.CommonConstants;
-import com.faber.common.vo.Query;
 import com.faber.common.util.TreeUtil;
 import com.faber.common.vo.TreeNode;
 import com.faber.common.vo.TreePathVo;
 import com.faber.common.vo.TreePosChangeVo;
 import com.faber.common.vo.query.QueryParams;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,4 +44,15 @@ public class QueryParams implements Serializable {
         sorter1.setAsc(ss.length > 1 && "asc".equalsIgnoreCase(ss[1]));
         return sorter1;
     }
+
+    public void addConditionGroup(ConditionGroup item) {
+        if (this.conditionList == null) this.conditionList = new ArrayList<>();
+        this.conditionList.add(item);
+    }
+
+    public void addConditionGroupList(List<ConditionGroup> list) {
+        if (this.conditionList == null) this.conditionList = new ArrayList<>();
+        this.conditionList.addAll(list);
+    }
+
 }

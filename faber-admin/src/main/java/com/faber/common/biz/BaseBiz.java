@@ -1,11 +1,7 @@
 package com.faber.common.biz;
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.spring.SpringUtil;
-import cn.hutool.json.JSONUtil;
 import com.ace.cache.api.CacheAPI;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
@@ -16,7 +12,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.faber.admin.entity.Config;
 import com.faber.admin.mapper.ConfigMapper;
 import com.faber.common.annotation.FaberModalName;
-import com.faber.common.annotation.SqlEquals;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.enums.DelStateEnum;
@@ -26,11 +21,10 @@ import com.faber.common.msg.TableResultResponse;
 import com.faber.common.mybatis.WrapperUtils;
 import com.faber.common.util.EasyExcelUtils;
 import com.faber.common.vo.Query;
-import com.faber.common.util.SqlUtils;
-import com.faber.common.vo.Sorter;
+import com.faber.common.vo.query.ConditionGroup;
 import com.faber.common.vo.query.QueryParams;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +33,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.List;
 
 /**
  * 业务Service父类
@@ -89,6 +82,24 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     public QueryWrapper<T> parseQuery(QueryParams query) {
         Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
         this.preProcessQuery(query);
+
+        // sceneId 场景ID查询-追加到条件组中
+        if (query.getSceneId() != null && query.getSceneId() > 0) {
+            Config config = configMapper.selectById(query.getSceneId());
+            if (config != null) {
+                try {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    TypeReference<List<ConditionGroup>> typeReference = new TypeReference<List<ConditionGroup>>() {};
+                    List<ConditionGroup> list = objectMapper.readValue(config.getData(), typeReference);
+                    query.addConditionGroupList(list);
+                } catch (Exception e) {
+                    _logger.error("config: {}", config);
+                    _logger.error(e.getMessage(), e);
+                    throw new BuzzException("解析条件失败，请联系管理员");
+                }
+            }
+        }
+
         return WrapperUtils.parseQuery(query, clazz);
     }
 
