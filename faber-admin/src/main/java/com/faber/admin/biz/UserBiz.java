@@ -22,6 +22,7 @@ import com.faber.common.exception.NoDataException;
 import com.faber.common.exception.auth.UserInvalidException;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.vo.Query;
+import com.faber.common.vo.query.QueryParams;
 import com.faber.rbac.biz.RbacUserRoleBiz;
 import com.faber.rbac.entity.RbacRole;
 import com.github.pagehelper.PageHelper;
@@ -202,26 +203,27 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     }
 
     @Override
-    protected void preProcessQuery(Query query) {
+    protected void preProcessQuery(QueryParams query) {
         // 部门分组级联查询
-        if (query.containsKey("departmentId")) {
-            String departmentId = MapUtils.getString(query, "departmentId");
+        Map<String, Object> queryMap = query.getQueryMap();
+        if (queryMap.containsKey("departmentId")) {
+            String departmentId = MapUtils.getString(queryMap, "departmentId");
 
             List<Department> departmentList = departmentBiz.findAllChildren(departmentId);
             if (departmentList != null && !departmentList.isEmpty()) {
                 List<String> departmentIdList = departmentList.stream().map(Department::getId).collect(Collectors.toList());
-                query.put("departmentId#$in", departmentIdList);
-                query.remove("departmentId");
+                queryMap.put("departmentId#$in", departmentIdList);
+                queryMap.remove("departmentId");
             }
         }
     }
 
     @Override
-    public TableResultResponse<User> selectPageByQuery(Query query) {
+    public TableResultResponse<User> selectPageByQuery(QueryParams query) {
         QueryWrapper<User> wrapper = parseQuery(query);
-        if (query.getLimit() > 1000) throw new BuzzException("查询结果数量大于1000，请缩小查询范围");
+        if (query.getPageSize() > 1000) throw new BuzzException("查询结果数量大于1000，请缩小查询范围");
 
-        PageInfo<User> result = PageHelper.startPage(query.getPage(), query.getLimit())
+        PageInfo<User> result = PageHelper.startPage(query.getCurrent(), query.getPageSize())
                 .doSelectPageInfo(() -> baseMapper.listJoin(wrapper));
         TableResultResponse<User> userTable = new TableResultResponse<>(result);
 

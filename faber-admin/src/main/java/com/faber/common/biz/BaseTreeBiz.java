@@ -20,6 +20,7 @@ import com.faber.common.util.TreeUtil;
 import com.faber.common.vo.TreeNode;
 import com.faber.common.vo.TreePathVo;
 import com.faber.common.vo.TreePosChangeVo;
+import com.faber.common.vo.query.QueryParams;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.Serializable;
@@ -174,8 +175,7 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
         return this.getMenuTree(beanList, CommonConstants.ROOT + "");
     }
 
-    public List<TreeNode<T>> getTree(Map<String, Object> params) {
-        Query query = new Query(params);
+    public List<TreeNode<T>> getTree(QueryParams query) {
         QueryWrapper<T> wrapper = parseQuery(query);
         this.enhanceTreeQuery(wrapper);
         wrapper.orderByAsc(this.getSortedFieldColumnName());

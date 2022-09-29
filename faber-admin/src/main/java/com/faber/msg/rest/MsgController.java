@@ -4,6 +4,7 @@ import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.rest.BaseController;
 import com.faber.common.vo.Query;
+import com.faber.common.vo.query.QueryParams;
 import com.faber.msg.biz.MsgBiz;
 import com.faber.msg.entity.Msg;
 import com.faber.msg.vo.MsgStatisticVO;
@@ -33,9 +34,8 @@ public class MsgController extends BaseController<MsgBiz, Msg, Integer> {
      */
     @RequestMapping(value = "/pageMine", method = RequestMethod.POST)
     @ResponseBody
-    public TableResultResponse<Msg> pageMine(@RequestBody Map<String, Object> params) {
-        params.put("toUserId", getCurrentUserId());
-        Query query = new Query(params);
+    public TableResultResponse<Msg> pageMine(@RequestBody QueryParams query) {
+        query.getQueryMap().put("toUserId", getCurrentUserId());
         return baseBiz.selectPageByQuery(query);
     }
 

@@ -5,7 +5,7 @@ import com.faber.common.biz.BaseBiz;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.utils.BaseResHandler;
-import com.faber.common.vo.Query;
+import com.faber.common.vo.query.QueryParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <h3>通用Rest接口父类，包含基本的方法：</h3>
@@ -97,22 +96,22 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<List<Entity>> list(@RequestBody Map<String, Object> params) {
-        List<Entity> list = baseBiz.list(params);
+    public ObjectRestResponse<List<Entity>> list(@RequestBody QueryParams query) {
+        List<Entity> list = baseBiz.list(query);
         return ok(list);
     }
 
     @RequestMapping(value = "/mineList", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<List<Entity>> mineList(@RequestParam Map<String, Object> params) {
-        List<Entity> list = baseBiz.mineList(params);
+    public ObjectRestResponse<List<Entity>> mineList(@RequestParam QueryParams query) {
+        List<Entity> list = baseBiz.mineList(query);
         return ok(list);
     }
 
     @RequestMapping(value = "/count", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Long> count(@RequestParam Map<String, Object> params) {
-        long count = baseBiz.count(baseBiz.parseQuery(new Query(params)));
+    public ObjectRestResponse<Long> count(@RequestParam QueryParams query) {
+        long count = baseBiz.count(baseBiz.parseQuery(query));
         return ok(count);
     }
 
@@ -121,8 +120,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
      */
     @RequestMapping(value = "/page", method = RequestMethod.POST)
     @ResponseBody
-    public TableResultResponse<Entity> page(@RequestBody Query query) {
-//        Query query = new Query(params);
+    public TableResultResponse<Entity> page(@RequestBody QueryParams query) {
         return baseBiz.selectPageByQuery(query);
     }
 
@@ -132,8 +130,8 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
     @LogNoRet
     @RequestMapping(value = "/exportExcel", method = RequestMethod.POST)
     @ResponseBody
-    public void exportExcel(@RequestBody Map<String, Object> params) throws IOException {
-        baseBiz.exportExcel(params);
+    public void exportExcel(@RequestBody QueryParams query) throws IOException {
+        baseBiz.exportExcel(query);
     }
 
 }

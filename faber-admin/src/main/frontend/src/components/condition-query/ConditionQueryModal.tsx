@@ -176,7 +176,7 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
               <PlusOutlined /> 添加条件分组
             </a>
           </div>
-          <Alert type="info" description="1. IN查询用中文逗号进行分隔查询；" style={{ marginTop: 8 }} />
+          <Alert type="info" description="1. IN查询用英文逗号(,)进行分隔查询；" style={{ marginTop: 8 }} />
 
           {/* 保存为场景 */}
           {!localData && (

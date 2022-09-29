@@ -5,13 +5,13 @@ import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.vo.TreeNode;
 import com.faber.common.vo.TreePathVo;
 import com.faber.common.vo.TreePosChangeVo;
+import com.faber.common.vo.query.QueryParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <h2>通用Tree形结构数据的Controller接口父类，包含基本的方法：</h2>
@@ -90,8 +90,8 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      */
     @RequestMapping(value = "/getTree", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<List<TreeNode<Entity>>> getTree(@RequestBody Map<String, Object> params) {
-        List<TreeNode<Entity>> treeList = baseBiz.getTree(params);
+    public ObjectRestResponse<List<TreeNode<Entity>>> getTree(@RequestBody QueryParams query) {
+        List<TreeNode<Entity>> treeList = baseBiz.getTree(query);
         return ok(treeList);
     }
 

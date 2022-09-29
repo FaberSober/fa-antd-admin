@@ -11,6 +11,7 @@ import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.vo.Query;
 import com.faber.common.vo.DictOption;
+import com.faber.common.vo.query.QueryParams;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -32,21 +33,22 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
     private DictTypeBiz dictTypeBiz;
 
     @Override
-    protected void preProcessQuery(Query query) {
+    protected void preProcessQuery(QueryParams query) {
         // 字典分组级联查询
-        if (query.containsKey("type")) {
-            Integer type  = Integer.parseInt(query.get("type").toString());
+        Map<String, Object> queryMap = query.getQueryMap();
+        if (queryMap.containsKey("type")) {
+            Integer type  = Integer.parseInt(queryMap.get("type").toString());
 
             List<DictType> dctTypeList = dictTypeBiz.findAllChildren(type);
             List<Integer> dctTypeIdList = dctTypeList.stream().map(DictType::getId).collect(Collectors.toList());
-            query.put("type#$in", dctTypeIdList);
+            queryMap.put("type#$in", dctTypeIdList);
 
-            query.remove("type");
+            queryMap.remove("type");
         }
     }
 
     @Override
-    public TableResultResponse<Dict> selectPageByQuery(Query query) {
+    public TableResultResponse<Dict> selectPageByQuery(QueryParams query) {
         TableResultResponse<Dict> tableResultResponse = super.selectPageByQuery(query);
         tableResultResponse.getData().getRows().forEach(element -> {
             element.setDictType(dictTypeBiz.getById(element.getType()));

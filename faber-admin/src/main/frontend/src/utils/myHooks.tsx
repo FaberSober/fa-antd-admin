@@ -10,28 +10,6 @@ import { useIntl } from 'react-intl';
 import queryString from 'querystring';
 
 
-/**
- * Hooks和setInterval的折中方案，参考；https://www.cnblogs.com/qcloud1001/p/10408634.html
- * @param {*} callback
- * @param {*} delay
- */
-export function useInterval(callback: () => void, delay: number) {
-  const savedCallback = useRef<any | null>(null);
-
-  useEffect(() => {
-    savedCallback.current = callback;
-  });
-
-  useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-
-    const id = setInterval(tick, delay);
-    return () => clearInterval(id);
-  }, [delay]);
-}
-
 export function useClientRect() {
   const [rect, setRect] = useState(null);
   const ref = useCallback((node:any) => {
@@ -129,7 +107,7 @@ export function useTableQueryParams<T>(
   }
 
   function setConditionList(conditionList: ConditionQuery.CondGroup[]) {
-    console.log('setConditionList', conditionList)
+    // console.log('setConditionList', conditionList)
     if (isEqual(queryParams.conditionList, conditionList)) return;
     setQueryParams({ ...queryParams, pagination: { ...queryParams.pagination, current: 1 }, conditionList });
   }
@@ -162,12 +140,14 @@ export function useTableQueryParams<T>(
     const params = {
       current: queryParams.pagination.current,
       pageSize: queryParams.pagination.pageSize,
-      ...queryParams.formValues,
       sorter: BaseTableUtils.getSorter(queryParams.sorter),
       sceneId: queryParams.sceneId,
       conditionList: queryParams.conditionList,
-      // 外部补充查询条件
-      ...queryParams.extraParams,
+      queryMap: {
+        ...queryParams.formValues,
+        // 外部补充查询条件
+        ...queryParams.extraParams,
+      },
     };
     api(params)
       .then((res) => {
@@ -247,12 +227,14 @@ export function useExport(exportApi: (params: any) => Promise<undefined>, queryP
   function fetchExportExcel() {
     setExporting(true);
     const params = {
-      ...queryParams.formValues,
       sorter: BaseTableUtils.getSorter(queryParams.sorter),
       sceneId: queryParams.sceneId,
       conditionList: queryParams.conditionList,
-      // 外部补充查询条件
-      ...queryParams.extraParams,
+      queryMap: {
+        ...queryParams.formValues,
+        // 外部补充查询条件
+        ...queryParams.extraParams,
+      },
     };
     exportApi(params)
       .then((res) => {

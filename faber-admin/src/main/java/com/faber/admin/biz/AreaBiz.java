@@ -12,6 +12,7 @@ import com.faber.common.map.AMapUtils;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.util.IpUtils;
 import com.faber.common.vo.Query;
+import com.faber.common.vo.query.QueryParams;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,7 +60,7 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
     }
 
     @Override
-    public TableResultResponse<Area> selectPageByQuery(Query query) {
+    public TableResultResponse<Area> selectPageByQuery(QueryParams query) {
         TableResultResponse<Area> table = super.selectPageByQuery(query);
         table.getData().addDict("level", dictBiz.getByCode(DictTypeCodeEnum.COMMON_AREA_LEVEL));
         return table;

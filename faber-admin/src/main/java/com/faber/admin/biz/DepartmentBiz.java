@@ -11,6 +11,7 @@ import com.faber.common.biz.BaseTreeBiz;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.vo.Query;
+import com.faber.common.vo.query.QueryParams;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -59,7 +60,7 @@ public class DepartmentBiz extends BaseTreeBiz<DepartmentMapper, Department> {
     }
 
     @Override
-    public TableResultResponse<Department> selectPageByQuery(Query query) {
+    public TableResultResponse<Department> selectPageByQuery(QueryParams query) {
         TableResultResponse<Department> table = super.selectPageByQuery(query);
 
         List<Department> list = table.getData().getRows().stream().map(this::decorate).collect(Collectors.toList());

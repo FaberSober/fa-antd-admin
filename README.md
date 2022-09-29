@@ -123,6 +123,7 @@ ncu -u --timeout 120000 --reject husky
 - [ ] 剔除多余的hooks使用
 - [ ] socket整理
 - [ ] 集成Spring Validation
+- [ ] 集成redis缓存方案
 
 # 前端代码迁移
 - [x] BaseBiz查询分组List

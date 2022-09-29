@@ -28,6 +28,7 @@ import com.faber.common.util.EasyExcelUtils;
 import com.faber.common.vo.Query;
 import com.faber.common.util.SqlUtils;
 import com.faber.common.vo.Sorter;
+import com.faber.common.vo.query.QueryParams;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -73,9 +74,9 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         return clazz;
     }
 
-    public List<T> mineList(Map<String, Object> params) {
-        params.put("crtUser", getCurrentUserId());
-        return this.list(params);
+    public List<T> mineList(QueryParams query) {
+        query.getQueryMap().put("crtUser", getCurrentUserId());
+        return this.list(query);
     }
 
     /**
@@ -83,214 +84,23 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
      *
      * @param query
      */
-    protected void preProcessQuery(Query query) {}
+    protected void preProcessQuery(QueryParams query) {}
 
-    public QueryWrapper<T> parseQuery(Query query) {
+    public QueryWrapper<T> parseQuery(QueryParams query) {
         Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+        this.preProcessQuery(query);
         return WrapperUtils.parseQuery(query, clazz);
     }
 
-    public QueryWrapper<T> parseQuery(Query query, Class clazz) {
-        this.preProcessQuery(query);
-
-        QueryWrapper<T> wrapper = new QueryWrapper<>();
-
-//        Example example = new Example(clazz);
-        // key-value模式查询条件组装
-
-        wrapper.and(query.size() > 0, ew -> {
-            for (Map.Entry<String, Object> entry : query.entrySet()) {
-                // xxx#$min，xxx#$max 类型的key，为最小值、最大值判定
-                String key = entry.getKey();
-                if (key.contains("#$")) {
-                    String fieldName = key.substring(0, key.indexOf("#$"));
-                    fieldName = StrUtil.toUnderlineCase(fieldName);
-                    String opr = key.substring(key.indexOf("#$") + 2);
-                    if ("min".equals(opr)) {
-                        ew.ge(fieldName, entry.getValue());
-                    } else if ("max".equals(opr)) {
-                        ew.le(fieldName, entry.getValue());
-                    } else if ("in".equals(opr)) {
-                        if (entry.getValue() != null && StringUtils.isNotEmpty(entry.getValue().toString())) {
-//                            String[] ss = ;
-                            List list = (List) entry.getValue();
-                            ew.in(list.size() > 0, fieldName, list);
-                        }
-                    }
-                    continue;
-                }
-
-                // TO-DO: 增加注解方式，有的string属性需要强制指定为equals查询
-                Class matchClazz = clazz;
-                boolean fieldFind = false;
-                boolean forceEqual = false;
-                while (matchClazz != null && !fieldFind) {
-                    try {
-                        // 获得字段注解
-                        Field field = matchClazz.getDeclaredField(entry.getKey());
-                        fieldFind = true;
-                        SqlEquals annotation = field.getAnnotation(SqlEquals.class);
-                        if (annotation != null) {
-                            forceEqual = true;
-                        }
-                    } catch (NoSuchFieldException e) {
-//                        e.printStackTrace();
-                        fieldFind = false;
-                    }
-
-                    // 向上查找父类
-                    matchClazz = matchClazz.getSuperclass();
-                }
-
-//                if (!fieldFind) {
-//                    _logger.warn("No field {} Found", entry.getKey());
-//                    continue;
-//                }
-
-                if (StrUtil.isNotEmpty(entry.getValue().toString())) {
-                    String fieldColumn = StrUtil.toUnderlineCase(entry.getKey());
-                    if (forceEqual) {
-                        ew.eq(fieldColumn, entry.getValue());
-                    } else {
-                        ew.like(fieldColumn, SqlUtils.filterLikeValue(StrUtil.toString(entry.getValue())));
-                    }
-                }
-            }
-        });
-
-        // 单查询字段
-        /*
-        where 1 = 1`
-        AND (field1 LIKE '%ss[0]%' OR field2 LIKE '%ss[0]%')
-         */
-//        if (StringUtils.isNotEmpty(query.getSearch())) {
-//            wrapper.and(ew -> {
-//                for (Field field : clazz.getDeclaredFields()) {
-//                    SqlSearch annotation = field.getAnnotation(SqlSearch.class);
-//                    Column columnAnnotation = field.getAnnotation(Column.class);
-//                    if (annotation != null) {
-//                        ew.like(columnAnnotation.name(), SqlUtils.filterLikeValue(query.getSearch()));
-//                    }
-//                }
-//            });
-//        }
-
-        // 高级查询-过滤条件List
-//        if (query.getConditionList() != null && query.getConditionList().size() > 0) {
-//            for (Map map : query.getConditionList()) {
-//                String type = (String) map.get("type");
-//                List<Map> condList = (List<Map>) map.get("condList");
-//                this.processConditionList(type, condList, wrapper);
-//            }
-//        }
-
-        // sceneId 场景ID查询
-        if (query.getSceneId() != null && query.getSceneId() > 0) {
-            if (this.configMapper == null) {
-                this.configMapper = SpringUtil.getBean(ConfigMapper.class);
-            }
-            Config config = configMapper.selectById(query.getSceneId());
-            if (config != null) {
-                try {
-                    List<Map> list = JSONUtil.parseArray(config.getData()).toList(Map.class);
-                    for (Map map : list) {
-                        String type = (String) map.get("type");
-                        List<Map> condList = (List<Map>) map.get("condList");
-                        this.processConditionList(type, condList, wrapper);
-                    }
-                } catch (Exception e) {
-                    _logger.error("config: {}", config);
-                    _logger.error(e.getMessage(), e);
-                    throw new BuzzException("解析条件失败，请联系管理员");
-                }
-            }
-        }
-
-        Sorter sorter = query.getSorterInfo();
-        if (sorter != null) {
-            wrapper.orderBy(true, sorter.isAsc(), sorter.getField());
-        }
-
-        return wrapper;
-    }
-
-    /**
-     *
-     * @param type 组合类型：and、or
-     * @param conditionList
-     * @param wrapper
-     */
-    private void processConditionList(String type, List<Map> conditionList, QueryWrapper<T> wrapper) {
-        wrapper.and(conditionList.size() > 0,ew -> {
-            for (Map cond : conditionList) {
-                String key = MapUtils.getString(cond, "key");
-                key = StrUtil.toUnderlineCase(key);
-
-                String opr = MapUtils.getString(cond, "opr");
-                Object value = MapUtils.getObject(cond, "value");
-                String begin = MapUtils.getString(cond, "begin");
-                String end = MapUtils.getString(cond, "end");
-
-                if (StringUtils.isNoneEmpty(key, opr)) {
-//                value = SqlUtils.filterLikeValue(value);
-                    if ("or".equalsIgnoreCase(type)) {
-                        ew.or();
-                    }
-
-                    switch (opr) {
-                        case "equal": {
-                            ew.or().eq(key, value);
-                        } break;
-                        case "not_equal": {
-                            ew.ne(key, value);
-                        } break;
-                        case "in": {
-                            List<String> list = Arrays.asList(ObjectUtil.toString(value).split("，"));
-                            ew.in(list.size() > 0, key, list);
-                        } break;
-                        case "contain": {
-                            ew.like(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value)));
-                        } break;
-                        case "not_contain": {
-                            ew.notLike(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value)));
-                        } break;
-                        case "start_contain": {
-                            ew.likeLeft(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value)));
-                        } break;
-                        case "end_contain": {
-                            ew.likeRight(key, SqlUtils.filterLikeValue(ObjectUtil.toString(value)));
-                        } break;
-                        case "greater": {
-                            ew.gt(key, value);
-                        } break;
-                        case "greater_equal": {
-                            ew.ge(key, value);
-                        } break;
-                        case "less": {
-                            ew.lt(key, value);
-                        } break;
-                        case "less_equal": {
-                            ew.le(key, value);
-                        } break;
-                        case "between": {
-                            ew.between(key, begin, end);
-                        } break;
-                    }
-                }
-            }
-        });
-    }
-
-    public TableResultResponse<T> selectPageByQuery(Query query) {
+    public TableResultResponse<T> selectPageByQuery(QueryParams query) {
         QueryWrapper<T> wrapper = parseQuery(query);
-        if (query.getLimit() > 1000) throw new BuzzException("查询结果数量大于1000，请缩小查询范围");
-        Page<T> page = new Page<>(query.getPage(), query.getLimit());
+        if (query.getPageSize() > 1000) throw new BuzzException("查询结果数量大于1000，请缩小查询范围");
+        Page<T> page = new Page<>(query.getCurrent(), query.getPageSize());
         Page<T> result =  super.page(page, wrapper);
         return new TableResultResponse<T>(result);
     }
 
-    public List<T> list(Map<String, Object> params) {
-        Query query = new Query(params);
+    public List<T> list(QueryParams query) {
         QueryWrapper<T> wrapper = parseQuery(query);
         return super.list(wrapper);
     }
@@ -298,11 +108,10 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     /**
      * 根据查询条件，获取下载Excel的数据List
      *
-     * @param params
+     * @param query
      * @return
      */
-    public List<T> selectExportExcelList(Map<String, Object> params) {
-        Query query = new Query(params);
+    public List<T> selectExportExcelList(QueryParams query) {
         QueryWrapper<T> wrapper = parseQuery(query);
         long count = super.count(wrapper);
         if (count > 10000) throw new BuzzException("查询结果数量大于10000，请缩小查询范围");
@@ -312,11 +121,11 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     /**
      * 根据组合查询条件，下载Excel
      *
-     * @param params
+     * @param query
      * @throws IOException
      */
-    public void exportExcel(Map<String, Object> params) throws IOException {
-        List<T> list = this.selectExportExcelList(params);
+    public void exportExcel(QueryParams query) throws IOException {
+        List<T> list = this.selectExportExcelList(query);
         Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
         this.sendFileExcel(clazz, list);
     }

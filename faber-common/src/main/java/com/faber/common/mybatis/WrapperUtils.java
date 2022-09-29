@@ -7,10 +7,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlSearch;
 import com.faber.common.util.SqlUtils;
-import com.faber.common.vo.Query;
 import com.faber.common.vo.Sorter;
 import com.faber.common.vo.query.Condition;
 import com.faber.common.vo.query.ConditionGroup;
+import com.faber.common.vo.query.QueryParams;
 import com.faber.common.vo.query.enums.ConditionGroupTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -23,11 +23,11 @@ import java.util.Map;
 @Slf4j
 public class WrapperUtils {
 
-    public static <T> QueryWrapper<T> parseQuery(Query query, Class<T> clazz) {
+    public static <T> QueryWrapper<T> parseQuery(QueryParams query, Class<T> clazz) {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
 
-        wrapper.and(query.size() > 0, ew -> {
-            for (Map.Entry<String, Object> entry : query.entrySet()) {
+        wrapper.and(query.getQueryMap().size() > 0, ew -> {
+            for (Map.Entry<String, Object> entry : query.getQueryMap().entrySet()) {
                 // xxx#$min，xxx#$max 类型的key，为最小值、最大值判定
                 String key = entry.getKey();
                 if (key.contains("#$")) {

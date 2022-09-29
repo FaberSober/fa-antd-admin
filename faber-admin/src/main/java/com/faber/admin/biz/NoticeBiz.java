@@ -6,6 +6,7 @@ import com.faber.common.biz.BaseBiz;
 import com.faber.common.enums.DictTypeCodeEnum;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.vo.Query;
+import com.faber.common.vo.query.QueryParams;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,7 +25,7 @@ public class NoticeBiz extends BaseBiz<NoticeMapper, Notice> {
     private DictBiz dictBiz;
 
     @Override
-    public TableResultResponse<Notice> selectPageByQuery(Query query) {
+    public TableResultResponse<Notice> selectPageByQuery(QueryParams query) {
         TableResultResponse<Notice> table = super.selectPageByQuery(query);
 
         // 字典值
