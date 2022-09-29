@@ -2,7 +2,7 @@ package com.faber.admin.rest;
 
 import com.faber.admin.biz.AuthBiz;
 import com.faber.admin.config.annotation.IgnoreUserToken;
-import com.faber.admin.util.user.JwtAuthenticationRequest;
+import com.faber.admin.util.user.AuthRequest;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.utils.BaseResHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ public class AuthController extends BaseResHandler {
 
     @RequestMapping(value = "/jwt/token", method = RequestMethod.POST)
     @IgnoreUserToken
-    public ObjectRestResponse<String> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authRequest) throws Exception {
+    public ObjectRestResponse<String> createAuthenticationToken(@RequestBody AuthRequest authRequest) throws Exception {
         String token = authBiz.login(authRequest);
         return ok(token);
     }

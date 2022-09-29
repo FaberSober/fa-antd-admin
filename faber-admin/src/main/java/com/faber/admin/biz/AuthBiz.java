@@ -3,7 +3,7 @@ package com.faber.admin.biz;
 import com.faber.admin.entity.LogLogin;
 import com.faber.admin.entity.User;
 import com.faber.admin.util.jwt.JWTInfo;
-import com.faber.admin.util.user.JwtAuthenticationRequest;
+import com.faber.admin.util.user.AuthRequest;
 import com.faber.admin.util.user.JwtTokenUtil;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.util.IpUtils;
@@ -24,8 +24,14 @@ public class AuthBiz {
     @Resource
     private LogLoginBiz logLoginBiz;
 
-    public String login(JwtAuthenticationRequest authenticationRequest) throws Exception {
-        User user = userBiz.validate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+    /**
+     * web登录，返回token
+     * @param authRequest
+     * @return
+     * @throws Exception
+     */
+    public String login(AuthRequest authRequest) throws Exception {
+        User user = userBiz.validate(authRequest.getUsername(), authRequest.getPassword());
 
         // 将用户放入上下文
         BaseContextHandler.setUserId(user.getId());
@@ -46,8 +52,7 @@ public class AuthBiz {
 
         logLoginBiz.save(logLogin);
 
-
-        return jwtTokenUtil.generateToken(new JWTInfo(user.getUsername(), user.getId(), user.getName()));
+        return jwtTokenUtil.createToken(new JWTInfo(user.getId(), "web"));
     }
 
 

@@ -11,10 +11,13 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class JWTInfo implements Serializable, IJWTInfo {
+public class JWTInfo implements Serializable {
 
-    private String username;
     private String userId;
-    private String name;
+
+    /**
+     * token来源：web
+     */
+    private String source;
 
 }

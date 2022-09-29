@@ -3,7 +3,7 @@ package com.faber.admin.config.interceptor;
 import com.faber.admin.biz.UserBiz;
 import com.faber.admin.config.annotation.IgnoreUserToken;
 import com.faber.admin.entity.User;
-import com.faber.admin.util.jwt.IJWTInfo;
+import com.faber.admin.util.jwt.JWTInfo;
 import com.faber.admin.util.user.UserCheckUtil;
 import com.faber.common.context.BaseContextHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -30,14 +30,14 @@ public class UserAuthRestInterceptor extends AbstractInterceptor {
             return super.preHandle(request, response, handler);
         }
 
-        IJWTInfo jwtInfo = super.getJwtInfo(request);
+        JWTInfo jwtInfo = super.getJwtInfo(request);
 
         // 判断用户状态是否正常
         User user = userBiz.getUserById(jwtInfo.getUserId());
         UserCheckUtil.checkUserValid(user);
 
-        BaseContextHandler.setUsername(jwtInfo.getUsername());
-        BaseContextHandler.setName(jwtInfo.getName());
+        BaseContextHandler.setUsername(user.getUsername());
+        BaseContextHandler.setName(user.getName());
         BaseContextHandler.setUserId(jwtInfo.getUserId());
         BaseContextHandler.setLogin(true);
         return super.preHandle(request, response, handler);

@@ -93,13 +93,6 @@ swagger:
   contact:
     name: admin
 
-# Client Auth
-faber:
-  auth:
-    jwt:
-      pri: faber-admin:AUTH:JWT:PRI
-      pub: faber-admin:AUTH:JWT:PUB
-
 management:
   endpoint:
     health:
@@ -114,7 +107,7 @@ management:
 jwt:
   token-header: Authorization
   expire: 864000
-  rsa-secret: xx1WET12^%3^(WE45
+  secret: 2022#8m3n@faber-admin-web
 
 # Qiniu
 # 存储区域：https://developer.qiniu.com/kodo/1671/region-endpoint-fq
