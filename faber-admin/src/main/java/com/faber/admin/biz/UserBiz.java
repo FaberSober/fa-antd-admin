@@ -37,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -218,14 +219,49 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         }
     }
 
-    @Override
-    public TableResultResponse<User> selectPageByQuery(QueryParams query) {
+    /**
+     * 关联查询和QueryParams的处理过于复杂，不太利于复用，暂不优化
+     * @param query
+     * @return
+     */
+    @Deprecated
+    public TableResultResponse<User> pageJoin(QueryParams query) {
+        // 处理map
+        for (Map.Entry<String, Object> entry : query.getQueryMap().entrySet()) {
+            if ("departmentName".equals(entry.getKey())) {
+                query.getQueryMap().put("d.name", entry.getValue());
+            } else {
+                query.getQueryMap().put("t." + entry.getKey(), entry.getValue());
+            }
+            query.getQueryMap().remove(entry.getKey());
+        }
+
         QueryWrapper<User> wrapper = parseQuery(query);
         if (query.getPageSize() > 1000) throw new BuzzException("查询结果数量大于1000，请缩小查询范围");
+
+        wrapper.eq("t.del_state", 0);
+        wrapper.eq("d.del_state", 0);
 
         PageInfo<User> result = PageHelper.startPage(query.getCurrent(), query.getPageSize())
                 .doSelectPageInfo(() -> baseMapper.listJoin(wrapper));
         TableResultResponse<User> userTable = new TableResultResponse<>(result);
+
+        // 枚举值
+        userTable.getData().addDict("status", dictBiz.getByCode(DictTypeCodeEnum.COMMON_USER_STATUS));
+        userTable.getData().addDict("sex", dictBiz.getByCode(DictTypeCodeEnum.COMMON_SEX));
+
+        return userTable;
+    }
+
+    @Override
+    public TableResultResponse<User> selectPageByQuery(QueryParams query) {
+        TableResultResponse<User> userTable =  super.selectPageByQuery(query);
+
+        Map<String, Department> cache = new HashMap<>();
+        userTable.getData().getRows().forEach(i -> {
+            Department department = departmentBiz.getByIdWithCache(i.getDepartmentId(), cache);
+            i.setDepartmentName(department.getName());
+        });
 
         // 枚举值
         userTable.getData().addDict("status", dictBiz.getByCode(DictTypeCodeEnum.COMMON_USER_STATUS));

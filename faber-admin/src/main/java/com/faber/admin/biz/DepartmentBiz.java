@@ -10,13 +10,13 @@ import com.faber.admin.vo.DepartmentPageVo;
 import com.faber.common.biz.BaseTreeBiz;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.TableResultResponse;
-import com.faber.common.vo.Query;
 import com.faber.common.vo.query.QueryParams;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -31,9 +31,6 @@ public class DepartmentBiz extends BaseTreeBiz<DepartmentMapper, Department> {
 
     @Resource
     private UserBiz userBiz;
-
-    @Resource
-    private DictBiz dictBiz;
 
     @Override
     public boolean save(Department entity) {
@@ -109,6 +106,13 @@ public class DepartmentBiz extends BaseTreeBiz<DepartmentMapper, Department> {
             return entity;
         }
         return findUpDept(getById(entity.getParentId()));
+    }
+
+    public Department getByIdWithCache(String id, Map<String, Department> cache) {
+        if (cache.containsKey(id)) return cache.get(id);
+        Department department = super.getById(id);
+        cache.put(id, department);
+        return department;
     }
 
 }

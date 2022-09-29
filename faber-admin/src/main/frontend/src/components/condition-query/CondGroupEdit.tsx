@@ -142,7 +142,7 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
               </Select>
               {/* 筛选操作符 */}
               <Select style={{ width: 100, marginRight: 12 }} value={opr} onChange={(v) => handleChangeOpt(v, index)}>
-                <Select.Option value={ConditionQuery.CondOpr.equal}>等于=</Select.Option>
+                <Select.Option value={ConditionQuery.CondOpr.equal}>等于</Select.Option>
                 <Select.Option value={ConditionQuery.CondOpr.not_equal}>不等于</Select.Option>
                 <Select.Option value={ConditionQuery.CondOpr.greater}>大于</Select.Option>
                 <Select.Option value={ConditionQuery.CondOpr.greater_equal}>大于等于</Select.Option>

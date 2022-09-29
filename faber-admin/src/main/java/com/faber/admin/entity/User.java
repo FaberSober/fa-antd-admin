@@ -90,7 +90,7 @@ public class User extends BaseDelEntity {
     private List<Long> roleIds;
 
     @ExcelProperty("部门")
-    @TableField(exist = false, property = "t.name")
+    @TableField(exist = false)
     private String departmentName;
 
 }

@@ -85,27 +85,34 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
         this.preProcessQuery(query);
 
-        // sceneId 场景ID查询-追加到条件组中
-        if (query.getSceneId() != null && query.getSceneId() > 0) {
-            if (configMapper == null) {
-                configMapper = SpringUtil.getBean(ConfigMapper.class);
-            }
-            Config config = configMapper.selectById(query.getSceneId());
-            if (config != null) {
-                try {
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    TypeReference<List<ConditionGroup>> typeReference = new TypeReference<List<ConditionGroup>>() {};
-                    List<ConditionGroup> list = objectMapper.readValue(config.getData(), typeReference);
-                    query.addConditionGroupList(list);
-                } catch (Exception e) {
-                    _logger.error("config: {}", config);
-                    _logger.error(e.getMessage(), e);
-                    throw new BuzzException("解析条件失败，请联系管理员");
-                }
-            }
-        }
+        this.processSceneId(query);
 
         return WrapperUtils.parseQuery(query, clazz);
+    }
+
+    /**
+     * sceneId 场景ID查询-追加到条件组中
+     * @param query
+     */
+    protected void processSceneId(QueryParams query) {
+        if (query.getSceneId() == null || query.getSceneId() == 0) return;
+
+        if (configMapper == null) {
+            configMapper = SpringUtil.getBean(ConfigMapper.class);
+        }
+        Config config = configMapper.selectById(query.getSceneId());
+        if (config != null) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                TypeReference<List<ConditionGroup>> typeReference = new TypeReference<List<ConditionGroup>>() {};
+                List<ConditionGroup> list = objectMapper.readValue(config.getData(), typeReference);
+                query.addConditionGroupList(list);
+            } catch (Exception e) {
+                _logger.error("config: {}", config);
+                _logger.error(e.getMessage(), e);
+                throw new BuzzException("解析条件失败，请联系管理员");
+            }
+        }
     }
 
     public TableResultResponse<T> selectPageByQuery(QueryParams query) {

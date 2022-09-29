@@ -53,10 +53,10 @@ public class WrapperUtils {
                 Field field = ReflectUtil.getField(clazz, entry.getKey());
                 boolean forceEqual = field != null && field.getAnnotation(SqlEquals.class) != null;
 
-                if (field == null) {
-                    log.warn("No field {} Found", entry.getKey());
-                    continue;
-                }
+//                if (field == null) {
+//                    log.warn("No field {} Found", entry.getKey());
+//                    continue;
+//                }
 
                 String fieldColumn = StrUtil.toUnderlineCase(entry.getKey());
                 if (forceEqual) {
@@ -86,26 +86,6 @@ public class WrapperUtils {
                 processConditionList(conditionGroup, wrapper);
             }
         }
-
-        // sceneId 场景ID查询
-//        if (query.getSceneId() != null && query.getSceneId() > 0) {
-//            if (configMapper == null) {
-//                configMapper = SpringUtil.getBean(ConfigMapper.class);
-//            }
-//            Config config = configMapper.selectById(query.getSceneId());
-//            if (config != null) {
-//                try {
-//                    List<ConditionGroup> list = JSONUtil.parseArray(config.getData()).toList(ConditionGroup.class);
-//                    for (ConditionGroup conditionGroup : list) {
-//                        processConditionList(conditionGroup, wrapper);
-//                    }
-//                } catch (Exception e) {
-//                    log.error("config: {}", config);
-//                    log.error(e.getMessage(), e);
-//                    throw new BuzzException("解析条件失败，请联系管理员");
-//                }
-//            }
-//        }
 
         Sorter sorter = query.getSorterInfo();
         if (sorter != null) {
