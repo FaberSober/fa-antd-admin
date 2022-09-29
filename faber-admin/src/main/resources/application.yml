@@ -106,6 +106,7 @@ management:
 
 jwt:
   token-header: Authorization
+  # token失效时间，24小时
   expire: 864000
   secret: 2022#8m3n@faber-admin-web
 

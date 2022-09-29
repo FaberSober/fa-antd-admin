@@ -50,7 +50,7 @@ public class JwtTokenUtil {
         byte[] key = secret.getBytes();
 
         // 1. 验证token是否有效
-        boolean verify = JWTUtil.verify(token, key);
+        boolean verify = JWT.of(token).setKey(key).validate(0);
         if (!verify) throw new UserTokenException("令牌失效，请重新登录！");
 
         final JWT jwt = JWTUtil.parseToken(token);

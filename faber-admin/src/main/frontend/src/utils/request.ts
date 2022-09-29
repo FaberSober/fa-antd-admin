@@ -122,9 +122,10 @@ instance.interceptors.response.use(
 		}
 
 		if (status === 401 || status === 40101) {
-			message.error(`${status}登录失效，跳转登录`);
-			// 跳转登录页面
-			window.location.href = '/login';
+			message.error(`${status}登录失效，跳转登录`).then(() => {
+        // 跳转登录页面
+        window.location.href = '/login';
+      })
 		}
 		return Promise.reject(error);
 	},
