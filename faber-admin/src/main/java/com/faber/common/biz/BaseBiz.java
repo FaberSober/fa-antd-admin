@@ -2,6 +2,8 @@ package com.faber.common.biz;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.extra.spring.SpringUtil;
+import cn.hutool.json.JSONUtil;
 import com.ace.cache.api.CacheAPI;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
@@ -85,6 +87,9 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
 
         // sceneId 场景ID查询-追加到条件组中
         if (query.getSceneId() != null && query.getSceneId() > 0) {
+            if (configMapper == null) {
+                configMapper = SpringUtil.getBean(ConfigMapper.class);
+            }
             Config config = configMapper.selectById(query.getSceneId());
             if (config != null) {
                 try {
