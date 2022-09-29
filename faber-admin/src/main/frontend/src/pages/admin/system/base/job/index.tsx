@@ -38,7 +38,7 @@ export default function JobList() {
 
   /** 任务启停 */
   function handleJobStatus(record: Admin.Job) {
-    if (record.status === '0') {
+    if (record.status === FaberEnums.BoolEnum.NO) {
       modelService
         .startJob(record.id)
         .then((res) => showResponse(res, '启动任务'))
@@ -67,7 +67,7 @@ export default function JobList() {
       BaseTableUtils.genSimpleSorterColumn('cron表达式', 'cron', 120, sorter),
       {
         ...BaseTableUtils.genSimpleSorterColumn('状态', 'status', 80, sorter),
-        render: (val) => (val === '1' ? <Badge status="processing" text="运作中" /> : <Badge status="default" text="暂停" />),
+        render: (val) => (val === FaberEnums.BoolEnum.YES ? <Badge status="processing" text="运作中" /> : <Badge status="default" text="暂停" />),
       },
       BaseTableUtils.genSimpleSorterColumn('任务执行方法', 'clazzPath', 400, sorter),
       BaseTableUtils.genSimpleSorterColumn('任务描述', 'jobDesc', undefined, sorter),

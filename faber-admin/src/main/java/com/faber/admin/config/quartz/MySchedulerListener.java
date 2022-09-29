@@ -17,7 +17,6 @@ public class MySchedulerListener {
     @Autowired
     MyJobFactory myJobFactory;
 
-
     @Bean(name = "schedulerFactoryBean")
     public SchedulerFactoryBean schedulerFactory() {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();

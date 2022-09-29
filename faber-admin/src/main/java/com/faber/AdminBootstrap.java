@@ -23,7 +23,6 @@ import java.util.Set;
 public class AdminBootstrap {
 
     public static void main(String[] args) {
-//        DBLog.getInstance().start();
         new SpringApplicationBuilder(AdminBootstrap.class).run(args);
     }
 
@@ -33,6 +32,7 @@ public class AdminBootstrap {
             @Override
             public void customize(ConfigurableWebServerFactory factory) {
 //                factory.setPort(8081);
+                // 适配前端页面的路由，未找到的链接fallback到index.html
                 ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/index.html");
                 Set<ErrorPage> errorPages = new HashSet<>();
                 errorPages.add(error404Page);
