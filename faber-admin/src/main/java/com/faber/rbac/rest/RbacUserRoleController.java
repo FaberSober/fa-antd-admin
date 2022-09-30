@@ -1,7 +1,7 @@
 package com.faber.rbac.rest;
 
-import com.faber.common.msg.ObjectRestResponse;
-import com.faber.common.msg.TableResultResponse;
+import com.faber.common.vo.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.TableResultResponse;
 import com.faber.common.rest.BaseController;
 import com.faber.common.vo.TreeNode;
 import com.faber.rbac.biz.RbacUserRoleBiz;
@@ -13,7 +13,6 @@ import com.faber.rbac.vo.query.RbacUserRoleQueryVo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * BASE-用户角色关联表

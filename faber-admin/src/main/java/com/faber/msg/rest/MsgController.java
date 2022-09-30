@@ -1,7 +1,7 @@
 package com.faber.msg.rest;
 
-import com.faber.common.msg.ObjectRestResponse;
-import com.faber.common.msg.TableResultResponse;
+import com.faber.common.vo.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.TableResultResponse;
 import com.faber.common.rest.BaseController;
 import com.faber.common.vo.query.QueryParams;
 import com.faber.msg.biz.MsgBiz;
@@ -9,9 +9,7 @@ import com.faber.msg.entity.Msg;
 import com.faber.msg.vo.MsgStatisticVO;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin/msg")

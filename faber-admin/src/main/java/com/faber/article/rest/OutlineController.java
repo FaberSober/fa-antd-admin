@@ -3,7 +3,7 @@ package com.faber.article.rest;
 import com.faber.article.biz.OutlineBiz;
 import com.faber.article.entity.Outline;
 import com.faber.article.vo.OutlineDetailVo;
-import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseTreeController;
 import com.faber.common.vo.TreeNode;
 import org.springframework.web.bind.annotation.*;

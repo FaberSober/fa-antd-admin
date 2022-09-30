@@ -1,4 +1,4 @@
-package com.faber.common.msg;
+package com.faber.common.vo.msg;
 
 import lombok.Data;
 

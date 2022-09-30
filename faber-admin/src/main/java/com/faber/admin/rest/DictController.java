@@ -5,7 +5,7 @@ import com.faber.admin.config.annotation.IgnoreUserToken;
 import com.faber.admin.entity.Dict;
 import com.faber.admin.vo.SystemConfigPo;
 import com.faber.common.exception.BuzzException;
-import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseController;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;

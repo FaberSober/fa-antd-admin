@@ -1,6 +1,6 @@
 package com.faber.rbac.rest;
 
-import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseController;
 import com.faber.rbac.biz.RbacRoleMenuBiz;
 import com.faber.rbac.entity.RbacRoleMenu;

@@ -5,7 +5,7 @@ import com.faber.common.exception.BaseException;
 import com.faber.common.exception.auth.UserInvalidException;
 import com.faber.common.exception.auth.UserNoPermissionException;
 import com.faber.common.exception.auth.UserTokenException;
-import com.faber.common.msg.BaseResponse;
+import com.faber.common.vo.msg.BaseResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

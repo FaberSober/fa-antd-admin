@@ -2,8 +2,8 @@ package com.faber.common.rest;
 
 import com.faber.common.annotation.LogNoRet;
 import com.faber.common.biz.BaseBiz;
-import com.faber.common.msg.ObjectRestResponse;
-import com.faber.common.msg.TableResultResponse;
+import com.faber.common.vo.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.TableResultResponse;
 import com.faber.common.utils.BaseResHandler;
 import com.faber.common.validator.ValidGroup;
 import com.faber.common.vo.query.QueryParams;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;

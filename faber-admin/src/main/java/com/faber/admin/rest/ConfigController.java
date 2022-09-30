@@ -2,7 +2,7 @@ package com.faber.admin.rest;
 
 import com.faber.admin.biz.ConfigBiz;
 import com.faber.admin.entity.Config;
-import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseController;
 import org.springframework.web.bind.annotation.*;
 

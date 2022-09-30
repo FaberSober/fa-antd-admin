@@ -4,7 +4,7 @@ import com.faber.article.biz.BookBiz;
 import com.faber.article.entity.Book;
 import com.faber.article.vo.BookDetail;
 import com.faber.article.vo.UploadStdExcelParams;
-import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseController;
 import org.springframework.web.bind.annotation.*;
 

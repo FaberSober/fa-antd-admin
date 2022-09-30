@@ -1,22 +1,17 @@
 package com.faber.msg.biz;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.faber.admin.biz.DictBiz;
 import com.faber.admin.biz.UserBiz;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.enums.BoolEnum;
-import com.faber.common.msg.TableResultResponse;
 import com.faber.msg.entity.Msg;
 import com.faber.msg.mapper.MsgMapper;
-import com.faber.msg.vo.MsgPageVo;
 import com.faber.msg.vo.MsgStatisticVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 系统-消息

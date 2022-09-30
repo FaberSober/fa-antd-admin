@@ -4,7 +4,7 @@ import cn.hutool.core.map.MapUtil;
 import com.faber.admin.biz.JobBiz;
 import com.faber.admin.config.annotation.IgnoreUserToken;
 import com.faber.admin.entity.Job;
-import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

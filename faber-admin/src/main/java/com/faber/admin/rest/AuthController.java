@@ -3,7 +3,7 @@ package com.faber.admin.rest;
 import com.faber.admin.biz.AuthBiz;
 import com.faber.admin.config.annotation.IgnoreUserToken;
 import com.faber.admin.util.user.AuthRequest;
-import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.utils.BaseResHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

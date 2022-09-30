@@ -1,6 +1,6 @@
 package com.faber.disk.rest;
 
-import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseController;
 import com.faber.disk.biz.DiskDirBiz;
 import com.faber.disk.entity.DiskDir;

@@ -1,7 +1,7 @@
 package com.faber.common.rest;
 
 import com.faber.common.biz.BaseTreeBiz;
-import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.vo.TreeNode;
 import com.faber.common.vo.TreePathVo;
 import com.faber.common.vo.TreePosChangeVo;

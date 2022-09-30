@@ -3,7 +3,7 @@ package com.faber.admin.rest;
 import com.faber.admin.biz.UserBiz;
 import com.faber.admin.entity.User;
 import com.faber.admin.vo.UserAccountVo;
-import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseController;
 import org.springframework.web.bind.annotation.*;
 

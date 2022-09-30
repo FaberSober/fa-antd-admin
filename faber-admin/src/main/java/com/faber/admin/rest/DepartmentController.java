@@ -3,7 +3,7 @@ package com.faber.admin.rest;
 import com.faber.admin.biz.DepartmentBiz;
 import com.faber.admin.entity.Department;
 import com.faber.admin.vo.DepartmentInfo;
-import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseTreeController;
 import org.springframework.web.bind.annotation.*;
 

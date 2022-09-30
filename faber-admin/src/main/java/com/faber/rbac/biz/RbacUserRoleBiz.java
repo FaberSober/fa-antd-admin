@@ -5,7 +5,7 @@ import com.faber.common.biz.BaseBiz;
 import com.faber.common.constant.CommonConstants;
 import com.faber.common.enums.BoolEnum;
 import com.faber.common.exception.BuzzException;
-import com.faber.common.msg.TableResultResponse;
+import com.faber.common.vo.msg.TableResultResponse;
 import com.faber.common.vo.TreeNode;
 import com.faber.rbac.entity.RbacMenu;
 import com.faber.rbac.entity.RbacRole;

@@ -1,7 +1,7 @@
 package com.faber.common.utils;
 
 import com.faber.common.context.BaseContextHandler;
-import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.ObjectRestResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;

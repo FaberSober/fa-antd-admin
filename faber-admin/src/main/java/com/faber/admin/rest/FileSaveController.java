@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.faber.admin.biz.FileSaveBiz;
 import com.faber.admin.config.annotation.IgnoreUserToken;
 import com.faber.admin.entity.FileSave;
-import com.faber.common.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

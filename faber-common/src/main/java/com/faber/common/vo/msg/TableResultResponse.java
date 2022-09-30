@@ -1,4 +1,4 @@
-package com.faber.common.msg;
+package com.faber.common.vo.msg;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.faber.common.vo.DictOption;
