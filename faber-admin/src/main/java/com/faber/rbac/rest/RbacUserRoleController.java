@@ -3,7 +3,6 @@ package com.faber.rbac.rest;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.rest.BaseController;
-import com.faber.common.vo.Query;
 import com.faber.common.vo.TreeNode;
 import com.faber.rbac.biz.RbacUserRoleBiz;
 import com.faber.rbac.entity.RbacMenu;

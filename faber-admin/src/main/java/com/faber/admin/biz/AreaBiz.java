@@ -11,7 +11,6 @@ import com.faber.common.exception.BuzzException;
 import com.faber.common.map.AMapUtils;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.util.IpUtils;
-import com.faber.common.vo.Query;
 import com.faber.common.vo.query.QueryParams;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

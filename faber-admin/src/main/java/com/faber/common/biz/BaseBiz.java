@@ -19,7 +19,6 @@ import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.mybatis.WrapperUtils;
 import com.faber.common.util.EasyExcelUtils;
-import com.faber.common.vo.Query;
 import com.faber.common.vo.query.ConditionGroup;
 import com.faber.common.vo.query.QueryParams;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -68,7 +67,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     }
 
     /**
-     * {@link Query}自定义预先处理
+     * {@link QueryParams}自定义预先处理
      *
      * @param query
      */

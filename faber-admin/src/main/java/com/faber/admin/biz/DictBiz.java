@@ -9,7 +9,6 @@ import com.faber.common.biz.BaseBiz;
 import com.faber.common.enums.DictTypeCodeEnum;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.msg.TableResultResponse;
-import com.faber.common.vo.Query;
 import com.faber.common.vo.DictOption;
 import com.faber.common.vo.query.QueryParams;
 import org.springframework.context.annotation.Lazy;
