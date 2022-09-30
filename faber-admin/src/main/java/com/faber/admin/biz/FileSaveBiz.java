@@ -8,7 +8,7 @@ import com.faber.common.bean.BaseCrtEntity;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.exception.BuzzException;
-import com.faber.common.file.QiniuHelper;
+import com.faber.common.util.file.QiniuHelper;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;

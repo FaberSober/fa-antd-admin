@@ -1,4 +1,4 @@
-package com.faber.common.config;
+package com.faber.common.converter;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;

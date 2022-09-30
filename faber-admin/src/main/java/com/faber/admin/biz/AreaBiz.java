@@ -8,7 +8,7 @@ import com.faber.common.biz.BaseBiz;
 import com.faber.common.enums.AreaLevelEnum;
 import com.faber.common.enums.DictTypeCodeEnum;
 import com.faber.common.exception.BuzzException;
-import com.faber.common.map.AMapUtils;
+import com.faber.common.util.AMapUtils;
 import com.faber.common.vo.msg.TableResultResponse;
 import com.faber.common.util.IpUtils;
 import com.faber.common.vo.query.QueryParams;

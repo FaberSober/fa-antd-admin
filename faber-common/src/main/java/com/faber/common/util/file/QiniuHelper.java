@@ -1,4 +1,4 @@
-package com.faber.common.file;
+package com.faber.common.util.file;
 
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;

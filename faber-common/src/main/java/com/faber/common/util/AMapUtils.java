@@ -1,4 +1,4 @@
-package com.faber.common.map;
+package com.faber.common.util;
 
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
