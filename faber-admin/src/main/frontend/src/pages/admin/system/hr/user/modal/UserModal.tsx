@@ -1,15 +1,14 @@
-import React, {useContext, useEffect, useImperativeHandle, useState} from 'react';
+import React, {useContext, useImperativeHandle, useState} from 'react';
 import {get} from 'lodash';
 import {Form, Input} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
 import {showResponse} from '@/utils/utils';
-import {RES_CODE} from '@/configs/server.config';
 import modelService from '@/services/admin/user';
 import rbacUserRoleApi from '@/services/rbac/rbacUserRole';
 import Admin from '@/props/admin';
 import {DictDataRadio} from '@/components/base-dict';
 import DepartmentCascade from "../helper/DepartmentCascade";
-import {UploadImgLocal} from "@/components/base-uploader";
+import {UploadImgQiniu} from "@/components/base-uploader";
 import RbacRoleSelect from "@/pages/admin/system/hr/role/components/RbacRoleSelect";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import FaberEnums from "@/props/base/FaberEnums";
@@ -83,6 +82,7 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
       username: get(record, 'username'),
       tel: get(record, 'tel'),
       email: get(record, 'email'),
+      password: get(record, 'password'),
       departmentId: get(record, 'departmentId', departmentId),
       sex: get(record, 'sex', FaberEnums.SexEnum.UNKNOWN),
       status: get(record, 'status', FaberEnums.BoolEnum.YES),
@@ -132,6 +132,11 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
           <Form.Item name="tel" label="手机号" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input />
           </Form.Item>
+          {record === undefined && (
+            <Form.Item name="password" label="密码" rules={[{ required: true }]} {...formItemFullLayout}>
+              <Input.Password />
+            </Form.Item>
+          )}
           <Form.Item name="roleIds" label="角色" rules={[{ required: true }]} {...formItemFullLayout}>
             <RbacRoleSelect mode="multiple" />
           </Form.Item>
@@ -145,7 +150,7 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
             <DictDataRadio dictLabel="common_sex" transValue={(v) => Number(v)} />
           </Form.Item>
           <Form.Item name="img" label="头像" {...formItemFullLayout}>
-            <UploadImgLocal prefix="/head/img" />
+            <UploadImgQiniu prefix="/head/img" />
           </Form.Item>
           <Form.Item name="description" label="备注" {...formItemFullLayout}>
             <Input.TextArea />

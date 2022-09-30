@@ -45,6 +45,7 @@ public class User extends BaseDelEntity {
     @ExcelProperty("用户名")
     private String username;
 
+    @NotNull(groups = ValidGroup.Crud.Create.class)
     @ExcelIgnore
     private String password;
 

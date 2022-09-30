@@ -150,7 +150,7 @@ export default function BaseBizTable<RecordType extends object = any>({
                 已选中&nbsp;<a>{selectedRowKeys.length}</a>&nbsp;条数据
               </div>
               {showBatchBelBtn && (
-                <Button loading={batchDeleting} onClick={handleBatchDelete} icon={<DeleteOutlined />} type="danger">
+                <Button loading={batchDeleting} onClick={handleBatchDelete} icon={<DeleteOutlined />} danger>
                   删除
                 </Button>
               )}

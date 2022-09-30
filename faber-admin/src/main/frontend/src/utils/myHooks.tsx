@@ -148,6 +148,9 @@ export function useTableQueryParams<T>(
         // 外部补充查询条件
         ...queryParams.extraParams,
       },
+      ...queryParams.formValues,
+      // 外部补充查询条件
+      ...queryParams.extraParams,
     };
     api(params)
       .then((res) => {

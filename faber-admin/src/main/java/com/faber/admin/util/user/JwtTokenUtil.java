@@ -1,10 +1,12 @@
 package com.faber.admin.util.user;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
 import com.faber.admin.util.jwt.JWTInfo;
 import com.faber.common.exception.auth.UserTokenException;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +17,7 @@ import java.util.Date;
  */
 @Component
 @Data
+@Slf4j
 public class JwtTokenUtil {
 
     @Value("${jwt.expire}")
@@ -47,17 +50,24 @@ public class JwtTokenUtil {
      * @return
      */
     public JWTInfo parseToken(String token) {
-        byte[] key = secret.getBytes();
+        try {
+            if (StrUtil.isEmpty(token)) throw new UserTokenException("令牌失效，请重新登录！");
 
-        // 1. 验证token是否有效
-        boolean verify = JWT.of(token).setKey(key).validate(0);
-        if (!verify) throw new UserTokenException("令牌失效，请重新登录！");
+            byte[] key = secret.getBytes();
 
-        final JWT jwt = JWTUtil.parseToken(token);
-        String userId = (String) jwt.getPayload("id");
-        String source = (String) jwt.getPayload("source");
+            // 1. 验证token是否有效
+            boolean verify = JWT.of(token).setKey(key).validate(0);
+            if (!verify) throw new UserTokenException("令牌失效，请重新登录！");
 
-        return new JWTInfo(userId, source);
+            final JWT jwt = JWTUtil.parseToken(token);
+            String userId = (String) jwt.getPayload("id");
+            String source = (String) jwt.getPayload("source");
+
+            return new JWTInfo(userId, source);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new UserTokenException("令牌失效，请重新登录！");
+        }
     }
 
 }

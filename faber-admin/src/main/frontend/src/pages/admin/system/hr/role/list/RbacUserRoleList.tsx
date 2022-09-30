@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import {Button, Card, Form, Input, Space} from 'antd';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
@@ -9,11 +9,19 @@ import Rbac from '@/props/rbac';
 const serviceName = '角色用户';
 const buzzModal = 'RbacUserRoleList';
 
-export default function RbacUserRoleList() {
+export interface RbacUserRoleListProps {
+  rbacRole: Rbac.RbacRole;
+}
+
+export default function RbacUserRoleList({ rbacRole }: RbacUserRoleListProps) {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, paginationProps } =
-    useTableQueryParams<Rbac.RbacUserRoleRetVo>(modelService.pageVo, { sorter: { field: 'crtTime', order: "descend" } }, serviceName)
+  const { queryParams, setFormValues, setExtraParams, handleTableChange, fetchPageList, loading, list, paginationProps } =
+    useTableQueryParams<Rbac.RbacUserRoleRetVo>(modelService.pageVo, { extraParams: { roleId: rbacRole.id }, sorter: { field: 'crtTime', order: "descend" } }, serviceName)
+
+  useEffect(() => {
+    setExtraParams({ roleId: rbacRole.id })
+  }, [rbacRole])
 
   const [handleDelete] = useDelete<string>(modelService.remove, fetchPageList, serviceName)
 
@@ -73,8 +81,6 @@ export default function RbacUserRoleList() {
         onChange={handleTableChange}
         refreshList={() => fetchPageList()}
         batchDelete={(ids) => modelService.removeBatchByIds(ids)}
-        onSceneChange={(v) => setSceneId(v)}
-        onConditionChange={(cL) => setConditionList(cL)}
         showComplexQuery={false}
       />
     </div>

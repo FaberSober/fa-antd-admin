@@ -141,7 +141,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         this.checkBeanValid(entity);
 
         // 初始化密码888888
-        String password = new BCryptPasswordEncoder(CommonConstants.PW_ENCODER_SALT).encode("888888");
+        String password = new BCryptPasswordEncoder(CommonConstants.PW_ENCODER_SALT).encode(entity.getPassword());
         entity.setPassword(password);
 
         super.save(entity);

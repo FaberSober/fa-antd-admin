@@ -62,8 +62,8 @@ namespace FaberTable {
 		batchDelete?: (ids: any[]) => Promise<Ajax.Response>; // 批量删除API
 		renderQuerySuffix?: () => ReactNode; // 自定义追加的查询条件后缀
 		renderCheckBtns?: (rowKeys: any[]) => ReactNode; // 自定义追加的多选的按钮
-		onSceneChange: (sceneId: string) => void; // 查询场景变更
-		onConditionChange: (conditionList: ConditionQuery.CondGroup[]) => void; // 组合查询条件变更
+		onSceneChange?: (sceneId: string) => void; // 查询场景变更
+		onConditionChange?: (conditionList: ConditionQuery.CondGroup[]) => void; // 组合查询条件变更
 		rowClickSelected?: boolean; // 点击row是否选中
 		rowClickSingleSelected?: boolean; // 点击row是否单选
 		showBatchBelBtn?: boolean; // 是否展示多选删除按钮
