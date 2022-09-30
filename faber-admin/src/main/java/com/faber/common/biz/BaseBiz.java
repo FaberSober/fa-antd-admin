@@ -1,9 +1,7 @@
 package com.faber.common.biz;
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.ace.cache.api.CacheAPI;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -28,7 +26,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -49,9 +46,6 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     protected final Logger _logger = LoggerFactory.getLogger(this.getClass());
 
     private ConfigMapper configMapper;
-
-    @Autowired
-    private CacheAPI cacheAPI;
 
     /**
      * 校验Entity是否有效
@@ -187,14 +181,6 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
                 .doWrite(list);
     }
 
-    public String getCurrentName() {
-        return BaseContextHandler.getName();
-    }
-
-    public String getCurrentUserName() {
-        return BaseContextHandler.getUsername();
-    }
-
     public String getCurrentUserId() {
         return BaseContextHandler.getUserId();
     }
@@ -205,26 +191,6 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
 
     protected ObjectRestResponse<Object> ok(Object data) {
         return new ObjectRestResponse<>().data(data);
-    }
-
-    /**
-     * 删除所有权限缓存，适用情景：
-     */
-    protected void clearMenuAndElementCache() {
-        cacheAPI.removeByPre("permission");
-    }
-
-    /**
-     * 删除用户缓存
-     */
-    protected void clearUserCache(String userId) {
-        cacheAPI.removeByPre("user:" + userId);
-        cacheAPI.removeByPre("permission:menu:u:" + userId);
-        cacheAPI.removeByPre("permission:ele:u:" + userId);
-    }
-
-    protected boolean hasField(String fieldName) {
-        return ReflectUtil.hasField(getEntityClass(), fieldName);
     }
 
 }

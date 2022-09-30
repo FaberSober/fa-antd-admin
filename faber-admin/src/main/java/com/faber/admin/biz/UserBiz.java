@@ -21,7 +21,6 @@ import com.faber.common.exception.BuzzException;
 import com.faber.common.exception.NoDataException;
 import com.faber.common.exception.auth.UserInvalidException;
 import com.faber.common.msg.TableResultResponse;
-import com.faber.common.vo.Query;
 import com.faber.common.vo.query.QueryParams;
 import com.faber.rbac.biz.RbacUserRoleBiz;
 import com.faber.rbac.entity.RbacRole;
