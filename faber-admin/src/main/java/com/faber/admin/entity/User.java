@@ -29,16 +29,18 @@ import java.util.List;
 public class User extends BaseDelEntity {
 
     @Null(groups = ValidGroup.Crud.Create.class)
-    @NotNull(groups = ValidGroup.Crud.Update.class, message = "ID不能为空")
+    @NotNull(groups = ValidGroup.Crud.Update.class)
     @ColumnWidth(7)
     @TableId(type = IdType.ASSIGN_UUID)
     @SqlEquals
     private String id;
 
+    @NotNull
     @SqlEquals
     @ExcelIgnore
     private String departmentId;
 
+    @NotNull
     @SqlSearch
     @ExcelProperty("用户名")
     private String username;
@@ -46,6 +48,7 @@ public class User extends BaseDelEntity {
     @ExcelIgnore
     private String password;
 
+    @NotNull
     @SqlSearch
     @ExcelProperty("姓名")
     private String name;
@@ -56,6 +59,7 @@ public class User extends BaseDelEntity {
     @ExcelProperty("联系地址")
     private String address;
 
+    @NotNull
     @TelNoValidator
     @ExcelProperty("手机号")
     @SqlSearch
@@ -70,6 +74,7 @@ public class User extends BaseDelEntity {
     @ExcelProperty("性别")
     private SexEnum sex;
 
+    @NotNull
     @SqlEquals
     @ExcelProperty("状态")
     private BoolEnum status;

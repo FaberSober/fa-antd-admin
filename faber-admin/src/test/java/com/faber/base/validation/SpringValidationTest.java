@@ -32,7 +32,7 @@ public class SpringValidationTest extends BaseLoginTest {
         log.debug("content: {}", json);
 
         Assert.assertEquals(400, response.getStatus());
-        Assert.assertEquals("id:must be null", msg);
+        Assert.assertEquals("departmentId:must not be null; status:must not be null; tel:must not be null; name:must not be null; username:must not be null; id:must be null", msg);
     }
 
 }
