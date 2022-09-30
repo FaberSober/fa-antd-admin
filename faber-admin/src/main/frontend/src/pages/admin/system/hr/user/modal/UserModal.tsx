@@ -1,4 +1,4 @@
-import React, {useEffect, useImperativeHandle, useState} from 'react';
+import React, {useContext, useEffect, useImperativeHandle, useState} from 'react';
 import {get} from 'lodash';
 import {Form, Input} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
@@ -11,6 +11,8 @@ import {DictDataRadio} from '@/components/base-dict';
 import DepartmentCascade from "../helper/DepartmentCascade";
 import {UploadImgLocal} from "@/components/base-uploader";
 import RbacRoleSelect from "@/pages/admin/system/hr/role/components/RbacRoleSelect";
+import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
+import FaberEnums from "@/props/base/FaberEnums";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
@@ -29,8 +31,8 @@ interface IProps extends DragModalProps {
  * 用户实体新增、编辑弹框
  */
 function UserModal({ children, title, record, fetchFinish, departmentId, addLoc, ...props }: IProps, ref: any) {
+  const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   useImperativeHandle(ref, () => ({
@@ -47,34 +49,20 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    setLoading(true);
-    modelService
-      .add(params)
-      .then((res) => {
-        showResponse(res, `新增${serviceName}`);
-        if (res && res.status === RES_CODE.OK) {
-          setModalVisible(false);
-          if (fetchFinish) fetchFinish();
-        }
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    modelService.add(params).then((res) => {
+      showResponse(res, `新增${serviceName}`);
+      setModalVisible(false);
+      if (fetchFinish) fetchFinish();
+    })
   }
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
-    setLoading(true);
-    modelService
-      .update(params.id, params)
-      .then((res) => {
-        showResponse(res, `更新${serviceName}`);
-        if (res && res.status === RES_CODE.OK) {
-          setModalVisible(false);
-          if (fetchFinish) fetchFinish();
-        }
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    modelService.update(params.id, params).then((res) => {
+      showResponse(res, `更新${serviceName}`);
+      setModalVisible(false);
+      if (fetchFinish) fetchFinish();
+    })
   }
 
   /** 提交表单 */
@@ -96,8 +84,8 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
       tel: get(record, 'tel'),
       email: get(record, 'email'),
       departmentId: get(record, 'departmentId', departmentId),
-      sex: get(record, 'sex'),
-      status: get(record, 'status'),
+      sex: get(record, 'sex', FaberEnums.SexEnum.UNKNOWN),
+      status: get(record, 'status', FaberEnums.BoolEnum.YES),
       description: get(record, 'description'),
       post: get(record, 'post'),
       img: get(record, 'img', '/origin/api/admin/file/local/getFile/head'),
@@ -118,6 +106,7 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
     }
   }
 
+  const loading = loadingEffect[modelService.getUrl('add')] || loadingEffect[modelService.getUrl('update')]
   return (
     <span>
       <span onClick={() => showModal()}>{children}</span>

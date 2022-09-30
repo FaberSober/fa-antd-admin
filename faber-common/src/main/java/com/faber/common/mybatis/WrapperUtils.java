@@ -26,7 +26,8 @@ public class WrapperUtils {
     public static <T> QueryWrapper<T> parseQuery(QueryParams query, Class<T> clazz) {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
 
-        wrapper.and(query.getQueryMap().size() > 0, ew -> {
+        boolean condition = query.getQueryMap() != null && query.getQueryMap().size() > 0;
+        wrapper.and(condition, ew -> {
             for (Map.Entry<String, Object> entry : query.getQueryMap().entrySet()) {
                 // xxx#$min，xxx#$max 类型的key，为最小值、最大值判定
                 String key = entry.getKey();

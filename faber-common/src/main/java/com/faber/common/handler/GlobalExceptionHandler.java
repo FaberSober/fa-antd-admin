@@ -9,6 +9,9 @@ import com.faber.common.msg.BaseResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
+import java.util.stream.Collectors;
 
 /**
  * 统一拦截异常并处理
@@ -63,10 +70,37 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public BaseResponse handleValidationExceptions(MethodArgumentNotValidException ex) {
-        String msg = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
-        return new BaseResponse(CommonConstants.EX_OTHER_CODE, msg);
+    @ExceptionHandler(value = {BindException.class, ValidationException.class, MethodArgumentNotValidException.class})
+    public BaseResponse handleValidationExceptions(Exception e) {
+        String errMsg = "";
+        if (e instanceof MethodArgumentNotValidException) {
+            // BeanValidation exception
+            MethodArgumentNotValidException ex = (MethodArgumentNotValidException) e;
+            errMsg = ex.getBindingResult().getAllErrors().stream()
+                    .map(GlobalExceptionHandler::objectErrorToStr)
+                    .collect(Collectors.joining("; "));
+        } else if (e instanceof ConstraintViolationException) {
+            // BeanValidation GET simple param
+            ConstraintViolationException ex = (ConstraintViolationException) e;
+            errMsg = ex.getConstraintViolations().stream()
+                    .map(ConstraintViolation::getMessage)
+                    .collect(Collectors.joining("; "));
+        } else if (e instanceof BindException) {
+            // BeanValidation GET object param
+            BindException ex = (BindException) e;
+            errMsg = ex.getAllErrors().stream()
+                    .map(GlobalExceptionHandler::objectErrorToStr)
+                    .collect(Collectors.joining("; "));
+        }
+
+        return new BaseResponse(CommonConstants.EX_OTHER_CODE, errMsg);
+    }
+
+    private static String objectErrorToStr(ObjectError error) {
+        if (error instanceof FieldError) {
+            return ((FieldError) error).getField() + ":" + error.getDefaultMessage();
+        }
+        return error.getDefaultMessage();
     }
 
 }

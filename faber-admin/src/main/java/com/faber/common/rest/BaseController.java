@@ -5,9 +5,11 @@ import com.faber.common.biz.BaseBiz;
 import com.faber.common.msg.ObjectRestResponse;
 import com.faber.common.msg.TableResultResponse;
 import com.faber.common.utils.BaseResHandler;
+import com.faber.common.validator.ValidGroup;
 import com.faber.common.vo.query.QueryParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -47,14 +49,14 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Entity> add(@Valid @RequestBody Entity entity) {
+    public ObjectRestResponse<Entity> add(@Validated(value = ValidGroup.Crud.Create.class) @RequestBody Entity entity) {
         baseBiz.save(entity);
         return ok(entity);
     }
 
     @RequestMapping(value = "/saveBatch", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<List<Entity>> saveBatch(@Valid @RequestBody List<Entity> entityList) {
+    public ObjectRestResponse<List<Entity>> saveBatch(@Validated(value = ValidGroup.Crud.Create.class) @RequestBody List<Entity> entityList) {
         baseBiz.saveBatch(entityList);
         return ok(entityList);
     }
@@ -68,7 +70,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Entity> update(@Valid @RequestBody Entity entity) {
+    public ObjectRestResponse<Entity> update(@Validated(value = ValidGroup.Crud.Update.class) @RequestBody Entity entity) {
         baseBiz.updateById(entity);
         return ok();
     }

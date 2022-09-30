@@ -14,8 +14,12 @@ import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.enums.BoolEnum;
 import com.faber.common.enums.SexEnum;
 import com.faber.common.validator.TelNoValidator;
+import com.faber.common.validator.ValidGroup;
 import lombok.Data;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +28,8 @@ import java.util.List;
 @TableName("base_user")
 public class User extends BaseDelEntity {
 
+    @Null(groups = ValidGroup.Crud.Create.class)
+    @NotNull(groups = ValidGroup.Crud.Update.class, message = "ID不能为空")
     @ColumnWidth(7)
     @TableId(type = IdType.ASSIGN_UUID)
     @SqlEquals
@@ -55,6 +61,7 @@ public class User extends BaseDelEntity {
     @SqlSearch
     private String tel;
 
+    @Email
     @SqlSearch
     @ExcelProperty("邮箱")
     private String email;
