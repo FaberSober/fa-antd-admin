@@ -107,11 +107,6 @@ export default function DepartmentModal({ children, parentId, title, record, fet
           <Form.Item name="name" label="名称" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input />
           </Form.Item>
-          {/*
-          <Form.Item name="type" label="类型" rules={[{ required: true }]} {...formItemFullLayout}>
-            <DictDataSelector dictLabel="common:department:type" />
-          </Form.Item>
-          */}
           <Form.Item name="managerId" label="负责人" {...formItemFullLayout}>
             <UserSearchSelect placeholder="请输入负责人姓名进行搜索" />
           </Form.Item>

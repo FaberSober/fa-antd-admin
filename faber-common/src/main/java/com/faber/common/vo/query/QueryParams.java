@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class QueryParams implements Serializable {
     /** 单查询字段 */
     private String search;
     /** 表格查询字段 */
-    private Map<String, Object> queryMap;
+    private Map<String, Object> queryMap = new HashMap<>();
     /** 查询场景ID */
     private Integer sceneId;
 

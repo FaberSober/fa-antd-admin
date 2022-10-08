@@ -8,7 +8,7 @@ import * as BaseTreeUtils from '@/components/base-tree/utils';
 import BaseTreeProps from '../base-tree/interface';
 import { RES_CODE } from '@/configs/server.config';
 
-const root = { value: 0, label: '根节点', isLeaf: false, hasChildren: true };
+const root = { value: FaberBase.Constant.TREE_SUPER_ROOT_ID, label: FaberBase.Constant.TREE_SUPER_ROOT_LABEL, isLeaf: false, hasChildren: true };
 
 export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderProps<T>, 'options'> {
   showRoot?: boolean;
@@ -38,8 +38,8 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
   value,
   onChange,
   onChangeWithItem,
-  rootName = '根节点',
-  rootId = 0,
+  rootName = FaberBase.Constant.TREE_SUPER_ROOT_LABEL,
+  rootId = FaberBase.Constant.TREE_SUPER_ROOT_ID,
   extraParams,
   ...props
 }: BaseCascaderProps<RecordType, KeyType>) {
@@ -59,7 +59,7 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
       if (res && res.status === RES_CODE.OK) {
         let treeArr = BaseTreeUtils.parseNode(res.data);
         if (showRoot) {
-          treeArr = [{ ...root, value: rootId, label: rootName, children: treeArr }];
+          treeArr = [{ ...FaberBase.ROOT_DEFAULT, value: rootId, label: rootName, children: treeArr }];
         }
         setOptions(treeArr);
       }

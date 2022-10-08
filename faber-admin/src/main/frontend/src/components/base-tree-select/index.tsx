@@ -7,8 +7,6 @@ import BaseTreeProps from '@/components/base-tree/interface';
 import { RES_CODE } from '@/configs/server.config';
 import * as BaseTreeUtils from '@/components/base-tree/utils';
 
-const root = { value: 0, label: '根节点', isLeaf: false, hasChildren: true };
-
 export interface BaseTreeSelectProps<T, KeyType = number> extends Omit<TreeSelectProps<T>, 'options'> {
   value?: any;
   onChange?: (v: any) => void;
@@ -30,7 +28,7 @@ export default function BaseTreeSelect<RecordType extends object = any, KeyType 
   onChange,
   serviceApi,
   showRoot,
-  rootName = '根节点',
+  rootName = FaberBase.Constant.TREE_SUPER_ROOT_LABEL,
   ...props
 }: BaseTreeSelectProps<RecordType, KeyType>) {
   const [options, setOptions] = useState<BaseTreeProps.TreeNode[] | undefined>([]);
@@ -40,7 +38,7 @@ export default function BaseTreeSelect<RecordType extends object = any, KeyType 
       if (res && res.status === RES_CODE.OK) {
         let treeArr = BaseTreeUtils.parseNode(res.data);
         if (showRoot) {
-          treeArr = [{ ...{ ...root, label: rootName }, children: treeArr }];
+          treeArr = [{ ...{ ...FaberBase.ROOT_DEFAULT, label: rootName }, children: treeArr }];
         }
         setOptions(treeArr);
       }

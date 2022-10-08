@@ -21,7 +21,7 @@ export interface BaseTreeContextProps {
 
 export const BaseTreeContext = createContext<BaseTreeContextProps>({ renderCount: 1, updateRenderCount: () => {} })
 
-const root = { value: 0, label: '根节点', isLeaf: false, hasChildren: true };
+const root = { value: FaberBase.Constant.TREE_SUPER_ROOT_ID, label: FaberBase.Constant.TREE_SUPER_ROOT_LABEL, isLeaf: false, hasChildren: true };
 
 interface IProps<T, KeyType = number> extends TreeProps {
   showRoot?: boolean; // 是否展示操作按钮
@@ -77,7 +77,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
   serviceApi,
   onGetTree,
   onAfterDelItem,
-  rootName = '根节点',
+  rootName = FaberBase.Constant.TREE_SUPER_ROOT_LABEL,
   tips = '右键新增、编辑、删除节点',
   renderTreeLabel,
   extraEffectArgs,
@@ -204,7 +204,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
         if (res && res.status === RES_CODE.OK) {
           let treeArr = BaseTreeUtils.parseNode<RecordType>(res.data);
           if (showRoot) {
-            treeArr = [{ ...{ ...root, label: rootName }, children: treeArr }];
+            treeArr = [{ ...{ ...FaberBase.ROOT_DEFAULT, label: rootName }, children: treeArr }];
           }
           const newTreeData = renderTreeData(treeArr);
           setTreeData(newTreeData);

@@ -333,8 +333,8 @@ namespace Admin {
 	export interface MsgPageVo extends Msg {
 		/** 业务类型名称  */
 		buzzName?: string;
-		fromUser?: FaberBase.UserInfo;
-		toUser?: FaberBase.UserInfo;
+		fromUser?: Admin.User;
+		toUser?: Admin.User;
 	}
 
 	// -------------------------------------------- 系统配置参数 --------------------------------------------

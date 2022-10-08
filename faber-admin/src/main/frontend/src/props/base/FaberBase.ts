@@ -1,9 +1,20 @@
-namespace FaberBase {
-	export enum DelState {
-		AVAILABLE = 0,
-		DELETED = 1,
-	}
+import FaberEnums from "@/props/base/FaberEnums";
 
+namespace FaberBase {
+  export const Constant = {
+    /** 约定：tree结构数据，根结点的ID默认为0 */
+    TREE_SUPER_ROOT_ID: 0,
+    TREE_SUPER_ROOT_LABEL: '根节点',
+  }
+
+  export const ROOT_DEFAULT = {
+    value: FaberBase.Constant.TREE_SUPER_ROOT_ID,
+    label: FaberBase.Constant.TREE_SUPER_ROOT_LABEL,
+    isLeaf: false,
+    hasChildren: true
+  }
+
+  // ------------------------------------- ENTITY -------------------------------------
 	export interface BaseCrtEntity {
 		/** 创建时间 */
 		crtTime?: string;
@@ -28,39 +39,7 @@ namespace FaberBase {
 
 	export interface BaseDelEntity extends BaseOprEntity {
 		/** 删除状态 */
-		delState?: DelState;
-	}
-
-	// ------------------------------------- 鉴权 -------------------------------------
-	/**
-	 * 登录获取的用户权限点Element、菜单Menu
-	 */
-	export interface PermissionInfo {
-		id: number;
-		code: string;
-		type: string;
-		uri: string;
-		method: string;
-		name: string;
-		menu: string;
-	}
-
-	/**
-	 * 登录获取的用户信息，全局保存
-	 */
-	export interface UserInfo {
-		id: string;
-		/** 姓名：中文 */
-		name: string;
-		/** 登录账号 */
-		username: string;
-		/** 头像URL */
-		img: string;
-		description: string;
-		/** 部门ID */
-		departmentId: string;
-		elements: PermissionInfo[];
-		menus: PermissionInfo[];
+		delState?: FaberEnums.DelStateEnum;
 	}
 
 	// ------------------------------------- Http Request -------------------------------------
@@ -77,6 +56,7 @@ namespace FaberBase {
 		[key: string]: any;
 	}
 
+  // ------------------------------------- Tree -------------------------------------
 	/**
 	 * 树节点位置变更[排序、父节点]
 	 */

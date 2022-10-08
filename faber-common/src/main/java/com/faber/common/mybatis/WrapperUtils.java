@@ -1,11 +1,13 @@
 package com.faber.common.mybatis;
 
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlSearch;
+import com.faber.common.util.FaMapUtils;
 import com.faber.common.util.SqlUtils;
 import com.faber.common.vo.Sorter;
 import com.faber.common.vo.query.Condition;
@@ -17,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,9 +29,11 @@ public class WrapperUtils {
     public static <T> QueryWrapper<T> parseQuery(QueryParams query, Class<T> clazz) {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
 
-        boolean condition = query.getQueryMap() != null && query.getQueryMap().size() > 0;
+        Map<String, Object> queryMap = FaMapUtils.removeEmptyValue(query.getQueryMap());
+
+        boolean condition = queryMap.size() > 0;
         wrapper.and(condition, ew -> {
-            for (Map.Entry<String, Object> entry : query.getQueryMap().entrySet()) {
+            for (Map.Entry<String, Object> entry : queryMap.entrySet()) {
                 // xxx#$min，xxx#$max 类型的key，为最小值、最大值判定
                 String key = entry.getKey();
                 if (key.contains("#$")) {
