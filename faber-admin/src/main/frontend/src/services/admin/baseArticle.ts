@@ -1,7 +1,6 @@
-import { GATE_APP } from '@/configs/server.config';
+import {GATE_APP} from '@/configs/server.config';
 import Admin from '@/props/admin';
-import { BaseApi } from '@/services/base';
-import Ajax from '@/props/base/Ajax';
+import {BaseApi} from '@/services/base';
 import {FaberBase} from "@/props/base";
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */

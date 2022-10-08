@@ -1,8 +1,8 @@
-import React, { ReactNode, useEffect, useState } from 'react';
-import { get, trim, remove } from 'lodash';
-import { Select, SelectProps } from 'antd';
-import { useDebounceFn } from 'ahooks';
-import { RES_CODE } from '@/configs/server.config';
+import React, {ReactNode, useEffect, useState} from 'react';
+import {get, remove, trim} from 'lodash';
+import {Select, SelectProps} from 'antd';
+import {useDebounceFn} from 'ahooks';
+import {RES_CODE} from '@/configs/server.config';
 import FaberBase from '@/props/base/FaberBase';
 
 export interface BaseSearchSelectProps<T, KeyType = number> extends SelectProps<T> {

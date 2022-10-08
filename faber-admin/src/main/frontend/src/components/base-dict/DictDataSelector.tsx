@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { v1 as uuidv1 } from 'uuid';
-import { Select } from 'antd';
-import { RES_CODE } from '@/configs/server.config';
-import { SelectProps } from 'antd/es/select';
+import React, {useEffect, useState} from 'react';
+import {v1 as uuidv1} from 'uuid';
+import {Select} from 'antd';
+import {RES_CODE} from '@/configs/server.config';
+import {SelectProps} from 'antd/es/select';
 import dictService from '@/services/admin/dict';
 
 const { Option } = Select;

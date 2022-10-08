@@ -1,5 +1,5 @@
-import React, { CSSProperties } from 'react';
-import { Spin } from 'antd';
+import React, {CSSProperties} from 'react';
+import {Spin} from 'antd';
 
 export interface IProps {
   style?: CSSProperties;

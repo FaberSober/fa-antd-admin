@@ -1,5 +1,5 @@
-import { requestDelete, requestDownload, requestGet, requestPost, requestPut } from '@/utils/request';
-import { AxiosRequestConfig } from 'axios';
+import {requestDelete, requestDownload, requestGet, requestPost, requestPut} from '@/utils/request';
+import {AxiosRequestConfig} from 'axios';
 
 export default class BaseZeroApi {
 	public apiPrefix: string;

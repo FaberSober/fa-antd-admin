@@ -1,4 +1,4 @@
-import { isNil, trim } from 'lodash';
+import {isNil, trim} from 'lodash';
 import FaberBase from '@/props/base/FaberBase';
 import BaseTreeProps from './interface';
 

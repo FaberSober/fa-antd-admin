@@ -1,9 +1,6 @@
-import { StrictMode, Suspense } from 'react'
-import { createRoot } from 'react-dom/client'
-import {
-  BrowserRouter as Router,
-  useRoutes,
-} from 'react-router-dom'
+import {Suspense} from 'react'
+import {createRoot} from 'react-dom/client'
+import {BrowserRouter as Router, useRoutes,} from 'react-router-dom'
 
 
 import './index.less'

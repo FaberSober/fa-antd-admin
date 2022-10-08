@@ -1,16 +1,15 @@
-import React, { createContext, CSSProperties, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
-import { each, find, get } from 'lodash';
-import { Button, message, Modal, Space, Spin, Tree } from 'antd';
-import { DeleteOutlined, DownOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
-import { RES_CODE } from '@/configs/server.config';
-import { showResponse } from '@/utils/utils';
+import React, {createContext, CSSProperties, ReactNode, useContext, useEffect, useMemo, useState} from 'react';
+import {each, find, get} from 'lodash';
+import {message, Modal, Space, Spin, Tree} from 'antd';
+import {DeleteOutlined, DownOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
+import {ContextMenu, ContextMenuTrigger, MenuItem} from 'react-contextmenu';
+import {RES_CODE} from '@/configs/server.config';
+import {showResponse} from '@/utils/utils';
 import BaseTreeProps from './interface';
 import * as BaseTreeUtils from './utils';
-import Ajax from '@/props/base/Ajax';
 import FaberBase from '@/props/base/FaberBase';
 import './index.less';
-import { TreeProps } from 'antd/es/tree';
+import {TreeProps} from 'antd/es/tree';
 import {FaHref} from "@/components/decorator";
 
 

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Radio } from 'antd';
-import { find } from 'lodash';
+import React, {useEffect, useState} from 'react';
+import {Radio} from 'antd';
+import {find} from 'lodash';
 import dictService from '@/services/admin/dict';
-import { RES_CODE } from '@/configs/server.config';
-import { RadioProps } from 'antd/es/radio';
+import {RES_CODE} from '@/configs/server.config';
+import {RadioProps} from 'antd/es/radio';
 
 export interface OptionItemProps {
   value: string;

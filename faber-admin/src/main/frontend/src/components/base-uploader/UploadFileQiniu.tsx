@@ -1,7 +1,7 @@
-import React, { CSSProperties, useState } from 'react';
-import { Button, Upload, UploadProps } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
-import { fetchUploadImgQiniu } from './utils';
+import React, {CSSProperties, useState} from 'react';
+import {Button, Upload, UploadProps} from 'antd';
+import {UploadOutlined} from '@ant-design/icons';
+import {fetchUploadImgQiniu} from './utils';
 
 // function beforeUpload(file: any) {
 //   const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';

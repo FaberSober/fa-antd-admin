@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Modal } from 'antd';
+import React, {useState} from 'react';
+import {Modal} from 'antd';
 import Draggable from 'react-draggable';
-import { ModalProps } from 'antd/es/modal';
+import {ModalProps} from 'antd/es/modal';
 
 export interface DragModalProps extends ModalProps {
   children?: JSX.Element;

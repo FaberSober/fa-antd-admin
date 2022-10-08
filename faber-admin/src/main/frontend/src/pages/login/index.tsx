@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {FieldNumberOutlined, LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Form, Input} from 'antd';
 import {trim} from 'lodash'

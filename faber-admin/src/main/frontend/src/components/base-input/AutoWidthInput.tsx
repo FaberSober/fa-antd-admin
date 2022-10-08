@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Input, InputProps} from "antd";
-import { sum } from 'lodash'
+import {sum} from 'lodash'
 
 
 export interface AutoWidthInput extends InputProps {

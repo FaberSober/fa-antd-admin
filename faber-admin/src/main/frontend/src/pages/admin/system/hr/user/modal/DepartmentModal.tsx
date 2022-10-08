@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
-import { get } from 'lodash';
-import { Form, Input } from 'antd';
-import DragModal, { DragModalProps } from '@/components/modal/DragModal';
-import { showResponse } from '@/utils/utils';
-import { RES_CODE } from '@/configs/server.config';
+import React, {useRef, useState} from 'react';
+import {get} from 'lodash';
+import {Form, Input} from 'antd';
+import DragModal, {DragModalProps} from '@/components/modal/DragModal';
+import {showResponse} from '@/utils/utils';
+import {RES_CODE} from '@/configs/server.config';
 import modelService from '@/services/admin/department';
 import Admin from '@/props/admin';
 import DepartmentCascade from "../helper/DepartmentCascade";

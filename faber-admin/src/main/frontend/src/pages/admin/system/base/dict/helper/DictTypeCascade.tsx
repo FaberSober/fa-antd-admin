@@ -1,6 +1,6 @@
 import React from 'react';
 import modelService from '@/services/admin/dictType';
-import BaseCascader, { BaseCascaderProps } from '@/components/base-cascader';
+import BaseCascader, {BaseCascaderProps} from '@/components/base-cascader';
 import Admin from '@/props/admin';
 
 export interface DictTypeCascadeProps extends Omit<BaseCascaderProps<Admin.DictType>, 'serviceApi'> {}

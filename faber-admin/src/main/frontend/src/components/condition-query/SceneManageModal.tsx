@@ -1,11 +1,11 @@
-import React, { ReactNode, useState, useImperativeHandle } from 'react';
-import DragModal, { DragModalProps } from '@/components/modal/DragModal';
+import React, {ReactNode, useImperativeHandle, useState} from 'react';
+import DragModal, {DragModalProps} from '@/components/modal/DragModal';
 import configService from '@/services/admin/config';
-import { showResponse, arrayMove } from '@/utils/utils';
-import { RES_CODE } from '@/configs/server.config';
-import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
-import { DeleteOutlined, EditOutlined, MenuOutlined } from '@ant-design/icons';
-import { Checkbox, Popconfirm, Space, Tooltip } from 'antd';
+import {arrayMove, showResponse} from '@/utils/utils';
+import {RES_CODE} from '@/configs/server.config';
+import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
+import {DeleteOutlined, EditOutlined, MenuOutlined} from '@ant-design/icons';
+import {Checkbox, Popconfirm, Space, Tooltip} from 'antd';
 import Admin from '@/props/admin';
 import ConditionQueryModal from '@/components/condition-query/ConditionQueryModal';
 import FaberTable from '@/components/base-table/interface';

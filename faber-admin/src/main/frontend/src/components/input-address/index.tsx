@@ -1,7 +1,7 @@
 import React from 'react';
-import { Input } from 'antd';
+import {Input} from 'antd';
 import LocMapModal from '@/components/map-loc-select/LocMapModal';
-import { CompassOutlined } from '@ant-design/icons';
+import {CompassOutlined} from '@ant-design/icons';
 import {SITE_INFO} from "@/configs/server.config";
 
 interface IProps {

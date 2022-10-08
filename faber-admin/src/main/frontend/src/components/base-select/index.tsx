@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { get } from 'lodash';
-import { Select, SelectProps } from 'antd';
-import Ajax from '@/props/base/Ajax';
-import { RES_CODE } from '@/configs/server.config';
+import React, {useEffect, useState} from 'react';
+import {get} from 'lodash';
+import {Select, SelectProps} from 'antd';
+import {RES_CODE} from '@/configs/server.config';
 import {FaberBase} from "@/props/base";
 
 export interface BaseSelectProps<T> extends SelectProps<T> {

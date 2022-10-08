@@ -1,5 +1,5 @@
-import React, { CSSProperties, useState } from 'react';
-import { Map, MapTypeControl, Marker, ScaleControl } from '@uiw/react-amap';
+import React, {CSSProperties, useState} from 'react';
+import {Map, MapTypeControl, Marker, ScaleControl} from '@uiw/react-amap';
 
 export interface MapShowProps {
   lng: number;

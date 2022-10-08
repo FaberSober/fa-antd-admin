@@ -1,12 +1,11 @@
-import React, { useCallback, useState, useRef, useEffect} from 'react'
-import Ajax from "@/props/base/Ajax";
-import { RES_CODE } from "@/configs/server.config";
+import React, {useCallback, useEffect, useState} from 'react'
+import {RES_CODE} from "@/configs/server.config";
 import * as BaseTableUtils from "@/components/base-table/utils";
-import { TablePaginationConfig } from "antd";
-import { get, hasIn, isEqual } from 'lodash';
+import {TablePaginationConfig} from "antd";
+import {get, hasIn, isEqual} from 'lodash';
 import ConditionQuery from "@/components/condition-query/interface";
-import { showResponse } from '@/utils/utils';
-import { useIntl } from 'react-intl';
+import {showResponse} from '@/utils/utils';
+import {useIntl} from 'react-intl';
 import queryString from 'querystring';
 import {FaberBase} from "@/props/base";
 

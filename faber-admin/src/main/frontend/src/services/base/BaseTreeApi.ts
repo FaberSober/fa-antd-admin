@@ -1,4 +1,3 @@
-import Ajax from '@/props/base/Ajax';
 import FaberBase from '@/props/base/FaberBase';
 import BaseApi from '@/services/base/BaseApi';
 

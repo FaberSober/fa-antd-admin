@@ -1,7 +1,4 @@
 import React, {ReactNode} from 'react';
-import {handleClipboard} from "@/utils/utils";
-import {EditOutlined, LinkOutlined} from "@ant-design/icons";
-import styles from './styles/FaLink.module.less'
 
 
 export interface FaLinkProps {

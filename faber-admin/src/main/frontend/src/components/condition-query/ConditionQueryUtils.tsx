@@ -2,8 +2,8 @@
  * ConditionQueryModal自定义条件查询，补充查询条件值选择
  */
 import React from 'react';
-import { DatePicker } from 'antd';
-import { getInitialTimeValue, getDateStr, getDateFullStr, parseRangeDateSuffix } from '@/utils/utils';
+import {DatePicker} from 'antd';
+import {getDateFullStr, getDateStr, getInitialTimeValue, parseRangeDateSuffix} from '@/utils/utils';
 import FaberTable from '@/components/base-table/interface';
 
 const { RangePicker } = DatePicker;

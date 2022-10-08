@@ -1,6 +1,6 @@
 import React from 'react';
-import { createFromIconfontCN } from '@ant-design/icons';
-import { SITE_INFO } from '@/configs/server.config';
+import {createFromIconfontCN} from '@ant-design/icons';
+import {SITE_INFO} from '@/configs/server.config';
 
 const IconFontDom = createFromIconfontCN({
   scriptUrl: SITE_INFO.ICON_FONT_SCRIPTS,

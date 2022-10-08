@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { trim } from 'lodash';
-import { message } from 'antd';
+import {useCallback, useEffect, useRef, useState} from 'react';
+import {trim} from 'lodash';
+import {message} from 'antd';
 
 export interface Ret {
 	ready: boolean;

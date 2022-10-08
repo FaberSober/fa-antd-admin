@@ -1,13 +1,13 @@
 import React, {createContext, useEffect, useState} from 'react';
-import { find, sumBy, get } from 'lodash';
-import { ClearOutlined, DeleteOutlined, SettingOutlined } from '@ant-design/icons';
-import {Table, Button, Modal, Space} from 'antd';
+import {find, get, sumBy} from 'lodash';
+import {ClearOutlined, DeleteOutlined, SettingOutlined} from '@ant-design/icons';
+import {Button, Modal, Space, Table} from 'antd';
 import TableColConfigModal from '../modal/TableColConfigModal';
 import FaberTable from './interface';
-import { TableRowSelection } from 'antd/lib/table/interface';
+import {TableRowSelection} from 'antd/lib/table/interface';
 import useWindowResize from 'beautiful-react-hooks/useWindowResize';
-import { showResponse } from '@/utils/utils';
-import { dataIndexToString } from './utils';
+import {showResponse} from '@/utils/utils';
+import {dataIndexToString} from './utils';
 import ComplexQuery from '@/components/condition-query/ComplexQuery'
 
 interface CProps {

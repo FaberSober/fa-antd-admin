@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import React, {createContext, ReactNode, useEffect, useState} from 'react';
 import AMapUILoader from '@/utils/api-loaders/AMapUILoader';
 
 export interface AMapUILayoutContextProps {

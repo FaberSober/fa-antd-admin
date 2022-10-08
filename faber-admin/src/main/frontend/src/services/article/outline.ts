@@ -1,6 +1,5 @@
-import { GATE_APP } from '@/configs/server.config';
-import { BaseTreeApi } from '@/services/base';
-import Ajax from '@/props/base/Ajax';
+import {GATE_APP} from '@/configs/server.config';
+import {BaseTreeApi} from '@/services/base';
 import Article from '@/props/article';
 import FaberBase from '@/props/base/FaberBase';
 

@@ -1,6 +1,6 @@
 import {GATE_APP} from '@/configs/server.config';
 import {BaseZeroApi} from '@/services/base';
-import {Ajax, FaberBase} from "@/props/base";
+import {FaberBase} from "@/props/base";
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */
 class AuthTestApi extends BaseZeroApi {

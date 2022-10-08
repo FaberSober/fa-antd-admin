@@ -1,8 +1,7 @@
-import { GATE_APP } from '@/configs/server.config';
-import Ajax from '@/props/base/Ajax';
+import {GATE_APP} from '@/configs/server.config';
 import FaberBase from '@/props/base/FaberBase';
 import Admin from '@/props/admin';
-import { BaseApi } from '@/services/base';
+import {BaseApi} from '@/services/base';
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */
 const serviceModule = 'area';

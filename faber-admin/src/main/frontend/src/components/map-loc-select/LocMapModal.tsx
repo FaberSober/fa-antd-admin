@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState} from 'react';
 import DragModal from '@/components/modal/DragModal';
-import { ModalProps } from 'antd/es/modal';
-import { Map, Marker } from '@uiw/react-amap';
+import {ModalProps} from 'antd/es/modal';
+import {Map, Marker} from '@uiw/react-amap';
 import MyAutoComplete from './MyAutoComplete';
 
 export interface IProps extends ModalProps {

@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react';
-import { RES_CODE } from '@/configs/server.config';
+import React, {useRef, useState} from 'react';
+import {RES_CODE} from '@/configs/server.config';
 import SplitPane from 'react-split-pane';
 import BaseTree from '@/components/base-tree';
 import Admin from '@/props/admin';
 import departmentService from '@/services/admin/department';
-import { PlusOutlined } from '@ant-design/icons';
-import { useLocalStorageState } from 'ahooks';
+import {PlusOutlined} from '@ant-design/icons';
+import {useLocalStorageState} from 'ahooks';
 import BaseTreeProps from "@/components/base-tree/interface";
 import DepartmentModal from "./modal/DepartmentModal";
 import UserList from "./cube/UserList";

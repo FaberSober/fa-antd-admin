@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React, {CSSProperties} from 'react';
 import {SITE_INFO} from "@/configs/server.config";
 
 export interface FaLabelProps {

@@ -3,7 +3,6 @@ import {get} from 'lodash';
 import {Form, Input, Select} from 'antd';
 import DragModal from '@/components/modal/DragModal';
 import {showResponse} from '@/utils/utils';
-import Ajax from "@/props/base/Ajax";
 import modelService from '@/services/rbac/rbacMenu';
 import Rbac from '@/props/rbac';
 import FaberEnums from "@/props/base/FaberEnums";

@@ -1,5 +1,5 @@
-import React, { CSSProperties, ReactNode } from 'react';
-import { SITE_INFO } from '@/configs/server.config';
+import React, {CSSProperties, ReactNode} from 'react';
+import {SITE_INFO} from '@/configs/server.config';
 
 export interface SegmentTitleProps {
   title: string;

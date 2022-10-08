@@ -1,10 +1,10 @@
 import React, {createContext, useEffect, useState} from 'react';
-import { sumBy, get } from 'lodash';
-import { ClearOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Table, Button, Modal } from 'antd';
-import { TableRowSelection } from 'antd/lib/table/interface';
+import {get, sumBy} from 'lodash';
+import {ClearOutlined, DeleteOutlined} from '@ant-design/icons';
+import {Button, Modal, Table} from 'antd';
+import {TableRowSelection} from 'antd/lib/table/interface';
 import useWindowResize from 'beautiful-react-hooks/useWindowResize';
-import { showResponse } from '@/utils/utils';
+import {showResponse} from '@/utils/utils';
 import FaberTable from './FaberTable';
 
 interface CProps {

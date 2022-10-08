@@ -1,4 +1,4 @@
-import { each, isNil, trim } from 'lodash';
+import {isNil, trim} from 'lodash';
 import FaberBase from '@/props/base/FaberBase';
 
 export function parseNode<T = any>(nodeList: FaberBase.TreeNode<T, any>[] | undefined): FaberBase.BaseTreeNode<T>[] | undefined {

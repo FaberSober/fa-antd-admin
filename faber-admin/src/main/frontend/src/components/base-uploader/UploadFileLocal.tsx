@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Button, message, Upload, UploadProps } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import React, {useEffect, useState} from 'react';
+import {Button, message, Upload, UploadProps} from 'antd';
+import {UploadOutlined} from '@ant-design/icons';
 import fileApi from '@/services/admin/fileSave';
-import { getToken } from '@/utils/cache';
-import { RES_CODE, TOKEN_KEY } from '@/configs/server.config';
-import { RcFile } from 'antd/es/upload';
-import { UploadChangeParam } from 'antd/lib/upload/interface';
-import { UploadFile } from 'antd/es/upload/interface';
+import {getToken} from '@/utils/cache';
+import {RES_CODE, TOKEN_KEY} from '@/configs/server.config';
+import {RcFile} from 'antd/es/upload';
+import {UploadChangeParam} from 'antd/lib/upload/interface';
+import {UploadFile} from 'antd/es/upload/interface';
 
 export interface UploadFileLocalProps extends UploadProps {
   children?: any;

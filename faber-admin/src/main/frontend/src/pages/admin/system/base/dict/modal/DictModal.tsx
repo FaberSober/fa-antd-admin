@@ -1,14 +1,14 @@
-import React, { useEffect, useImperativeHandle, useState } from 'react';
-import { get } from 'lodash';
-import { Button, Form, Input, InputNumber, Radio } from 'antd';
-import DragModal, { DragModalProps } from '@/components/modal/DragModal';
-import { showResponse } from '@/utils/utils';
-import { RES_CODE } from '@/configs/server.config';
+import React, {useEffect, useImperativeHandle, useState} from 'react';
+import {get} from 'lodash';
+import {Button, Form, Input, InputNumber, Radio} from 'antd';
+import DragModal, {DragModalProps} from '@/components/modal/DragModal';
+import {showResponse} from '@/utils/utils';
+import {RES_CODE} from '@/configs/server.config';
 import modelService from '@/services/admin/dict';
 import Admin from '@/props/admin';
 import DictTypeCascade from "../helper/DictTypeCascade";
-import { ClearOutlined } from '@ant-design/icons';
-import {UploadFileLocal, UploadFileQiniu} from "@/components/base-uploader";
+import {ClearOutlined} from '@ant-design/icons';
+import {UploadFileQiniu} from "@/components/base-uploader";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 

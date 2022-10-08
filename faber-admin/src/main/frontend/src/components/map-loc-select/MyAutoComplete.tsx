@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect, CSSProperties } from 'react';
-import { AutoComplete } from '@uiw/react-amap';
+import React, {CSSProperties, useEffect, useRef, useState} from 'react';
+import {AutoComplete} from '@uiw/react-amap';
 
 interface IProps {
   onSelectData?: (e: any) => void;

@@ -1,16 +1,16 @@
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
-import { find, sortBy } from 'lodash';
-import { MenuOutlined } from '@ant-design/icons';
+import React, {ReactNode, useContext, useEffect, useState} from 'react';
+import {find, sortBy} from 'lodash';
+import {MenuOutlined} from '@ant-design/icons';
 import {Button, Checkbox, Drawer, Input, Space} from 'antd';
-import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
-import { arrayMove, showResponse } from '@/utils/utils';
-import { RES_CODE } from '@/configs/server.config';
-import { ModalProps } from 'antd/es/modal';
+import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
+import {arrayMove, showResponse} from '@/utils/utils';
+import {RES_CODE} from '@/configs/server.config';
+import {ModalProps} from 'antd/es/modal';
 import FaberTable from '@/components/base-table/interface';
 import * as BaseTableUtils from '@/components/base-table/utils';
 import Admin from '@/props/admin';
 import configService from '@/services/admin/config';
-import { BaseBizTableContext } from "@/components/base-table/BaseBizTable";
+import {BaseBizTableContext} from "@/components/base-table/BaseBizTable";
 import './TableColConfigModal.less';
 import {FaFlexRestLayout} from "@/components/base-layout";
 

@@ -3,7 +3,6 @@ import {get} from 'lodash';
 import {Form, Input} from 'antd';
 import DragModal from '@/components/modal/DragModal';
 import {showResponse} from '@/utils/utils';
-import Ajax from "@/props/base/Ajax";
 import modelService from '@/services/rbac/rbacRole';
 import Rbac from '@/props/rbac';
 import {BaseBoolIntRadio} from "@/components/base-dict";

@@ -1,6 +1,6 @@
 import {ReactNode} from "react";
 import FaberEnums from "@/props/base/FaberEnums";
-import { DragModalProps } from '@/components/modal/DragModal';
+import {DragModalProps} from '@/components/modal/DragModal';
 import ConditionQuery from '@/components/condition-query/interface';
 
 namespace FaberBase {

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { TreeSelect } from 'antd';
-import Ajax from "@/props/base/Ajax";
+import React, {useEffect, useState} from 'react';
+import {TreeSelect} from 'antd';
 import FaberBase from '@/props/base/FaberBase';
-import { TreeSelectProps } from 'antd/es/tree-select';
+import {TreeSelectProps} from 'antd/es/tree-select';
 import BaseTreeProps from '@/components/base-tree/interface';
-import { RES_CODE } from '@/configs/server.config';
+import {RES_CODE} from '@/configs/server.config';
 import * as BaseTreeUtils from '@/components/base-tree/utils';
 
 export interface BaseTreeSelectProps<T, KeyType = number> extends Omit<TreeSelectProps<T>, 'options'> {

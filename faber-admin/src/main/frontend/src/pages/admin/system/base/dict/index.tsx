@@ -1,12 +1,12 @@
-import React, { useRef, useState } from 'react';
-import { RES_CODE } from '@/configs/server.config';
+import React, {useRef, useState} from 'react';
+import {RES_CODE} from '@/configs/server.config';
 import SplitPane from 'react-split-pane';
 import BaseTree from '@/components/base-tree';
-import { CaretRightOutlined, PlusOutlined } from '@ant-design/icons';
-import { Collapse, Descriptions } from 'antd';
+import {CaretRightOutlined, PlusOutlined} from '@ant-design/icons';
+import {Collapse, Descriptions} from 'antd';
 import Admin from '@/props/admin';
 import dictTypeService from '@/services/admin/dictType';
-import { useLocalStorageState } from 'ahooks';
+import {useLocalStorageState} from 'ahooks';
 import BaseTreeProps from "@/components/base-tree/interface";
 import DictList from "./cube/DictList";
 import DictTypeModal from "./modal/DictTypeModal";

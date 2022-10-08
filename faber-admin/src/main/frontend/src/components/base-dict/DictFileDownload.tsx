@@ -1,8 +1,8 @@
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, {CSSProperties, useEffect, useState} from 'react';
 import dictApi from '@/services/admin/dict';
 import Admin from '@/props/admin';
-import { RES_CODE } from '@/configs/server.config';
-import { DownloadOutlined } from '@ant-design/icons';
+import {RES_CODE} from '@/configs/server.config';
+import {DownloadOutlined} from '@ant-design/icons';
 
 export interface DictFileDownloadProps {
   dictTypeCode: string;

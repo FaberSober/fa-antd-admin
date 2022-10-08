@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { isNil, remove, cloneDeep } from 'lodash';
-import { Cascader } from 'antd';
+import React, {useEffect, useState} from 'react';
+import {cloneDeep, isNil, remove} from 'lodash';
+import {Cascader} from 'antd';
 import FaberBase from '@/props/base/FaberBase';
 import Admin from '@/props/admin';
 import areaService from '@/services/admin/area';
-import { RES_CODE } from '@/configs/server.config';
-import { CascaderOptionType } from 'antd/lib/cascader';
-import { BaseCascaderProps } from '@/components/base-cascader';
+import {RES_CODE} from '@/configs/server.config';
+import {CascaderOptionType} from 'antd/lib/cascader';
+import {BaseCascaderProps} from '@/components/base-cascader';
 
 function getLastValue(values: number[]) {
   remove(values, (d) => isNil(d) || d === undefined);

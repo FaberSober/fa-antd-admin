@@ -1,10 +1,9 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { get } from 'lodash';
-import { message } from 'antd';
-import { TOKEN_KEY } from '@/configs/server.config';
-import { getToken } from './cache';
-import Ajax from '@/props/base/Ajax';
-import { dispatch } from 'use-bus'
+import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
+import {get} from 'lodash';
+import {message} from 'antd';
+import {TOKEN_KEY} from '@/configs/server.config';
+import {getToken} from './cache';
+import {dispatch} from 'use-bus'
 import {FaberBase} from "@/props/base";
 
 // Set config defaults when creating the instance

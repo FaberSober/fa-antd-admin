@@ -1,7 +1,6 @@
-import { ReactNode } from 'react';
-import Ajax from '@/props/base/Ajax';
+import {ReactNode} from 'react';
 import ConditionQuery from '@/components/condition-query/interface';
-import { ColumnProps, TableProps } from 'antd/lib/table';
+import {ColumnProps, TableProps} from 'antd/lib/table';
 import {FaberBase} from "@/props/base";
 
 /**

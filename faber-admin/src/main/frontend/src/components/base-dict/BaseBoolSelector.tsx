@@ -1,6 +1,6 @@
 import React from 'react';
-import { Select } from 'antd';
-import { SelectProps } from 'antd/es/select';
+import {Select} from 'antd';
+import {SelectProps} from 'antd/es/select';
 
 interface IProps extends SelectProps<any> {}
 

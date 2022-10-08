@@ -1,7 +1,6 @@
-import React, { ReactNode, useContext } from 'react';
-import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons';
+import React, {ReactNode} from 'react';
+import {DoubleLeftOutlined, DoubleRightOutlined} from '@ant-design/icons';
 import './Sider.less';
-import { UserMenuContext } from '@/layout/UserMenuLayout';
 
 interface IProps {
   collapse?: boolean; // 是否折叠

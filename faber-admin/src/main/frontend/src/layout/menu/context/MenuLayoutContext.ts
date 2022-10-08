@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import {createContext} from 'react';
 import FaberBase from "@/props/base/FaberBase";
 import Rbac from "@/props/rbac";
 

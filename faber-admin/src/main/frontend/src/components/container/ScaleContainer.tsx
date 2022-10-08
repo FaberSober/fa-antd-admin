@@ -1,8 +1,8 @@
-import React, { CSSProperties, ReactNode, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import { useInterval } from 'ahooks';
-import { Tooltip } from 'antd';
-import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons';
+import React, {CSSProperties, ReactNode, useState} from 'react';
+import {v4 as uuidv4} from 'uuid';
+import {useInterval} from 'ahooks';
+import {Tooltip} from 'antd';
+import {FullscreenExitOutlined, FullscreenOutlined} from '@ant-design/icons';
 
 export interface ScaleContainerProps {
   width: number; // 宽-1920

@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 // @ts-ignore
-import { Viewer, Worker } from '@react-pdf-viewer/core';
+import {Viewer, Worker} from '@react-pdf-viewer/core';
 // @ts-ignore
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+import {defaultLayoutPlugin} from '@react-pdf-viewer/default-layout';
 
 // Import styles
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
-import { handleClipboard } from '@/utils/utils';
+import {handleClipboard} from '@/utils/utils';
 import './ReactPdfView.less';
 
 

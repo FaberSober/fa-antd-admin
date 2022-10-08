@@ -1,5 +1,4 @@
 import FaberBase from '@/props/base/FaberBase';
-import Ajax from '@/props/base/Ajax';
 import BaseZeroApi from './BaseZeroApi';
 
 export default class BaseApi<T, KeyType, PageT = T> extends BaseZeroApi {

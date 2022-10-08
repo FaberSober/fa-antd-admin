@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { CronEditor } from 'fa-cron-react-editor';
+import {CronEditor} from 'fa-cron-react-editor';
 import jobApi from '@/services/admin/job'
 import {RES_CODE} from "@/configs/server.config";
 

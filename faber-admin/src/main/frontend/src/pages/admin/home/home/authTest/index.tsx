@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import authTestApi from '@/services/demo/authTest';
-import {Button, Card, message, Space} from "antd";
+import {Button, message, Space} from "antd";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 
 

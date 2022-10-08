@@ -1,8 +1,7 @@
-import { v1 as uuidv1 } from 'uuid';
-import { message } from 'antd';
-import { get } from 'lodash';
+import {message} from 'antd';
+import {get} from 'lodash';
 import fileService from '@/services/admin/fileSave';
-import { SITE_INFO, RES_CODE } from '@/configs/server.config';
+import {RES_CODE, SITE_INFO} from '@/configs/server.config';
 import ApiQiniuLoader from '@/utils/api-loaders/ApiQiniuLoader';
 import dayjs from 'dayjs';
 

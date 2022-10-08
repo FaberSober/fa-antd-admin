@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import dictService from '@/services/admin/dict';
 import Admin from '@/props/admin';
-import { RES_CODE } from '@/configs/server.config';
+import {RES_CODE} from '@/configs/server.config';
 
 export interface DictDataShowProps {
   dictLabel: string | undefined;

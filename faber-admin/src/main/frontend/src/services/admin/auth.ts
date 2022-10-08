@@ -1,6 +1,5 @@
 import FaberBase from '@/props/base/FaberBase';
-import Ajax from '@/props/base/Ajax';
-import { requestPost } from '@/utils/request';
+import {requestPost} from '@/utils/request';
 
 /**
  * 用户登录

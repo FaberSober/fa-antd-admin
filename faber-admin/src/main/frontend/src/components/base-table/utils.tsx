@@ -1,6 +1,5 @@
 import React from 'react';
 import {getDateStr, toLine, tryToFixed} from '@/utils/utils';
-import Ajax from '@/props/base/Ajax';
 import {Popconfirm} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import {ShiroPermissionContainer} from '@/components/auth';

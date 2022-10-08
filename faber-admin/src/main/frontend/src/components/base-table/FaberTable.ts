@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { ColumnProps, TableProps } from 'antd/lib/table';
+import {ReactNode} from 'react';
+import {ColumnProps, TableProps} from 'antd/lib/table';
 import FaberBase from '@/props/base/FaberBase';
 
 /**

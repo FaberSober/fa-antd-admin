@@ -1,4 +1,4 @@
-import { TOKEN_KEY } from '@/configs/server.config';
+import {TOKEN_KEY} from '@/configs/server.config';
 
 export function getToken(): string | null {
 	return sessionStorage.getItem(TOKEN_KEY);
