@@ -1,9 +1,11 @@
 package com.faber.common.biz;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
+import com.baomidou.mybatisplus.annotation.IEnum;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -15,12 +17,14 @@ import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.enums.DelStateEnum;
 import com.faber.common.exception.BuzzException;
+import com.faber.common.util.FaEnumUtils;
 import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.vo.msg.TableResultResponse;
 import com.faber.common.mybatis.WrapperUtils;
 import com.faber.common.util.EasyExcelUtils;
 import com.faber.common.vo.query.ConditionGroup;
 import com.faber.common.vo.query.QueryParams;
+import com.faber.msg.entity.Msg;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -30,6 +34,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.net.URLEncoder;
 import java.util.List;
@@ -56,11 +61,6 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         }
     }
 
-    public Class<T> getEntityClass() {
-        Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-        return clazz;
-    }
-
     public List<T> mineList(QueryParams query) {
         query.getQueryMap().put("crtUser", getCurrentUserId());
         return this.list(query);
@@ -74,12 +74,11 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     protected void preProcessQuery(QueryParams query) {}
 
     public QueryWrapper<T> parseQuery(QueryParams query) {
-        Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
         this.preProcessQuery(query);
 
         this.processSceneId(query);
 
-        return WrapperUtils.parseQuery(query, clazz);
+        return WrapperUtils.parseQuery(query, getEntityClass());
     }
 
     /**
@@ -110,9 +109,23 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     public TableResultResponse<T> selectPageByQuery(QueryParams query) {
         QueryWrapper<T> wrapper = parseQuery(query);
         if (query.getPageSize() > 1000) throw new BuzzException("查询结果数量大于1000，请缩小查询范围");
+
+        // page query
         Page<T> page = new Page<>(query.getCurrent(), query.getPageSize());
         Page<T> result =  super.page(page, wrapper);
-        return new TableResultResponse<T>(result);
+        TableResultResponse<T> table = new TableResultResponse<T>(result);
+
+        // add dict options
+        this.addDictOptions(table, getEntityClass());
+
+        return table;
+    }
+
+    public void addDictOptions(TableResultResponse<?> table, Class<?> clazz) {
+        Field[] fields = ReflectUtil.getFields(clazz, field -> IEnum.class.isAssignableFrom(field.getType()));
+        for (Field field : fields) {
+            table.getData().addDict(field.getName(), FaEnumUtils.toOptions((Class<? extends IEnum>) field.getType()));
+        }
     }
 
     public List<T> list(QueryParams query) {

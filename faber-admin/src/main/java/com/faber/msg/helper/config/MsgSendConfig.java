@@ -1,5 +1,6 @@
 package com.faber.msg.helper.config;
 
+import com.faber.common.enums.admin.MsgBuzzTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,7 @@ public class MsgSendConfig {
      */
     protected String smsCode;
 
-    protected int buzzType;
+    protected MsgBuzzTypeEnum buzzType;
 
     protected String buzzId;
 

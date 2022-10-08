@@ -1,5 +1,6 @@
 package com.faber.msg.helper.config;
 
+import com.faber.common.enums.admin.MsgBuzzTypeEnum;
 import com.faber.msg.entity.Msg;
 import lombok.Builder;
 import lombok.Data;
@@ -19,8 +20,8 @@ public class MsgSendSmsCode extends MsgSendConfig {
     private String code;
 
     @Builder
-    public MsgSendSmsCode(boolean sendAppPush, boolean sendSms, String smsCode, int buzzType, String buzzId, String code) {
-        super(true, true, smsCode, Msg.BuzzType.SMS_CODE.getValue(), buzzId);
+    public MsgSendSmsCode(boolean sendAppPush, boolean sendSms, String smsCode, MsgBuzzTypeEnum buzzType, String buzzId, String code) {
+        super(true, true, smsCode, buzzType, buzzId);
         this.code = code;
     }
 }

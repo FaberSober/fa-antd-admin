@@ -71,14 +71,4 @@ public class MsgBiz extends BaseBiz<MsgMapper, Msg> {
         this.save(bean);
     }
 
-    @Override
-    public TableResultResponse<Msg> selectPageByQuery(QueryParams query) {
-        TableResultResponse<Msg> table = super.selectPageByQuery(query);
-
-        // 添加字典值
-//        table.getData()
-//                .addDict("buzzType", dictBiz.getByCode("common.msg.buzz_type"));
-        return table;
-    }
-
 }

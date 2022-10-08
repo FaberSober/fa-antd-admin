@@ -9,10 +9,9 @@ import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlSearch;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.enums.BoolEnum;
+import com.faber.common.enums.admin.MsgBuzzTypeEnum;
 import lombok.Data;
-import lombok.Getter;
 
-import java.util.Arrays;
 import java.util.Date;
 
 
@@ -27,7 +26,6 @@ import java.util.Date;
 @TableName("base_msg")
 @Data
 public class Msg extends BaseDelEntity {
-    private static final long serialVersionUID = 1L;
 
     @ExcelProperty("ID")
     @TableId(type = IdType.AUTO)
@@ -60,34 +58,10 @@ public class Msg extends BaseDelEntity {
 
     @SqlEquals
     @ExcelProperty("业务类型")
-    private Integer buzzType;
+    private MsgBuzzTypeEnum buzzType;
 
     @SqlEquals
     @ExcelProperty("业务ID")
     private String buzzId;
-
-    public enum BuzzType {
-
-        SYS(1, "系统通知"),
-        SMS_CODE(2, "短信验证码"),
-        MEMBER_REGISTRY_RESULT(3, "会员注册审核结果"),
-        ERROR(100, "无效值");
-
-        @Getter
-        private int value;
-        @Getter
-        private String desc;
-
-        BuzzType(int value, String desc) {
-            this.value = value;
-            this.desc = desc;
-        }
-
-        public static BuzzType valueOf(int value) {
-            return Arrays.stream(BuzzType.values())
-                    .filter(a -> a.getValue() == value)
-                    .findFirst().orElse(BuzzType.ERROR);
-        }
-    }
 
 }
