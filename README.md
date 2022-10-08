@@ -10,6 +10,7 @@
 
 ## 开发说明
 1. 导入数据库文件：`faber-admin/src/main/resources/data/sql/V1.0.0.sql`
+   1. (可选)导入中国行政地区数据：`faber-admin/sql/base_area.sql.zip`
 2. 启动后端服务：`faber-admin/src/main/java/com/faber/AdminBootstrap.java`
 3. 启动前端服务，
    1. 进入前端项目地址：`faber-admin/src/main/frontend`
