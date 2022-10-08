@@ -4,9 +4,9 @@ import {isNil} from "lodash"
 import Fa from "@/props/base/Fa";
 import Rbac from "@/props/rbac";
 import MenuLayoutContext from "@/layout/menu/context/MenuLayoutContext";
-import {DoubleLeftOutlined, DoubleRightOutlined} from "@ant-design/icons";
-import {FaFlexRestLayout} from "@/components/base-layout";
 import FaberEnums from "@/props/base/FaEnums";
+import {SiderLayout} from "@/components/antd-pro";
+
 
 /**
  * @author xu.pengfei
@@ -40,30 +40,20 @@ export default function SideMenu() {
 
   const width = collapse ? 44 : 200
   return (
-    <div className="faber-flex-column" style={{ width, height: '100%', backgroundColor: '#fff', borderRight: '1px solid #eee' }}>
-      <FaFlexRestLayout style={{ overflowY: 'auto', overflowX: 'hidden' }}>
-        <Menu
-          // theme="dark"
-          mode="inline"
-          // openKeys={openKeys}
-          // onOpenChange={onOpenChange}
-          style={{ width }}
-          items={items}
-          inlineCollapsed={collapse}
-          openKeys={openSideMenuKeys}
-          onOpenChange={onOpenChange}
-          selectedKeys={menuSelPath}
-          onSelect={({ key, keyPath}) => setMenuSelPath(key, keyPath)}
-        />
-      </FaFlexRestLayout>
-
-      <div
-        className="sider-toggle-div"
-        style={{ width: width - 1 }}
-        onClick={() => setCollapse(!collapse)}
-      >
-        {collapse ? <DoubleRightOutlined /> : <DoubleLeftOutlined />}
-      </div>
-    </div>
+    <SiderLayout collapse={collapse} onCollapse={() => setCollapse(!collapse)}>
+      <Menu
+        // theme="dark"
+        mode="inline"
+        // openKeys={openKeys}
+        // onOpenChange={onOpenChange}
+        style={{ width }}
+        items={items}
+        inlineCollapsed={collapse}
+        openKeys={openSideMenuKeys}
+        onOpenChange={onOpenChange}
+        selectedKeys={menuSelPath}
+        onSelect={({ key, keyPath}) => setMenuSelPath(key, keyPath)}
+      />
+    </SiderLayout>
   )
 }

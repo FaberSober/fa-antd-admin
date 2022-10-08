@@ -1,5 +1,5 @@
 import PageLoading from './PageLoading';
-import Sider from './Sider';
+import SiderLayout from './SiderLayout';
 import IconFont from './IconFont';
 
-export { PageLoading, Sider, IconFont };
+export { PageLoading, SiderLayout, IconFont };
