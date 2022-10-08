@@ -13,10 +13,10 @@ import MenuLayoutContext, {MenuLayoutContextProps} from './context/MenuLayoutCon
 import Logo from "./cube/Logo";
 import MenuAppHorizontal from "./cube/MenuAppHorizontal";
 import SideMenu from "./cube/SideMenu";
-import LangToggle from "@/layout/menu/cube/LangToggle";
-import HelpCube from "@/layout/menu/cube/HelpCube";
-import UserAvatar from "@/layout/menu/cube/UserAvatar";
-import OpenTabs from "@/layout/menu/cube/OpenTabs";
+import LangToggle from "./cube/LangToggle";
+import HelpCube from "./cube/HelpCube";
+import UserAvatar from "./cube/UserAvatar";
+import OpenTabs from "./cube/OpenTabs";
 import styles from "./MenuLayout.module.less";
 
 
