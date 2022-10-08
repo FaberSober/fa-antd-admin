@@ -91,7 +91,7 @@ export default function RbacMenuTreeList() {
 
   const loadingTree = loadingEffect[rbacMenuApi.getUrl('allTree')];
   return (
-    <div className="faber-full-content faber-flex-column">
+    <div className="fa-full-content fa-flex-column">
       <Space style={{ margin: 12 }}>
         <Button onClick={refreshData} loading={loadingTree}>刷新</Button>
         <RbacMenuModal title="新增菜单" fetchFinish={refreshData}>

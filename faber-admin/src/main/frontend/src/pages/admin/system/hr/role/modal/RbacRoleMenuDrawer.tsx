@@ -64,7 +64,7 @@ export default function RbacRoleMenuDrawer({ children, title, record, success, .
         {...props}
       >
         <div style={{ height: '100%', position: 'relative' }}>
-          <div className="faber-full-content-no-padding faber-flex-column">
+          <div className="fa-full-content-no-padding fa-flex-column">
             <FaFlexRestLayout>
               <Tree
                 checkable

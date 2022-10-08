@@ -42,7 +42,7 @@ export default function DictManage() {
   }
 
   return (
-    <div className="faber-full-content">
+    <div className="fa-full-content">
       <SplitPane split="vertical" minSize={200} maxSize={350} defaultSize={splitPos} onChange={(size) => setSplitPos(size)}>
         {/* 左侧面板 */}
         <BaseTree

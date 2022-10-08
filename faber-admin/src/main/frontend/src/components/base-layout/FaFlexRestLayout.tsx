@@ -7,7 +7,7 @@ import React from 'react';
 export default function FaFlexRestLayout({ children, style }:any) {
   return (
     <div className="fa-flex-1">
-      <div className="faber-full-content-no-padding" style={{ overflowY: 'auto', ...style }}>
+      <div className="fa-full-content-no-padding" style={{ overflowY: 'auto', ...style }}>
         {children}
       </div>
     </div>

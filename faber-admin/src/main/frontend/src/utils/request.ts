@@ -165,7 +165,7 @@ export function requestDownload(api: string, body: object, config?: AxiosRequest
 		});
 		const a = document.createElement('a');
 		const url1 = window.URL.createObjectURL(blob);
-		const filename = res.headers['faber-filename'];
+		const filename = res.headers['fa-filename'];
 		a.href = url1;
 		a.download = decodeURIComponent(filename);
 		a.click();

@@ -58,7 +58,7 @@ export default function NoticeList() {
   }
 
   return (
-    <div className="faber-full-content fa-bg-white">
+    <div className="fa-full-content fa-bg-white">
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
         <div style={{ display: 'flex' }}>
           <strong style={{ fontSize: '18px' }}>{serviceName}</strong>

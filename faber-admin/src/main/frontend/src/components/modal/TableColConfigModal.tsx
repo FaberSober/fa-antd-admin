@@ -190,8 +190,8 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
         {...restProps}
       >
         <div style={{ height: '100%', position: 'relative' }}>
-          <div className="faber-full-content-no-padding faber-flex-column">
-            <div className="faber-flex-row-center" style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
+          <div className="fa-full-content-no-padding fa-flex-column">
+            <div className="fa-flex-row-center" style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
               <div className="tableColTheadItem" style={{ flex: 1, borderRight: '1px solid #ccc' }}>字段</div>
               <div className="tableColTheadItem" style={{ width: 100 }}>宽度(px)</div>
               <div className="tableColTheadItem" style={{ width: 31 }}></div>

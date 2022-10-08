@@ -35,7 +35,7 @@ export default function FontAwesomeSelect({ value, onChange }: FontAwesomeSelect
         onClose={() => setOpen(false)}
         width={700}
       >
-        <div className="faber-flex-row" style={{ flexWrap: "wrap" }}>
+        <div className="fa-flex-row" style={{ flexWrap: "wrap" }}>
           {FONT_AWESOME_LIST.map(i => (
             <div key={i} onClick={() => handleClick(i)} className={styles.item}>
               <i className={`${i}`} />

@@ -23,7 +23,7 @@ export default function SideMenu() {
       key: i.id,
       label: i.name,
       children: loop(i.children),
-      icon: i.sourceData.icon ? <div className="faber-flex-column-center" style={{ width: 20, display: 'inline-block' }}><i className={i.sourceData.icon} /></div> : null,
+      icon: i.sourceData.icon ? <div className="fa-flex-column-center" style={{ width: 20, display: 'inline-block' }}><i className={i.sourceData.icon} /></div> : null,
     }))
   }
   const items = loop(menuTree)

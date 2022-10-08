@@ -149,7 +149,7 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
         {showSuffix ? (
           <div style={{ display: 'flex', flexWrap: 'wrap' }}>
             {condGroupList.map((condGroup, index) => (
-              <div key={condGroup.id} className="faber-flex-row-center">
+              <div key={condGroup.id} className="fa-flex-row-center">
                 <CondGroupShow condGroup={condGroup} onChange={handleCondGroupChange} />
                 {index < condGroupList.length - 1 && <Divider type="vertical" />}
               </div>

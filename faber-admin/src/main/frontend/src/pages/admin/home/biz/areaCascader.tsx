@@ -17,7 +17,7 @@ export default function areaCascader() {
   const [value4, setValue4] = useState()
 
   return (
-    <div className="faber-full-content fa-padding-12">
+    <div className="fa-full-content fa-padding-12">
       <Card title="只获取最后选中的地区ID" style={{ marginBottom: 12 }}>
         <div>选中值：{value1}</div>
         <div>选中值(完整属性)：{value1Area && JSON.stringify(value1Area)}</div>

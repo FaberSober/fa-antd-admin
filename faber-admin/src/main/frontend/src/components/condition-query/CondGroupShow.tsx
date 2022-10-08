@@ -45,7 +45,7 @@ export default function CondGroupShow({ condGroup, onChange }: CondGroupShowProp
           condStr = `${name || value}`;
         }
         return (
-          <div key={cond.id} className="faber-flex-row-center">
+          <div key={cond.id} className="fa-flex-row-center">
             <Tag key={id} closable onClose={() => handleRemoveCond(cond.id, true)}>
               {cond.title} {ConditionQuery.OPR_MAP[opr]} {condStr}
             </Tag>
