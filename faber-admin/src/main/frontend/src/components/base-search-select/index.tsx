@@ -1,8 +1,7 @@
 import React, {ReactNode, useEffect, useState} from 'react';
 import {get, remove, trim} from 'lodash';
 import {Select, SelectProps} from 'antd';
-import {useDebounceFn} from 'ahooks';
-import {RES_CODE} from '@/configs/server.config';
+import {useDebounce} from 'react-use';
 import Fa from '@/props/base/Fa';
 
 export interface BaseSearchSelectProps<T, KeyType = number> extends SelectProps<T> {
@@ -47,13 +46,13 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
     if (listValueFlag) {
       // 多选数据
       if (value === undefined || value === null || value.length === 0) {
-        run();
+        searchNow();
       } else {
         updateValue(value);
       }
     } else {
       if (value === undefined || value === null) {
-        run();
+        searchNow();
       } else {
         updateValue(value);
       }
@@ -65,37 +64,27 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
     if (outValue instanceof Array) {
       if (serviceApi?.findList) {
         serviceApi?.findList(outValue).then((res) => {
-          if (res && res.status === RES_CODE.OK) {
-            const newList = res.data.map((d) => ({
-              label: parseLabel(d),
-              value: parseValue(d),
-            }));
-            // setArray(newList);
+          const newList = res.data.map((d) => ({
+            label: parseLabel(d),
+            value: parseValue(d),
+          }));
 
-            // 追加搜索
-            serviceApi
-              ?.search(search)
-              .then((res1) => {
-                if (res1 && res1.status === RES_CODE.OK) {
-                  const newListAdd = res1.data.rows.map((c) => ({
-                    label: parseLabel(c),
-                    value: parseValue(c),
-                  }));
-                  const newListValues = newList.map((v1) => v1.value);
-                  remove(newListAdd, (v) => newListValues.indexOf(v.value) > -1);
-                  setArray([...newList, ...newListAdd]);
-                }
-              })
-              .catch(() => setArray(newList));
-          }
+          // 追加搜索
+          serviceApi?.search(search).then((res1) => {
+            const newListAdd = res1.data.rows.map((c) => ({
+              label: parseLabel(c),
+              value: parseValue(c),
+            }));
+            const newListValues = newList.map((v1) => v1.value);
+            remove(newListAdd, (v) => newListValues.indexOf(v.value) > -1);
+            setArray([...newList, ...newListAdd]);
+          }).catch(() => setArray(newList));
         });
       }
     } else {
       serviceApi?.findOne(outValue).then((res) => {
-        if (res && res.status === RES_CODE.OK) {
-          const newList = [{ label: parseLabel(res.data), value: parseValue(res.data) }];
-          setArray(newList);
-        }
+        const newList = [{ label: parseLabel(res.data), value: parseValue(res.data) }];
+        setArray(newList);
       });
     }
   }
@@ -116,29 +105,29 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
 
   function searchNow() {
     setLoading(true);
-    serviceApi
-      ?.search(search)
-      .then((res) => {
-        if (res && res.status === RES_CODE.OK) {
-          const newList = res.data.rows.map((c) => ({
-            label: parseLabel(c),
-            value: parseValue(c),
-          }));
-          setArray(newList);
-        }
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    serviceApi?.search(search).then((res) => {
+      const newList = res.data.rows.map((c) => ({
+        label: parseLabel(c),
+        value: parseValue(c),
+      }));
+      setArray(newList);
+      setLoading(false);
+    }).catch(() => setLoading(false));
   }
 
-  const { run } = useDebounceFn(() => searchNow(), { wait: 250 });
+  const [, cancel] = useDebounce(
+    () => {
+      searchNow()
+    },
+    250,
+    [search]
+  );
 
   function handleValueChange(v: any, item: any) {
     if (onChange) {
       onChange(v, item);
     }
     setSearch('');
-    run();
   }
 
   return (
@@ -152,8 +141,8 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
       filterOption={false}
       searchValue={search}
       onSearch={(v) => {
-        setSearch(v);
-        run();
+        setLoading(true)
+        setSearch(v)
       }}
       notFoundContent={null}
       placeholder="搜索..."
