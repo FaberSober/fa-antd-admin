@@ -120,43 +120,6 @@ namespace FaberBase {
     sourceData?: T;
   }
 
-	// ------------------------------------- 常用枚举 -------------------------------------
-	export enum TrueOrFalse {
-		FALSE = '0',
-		TRUE = '1',
-	}
-
-	export enum AuditResult {
-		DOING = 'DOING', // 待审核
-		PASS = 'PASS', // 已同意
-		REJECTED = 'REJECTED', // 已拒绝
-	}
-
-	export interface Point {
-		x: number;
-		y: number;
-	}
-
-	// ------------------------------------- Portal-用户 -------------------------------------
-	/**
-	 * 单点用户基本信息
-	 */
-	export interface CasUserEntity {
-		/** 账号 */
-		account: string;
-		/** 全名 */
-		fullname: string;
-		/** userid */
-		userid: string;
-		/** useruuid */
-		useruuid: string;
-	}
-
-	// ------------------------------------- echarts -------------------------------------
-	export interface EchartsValue {
-		value: number;
-		name: string;
-	}
 }
 
 export default FaberBase;

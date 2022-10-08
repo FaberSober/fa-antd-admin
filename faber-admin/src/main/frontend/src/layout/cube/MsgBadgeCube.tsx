@@ -1,13 +1,13 @@
 import React, {CSSProperties, useContext, useEffect, useState} from 'react';
 import msgService from '@/services/admin/msg';
 import Admin from '@/props/admin';
-import FaberBase from '@/props/base/FaberBase';
 import {RES_CODE} from '@/configs/server.config';
 import {Avatar, Badge, List, Popover} from 'antd';
 import {get} from 'lodash';
 import {BellOutlined} from '@ant-design/icons';
 import {Link} from "react-router-dom";
 import {UserLayoutContext} from "@/layout/UserLayout";
+import FaberEnums from "@/props/base/FaberEnums";
 
 function MsgList() {
   const { unreadCount, refreshUnreadCount } = useContext(UserLayoutContext);
@@ -19,7 +19,7 @@ function MsgList() {
   }, [unreadCount]);
 
   function fetchMsgList() {
-    msgService.pageMine({ pageSize: 10, isRead: FaberBase.TrueOrFalse.FALSE }).then((res) => {
+    msgService.pageMine({ pageSize: 10, isRead: FaberEnums.BoolEnum.NO }).then((res) => {
       if (res && res.status === RES_CODE.OK) {
         setData(res.data.rows);
       }

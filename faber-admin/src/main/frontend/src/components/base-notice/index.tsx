@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Alert } from 'antd';
+import React, {useEffect, useState} from 'react';
+import {Alert} from 'antd';
 import noticeService from '@/services/admin/notice';
 import Admin from '@/props/admin';
-import FaberBase from '@/props/base/FaberBase';
-import { RES_CODE } from '@/configs/server.config';
+import {RES_CODE} from '@/configs/server.config';
+import FaberEnums from "@/props/base/FaberEnums";
 
 /**
  * 全局公告-强提醒-顶部固定展示
@@ -14,7 +14,7 @@ export default function BaseNotice() {
   const [array, setArray] = useState<Admin.Notice[]>([]);
 
   useEffect(() => {
-    noticeService.list({ status: FaberBase.TrueOrFalse.TRUE, strongNotice: FaberBase.TrueOrFalse.TRUE }).then((res) => {
+    noticeService.list({ status: FaberEnums.BoolEnum.YES, strongNotice: FaberEnums.BoolEnum.YES }).then((res) => {
       if (res && res.status === RES_CODE.OK) {
         setArray(res.data);
       }

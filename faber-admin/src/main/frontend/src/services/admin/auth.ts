@@ -23,6 +23,6 @@ export function loginRegistry(username: string, password: string): Promise<Ajax.
 /**
  * [Portal]用户登录
  */
-export function ssoLogin(): Promise<Ajax.Response<FaberBase.CasUserEntity>> {
+export function ssoLogin(): Promise<Ajax.Response<string>> {
 	return requestPost('/api/auth/sso/token', {});
 }
