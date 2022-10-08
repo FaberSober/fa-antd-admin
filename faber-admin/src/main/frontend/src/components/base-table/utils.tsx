@@ -14,6 +14,7 @@ import {
 import {FaberTable} from '@/components/base-table/index';
 import {DictDataSelector} from "@/components/base-dict";
 import {SortOrder} from "antd/es/table/interface";
+import {FaberBase} from "@/props/base";
 
 
 export function dataIndexToString(dataIndex: string | string[]) {
@@ -29,7 +30,7 @@ export function dataIndexToString(dataIndex: string | string[]) {
  * 2. order返回 'DESC' : 'ASC';
  * @param {*} sorter
  */
-export function getSorter(sorter: Ajax.Sorter) {
+export function getSorter(sorter: FaberBase.Sorter) {
   const order = sorter.order === 'descend' ? 'DESC' : 'ASC';
   const column = toLine(sorter.field);
   return `${column} ${order}`;
@@ -38,7 +39,7 @@ export function getSorter(sorter: Ajax.Sorter) {
 /**
  * antd Table column 获取排序
  */
-export function getSortOrder(sorter: Ajax.Sorter, field: string): SortOrder {
+export function getSortOrder(sorter: FaberBase.Sorter, field: string): SortOrder {
   if (isEmpty(sorter)) {
     return null;
   }
@@ -54,7 +55,7 @@ export function getSortOrder(sorter: Ajax.Sorter, field: string): SortOrder {
  * @param dicts
  * @param column
  */
-export function getValueFromDicts(value: string, dicts: Ajax.PageDict, column: string) {
+export function getValueFromDicts(value: string, dicts: FaberBase.PageDict, column: string) {
   if (dicts[column]) {
     const dict = find(dicts[column], (d) => trim(d.value) === trim(value));
     if (dict) return dict.text;
@@ -62,7 +63,7 @@ export function getValueFromDicts(value: string, dicts: Ajax.PageDict, column: s
   return value;
 }
 
-export function genIdColumn(title: string, dataIndex: string, width: number, sorter: Ajax.Sorter, tcChecked: boolean = true): FaberTable.ColumnsProp<any> {
+export function genIdColumn(title: string, dataIndex: string, width: number, sorter: FaberBase.Sorter, tcChecked: boolean = true): FaberTable.ColumnsProp<any> {
   return {
     title,
     dataIndex,
@@ -75,7 +76,7 @@ export function genIdColumn(title: string, dataIndex: string, width: number, sor
   };
 }
 
-export function genSimpleSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Ajax.Sorter, tcChecked: boolean = true): FaberTable.ColumnsProp<any> {
+export function genSimpleSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: FaberBase.Sorter, tcChecked: boolean = true): FaberTable.ColumnsProp<any> {
   return {
     title,
     dataIndex,
@@ -86,7 +87,7 @@ export function genSimpleSorterColumn(title: string, dataIndex: string, width: n
   };
 }
 
-export function genNumSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Ajax.Sorter, fixNum = 2, tcChecked: boolean = true) {
+export function genNumSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: FaberBase.Sorter, fixNum = 2, tcChecked: boolean = true) {
   return {
     title,
     dataIndex,
@@ -98,7 +99,7 @@ export function genNumSorterColumn(title: string, dataIndex: string, width: numb
   };
 }
 
-export function genBoolSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Ajax.Sorter, tcChecked: boolean = true) {
+export function genBoolSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: FaberBase.Sorter, tcChecked: boolean = true) {
   return {
     title,
     dataIndex,
@@ -110,7 +111,7 @@ export function genBoolSorterColumn(title: string, dataIndex: string, width: num
   };
 }
 
-export function genUserSorterColumn(title: string, dataIndex: string, width: number, sorter: Ajax.Sorter) {
+export function genUserSorterColumn(title: string, dataIndex: string, width: number, sorter: FaberBase.Sorter) {
   return {
     ...genSimpleSorterColumn(title, dataIndex, width, sorter),
     // tcCondComponent: ({ index, value, callback, ...props }: FaberTable.TcCondProp) => (
@@ -123,8 +124,8 @@ export function genDictSorterColumn(
   title: string,
   dataIndex: string,
   width: number,
-  sorter: Ajax.Sorter,
-  dicts: Ajax.PageDict,
+  sorter: FaberBase.Sorter,
+  dicts: FaberBase.PageDict,
   dictLabel: string,
   tcChecked: boolean = true
 ): FaberTable.ColumnsProp<any> {
@@ -142,7 +143,7 @@ export function genDictSorterColumn(
   };
 }
 
-export function genDateSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Ajax.Sorter, format:string|undefined = undefined, tcChecked: boolean = true): FaberTable.ColumnsProp<any> {
+export function genDateSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: FaberBase.Sorter, format:string|undefined = undefined, tcChecked: boolean = true): FaberTable.ColumnsProp<any> {
   return {
     title,
     dataIndex,
@@ -156,7 +157,7 @@ export function genDateSorterColumn(title: string, dataIndex: string, width: num
   };
 }
 
-export function genTimeSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Ajax.Sorter, format = 'YYYY-MM-DD HH:mm:ss', tcChecked = true): FaberTable.ColumnsProp<any> {
+export function genTimeSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: FaberBase.Sorter, format = 'YYYY-MM-DD HH:mm:ss', tcChecked = true): FaberTable.ColumnsProp<any> {
   return {
     title,
     dataIndex,
@@ -170,7 +171,7 @@ export function genTimeSorterColumn(title: string, dataIndex: string, width: num
   };
 }
 
-export function genCtrColumns(sorter: Ajax.Sorter, tcChecked: boolean = true) {
+export function genCtrColumns(sorter: FaberBase.Sorter, tcChecked: boolean = true) {
   return [
     {
       title: '创建时间',
@@ -210,7 +211,7 @@ export function genCtrColumns(sorter: Ajax.Sorter, tcChecked: boolean = true) {
   ];
 }
 
-export function genUpdateColumns(sorter: Ajax.Sorter) {
+export function genUpdateColumns(sorter: FaberBase.Sorter) {
   return [
     {
       title: '更新时间',

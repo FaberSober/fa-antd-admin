@@ -21,8 +21,6 @@ export interface BaseTreeContextProps {
 
 export const BaseTreeContext = createContext<BaseTreeContextProps>({ renderCount: 1, updateRenderCount: () => {} })
 
-const root = { value: FaberBase.Constant.TREE_SUPER_ROOT_ID, label: FaberBase.Constant.TREE_SUPER_ROOT_LABEL, isLeaf: false, hasChildren: true };
-
 interface IProps<T, KeyType = number> extends TreeProps {
   showRoot?: boolean; // 是否展示操作按钮
   showTopBtn?: boolean; // 是否展示操作按钮
@@ -41,13 +39,13 @@ interface IProps<T, KeyType = number> extends TreeProps {
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
     /** [外部定义]获取所有Tree节点 */
-    allTree: () => Promise<Ajax.Response<FaberBase.TreeNode<T, KeyType>[]>>;
+    allTree: () => Promise<FaberBase.Response<FaberBase.TreeNode<T, KeyType>[]>>;
     /** [外部定义]改变Tree节点位置 */
-    changePos: (list: any[]) => Promise<Ajax.Response>;
+    changePos: (list: any[]) => Promise<FaberBase.Response>;
     /** [外部定义]获取Tree节点详情 */
-    findOne: (id: KeyType) => Promise<Ajax.Response<T>>;
+    findOne: (id: KeyType) => Promise<FaberBase.Response<T>>;
     /** [外部定义]删除Tree节点 */
-    remove: (id: KeyType) => Promise<Ajax.Response>;
+    remove: (id: KeyType) => Promise<FaberBase.Response>;
   };
   onGetTree?: (tree: FaberBase.TreeNode<T, KeyType>[]) => void;
   onAfterDelItem: (item: BaseTreeProps.TreeNode<T, KeyType>) => void;

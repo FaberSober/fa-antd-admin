@@ -7,7 +7,7 @@ import { requestPost } from '@/utils/request';
  * @param username
  * @param password
  */
-export function login(username: string, password: string): Promise<Ajax.Response<string>> {
+export function login(username: string, password: string): Promise<FaberBase.Response<string>> {
 	return requestPost('/api/auth/jwt/token', { username, password });
 }
 
@@ -16,13 +16,13 @@ export function login(username: string, password: string): Promise<Ajax.Response
  * @param username
  * @param password
  */
-export function loginRegistry(username: string, password: string): Promise<Ajax.Response<string>> {
+export function loginRegistry(username: string, password: string): Promise<FaberBase.Response<string>> {
 	return requestPost(`/origin/api/login?username=${username}&password=${password}`, { username, password });
 }
 
 /**
  * [Portal]用户登录
  */
-export function ssoLogin(): Promise<Ajax.Response<string>> {
+export function ssoLogin(): Promise<FaberBase.Response<string>> {
 	return requestPost('/api/auth/sso/token', {});
 }

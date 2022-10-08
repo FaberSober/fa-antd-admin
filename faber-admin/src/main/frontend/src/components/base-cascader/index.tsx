@@ -8,16 +8,14 @@ import * as BaseTreeUtils from '@/components/base-tree/utils';
 import BaseTreeProps from '../base-tree/interface';
 import { RES_CODE } from '@/configs/server.config';
 
-const root = { value: FaberBase.Constant.TREE_SUPER_ROOT_ID, label: FaberBase.Constant.TREE_SUPER_ROOT_LABEL, isLeaf: false, hasChildren: true };
-
 export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderProps<T>, 'options'> {
   showRoot?: boolean;
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
     /** [外部定义]获取所有Tree节点 */
-    allTree: (params: any) => Promise<Ajax.Response<FaberBase.TreeNode<T, KeyType>[]>>;
+    allTree: (params: any) => Promise<FaberBase.Response<FaberBase.TreeNode<T, KeyType>[]>>;
     /** [外部定义]获取Tree节点详情 */
-    findOne: (id: KeyType) => Promise<Ajax.Response<T>>;
+    findOne: (id: KeyType) => Promise<FaberBase.Response<T>>;
   };
   value?: any;
   onChange?: (v: any) => void;

@@ -3,6 +3,7 @@ import { get } from 'lodash';
 import { Select, SelectProps } from 'antd';
 import Ajax from '@/props/base/Ajax';
 import { RES_CODE } from '@/configs/server.config';
+import {FaberBase} from "@/props/base";
 
 export interface BaseSelectProps<T> extends SelectProps<T> {
   labelKey?: string | ((data: T) => any);
@@ -10,7 +11,7 @@ export interface BaseSelectProps<T> extends SelectProps<T> {
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
     /** [外部定义]获取所有List节点 */
-    list: (p: any) => Promise<Ajax.Response<T[]>>;
+    list: (p: any) => Promise<FaberBase.Response<T[]>>;
   };
   value?: any;
   onChange?: (v: any, option?: any) => void;

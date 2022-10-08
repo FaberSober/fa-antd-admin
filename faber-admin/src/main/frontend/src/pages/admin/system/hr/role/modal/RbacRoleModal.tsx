@@ -9,6 +9,7 @@ import Rbac from '@/props/rbac';
 import {BaseBoolIntRadio} from "@/components/base-dict";
 import FaberEnums from "@/props/base/FaberEnums";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
+import {FaberBase} from "@/props/base";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
@@ -17,7 +18,7 @@ const serviceName = '角色';
 /**
  * BASE-角色表实体新增、编辑弹框
  */
-export default function RbacRoleModal({ children, title, record, fetchFinish, ...props }: Ajax.CommonModalProps<Rbac.RbacRole>) {
+export default function RbacRoleModal({ children, title, record, fetchFinish, ...props }: FaberBase.CommonModalProps<Rbac.RbacRole>) {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 

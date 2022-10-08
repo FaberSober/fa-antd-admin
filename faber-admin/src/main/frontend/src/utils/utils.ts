@@ -49,7 +49,7 @@ export function toLine(name: string) {
 /**
  * 展示服务端返回数据提示
  */
-export function showResponse(response: Ajax.Response, prefix: string) {
+export function showResponse(response: FaberBase.Response, prefix: string) {
 	if (response && response.status === RES_CODE.OK) {
 		message.success(`${prefix}成功`);
 	}
