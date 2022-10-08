@@ -84,8 +84,8 @@ export default function MsgList() {
 
   const batchReading = loadingEffect[modelService.getUrl('batchRead')]
   return (
-    <Card>
-      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', marginBottom: 12 }}>
+    <div className="faber-full-content fa-bg-white">
+      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
         <div style={{ display: 'flex' }}>
           <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
         </div>
@@ -136,6 +136,6 @@ export default function MsgList() {
           </Space>
         )}
       />
-    </Card>
+    </div>
   );
 }

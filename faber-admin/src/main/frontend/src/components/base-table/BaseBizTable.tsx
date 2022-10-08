@@ -39,7 +39,7 @@ export default function BaseBizTable<RecordType extends object = any>({
   rowClickSingleSelected = true,
   onSelectedRowsChange,
   showBatchBelBtn = true,
-  scrollYOccupied = 315,
+  scrollYOccupied = 285,
   scrollY,
   ...props
 }: FaberTable.BaseTableProps<RecordType>) {
@@ -162,7 +162,7 @@ export default function BaseBizTable<RecordType extends object = any>({
           )}
           {/* 高级组合查询 */}
           {selectedRowKeys.length === 0 && (
-            <div style={{ padding: 8, paddingLeft: 0, display: 'flex', alignItems: 'center' }}>
+            <div style={{ padding: 8, display: 'flex', alignItems: 'center' }}>
               {showComplexQuery && <ComplexQuery columns={columns} buzzModal={buzzModal} onSceneChange={onSceneChange} onConditionChange={onConditionChange} />}
               <div style={{ flex: 1 }}>{renderQuerySuffix && renderQuerySuffix()}</div>
               <div style={{ lineHeight: '32px' }}>

@@ -5,8 +5,9 @@ import Fa from '@/props/base/Fa';
 import Admin from '@/props/admin';
 import areaService from '@/services/admin/area';
 import {RES_CODE} from '@/configs/server.config';
-import {CascaderOptionType} from 'antd/lib/cascader';
 import {BaseCascaderProps} from '@/components/base-cascader';
+import {DefaultOptionType} from "rc-cascader/lib/Cascader";
+
 
 function getLastValue(values: number[]) {
   remove(values, (d) => isNil(d) || d === undefined);
@@ -87,11 +88,11 @@ export default function AreaCascader({ showRoot, leaflevel = 4, leafpath, value,
     }
   }
 
-  function loadData(selectedOptions: CascaderOptionType[]) {
+  function loadData(selectedOptions: DefaultOptionType[]) {
     loadChildren(selectedOptions);
   }
 
-  function loadChildren(selectedOptions: CascaderOptionType[]) {
+  function loadChildren(selectedOptions: DefaultOptionType[]) {
     // console.log('selectedOptions', selectedOptions);
     const targetOption = selectedOptions[selectedOptions.length - 1];
     if (targetOption.children && targetOption.children[0]) return;

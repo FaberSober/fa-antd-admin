@@ -21,7 +21,7 @@ export default function SiderLayout({ collapse = false, width = 200, collapseWid
 
       <div
         className="sider-toggle-div-dark"
-        style={{ width: collapse ? collapseWidth : width }}
+        style={{ width: collapse ? collapseWidth - 1 : width - 1 }}
         onClick={() => onCollapse && onCollapse(!collapse)}
       >
         {collapse ? <DoubleRightOutlined /> : <DoubleLeftOutlined />}

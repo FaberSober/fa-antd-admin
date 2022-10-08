@@ -56,8 +56,8 @@ export default function AreaList() {
   }
 
   return (
-    <Card>
-      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', marginBottom: 12 }}>
+    <div className="faber-full-content fa-bg-white">
+      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
         <div style={{ display: 'flex' }}>
           <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
         </div>
@@ -93,8 +93,7 @@ export default function AreaList() {
         batchDelete={(ids) => modelService.removeBatchByIds(ids)}
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
-        scrollY={document.body.clientHeight - 275}
       />
-    </Card>
+    </div>
   );
 }

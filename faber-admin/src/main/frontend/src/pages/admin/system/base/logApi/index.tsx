@@ -55,8 +55,8 @@ export default function LogApiList() {
   }
 
   return (
-    <Card>
-      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', marginBottom: 12 }}>
+    <div className="faber-full-content fa-bg-white">
+      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
         <div style={{ display: 'flex' }}>
           <strong style={{ fontSize: '18px', marginLeft: 8 }}>{serviceName}</strong>
         </div>
@@ -96,6 +96,6 @@ export default function LogApiList() {
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
       />
-    </Card>
+    </div>
   );
 }
