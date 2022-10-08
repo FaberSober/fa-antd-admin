@@ -1,5 +1,5 @@
 import type Ajax from './Ajax';
 import type FaberBase from './FaberBase';
-import type LayoutProps from './LayoutProps';
+import type FaberEnums from './FaberEnums';
 
-export { Ajax, FaberBase, LayoutProps }
+export { Ajax, FaberBase, FaberEnums }

@@ -1,5 +1,5 @@
-import React, { createContext, useState } from 'react';
-import { ConfigProvider } from 'antd';
+import React, {createContext, useState} from 'react';
+import {ConfigProvider} from 'antd';
 // moment国际化
 import 'moment/dist/locale/zh-cn';
 // import 'moment/dist/locale/en';
@@ -7,11 +7,11 @@ import 'moment/dist/locale/zh-cn';
 import zhCN from 'antd/lib/locale/zh_CN';
 import enUS from 'antd/lib/locale/en_US';
 // i18n国际化
-import { IntlProvider } from 'react-intl';
+import {IntlProvider} from 'react-intl';
 import zhCNMessage from '@/lang/zh_CN';
 import enCNMessage from '@/lang/en_US';
-import { SmileOutlined } from '@ant-design/icons';
-import {LayoutProps} from "@/props/base";
+import {SmileOutlined} from '@ant-design/icons';
+import {FaberBase} from "@/props/base";
 
 function handleAntdMessages(lang: string) {
   switch (lang) {
@@ -59,7 +59,7 @@ const customizeRenderEmpty = () => (
 /**
  * 国际化组件
  */
-function LangLayout({ children }: LayoutProps.BaseChildProps) {
+function LangLayout({ children }: FaberBase.BaseChildProps) {
   const [locale, setLocale] = useState('zh_CN');
 
   return (

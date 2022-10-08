@@ -1,12 +1,9 @@
 import React, {ReactNode, Suspense} from 'react'
-import { PageLoading } from "@/components/antd-pro";
-import LayoutProps from "@/props/base/LayoutProps";
+import {PageLoading} from "@/components/antd-pro";
 
 interface IProps {
   pageImport: () => Promise<any>;
   children?: ReactNode;
-  /** 顶部菜单模块配置 */
-  headerModal?: LayoutProps.HeaderModal;
   [key:string]: any,
 }
 

@@ -2,12 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {Empty, Layout} from "antd";
 import {find, isNil} from 'lodash';
 import {FormattedMessage} from "react-intl";
-import {useNavigate, useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {FaFlexRestLayout} from "@/components/base-layout";
 import FaberEnums from "@/props/base/FaberEnums";
 import Rbac from "@/props/rbac";
-import {flatTreeList, findTreePath} from "@/utils/treeUtils";
-import {FaberBase, LayoutProps} from "@/props/base";
+import {findTreePath, flatTreeList} from "@/utils/treeUtils";
+import {FaberBase} from "@/props/base";
 import rbacUserRoleApi from "@/services/rbac/rbacUserRole";
 import MenuLayoutContext, {MenuLayoutContextProps} from './context/MenuLayoutContext'
 import Logo from "./cube/Logo";
@@ -24,7 +24,7 @@ import styles from "./MenuLayout.module.less";
  * @author xu.pengfei
  * @date 2022/9/22 22:23
  */
-export default function MenuLayout({children}: LayoutProps.BaseChildProps) {
+export default function MenuLayout({children}: FaberBase.BaseChildProps) {
   const navigate = useNavigate();
   const location = useLocation();
 

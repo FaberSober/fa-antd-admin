@@ -1,6 +1,8 @@
 import FaberEnums from "@/props/base/FaberEnums";
+import {ReactNode} from "react";
 
 namespace FaberBase {
+  // ------------------------------------- Constant -------------------------------------
   export const Constant = {
     /** 约定：tree结构数据，根结点的ID默认为0 */
     TREE_SUPER_ROOT_ID: 0,
@@ -98,6 +100,17 @@ namespace FaberBase {
     isLeaf: boolean;
     children: TreeNode<T>[] | undefined;
     sourceData?: T;
+  }
+
+  // ------------------------------------- Layout -------------------------------------
+  export enum ThemeStyle {
+    light = 'light',
+    dark = 'dark',
+  }
+
+  /** BaseChildProps */
+  export interface BaseChildProps {
+    children?: ReactNode;
   }
 
 }

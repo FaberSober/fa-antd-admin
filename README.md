@@ -118,7 +118,7 @@ ncu -u --timeout 120000 --reject husky
 - [ ] pdf阅读器集成
 - [X] 切换MyBatis-Plus，delState类型变更为int
 - [ ] SpringDoc：https://blog.csdn.net/wdj_yyds/article/details/125174042
-- [ ] 前端tree结构的根结点ID切换为0，并使用统一的枚举值
+- [X] 前端tree结构的根结点ID切换为0，并使用统一的枚举值
 - [X] 导出Excel需要适配Enum类型属性的转换
 - [ ] 剔除多余的hooks使用
 - [ ] socket整理
