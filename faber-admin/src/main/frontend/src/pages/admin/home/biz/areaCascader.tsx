@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import AreaCascader from "@/components/area-cascader";
+import Admin from "@/props/admin";
+import {Card} from "antd";
 
 /**
  * 业务组件-地区选择
@@ -7,9 +9,55 @@ import AreaCascader from "@/components/area-cascader";
  * @date 2022/10/8
  */
 export default function areaCascader() {
+  const [value1, setValue1] = useState()
+  const [value1Area, setValue1Area] = useState<Admin.Area>()
+
+  const [value2, setValue2] = useState([])
+  const [value3, setValue3] = useState()
+  const [value4, setValue4] = useState()
+
   return (
-    <div className="faber-full-content fa-bg-white fa-padding-12">
-      <AreaCascader />
+    <div className="faber-full-content fa-padding-12">
+      <Card title="只获取最后选中的地区ID" style={{ marginBottom: 12 }}>
+        <div>选中值：{value1}</div>
+        <div>选中值(完整属性)：{value1Area && JSON.stringify(value1Area)}</div>
+        <AreaCascader
+          style={{ minWidth: 200, width: 'auto' }}
+          value={value1}
+          onChange={(v) => setValue1(v)}
+          onChangeWithItem={(key, item) => setValue1Area(item)}
+        />
+      </Card>
+
+      <Card title="获取完整的地区ID数组" style={{ marginBottom: 12 }}>
+        <div>选中值：{JSON.stringify(value2)}</div>
+        <AreaCascader
+          style={{ minWidth: 200, width: 'auto' }}
+          value={value2}
+          onChange={(v) => setValue2(v)}
+          leafpath
+        />
+      </Card>
+
+      <Card title="只选择省市区前三级" style={{ marginBottom: 12 }}>
+        <div>选中值：{value3}</div>
+        <AreaCascader
+          style={{ minWidth: 200, width: 'auto' }}
+          value={value3}
+          onChange={(v) => setValue3(v)}
+          leaflevel={2}
+        />
+      </Card>
+
+      <Card title="只选择省市前两级" style={{ marginBottom: 12 }}>
+        <div>选中值：{value4}</div>
+        <AreaCascader
+          style={{ minWidth: 200, width: 'auto' }}
+          value={value3}
+          onChange={(v) => setValue4(v)}
+          leaflevel={1}
+        />
+      </Card>
     </div>
   )
 }

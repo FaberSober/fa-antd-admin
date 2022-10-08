@@ -14,6 +14,7 @@ import com.faber.admin.entity.Config;
 import com.faber.admin.mapper.ConfigMapper;
 import com.faber.common.annotation.FaModalName;
 import com.faber.common.bean.BaseDelEntity;
+import com.faber.common.constant.CommonConstants;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.enums.DelStateEnum;
 import com.faber.common.exception.BuzzException;
@@ -130,6 +131,8 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
 
     public List<T> list(QueryParams query) {
         QueryWrapper<T> wrapper = parseQuery(query);
+        long count = super.count(wrapper);
+        if (count > CommonConstants.QUERY_MAX_COUNT) throw new BuzzException("单次查询列表返回数据不可超过" + CommonConstants.QUERY_MAX_COUNT);
         return super.list(wrapper);
     }
 
@@ -142,7 +145,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     public List<T> selectExportExcelList(QueryParams query) {
         QueryWrapper<T> wrapper = parseQuery(query);
         long count = super.count(wrapper);
-        if (count > 10000) throw new BuzzException("查询结果数量大于10000，请缩小查询范围");
+        if (count > CommonConstants.QUERY_MAX_COUNT) throw new BuzzException("单次查询列表返回数据不可超过" + CommonConstants.QUERY_MAX_COUNT);
         return super.list(wrapper);
     }
 

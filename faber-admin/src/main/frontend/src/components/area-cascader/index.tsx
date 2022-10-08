@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {cloneDeep, isNil, remove} from 'lodash';
-import {Cascader} from 'antd';
+import {Cascader, message} from 'antd';
 import Fa from '@/props/base/Fa';
 import Admin from '@/props/admin';
 import areaService from '@/services/admin/area';
@@ -74,7 +74,7 @@ export default function AreaCascader({ showRoot, leaflevel = 4, leafpath, value,
       });
     } else {
       // 获取省级根节点
-      areaService.list({ level: 0, sorter: 'area_code ASC' }).then((res) => {
+      areaService.list({ queryMap: { level: 0 }, sorter: 'area_code ASC' }).then((res) => {
         if (res && res.status === RES_CODE.OK) {
           const options = res.data.map((d) => ({
             label: d.name,
@@ -98,7 +98,7 @@ export default function AreaCascader({ showRoot, leaflevel = 4, leafpath, value,
     if (targetOption.children && targetOption.children[0]) return;
 
     targetOption.loading = true;
-    areaService.list({ parentCode: targetOption.value, sorter: 'area_code ASC' }).then((res) => {
+    areaService.list({ queryMap: { parentCode: targetOption.value }, sorter: 'area_code ASC' }).then((res) => {
       if (res && res.status === RES_CODE.OK) {
         // load options lazily
         targetOption.loading = false;
@@ -107,6 +107,10 @@ export default function AreaCascader({ showRoot, leaflevel = 4, leafpath, value,
           value: d.areaCode,
           isLeaf: d.level === leaflevel, // 村级别才是叶子节点
         }));
+        if (res.data.length === 0) {
+          targetOption.isLeaf = true;
+          message.info("无下级区域")
+        }
         setArray(cloneDeep(array));
       }
     });
