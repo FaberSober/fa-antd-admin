@@ -1,5 +1,4 @@
-import type Ajax from './Ajax';
-import type FaberBase from './FaberBase';
-import type FaberEnums from './FaberEnums';
+import type FaBase from './Fa';
+import type FaEnums from './FaEnums';
 
-export { Ajax, FaberBase, FaberEnums }
+export { FaBase, FaEnums }

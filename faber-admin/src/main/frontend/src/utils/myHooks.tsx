@@ -7,7 +7,7 @@ import ConditionQuery from "@/components/condition-query/interface";
 import {showResponse} from '@/utils/utils';
 import {useIntl} from 'react-intl';
 import queryString from 'querystring';
-import {FaberBase} from "@/props/base";
+import {FaBase} from "@/props/base";
 
 
 export function useClientRect() {
@@ -26,10 +26,10 @@ export function useLocationParams() {
 
 export interface UseTableQueryParamsResProps<T> {
   // // ------------------------------------------ 表格查询参数更新 ------------------------------------------
-  queryParams: FaberBase.QueryParams;
-  updateQueryParams: (updateParams: FaberBase.InitQueryParams) => void;
-  setPagination: (pagination: FaberBase.Pagination) => void;
-  setSorter: (sorter: FaberBase.Sorter) => void;
+  queryParams: FaBase.QueryParams;
+  updateQueryParams: (updateParams: FaBase.InitQueryParams) => void;
+  setPagination: (pagination: FaBase.Pagination) => void;
+  setSorter: (sorter: FaBase.Sorter) => void;
   setFormValues: (formValues: any) => void;
   setSceneId: (sceneId: string | undefined) => void;
   setConditionList: (conditionList: ConditionQuery.CondGroup[]) => void;
@@ -39,11 +39,11 @@ export interface UseTableQueryParamsResProps<T> {
   // ------------------------------------------ 表格查询结果更新 ------------------------------------------
   loading: boolean;
   list: T[];
-  dicts: FaberBase.PageDict;
+  dicts: FaBase.PageDict;
   fetchPageList: () => void;
   //
   // // ------------------------------------------ 表格展示分页数据 ------------------------------------------
-  showPagination: FaberBase.Pagination;
+  showPagination: FaBase.Pagination;
   // setShowPagination: any;
   //
   // ------------------------------------------ 表格展示 ------------------------------------------
@@ -51,13 +51,13 @@ export interface UseTableQueryParamsResProps<T> {
 }
 
 export function useTableQueryParams<T>(
-  api: (params: any) => Promise<FaberBase.Response<FaberBase.Page<T>>>,
-  initParams: FaberBase.InitQueryParams = {},
+  api: (params: any) => Promise<FaBase.Response<FaBase.Page<T>>>,
+  initParams: FaBase.InitQueryParams = {},
   serviceName: string
 ): UseTableQueryParamsResProps<T> {
   const [loading, setLoading] = useState(false);
 
-  const [queryParams, setQueryParams] = useState<FaberBase.QueryParams>({
+  const [queryParams, setQueryParams] = useState<FaBase.QueryParams>({
     pagination: { current: 1, pageSize: 20, total: 0 }, // 表格分页
     sorter: { field: 'id', order: 'descend' }, // 排序
     formValues: {}, // 查询Form字段
@@ -66,7 +66,7 @@ export function useTableQueryParams<T>(
     ...initParams, // 自定义字段覆盖
   });
 
-  const [ret, setRet] = useState<{ list: T[], dicts: FaberBase.PageDict, showPagination: FaberBase.Pagination }>({
+  const [ret, setRet] = useState<{ list: T[], dicts: FaBase.PageDict, showPagination: FaBase.Pagination }>({
     list: [], // 表格List
     dicts: {}, // 字典
     showPagination: { current: 1, pageSize: 10, total: 0, ...initParams?.pagination }
@@ -77,17 +77,17 @@ export function useTableQueryParams<T>(
   }, [queryParams]);
 
   // ------------------------------------------ 表格查询参数更新 ------------------------------------------
-  function updateQueryParams(updateParams: FaberBase.InitQueryParams) {
+  function updateQueryParams(updateParams: FaBase.InitQueryParams) {
     if (isEqual(queryParams, { ...queryParams, ...updateParams })) return;
     setQueryParams({ ...queryParams, ...updateParams });
   }
 
-  function setPagination(pagination: FaberBase.Pagination) {
+  function setPagination(pagination: FaBase.Pagination) {
     if (isEqual(queryParams.pagination, pagination)) return;
     setQueryParams({ ...queryParams, pagination: { ...pagination } });
   }
 
-  function setSorter(sorter: FaberBase.Sorter) {
+  function setSorter(sorter: FaBase.Sorter) {
     if (isEqual(queryParams.sorter, sorter)) return;
     setQueryParams({ ...queryParams, sorter });
   }
@@ -119,14 +119,14 @@ export function useTableQueryParams<T>(
 
   /** 表格事件处理：分页、过滤、排序 */
   function handleTableChange(paginationArg: TablePaginationConfig, filtersArg: any, sorterArg: any) {
-    const newPagination: FaberBase.Pagination = {
+    const newPagination: FaBase.Pagination = {
       current: paginationArg.current || 1,
       pageSize: paginationArg.pageSize || 10,
       total: queryParams.pagination?.total || 0,
     };
 
     if (hasIn(sorterArg, 'field')) {
-      const newSorter: FaberBase.Sorter = { field: get(sorterArg, 'field', ''), order: get(sorterArg, 'order') };
+      const newSorter: FaBase.Sorter = { field: get(sorterArg, 'field', ''), order: get(sorterArg, 'order') };
       updateQueryParams({ pagination: newPagination, sorter: newSorter });
     } else {
       setPagination(newPagination);
@@ -157,7 +157,7 @@ export function useTableQueryParams<T>(
         setLoading(false);
         if (res && res.status === RES_CODE.OK) {
           const { pagination: page } = res.data;
-          const pagination: FaberBase.Pagination = { current: Number(page.current), pageSize: Number(page.pageSize), total: Number(page.total) }
+          const pagination: FaBase.Pagination = { current: Number(page.current), pageSize: Number(page.pageSize), total: Number(page.total) }
           setRet({ list: res.data.rows, dicts: res.data.dicts, showPagination: pagination })
         }
       })
@@ -208,7 +208,7 @@ export function useTableQueryParams<T>(
  * @param refreshList
  * @param serviceName
  */
-export function useDelete<T>(deleteApi: (id: T) => Promise<FaberBase.Response>, refreshList: () => void, serviceName: string = ''): [(id: T) => void] {
+export function useDelete<T>(deleteApi: (id: T) => Promise<FaBase.Response>, refreshList: () => void, serviceName: string = ''): [(id: T) => void] {
   function handleDelete(id: T) {
     deleteApi(id).then((res) => {
       showResponse(res, `删除${serviceName}信息`);
@@ -223,7 +223,7 @@ export function useDelete<T>(deleteApi: (id: T) => Promise<FaberBase.Response>, 
  * @param exportApi 导出API
  * @param queryParams 表格查询参数
  */
-export function useExport(exportApi: (params: any) => Promise<undefined>, queryParams: FaberBase.QueryParams): [exporting: boolean, fetchExportExcel: () => void] {
+export function useExport(exportApi: (params: any) => Promise<undefined>, queryParams: FaBase.QueryParams): [exporting: boolean, fetchExportExcel: () => void] {
   const [exporting, setExporting] = useState(false);
 
   /** 导出Excel文件 */

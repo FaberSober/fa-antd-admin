@@ -1,9 +1,9 @@
-import FaberBase from '@/props/base/FaberBase';
-import FaberEnums from '@/props/base/FaberEnums';
+import Fa from '@/props/base/Fa';
+import FaberEnums from '@/props/base/FaEnums';
 
 namespace Rbac {
 	/** BASE-权限表 */
-	export interface RbacMenu extends FaberBase.BaseDelEntity {
+	export interface RbacMenu extends Fa.BaseDelEntity {
 		/** ID */
 		id: string;
 		/** 父级ID */
@@ -25,7 +25,7 @@ namespace Rbac {
 	}
 
 	/** BASE-角色表 */
-	export interface RbacRole extends FaberBase.BaseDelEntity {
+	export interface RbacRole extends Fa.BaseDelEntity {
 		/** ID */
 		id: string;
 		/** 角色名称 */
@@ -37,7 +37,7 @@ namespace Rbac {
 	}
 
 	/** BASE-角色权限对应表 */
-	export interface RbacRoleMenu extends FaberBase.BaseDelEntity {
+	export interface RbacRoleMenu extends Fa.BaseDelEntity {
 		/** ID */
 		id: string;
 		/** 角色ID */
@@ -49,7 +49,7 @@ namespace Rbac {
 	}
 
 	/** BASE-用户角色关联表 */
-	export interface RbacUserRole extends FaberBase.BaseDelEntity {
+	export interface RbacUserRole extends Fa.BaseDelEntity {
 		/** ID */
 		id: string;
 		/** 用户ID */
@@ -71,7 +71,7 @@ namespace Rbac {
 	}
 
 	// ------------------------------------------------- VO-Query -------------------------------------------------
-	export interface RbacUserRoleQueryVo extends FaberBase.BasePageProps {
+	export interface RbacUserRoleQueryVo extends Fa.BasePageProps {
 		roleId: string;
 		name?: string;
 		username?: string;

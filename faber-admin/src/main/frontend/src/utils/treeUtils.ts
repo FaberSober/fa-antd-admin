@@ -1,7 +1,7 @@
 import {isNil, trim} from 'lodash';
-import FaberBase from '@/props/base/FaberBase';
+import Fa from '@/props/base/Fa';
 
-export function parseNode<T = any>(nodeList: FaberBase.TreeNode<T, any>[] | undefined): FaberBase.BaseTreeNode<T>[] | undefined {
+export function parseNode<T = any>(nodeList: Fa.TreeNode<T, any>[] | undefined): Fa.BaseTreeNode<T>[] | undefined {
   if (isNil(nodeList) || nodeList.length === 0) return undefined;
   return nodeList.map((d) => ({
     id: d.id,
@@ -17,7 +17,7 @@ export function parseNode<T = any>(nodeList: FaberBase.TreeNode<T, any>[] | unde
 }
 
 /** 平铺Tree型结构 */
-export function flatTreeList<T>(tree: FaberBase.TreeNode<T>[] = []): T[] {
+export function flatTreeList<T>(tree: Fa.TreeNode<T>[] = []): T[] {
   const list: T[] = [];
   tree.forEach((item, index) => {
     const { children, sourceData } = item;
@@ -34,7 +34,7 @@ export function flatTreeList<T>(tree: FaberBase.TreeNode<T>[] = []): T[] {
  * @param tree
  * @param checkFun
  */
-export function findTreePath<T>(tree: FaberBase.TreeNode<T>[]|undefined, checkFun: (item: FaberBase.TreeNode<T>) => boolean): FaberBase.TreeNode<T>[] {
+export function findTreePath<T>(tree: Fa.TreeNode<T>[]|undefined, checkFun: (item: Fa.TreeNode<T>) => boolean): Fa.TreeNode<T>[] {
   if (isNil(tree) || tree.length === 0) return [];
   const findPath = [];
   for (let i = 0; i < tree.length; i += 1) {

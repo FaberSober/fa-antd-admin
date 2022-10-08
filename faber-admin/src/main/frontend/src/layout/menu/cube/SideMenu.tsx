@@ -1,12 +1,12 @@
 import React, {useContext} from 'react';
 import {Menu} from "antd";
 import {isNil} from "lodash"
-import FaberBase from "@/props/base/FaberBase";
+import Fa from "@/props/base/Fa";
 import Rbac from "@/props/rbac";
 import MenuLayoutContext from "@/layout/menu/context/MenuLayoutContext";
 import {DoubleLeftOutlined, DoubleRightOutlined} from "@ant-design/icons";
 import {FaFlexRestLayout} from "@/components/base-layout";
-import FaberEnums from "@/props/base/FaberEnums";
+import FaberEnums from "@/props/base/FaEnums";
 
 /**
  * @author xu.pengfei
@@ -15,7 +15,7 @@ import FaberEnums from "@/props/base/FaberEnums";
 export default function SideMenu() {
   const { menuTree, collapse, setCollapse, openSideMenuKeys, setOpenSideMenuKeys, menuSelPath, setMenuSelPath } = useContext(MenuLayoutContext)
 
-  function loop(list: FaberBase.TreeNode<Rbac.RbacMenu>[] | undefined): any[] | undefined {
+  function loop(list: Fa.TreeNode<Rbac.RbacMenu>[] | undefined): any[] | undefined {
     if (isNil(list) || list.length === 0) return undefined;
     const menuList = list.filter(i => i.sourceData.level !== FaberEnums.RbacMenuLevelEnum.BUTTON);
     if (menuList.length === 0) return undefined;

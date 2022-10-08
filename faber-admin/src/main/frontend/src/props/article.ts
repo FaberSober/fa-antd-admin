@@ -1,4 +1,4 @@
-import FaberBase from '@/props/base/FaberBase';
+import Fa from '@/props/base/Fa';
 
 namespace Article {
 	export enum BookBizType {
@@ -7,7 +7,7 @@ namespace Article {
 	}
 
 	/** 文章-书本 */
-	export interface Book extends FaberBase.BaseDelEntity {
+	export interface Book extends Fa.BaseDelEntity {
 		/** ID */
 		id: number;
 		/** 书名  */
@@ -27,7 +27,7 @@ namespace Article {
 	}
 
 	/** 文章-大纲 */
-	export interface Outline extends FaberBase.BaseDelEntity {
+	export interface Outline extends Fa.BaseDelEntity {
 		/**  */
 		id: number;
 		/** 书本ID  */
@@ -49,7 +49,7 @@ namespace Article {
 	}
 
 	/** 文章-详情 */
-	export interface Detail extends FaberBase.BaseDelEntity {
+	export interface Detail extends Fa.BaseDelEntity {
 		/**  */
 		id: number;
 		/** 大纲ID  */

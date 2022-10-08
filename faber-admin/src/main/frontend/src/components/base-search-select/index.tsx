@@ -3,7 +3,7 @@ import {get, remove, trim} from 'lodash';
 import {Select, SelectProps} from 'antd';
 import {useDebounceFn} from 'ahooks';
 import {RES_CODE} from '@/configs/server.config';
-import FaberBase from '@/props/base/FaberBase';
+import Fa from '@/props/base/Fa';
 
 export interface BaseSearchSelectProps<T, KeyType = number> extends SelectProps<T> {
   labelKey?: string | ((record: T) => string | ReactNode);
@@ -11,11 +11,11 @@ export interface BaseSearchSelectProps<T, KeyType = number> extends SelectProps<
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
     /** [外部定义]获取所有Tree节点 */
-    search: (searchValue: string) => Promise<FaberBase.Response<FaberBase.Page<T>>>;
+    search: (searchValue: string) => Promise<Fa.Response<Fa.Page<T>>>;
     /** [外部定义]获取Tree节点详情 */
-    findOne: (id: KeyType) => Promise<FaberBase.Response<T>>;
+    findOne: (id: KeyType) => Promise<Fa.Response<T>>;
     /** [外部定义]获取Tree节点详情 */
-    findList?: (ids: KeyType[]) => Promise<FaberBase.Response<T[]>>;
+    findList?: (ids: KeyType[]) => Promise<Fa.Response<T[]>>;
   };
   value?: any;
   onChange?: (v: any, option?: any) => void;

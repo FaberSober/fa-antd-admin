@@ -3,7 +3,7 @@ import {Alert} from 'antd';
 import noticeService from '@/services/admin/notice';
 import Admin from '@/props/admin';
 import {RES_CODE} from '@/configs/server.config';
-import FaberEnums from "@/props/base/FaberEnums";
+import FaberEnums from "@/props/base/FaEnums";
 
 /**
  * 全局公告-强提醒-顶部固定展示

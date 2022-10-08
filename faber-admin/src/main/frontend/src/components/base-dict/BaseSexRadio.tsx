@@ -1,7 +1,7 @@
 import React from 'react';
 import {Radio} from 'antd';
 import {RadioGroupProps} from 'antd/es/radio';
-import FaberEnums from "@/props/base/FaberEnums";
+import FaberEnums from "@/props/base/FaEnums";
 
 /**
  * @author xu.pengfei

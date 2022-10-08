@@ -1,7 +1,7 @@
 import {ReactNode} from 'react';
 import ConditionQuery from '@/components/condition-query/interface';
 import {ColumnProps, TableProps} from 'antd/lib/table';
-import {FaberBase} from "@/props/base";
+import {FaBase} from "@/props/base";
 
 /**
  * 通用业务表格配置
@@ -59,7 +59,7 @@ namespace FaberTable {
 		buzzModal: string; // 业务模块：用于区分存储表格自定义配置的Key
 		columns: FaberTable.ColumnsProp<RecordType>[]; // antd表格字段
 		refreshList: () => void; // 刷新列表
-		batchDelete?: (ids: any[]) => Promise<FaberBase.Response>; // 批量删除API
+		batchDelete?: (ids: any[]) => Promise<FaBase.Response>; // 批量删除API
 		renderQuerySuffix?: () => ReactNode; // 自定义追加的查询条件后缀
 		renderCheckBtns?: (rowKeys: any[]) => ReactNode; // 自定义追加的多选的按钮
 		onSceneChange?: (sceneId: string) => void; // 查询场景变更

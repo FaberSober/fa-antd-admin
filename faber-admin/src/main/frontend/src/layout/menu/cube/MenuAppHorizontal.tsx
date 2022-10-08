@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {Menu} from "antd";
-import FaberEnums from "@/props/base/FaberEnums";
+import FaberEnums from "@/props/base/FaEnums";
 import MenuLayoutContext from "@/layout/menu/context/MenuLayoutContext";
 
 

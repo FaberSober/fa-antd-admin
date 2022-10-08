@@ -7,7 +7,7 @@ import {get} from 'lodash';
 import {BellOutlined} from '@ant-design/icons';
 import {Link} from "react-router-dom";
 import {UserLayoutContext} from "@/layout/UserLayout";
-import FaberEnums from "@/props/base/FaberEnums";
+import FaberEnums from "@/props/base/FaEnums";
 
 function MsgList() {
   const { unreadCount, refreshUnreadCount } = useContext(UserLayoutContext);

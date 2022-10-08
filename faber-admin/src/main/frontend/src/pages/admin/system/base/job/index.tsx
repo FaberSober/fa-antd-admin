@@ -17,7 +17,7 @@ import JobModal from './modal/JobModal';
 import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
 import JobLogDrawer from "./jobLog/JobLogDrawer";
 import {FaHref} from "@/components/decorator";
-import FaberEnums from "@/props/base/FaberEnums";
+import FaberEnums from "@/props/base/FaEnums";
 
 const serviceName = '系统定时任务';
 const buzzModal = 'base_job';

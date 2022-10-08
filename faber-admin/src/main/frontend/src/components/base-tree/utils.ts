@@ -1,8 +1,8 @@
 import {isNil, trim} from 'lodash';
-import FaberBase from '@/props/base/FaberBase';
+import Fa from '@/props/base/Fa';
 import BaseTreeProps from './interface';
 
-export function parseNode<T = any>(nodeList: FaberBase.TreeNode<T, any>[] | undefined): BaseTreeProps.TreeNode<T>[] | undefined {
+export function parseNode<T = any>(nodeList: Fa.TreeNode<T, any>[] | undefined): BaseTreeProps.TreeNode<T>[] | undefined {
 	if (isNil(nodeList) || nodeList.length === 0) return undefined;
 	return nodeList.map((d) => ({
 		id: d.id,

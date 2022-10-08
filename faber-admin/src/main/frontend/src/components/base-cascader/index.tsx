@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {isNil} from 'lodash';
-import FaberBase from '@/props/base/FaberBase';
+import Fa from '@/props/base/Fa';
 import {CascaderProps} from 'antd/es/cascader';
 import {Cascader} from 'antd';
 import * as BaseTreeUtils from '@/components/base-tree/utils';
@@ -12,9 +12,9 @@ export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderPro
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
     /** [外部定义]获取所有Tree节点 */
-    allTree: (params: any) => Promise<FaberBase.Response<FaberBase.TreeNode<T, KeyType>[]>>;
+    allTree: (params: any) => Promise<Fa.Response<Fa.TreeNode<T, KeyType>[]>>;
     /** [外部定义]获取Tree节点详情 */
-    findOne: (id: KeyType) => Promise<FaberBase.Response<T>>;
+    findOne: (id: KeyType) => Promise<Fa.Response<T>>;
   };
   value?: any;
   onChange?: (v: any) => void;
@@ -35,8 +35,8 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
   value,
   onChange,
   onChangeWithItem,
-  rootName = FaberBase.Constant.TREE_SUPER_ROOT_LABEL,
-  rootId = FaberBase.Constant.TREE_SUPER_ROOT_ID,
+  rootName = Fa.Constant.TREE_SUPER_ROOT_LABEL,
+  rootId = Fa.Constant.TREE_SUPER_ROOT_ID,
   extraParams,
   ...props
 }: BaseCascaderProps<RecordType, KeyType>) {
@@ -56,7 +56,7 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
       if (res && res.status === RES_CODE.OK) {
         let treeArr = BaseTreeUtils.parseNode(res.data);
         if (showRoot) {
-          treeArr = [{ ...FaberBase.ROOT_DEFAULT, value: rootId, label: rootName, children: treeArr }];
+          treeArr = [{ ...Fa.ROOT_DEFAULT, value: rootId, label: rootName, children: treeArr }];
         }
         setOptions(treeArr);
       }

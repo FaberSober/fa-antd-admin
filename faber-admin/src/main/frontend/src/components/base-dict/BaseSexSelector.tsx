@@ -1,7 +1,7 @@
 import React from 'react';
 import {Select} from 'antd';
 import {SelectProps} from 'antd/es/select';
-import FaberEnums from "@/props/base/FaberEnums";
+import FaberEnums from "@/props/base/FaEnums";
 
 interface IProps extends SelectProps<any> {}
 

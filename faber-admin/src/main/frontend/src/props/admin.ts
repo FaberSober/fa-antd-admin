@@ -1,5 +1,5 @@
-import FaberBase from '@/props/base/FaberBase';
-import FaberEnums from "@/props/base/FaberEnums";
+import Fa from '@/props/base/Fa';
+import FaberEnums from "@/props/base/FaEnums";
 
 namespace Admin {
 	// -------------------------------------------- 系统-配置表 --------------------------------------------
@@ -13,7 +13,7 @@ namespace Admin {
 	/**
 	 * 系统-配置表
 	 */
-	export interface Config extends FaberBase.BaseDelEntity {
+	export interface Config extends Fa.BaseDelEntity {
 		/** ID */
 		id: number;
 		/** 业务模块 */
@@ -38,7 +38,7 @@ namespace Admin {
 
 	// -------------------------------------------- 系统-字典值 --------------------------------------------
 	/** 字典分类 */
-	export interface DictType extends FaberBase.BaseDelEntity {
+	export interface DictType extends Fa.BaseDelEntity {
 		/** ID */
 		id: number;
 		/** 编码 */
@@ -54,7 +54,7 @@ namespace Admin {
 	}
 
 	/** 字典值 */
-	export interface Dict extends FaberBase.BaseDelEntity {
+	export interface Dict extends Fa.BaseDelEntity {
 		/** ID */
 		id: number;
 		/** 字典分组 */
@@ -88,7 +88,7 @@ namespace Admin {
 	}
 
 	/** 中国行政地区表 */
-	export interface Area extends FaberBase.BaseDelEntity {
+	export interface Area extends Fa.BaseDelEntity {
 		/** ID */
 		id: number;
 		/** 层级 */
@@ -122,7 +122,7 @@ namespace Admin {
 		TEAM = 'TEAM',
 	}
 
-	export interface Department extends FaberBase.BaseDelEntity {
+	export interface Department extends Fa.BaseDelEntity {
 		/** ID */
 		id: string;
 		/** 上级节点 */
@@ -146,7 +146,7 @@ namespace Admin {
 
 	// -------------------------------------------- 系统-用户 --------------------------------------------
 	/** 用户 */
-	export interface User extends FaberBase.BaseDelEntity {
+	export interface User extends Fa.BaseDelEntity {
 		/**  */
 		id: string;
 		/** 部门ID  */
@@ -200,7 +200,7 @@ namespace Admin {
 
 
 	// -------------------------------------------- 系统-上传文件 --------------------------------------------
-	export interface FileSave extends FaberBase.BaseDelEntity {
+	export interface FileSave extends Fa.BaseDelEntity {
 		/** ID */
 		id: string;
 		name: string;
@@ -210,7 +210,7 @@ namespace Admin {
 
 	// -------------------------------------------- 系统-通知与公告 --------------------------------------------
 	/** BASE-通知与公告 */
-	export interface Notice extends FaberBase.BaseDelEntity {
+	export interface Notice extends Fa.BaseDelEntity {
 		/** ID */
 		id: number;
 		/** 标题  */
@@ -225,7 +225,7 @@ namespace Admin {
 
 	// -------------------------------------------- 系统-系统定时任务 --------------------------------------------
 	/** 系统定时任务 */
-	export interface Job extends FaberBase.BaseDelEntity {
+	export interface Job extends Fa.BaseDelEntity {
 		/**  */
 		id: number;
 		/** 任务名称  */
@@ -276,7 +276,7 @@ namespace Admin {
 	}
 
 	/** 通用-业务附件 */
-	export interface BizFile extends FaberBase.BaseDelEntity {
+	export interface BizFile extends Fa.BaseDelEntity {
 		id: number;
 		/** 业务ID */
 		bizId: string;
@@ -291,7 +291,7 @@ namespace Admin {
 		PUBLISH = 2, // 已发起
 	}
 
-	export interface Article extends FaberBase.BaseDelEntity {
+	export interface Article extends Fa.BaseDelEntity {
 		id: number;
 		/** 业务ID */
 		bizId: string;
@@ -307,7 +307,7 @@ namespace Admin {
 
 	// -------------------------------------------- 系统-消息 --------------------------------------------
 	/** Base-消息 */
-	export interface Msg extends FaberBase.BaseDelEntity {
+	export interface Msg extends Fa.BaseDelEntity {
 		/** ID */
 		id: string;
 		/** 来源用户  */
@@ -344,7 +344,7 @@ namespace Admin {
 
   // -------------------------------------------- 系统-URL请求日志 --------------------------------------------
   /** BASE-URL请求日志 */
-  export interface LogApi extends FaberBase.BaseCrtEntity {
+  export interface LogApi extends Fa.BaseCrtEntity {
     /** 序号 */
     id: string;
     /** 请求URL */
@@ -375,7 +375,7 @@ namespace Admin {
 
   // -------------------------------------------- 系统-登录日志 --------------------------------------------
   /** BASE-登录日志 */
-  export interface LogLogin extends FaberBase.BaseDelEntity {
+  export interface LogLogin extends Fa.BaseDelEntity {
     /** 序号 */
     id: number;
     /** 访问客户端 */

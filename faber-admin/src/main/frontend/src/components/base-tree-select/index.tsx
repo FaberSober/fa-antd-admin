@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {TreeSelect} from 'antd';
-import FaberBase from '@/props/base/FaberBase';
+import Fa from '@/props/base/Fa';
 import {TreeSelectProps} from 'antd/es/tree-select';
 import BaseTreeProps from '@/components/base-tree/interface';
 import {RES_CODE} from '@/configs/server.config';
@@ -12,7 +12,7 @@ export interface BaseTreeSelectProps<T, KeyType = number> extends Omit<TreeSelec
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
     /** [外部定义]获取所有Tree节点 */
-    allTree: (params: any) => Promise<FaberBase.Response<FaberBase.TreeNode<T, KeyType>[]>>;
+    allTree: (params: any) => Promise<Fa.Response<Fa.TreeNode<T, KeyType>[]>>;
   };
   showRoot?: boolean;
   rootName?: string;
@@ -27,7 +27,7 @@ export default function BaseTreeSelect<RecordType extends object = any, KeyType 
   onChange,
   serviceApi,
   showRoot,
-  rootName = FaberBase.Constant.TREE_SUPER_ROOT_LABEL,
+  rootName = Fa.Constant.TREE_SUPER_ROOT_LABEL,
   ...props
 }: BaseTreeSelectProps<RecordType, KeyType>) {
   const [options, setOptions] = useState<BaseTreeProps.TreeNode[] | undefined>([]);
@@ -37,7 +37,7 @@ export default function BaseTreeSelect<RecordType extends object = any, KeyType 
       if (res && res.status === RES_CODE.OK) {
         let treeArr = BaseTreeUtils.parseNode(res.data);
         if (showRoot) {
-          treeArr = [{ ...{ ...FaberBase.ROOT_DEFAULT, label: rootName }, children: treeArr }];
+          treeArr = [{ ...{ ...Fa.ROOT_DEFAULT, label: rootName }, children: treeArr }];
         }
         setOptions(treeArr);
       }

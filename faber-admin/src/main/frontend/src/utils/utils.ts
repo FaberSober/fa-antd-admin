@@ -2,7 +2,7 @@ import {findIndex, get, isNil, isUndefined, trim} from 'lodash';
 import {RES_CODE} from '@/configs/server.config';
 import {message} from 'antd';
 import moment from 'moment';
-import FaberBase from '@/props/base/FaberBase';
+import Fa from '@/props/base/Fa';
 import {RangeValue} from 'rc-picker/lib/interface';
 import {parse} from 'querystring';
 import Rbac from "@/props/rbac";
@@ -48,7 +48,7 @@ export function toLine(name: string) {
 /**
  * 展示服务端返回数据提示
  */
-export function showResponse(response: FaberBase.Response, prefix: string) {
+export function showResponse(response: Fa.Response, prefix: string) {
 	if (response && response.status === RES_CODE.OK) {
 		message.success(`${prefix}成功`);
 	}

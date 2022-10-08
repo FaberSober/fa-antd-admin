@@ -5,11 +5,11 @@ import DragModal from '@/components/modal/DragModal';
 import {showResponse} from '@/utils/utils';
 import modelService from '@/services/rbac/rbacMenu';
 import Rbac from '@/props/rbac';
-import FaberEnums from "@/props/base/FaberEnums";
+import FaberEnums from "@/props/base/FaEnums";
 import {BaseBoolIntRadio} from "@/components/base-dict";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import RbacMenuCascader from "../helper/RbacMenuCascader";
-import {FaberBase} from "@/props/base";
+import {FaBase} from "@/props/base";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
@@ -18,7 +18,7 @@ const serviceName = '菜单';
 /**
  * BASE-权限表实体新增、编辑弹框
  */
-export default function RbacMenuModal({ children, title, record, fetchFinish, ...props }: FaberBase.CommonModalProps<Rbac.RbacMenu>) {
+export default function RbacMenuModal({ children, title, record, fetchFinish, ...props }: FaBase.CommonModalProps<Rbac.RbacMenu>) {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 

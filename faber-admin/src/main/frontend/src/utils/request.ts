@@ -4,7 +4,7 @@ import {message} from 'antd';
 import {TOKEN_KEY} from '@/configs/server.config';
 import {getToken} from './cache';
 import {dispatch} from 'use-bus'
-import {FaberBase} from "@/props/base";
+import {FaBase} from "@/props/base";
 
 // Set config defaults when creating the instance
 const instance = axios.create({
@@ -131,7 +131,7 @@ instance.interceptors.response.use(
 	},
 );
 
-export function requestProcess<R>(request: Promise<AxiosResponse<FaberBase.Response<R>>>): Promise<FaberBase.Response<R>> {
+export function requestProcess<R>(request: Promise<AxiosResponse<FaBase.Response<R>>>): Promise<FaBase.Response<R>> {
 	return request
 		.then((res) => res.data)
 		.then((data) => {
@@ -142,19 +142,19 @@ export function requestProcess<R>(request: Promise<AxiosResponse<FaberBase.Respo
 		});
 }
 
-export function requestGet<R>(api: string, config?: AxiosRequestConfig): Promise<FaberBase.Response<R>> {
+export function requestGet<R>(api: string, config?: AxiosRequestConfig): Promise<FaBase.Response<R>> {
 	return requestProcess(instance.get(api, config));
 }
 
-export function requestDelete<R>(api: string, config?: AxiosRequestConfig): Promise<FaberBase.Response<R>> {
+export function requestDelete<R>(api: string, config?: AxiosRequestConfig): Promise<FaBase.Response<R>> {
 	return requestProcess(instance.delete(api, config));
 }
 
-export function requestPut<R>(api: string, body: object, config?: AxiosRequestConfig): Promise<FaberBase.Response<R>> {
+export function requestPut<R>(api: string, body: object, config?: AxiosRequestConfig): Promise<FaBase.Response<R>> {
 	return requestProcess(instance.put(api, body, config));
 }
 
-export function requestPost<R>(api: string, body: object, config?: AxiosRequestConfig): Promise<FaberBase.Response<R>> {
+export function requestPost<R>(api: string, body: object, config?: AxiosRequestConfig): Promise<FaBase.Response<R>> {
 	return requestProcess(instance.post(api, body, config));
 }
 

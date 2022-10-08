@@ -1,9 +1,9 @@
 import {ReactNode} from "react";
-import FaberEnums from "@/props/base/FaberEnums";
+import FaberEnums from "@/props/base/FaEnums";
 import {DragModalProps} from '@/components/modal/DragModal';
 import ConditionQuery from '@/components/condition-query/interface';
 
-namespace FaberBase {
+namespace Fa {
   // ------------------------------------- Constant -------------------------------------
   export const Constant = {
     /** 约定：tree结构数据，根结点的ID默认为0 */
@@ -12,8 +12,8 @@ namespace FaberBase {
   }
 
   export const ROOT_DEFAULT = {
-    value: FaberBase.Constant.TREE_SUPER_ROOT_ID,
-    label: FaberBase.Constant.TREE_SUPER_ROOT_LABEL,
+    value: Fa.Constant.TREE_SUPER_ROOT_ID,
+    label: Fa.Constant.TREE_SUPER_ROOT_LABEL,
     isLeaf: false,
     hasChildren: true
   }
@@ -211,4 +211,4 @@ namespace FaberBase {
 
 }
 
-export default FaberBase;
+export default Fa;

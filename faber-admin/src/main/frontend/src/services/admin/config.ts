@@ -2,20 +2,20 @@ import queryString from 'querystring';
 import {GATE_APP} from '@/configs/server.config';
 import Admin from '@/props/admin';
 import {BaseApi} from '@/services/base';
-import {FaberBase} from "@/props/base";
+import {FaBase} from "@/props/base";
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */
 const serviceModule = 'config';
 
 class ConfigApi extends BaseApi<Admin.Config, number> {
 	/** 查找所有场景配置 */
-	findAllScene = (params: { buzzModal: string; type: Admin.ConfigType }): Promise<FaberBase.Response<Admin.Config[]>> => this.get(`findAllScene?${queryString.stringify(params)}`);
+	findAllScene = (params: { buzzModal: string; type: Admin.ConfigType }): Promise<FaBase.Response<Admin.Config[]>> => this.get(`findAllScene?${queryString.stringify(params)}`);
 
 	/** 查找场景配置 */
-	findByScene = (params: { buzzModal: string; type: Admin.ConfigType }): Promise<FaberBase.Response<Admin.Config>> => this.get(`findByScene?${queryString.stringify(params)}`);
+	findByScene = (params: { buzzModal: string; type: Admin.ConfigType }): Promise<FaBase.Response<Admin.Config>> => this.get(`findByScene?${queryString.stringify(params)}`);
 
 	/** 批量更新场景配置-更新排序 */
-	batchUpdate = (params: { id: number; hide: string; defaultScene: string }[]): Promise<FaberBase.Response> => this.post(`batchUpdate`, params);
+	batchUpdate = (params: { id: number; hide: string; defaultScene: string }[]): Promise<FaBase.Response> => this.post(`batchUpdate`, params);
 }
 
 export default new ConfigApi(GATE_APP.admin, 'config');

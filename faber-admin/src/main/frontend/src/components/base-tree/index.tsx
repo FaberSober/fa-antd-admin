@@ -7,7 +7,7 @@ import {RES_CODE} from '@/configs/server.config';
 import {showResponse} from '@/utils/utils';
 import BaseTreeProps from './interface';
 import * as BaseTreeUtils from './utils';
-import FaberBase from '@/props/base/FaberBase';
+import Fa from '@/props/base/Fa';
 import './index.less';
 import {TreeProps} from 'antd/es/tree';
 import {FaHref} from "@/components/decorator";
@@ -38,15 +38,15 @@ interface IProps<T, KeyType = number> extends TreeProps {
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
     /** [外部定义]获取所有Tree节点 */
-    allTree: () => Promise<FaberBase.Response<FaberBase.TreeNode<T, KeyType>[]>>;
+    allTree: () => Promise<Fa.Response<Fa.TreeNode<T, KeyType>[]>>;
     /** [外部定义]改变Tree节点位置 */
-    changePos: (list: any[]) => Promise<FaberBase.Response>;
+    changePos: (list: any[]) => Promise<Fa.Response>;
     /** [外部定义]获取Tree节点详情 */
-    findOne: (id: KeyType) => Promise<FaberBase.Response<T>>;
+    findOne: (id: KeyType) => Promise<Fa.Response<T>>;
     /** [外部定义]删除Tree节点 */
-    remove: (id: KeyType) => Promise<FaberBase.Response>;
+    remove: (id: KeyType) => Promise<Fa.Response>;
   };
-  onGetTree?: (tree: FaberBase.TreeNode<T, KeyType>[]) => void;
+  onGetTree?: (tree: Fa.TreeNode<T, KeyType>[]) => void;
   onAfterDelItem: (item: BaseTreeProps.TreeNode<T, KeyType>) => void;
   rootName?: string;
   renderTreeLabel?: (item: BaseTreeProps.TreeNode<T>) => ReactNode; // 自定义渲染Tree的节点名称
@@ -74,7 +74,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
   serviceApi,
   onGetTree,
   onAfterDelItem,
-  rootName = FaberBase.Constant.TREE_SUPER_ROOT_LABEL,
+  rootName = Fa.Constant.TREE_SUPER_ROOT_LABEL,
   tips = '右键新增、编辑、删除节点',
   renderTreeLabel,
   extraEffectArgs,
@@ -201,7 +201,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
         if (res && res.status === RES_CODE.OK) {
           let treeArr = BaseTreeUtils.parseNode<RecordType>(res.data);
           if (showRoot) {
-            treeArr = [{ ...{ ...FaberBase.ROOT_DEFAULT, label: rootName }, children: treeArr }];
+            treeArr = [{ ...{ ...Fa.ROOT_DEFAULT, label: rootName }, children: treeArr }];
           }
           const newTreeData = renderTreeData(treeArr);
           setTreeData(newTreeData);

@@ -4,10 +4,10 @@ import {find, isNil} from 'lodash';
 import {FormattedMessage} from "react-intl";
 import {useLocation, useNavigate} from "react-router-dom";
 import {FaFlexRestLayout} from "@/components/base-layout";
-import FaberEnums from "@/props/base/FaberEnums";
+import FaberEnums from "@/props/base/FaEnums";
 import Rbac from "@/props/rbac";
 import {findTreePath, flatTreeList} from "@/utils/treeUtils";
-import {FaberBase} from "@/props/base";
+import {FaBase} from "@/props/base";
 import rbacUserRoleApi from "@/services/rbac/rbacUserRole";
 import MenuLayoutContext, {MenuLayoutContextProps} from './context/MenuLayoutContext'
 import Logo from "./cube/Logo";
@@ -24,13 +24,13 @@ import styles from "./MenuLayout.module.less";
  * @author xu.pengfei
  * @date 2022/9/22 22:23
  */
-export default function MenuLayout({children}: FaberBase.BaseChildProps) {
+export default function MenuLayout({children}: FaBase.BaseChildProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
   const [menuList, setMenuList] = useState<Rbac.RbacMenu[]>([]);
-  const [menuFullTree, setMenuFullTree] = useState<FaberBase.TreeNode<Rbac.RbacMenu>[]>([]);
-  const [menuTree, setMenuTree] = useState<FaberBase.TreeNode<Rbac.RbacMenu>[]>([]);
+  const [menuFullTree, setMenuFullTree] = useState<FaBase.TreeNode<Rbac.RbacMenu>[]>([]);
+  const [menuTree, setMenuTree] = useState<FaBase.TreeNode<Rbac.RbacMenu>[]>([]);
   const [menuSelAppId, setMenuSelAppId] = useState<string>();
   const [menuSelMenuId, setMenuSelMenuId] = useState<string>();
   const [menuSelPath, setMenuSelPath] = useState<string[]>([]);
@@ -56,7 +56,7 @@ export default function MenuLayout({children}: FaberBase.BaseChildProps) {
     })
   }, [])
 
-  function parseLocationMenu(tree: FaberBase.TreeNode<Rbac.RbacMenu>[]) {
+  function parseLocationMenu(tree: FaBase.TreeNode<Rbac.RbacMenu>[]) {
     const menuPath = findTreePath(tree, (menu) => menu.sourceData.linkUrl === location.pathname);
     // console.log('menuPath', menuPath)
     if (menuPath && menuPath.length > 0) {

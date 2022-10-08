@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {cloneDeep, isNil, remove} from 'lodash';
 import {Cascader} from 'antd';
-import FaberBase from '@/props/base/FaberBase';
+import Fa from '@/props/base/Fa';
 import Admin from '@/props/admin';
 import areaService from '@/services/admin/area';
 import {RES_CODE} from '@/configs/server.config';
@@ -50,7 +50,7 @@ export default function AreaCascader({ showRoot, leaflevel = 4, leafpath, value,
     }
   }, [value]);
 
-  function parseTree(tree: FaberBase.TreeNode[] | undefined): any[] | undefined {
+  function parseTree(tree: Fa.TreeNode[] | undefined): any[] | undefined {
     if (tree === undefined || tree === null || tree.length === 0) return undefined;
     return tree.map((d) => ({
       label: d.name,

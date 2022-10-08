@@ -1,12 +1,12 @@
 import {createContext} from 'react';
-import FaberBase from "@/props/base/FaberBase";
+import Fa from "@/props/base/Fa";
 import Rbac from "@/props/rbac";
 
 
 export interface MenuLayoutContextProps {
   menuList: Rbac.RbacMenu[], // 当前展示的菜单树
-  menuFullTree: FaberBase.TreeNode<Rbac.RbacMenu>[], // 完整的菜单树
-  menuTree: FaberBase.TreeNode<Rbac.RbacMenu>[],
+  menuFullTree: Fa.TreeNode<Rbac.RbacMenu>[], // 完整的菜单树
+  menuTree: Fa.TreeNode<Rbac.RbacMenu>[],
   menuSelAppId: string | undefined, // 选中的菜单模块id
   menuSelPath: string[], // 选中的菜单路径
   menuSelMenuId: string | undefined, // 选中打开的菜单id,
