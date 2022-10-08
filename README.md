@@ -103,7 +103,7 @@ ncu -u --timeout 120000 --reject husky
 - [X] 不能删除自身账户和admin账户
 - [X] 权限rbac_menu#link_url不能重复
 - [X] 优化权限菜单操作、展示效果
-- [ ] 删掉无用的Bean属性
+- [X] 删掉无用的Bean属性
 - [X] 登录设备日志记录
 - [X] 请求URL日志记录
 - [ ] 请求URL增加注解，拦截时获取注解说明

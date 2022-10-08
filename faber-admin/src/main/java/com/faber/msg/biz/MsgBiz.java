@@ -4,6 +4,8 @@ import com.faber.admin.biz.DictBiz;
 import com.faber.admin.biz.UserBiz;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.enums.BoolEnum;
+import com.faber.common.vo.msg.TableResultResponse;
+import com.faber.common.vo.query.QueryParams;
 import com.faber.msg.entity.Msg;
 import com.faber.msg.mapper.MsgMapper;
 import com.faber.msg.vo.MsgStatisticVO;
@@ -69,26 +71,14 @@ public class MsgBiz extends BaseBiz<MsgMapper, Msg> {
         this.save(bean);
     }
 
-//    @Override
-//    public TableResultResponse<Msg> selectPageByQuery(Query query) {
-//        TableResultResponse<Msg> table = super.selectPageByQuery(query);
-//        List<Msg> list = new ArrayList<>();
-//        table.getData().getRows().forEach(bean -> {
-//            MsgPageVo vo = new MsgPageVo();
-//            BeanUtil.copyProperties(bean, vo);
-//
-//            vo.setBuzzName(Msg.BuzzType.valueOf(bean.getBuzzType()).getDesc());
-//
-//            vo.setFromUser(userBiz.findUserInfoById(vo.getFromUserId()));
-//            vo.setToUser(userBiz.findUserInfoById(vo.getToUserId()));
-//            list.add(vo);
-//        });
-//        table.getData().setRows(list);
-//        // 添加字典值
+    @Override
+    public TableResultResponse<Msg> selectPageByQuery(QueryParams query) {
+        TableResultResponse<Msg> table = super.selectPageByQuery(query);
+
+        // 添加字典值
 //        table.getData()
-//                .addDict("isRead", dictBiz.getByCode("common.enum.true_or_false"))
 //                .addDict("buzzType", dictBiz.getByCode("common.msg.buzz_type"));
-//        return table;
-//    }
+        return table;
+    }
 
 }

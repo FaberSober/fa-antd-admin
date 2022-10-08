@@ -7,8 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.*;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.enums.BoolEnum;
-import com.faber.common.enums.RbacLinkTypeEnum;
-import com.faber.common.enums.RbacMenuLevelEnum;
+import com.faber.common.enums.rbac.RbacLinkTypeEnum;
+import com.faber.common.enums.rbac.RbacMenuLevelEnum;
 import lombok.Data;
 
 

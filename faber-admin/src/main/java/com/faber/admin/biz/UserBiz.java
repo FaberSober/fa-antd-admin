@@ -16,7 +16,7 @@ import com.faber.common.biz.BaseBiz;
 import com.faber.common.constant.CommonConstants;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.enums.BoolEnum;
-import com.faber.common.enums.DictTypeCodeEnum;
+import com.faber.common.enums.admin.DictTypeCodeEnum;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.exception.NoDataException;
 import com.faber.common.exception.auth.UserInvalidException;

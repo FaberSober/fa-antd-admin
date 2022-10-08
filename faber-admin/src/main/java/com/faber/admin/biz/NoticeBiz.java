@@ -3,7 +3,7 @@ package com.faber.admin.biz;
 import com.faber.admin.entity.Notice;
 import com.faber.admin.mapper.NoticeMapper;
 import com.faber.common.biz.BaseBiz;
-import com.faber.common.enums.DictTypeCodeEnum;
+import com.faber.common.enums.admin.DictTypeCodeEnum;
 import com.faber.common.vo.msg.TableResultResponse;
 import com.faber.common.vo.query.QueryParams;
 import org.springframework.stereotype.Service;

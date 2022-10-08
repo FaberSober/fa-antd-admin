@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/msg")
-public class MsgController extends BaseController<MsgBiz, Msg, Integer> {
+public class MsgController extends BaseController<MsgBiz, Msg, Long> {
 
     /**
      * 消息数量统计。

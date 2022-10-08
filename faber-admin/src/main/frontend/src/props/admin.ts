@@ -330,13 +330,6 @@ namespace Admin {
 		buzzId: string;
 	}
 
-	export interface MsgPageVo extends Msg {
-		/** 业务类型名称  */
-		buzzName?: string;
-		fromUser?: Admin.User;
-		toUser?: Admin.User;
-	}
-
 	// -------------------------------------------- 系统配置参数 --------------------------------------------
 	export interface SystemConfigPo {
     /** [网站]标题 */

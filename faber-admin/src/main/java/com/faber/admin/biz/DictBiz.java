@@ -6,7 +6,7 @@ import com.faber.admin.entity.DictType;
 import com.faber.admin.mapper.DictMapper;
 import com.faber.admin.vo.SystemConfigPo;
 import com.faber.common.biz.BaseBiz;
-import com.faber.common.enums.DictTypeCodeEnum;
+import com.faber.common.enums.admin.DictTypeCodeEnum;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.vo.msg.TableResultResponse;
 import com.faber.common.vo.DictOption;

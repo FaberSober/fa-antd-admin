@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlSearch;
-import com.faber.common.enums.AreaLevelEnum;
+import com.faber.common.enums.admin.AreaLevelEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;

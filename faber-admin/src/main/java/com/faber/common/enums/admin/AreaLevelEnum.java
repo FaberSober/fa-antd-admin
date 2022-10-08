@@ -1,4 +1,4 @@
-package com.faber.common.enums;
+package com.faber.common.enums.admin;
 
 import cn.hutool.core.util.EnumUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -7,10 +7,8 @@ import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
-import java.util.Arrays;
-
 /**
- *
+ * 地区等级
  */
 @Getter
 public enum AreaLevelEnum implements IEnum<Integer> {

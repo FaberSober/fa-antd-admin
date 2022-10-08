@@ -3,7 +3,7 @@ package com.faber.admin.area;
 import com.faber.AdminBootstrap;
 import com.faber.admin.biz.AreaBiz;
 import com.faber.admin.entity.Area;
-import com.faber.common.enums.AreaLevelEnum;
+import com.faber.common.enums.admin.AreaLevelEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

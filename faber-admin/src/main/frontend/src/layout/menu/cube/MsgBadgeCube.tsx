@@ -12,7 +12,7 @@ import FaberEnums from "@/props/base/FaberEnums";
 function MsgList() {
   const { unreadCount, refreshUnreadCount } = useContext(UserLayoutContext);
 
-  const [data, setData] = useState<Admin.MsgPageVo[]>([]);
+  const [data, setData] = useState<Admin.Msg[]>([]);
 
   useEffect(() => {
     fetchMsgList();

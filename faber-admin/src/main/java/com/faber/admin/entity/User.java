@@ -12,7 +12,7 @@ import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlSearch;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.enums.BoolEnum;
-import com.faber.common.enums.SexEnum;
+import com.faber.common.enums.admin.SexEnum;
 import com.faber.common.validator.TelNoValidator;
 import com.faber.common.validator.ValidGroup;
 import lombok.Data;

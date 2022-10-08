@@ -1,4 +1,4 @@
-package com.faber.common.enums;
+package com.faber.common.enums.rbac;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
