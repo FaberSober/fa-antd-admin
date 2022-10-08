@@ -3,7 +3,7 @@ import {get, sumBy} from 'lodash';
 import {ClearOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Button, Modal, Table} from 'antd';
 import {TableRowSelection} from 'antd/lib/table/interface';
-import useWindowResize from 'beautiful-react-hooks/useWindowResize';
+import {useWindowSize} from 'react-use';
 import {showResponse} from '@/utils/utils';
 import FaberTable from './FaberTable';
 
@@ -38,17 +38,15 @@ export default function BaseSimpleTable<RecordType extends object = any>({
 }: FaberTable.BaseTableProps<RecordType>) {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [innerScrollY, setInnerScrollY] = useState(document.body.clientHeight - scrollYOccupied)
-  const onWindowResize = useWindowResize();
+  const {width, height} = useWindowSize();
 
   useEffect(() => {
     if (scrollY) {
       setInnerScrollY(scrollY)
+    } else {
+      setInnerScrollY(document.body.clientHeight - scrollYOccupied);
     }
-  }, [scrollY])
-
-  onWindowResize(() => {
-    setInnerScrollY(document.body.clientHeight - scrollYOccupied);
-  });
+  }, [scrollY, height])
 
   useEffect(() => {
     setSelectedRowKeys([]);
