@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "@ant-design/icons": "4.7.0",
-    "ahooks": "3.7.1",
     "antd": "4.23.2",
     "axios": "0.27.2",
     "beautiful-react-hooks": "3.11.1",

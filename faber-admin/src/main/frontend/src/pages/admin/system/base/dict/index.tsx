@@ -6,7 +6,7 @@ import {CaretRightOutlined, PlusOutlined} from '@ant-design/icons';
 import {Collapse, Descriptions} from 'antd';
 import Admin from '@/props/admin';
 import dictTypeService from '@/services/admin/dictType';
-import {useLocalStorageState} from 'ahooks';
+import { useLocalStorage } from 'react-use';
 import BaseTreeProps from "@/components/base-tree/interface";
 import DictList from "./cube/DictList";
 import DictTypeModal from "./modal/DictTypeModal";
@@ -19,7 +19,7 @@ export default function DictManage() {
   const listRef = useRef<any | null>(null);
 
   const [viewRecord, setViewRecord] = useState<Admin.DictType>();
-  const [splitPos, setSplitPos] = useLocalStorageState<number>('DictManage.splitPos', { defaultValue: 250 });
+  const [splitPos, setSplitPos] = useLocalStorage<number>('DictManage.splitPos', 250);
 
   /** 点击选中tree节点的事件，这里可以获取点击节点的属性 */
   function onTreeSelect(keys: any[], event: any) {

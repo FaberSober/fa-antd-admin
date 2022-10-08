@@ -5,7 +5,7 @@ import BaseTree from '@/components/base-tree';
 import Admin from '@/props/admin';
 import departmentService from '@/services/admin/department';
 import {PlusOutlined} from '@ant-design/icons';
-import {useLocalStorageState} from 'ahooks';
+import { useLocalStorage } from 'react-use';
 import BaseTreeProps from "@/components/base-tree/interface";
 import DepartmentModal from "./modal/DepartmentModal";
 import UserList from "./cube/UserList";
@@ -18,7 +18,7 @@ import UserList from "./cube/UserList";
 export default function UserDepartmentManage() {
   const listRef = useRef<any | null>(null);
 
-  const [splitPos, setSplitPos] = useLocalStorageState<number>('UserDepartmentManage.splitPos', { defaultValue: 250 });
+  const [splitPos, setSplitPos] = useLocalStorage<number>('UserDepartmentManage.splitPos', 250);
   const [viewRecord, setViewRecord] = useState<Admin.Department>();
 
   /** 点击选中tree节点的事件，这里可以获取点击节点的属性 */

@@ -1,6 +1,6 @@
 import React, {CSSProperties, ReactNode, useState} from 'react';
 import {v4 as uuidv4} from 'uuid';
-import {useInterval} from 'ahooks';
+import {useInterval} from 'react-use';
 import {Tooltip} from 'antd';
 import {FullscreenExitOutlined, FullscreenOutlined} from '@ant-design/icons';
 
