@@ -39,8 +39,10 @@ export default function BaseBizTable<RecordType extends object = any>({
   rowClickSingleSelected = true,
   onSelectedRowsChange,
   showBatchBelBtn = true,
+  showTopTips,
   scrollYOccupied = 285,
   scrollY,
+  keyName = "id",
   ...props
 }: FaberTable.BaseTableProps<RecordType>) {
   const [config, setConfig] = useState<FaberTable.ColumnsProp<RecordType>[]>();
@@ -186,7 +188,7 @@ export default function BaseBizTable<RecordType extends object = any>({
                   if (selectedRowKeys.indexOf(clickId) > -1) {
                     newRowKey = selectedRowKeys.filter((i) => i === clickId);
                   } else {
-                    newRowKey = [...selectedRowKeys, get(record, 'id')];
+                    newRowKey = [...selectedRowKeys, get(record, keyName)];
                   }
                 }
                 setSelectedRowKeys(newRowKey);

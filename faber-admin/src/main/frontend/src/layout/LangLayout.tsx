@@ -11,7 +11,7 @@ import {IntlProvider} from 'react-intl';
 import zhCNMessage from '@/lang/zh_CN';
 import enCNMessage from '@/lang/en_US';
 import {SmileOutlined} from '@ant-design/icons';
-import {FaBase} from "@/props/base";
+import {Fa} from "@/props/base";
 
 function handleAntdMessages(lang: string) {
   switch (lang) {
@@ -59,7 +59,7 @@ const customizeRenderEmpty = () => (
 /**
  * 国际化组件
  */
-function LangLayout({ children }: FaBase.BaseChildProps) {
+function LangLayout({ children }: Fa.BaseChildProps) {
   const [locale, setLocale] = useState('zh_CN');
 
   return (

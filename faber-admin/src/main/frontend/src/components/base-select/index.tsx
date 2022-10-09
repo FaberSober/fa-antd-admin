@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {get} from 'lodash';
 import {Select, SelectProps} from 'antd';
 import {RES_CODE} from '@/configs/server.config';
-import {FaBase} from "@/props/base";
+import {Fa} from "@/props/base";
 
 export interface BaseSelectProps<T> extends SelectProps<T> {
   labelKey?: string | ((data: T) => any);
@@ -10,7 +10,7 @@ export interface BaseSelectProps<T> extends SelectProps<T> {
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
     /** [外部定义]获取所有List节点 */
-    list: (p: any) => Promise<FaBase.Response<T[]>>;
+    list: (p: any) => Promise<Fa.Response<T[]>>;
   };
   value?: any;
   onChange?: (v: any, option?: any) => void;

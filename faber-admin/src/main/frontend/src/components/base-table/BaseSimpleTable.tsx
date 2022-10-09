@@ -1,7 +1,7 @@
 import React, {createContext, useEffect, useState} from 'react';
 import {get, sumBy} from 'lodash';
 import {ClearOutlined, DeleteOutlined} from '@ant-design/icons';
-import {Button, Modal, Table} from 'antd';
+import {Button, Modal, Space, Table} from 'antd';
 import {TableRowSelection} from 'antd/lib/table/interface';
 import {useWindowSize} from 'react-use';
 import {showResponse} from '@/utils/utils';
@@ -31,12 +31,11 @@ export default function BaseSimpleTable<RecordType extends object = any>({
   onSelectedRowsChange,
   showBatchBelBtn = true,
   showTopTips,
-  scrollYOccupied = 235,
+  scrollYOccupied = 285,
   scrollY,
   keyName = "id",
   ...props
 }: FaberTable.BaseTableProps<RecordType>) {
-  const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [innerScrollY, setInnerScrollY] = useState(document.body.clientHeight - scrollYOccupied)
   const {width, height} = useWindowSize();
 
@@ -47,6 +46,9 @@ export default function BaseSimpleTable<RecordType extends object = any>({
       setInnerScrollY(document.body.clientHeight - scrollYOccupied);
     }
   }, [scrollY, height])
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
+  const [batchDeleting, setBatchDeleting] = useState(false)
 
   useEffect(() => {
     setSelectedRowKeys([]);
@@ -77,11 +79,13 @@ export default function BaseSimpleTable<RecordType extends object = any>({
       okType: 'danger',
       onOk: async (close) => {
         if (batchDelete) {
+          setBatchDeleting(true)
           batchDelete(selectedRowKeys).then((res) => {
+            setBatchDeleting(false)
             showResponse(res, '批量删除');
             refreshList();
             close();
-          });
+          }).catch(() => setBatchDeleting(false))
         }
       },
     });
@@ -112,20 +116,20 @@ export default function BaseSimpleTable<RecordType extends object = any>({
           <div>
             {/* 多选删除 */}
             {selectedRowKeys.length > 0 && (
-              <div style={{ padding: 8, display: 'flex', lineHeight: '32px' }}>
+              <Space style={{ padding: 8, display: 'flex', lineHeight: '32px' }}>
                 <div style={{ marginRight: 12 }}>
                   已选中&nbsp;<a>{selectedRowKeys.length}</a>&nbsp;条数据
                 </div>
                 {showBatchBelBtn && (
-                  <Button onClick={handleBatchDelete} type="text" icon={<DeleteOutlined />} style={{ color: 'red' }}>
+                  <Button loading={batchDeleting} onClick={handleBatchDelete} type="text" icon={<DeleteOutlined />} danger>
                     删除
                   </Button>
                 )}
-                {renderCheckBtns(selectedRowKeys)}
+                {renderCheckBtns && renderCheckBtns(selectedRowKeys)}
                 <Button onClick={() => updateRowKeys([])} type="text" icon={<ClearOutlined />}>
                   取消选中
                 </Button>
-              </div>
+              </Space>
             )}
           </div>
         )}

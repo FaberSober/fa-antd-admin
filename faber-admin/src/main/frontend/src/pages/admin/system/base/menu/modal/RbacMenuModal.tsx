@@ -9,7 +9,7 @@ import FaberEnums from "@/props/base/FaEnums";
 import {BaseBoolIntRadio} from "@/components/base-dict";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import RbacMenuCascader from "../helper/RbacMenuCascader";
-import {FaBase} from "@/props/base";
+import {Fa} from "@/props/base";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
@@ -18,7 +18,7 @@ const serviceName = '菜单';
 /**
  * BASE-权限表实体新增、编辑弹框
  */
-export default function RbacMenuModal({ children, title, record, fetchFinish, ...props }: FaBase.CommonModalProps<Rbac.RbacMenu>) {
+export default function RbacMenuModal({ children, title, record, fetchFinish, ...props }: Fa.CommonModalProps<Rbac.RbacMenu>) {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 

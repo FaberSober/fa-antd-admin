@@ -1,6 +1,6 @@
 import React, {createContext, useState} from 'react';
 import useBus from "use-bus";
-import {FaBase} from "@/props/base";
+import {Fa} from "@/props/base";
 
 export interface ApiEffectLayoutContextProps {
   loadingEffect: any, // 全局api请求加载
@@ -16,7 +16,7 @@ let loadingEffectOrigin:any = {};
  * @author xu.pengfei
  * @date 2022/9/21
  */
-export default function ApiEffectLayout({ children }: FaBase.BaseChildProps) {
+export default function ApiEffectLayout({ children }: Fa.BaseChildProps) {
   const [loadingEffect, setLoadingEffect] = useState<any>({});
 
   useBus(

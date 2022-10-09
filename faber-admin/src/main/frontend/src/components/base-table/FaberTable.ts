@@ -55,7 +55,7 @@ namespace FaberTable {
 		localData?: boolean; // 是否本地数据[查询场景、字段配置]
 		columns: FaberTable.ColumnsProp<RecordType>[]; // antd表格字段
 		refreshList: () => void; // 刷新列表
-		batchDelete?: (ids: any[]) => Promise<Fa.QueryRet>; // 批量删除API
+		batchDelete?: (ids: any[]) => Promise<Fa.Response>; // 批量删除API
 		renderCheckBtns?: (rowKeys: any[]) => ReactNode; // 自定义追加的多选的按钮
 		rowClickSelected?: boolean; // 点击row是否选中
 		rowClickSingleSelected?: boolean; // 点击row是否单选

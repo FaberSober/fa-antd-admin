@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {FaBase} from "@/props/base";
+import {Fa} from "@/props/base";
 import {Button, Modal, Space, Table} from "antd";
 import {ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {ColumnsType} from "antd/es/table";
@@ -20,7 +20,7 @@ import Rbac from '@/props/rbac';
  */
 export default function RbacMenuTreeList() {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
-  const [tree, setTree] = useState<FaBase.TreeNode<Rbac.RbacMenu>[]>([])
+  const [tree, setTree] = useState<Fa.TreeNode<Rbac.RbacMenu>[]>([])
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
 
   const [handleDelete] = useDelete<string>(rbacMenuApi.remove, refreshData, '菜单');
@@ -57,7 +57,7 @@ export default function RbacMenuTreeList() {
     rbacMenuApi.moveDown(id).then(refreshData)
   }
 
-  const columns: ColumnsType<FaBase.TreeNode<Rbac.RbacMenu>> = [
+  const columns: ColumnsType<Fa.TreeNode<Rbac.RbacMenu>> = [
     { title: '名称', dataIndex: 'name', width: 200, },
     {
       title: '图标',
@@ -74,7 +74,7 @@ export default function RbacMenuTreeList() {
     { title: '链接', dataIndex: ['sourceData', 'linkUrl'] },
     {
       title: '操作',
-      render: (text: string, record: FaBase.TreeNode<Rbac.RbacMenu>) => (
+      render: (text: string, record: Fa.TreeNode<Rbac.RbacMenu>) => (
         <Space>
           <FaHref onClick={() => moveUp(record.id)} icon={<ArrowUpOutlined />} />
           <FaHref onClick={() => moveDown(record.id)} icon={<ArrowDownOutlined />} />

@@ -1,5 +1,5 @@
 import React, {createContext, useEffect, useState} from 'react';
-import {FaBase} from "@/props/base";
+import {Fa} from "@/props/base";
 import {PageLoading} from "@/components/antd-pro";
 import Admin from "@/props/admin";
 import userApi from '@/services/admin/user'
@@ -38,7 +38,7 @@ export const UserLayoutContext = createContext<UserLayoutContextProps>({
  * @author xu.pengfei
  * @date 2022/9/21
  */
-export default function UserLayout({ children }: FaBase.BaseChildProps) {
+export default function UserLayout({ children }: Fa.BaseChildProps) {
   const navigate = useNavigate();
 
   const [user, setUser] = useState<Admin.User>();
