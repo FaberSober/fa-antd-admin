@@ -134,6 +134,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         String roleNames = IterUtil.join(roleList.stream().map(RbacRole::getName).iterator(), ",");
 
         lambdaUpdate().eq(User::getId, entity.getId()).set(User::getRoleNames, roleNames).update();
+        entity.setRoleNames(roleNames);
     }
 
     @Override
