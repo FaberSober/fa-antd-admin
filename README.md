@@ -1,5 +1,5 @@
 # Get Start
-演示地址：http://faber.admin.test.dward.cn/login
+演示地址：http://fa.dward.cn/login
 演示账户：admin/888888
 
 ## 项目说明
