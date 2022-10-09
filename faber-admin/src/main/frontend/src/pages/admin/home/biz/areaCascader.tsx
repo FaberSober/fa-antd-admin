@@ -53,7 +53,7 @@ export default function areaCascader() {
         <div>选中值：{value4}</div>
         <AreaCascader
           style={{ minWidth: 200, width: 'auto' }}
-          value={value3}
+          value={value4}
           onChange={(v) => setValue4(v)}
           leaflevel={1}
         />
