@@ -1,13 +1,13 @@
-import React, {useRef, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {get} from 'lodash';
 import {Form, Input} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
 import {showResponse} from '@/utils/utils';
-import {RES_CODE} from '@/configs/server.config';
 import modelService from '@/services/admin/department';
 import Admin from '@/props/admin';
 import DepartmentCascade from "../helper/DepartmentCascade";
 import UserSearchSelect from "../helper/UserSearchSelect";
+import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
@@ -24,52 +24,37 @@ interface IProps extends DragModalProps {
  * 部门实体新增、编辑弹框
  */
 export default function DepartmentModal({ children, parentId, title, record, fetchFinish, ...props }: IProps) {
-  const formRef = useRef<any | null>(null);
+  const {loadingEffect} = useContext(ApiEffectLayoutContext)
+  const [form] = Form.useForm();
 
-  const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    setLoading(true);
-    modelService
-      .add(params)
-      .then((res) => {
-        showResponse(res, `新增${serviceName}`);
-        if (res && res.status === RES_CODE.OK) {
-          setModalVisible(false);
-          // @ts-ignore
-          if (props.onCancel) props.onCancel();
-          if (fetchFinish) fetchFinish();
-        }
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    modelService.add(params).then((res) => {
+      showResponse(res, `新增${serviceName}`);
+      setModalVisible(false);
+      // @ts-ignore
+      if (props.onCancel) props.onCancel();
+      if (fetchFinish) fetchFinish();
+    })
   }
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
-    setLoading(true);
-    modelService
-      .update(params.id, params)
-      .then((res) => {
-        showResponse(res, `更新${serviceName}`);
-        if (res && res.status === RES_CODE.OK) {
-          setModalVisible(false);
-          // @ts-ignore
-          if (props.onCancel) props.onCancel();
-          if (fetchFinish) fetchFinish();
-        }
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    modelService.update(params.id, params).then((res) => {
+      showResponse(res, `更新${serviceName}`);
+      setModalVisible(false);
+      // @ts-ignore
+      if (props.onCancel) props.onCancel();
+      if (fetchFinish) fetchFinish();
+    })
   }
 
   /** 提交表单 */
   function onFinish(fieldsValue: any) {
     const values = {
       ...fieldsValue,
-      // birthday: getDateStr000(fieldsValue.birthday),
     };
     if (record) {
       invokeUpdateTask({ ...record, ...values });
@@ -78,29 +63,39 @@ export default function DepartmentModal({ children, parentId, title, record, fet
     }
   }
 
+  function getInitialValues() {
+    return {
+      name: get(record, 'name'),
+      parentId: get(record, 'parentId', parentId),
+      type: get(record, 'type'),
+      managerId: get(record, 'managerId'),
+      description: get(record, 'description'),
+    }
+  }
+
+  function showModal() {
+    setModalVisible(true)
+    form.setFieldsValue(getInitialValues())
+  }
+
+  useEffect(() => {
+    form.setFieldsValue(getInitialValues())
+  }, [props.open])
+
+  const loading = loadingEffect[modelService.getUrl('add')] || loadingEffect[modelService.getUrl('update')];
   return (
     <span>
-      <span onClick={() => setModalVisible(true)}>{children}</span>
+      <span onClick={showModal}>{children}</span>
       <DragModal
         title={title}
         open={modalVisible}
-        onOk={() => formRef.current.submit()}
+        onOk={() => form.submit()}
         confirmLoading={loading}
         onCancel={() => setModalVisible(false)}
         width={700}
         {...props}
       >
-        <Form
-          ref={formRef}
-          onFinish={onFinish}
-          initialValues={{
-            name: get(record, 'name'),
-            parentId: get(record, 'parentId', parentId),
-            type: get(record, 'type'),
-            managerId: get(record, 'managerId'),
-            description: get(record, 'description'),
-          }}
-        >
+        <Form form={form} onFinish={onFinish}>
           <Form.Item name="parentId" label="上级部门" rules={[{ required: true }]} {...formItemFullLayout}>
             <DepartmentCascade showRoot />
           </Form.Item>

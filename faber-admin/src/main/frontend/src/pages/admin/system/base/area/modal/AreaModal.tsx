@@ -31,12 +31,10 @@ export default function AreaModal({ children, title, record, fetchFinish, ...pro
   /** 新增Item */
   function invokeInsertTask(params: any) {
     modelService.add(params).then((res) => {
-        showResponse(res, `新增${serviceName}`);
-        if (res && res.status === RES_CODE.OK) {
-          setModalVisible(false);
-          if (fetchFinish) fetchFinish();
-        }
-      })
+      showResponse(res, `新增${serviceName}`);
+      setModalVisible(false);
+      if (fetchFinish) fetchFinish();
+    })
   }
 
   /** 更新Item */
