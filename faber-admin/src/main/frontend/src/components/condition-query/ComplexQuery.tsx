@@ -1,5 +1,5 @@
 import React, {CSSProperties, useContext, useRef} from 'react';
-import FaberTable from '@/components/base-table/interface';
+import {FaberTable} from '@/components/base-table';
 import {Button, Space} from 'antd';
 import {FilterOutlined} from '@ant-design/icons';
 import ConditionQueryModal from './ConditionQueryModal';

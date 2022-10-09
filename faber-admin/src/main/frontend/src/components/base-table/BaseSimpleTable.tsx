@@ -35,7 +35,7 @@ export default function BaseSimpleTable<RecordType extends object = any>({
   scrollY,
   keyName = "id",
   ...props
-}: FaberTable.BaseTableProps<RecordType>) {
+}: FaberTable.BaseSimpleTableProps<RecordType>) {
   const [innerScrollY, setInnerScrollY] = useState(document.body.clientHeight - scrollYOccupied)
   const {width, height} = useWindowSize();
 

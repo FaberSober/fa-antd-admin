@@ -3,7 +3,7 @@ import {find, get, sumBy} from 'lodash';
 import {ClearOutlined, DeleteOutlined, SettingOutlined} from '@ant-design/icons';
 import {Button, Modal, Space, Table} from 'antd';
 import TableColConfigModal from '../modal/TableColConfigModal';
-import FaberTable from './interface';
+import FaberTable from './FaberTable';
 import {TableRowSelection} from 'antd/lib/table/interface';
 import {useWindowSize} from 'react-use';
 import {showResponse} from '@/utils/utils';

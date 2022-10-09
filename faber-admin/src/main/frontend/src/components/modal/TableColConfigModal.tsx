@@ -6,7 +6,7 @@ import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable
 import {arrayMove, showResponse} from '@/utils/utils';
 import {RES_CODE} from '@/configs/server.config';
 import {ModalProps} from 'antd/es/modal';
-import FaberTable from '@/components/base-table/interface';
+import {FaberTable} from '@/components/base-table';
 import * as BaseTableUtils from '@/components/base-table/utils';
 import Admin from '@/props/admin';
 import configService from '@/services/admin/config';

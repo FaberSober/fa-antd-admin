@@ -4,7 +4,7 @@
 import React from 'react';
 import {DatePicker} from 'antd';
 import {getDateFullStr, getDateStr, getInitialTimeValue, parseRangeDateSuffix} from '@/utils/utils';
-import FaberTable from '@/components/base-table/interface';
+import {FaberTable} from '@/components/base-table';
 
 const { RangePicker } = DatePicker;
 

@@ -7,7 +7,7 @@ import ConditionQuery from '@/components/condition-query/interface';
 import configService from '@/services/admin/config';
 import Admin from '@/props/admin';
 import {showResponse} from '@/utils/utils';
-import FaberTable from '@/components/base-table/interface';
+import {FaberTable} from '@/components/base-table';
 import {BaseBizTableContext} from "@/components/base-table/BaseBizTable";
 import CondGroupShow from "@/components/condition-query/CondGroupShow";
 import CondGroupEdit from "@/components/condition-query/CondGroupEdit";

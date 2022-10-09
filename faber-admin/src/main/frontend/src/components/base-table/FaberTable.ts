@@ -1,6 +1,7 @@
 import {ReactNode} from 'react';
+import ConditionQuery from '@/components/condition-query/interface';
 import {ColumnProps, TableProps} from 'antd/lib/table';
-import Fa from '@/props/base/Fa';
+import {Fa} from '@/props/base';
 
 /**
  * 通用业务表格配置
@@ -50,7 +51,7 @@ namespace FaberTable {
 	/**
 	 * BaseTable的定义
 	 */
-	export interface BaseTableProps<RecordType extends object = any> extends TableProps<RecordType> {
+	export interface BaseSimpleTableProps<RecordType extends object = any> extends TableProps<RecordType> {
 		showCheckbox?: boolean; // 是否展示勾选框
 		localData?: boolean; // 是否本地数据[查询场景、字段配置]
 		columns: FaberTable.ColumnsProp<RecordType>[]; // antd表格字段
@@ -66,6 +67,19 @@ namespace FaberTable {
 		scrollY?: number;
 		keyName?: string; // Key字段名称
 	}
+
+  /**
+   * BaseTable的定义
+   */
+  export interface BaseTableProps<RecordType extends object = any> extends BaseSimpleTableProps<RecordType> {
+    showTableColConfigBtn?: boolean; // 是否展示自定义表格字段按钮
+    showComplexQuery?: boolean; // 是否展示高级查询
+    buzzModal: string; // 业务模块：用于区分存储表格自定义配置的Key
+    renderQuerySuffix?: () => ReactNode; // 自定义追加的查询条件后缀
+    onSceneChange?: (sceneId: string) => void; // 查询场景变更
+    onConditionChange?: (conditionList: ConditionQuery.CondGroup[]) => void; // 组合查询条件变更
+  }
+
 }
 
 export default FaberTable;
