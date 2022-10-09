@@ -10,6 +10,7 @@ import {DefaultOptionType} from "rc-cascader/lib/Cascader";
 
 
 function getLastValue(values: number[]) {
+  if (isNil(values)) return undefined;
   remove(values, (d) => isNil(d) || d === undefined);
   return values[values.length - 1];
 }
@@ -19,8 +20,8 @@ const ROOT_CHINA = { label: '中国', value: CHINA_AD_CODE, isLeaf: false, child
 
 export interface IProps<T> extends Omit<BaseCascaderProps<Admin.Area>, 'serviceApi'> {
   showRoot?: boolean; // 是否展示根节点-中国
-  leaflevel?: number;
-  leafpath?: boolean; // 是否返回完整的路径
+  leafLevel?: number;
+  leafPath?: boolean; // 是否返回完整的路径
   /** [外部定义]Tree节点标准API接口 */
   value?: any;
   onChange?: (v: any, item?: any) => void;
@@ -32,22 +33,24 @@ export interface IProps<T> extends Omit<BaseCascaderProps<Admin.Area>, 'serviceA
  * @author xu.pengfei
  * @date 2020/12/28
  */
-export default function AreaCascader({ showRoot, leaflevel = 4, leafpath, value, onChange, onChangeWithItem, ...props }: IProps<Admin.Area>) {
+export default function AreaCascader({ showRoot, leafLevel = 4, leafPath, value, onChange, onChangeWithItem, ...props }: IProps<Admin.Area>) {
   const [array, setArray] = useState<any[] | undefined>([]);
   const [innerValue, setInnerValue] = useState<any[]>();
 
   useEffect(() => {
     if (innerValue === undefined) {
-      const areaCode = leafpath ? getLastValue(value) : value;
+      const areaCode = leafPath ? getLastValue(value) : value;
       setValue(areaCode);
     } else {
-      const areaCode = leafpath ? getLastValue(value) : value;
-      areaService.findOnePath(areaCode).then((res) => {
-        if (res && res.status === RES_CODE.OK) {
-          const values = res.data.list.map((d) => d.areaCode);
-          setInnerValue(showRoot ? [CHINA_AD_CODE, ...values] : values);
-        }
-      });
+      const areaCode = leafPath ? getLastValue(value) : value;
+      if (!isNil(areaCode)) {
+        areaService.findOnePath(areaCode).then((res) => {
+          if (res && res.status === RES_CODE.OK) {
+            const values = res.data.list.map((d) => d.areaCode);
+            setInnerValue(showRoot ? [CHINA_AD_CODE, ...values] : values);
+          }
+        });
+      }
     }
   }, [value]);
 
@@ -79,7 +82,7 @@ export default function AreaCascader({ showRoot, leaflevel = 4, leafpath, value,
           const options = res.data.map((d) => ({
             label: d.name,
             value: d.areaCode,
-            isLeaf: d.level === leaflevel, // 村级别才是叶子节点
+            isLeaf: d.level === leafLevel, // 村级别才是叶子节点
           }));
           setInnerValue([]);
           setArray(showRoot ? [{ ...ROOT_CHINA, children: options.length === 0 ? undefined : options }] : options);
@@ -105,7 +108,7 @@ export default function AreaCascader({ showRoot, leaflevel = 4, leafpath, value,
         targetOption.children = res.data.map((d) => ({
           label: d.name,
           value: d.areaCode,
-          isLeaf: d.level === leaflevel, // 村级别才是叶子节点
+          isLeaf: d.level === leafLevel, // 村级别才是叶子节点
         }));
         if (res.data.length === 0) {
           targetOption.isLeaf = true;
@@ -119,7 +122,7 @@ export default function AreaCascader({ showRoot, leaflevel = 4, leafpath, value,
   function handleChange(areaCodeList: number[]) {
     setInnerValue(areaCodeList);
     // 需要返回路径
-    if (leafpath) {
+    if (leafPath) {
       if (onChange) onChange(areaCodeList);
       return;
     }

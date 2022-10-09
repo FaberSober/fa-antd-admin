@@ -35,7 +35,7 @@ export default function areaCascader() {
           style={{ minWidth: 200, width: 'auto' }}
           value={value2}
           onChange={(v) => setValue2(v)}
-          leafpath
+          leafPath
         />
       </Card>
 
@@ -45,7 +45,7 @@ export default function areaCascader() {
           style={{ minWidth: 200, width: 'auto' }}
           value={value3}
           onChange={(v) => setValue3(v)}
-          leaflevel={2}
+          leafLevel={2}
         />
       </Card>
 
@@ -55,7 +55,7 @@ export default function areaCascader() {
           style={{ minWidth: 200, width: 'auto' }}
           value={value4}
           onChange={(v) => setValue4(v)}
-          leaflevel={1}
+          leafLevel={1}
         />
       </Card>
     </div>
