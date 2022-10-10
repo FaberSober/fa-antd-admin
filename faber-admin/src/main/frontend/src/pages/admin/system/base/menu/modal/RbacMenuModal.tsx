@@ -5,7 +5,7 @@ import DragModal from '@/components/modal/DragModal';
 import {showResponse} from '@/utils/utils';
 import modelService from '@/services/rbac/rbacMenu';
 import Rbac from '@/props/rbac';
-import FaberEnums from "@/props/base/FaEnums";
+import FaEnums from "@/props/base/FaEnums";
 import {BaseBoolIntRadio} from "@/components/base-dict";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import RbacMenuCascader from "../helper/RbacMenuCascader";
@@ -63,8 +63,8 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
       name: get(record, 'name'),
       level: get(record, 'level'),
       icon: get(record, 'icon'),
-      status: get(record, 'status', FaberEnums.BoolEnum.YES),
-      linkType: get(record, 'linkType', FaberEnums.RbacLinkTypeEnum.INNER),
+      status: get(record, 'status', FaEnums.BoolEnum.YES),
+      linkType: get(record, 'linkType', FaEnums.RbacLinkTypeEnum.INNER),
       linkUrl: get(record, 'linkUrl'),
     }
   }
@@ -96,10 +96,10 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
           </Form.Item>
           <Form.Item name="level" label="菜单等级" rules={[{ required: true }]} {...formItemFullLayout}>
             <Select>
-              <Select.Option value={FaberEnums.RbacMenuLevelEnum.APP}>模块</Select.Option>
-              <Select.Option value={FaberEnums.RbacMenuLevelEnum.LEVEL_1}>一级菜单</Select.Option>
-              <Select.Option value={FaberEnums.RbacMenuLevelEnum.LEVEL_2}>二级菜单</Select.Option>
-              <Select.Option value={FaberEnums.RbacMenuLevelEnum.BUTTON}>按钮</Select.Option>
+              <Select.Option value={FaEnums.RbacMenuLevelEnum.APP}>模块</Select.Option>
+              <Select.Option value={FaEnums.RbacMenuLevelEnum.LEVEL_1}>一级菜单</Select.Option>
+              <Select.Option value={FaEnums.RbacMenuLevelEnum.LEVEL_2}>二级菜单</Select.Option>
+              <Select.Option value={FaEnums.RbacMenuLevelEnum.BUTTON}>按钮</Select.Option>
             </Select>
           </Form.Item>
           <Form.Item name="status" label="是否启用" rules={[{ required: true }]} {...formItemFullLayout}>
@@ -107,8 +107,8 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
           </Form.Item>
           <Form.Item name="linkType" label="链接类型" rules={[{ required: true }]} {...formItemFullLayout}>
             <Select>
-              <Select.Option value={FaberEnums.RbacLinkTypeEnum.INNER}>内部链接</Select.Option>
-              <Select.Option value={FaberEnums.RbacLinkTypeEnum.OUT}>外部链接</Select.Option>
+              <Select.Option value={FaEnums.RbacLinkTypeEnum.INNER}>内部链接</Select.Option>
+              <Select.Option value={FaEnums.RbacLinkTypeEnum.OUT}>外部链接</Select.Option>
             </Select>
           </Form.Item>
           <Form.Item name="linkUrl" label="链接地址" rules={[{ required: true }]} {...formItemFullLayout}>

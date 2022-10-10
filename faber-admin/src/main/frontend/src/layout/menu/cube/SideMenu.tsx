@@ -4,7 +4,7 @@ import {isNil} from "lodash"
 import Fa from "@/props/base/Fa";
 import Rbac from "@/props/rbac";
 import MenuLayoutContext from "@/layout/menu/context/MenuLayoutContext";
-import FaberEnums from "@/props/base/FaEnums";
+import FaEnums from "@/props/base/FaEnums";
 import {SiderLayout} from "@/components/antd-pro";
 
 
@@ -17,7 +17,7 @@ export default function SideMenu() {
 
   function loop(list: Fa.TreeNode<Rbac.RbacMenu>[] | undefined): any[] | undefined {
     if (isNil(list) || list.length === 0) return undefined;
-    const menuList = list.filter(i => i.sourceData.level !== FaberEnums.RbacMenuLevelEnum.BUTTON);
+    const menuList = list.filter(i => i.sourceData.level !== FaEnums.RbacMenuLevelEnum.BUTTON);
     if (menuList.length === 0) return undefined;
     return menuList.map((i) => ({
       key: i.id,

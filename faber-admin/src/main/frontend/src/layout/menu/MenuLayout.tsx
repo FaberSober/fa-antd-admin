@@ -4,7 +4,7 @@ import {find, isNil} from 'lodash';
 import {FormattedMessage} from "react-intl";
 import {useLocation, useNavigate} from "react-router-dom";
 import {FaFlexRestLayout} from "@/components/base-layout";
-import FaberEnums from "@/props/base/FaEnums";
+import FaEnums from "@/props/base/FaEnums";
 import Rbac from "@/props/rbac";
 import {findTreePath, flatTreeList} from "@/utils/treeUtils";
 import {Fa} from "@/props/base";
@@ -43,7 +43,7 @@ export default function MenuLayout({children}: Fa.BaseChildProps) {
       setMenuFullTree(res.data)
       setMenuList(flatTreeList(res.data))
 
-      const blocks = res.data.filter((i) => i.sourceData.level === FaberEnums.RbacMenuLevelEnum.APP)
+      const blocks = res.data.filter((i) => i.sourceData.level === FaEnums.RbacMenuLevelEnum.APP)
       if (blocks.length > 0) {
         setMenuSelAppId(blocks[0].id)
         setMenuTree(blocks[0].children || [])
@@ -63,7 +63,7 @@ export default function MenuLayout({children}: Fa.BaseChildProps) {
       const [id0, ...restIds] = menuPath
       const lastMenu = menuPath[menuPath.length - 1]
 
-      const blocks = tree.filter((i) => i.sourceData.level === FaberEnums.RbacMenuLevelEnum.APP)
+      const blocks = tree.filter((i) => i.sourceData.level === FaEnums.RbacMenuLevelEnum.APP)
       const blockFind = find(blocks, (i) => i.id === id0.id)
       if (blockFind) {
         setMenuSelAppId(blockFind.id)

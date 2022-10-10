@@ -7,7 +7,7 @@ import {get} from 'lodash';
 import {BellOutlined} from '@ant-design/icons';
 import {Link} from "react-router-dom";
 import {UserLayoutContext} from "@/layout/UserLayout";
-import FaberEnums from "@/props/base/FaEnums";
+import FaEnums from "@/props/base/FaEnums";
 
 function MsgList() {
   const { unreadCount, refreshUnreadCount } = useContext(UserLayoutContext);
@@ -19,7 +19,7 @@ function MsgList() {
   }, [unreadCount]);
 
   function fetchMsgList() {
-    msgService.pageMine({ pageSize: 10, isRead: FaberEnums.BoolEnum.NO }).then((res) => {
+    msgService.pageMine({ pageSize: 10, isRead: FaEnums.BoolEnum.NO }).then((res) => {
       if (res && res.status === RES_CODE.OK) {
         setData(res.data.rows);
       }

@@ -6,7 +6,7 @@ import Admin from '@/props/admin';
 import {clearForm, useTableQueryParams} from '@/utils/myHooks';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import {UserLayoutContext} from "@/layout/UserLayout";
-import FaberEnums from "@/props/base/FaEnums";
+import FaEnums from "@/props/base/FaEnums";
 import BaseBoolIntSelector from "@/components/base-dict/BaseBoolIntSelector";
 import {FaHref} from "@/components/decorator";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
@@ -56,8 +56,8 @@ export default function MsgList() {
         ...BaseTableUtils.genSimpleSorterColumn('消息内容', 'content', undefined, sorter),
         render: (val, record) => (
           <div>
-            <Badge status={record.isRead === FaberEnums.BoolEnum.YES ? 'default' : 'processing'} />
-            <span style={{ color: record.isRead === FaberEnums.BoolEnum.YES ? '#999' : '#333' }}>{val}</span>
+            <Badge status={record.isRead === FaEnums.BoolEnum.YES ? 'default' : 'processing'} />
+            <span style={{ color: record.isRead === FaEnums.BoolEnum.YES ? '#999' : '#333' }}>{val}</span>
           </div>
         ),
       },
@@ -69,7 +69,7 @@ export default function MsgList() {
         dataIndex: 'opr',
         render: (text: string, record: Admin.Msg) => (
           <Space>
-            {record.isRead !== FaberEnums.BoolEnum.YES && (
+            {record.isRead !== FaEnums.BoolEnum.YES && (
               <FaHref onClick={() => handleReadOne(record.id)} icon={<CheckOutlined />} text="已读" />
             )}
           </Space>

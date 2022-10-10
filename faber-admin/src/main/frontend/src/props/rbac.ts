@@ -1,5 +1,5 @@
 import Fa from '@/props/base/Fa';
-import FaberEnums from '@/props/base/FaEnums';
+import FaEnums from '@/props/base/FaEnums';
 
 namespace Rbac {
 	/** BASE-权限表 */
@@ -13,13 +13,13 @@ namespace Rbac {
 		/** 排序 */
 		sort: number;
 		/** 菜单等级：0-模块/1-一级菜单/2-二级菜单/3-三级菜单/9-按钮 */
-		level: FaberEnums.RbacMenuLevelEnum;
+		level: FaEnums.RbacMenuLevelEnum;
 		/** 图标标识 */
 		icon: string;
 		/** 是否启用0-禁用/1-启用 */
-		status: FaberEnums.BoolEnum;
+		status: FaEnums.BoolEnum;
 		/** 链接类型【1-内部链接(默认)2-外部链接】 */
-		linkType: FaberEnums.RbacLinkTypeEnum;
+		linkType: FaEnums.RbacLinkTypeEnum;
 		/** 链接地址【pathinfo#method】 */
 		linkUrl: string;
 	}
@@ -33,7 +33,7 @@ namespace Rbac {
 		/** 角色描述 */
 		remarks: string;
 		/** 是否启用 */
-		status: FaberEnums.BoolEnum;
+		status: FaEnums.BoolEnum;
 	}
 
 	/** BASE-角色权限对应表 */
@@ -45,7 +45,7 @@ namespace Rbac {
 		/** 权限ID */
 		menuId: string;
 		/** 是否半勾选0-否/1-是 */
-		halfChecked: FaberEnums.BoolEnum;
+		halfChecked: FaEnums.BoolEnum;
 	}
 
 	/** BASE-用户角色关联表 */

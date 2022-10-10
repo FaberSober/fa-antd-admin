@@ -3,7 +3,7 @@ import {Alert} from 'antd';
 import noticeService from '@/services/admin/notice';
 import Admin from '@/props/admin';
 import {RES_CODE} from '@/configs/server.config';
-import FaberEnums from "@/props/base/FaEnums";
+import FaEnums from "@/props/base/FaEnums";
 
 /**
  * 全局公告-强提醒-顶部固定展示
@@ -14,7 +14,7 @@ export default function BaseNotice() {
   const [array, setArray] = useState<Admin.Notice[]>([]);
 
   useEffect(() => {
-    noticeService.list({ status: FaberEnums.BoolEnum.YES, strongNotice: FaberEnums.BoolEnum.YES }).then((res) => {
+    noticeService.list({ status: FaEnums.BoolEnum.YES, strongNotice: FaEnums.BoolEnum.YES }).then((res) => {
       if (res && res.status === RES_CODE.OK) {
         setArray(res.data);
       }

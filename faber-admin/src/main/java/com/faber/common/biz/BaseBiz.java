@@ -25,7 +25,6 @@ import com.faber.common.mybatis.WrapperUtils;
 import com.faber.common.util.EasyExcelUtils;
 import com.faber.common.vo.query.ConditionGroup;
 import com.faber.common.vo.query.QueryParams;
-import com.faber.msg.entity.Msg;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -35,10 +34,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 业务Service父类
@@ -107,6 +108,8 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         }
     }
 
+    public void decorateList(List<T> list) {}
+
     public TableResultResponse<T> selectPageByQuery(QueryParams query) {
         QueryWrapper<T> wrapper = parseQuery(query);
         if (query.getPageSize() > 1000) throw new BuzzException("查询结果数量大于1000，请缩小查询范围");
@@ -118,6 +121,9 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
 
         // add dict options
         this.addDictOptions(table, getEntityClass());
+
+        // decorate
+        decorateList(table.getData().getRows());
 
         return table;
     }
@@ -157,6 +163,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
      */
     public void exportExcel(QueryParams query) throws IOException {
         List<T> list = this.selectExportExcelList(query);
+        decorateList(list);
         Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
         this.sendFileExcel(clazz, list);
     }
@@ -184,7 +191,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
         fileName = URLEncoder.encode(fileName, "UTF-8");
         response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
-        response.setHeader("faber-filename", fileName + ".xlsx");
+        response.setHeader("fa-filename", fileName + ".xlsx");
 
         EasyExcel
                 .write(response.getOutputStream(), clazz)
@@ -194,6 +201,14 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
 //                .registerConverter(new LocalDateTimeConverter())
                 .sheet("Sheet1")
                 .doWrite(list);
+    }
+
+    public T getByIdWithCache(Serializable id) {
+        Map<Serializable, T> cache = BaseContextHandler.getCacheMap(getEntityClass());
+        if (cache.containsKey(id)) return cache.get(id);
+        T user = super.getById(id);
+        cache.put(id, user);
+        return user;
     }
 
     public String getCurrentUserId() {

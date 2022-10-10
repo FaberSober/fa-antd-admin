@@ -1,6 +1,7 @@
 import React from 'react';
 import { DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import { Button, Card, Form, Input, Space } from 'antd';
+import { Button, Form, Input, Space } from 'antd';
+import {FaHref} from "@/components/decorator";
 import { ShiroPermissionContainer } from '@/components/auth';
 import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import { useExport, useTableQueryParams, clearForm, useDelete } from "@/utils/myHooks";
@@ -14,7 +15,7 @@ const buzzModal = '${tableName}';
 export default function ${className}List() {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, paginationProps } =
+  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } =
           useTableQueryParams<${moduleNameUpperCaseFirstOne}.${className}>(modelService.page, {}, serviceName)
 
   const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName)
@@ -40,10 +41,7 @@ export default function ${className}List() {
           <Space>
             <ShiroPermissionContainer>
               <${className}Modal title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList}>
-                <a>
-                  <EditOutlined />
-                  编辑
-                </a>
+                <FaHref icon={<EditOutlined />} text="编辑" />
               </${className}Modal>
             </ShiroPermissionContainer>
             <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />
@@ -58,8 +56,8 @@ export default function ${className}List() {
   }
 
   return (
-    <Card>
-      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', marginBottom: 12 }}>
+    <div className="fa-full-content fa-bg-white">
+      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
         <div style={{ display: 'flex' }}>
           <strong style={{ fontSize: '18px', marginLeft: 8 }}>{serviceName}</strong>
         </div>
@@ -106,6 +104,6 @@ export default function ${className}List() {
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
       />
-    </Card>
+    </div>
   );
 }

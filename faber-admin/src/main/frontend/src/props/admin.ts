@@ -1,5 +1,5 @@
 import Fa from '@/props/base/Fa';
-import FaberEnums from "@/props/base/FaEnums";
+import FaEnums from "@/props/base/FaEnums";
 
 namespace Admin {
 	// -------------------------------------------- 系统-配置表 --------------------------------------------
@@ -166,9 +166,9 @@ namespace Admin {
 		/** 邮箱  */
 		email: string;
 		/** 性别  */
-		sex: FaberEnums.SexEnum;
+		sex: FaEnums.SexEnum;
 		/** 状态是否有效  */
-		status: FaberEnums.BoolEnum;
+		status: FaEnums.BoolEnum;
 		/** 描述  */
     roleNames: string;
 		/** 描述  */
@@ -218,9 +218,9 @@ namespace Admin {
 		/** 内容  */
 		content: string;
 		/** 是否有效  */
-		status: FaberEnums.BoolEnum;
+		status: FaEnums.BoolEnum;
 		/** 是否强提醒  */
-		strongNotice: FaberEnums.BoolEnum;
+		strongNotice: FaEnums.BoolEnum;
 	}
 
 	// -------------------------------------------- 系统-系统定时任务 --------------------------------------------
@@ -233,7 +233,7 @@ namespace Admin {
 		/** cron表达式  */
 		cron: string;
 		/** 是否启动  */
-		status: FaberEnums.BoolEnum;
+		status: FaEnums.BoolEnum;
 		/** 任务执行方法  */
 		clazzPath: string;
 		/** 任务描述  */
@@ -321,7 +321,7 @@ namespace Admin {
 		/** 消息内容  */
 		content: string;
 		/** 是否已读  */
-		isRead: FaberEnums.BoolEnum;
+		isRead: FaEnums.BoolEnum;
 		/** 已读时间  */
 		readTime: string;
 		/** 业务类型  */

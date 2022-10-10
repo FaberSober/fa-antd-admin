@@ -1,7 +1,7 @@
 import React from 'react';
 import {Select} from 'antd';
 import {SelectProps} from 'antd/es/select';
-import FaberEnums from "@/props/base/FaEnums";
+import FaEnums from "@/props/base/FaEnums";
 
 interface IProps extends SelectProps<any> {}
 
@@ -11,9 +11,9 @@ interface IProps extends SelectProps<any> {}
  */
 export default function BaseSexSelector(props: IProps) {
   const options = [
-    { label: '女', value: FaberEnums.SexEnum.FEMALE },
-    { label: '男', value: FaberEnums.SexEnum.MALE },
-    { label: '保密', value: FaberEnums.SexEnum.UNKNOWN },
+    { label: '女', value: FaEnums.SexEnum.FEMALE },
+    { label: '男', value: FaEnums.SexEnum.MALE },
+    { label: '保密', value: FaEnums.SexEnum.UNKNOWN },
   ];
 
   return (

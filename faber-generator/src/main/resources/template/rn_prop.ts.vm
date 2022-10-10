@@ -1,8 +1,8 @@
-import FaberBase from '@/props/base/FaberBase';
+import Fa from '@/props/base/Fa';
 
 namespace ${moduleNameUpperCaseFirstOne} {
   /** ${comments} */
-  export interface ${className} extends FaberBase.BaseDelEntity {
+  export interface ${className} extends Fa.BaseDelEntity {
 #foreach ($column in $columns)
 #if($column.columnName == $pk.columnName)
     /** $column.comments */

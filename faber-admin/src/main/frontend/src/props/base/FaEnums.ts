@@ -1,4 +1,4 @@
-namespace FaberEnums {
+namespace FaEnums {
 
   // ------------------------------------ BASE ------------------------------------
   export enum BoolEnum {
@@ -39,4 +39,4 @@ namespace FaberEnums {
 
 }
 
-export default FaberEnums;
+export default FaEnums;

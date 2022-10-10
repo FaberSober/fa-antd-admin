@@ -108,11 +108,4 @@ public class DepartmentBiz extends BaseTreeBiz<DepartmentMapper, Department> {
         return findUpDept(getById(entity.getParentId()));
     }
 
-    public Department getByIdWithCache(String id, Map<String, Department> cache) {
-        if (cache.containsKey(id)) return cache.get(id);
-        Department department = super.getById(id);
-        cache.put(id, department);
-        return department;
-    }
-
 }

@@ -2,6 +2,7 @@ package com.faber.common.context;
 
 import com.faber.common.constant.CommonConstants;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -86,6 +87,18 @@ public class BaseContextHandler {
     private static String returnObjectValue(Object value) {
         return value == null ? null : value.toString();
     }
+
+    // ----------------------------------------- 线程缓存 -----------------------------------------
+    public static <T> Map<Serializable, T> getCacheMap(Class<T> clazz) {
+        String key = clazz.getName();
+        Object obj = get(key);
+        if (obj == null) {
+            set(key, new HashMap<Serializable, T>());
+        }
+        Map<Serializable, T> map = (Map<Serializable, T>) get(key);
+        return map;
+    }
+    // ----------------------------------------- 线程缓存 -----------------------------------------
 
     public static void remove() {
         threadLocal.remove();

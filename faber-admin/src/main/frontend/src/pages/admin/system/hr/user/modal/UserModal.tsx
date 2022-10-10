@@ -11,7 +11,7 @@ import DepartmentCascade from "../helper/DepartmentCascade";
 import {UploadImgQiniu} from "@/components/base-uploader";
 import RbacRoleSelect from "@/pages/admin/system/hr/role/components/RbacRoleSelect";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import FaberEnums from "@/props/base/FaEnums";
+import FaEnums from "@/props/base/FaEnums";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
@@ -84,8 +84,8 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
       email: get(record, 'email'),
       password: get(record, 'password'),
       departmentId: get(record, 'departmentId', departmentId),
-      sex: get(record, 'sex', FaberEnums.SexEnum.UNKNOWN),
-      status: get(record, 'status', FaberEnums.BoolEnum.YES),
+      sex: get(record, 'sex', FaEnums.SexEnum.UNKNOWN),
+      status: get(record, 'status', FaEnums.BoolEnum.YES),
       description: get(record, 'description'),
       post: get(record, 'post'),
       img: get(record, 'img'),

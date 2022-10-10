@@ -3,7 +3,7 @@ import {getDateStr, toLine, tryToFixed} from '@/utils/utils';
 import {Popconfirm} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import {ShiroPermissionContainer} from '@/components/auth';
-import {find, isEmpty, trim} from 'lodash';
+import {find, isEmpty, get, trim} from 'lodash';
 import {
   renderDatePicker,
   renderDateRangerPicker,
@@ -11,9 +11,10 @@ import {
   renderTimeRangePicker
 } from '@/components/condition-query/ConditionQueryUtils';
 import {FaberTable} from '@/components/base-table/index';
-import {DictDataSelector} from "@/components/base-dict";
+import {DictDataSelector, DictEnumSelector} from "@/components/base-dict";
 import {SortOrder} from "antd/es/table/interface";
 import {Fa} from "@/props/base";
+import UserSearchSelect from "@/pages/admin/system/hr/user/helper/UserSearchSelect";
 
 
 export function dataIndexToString(dataIndex: string | string[]) {
@@ -113,9 +114,9 @@ export function genBoolSorterColumn(title: string, dataIndex: string, width: num
 export function genUserSorterColumn(title: string, dataIndex: string, width: number, sorter: Fa.Sorter) {
   return {
     ...genSimpleSorterColumn(title, dataIndex, width, sorter),
-    // tcCondComponent: ({ index, value, callback, ...props }: FaberTable.TcCondProp) => (
-    //   <UserSearchSelect value={value} onChange={(v: any, item: any) => callback(v, index, get(item, 'label'))} {...props} />
-    // ),
+    tcCondComponent: ({ index, value, callback, ...props }: FaberTable.TcCondProp) => (
+      <UserSearchSelect value={value} onChange={(v: any, item: any) => callback(v, index, get(item, 'label'))} {...props} />
+    ),
   };
 }
 
@@ -137,6 +138,28 @@ export function genDictSorterColumn(
     tcChecked,
     tcCondComponent: ({ index, value, callback, ...props }: FaberTable.TcCondProp) => (
       <DictDataSelector dictLabel={dictLabel} value={value} onChange={(v, label) => callback(v, index, label)} {...props} />
+    ),
+    width,
+  };
+}
+
+export function genEnumSorterColumn(
+  title: string,
+  dataIndex: string,
+  width: number,
+  sorter: Fa.Sorter,
+  dicts: Fa.PageDict,
+  tcChecked: boolean = true
+): FaberTable.ColumnsProp<any> {
+  return {
+    title,
+    dataIndex,
+    render: (val: string) => <span>{getValueFromDicts(val, dicts, dataIndex)}</span>,
+    sorter: true,
+    sortOrder: getSortOrder(sorter, dataIndex),
+    tcChecked,
+    tcCondComponent: ({ index, value, callback, ...props }: FaberTable.TcCondProp) => (
+      <DictEnumSelector dicts={dicts[dataIndex]} value={value} onChange={(v, label) => callback(v, index, label)} {...props} />
     ),
     width,
   };

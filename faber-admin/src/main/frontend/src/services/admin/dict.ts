@@ -21,6 +21,10 @@ class Dict extends BaseApi<Admin.Dict, number> {
 
 	/** 获取系统配置参数 */
 	getSystemConfig = (): Promise<Fa.Response<Admin.SystemConfigPo>> => this.get(`getSystemConfig`);
+
+  /** 获取实体List */
+  listEnum = (enumName: string): Promise<Fa.Response<Fa.Dict[]>> => this.get(`listEnum?${queryString.stringify({ enumName })}`);
+
 }
 
 export default new Dict(GATE_APP.admin, serviceModule);

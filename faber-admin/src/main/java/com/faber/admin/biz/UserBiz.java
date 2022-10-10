@@ -257,9 +257,8 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     public TableResultResponse<User> selectPageByQuery(QueryParams query) {
         TableResultResponse<User> userTable =  super.selectPageByQuery(query);
 
-        Map<String, Department> cache = new HashMap<>();
         userTable.getData().getRows().forEach(i -> {
-            Department department = departmentBiz.getByIdWithCache(i.getDepartmentId(), cache);
+            Department department = departmentBiz.getByIdWithCache(i.getDepartmentId());
             i.setDepartmentName(department.getName());
         });
 

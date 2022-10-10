@@ -1,6 +1,8 @@
 package com.faber.admin.biz;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ClassLoaderUtil;
+import com.baomidou.mybatisplus.annotation.IEnum;
 import com.faber.admin.entity.Dict;
 import com.faber.admin.entity.DictType;
 import com.faber.admin.mapper.DictMapper;
@@ -8,6 +10,8 @@ import com.faber.admin.vo.SystemConfigPo;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.enums.admin.DictTypeCodeEnum;
 import com.faber.common.exception.BuzzException;
+import com.faber.common.util.FaEnumUtils;
+import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.vo.msg.TableResultResponse;
 import com.faber.common.vo.DictOption;
 import com.faber.common.vo.query.QueryParams;
@@ -118,6 +122,12 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
         po.setLogoWithText(MapUtil.getStr(map, "system:portal:logoWithText"));
         po.setPortalLink(MapUtil.getStr(map, "system:portal:link"));
         return po;
+    }
+
+    public List<DictOption> listEnum(String enumName) {
+        String classPath = "com.faber.common.enums." + enumName;
+        Class<?> clazz = ClassLoaderUtil.loadClass(classPath);
+        return FaEnumUtils.toOptions((Class<? extends IEnum>) clazz);
     }
 
 }

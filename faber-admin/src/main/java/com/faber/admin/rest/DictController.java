@@ -5,6 +5,7 @@ import com.faber.admin.config.annotation.IgnoreUserToken;
 import com.faber.admin.entity.Dict;
 import com.faber.admin.vo.SystemConfigPo;
 import com.faber.common.exception.BuzzException;
+import com.faber.common.vo.DictOption;
 import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseController;
 import org.apache.commons.lang3.StringUtils;
@@ -61,4 +62,15 @@ public class DictController extends BaseController<DictBiz, Dict, Integer> {
         return ok(data);
     }
 
+    /**
+     * 获取com.faber.common.enums包下的枚举值options
+     * @param enumName prj.ProjectStatusEnum
+     * @return
+     */
+    @RequestMapping(value = "listEnum", method = RequestMethod.GET)
+    @ResponseBody
+    public ObjectRestResponse<List<DictOption>> listEnum(String enumName) {
+        List<DictOption> list = baseBiz.listEnum(enumName);
+        return ok(list);
+    }
 }

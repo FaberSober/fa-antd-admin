@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {Menu} from "antd";
-import FaberEnums from "@/props/base/FaEnums";
+import FaEnums from "@/props/base/FaEnums";
 import MenuLayoutContext from "@/layout/menu/context/MenuLayoutContext";
 
 
@@ -12,7 +12,7 @@ import MenuLayoutContext from "@/layout/menu/context/MenuLayoutContext";
 export default function MenuAppHorizontal() {
   const { menuFullTree, menuSelAppId, setMenuSelAppId } = useContext(MenuLayoutContext)
 
-  const blocks = menuFullTree.filter((i) => i.sourceData.level === FaberEnums.RbacMenuLevelEnum.APP)
+  const blocks = menuFullTree.filter((i) => i.sourceData.level === FaEnums.RbacMenuLevelEnum.APP)
   const items = blocks.map((i) => ({
     key: i.id,
     label: i.name,

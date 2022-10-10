@@ -6,7 +6,7 @@ import {showResponse} from '@/utils/utils';
 import modelService from '@/services/rbac/rbacRole';
 import Rbac from '@/props/rbac';
 import {BaseBoolIntRadio} from "@/components/base-dict";
-import FaberEnums from "@/props/base/FaEnums";
+import FaEnums from "@/props/base/FaEnums";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import {Fa} from "@/props/base";
 
@@ -58,7 +58,7 @@ export default function RbacRoleModal({ children, title, record, fetchFinish, ..
     return {
       name: get(record, 'name'),
       remarks: get(record, 'remarks'),
-      status: get(record, 'status', FaberEnums.BoolEnum.YES),
+      status: get(record, 'status', FaEnums.BoolEnum.YES),
     }
   }
 

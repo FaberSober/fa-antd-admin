@@ -17,7 +17,7 @@ import JobModal from './modal/JobModal';
 import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
 import JobLogDrawer from "./jobLog/JobLogDrawer";
 import {FaHref} from "@/components/decorator";
-import FaberEnums from "@/props/base/FaEnums";
+import FaEnums from "@/props/base/FaEnums";
 
 const serviceName = '系统定时任务';
 const buzzModal = 'base_job';
@@ -38,7 +38,7 @@ export default function JobList() {
 
   /** 任务启停 */
   function handleJobStatus(record: Admin.Job) {
-    if (record.status === FaberEnums.BoolEnum.NO) {
+    if (record.status === FaEnums.BoolEnum.NO) {
       modelService
         .startJob(record.id)
         .then((res) => showResponse(res, '启动任务'))
@@ -67,7 +67,7 @@ export default function JobList() {
       BaseTableUtils.genSimpleSorterColumn('cron表达式', 'cron', 120, sorter),
       {
         ...BaseTableUtils.genSimpleSorterColumn('状态', 'status', 80, sorter),
-        render: (val) => (val === FaberEnums.BoolEnum.YES ? <Badge status="processing" text="运作中" /> : <Badge status="default" text="暂停" />),
+        render: (val) => (val === FaEnums.BoolEnum.YES ? <Badge status="processing" text="运作中" /> : <Badge status="default" text="暂停" />),
       },
       BaseTableUtils.genSimpleSorterColumn('任务执行方法', 'clazzPath', 400, sorter),
       BaseTableUtils.genSimpleSorterColumn('任务描述', 'jobDesc', undefined, sorter),
@@ -81,16 +81,16 @@ export default function JobList() {
             <Popconfirm title="确定立即执行一次该任务" onConfirm={() => handleRunOneTime(record.id)} getPopupContainer={() => document.body}>
               <FaHref icon={<ThunderboltOutlined />} text="执行" />
             </Popconfirm>
-            <Popconfirm title={record.status === FaberEnums.BoolEnum.NO ? '确定启动任务?' : '确定停止任务?'} onConfirm={() => handleJobStatus(record)} getPopupContainer={() => document.body}>
+            <Popconfirm title={record.status === FaEnums.BoolEnum.NO ? '确定启动任务?' : '确定停止任务?'} onConfirm={() => handleJobStatus(record)} getPopupContainer={() => document.body}>
               <a>
-                {record.status === FaberEnums.BoolEnum.NO ? (
+                {record.status === FaEnums.BoolEnum.NO ? (
                   <FaHref icon={<PlayCircleOutlined />} text="启动" />
                 ) : (
                   <FaHref icon={<PauseCircleOutlined />} text="停止" />
                 )}
               </a>
             </Popconfirm>
-            {record.status === FaberEnums.BoolEnum.NO && (
+            {record.status === FaEnums.BoolEnum.NO && (
               <JobModal title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList}>
                 <FaHref icon={<EditOutlined />} text="编辑" />
               </JobModal>

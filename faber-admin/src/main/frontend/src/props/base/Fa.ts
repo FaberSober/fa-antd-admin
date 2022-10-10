@@ -1,5 +1,5 @@
 import {ReactNode} from "react";
-import FaberEnums from "@/props/base/FaEnums";
+import FaEnums from "@/props/base/FaEnums";
 import {DragModalProps} from '@/components/modal/DragModal';
 import ConditionQuery from '@/components/condition-query/interface';
 
@@ -43,7 +43,7 @@ namespace Fa {
 
 	export interface BaseDelEntity extends BaseOprEntity {
 		/** 删除状态 */
-		delState?: FaberEnums.DelStateEnum;
+		delState?: FaEnums.DelStateEnum;
 	}
 
 	// ------------------------------------- Http Request -------------------------------------
