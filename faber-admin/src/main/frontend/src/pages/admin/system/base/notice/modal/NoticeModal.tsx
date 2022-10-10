@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {get} from 'lodash';
 import {Form, Input} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
@@ -8,6 +8,7 @@ import modelService from '@/services/admin/notice';
 import Admin from '@/props/admin';
 import {BaseBoolIntRadio} from '@/components/base-dict';
 import {UploadImgLocal} from "@/components/base-uploader";
+import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
@@ -23,41 +24,27 @@ interface IProps extends DragModalProps {
  * BASE-通知与公告实体新增、编辑弹框
  */
 export default function NoticeModal({ children, title, record, fetchFinish, ...props }: IProps) {
+  const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 
-  const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    setLoading(true);
-    modelService
-      .add(params)
-      .then((res) => {
-        showResponse(res, `新增${serviceName}`);
-        if (res && res.status === RES_CODE.OK) {
-          setModalVisible(false);
-          if (fetchFinish) fetchFinish();
-        }
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    modelService.add(params).then((res) => {
+      showResponse(res, `新增${serviceName}`);
+      setModalVisible(false);
+      if (fetchFinish) fetchFinish();
+    })
   }
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
-    setLoading(true);
-    modelService
-      .update(params.id, params)
-      .then((res) => {
-        showResponse(res, `更新${serviceName}`);
-        if (res && res.status === RES_CODE.OK) {
-          setModalVisible(false);
-          if (fetchFinish) fetchFinish();
-        }
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    modelService.update(params.id, params).then((res) => {
+      showResponse(res, `更新${serviceName}`);
+      setModalVisible(false);
+      if (fetchFinish) fetchFinish();
+    })
   }
 
   /** 提交表单 */
@@ -73,6 +60,7 @@ export default function NoticeModal({ children, title, record, fetchFinish, ...p
     }
   }
 
+  const loading = loadingEffect[modelService.getUrl('add')] || loadingEffect[modelService.getUrl('update')]
   return (
     <span>
       <span onClick={() => setModalVisible(true)}>{children}</span>

@@ -1,4 +1,4 @@
-import React, {useEffect, useImperativeHandle, useState} from 'react';
+import React, {useContext, useEffect, useImperativeHandle, useState} from 'react';
 import {get} from 'lodash';
 import {Button, Form, Input, InputNumber, Radio} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
@@ -9,6 +9,7 @@ import Admin from '@/props/admin';
 import DictTypeCascade from "../helper/DictTypeCascade";
 import {ClearOutlined} from '@ant-design/icons';
 import {UploadFileQiniu} from "@/components/base-uploader";
+import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
@@ -25,9 +26,9 @@ interface IProps extends DragModalProps {
  * 字典值实体新增、编辑弹框
  */
 function DictModal({ children, title, record, fetchFinish, type, ...props }: IProps, ref: any) {
+  const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 
-  const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [category, setCategory] = useState(0);
 
@@ -45,34 +46,20 @@ function DictModal({ children, title, record, fetchFinish, type, ...props }: IPr
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    setLoading(true);
-    modelService
-      .add(params)
-      .then((res) => {
-        showResponse(res, `新增${serviceName}`);
-        if (res && res.status === RES_CODE.OK) {
-          setModalVisible(false);
-          if (fetchFinish) fetchFinish();
-        }
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    modelService.add(params).then((res) => {
+      showResponse(res, `新增${serviceName}`);
+      setModalVisible(false);
+      if (fetchFinish) fetchFinish();
+    })
   }
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
-    setLoading(true);
-    modelService
-      .update(params.id, params)
-      .then((res) => {
-        showResponse(res, `更新${serviceName}`);
-        if (res && res.status === RES_CODE.OK) {
-          setModalVisible(false);
-          if (fetchFinish) fetchFinish();
-        }
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    modelService.update(params.id, params).then((res) => {
+      showResponse(res, `更新${serviceName}`);
+      setModalVisible(false);
+      if (fetchFinish) fetchFinish();
+    })
   }
 
   /** 提交表单 */
@@ -113,6 +100,7 @@ function DictModal({ children, title, record, fetchFinish, type, ...props }: IPr
     }
   }
 
+  const loading = loadingEffect[modelService.getUrl('add')] || loadingEffect[modelService.getUrl('update')]
   return (
     <span>
       <span onClick={() => showModal()}>{children}</span>
