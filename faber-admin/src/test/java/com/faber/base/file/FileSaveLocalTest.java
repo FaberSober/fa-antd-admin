@@ -1,6 +1,5 @@
 package com.faber.base.file;
 
-import cn.hutool.core.io.FileUtil;
 import com.faber.AdminBootstrap;
 import com.faber.common.file.FileHelperImpl;
 import org.junit.Test;
@@ -10,6 +9,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {AdminBootstrap.class}, properties = {"system.setting.file.saveType=local"}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -19,9 +20,19 @@ public class FileSaveLocalTest {
     private FileHelperImpl fileHelper;
 
     @Test
-    public void testUpload() {
-        File file = FileUtil.createTempFile();
-        fileHelper.upload(file, "file");
+    public void testUpload() throws IOException {
+        File file = new File("/Users/xupengfei/Downloads/tmp/logo.png");
+        String url = fileHelper.upload(new FileInputStream(file), file.getName());
+        System.out.println(url);
+    }
+
+    @Test
+    public void testDelete() throws IOException {
+        File file = new File("/Users/xupengfei/Downloads/tmp/logo.png");
+        String url = fileHelper.upload(new FileInputStream(file), file.getName());
+        System.out.println(url);
+
+        fileHelper.delete(url);
     }
 
 }

@@ -44,7 +44,16 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
     }
 
     public FileSave uploadFile(MultipartFile file) throws IOException {
-        return null;
+        String url = fileHelper.upload(file);
+
+        FileSave fileSaveEntity = new FileSave();
+        fileSaveEntity.setName(file.getOriginalFilename());
+        fileSaveEntity.setSize(file.getSize());
+        fileSaveEntity.setUrl(url);
+
+        save(fileSaveEntity);
+
+        return fileSaveEntity;
     }
 
     /**
@@ -65,32 +74,6 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
         jo.put("title", file.getOriginalFilename());
         jo.put("original", file.getOriginalFilename());
         return jo;
-    }
-
-    /**
-     * 上传文件到本地
-     * @param file
-     * @return
-     * @throws IOException
-     */
-    public FileSave uploadLocalFile(MultipartFile file) throws IOException {
-        File path = new File(ResourceUtils.getURL("classpath:").getPath());
-        if (!path.exists()) path = new File("");
-
-        String fileSavePath = "/static/" + qiniuHelper.getPrefix() + "/file/" + DateUtil.today() + "/"
-                + FaFileUtils.addTimestampToFileName(file.getOriginalFilename());
-
-        File exportFile = new File(path.getAbsolutePath(), fileSavePath);
-        FileUtils.copyInputStreamToFile(file.getInputStream(), exportFile);
-
-        FileSave fileSaveEntity = new FileSave();
-        fileSaveEntity.setName(file.getOriginalFilename());
-        fileSaveEntity.setSize(file.getSize());
-        fileSaveEntity.setUrl(fileSavePath);
-
-        save(fileSaveEntity);
-
-        return fileSaveEntity;
     }
 
     public void getLocalFile(String fileId) throws IOException {
