@@ -35,7 +35,7 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
     },
     setContent: (html: string) => {
       if (editorRef.current) {
-        console.log('setContent', html, editorRef.current)
+        // console.log('setContent', html, editorRef.current)
         editorRef.current.setContent(trim(html));
       }
     },
@@ -127,16 +127,16 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
           // onNodeChange={(e) => console.log('onNodeChange', e)}
           // onSelectionChange={(e) => console.log('onSelectionChange', e)}
           onFocus={(e) => {
-            console.log('onFocus', editorRef.current.getContent())
+            // console.log('onFocus', editorRef.current.getContent())
           }}
           onBlur={(e) => {
-            console.log('onBlur', e, editorRef.current.getContent())
+            // console.log('onBlur', e, editorRef.current.getContent())
             if (onChange) {
               onChange(editorRef.current.getContent())
             }
           }}
           onChange={(e) => {
-            console.log('onChange', e, editorRef.current.getContent())
+            // console.log('onChange', e, editorRef.current.getContent())
             if (onChange) {
               onChange(editorRef.current.getContent())
             }
