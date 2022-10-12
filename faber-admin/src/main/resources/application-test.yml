@@ -28,3 +28,9 @@ server:
 socketio:
   host: 127.0.0.1
   port: 8581
+
+# Qiniu
+qiniu:
+  # 这里是增加一层路径，用于区分
+  prefix: test
+
