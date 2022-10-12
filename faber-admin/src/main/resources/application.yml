@@ -115,8 +115,8 @@ jwt:
 qiniu:
   accessKey: xxx
   secretKey: xxx
-  bucket: fa-web
-  host: http://fa.file.dward.cn
+  bucket: xxx
+  host: http://xxx
   # 这里是增加一层路径，用于区分
   prefix: test
 
