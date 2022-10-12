@@ -4,6 +4,7 @@ import {useSize} from "ahooks";
 import { trim } from 'lodash';
 import {v4 as uuidv4} from 'uuid';
 import {SITE_INFO} from "@/configs/server.config";
+import {fetchUploadImgQiniu} from "@/components/base-uploader";
 
 
 export interface BaseHtmlNEditorProps {
@@ -77,6 +78,49 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
              * 返回数据json格式为：{ location : '/your/uploaded/image/file'}
              */
             images_upload_url: SITE_INFO.TINYMCE_FILE_UPLOAD_API,
+            /* enable title field in the Image dialog*/
+            image_title: true,
+            /* enable automatic uploads of images represented by blob or data URIs*/
+            automatic_uploads: true,
+            /*
+              URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url)
+              images_upload_url: 'postAcceptor.php',
+              here we add custom filepicker only to Image dialog
+            */
+            file_picker_types: 'image',
+            /* and here's our custom image picker*/
+            file_picker_callback: (cb, value, meta) => {
+              const input = document.createElement('input');
+              input.setAttribute('type', 'file');
+              input.setAttribute('accept', 'image/*');
+
+              input.addEventListener('change', (e) => {
+                // @ts-ignore
+                const file = e.target.files[0];
+
+                const reader = new FileReader();
+                reader.addEventListener('load', () => {
+                  fetchUploadImgQiniu(
+                    file,
+                    'editor/file',
+                    file.name,
+                    (path, res) => {
+                      /* call the callback and populate the Title field with the file name */
+                      cb(path, { title: file.name });
+                    },
+                    (res) => {
+                      const { percent } = res.total;
+                    },
+                    (res) => {
+                      // onError(new Error(res), file);
+                    }
+                  );
+                });
+                reader.readAsDataURL(file);
+              });
+
+              input.click();
+            },
             ...editorInit,
           }}
           // onBeforeSetContent={(e) => console.log('onBeforeSetContent', e)}

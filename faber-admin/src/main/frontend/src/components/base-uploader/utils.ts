@@ -5,6 +5,8 @@ import {RES_CODE, SITE_INFO} from '@/configs/server.config';
 import ApiQiniuLoader from '@/utils/api-loaders/ApiQiniuLoader';
 import dayjs from 'dayjs';
 
+const filePrefix = import.meta.env.VITE_APP_FILE_PREFIX;
+
 /**
  * 上传文件到七牛云
  * @param {*} file
@@ -29,7 +31,7 @@ export async function fetchUploadImgQiniu(
 		return;
 	}
 	const { token, host } = response.data;
-  const day = dayjs().format('YYYYMM');
+  const day = dayjs().format('YYYY-MM-DD');
 	const time = dayjs().format('YYYYMMDDHHmmss');
 
 	let fName = fileName;
@@ -40,7 +42,7 @@ export async function fetchUploadImgQiniu(
     fName = fileName + "_" + time
   }
 
-	const key = `${prefix}/${day}/${fName}`;
+	const key = `${filePrefix}/${prefix}/${day}/${fName}`;
 	const putExtra = { fname: file.name, params: {}, mimeType: null };
 	const config = {
 		useCdnDomain: true,
