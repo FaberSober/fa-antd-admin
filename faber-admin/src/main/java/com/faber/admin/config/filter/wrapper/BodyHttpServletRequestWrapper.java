@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class BodyHttpServletRequestWrapper extends HttpServletRequestWrapper {
@@ -20,7 +21,7 @@ public class BodyHttpServletRequestWrapper extends HttpServletRequestWrapper {
         StandardServletMultipartResolver standardServletMultipartResolver = new StandardServletMultipartResolver();
         //做判断，过滤掉form表单形式的，避免form表单的参数
         if (standardServletMultipartResolver.isMultipart(request)) {
-
+            body = "MultipartFile".getBytes(StandardCharsets.UTF_8);
         } else {
             body = StreamUtils.copyToByteArray(request.getInputStream());
             inputStream = new RequestCachingInputStream(body);
