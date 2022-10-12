@@ -13,7 +13,7 @@ const serviceModule = 'fileSave';
 
 class FileSaveApi extends BaseApi<Admin.FileSave, string> {
 	/** 获取唯一实体 */
-	getUploadToken = (): Promise<Fa.Response<UploadToken>> => this.get(`getUploadToken`);
+	getQiniuUploadToken = (): Promise<Fa.Response<UploadToken>> => this.get(`getQiniuUploadToken`);
 
 	/** 获取实体List-用户创建 */
 	getMine = (): Promise<Fa.Response<Admin.FileSave[]>> => this.get(`getMine`);

@@ -25,7 +25,7 @@ export async function fetchUploadImgQiniu(
 	onError = (res: any) => {},
 ) {
 	await new ApiQiniuLoader().load();
-	const response = await fileService.getUploadToken();
+	const response = await fileService.getQiniuUploadToken();
 	if (!response || response.status !== RES_CODE.OK) {
 		message.error('上传文件失败，获取上传token失败，请联系管理员！');
 		return;

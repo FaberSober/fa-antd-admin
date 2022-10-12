@@ -35,7 +35,7 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
     @Resource
     private QiniuHelper qiniuHelper;
 
-    public JSONObject getUploadToken() {
+    public JSONObject getQiniuUploadToken() {
         String token = qiniuHelper.getUploadToken();
         JSONObject data = new JSONObject();
         data.put("token", token);

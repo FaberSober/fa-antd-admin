@@ -17,22 +17,14 @@ import java.util.List;
 @RequestMapping("/api/admin/fileSave")
 public class FileSaveController extends BaseController<FileSaveBiz, FileSave, String> {
 
-    @GetMapping("/getUploadToken")
-    @ResponseBody
-    public ObjectRestResponse<JSONObject> getUploadToken() {
-        JSONObject json = baseBiz.getUploadToken();
-        return ok(json);
-    }
-
     /**
-     * 获取七牛云上传token(提供给官网会员账户)
+     * 获取七牛云上传token
      * @return
      */
-    @GetMapping("/getUploadTokenPortal")
+    @GetMapping("/getQiniuUploadToken")
     @ResponseBody
-    @IgnoreUserToken
-    public ObjectRestResponse<JSONObject> getUploadTokenPortal() {
-        JSONObject json = baseBiz.getUploadToken();
+    public ObjectRestResponse<JSONObject> getQiniuUploadToken() {
+        JSONObject json = baseBiz.getQiniuUploadToken();
         return ok(json);
     }
 
