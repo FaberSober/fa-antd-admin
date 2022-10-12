@@ -115,10 +115,10 @@ jwt:
 qiniu:
   accessKey: xxx
   secretKey: xxx
-  bucket: faber-admin
-  host: http://faber.admin.file.dward.cn
+  bucket: fa-web
+  host: http://fa.file.dward.cn
   # 这里是增加一层路径，用于区分
-  prefix: faber-admin
+  prefix: test
 
 # 一些默认配置
 default:

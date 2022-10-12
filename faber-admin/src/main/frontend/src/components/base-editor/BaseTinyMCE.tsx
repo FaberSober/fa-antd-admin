@@ -3,6 +3,7 @@ import {Editor} from '@tinymce/tinymce-react';
 import {useSize} from "ahooks";
 import { trim } from 'lodash';
 import {v4 as uuidv4} from 'uuid';
+import {SITE_INFO} from "@/configs/server.config";
 
 
 export interface BaseHtmlNEditorProps {
@@ -75,7 +76,7 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
              * 需要在后台提供对应API的接口，参考：https://www.tiny.cloud/docs/advanced/php-upload-handler/
              * 返回数据json格式为：{ location : '/your/uploaded/image/file'}
              */
-            images_upload_url: '/api/v1/base/file/uploadTinyMCEFile',
+            images_upload_url: SITE_INFO.TINYMCE_FILE_UPLOAD_API,
             ...editorInit,
           }}
           // onBeforeSetContent={(e) => console.log('onBeforeSetContent', e)}

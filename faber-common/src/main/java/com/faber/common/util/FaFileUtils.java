@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 
-public class FileUtils {
+public class FaFileUtils {
 
     /**
      * 下载资源文件

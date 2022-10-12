@@ -1,5 +1,6 @@
 package com.faber.admin.rest;
 
+import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.faber.admin.biz.FileSaveBiz;
 import com.faber.admin.config.annotation.IgnoreUserToken;
@@ -95,19 +96,13 @@ public class FileSaveController extends BaseController<FileSaveBiz, FileSave, St
         baseBiz.getLocalFilePath(filePath);
     }
 
-//    @PostMapping("/uploadHtmlImage")
-//    @ResponseBody
-//    @ApiOperation(value = "附件上传", notes = "附件上传")
-////    @IgnoreUserToken
-//    public JSONObject uploadHtmlImage(@ApiParam(required = true, name = "file", value = "用户信息Excel") @RequestParam("file") MultipartFile file) throws IOException {
-//        String date = DateUtil.today();
-//        String fullPath = qiniuHelper.upload(file.getInputStream(), "static/html/image/" + date + "/" + UUID.randomUUID().toString() + "/" + file.getOriginalFilename());
-//        JSONObject jo = new JSONObject();
-//        jo.put("state", "SUCCESS");
-//        jo.put("url", fullPath);
-//        jo.put("title", file.getOriginalFilename());
-//        jo.put("original", file.getOriginalFilename());
-//        return jo;
-//    }
+    @PostMapping("/uploadTinyMCEFile")
+    @ResponseBody
+    @IgnoreUserToken
+    public JSONObject uploadTinyMCEFile(@RequestParam("file") MultipartFile file) throws IOException {
+        JSONObject jo = baseBiz.uploadToQiniu(file, "editor/file");
+        jo.put("location", jo.getString("url")); // tinymce固定取值字段为location
+        return jo;
+    }
 
 }

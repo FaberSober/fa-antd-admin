@@ -8,6 +8,7 @@ import com.faber.common.bean.BaseCrtEntity;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.exception.BuzzException;
+import com.faber.common.util.FaFileUtils;
 import com.faber.common.util.file.QiniuHelper;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
@@ -72,7 +73,7 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
      */
     public JSONObject uploadToQiniu(MultipartFile file, String dir) throws IOException {
         // 拼接路径
-        String path = dir + "/" + DateUtil.today() + "/" + com.faber.common.util.FileUtils.addTimestampToFileName(file.getOriginalFilename());
+        String path = dir + "/" + DateUtil.today() + "/" + FaFileUtils.addTimestampToFileName(file.getOriginalFilename());
 
         String fullPath = qiniuHelper.upload(file.getInputStream(), path);
         JSONObject jo = new JSONObject();
@@ -94,7 +95,7 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
         if (!path.exists()) path = new File("");
 
         String fileSavePath = "/static/" + qiniuHelper.getPrefix() + "/file/" + DateUtil.today() + "/"
-                + com.faber.common.util.FileUtils.addTimestampToFileName(file.getOriginalFilename());
+                + FaFileUtils.addTimestampToFileName(file.getOriginalFilename());
 
         File exportFile = new File(path.getAbsolutePath(), fileSavePath);
         FileUtils.copyInputStreamToFile(file.getInputStream(), exportFile);

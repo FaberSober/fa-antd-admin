@@ -28,3 +28,11 @@ server:
 socketio:
   host: 127.0.0.1
   port: 8381
+
+
+# Qiniu
+qiniu:
+  accessKey: xxx
+  secretKey: xxx
+  # 这里是增加一层路径，用于区分
+  prefix: prod
