@@ -489,7 +489,7 @@
     "@types/react" "*"
     hoist-non-react-statics "^3.3.0"
 
-"@types/js-cookie@^2.2.6":
+"@types/js-cookie@^2.2.6", "@types/js-cookie@^2.x.x":
   version "2.2.7"
   resolved "https://registry.npmmirror.com/@types/js-cookie/-/js-cookie-2.2.7.tgz#226a9e31680835a6188e887f3988e60c04d3f6a3"
   integrity sha512-aLkWa0C0vO5b4Sr798E26QgOkss68Un0bLjs7u9qxzPT5CG+8DuNTffWES58YzJs3hrVAOs1wonycqEBqNJubA==
@@ -593,6 +593,25 @@
   version "1.9.5"
   resolved "https://registry.npmmirror.com/@xobotyi/scrollbar-width/-/scrollbar-width-1.9.5.tgz#80224a6919272f405b87913ca13b92929bdf3c4d"
   integrity sha512-N8tkAACJx2ww8vFMneJmaAgmjAG1tnVBZJRLRcx061tmsLRZHSEZSLuGWnwPtunsSLvSqXQ2wfp7Mgqg1I+2dQ==
+
+ahooks-v3-count@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmmirror.com/ahooks-v3-count/-/ahooks-v3-count-1.0.0.tgz#ddeb392e009ad6e748905b3cbf63a9fd8262ca80"
+  integrity sha512-V7uUvAwnimu6eh/PED4mCDjE7tokeZQLKlxg9lCTMPhN+NjsSbtdacByVlR1oluXQzD3MOw55wylDmQo4+S9ZQ==
+
+ahooks@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.npmmirror.com/ahooks/-/ahooks-3.7.1.tgz#f0c51ed85c82144fb1356e89b995584ece1edaf2"
+  integrity sha512-9fooKjhScNyJaIPnlWd13LkY1gQYqv3BqwSA9ynHg1ZUtDqAICuCRoedV97ylrEL6QqI4zeq3bO3lQxkfWVNcg==
+  dependencies:
+    "@types/js-cookie" "^2.x.x"
+    ahooks-v3-count "^1.0.0"
+    dayjs "^1.9.1"
+    intersection-observer "^0.12.0"
+    js-cookie "^2.x.x"
+    lodash "^4.17.21"
+    resize-observer-polyfill "^1.5.1"
+    screenfull "^5.0.0"
 
 ansi-styles@^3.2.1:
   version "3.2.1"
@@ -861,7 +880,7 @@ date-fns@2.x:
   resolved "https://registry.npmmirror.com/date-fns/-/date-fns-2.29.3.tgz#27402d2fc67eb442b511b70bbdf98e6411cd68a8"
   integrity sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==
 
-dayjs@1.x:
+dayjs@1.x, dayjs@^1.9.1:
   version "1.11.5"
   resolved "https://registry.npmmirror.com/dayjs/-/dayjs-1.11.5.tgz#00e8cc627f231f9499c19b38af49f56dc0ac5e93"
   integrity sha512-CAdX5Q3YW3Gclyo5Vpqkgpj8fSdLQcRuzfX6mC6Phy0nfJ0eGYOeS7m4mt2plDWLAtA4TqTakvbboHvUxfe4iA==
@@ -1383,6 +1402,11 @@ internal-slot@^1.0.3:
     has "^1.0.3"
     side-channel "^1.0.4"
 
+intersection-observer@^0.12.0:
+  version "0.12.2"
+  resolved "https://registry.npmmirror.com/intersection-observer/-/intersection-observer-0.12.2.tgz#4a45349cc0cd91916682b1f44c28d7ec737dc375"
+  integrity sha512-7m1vEcPCxXYI8HqnL8CKI6siDyD+eIWSwgB3DZA+ZTogxk9I4CDnj4wilt9x/+/QbHI4YG5YZNmC6458/e9Ktg==
+
 intl-messageformat@10.1.4:
   version "10.1.4"
   resolved "https://registry.npmmirror.com/intl-messageformat/-/intl-messageformat-10.1.4.tgz#bf5ad48e357e3f3ab6559599296f54c175b22a92"
@@ -1556,7 +1580,7 @@ isobject@^3.0.1:
   resolved "https://registry.npmmirror.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha512-WhB9zCku7EGTj/HQQRz5aUQEUeoQZH2bWcltRErOpymJ4boYE6wL9Tbr23krRPSZ+C5zqNSrSw+Cc7sZZ4b7vg==
 
-js-cookie@^2.2.1:
+js-cookie@^2.2.1, js-cookie@^2.x.x:
   version "2.2.1"
   resolved "https://registry.npmmirror.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
   integrity sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
@@ -2482,7 +2506,7 @@ scheduler@^0.23.0:
   dependencies:
     loose-envify "^1.1.0"
 
-screenfull@^5.1.0:
+screenfull@^5.0.0, screenfull@^5.1.0:
   version "5.2.0"
   resolved "https://registry.npmmirror.com/screenfull/-/screenfull-5.2.0.tgz#6533d524d30621fc1283b9692146f3f13a93d1ba"
   integrity sha512-9BakfsO2aUQN2K9Fdbj87RJIEZ82Q9IGim7FqM5OsebfoFC6ZHXgDq/KvniuLTPdeM8wY2o6Dj3WQ7KeQCj3cA==
