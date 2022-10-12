@@ -25,11 +25,6 @@ public class FileHelperLocal implements FileHelperImpl {
     private SystemSetting systemSetting;
 
     @Override
-    public String upload(MultipartFile file) throws IOException {
-        return this.upload(file.getInputStream(), file.getOriginalFilename());
-    }
-
-    @Override
     public String upload(InputStream is, String fileName) throws IOException {
         String fileSavePath = getDirPath() + "file/" + DateUtil.today() + "/" + FaFileUtils.addTimestampToFileName(fileName);
 

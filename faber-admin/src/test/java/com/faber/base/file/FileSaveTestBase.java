@@ -12,16 +12,19 @@ public abstract class FileSaveTestBase {
 
     protected abstract FileHelperImpl getFileHelper();
 
-    public void testUpload() throws IOException {
+    public String upload() throws IOException {
         File file = new File("/Users/xupengfei/Downloads/tmp/logo.png");
         String url = getFileHelper().upload(new FileInputStream(file), file.getName());
         System.out.println(url);
+        return url;
+    }
+
+    public void testUpload() throws IOException {
+        this.upload();
     }
 
     public void testDelete() throws IOException {
-        File file = new File("/Users/xupengfei/Downloads/tmp/logo.png");
-        String url = getFileHelper().upload(new FileInputStream(file), file.getName());
-        System.out.println(url);
+        String url = this.upload();
 
         getFileHelper().delete(url);
     }

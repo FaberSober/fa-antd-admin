@@ -16,7 +16,9 @@ public interface FileHelperImpl {
      * @param file 文件
      * @return
      */
-    String upload(MultipartFile file) throws IOException;
+    default String upload(MultipartFile file) throws IOException {
+        return this.upload(file.getInputStream(), file.getOriginalFilename());
+    }
 
     /**
      * 保存文件
