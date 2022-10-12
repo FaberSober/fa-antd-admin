@@ -9,13 +9,18 @@ import java.io.File;
 
 @Slf4j
 @Service
-@ConditionalOnProperty(name = "default.setting.file.saveType", havingValue = "qiniu")
+@ConditionalOnProperty(name = "system.setting.file.saveType", havingValue = "qiniu")
 public class FileHelperQiniu implements FileHelperImpl {
 
     @Override
     public String upload(File file, String path) {
         log.debug("FileHelperQiniu");
         return null;
+    }
+
+    @Override
+    public void delete(String filePath) {
+
     }
 
 }

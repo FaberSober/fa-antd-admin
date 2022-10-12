@@ -9,6 +9,7 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 import lombok.Data;
 import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,10 +29,8 @@ import java.util.UUID;
  */
 @Component
 @Data
-@Log
+@Slf4j
 public class QiniuHelper {
-
-    protected static final Logger _logger = LoggerFactory.getLogger(QiniuHelper.class);
 
     @Value("${qiniu.accessKey}")
     private String accessKey;
@@ -45,7 +44,7 @@ public class QiniuHelper {
     @Value("${qiniu.host}")
     private String host;
 
-    @Value("${qiniu.prefix}")
+//    @Value("${qiniu.prefix}")
     private String prefix;
 
     /**
@@ -85,7 +84,7 @@ public class QiniuHelper {
         try {
             Response response = uploadManager.put(is, key, upToken, null, null);
             //解析上传成功的结果
-            _logger.debug("response: " + response.bodyString());
+            log.debug("response: " + response.bodyString());
 
 //            DefaultPutRet putRet = new Gson().fromJson(, DefaultPutRet.class);
 //            System.out.println(putRet.key);
@@ -144,8 +143,8 @@ public class QiniuHelper {
             bucketManager.delete(bucket, path);
         } catch (QiniuException ex) {
             //如果遇到异常，说明删除失败
-            _logger.error(ex.code() + "");
-            _logger.error(ex.response.toString());
+            log.error(ex.code() + "");
+            log.error(ex.response.toString());
         }
     }
 

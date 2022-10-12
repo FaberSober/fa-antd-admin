@@ -117,15 +117,15 @@ qiniu:
   secretKey: xxx
   bucket: xxx
   host: http://xxx
-  # 这里是增加一层路径，用于区分
-  prefix: test
 
 # 一些默认配置
-default:
+system:
   setting:
-    # 系统文件存储方式: local-本地存储/qiniu-七牛云
     file:
+      # 系统文件存储方式: local-本地存储/qiniu-七牛云
       saveType: local
+      # 增加一层最前置路径，可以用于区分不同环境
+      prefix: dev
     # 高德地图SDK
     amap:
       key: xx

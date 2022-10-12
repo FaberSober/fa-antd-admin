@@ -9,13 +9,18 @@ import java.io.File;
 
 @Slf4j
 @Service
-@ConditionalOnProperty(name = "default.setting.file.saveType", havingValue = "local")
+@ConditionalOnProperty(name = "system.setting.file.saveType", havingValue = "local")
 public class FileHelperLocal implements FileHelperImpl {
 
     @Override
     public String upload(File file, String path) {
         log.debug("FileHelperLocal");
         return null;
+    }
+
+    @Override
+    public void delete(String filePath) {
+
     }
 
 }

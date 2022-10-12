@@ -5,17 +5,17 @@ import com.faber.AdminBootstrap;
 import com.faber.common.file.FileHelperImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.io.File;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {AdminBootstrap.class}, properties = {"default.setting.file.saveType=local"}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {AdminBootstrap.class}, properties = {"system.setting.file.saveType=local"}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FileSaveLocalTest {
 
-    @Autowired
+    @Resource
     private FileHelperImpl fileHelper;
 
     @Test

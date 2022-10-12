@@ -29,8 +29,10 @@ socketio:
   host: 127.0.0.1
   port: 8581
 
-# Qiniu
-qiniu:
-  # 这里是增加一层路径，用于区分
-  prefix: test
-
+default:
+  setting:
+    file:
+      # 系统文件存储方式: local-本地存储/qiniu-七牛云
+      saveType: local
+      # 这里是增加一层路径，用于区分
+      prefix: test

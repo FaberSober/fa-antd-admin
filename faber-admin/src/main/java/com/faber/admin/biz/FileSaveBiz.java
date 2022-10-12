@@ -4,10 +4,9 @@ import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.faber.admin.entity.FileSave;
 import com.faber.admin.mapper.FileSaveMapper;
-import com.faber.common.bean.BaseCrtEntity;
 import com.faber.common.biz.BaseBiz;
-import com.faber.common.context.BaseContextHandler;
 import com.faber.common.exception.BuzzException;
+import com.faber.common.file.FileHelperImpl;
 import com.faber.common.util.FaFileUtils;
 import com.faber.common.util.file.QiniuHelper;
 import org.apache.commons.io.FileUtils;
@@ -21,8 +20,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Farando
@@ -31,6 +28,9 @@ import java.util.List;
  */
 @Service
 public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
+
+    @Resource
+    private FileHelperImpl fileHelper;
 
     @Resource
     private QiniuHelper qiniuHelper;
@@ -43,25 +43,8 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
         return data;
     }
 
-    public List<FileSave> getMine() {
-        return lambdaQuery()
-                .eq(BaseCrtEntity::getCrtUser, getCurrentUserId())
-                .orderByAsc(FileSave::getId)
-                .list();
-    }
-
-    public void deleteMine(JSONObject json) {
-        String userId = BaseContextHandler.getUserId();
-        String ids = json.getString("ids");
-        String[] idArr = ids.split(",");
-        Arrays.asList(idArr).parallelStream().forEach(id -> {
-            FileSave fileSave = getById(id);
-            if (fileSave != null && userId.equals(fileSave.getCrtUser())) {
-                // 删除七牛云上的文件
-                qiniuHelper.delete(fileSave.getUrl());
-                removeById(id);
-            }
-        });
+    public FileSave uploadFile(MultipartFile file) throws IOException {
+        return null;
     }
 
     /**
@@ -108,29 +91,6 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
         save(fileSaveEntity);
 
         return fileSaveEntity;
-    }
-
-    public File getLocalFileById(String fileId) throws IOException {
-        FileSave fileSaveEntity = getById(fileId);
-
-        if (fileSaveEntity == null) throw new BuzzException("未找到上传文件");
-        return this.getLocalFileByFile(fileSaveEntity);
-    }
-
-    public File getLocalFileByFile(FileSave fileSaveEntity) throws IOException {
-        if (fileSaveEntity.getUrl().contains("..")) {
-            throw new BuzzException("非法文件名");
-        }
-        File path = new File(ResourceUtils.getURL("classpath:").getPath());
-        if (!path.exists()) path = new File("");
-//        File file = new ClassPathResource(fileEntity.getUrl()).getFile();
-        File file = new File(path.getAbsolutePath(), fileSaveEntity.getUrl());
-
-        if (!file.exists()) {
-            throw new BuzzException("文件未找到");
-        }
-
-        return file;
     }
 
     public void getLocalFile(String fileId) throws IOException {

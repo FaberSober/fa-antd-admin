@@ -11,14 +11,26 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 @RequestMapping("/api/admin/fileSave")
 public class FileSaveController extends BaseController<FileSaveBiz, FileSave, String> {
 
     /**
-     * 获取七牛云上传token
+     * 通用上传文件
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/local/uploadFile")
+    @ResponseBody
+    public ObjectRestResponse<FileSave> uploadLocalFile(@RequestParam("file") MultipartFile file) throws IOException {
+        FileSave data = baseBiz.uploadFile(file);
+        return ok(data);
+    }
+
+    /**
+     * 【七牛云】获取七牛云上传token
      * @return
      */
     @GetMapping("/getQiniuUploadToken")
@@ -28,63 +40,16 @@ public class FileSaveController extends BaseController<FileSaveBiz, FileSave, St
         return ok(json);
     }
 
-    @GetMapping("/getMine")
-    @ResponseBody
-    public ObjectRestResponse<List<FileSave>> getMine() {
-        List<FileSave> list = baseBiz.getMine();
-        return ok(list);
-    }
-
-    @PostMapping("/deleteMine")
-    @ResponseBody
-    public ObjectRestResponse<Boolean> deleteMine(@RequestBody JSONObject json) {
-        baseBiz.deleteMine(json);
-        return ok(true);
-    }
-
-    @PostMapping("/uploadHtmlImage")
-    @ResponseBody
-//    @IgnoreUserToken
-    public JSONObject uploadHtmlImage(@RequestParam("file") MultipartFile file) throws IOException {
-        JSONObject jo = baseBiz.uploadToQiniu(file, "html/file");
-        return jo;
-    }
-
-    @PostMapping("/uploadImage")
-    @ResponseBody
-//    @IgnoreUserToken
-    public ObjectRestResponse<JSONObject> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
-        JSONObject jo = baseBiz.uploadToQiniu(file, "file");
-        return ok(jo);
-    }
-
-    @PostMapping("/uploadEditor")
-    @ResponseBody
-    public ObjectRestResponse<String> uploadEditor(@RequestParam("file") MultipartFile file) throws IOException {
-        JSONObject jo = baseBiz.uploadToQiniu(file, "editor/file");
-        String url = jo.getString("url");
-        return ok(url);
-    }
-
-    @PostMapping("/local/uploadFile")
-    @ResponseBody
-    public ObjectRestResponse<FileSave> uploadLocalFile(@RequestParam("file") MultipartFile file) throws IOException {
-        FileSave data = baseBiz.uploadLocalFile(file);
-        return ok(data);
-    }
-
+    /**
+     * 【本地文件】根据文件ID返回文件流
+     * @param fileId
+     * @throws IOException
+     */
     @GetMapping("/local/getFile/{fileId}")
     @ResponseBody
     @IgnoreUserToken
     public void getLocalFile(@PathVariable("fileId") String fileId) throws IOException {
         baseBiz.getLocalFile(fileId);
-    }
-
-    @GetMapping("/local/getLocalFile")
-    @ResponseBody
-    @IgnoreUserToken
-    public void getLocalFilePath(@RequestParam("filePath") String filePath) throws IOException {
-        baseBiz.getLocalFilePath(filePath);
     }
 
     @PostMapping("/uploadTinyMCEFile")

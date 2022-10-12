@@ -15,4 +15,6 @@ public interface FileHelperImpl {
      */
     String upload(File file, String path);
 
+    void delete(String filePath);
+
 }
