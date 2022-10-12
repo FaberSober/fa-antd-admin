@@ -123,6 +123,9 @@ qiniu:
 # 一些默认配置
 default:
   setting:
+    # 系统文件存储方式: local-本地存储/qiniu-七牛云
+    file:
+      saveType: local
     # 高德地图SDK
     amap:
       key: xx
