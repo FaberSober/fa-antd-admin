@@ -1,5 +1,6 @@
 package com.faber.common.util;
 
+import cn.hutool.core.date.DateUtil;
 import org.springframework.core.io.ClassPathResource;
 
 import javax.servlet.http.HttpServletResponse;
@@ -7,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.Date;
 
 public class FaFileUtils {
 
@@ -42,7 +44,7 @@ public class FaFileUtils {
      * @return
      */
     public static String addTimestampToFileName(String fileName) {
-        String now = System.currentTimeMillis() + "";
+        String now = DateUtil.format(new Date(), "yyyyMMddHHmmss");
 
         if (fileName == null) return now;
 
