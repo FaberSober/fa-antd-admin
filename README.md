@@ -81,6 +81,7 @@ public enum BoolEnum implements IEnum<Integer> {
 | use-bus | bus事件通知 | https://github.com/fabienjuif/use-bus |
 | tailwindcss | tailwindcss | https://tailwindcss.com |
 | react-use | React Hooks — 👍 | https://github.com/streamich/react-use |
+| tinymce | 富文本编辑器 | https://github.com/tinymce/tinymce |
 
 ## 后端注解
 | 注解 | 说明 |
