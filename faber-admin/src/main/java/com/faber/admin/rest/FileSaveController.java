@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.faber.admin.biz.FileSaveBiz;
 import com.faber.admin.config.annotation.IgnoreUserToken;
 import com.faber.admin.entity.FileSave;
+import com.faber.common.annotation.LogNoRet;
 import com.faber.common.rest.BaseController;
 import com.faber.common.vo.msg.ObjectRestResponse;
 import org.springframework.stereotype.Controller;
@@ -48,6 +49,7 @@ public class FileSaveController extends BaseController<FileSaveBiz, FileSave, St
     @GetMapping("/getFile/{fileId}")
     @ResponseBody
     @IgnoreUserToken
+    @LogNoRet
     public void getFile(@PathVariable("fileId") String fileId) throws IOException {
         baseBiz.getFile(fileId);
     }

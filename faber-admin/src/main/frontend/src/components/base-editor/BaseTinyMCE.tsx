@@ -80,7 +80,7 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
             images_upload_handler: (blobInfo, progress) => new Promise((resolve, reject) => {
               const formData = new FormData();
               formData.append('file', blobInfo.blob(), blobInfo.filename());
-              fileSaveApi.uploadFileForm(formData).then(res => {
+              fileSaveApi.uploadFileForm(formData, (pe) => progress(pe.loaded / pe.total * 100)).then(res => {
                 resolve(res.data.localUrl);
               })
             }),
