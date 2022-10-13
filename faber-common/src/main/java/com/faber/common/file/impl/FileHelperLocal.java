@@ -42,7 +42,7 @@ public class FileHelperLocal implements FileHelperImpl {
     }
 
     private String getAbsolutePath() throws IOException {
-        return new File(ResourceUtils.getURL("classpath:").getPath()).getAbsolutePath();
+        return new File(ResourceUtils.getURL("classpath:").getPath()).getAbsolutePath() + "/static";
     }
 
     /**
@@ -50,7 +50,7 @@ public class FileHelperLocal implements FileHelperImpl {
      * @return
      */
     private String getDirPath() {
-        return "/static/" + systemSetting.getFile().getPrefix() + "/";
+        return "/" + systemSetting.getFile().getPrefix() + "/";
     }
 
 }

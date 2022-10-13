@@ -1,10 +1,9 @@
-import React, {CSSProperties, useEffect, useImperativeHandle, useRef, useState} from 'react';
+import React, {CSSProperties, useEffect, useImperativeHandle, useRef} from 'react';
 import {Editor} from '@tinymce/tinymce-react';
 import {useSize} from "ahooks";
-import { trim } from 'lodash';
-import {v4 as uuidv4} from 'uuid';
+import {trim} from 'lodash';
 import {SITE_INFO} from "@/configs/server.config";
-import {fetchUploadImgQiniu} from "@/components/base-uploader";
+import fileSaveApi from '@/services/admin/fileSave'
 
 
 export interface BaseHtmlNEditorProps {
@@ -100,21 +99,25 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
 
                 const reader = new FileReader();
                 reader.addEventListener('load', () => {
-                  fetchUploadImgQiniu(
-                    file,
-                    'editor/image',
-                    file.name,
-                    (path, res) => {
-                      /* call the callback and populate the Title field with the file name */
-                      cb(path, { title: file.name });
-                    },
-                    (res) => {
-                      const { percent } = res.total;
-                    },
-                    (res) => {
-                      // onError(new Error(res), file);
-                    }
-                  );
+                  fileSaveApi.uploadFile(file).then(res => {
+                    cb(res.data.url, { title: file.name });
+                  })
+
+                  // fetchUploadImgQiniu(
+                  //   file,
+                  //   'editor/image',
+                  //   file.name,
+                  //   (path, res) => {
+                  //     /* call the callback and populate the Title field with the file name */
+                  //     cb(path, { title: file.name });
+                  //   },
+                  //   (res) => {
+                  //     const { percent } = res.total;
+                  //   },
+                  //   (res) => {
+                  //     // onError(new Error(res), file);
+                  //   }
+                  // );
                 });
                 reader.readAsDataURL(file);
               });

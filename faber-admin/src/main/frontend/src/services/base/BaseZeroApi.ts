@@ -17,6 +17,12 @@ export default class BaseZeroApi {
 
 	post = <E>(api: string, body: object, config?: AxiosRequestConfig) => requestPost<E>(`${this.apiPrefix}/${this.apiModal}/${api}`, body, config);
 
+  postFile = <E>(api: string, file: any, config?: AxiosRequestConfig) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    return requestPost<E>(`${this.apiPrefix}/${this.apiModal}/${api}`, formData, { ...config, headers: { 'Content-type' : 'multipart/form-data' } });
+  }
+
 	put = <E>(api: string, body: object, config?: AxiosRequestConfig) => requestPut<E>(`${this.apiPrefix}/${this.apiModal}/${api}`, body, config);
 
 	download = (api: string, body: object, config?: AxiosRequestConfig) => requestDownload(`${this.apiPrefix}/${this.apiModal}/${api}`, body, config);

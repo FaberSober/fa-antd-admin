@@ -16,6 +16,8 @@ class FileSaveApi extends BaseApi<Admin.FileSave, string> {
 	/** 获取七牛云上传token */
 	getQiniuUploadToken = (): Promise<Fa.Response<UploadToken>> => this.get(`getQiniuUploadToken`);
 
+  uploadFile = (file:any): Promise<Fa.Response<Admin.FileSave>> => this.postFile('uploadFile', file)
+
 	uploadApi = this.getUrl(`uploadFile`);
 
 	genLocalGetFile = (fileId: string) => {
