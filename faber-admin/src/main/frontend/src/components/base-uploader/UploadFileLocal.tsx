@@ -88,7 +88,7 @@ export default function UploadFileLocal({ children, description, onChange, value
   return (
     <Upload
       name="file"
-      action={fileApi.localUploadApi}
+      action={fileApi.uploadApi}
       headers={{
         [TOKEN_KEY]: getToken() || '',
       }}

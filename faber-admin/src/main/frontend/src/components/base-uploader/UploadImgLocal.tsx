@@ -99,7 +99,7 @@ export default function UploadImgQiniu({ value, onImgUploadSuccess, prefix, onCh
       name="file"
       listType="picture-card"
       // className="avatar-uploader"
-      action={fileApi.localUploadApi}
+      action={fileApi.uploadApi}
       headers={{
         [TOKEN_KEY]: getToken() || '',
       }}

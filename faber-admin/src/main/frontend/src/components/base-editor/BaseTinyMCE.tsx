@@ -102,7 +102,7 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
                 reader.addEventListener('load', () => {
                   fetchUploadImgQiniu(
                     file,
-                    'editor/file',
+                    'editor/image',
                     file.name,
                     (path, res) => {
                       /* call the callback and populate the Title field with the file name */

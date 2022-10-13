@@ -22,7 +22,7 @@ public class FileSaveController extends BaseController<FileSaveBiz, FileSave, St
      * @return
      * @throws IOException
      */
-    @PostMapping("/local/uploadFile")
+    @PostMapping("/uploadFile")
     @ResponseBody
     public ObjectRestResponse<FileSave> uploadLocalFile(@RequestParam("file") MultipartFile file) throws IOException {
         FileSave data = baseBiz.uploadFile(file);
