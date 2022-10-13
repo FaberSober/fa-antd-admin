@@ -18,6 +18,8 @@ class FileSaveApi extends BaseApi<Admin.FileSave, string> {
 
   uploadFile = (file:any): Promise<Fa.Response<Admin.FileSave>> => this.postFile('uploadFile', file)
 
+  uploadFileForm = (formData:any): Promise<Fa.Response<Admin.FileSave>> => this.postForm('uploadFile', formData)
+
 	uploadApi = this.getUrl(`uploadFile`);
 
 	genLocalGetFile = (fileId: string) => {

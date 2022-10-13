@@ -41,24 +41,15 @@ public class FileSaveController extends BaseController<FileSaveBiz, FileSave, St
     }
 
     /**
-     * 【本地文件】根据文件ID返回文件流
+     * 根据文件ID返回文件流
      * @param fileId
      * @throws IOException
      */
-    @GetMapping("/local/getFile/{fileId}")
+    @GetMapping("/getFile/{fileId}")
     @ResponseBody
     @IgnoreUserToken
-    public void getLocalFile(@PathVariable("fileId") String fileId) throws IOException {
-        baseBiz.getLocalFile(fileId);
-    }
-
-    @PostMapping("/uploadTinyMCEFile")
-    @ResponseBody
-    @IgnoreUserToken
-    public JSONObject uploadTinyMCEFile(@RequestParam("file") MultipartFile file) throws IOException {
-        JSONObject jo = baseBiz.uploadToQiniu(file, "editor/file");
-        jo.put("location", jo.getString("url")); // tinymce固定取值字段为location
-        return jo;
+    public void getFile(@PathVariable("fileId") String fileId) throws IOException {
+        baseBiz.getFile(fileId);
     }
 
 }

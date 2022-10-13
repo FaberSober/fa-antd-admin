@@ -1,15 +1,12 @@
 package com.faber.admin.biz;
 
-import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.faber.admin.entity.FileSave;
 import com.faber.admin.mapper.FileSaveMapper;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.file.FileHelperImpl;
-import com.faber.common.util.FaFileUtils;
 import com.faber.common.util.file.QiniuHelper;
-import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -62,27 +59,7 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
         return fileSaveEntity;
     }
 
-    /**
-     * 上传文件到七牛云
-     * @param file
-     * @param dir 前置路径，如：user/import
-     * @return
-     * @throws IOException
-     */
-    public JSONObject uploadToQiniu(MultipartFile file, String dir) throws IOException {
-        // 拼接路径
-        String path = dir + "/" + DateUtil.today() + "/" + FaFileUtils.addTimestampToFileName(file.getOriginalFilename());
-
-        String fullPath = qiniuHelper.upload(file.getInputStream(), path);
-        JSONObject jo = new JSONObject();
-        jo.put("state", "SUCCESS");
-        jo.put("url", fullPath);
-        jo.put("title", file.getOriginalFilename());
-        jo.put("original", file.getOriginalFilename());
-        return jo;
-    }
-
-    public void getLocalFile(String fileId) throws IOException {
+    public void getFile(String fileId) throws IOException {
         FileSave fileSaveEntity = getById(fileId);
         this.getLocalFilePath(fileSaveEntity.getUrl());
     }

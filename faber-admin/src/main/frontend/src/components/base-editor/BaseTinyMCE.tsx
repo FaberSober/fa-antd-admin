@@ -76,7 +76,14 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
              * 需要在后台提供对应API的接口，参考：https://www.tiny.cloud/docs/advanced/php-upload-handler/
              * 返回数据json格式为：{ location : '/your/uploaded/image/file'}
              */
-            images_upload_url: SITE_INFO.TINYMCE_FILE_UPLOAD_API,
+            // images_upload_url: SITE_INFO.TINYMCE_FILE_UPLOAD_API,
+            images_upload_handler: (blobInfo, progress) => new Promise((resolve, reject) => {
+              const formData = new FormData();
+              formData.append('file', blobInfo.blob(), blobInfo.filename());
+              fileSaveApi.uploadFileForm(formData).then(res => {
+                resolve(res.data.url);
+              })
+            }),
             /* enable title field in the Image dialog*/
             image_title: true,
             /* enable automatic uploads of images represented by blob or data URIs*/
