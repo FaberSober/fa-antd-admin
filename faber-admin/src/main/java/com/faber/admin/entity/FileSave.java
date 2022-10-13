@@ -2,6 +2,7 @@ package com.faber.admin.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.bean.BaseDelEntity;
@@ -34,5 +35,10 @@ public class FileSave extends BaseDelEntity {
     @ExcelProperty("存储类型")
     private FileSaveDriveEnum drive;
 
+    /**
+     * 本地服务器访问路径。全部走本服务器的网络访问
+     */
+    @TableField(exist = false)
+    private String localUrl;
 
 }

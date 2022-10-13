@@ -81,7 +81,7 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
               const formData = new FormData();
               formData.append('file', blobInfo.blob(), blobInfo.filename());
               fileSaveApi.uploadFileForm(formData).then(res => {
-                resolve(res.data.url);
+                resolve(res.data.localUrl);
               })
             }),
             /* enable title field in the Image dialog*/
@@ -106,10 +106,12 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
 
                 const reader = new FileReader();
                 reader.addEventListener('load', () => {
+                  // 走自己服务器上传，节省自己服务器带宽
                   fileSaveApi.uploadFile(file).then(res => {
-                    cb(res.data.url, { title: file.name });
+                    cb(res.data.localUrl, { title: file.name });
                   })
 
+                  // 走七牛云服务器上传，节省自己服务器带宽
                   // fetchUploadImgQiniu(
                   //   file,
                   //   'editor/image',

@@ -205,6 +205,7 @@ namespace Admin {
 		id: string;
 		name: string;
 		url: string;
+    localUrl: string;
 		size: number;
 		drive: FaEnums.FileSaveDriveEnum;
 	}
