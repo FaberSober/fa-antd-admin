@@ -17,7 +17,6 @@ export const SITE_INFO = {
 	],
 	HELP_DOC_SITE: 'http://doc.xxx.dward.cn/docs/xxx-doc-help',
 	HOME_LINK: '/admin', // 首页跳转链接
-  TINYMCE_FILE_UPLOAD_API: '/api/admin/fileSave/uploadTinyMCEFile', // tinymce编辑器文件上传接口
 };
 
 /** -------------------------------- 网关配置 -------------------------------- */
