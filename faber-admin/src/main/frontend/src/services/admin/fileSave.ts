@@ -16,11 +16,11 @@ class FileSaveApi extends BaseApi<Admin.FileSave, string> {
 	/** 获取七牛云上传token */
 	getQiniuUploadToken = (): Promise<Fa.Response<UploadToken>> => this.get(`getQiniuUploadToken`);
 
-  uploadFile = (file:any): Promise<Fa.Response<Admin.FileSave>> => this.postFile('uploadFile', file)
+  uploadFile = (file:any): Promise<Fa.Response<Admin.FileSave>> => this.postFile('upload', file)
 
-  uploadFileForm = (formData:any): Promise<Fa.Response<Admin.FileSave>> => this.postForm('uploadFile', formData)
+  uploadFileForm = (formData:any): Promise<Fa.Response<Admin.FileSave>> => this.postForm('upload', formData)
 
-	uploadApi = this.getUrl(`uploadFile`);
+	uploadApi = this.getUrl(`upload`);
 
 	genLocalGetFile = (fileId: string) => {
 		if (fileId === undefined || fileId == null) return '';

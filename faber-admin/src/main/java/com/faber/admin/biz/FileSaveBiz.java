@@ -38,15 +38,7 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
         return super.save(entity);
     }
 
-    public JSONObject getQiniuUploadToken() {
-        String token = qiniuHelper.getUploadToken();
-        JSONObject data = new JSONObject();
-        data.put("token", token);
-        data.put("host", qiniuHelper.getHost());
-        return data;
-    }
-
-    public FileSave uploadFile(MultipartFile file) throws IOException {
+    public FileSave upload(MultipartFile file) throws IOException {
         String url = fileHelper.upload(file);
 
         FileSave fileSaveEntity = new FileSave();
@@ -61,7 +53,18 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
 
     public void getFile(String fileId) throws IOException {
         FileSave fileSaveEntity = getById(fileId);
-        this.getLocalFilePath(fileSaveEntity.getUrl());
+
+        switch (fileSaveEntity.getDrive()) {
+            case LOCAL:
+                this.getLocalFilePath(fileSaveEntity.getUrl());
+                break;
+            case QINIU:
+            case ALI:
+            case TX:
+                HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+                response.sendRedirect(fileSaveEntity.getUrl());
+                break;
+        }
     }
 
     /**
@@ -100,6 +103,14 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
             out.write(buffer, 0, len);
         }
         in.close();
+    }
+
+    public JSONObject getQiniuUploadToken() {
+        String token = qiniuHelper.getUploadToken();
+        JSONObject data = new JSONObject();
+        data.put("token", token);
+        data.put("host", qiniuHelper.getHost());
+        return data;
     }
 
 }
