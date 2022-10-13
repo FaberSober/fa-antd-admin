@@ -25,8 +25,8 @@ public class FileHelperLocal implements FileHelperImpl {
     private SystemSetting systemSetting;
 
     @Override
-    public String upload(InputStream is, String fileName) throws IOException {
-        String fileSavePath = getDirPath() + "file/" + DateUtil.today() + "/" + FaFileUtils.addTimestampToFileName(fileName);
+    public String upload(InputStream is, String dir, String fileName) throws IOException {
+        String fileSavePath = getDirPath() + dir + "/" + DateUtil.today() + "/" + FaFileUtils.addTimestampToFileName(fileName);
 
         File exportFile = new File(getAbsolutePath(), fileSavePath);
         FileUtils.copyInputStreamToFile(is, exportFile);

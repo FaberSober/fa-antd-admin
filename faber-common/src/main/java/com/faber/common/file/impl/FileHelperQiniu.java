@@ -26,8 +26,8 @@ public class FileHelperQiniu implements FileHelperImpl {
     private QiniuHelper qiniuHelper;
 
     @Override
-    public String upload(InputStream is, String fileName) throws IOException {
-        String path = systemSetting.getFile().getPrefix() + "/file/" + DateUtil.today() + "/" + FaFileUtils.addTimestampToFileName(fileName);
+    public String upload(InputStream is, String dir, String fileName) throws IOException {
+        String path = systemSetting.getFile().getPrefix() + "/" + dir + "/" + DateUtil.today() + "/" + FaFileUtils.addTimestampToFileName(fileName);
         return qiniuHelper.upload(is, path);
     }
 

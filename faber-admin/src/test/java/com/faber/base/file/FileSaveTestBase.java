@@ -14,7 +14,7 @@ public abstract class FileSaveTestBase {
 
     public String upload() throws IOException {
         File file = new File("/Users/xupengfei/Downloads/tmp/logo.png");
-        String url = getFileHelper().upload(new FileInputStream(file), file.getName());
+        String url = getFileHelper().upload(new FileInputStream(file), "file/test", file.getName());
         System.out.println(url);
         return url;
     }
