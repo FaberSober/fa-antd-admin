@@ -73,11 +73,6 @@ export default defineConfig(({ command, mode }) => {
           target: env.VITE_APP_BASE_URL,
           changeOrigin: true,
         },
-        // 服务器本地文件访问转发（dev）
-        '/dev': {
-          target: env.VITE_APP_BASE_URL,
-          changeOrigin: true,
-        },
       },
     },
   }
