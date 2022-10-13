@@ -1,5 +1,9 @@
 package com.faber.common.file;
 
+import cn.hutool.extra.spring.SpringUtil;
+import com.faber.common.constant.SystemSetting;
+import com.faber.common.enums.FileSaveDriveEnum;
+import com.faber.common.exception.BuzzException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -39,5 +43,20 @@ public interface FileHelperImpl {
     String upload(InputStream is, String dir, String fileName) throws IOException;
 
     void delete(String filePath) throws IOException;
+
+    default FileSaveDriveEnum getDrive() {
+        SystemSetting systemSetting = SpringUtil.getBean(SystemSetting.class);
+        switch (systemSetting.getFile().getSaveType()) {
+            case "local":
+                return FileSaveDriveEnum.LOCAL;
+            case "qiniu":
+                return FileSaveDriveEnum.QINIU;
+            case "ali":
+                return FileSaveDriveEnum.ALI;
+            case "tx":
+                return FileSaveDriveEnum.TX;
+        }
+        throw new BuzzException("配置文件中未指定文件存储类型");
+    }
 
 }

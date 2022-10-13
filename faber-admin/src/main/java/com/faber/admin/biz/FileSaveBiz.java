@@ -35,6 +35,12 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> {
     @Resource
     private QiniuHelper qiniuHelper;
 
+    @Override
+    public boolean save(FileSave entity) {
+        entity.setDrive(fileHelper.getDrive());
+        return super.save(entity);
+    }
+
     public JSONObject getQiniuUploadToken() {
         String token = qiniuHelper.getUploadToken();
         JSONObject data = new JSONObject();

@@ -18,7 +18,7 @@ public class SystemSetting {
     @Data
     public static class File {
         /**
-         * 系统文件存储方式: local-本地存储/qiniu-七牛云
+         * 系统文件存储方式: local-本地存储/qiniu-七牛云/ali-阿里云/tx-腾讯云
          */
         private String saveType;
         /**
