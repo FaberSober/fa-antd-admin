@@ -17,6 +17,13 @@ namespace FaEnums {
     UNKNOWN = 2,
   }
 
+  export enum FileSaveDriveEnum {
+    LOCAL = 1,
+    QINIU = 2,
+    ALI = 3,
+    TX = 4,
+  }
+
   // ------------------------------------ RBAC ------------------------------------
   export enum RbacMenuLevelEnum {
     APP = 0,

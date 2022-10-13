@@ -206,6 +206,7 @@ namespace Admin {
 		name: string;
 		url: string;
 		size: number;
+		drive: FaEnums.FileSaveDriveEnum;
 	}
 
 	// -------------------------------------------- 系统-通知与公告 --------------------------------------------

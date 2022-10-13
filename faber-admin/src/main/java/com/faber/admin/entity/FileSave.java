@@ -4,6 +4,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.bean.BaseUpdEntity;
 import com.faber.common.enums.FileSaveDriveEnum;
 import lombok.Data;
@@ -16,7 +17,7 @@ import lombok.Data;
  */
 @TableName("base_file_save")
 @Data
-public class FileSave extends BaseUpdEntity {
+public class FileSave extends BaseDelEntity {
 
     @TableId(type = IdType.ASSIGN_UUID)
     private String id;
