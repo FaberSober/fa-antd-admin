@@ -106,6 +106,20 @@ namespace Fa {
   }
 
   /**
+   * 通用entity新增、编辑弹框的属性
+   */
+  export interface CommonViewIdModalProps<T> extends DragModalProps {
+    id: T;
+  }
+
+  /**
+   * 通用entity新增、编辑弹框的属性
+   */
+  export interface CommonViewModalProps<T> extends DragModalProps {
+    record: T;
+  }
+
+  /**
    * 通用查询组合参数
    */
   export interface InitQueryParams {

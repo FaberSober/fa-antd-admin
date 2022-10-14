@@ -70,7 +70,6 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
     public void updateName(Map<String, Object> params) {
         int id = MapUtils.getInteger(params, "id");
         DiskDir diskDir = getById(id);
-        checkBeanValid(diskDir);
 
         diskDir.setName(MapUtils.getString(params, "name"));
         updateById(diskDir);
@@ -183,7 +182,6 @@ public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
 
         if (toDirId != -1) {
             DiskDir toDir = getById(toDirId);
-            checkBeanValid(toDir);
         }
 
         sourceList.forEach(source -> {

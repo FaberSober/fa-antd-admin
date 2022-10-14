@@ -1,6 +1,7 @@
 import DictDataSelector from './DictDataSelector';
 import DictEnumSelector from './DictEnumSelector';
 import DictEnumApiSelector from './DictEnumApiSelector';
+import DictEnumApiShow from './DictEnumApiShow';
 import DictDataRadio from './DictDataRadio';
 import DictDataShow from './DictDataShow';
 import BaseAuditRadio from './BaseAuditRadio';
@@ -16,6 +17,7 @@ export {
   DictDataSelector,
   DictEnumSelector,
   DictEnumApiSelector,
+  DictEnumApiShow,
   DictDataRadio,
   DictDataShow,
   BaseAuditRadio,

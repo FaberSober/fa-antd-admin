@@ -24,6 +24,18 @@ namespace FaEnums {
     TX = 4,
   }
 
+  export enum EntityLogActionEnum {
+    ADD = 1,
+    UPDATE = 2,
+    DEL = 3,
+  }
+
+  export const EntityLogActionEnumMap = {
+    [FaEnums.EntityLogActionEnum.ADD]: '新增',
+    [FaEnums.EntityLogActionEnum.UPDATE]: '更新',
+    [FaEnums.EntityLogActionEnum.DEL]: '删除',
+  }
+
   // ------------------------------------ RBAC ------------------------------------
   export enum RbacMenuLevelEnum {
     APP = 0,

@@ -390,6 +390,21 @@ namespace Admin {
     addr: string;
   }
 
+  // -------------------------------------------- 系统-实体变更日志 --------------------------------------------
+  /** BASE- 实体变更日志 */
+  export interface EntityLog extends Fa.BaseCrtEntity {
+    /** ID */
+    id: number;
+    /** 业务类型 */
+    bizType: string;
+    /** 业务ID */
+    bizId: string;
+    /** 动作1新增/2更新/3删除 */
+    action: FaEnums.EntityLogActionEnum;
+    /** 动作内容 */
+    content: string;
+  }
+
 }
 
 export default Admin;

@@ -23,16 +23,16 @@ public class BookBiz extends BaseBiz<BookMapper, Book> {
     @Resource
     private DetailBiz detailBiz;
 
-    public BookDetail getDetail(Integer id) {
-        Book book = getById(id);
-
-        List<BookOutlineDetail> detailList = detailBiz.getBaseMapper().getByBook(id);
-
-        BookDetail bd = new BookDetail();
-        bd.setBook(book);
-        bd.setDetailList(detailList);
-
-        return bd;
-    }
+//    public BookDetail getDetail(Integer id) {
+//        Book book = getById(id);
+//
+//        List<BookOutlineDetail> detailList = detailBiz.getBaseMapper().getByBook(id);
+//
+//        BookDetail bd = new BookDetail();
+//        bd.setBook(book);
+//        bd.setDetailList(detailList);
+//
+//        return bd;
+//    }
 
 }

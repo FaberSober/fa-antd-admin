@@ -67,6 +67,13 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok(o);
     }
 
+    @RequestMapping(value = "/getDetail/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public ObjectRestResponse<Entity> getDetail(@PathVariable Key id) {
+        Entity o = (Entity) baseBiz.getDetailById(id);
+        return ok(o);
+    }
+
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse<Entity> update(@Validated(value = ValidGroup.Crud.Update.class) @RequestBody Entity entity) {

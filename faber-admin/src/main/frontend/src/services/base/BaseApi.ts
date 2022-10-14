@@ -11,6 +11,9 @@ export default class BaseApi<T, KeyType, PageT = T> extends BaseZeroApi {
 	/** 获取唯一实体 */
 	findOne = (id: KeyType): Promise<Fa.Response<T>> => this.get(`get/${id}`);
 
+	/** 获取唯一实体 */
+  findOneDetail = (id: KeyType): Promise<Fa.Response<T>> => this.get(`getDetail/${id}`);
+
 	/** 更新实体 */
 	update = (id: KeyType, params: any): Promise<Fa.Response> => this.post('update', params);
 

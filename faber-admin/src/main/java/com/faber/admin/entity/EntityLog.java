@@ -1,0 +1,41 @@
+package com.faber.admin.entity;
+
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.faber.common.annotation.FaModalName;
+import com.faber.common.bean.BaseCrtEntity;
+import com.faber.common.enums.EntityLogActionEnum;
+import lombok.Data;
+
+
+/**
+ * BASE- 实体变更日志
+ * 
+ * @author Farando
+ * @email faberxu@gmail.com
+ * @date 2022-10-13 14:54:09
+ */
+@FaModalName(name = "BASE- 实体变更日志")
+@TableName("base_entity_log")
+@Data
+public class EntityLog extends BaseCrtEntity {
+
+    @ExcelProperty("ID")
+    @TableId(type = IdType.AUTO)
+    private Integer id;
+
+    @ExcelProperty("业务类型")
+    private String bizType;
+
+    @ExcelProperty("业务ID")
+    private String bizId;
+
+    @ExcelProperty("动作")
+    private EntityLogActionEnum action;
+
+    @ExcelProperty("动作内容")
+    private String content;
+
+}

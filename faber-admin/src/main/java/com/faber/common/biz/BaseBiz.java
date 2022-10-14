@@ -2,6 +2,7 @@ package com.faber.common.biz;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
@@ -38,6 +39,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -53,14 +55,10 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
 
     private ConfigMapper configMapper;
 
-    /**
-     * 校验Entity是否有效
-     */
-    @Deprecated
-    public void checkBeanValid(BaseDelEntity bean) {
-        if (bean == null || bean.getDelState() == DelStateEnum.DELETED) {
-            throw new BuzzException("No Data Found");
-        }
+    public T getDetailById(Serializable id) {
+        T item = super.getById(id);
+        this.decorateOne(item);
+        return item;
     }
 
     public List<T> mineList(QueryParams query) {
@@ -108,7 +106,11 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         }
     }
 
-    public void decorateList(List<T> list) {}
+    public void decorateOne(T i) {}
+
+    public void decorateList(List<T> list) {
+        list.forEach(this::decorateOne);
+    }
 
     public TableResultResponse<T> selectPageByQuery(QueryParams query) {
         QueryWrapper<T> wrapper = parseQuery(query);
@@ -209,6 +211,15 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         T user = super.getById(id);
         cache.put(id, user);
         return user;
+    }
+
+    public String updateValueToStr(Field field, Object value) {
+        if (value == null) return "";
+        if (IEnum.class.isAssignableFrom(field.getType())) {
+            return (String) ReflectUtil.getFieldValue(value, "desc");
+        }
+        if (value instanceof Date) return DateUtil.formatDateTime((Date) value);
+        return StrUtil.toString(value);
     }
 
     public String getCurrentUserId() {

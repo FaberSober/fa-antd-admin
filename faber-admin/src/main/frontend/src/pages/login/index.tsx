@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {FieldNumberOutlined, LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Form, Input} from 'antd';
@@ -9,13 +9,22 @@ import {SITE_INFO} from '@/configs/server.config';
 import {Captcha} from "@/components/base-field";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import styles from './login.module.less'
+import Admin from "@/props/admin";
+import rbacUserRoleApi from "@/services/rbac/rbacUserRole";
+import dictApi from "@/services/admin/dict";
 
 export default function Login() {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
+  const [systemConfig, setSystemConfig] = useState<Admin.SystemConfigPo>();
   const [code, setCode] = useState('');
+
+  useEffect(() => {
+    // 获取系统配置参数
+    dictApi.getSystemConfig().then((res) => setSystemConfig(res.data))
+  }, [])
 
   function onFinish(fieldsValue: any) {
     login(fieldsValue.username, fieldsValue.password).then((res) => {
@@ -38,8 +47,8 @@ export default function Login() {
   return (
     <div className={styles['main-container']}>
       <div className={styles['login-container']}>
-        <h1 style={{ color: '#FFF' }}>{SITE_INFO.WEB_CONTEXT_TITLE}</h1>
-        <span style={{ color: '#FFF', marginBottom: 24 }}>{SITE_INFO.WEB_CONTEXT_DESC_EN}</span>
+        <h1 style={{ color: '#FFF' }}>{systemConfig?.title || '-'}</h1>
+        <span style={{ color: '#FFF', marginBottom: 24 }}>{systemConfig?.title || '-'}</span>
         <div className={styles.main}>
           <div>
             <div className={styles.title}>用户登录</div>
