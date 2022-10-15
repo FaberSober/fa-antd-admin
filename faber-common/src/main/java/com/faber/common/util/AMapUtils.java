@@ -17,7 +17,7 @@ import java.util.Map;
 @Component
 public class AMapUtils {
 
-    @Value("${system.setting.amap.key}")
+    @Value("${fa.setting.amap.key}")
     private String key;
 
     public static final String API_GET_LOC_BY_IP = "http://restapi.amap.com/v3/ip?key=%1$s&ip=%2$s";

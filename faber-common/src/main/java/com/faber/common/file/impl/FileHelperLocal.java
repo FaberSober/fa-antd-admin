@@ -2,7 +2,7 @@ package com.faber.common.file.impl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.faber.common.constant.SystemSetting;
+import com.faber.common.constant.FaSetting;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.file.FileHelperImpl;
 import com.faber.common.util.FaFileUtils;
@@ -22,11 +22,11 @@ import java.net.URLEncoder;
 
 @Slf4j
 @Service
-@ConditionalOnProperty(name = "system.setting.file.saveType", havingValue = "local")
+@ConditionalOnProperty(name = "fa.setting.file.saveType", havingValue = "local")
 public class FileHelperLocal implements FileHelperImpl {
 
     @Resource
-    private SystemSetting systemSetting;
+    private FaSetting faSetting;
 
     @Override
     public String upload(InputStream is, String dir, String fileName) throws IOException {
@@ -66,7 +66,7 @@ public class FileHelperLocal implements FileHelperImpl {
      * @return
      */
     private String getDirPath() {
-        return "/" + systemSetting.getFile().getPrefix() + "/";
+        return "/" + faSetting.getFile().getPrefix() + "/";
     }
 
 

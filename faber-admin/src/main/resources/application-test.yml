@@ -29,7 +29,7 @@ socketio:
   host: 127.0.0.1
   port: 8581
 
-default:
+fa:
   setting:
     file:
       # 系统文件存储方式: local-本地存储/qiniu-七牛云

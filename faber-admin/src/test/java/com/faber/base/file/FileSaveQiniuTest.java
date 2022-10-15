@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {AdminBootstrap.class}, properties = {"system.setting.file.saveType=qiniu"}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {AdminBootstrap.class}, properties = {"fa.setting.file.saveType=qiniu"}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FileSaveQiniuTest extends FileSaveTestBase {
 
     @Resource

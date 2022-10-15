@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {AdminBootstrap.class}, properties = {"system.setting.file.saveType=local"}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {AdminBootstrap.class}, properties = {"fa.setting.file.saveType=local"}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FileSaveLocalTest extends FileSaveTestBase {
 
     @Resource

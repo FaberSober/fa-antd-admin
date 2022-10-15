@@ -110,8 +110,7 @@ jwt:
   expire: 86400
   secret: 2022#8m3n@faber-admin-web
 
-# Qiniu
-# 存储区域：https://developer.qiniu.com/kodo/1671/region-endpoint-fq
+# 七牛云存储
 qiniu:
   accessKey: xxx
   secretKey: xxx
@@ -119,7 +118,7 @@ qiniu:
   host: http://xxx
 
 # 一些默认配置
-system:
+fa:
   setting:
     file:
       # 系统文件存储方式: local-本地存储/qiniu-七牛云

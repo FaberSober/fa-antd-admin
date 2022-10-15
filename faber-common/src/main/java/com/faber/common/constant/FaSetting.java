@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Component
-@ConfigurationProperties(prefix = "system.setting")
-public class SystemSetting {
+@ConfigurationProperties(prefix = "fa.setting")
+public class FaSetting {
 
     private File file;
     private Amap amap;

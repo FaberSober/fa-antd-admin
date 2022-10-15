@@ -1,7 +1,7 @@
 package com.faber.base;
 
 import com.faber.AdminBootstrap;
-import com.faber.common.constant.SystemSetting;
+import com.faber.common.constant.FaSetting;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,14 +11,14 @@ import javax.annotation.Resource;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {AdminBootstrap.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class SystemSettingTest {
+public class FaSettingTest {
 
     @Resource
-    private SystemSetting systemSetting;
+    private FaSetting faSetting;
 
     @Test
     public void testGetSetting() {
-        System.out.println(systemSetting);
+        System.out.println(faSetting);
     }
 
 }

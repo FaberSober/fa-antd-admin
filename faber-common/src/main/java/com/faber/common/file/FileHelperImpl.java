@@ -1,7 +1,7 @@
 package com.faber.common.file;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.faber.common.constant.SystemSetting;
+import com.faber.common.constant.FaSetting;
 import com.faber.common.enums.FileSaveDriveEnum;
 import com.faber.common.exception.BuzzException;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,8 +54,8 @@ public interface FileHelperImpl {
     void delete(String filePath) throws IOException;
 
     default FileSaveDriveEnum getDrive() {
-        SystemSetting systemSetting = SpringUtil.getBean(SystemSetting.class);
-        switch (systemSetting.getFile().getSaveType()) {
+        FaSetting faSetting = SpringUtil.getBean(FaSetting.class);
+        switch (faSetting.getFile().getSaveType()) {
             case "local":
                 return FileSaveDriveEnum.LOCAL;
             case "qiniu":
