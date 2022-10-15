@@ -104,27 +104,27 @@ management:
       exposure:
         include: '*'
 
-jwt:
-  token-header: Authorization
-  # token失效时间(单位秒)，24小时
-  expire: 86400
-  secret: 2022#8m3n@faber-admin-web
-
-# 七牛云存储
-qiniu:
-  accessKey: xxx
-  secretKey: xxx
-  bucket: xxx
-  host: http://xxx
 
 # 一些默认配置
 fa:
   setting:
+    # JWT配置
+    jwt:
+      tokenHeader: Authorization
+      # token失效时间(单位秒)，24小时
+      expire: 86400
+      secret: 2022#8m3n@faber-admin-web
     file:
       # 系统文件存储方式: local-本地存储/qiniu-七牛云
-      saveType: local
+      saveType: qiniu
       # 增加一层最前置路径，可以用于区分不同环境
       prefix: dev
+    # 七牛云存储
+    qiniu:
+      accessKey: xxx
+      secretKey: xxx
+      bucket: xxx
+      host: http://xxx
     # 高德地图SDK
     amap:
       key: xx

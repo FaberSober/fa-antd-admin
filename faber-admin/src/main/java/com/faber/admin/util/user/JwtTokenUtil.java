@@ -1,15 +1,19 @@
 package com.faber.admin.util.user;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
 import com.faber.admin.util.jwt.JWTInfo;
+import com.faber.common.constant.FaSetting;
 import com.faber.common.exception.auth.UserTokenException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -20,14 +24,17 @@ import java.util.Date;
 @Slf4j
 public class JwtTokenUtil {
 
-    @Value("${jwt.expire}")
-    private int expire;
-
-    @Value("${jwt.secret}")
+    private long expire;
     private String secret;
-
-    @Value("${jwt.token-header}")
     private String tokenHeader;
+
+    @Resource
+    private FaSetting faSetting;
+
+    @PostConstruct
+    public void init() {
+        BeanUtil.copyProperties(faSetting.getJwt(), this);
+    }
 
     /**
      * 创建jwt token

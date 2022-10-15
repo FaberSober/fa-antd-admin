@@ -1,5 +1,7 @@
 package com.faber.common.util.file;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.faber.common.constant.FaSetting;
 import com.faber.common.exception.BuzzException;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
@@ -13,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.io.InputStream;
 
 /**
@@ -26,17 +30,18 @@ import java.io.InputStream;
 @Slf4j
 public class QiniuHelper {
 
-    @Value("${qiniu.accessKey}")
     private String accessKey;
-
-    @Value("${qiniu.secretKey}")
     private String secretKey;
-
-    @Value("${qiniu.bucket}")
     private String bucket;
-
-    @Value("${qiniu.host}")
     private String host;
+
+    @Resource
+    private FaSetting faSetting;
+
+    @PostConstruct
+    public void init() {
+        BeanUtil.copyProperties(faSetting.getQiniu(), this);
+    }
 
     /**
      * 存储区域：https://developer.qiniu.com/kodo/1671/region-endpoint-fq
