@@ -1,11 +1,14 @@
 package com.faber.admin.biz;
 
+import cn.hutool.http.useragent.UserAgent;
+import cn.hutool.http.useragent.UserAgentUtil;
 import com.faber.admin.entity.LogLogin;
 import com.faber.admin.entity.User;
 import com.faber.admin.util.jwt.JWTInfo;
 import com.faber.admin.util.user.AuthRequest;
 import com.faber.admin.util.user.JwtTokenUtil;
 import com.faber.common.context.BaseContextHandler;
+import com.faber.common.enums.BoolEnum;
 import com.faber.common.util.IpUtils;
 import com.faber.common.util.RequestUtils;
 import org.springframework.stereotype.Service;
@@ -43,6 +46,13 @@ public class AuthBiz {
         LogLogin logLogin = new LogLogin();
 
         logLogin.setAgent(RequestUtils.getAgent());
+
+        // 解析agent字符串
+        UserAgent ua = UserAgentUtil.parse(logLogin.getAgent());
+        logLogin.setOs(ua.getOs().toString());
+        logLogin.setBrowser(ua.getBrowser().toString());
+        logLogin.setVersion(ua.getVersion());
+        logLogin.setMobile(ua.isMobile() ? BoolEnum.YES : BoolEnum.NO);
 
         // 获取IP地址
         IpUtils.IpAddr ipAddr = IpUtils.getIpAddrByApi(BaseContextHandler.getIp());

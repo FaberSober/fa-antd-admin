@@ -68,6 +68,7 @@ public enum BoolEnum implements IEnum<Integer> {
 | guava | google工具包 | https://github.com/google/guava/ |
 | hutool | 常用工具包 | https://hutool.cn/docs/ |
 | hutool-crypto | 对称加密-SymmetricCrypto | https://www.hutool.cn/docs/#/crypto/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-SymmetricCrypto?id=%e4%bb%8b%e7%bb%8d |
+| UA工具类-UserAgentUtil | HTTP接口客户端参数解析 | https://hutool.cn/docs/#/http/UA%E5%B7%A5%E5%85%B7%E7%B1%BB-UserAgentUtil/ |
 
 
 ## 前端

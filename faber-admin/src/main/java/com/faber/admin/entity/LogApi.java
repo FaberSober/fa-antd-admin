@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.FaModalName;
+import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlSearch;
 import com.faber.common.bean.BaseCrtEntity;
+import com.faber.common.enums.BoolEnum;
 import lombok.Data;
 import lombok.ToString;
 
@@ -31,6 +33,19 @@ public class LogApi extends BaseCrtEntity {
 
     @ExcelProperty("访问客户端")
     private String agent;
+
+    @ExcelProperty("操作系统")
+    private String os;
+
+    @ExcelProperty("浏览器")
+    private String browser;
+
+    @ExcelProperty("浏览器版本")
+    private String version;
+
+    @SqlEquals
+    @ExcelProperty("是否为移动终端")
+    private BoolEnum mobile;
 
     @ExcelProperty("请求花费时间")
     private Long duration;

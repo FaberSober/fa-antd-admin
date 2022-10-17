@@ -355,6 +355,14 @@ namespace Admin {
     method: string;
     /** 访问客户端 */
     agent: string;
+    /** 操作系统 */
+    os: string;
+    /** 浏览器 */
+    browser: string;
+    /** 浏览器版本 */
+    version: string;
+    /** 是否为移动终端 */
+    mobile: FaEnums.BoolEnum;
     /** 请求花费时间 */
     duration: number;
     /** 省 */
@@ -382,6 +390,14 @@ namespace Admin {
     id: number;
     /** 访问客户端 */
     agent: string;
+    /** 操作系统 */
+    os: string;
+    /** 浏览器 */
+    browser: string;
+    /** 浏览器版本 */
+    version: string;
+    /** 是否为移动终端 */
+    mobile: FaEnums.BoolEnum;
     /** 省 */
     pro: string;
     /** 市 */

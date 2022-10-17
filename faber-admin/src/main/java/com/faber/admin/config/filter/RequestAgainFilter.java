@@ -1,10 +1,13 @@
 package com.faber.admin.config.filter;
 
+import cn.hutool.http.useragent.UserAgent;
+import cn.hutool.http.useragent.UserAgentUtil;
 import com.faber.admin.biz.LogApiBiz;
 import com.faber.admin.config.filter.wrapper.BodyHttpServletRequestWrapper;
 import com.faber.admin.config.filter.wrapper.BodyHttpServletResponseWrapper;
 import com.faber.admin.entity.LogApi;
 import com.faber.common.context.BaseContextHandler;
+import com.faber.common.enums.BoolEnum;
 import com.faber.common.util.IpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -65,6 +68,13 @@ public class RequestAgainFilter implements Filter {
             log.setUrl(requestWrapper.getRequestURI());
             log.setMethod(requestWrapper.getMethod());
             log.setAgent(requestWrapper.getHeader("User-Agent"));
+
+            // 解析agent字符串
+            UserAgent ua = UserAgentUtil.parse(log.getAgent());
+            log.setOs(ua.getOs().toString());
+            log.setBrowser(ua.getBrowser().toString());
+            log.setVersion(ua.getVersion());
+            log.setMobile(ua.isMobile() ? BoolEnum.YES : BoolEnum.NO);
 
             log.setCrtHost(IpUtils.getRequestIp(requestWrapper));
             log.setRequest(requestWrapper.getBody());

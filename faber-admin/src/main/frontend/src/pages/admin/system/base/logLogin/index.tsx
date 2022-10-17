@@ -7,12 +7,12 @@ import modelService from '@/services/admin/logLogin';
 import Admin from '@/props/admin';
 
 const serviceName = '登录日志';
-const buzzModal = 'base_log_login';
+const buzzModal = 'base_log_login_v1';
 
 export default function LogLoginList() {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, paginationProps } =
+  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } =
     useTableQueryParams<Admin.LogLogin>(modelService.page, {}, serviceName)
 
   const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName)
@@ -23,7 +23,11 @@ export default function LogLoginList() {
     const { sorter } = queryParams;
     return [
       BaseTableUtils.genIdColumn('序号', 'id', 70, sorter),
-      BaseTableUtils.genSimpleSorterColumn('访问客户端', 'agent', undefined, sorter),
+      BaseTableUtils.genSimpleSorterColumn('访问客户端', 'agent', undefined, sorter, false),
+      BaseTableUtils.genSimpleSorterColumn('操作系统', 'os', undefined, sorter),
+      BaseTableUtils.genSimpleSorterColumn('浏览器', 'browser', 100, sorter),
+      BaseTableUtils.genSimpleSorterColumn('浏览器版本', 'version', 120, sorter),
+      BaseTableUtils.genEnumSorterColumn('手机', 'mobile', 60, sorter, dicts, false),
       BaseTableUtils.genSimpleSorterColumn('省', 'pro', 70, sorter),
       BaseTableUtils.genSimpleSorterColumn('市', 'city', 70, sorter),
       BaseTableUtils.genSimpleSorterColumn('地址', 'addr', 150, sorter),
