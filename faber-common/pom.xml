@@ -118,6 +118,13 @@
             <version>5.8.5</version>
         </dependency>
 
+        <!-- Oshi是Java的免费基于JNA的操作系统和硬件信息库，Github地址是：https://github.com/oshi/oshi -->
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>5.6.1</version>
+        </dependency>
+
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>

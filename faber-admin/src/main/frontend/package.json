@@ -13,6 +13,7 @@
     "antd": "4.23.4",
     "axios": "0.27.2",
     "fa-cron-react-editor": "0.0.13",
+    "filesize": "^10.0.5",
     "lodash": "4.17.21",
     "moment": "2.29.4",
     "path-to-regexp": "6.2.1",

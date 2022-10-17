@@ -421,6 +421,23 @@ namespace Admin {
     content: string;
   }
 
+  // -------------------------------------------- 系统-server info --------------------------------------------
+  export interface ServerInfo {
+    cpuInfo: {
+      cpuNum: number,
+      free: number,
+      used: number,
+    },
+    memory: {
+      available: number,
+      total: number,
+    },
+    system: {
+      model: string,
+      manufacturer: string,
+    },
+  }
+
 }
 
 export default Admin;
