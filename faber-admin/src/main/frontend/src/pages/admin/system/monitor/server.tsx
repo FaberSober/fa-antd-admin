@@ -49,8 +49,8 @@ export default function Server() {
             <Card title="内存">
               <Descriptions column={1}>
                 <Descriptions.Item label="核心数">{sizeToHuman(data.memory.total)}</Descriptions.Item>
-                <Descriptions.Item label="使用数">{sizeToHuman(data.memory.available)}</Descriptions.Item>
-                <Descriptions.Item label="空闲数">{sizeToHuman(data.memory.total - data.memory.available)}</Descriptions.Item>
+                <Descriptions.Item label="使用数">{sizeToHuman(data.memory.total - data.memory.available)}</Descriptions.Item>
+                <Descriptions.Item label="空闲数">{sizeToHuman(data.memory.available)}</Descriptions.Item>
               </Descriptions>
             </Card>
           </Col>
