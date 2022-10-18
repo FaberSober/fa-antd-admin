@@ -278,7 +278,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
 
         String password = new BCryptPasswordEncoder(CommonConstants.PW_ENCODER_SALT).encode(newPwd);
         beanDB.setPassword(password);
-        return updateById(beanDB);
+        return super.updateById(beanDB);
     }
 
 //    @CacheClear(pre = "user{1}")
@@ -316,14 +316,14 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
 
         String password = new BCryptPasswordEncoder(CommonConstants.PW_ENCODER_SALT).encode(newPwd);
         user.setPassword(password);
-        return updateById(user);
+        return super.updateById(user);
     }
 
 //    @CacheClear(pre = "user{1}")
     public boolean updateMyApiToken(String userId) {
         User user = getById(userId);
         user.setApiToken(UUID.fastUUID().toString(true));
-        return updateById(user);
+        return super.updateById(user);
     }
 
     public void accountAdminUpdatePwd(Map<String, Object> params) {
@@ -345,7 +345,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         ids.forEach(id -> {
             User user = getById(id);
             user.setPassword(password);
-            updateById(user);
+            super.updateById(user);
 
             cacheAPI.removeByPre("user:" + id);
         });

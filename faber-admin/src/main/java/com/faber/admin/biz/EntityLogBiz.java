@@ -107,6 +107,7 @@ public class EntityLogBiz extends BaseBiz<EntityLogMapper, EntityLog> {
 
             array.add(json);
         }
+        if (array.size() == 0) return null;
 
         EntityLog log = new EntityLog();
         log.setBizType(after.getClass().getTypeName());

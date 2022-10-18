@@ -102,6 +102,7 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper,RbacUserRole> {
      */
     public void changeUserRoles(String userId, List<Long> roleIds) {
         if (StrUtil.isEmpty(userId)) throw new BuzzException("用户ID不能为空");
+        if (roleIds == null || roleIds.isEmpty()) throw new BuzzException("更新需要指定角色ID");
 
         // 删除之前的角色关联
         lambdaQuery().eq(RbacUserRole::getUserId, userId).list().forEach(item -> {

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.common.annotation.FaModalName;
+import com.faber.common.annotation.SqlEquals;
 import com.faber.common.bean.BaseCrtEntity;
 import com.faber.common.enums.EntityLogActionEnum;
 import lombok.Data;
@@ -26,12 +27,15 @@ public class EntityLog extends BaseCrtEntity {
     @TableId(type = IdType.AUTO)
     private Integer id;
 
+    @SqlEquals
     @ExcelProperty("业务类型")
     private String bizType;
 
+    @SqlEquals
     @ExcelProperty("业务ID")
     private String bizId;
 
+    @SqlEquals
     @ExcelProperty("动作")
     private EntityLogActionEnum action;
 

@@ -44,7 +44,7 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
   useEffect(() => {
     if (value !== innerValue) {
       if (editorRef.current) {
-        console.log('update innerValue from props')
+        console.log('update innerValue from props.value = ', value)
         setInnerValue(value)
         editorRef.current.setContent(trim(value));
       }
