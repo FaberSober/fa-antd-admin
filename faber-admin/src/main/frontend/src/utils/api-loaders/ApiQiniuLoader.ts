@@ -1,6 +1,6 @@
 let mainPromise: any = null;
 
-const scriptList = ['/plugins/qiniu/qiniu-js@2.5.1/dist/qiniu.min.js'];
+const scriptList = ['/plugins/qiniu/qiniu-js@2.5.1/qiniu.min.js'];
 /* eslint-disable no-undef */
 /**
  * 七牛云js上传插件
