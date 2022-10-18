@@ -116,7 +116,7 @@ fa:
       secret: 2022#8m3n@faber-admin-web
     file:
       # 系统文件存储方式: local-本地存储/qiniu-七牛云
-      saveType: qiniu
+      saveType: local
       # 增加一层最前置路径，可以用于区分不同环境
       prefix: dev
     # 七牛云存储
