@@ -1,8 +1,10 @@
-import {Outlet} from 'react-router-dom'
+import {Outlet, useRoutes} from 'react-router-dom'
 import ApiEffectLayout from "@/layout/ApiEffectLayout";
 import UserLayout from "@/layout/UserLayout";
 import MenuLayout from "@/layout/menu/MenuLayout";
 import LangLayout from "@/layout/LangLayout";
+import {PageLoading} from "@/components/antd-pro";
+import {Suspense} from "react";
 
 export default function Admin() {
   return (
@@ -10,7 +12,9 @@ export default function Admin() {
       <ApiEffectLayout>
         <UserLayout>
           <MenuLayout>
-            <Outlet />
+            <Suspense fallback={<PageLoading />}>
+              <Outlet />
+            </Suspense>
           </MenuLayout>
         </UserLayout>
       </ApiEffectLayout>

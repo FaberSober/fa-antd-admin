@@ -13,7 +13,7 @@ export default defineConfig(({ command, mode }) => {
       react(),
       Pages({
         exclude: ['**/components/*.tsx', '**/modal/*.tsx', '**/cube/*.tsx', '**/drawer/*.tsx', '**/helper/*.tsx'],
-        importMode: 'sync',
+        // importMode: 'sync',
       }),
       // 按需导入
       // https://github.com/onebay/vite-plugin-imp
