@@ -338,9 +338,9 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
             <Tree
               blockNode
               showLine={{ showLeafIcon: false }}
-              switcherIcon={<DownOutlined />}
+              // switcherIcon={<DownOutlined />}
               treeData={treeData}
-              draggable
+              draggable={{ icon: false }}
               // onDragEnter={this.onDragEnter}
               onDrop={onDrop}
               // switcherIcon={<Icon type="down" />}
