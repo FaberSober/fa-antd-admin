@@ -92,7 +92,7 @@ public enum BoolEnum implements IEnum<Integer> {
 
 ### 升级npm依赖
 ```bash
-ncu -u --timeout 120000 --reject husky
+ncu -u --timeout 120000 --reject pdfjs-dist
 ```
 
 # 代码生成器使用
