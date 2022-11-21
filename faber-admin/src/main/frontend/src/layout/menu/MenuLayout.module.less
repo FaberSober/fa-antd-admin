@@ -19,4 +19,25 @@
 
 .header {
   z-index: 2;
+  height: 46px !important;
+  line-height: 46px !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  :global {
+    .ant-menu-item {
+      display: flex;
+      align-items: center;
+      border-radius: 0 !important;
+    }
+
+    // FIXME 这里应该是antd v5的一个bug，horizontal的menu选中效果不对
+    .ant-menu-item-selected {
+      background-color: #1677ff !important;
+      border-radius: 0 !important;
+      color: #FFF !important;
+    }
+  }
 }

@@ -23,8 +23,7 @@ export interface UserLayoutContextProps {
 const defaultConfig = { title: '', logo: '', logoWithText: '', portalLink: '' }
 
 export const UserLayoutContext = createContext<UserLayoutContextProps>({
-  // @ts-ignore
-  user: undefined,
+  user: undefined!,
   roles: [],
   refreshUser: () => {},
   logout: () => {},

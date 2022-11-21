@@ -1,8 +1,7 @@
 import React, {createContext, useState} from 'react';
 import {ConfigProvider} from 'antd';
-// moment国际化
-import 'dayjs/dist/locale/zh-cn';
-// import 'dayjs/dist/locale/en';
+// dayjs国际化
+import 'dayjs/locale/zh-cn';
 // antd国际化配置
 import zhCN from 'antd/locale/zh_CN';
 import enUS from 'antd/locale/en_US';
