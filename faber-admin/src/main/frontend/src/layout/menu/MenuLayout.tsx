@@ -139,7 +139,9 @@ export default function MenuLayout({children}: Fa.BaseChildProps) {
           <Layout style={{ width }}>
             {hasRoutePermission ? (
               <div className="fa-full fa-flex-column">
-                <OpenTabs />
+                <div className={styles.openTabs}>
+                  <OpenTabs />
+                </div>
                 <FaFlexRestLayout>
                   <div className="fa-main">
                     {children}
