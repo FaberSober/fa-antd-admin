@@ -10,8 +10,8 @@ export interface MenuLayoutContextProps {
   menuSelAppId: string | undefined, // 选中的菜单模块id
   menuSelPath: string[], // 选中的菜单路径
   menuSelMenuId: string | undefined, // 选中打开的菜单id,
-  setMenuSelMenuId: (key: string | undefined) => void,
-  setMenuSelPath: (key: string, keyPath: string[]) => void,
+  setMenuSelMenuId: (key: string | undefined) => void, // 设置选中的菜单ID
+  setMenuSelPath: (key: string, keyPath: string[]) => void, //  // 设置选中的菜单ID路径数组
   setMenuSelAppId: (id: string) => void,
   collapse: boolean,
   setCollapse: (v: boolean) => void,

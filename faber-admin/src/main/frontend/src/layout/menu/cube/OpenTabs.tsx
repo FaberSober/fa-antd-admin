@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import MenuLayoutContext from "@/layout/menu/context/MenuLayoutContext";
 import {Tabs} from "antd";
+import {SITE_INFO} from "@/configs/server.config";
 
 /**
  * @author xu.pengfei

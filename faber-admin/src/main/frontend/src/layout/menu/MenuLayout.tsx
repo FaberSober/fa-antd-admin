@@ -18,6 +18,7 @@ import HelpCube from "./cube/HelpCube";
 import UserAvatar from "./cube/UserAvatar";
 import OpenTabs from "./cube/OpenTabs";
 import styles from "./MenuLayout.module.less";
+import {SITE_INFO} from "@/configs/server.config";
 
 
 /**
@@ -28,54 +29,68 @@ export default function MenuLayout({children}: Fa.BaseChildProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // 将tree平铺的menu list
   const [menuList, setMenuList] = useState<Rbac.RbacMenu[]>([]);
+  // 完整的menu tree
   const [menuFullTree, setMenuFullTree] = useState<Fa.TreeNode<Rbac.RbacMenu>[]>([]);
+  // 当前选中block下的menu tree
   const [menuTree, setMenuTree] = useState<Fa.TreeNode<Rbac.RbacMenu>[]>([]);
-  const [menuSelAppId, setMenuSelAppId] = useState<string>();
-  const [menuSelMenuId, setMenuSelMenuId] = useState<string>();
-  const [menuSelPath, setMenuSelPath] = useState<string[]>([]);
-  const [collapse, setCollapse] = useState<boolean>(false);
-  const [openSideMenuKeys, setOpenSideMenuKeys] = useState<string[]>([]);
-  const [openTabs, setOpenTabs] = useState<Rbac.RbacMenu[]>([]);
+
+  const [menuSelAppId, setMenuSelAppId] = useState<string>(); // 当前选中顶部模块blockId
+  const [menuSelMenuId, setMenuSelMenuId] = useState<string>(); // 当前选中的左侧菜单menu id
+  const [menuSelPath, setMenuSelPath] = useState<string[]>([]); // 当前选中的菜单ID数组（不包含顶部block菜单）
+  const [collapse, setCollapse] = useState<boolean>(false); // 是否折叠左侧菜单
+  const [openSideMenuKeys, setOpenSideMenuKeys] = useState<string[]>([]); // 受控-左侧菜单打开的menu id数组
+  const [openTabs, setOpenTabs] = useState<Rbac.RbacMenu[]>([]); // 受控-打开的标签页数组
 
   useEffect(() => {
     rbacUserRoleApi.getMyMenusTree().then((res) => {
       setMenuFullTree(res.data)
-      setMenuList(flatTreeList(res.data))
-
-      const blocks = res.data.filter((i) => i.sourceData.level === FaEnums.RbacMenuLevelEnum.APP)
-      if (blocks.length > 0) {
-        setMenuSelAppId(blocks[0].id)
-        setMenuTree(blocks[0].children || [])
-      } else {
-        setMenuTree([])
-      }
+      const menuArr = flatTreeList(res.data)
+      setMenuList(menuArr)
 
       // 初始化选中的菜单
-      parseLocationMenu(res.data)
+      const menu = find(menuArr, (i) => i.linkUrl === location.pathname) as Rbac.RbacMenu
+      syncOpenMenuById(menu.id, res.data)
     })
   }, [])
 
-  function parseLocationMenu(tree: Fa.TreeNode<Rbac.RbacMenu>[]) {
-    const menuPath = findTreePath(tree, (menu) => menu.sourceData.linkUrl === location.pathname);
-    // console.log('menuPath', menuPath)
-    if (menuPath && menuPath.length > 0) {
-      const [id0, ...restIds] = menuPath
-      const lastMenu = menuPath[menuPath.length - 1]
+  /**
+   * 同步打开的菜单到页面布局
+   * @param openMenuId
+   * @param tree
+   */
+  function syncOpenMenuById(openMenuId: string|undefined, tree: Fa.TreeNode<Rbac.RbacMenu>[]) {
+    if (openMenuId === undefined) return;
 
-      const blocks = tree.filter((i) => i.sourceData.level === FaEnums.RbacMenuLevelEnum.APP)
-      const blockFind = find(blocks, (i) => i.id === id0.id)
-      if (blockFind) {
-        setMenuSelAppId(blockFind.id)
-        setMenuTree(blockFind.children || [])
-      } else {
-        setMenuTree([])
-      }
+    const menuArr = flatTreeList(tree);
+    const menu = find(menuArr, (i) => i.id === openMenuId) as Rbac.RbacMenu
 
-      setMenuSelMenuId(lastMenu.id)
-      setMenuSelPath(restIds.map(i => i.id))
-      setOpenSideMenuKeys(restIds.map(i => i.id))
-      setOpenTabs([lastMenu.sourceData])
+    setMenuSelMenuId(openMenuId)
+    // 打开页面
+    navigate(menu.linkUrl)
+
+    const menuPath = findTreePath(tree, (menu) => menu.sourceData.id === openMenuId);
+    const [id0, ...restIds] = menuPath
+
+    // 顶部模块同步打开位置
+    const blocks = tree.filter((i) => i.sourceData.level === FaEnums.RbacMenuLevelEnum.APP)
+    const blockFind = find(blocks, (i) => i.id === id0.id)
+    if (blockFind) {
+      setMenuSelAppId(blockFind.id)
+      setMenuTree(blockFind.children || [])
+    } else {
+      setMenuTree([])
+    }
+
+    // sider同步打开位置
+    setMenuSelPath(restIds.map(i => i.id))
+    setOpenSideMenuKeys(restIds.map(i => i.id))
+
+    // 加入已经打开的tabs
+    const tab = find(openTabs, (i) => i.id === menu.id)
+    if (isNil(tab)) {
+      setOpenTabs([ ...openTabs, menu ])
     }
   }
 
@@ -86,25 +101,9 @@ export default function MenuLayout({children}: Fa.BaseChildProps) {
     menuSelAppId,
     menuSelPath,
     menuSelMenuId,
-    setMenuSelMenuId: (id) => {
-      setMenuSelMenuId(id)
-      const menu = find(menuList, (i) => i.id === id) as Rbac.RbacMenu
-      // 打开页面
-      navigate(menu.linkUrl)
-    },
+    setMenuSelMenuId: (id) => syncOpenMenuById(id, menuFullTree),
     setMenuSelPath: (key: string, keyPath: string[]) => {
-      setMenuSelMenuId(key)
-      setMenuSelPath(keyPath)
-      const menu = find(menuList, (i) => i.id === key) as Rbac.RbacMenu
-
-      // 加入已经打开的tabs
-      const tab = find(openTabs, (i) => i.id === menu.id)
-      if (isNil(tab)) {
-        setOpenTabs([ ...openTabs, menu ])
-      }
-
-      // 打开页面
-      navigate(menu.linkUrl)
+      syncOpenMenuById(key, menuFullTree)
     },
     setMenuSelAppId: (id) => {
       setMenuSelAppId(id)
