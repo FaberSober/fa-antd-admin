@@ -1,7 +1,7 @@
 import {findIndex, get, isNil, isUndefined, map, trim} from 'lodash';
 import {RES_CODE} from '@/configs/server.config';
 import {message} from 'antd';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import Fa from '@/props/base/Fa';
 import {RangeValue} from 'rc-picker/lib/interface';
 import {parse} from 'querystring';
@@ -60,7 +60,7 @@ export function showResponse(response: Fa.Response, prefix: string) {
  * @param {*} format
  */
 export function getDateStr(date: string | any | null | undefined, format?: string) {
-	return date === null || date === undefined ? '' : moment(date).format(format || 'YYYY-MM-DD');
+	return date === null || date === undefined ? '' : dayjs(date).format(format || 'YYYY-MM-DD');
 }
 
 /**
@@ -77,7 +77,7 @@ export function getDateFullStr(date: string | any | null | undefined) {
  * @param {*} format
  */
 export function getDateStr000(date: string | any | null | undefined, format = 'YYYY-MM-DD 00:00:00') {
-	return date === null || date === undefined ? undefined : moment(date).format(format);
+	return date === null || date === undefined ? undefined : dayjs(date).format(format);
 }
 
 /**
@@ -86,7 +86,7 @@ export function getDateStr000(date: string | any | null | undefined, format = 'Y
  * @param {*} defaultValue
  */
 export function getInitialTimeValue(date: string | any | null | undefined, defaultValue = undefined) {
-	return date === null || date === undefined ? defaultValue : moment(date); // eslint-disable-line
+	return date === null || date === undefined ? defaultValue : dayjs(date); // eslint-disable-line
 }
 
 /**
@@ -120,7 +120,7 @@ export function getInitialKeyValue(record: any, key: string, defaultValue: strin
 }
 
 export function getInitialKeyTimeValue(record: any, key: string, defaultValue: any = undefined) {
-	return record && record[key] ? moment(record[key]) : defaultValue; // eslint-disable-line
+	return record && record[key] ? dayjs(record[key]) : defaultValue; // eslint-disable-line
 }
 
 /**
