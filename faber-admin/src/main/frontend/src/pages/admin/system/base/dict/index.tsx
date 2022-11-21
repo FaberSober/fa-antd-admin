@@ -69,22 +69,11 @@ export default function DictManage() {
 
         {/* 右侧面板 */}
         <div style={{ position: 'absolute', width: '100%', height: '100%', overflow: 'auto' }}>
-          <Collapse
-            bordered={false}
-            defaultActiveKey={[]}
-            expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
-            style={{ marginBottom: 12 }}
-          >
-            <Collapse.Panel header={viewRecord ? `字典信息 - ${viewRecord.name}` : '字典信息'} key="1" className="site-collapse-custom-panel">
-              {viewRecord ? (
-                <Descriptions bordered size="small">
-                  <Descriptions.Item label="字典分组名称">{viewRecord.name}</Descriptions.Item>
-                  <Descriptions.Item label="字典分组编码">{viewRecord.code}</Descriptions.Item>
-                  <Descriptions.Item label="描述">{viewRecord.description}</Descriptions.Item>
-                </Descriptions>
-              ) : null}
-            </Collapse.Panel>
-          </Collapse>
+          <Descriptions bordered size="small" style={{ marginBottom: 12 }} labelStyle={{ width: 150 }} contentStyle={{ minWidth: 200 }}>
+            <Descriptions.Item label="字典分组名称">{viewRecord?.name}</Descriptions.Item>
+            <Descriptions.Item label="字典分组编码">{viewRecord?.code}</Descriptions.Item>
+            <Descriptions.Item label="描述">{viewRecord?.description}</Descriptions.Item>
+          </Descriptions>
 
           <DictList ref={listRef} type={viewRecord?.id} />
         </div>

@@ -36,7 +36,7 @@ function DictList({ type }: IProps, ref: any) {
   }));
 
   /** 生成表格字段List */
-  function genColumns(): FaberTable.ColumnsProp<Admin.DictWebVO>[] {
+  function genColumns() {
     const { sorter } = queryParams;
     return [
       // BaseTableUtils.genSimpleSorterColumn('ID', 'id', 70, sorter),
@@ -85,7 +85,7 @@ function DictList({ type }: IProps, ref: any) {
         tcRequired: true,
         tcType: 'menu',
       },
-    ];
+    ] as FaberTable.ColumnsProp<Admin.DictWebVO>[];
   }
 
   return (
@@ -126,7 +126,7 @@ function DictList({ type }: IProps, ref: any) {
         batchDelete={(ids) => modelService.removeBatchByIds(ids)}
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
-        scrollYOccupied={340}
+        scrollYOccupied={380}
       />
     </Card>
   );

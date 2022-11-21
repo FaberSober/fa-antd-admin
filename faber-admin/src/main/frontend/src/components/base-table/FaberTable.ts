@@ -65,7 +65,7 @@ namespace FaberTable {
 		onSelectedRowsChange?: (rows: any[]) => void; // 选中keys变更回调
     scrollYOccupied?: number; // y轴滚动已经被占据的高度
 		scrollY?: number;
-		keyName?: string; // Key字段名称
+		keyName: string; // Key字段名称
 	}
 
   /**

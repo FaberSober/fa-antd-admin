@@ -57,7 +57,7 @@ export default function RbacMenuTreeList() {
     rbacMenuApi.moveDown(id).then(refreshData)
   }
 
-  const columns: ColumnsType<Fa.TreeNode<Rbac.RbacMenu>> = [
+  const columns = [
     { title: '名称', dataIndex: 'name', width: 200, },
     {
       title: '图标',
@@ -87,7 +87,7 @@ export default function RbacMenuTreeList() {
       width: 180,
       fixed: 'right',
     },
-  ];
+  ] as ColumnsType<Fa.TreeNode<Rbac.RbacMenu>>;
 
   const loadingTree = loadingEffect[rbacMenuApi.getUrl('allTree')];
   return (
@@ -114,7 +114,8 @@ export default function RbacMenuTreeList() {
           }}
           pagination={false}
           loading={loadingTree}
-          scroll={{ y: document.body.clientHeight - 181 }}
+          scroll={{ y: document.body.clientHeight - 177 }}
+          size="small"
         />
       </FaFlexRestLayout>
     </div>

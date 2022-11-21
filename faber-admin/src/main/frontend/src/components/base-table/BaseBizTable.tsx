@@ -4,11 +4,11 @@ import {ClearOutlined, DeleteOutlined, SettingOutlined} from '@ant-design/icons'
 import {Button, Modal, Space, Table} from 'antd';
 import TableColConfigModal from '../modal/TableColConfigModal';
 import FaberTable from './FaberTable';
-import {TableRowSelection} from 'antd/lib/table/interface';
 import {useWindowSize} from 'react-use';
 import {showResponse} from '@/utils/utils';
 import {dataIndexToString} from './utils';
 import ComplexQuery from '@/components/condition-query/ComplexQuery'
+import {TableRowSelection} from "antd/es/table/interface";
 
 interface CProps {
   localData: boolean; // 是否本地数据[查询场景、字段配置]
@@ -56,7 +56,7 @@ export default function BaseBizTable<RecordType extends object = any>({
     } else {
       setInnerScrollY(document.body.clientHeight - scrollYOccupied);
     }
-  }, [scrollY, height])
+  }, [scrollY, height, scrollYOccupied])
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [batchDeleting, setBatchDeleting] = useState(false)
@@ -199,6 +199,7 @@ export default function BaseBizTable<RecordType extends object = any>({
                 }
               },
             })}
+            size="small"
             {...props}
           />
           {/* 表格自定义配置 */}

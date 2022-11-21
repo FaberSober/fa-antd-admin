@@ -40,7 +40,7 @@ function UserList({ departmentId }: IProps, ref: any) {
   }));
 
   /** 生成表格字段List */
-  function genColumns(): FaberTable.ColumnsProp<Admin.UserWeb>[] {
+  function genColumns() {
     const { sorter } = queryParams;
     return [
       BaseTableUtils.genSimpleSorterColumn('ID', 'id', 340, sorter, false),
@@ -78,7 +78,7 @@ function UserList({ departmentId }: IProps, ref: any) {
         tcRequired: true,
         tcType: 'menu',
       },
-    ];
+    ] as FaberTable.ColumnsProp<Admin.UserWeb>[];
   }
 
   return (
