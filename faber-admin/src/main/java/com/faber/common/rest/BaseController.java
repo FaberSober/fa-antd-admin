@@ -25,7 +25,9 @@ import java.util.List;
  *         <tr><td>{@link BaseController#add}</td>                  <td>新增</td></tr>
  *         <tr><td>{@link BaseController#saveBatch}</td>            <td>新增批量</td></tr>
  *         <tr><td>{@link BaseController#get}</td>                  <td>id查询</td></tr>
+ *         <tr><td>{@link BaseController#getByIds}</td>             <td>ids集合查询</td></tr>
  *         <tr><td>{@link BaseController#update}</td>               <td>更新</td></tr>
+ *         <tr><td>{@link BaseController#updateBatch}</td>          <td>批量更新</td></tr>
  *         <tr><td>{@link BaseController#remove}</td>               <td>id删除</td></tr>
  *         <tr><td>{@link BaseController#removeBatchByIds}</td>     <td>ids批量删除</td></tr>
  *         <tr><td>{@link BaseController#all}</td>                  <td>获取所有List</td></tr>
@@ -37,6 +39,7 @@ import java.util.List;
  *     </tbody>
  * </table>
  *
+ * @author xupengfei
  * @param <Biz>    {@link BaseBiz}
  * @param <Entity>
  */
@@ -67,6 +70,13 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok(o);
     }
 
+    @RequestMapping(value = "/getByIds", method = RequestMethod.POST)
+    @ResponseBody
+    public ObjectRestResponse<List<Entity>> getByIds(@RequestBody List<Key> ids) {
+        List<Entity> o = baseBiz.getByIds(ids);
+        return ok(o);
+    }
+
     @RequestMapping(value = "/getDetail/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ObjectRestResponse<Entity> getDetail(@PathVariable Key id) {
@@ -78,6 +88,13 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
     @ResponseBody
     public ObjectRestResponse<Entity> update(@Validated(value = ValidGroup.Crud.Update.class) @RequestBody Entity entity) {
         baseBiz.updateById(entity);
+        return ok();
+    }
+
+    @RequestMapping(value = "/updateBatch", method = RequestMethod.POST)
+    @ResponseBody
+    public ObjectRestResponse<Boolean> updateBatch(@Validated(value = ValidGroup.Crud.Update.class) @RequestBody List<Entity> entityList) {
+        baseBiz.updateBatchById(entityList);
         return ok();
     }
 
@@ -118,7 +135,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
 
     @RequestMapping(value = "/count", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Long> count(@RequestParam QueryParams query) {
+    public ObjectRestResponse<Long> count(@RequestBody QueryParams query) {
         long count = baseBiz.count(baseBiz.parseQuery(query));
         return ok(count);
     }

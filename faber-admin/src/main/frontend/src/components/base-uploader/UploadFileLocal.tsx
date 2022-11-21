@@ -96,6 +96,7 @@ export default function UploadFileLocal({ children, description, onChange, value
       onChange={handleOnChange}
       onRemove={handleRemove}
       fileList={array}
+      maxCount={1}
       {...props}
     >
       {children ? (

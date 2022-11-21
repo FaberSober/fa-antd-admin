@@ -52,7 +52,7 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
   }, [value])
 
   const editor = useMemo(() => {
-    console.log('useMemo.editor', height)
+    // console.log('useMemo.editor', height)
     if (height === undefined) return null;
     return (<Editor
         apiKey='xxx'
@@ -145,12 +145,12 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
         onFocus={(e) => {
           // console.log('onFocus', editorRef.current.getContent())
         }}
-        onBlur={(e) => {
-          // console.log('onBlur', e, editorRef.current.getContent())
-          if (onChange) {
-            onChange(editorRef.current.getContent())
-          }
-        }}
+        // onBlur={(e) => {
+        //   // console.log('onBlur', e, editorRef.current.getContent())
+        //   if (onChange) {
+        //     onChange(editorRef.current.getContent())
+        //   }
+        // }}
         onChange={(e) => {
           // console.log('onChange', e, editorRef.current.getContent())
           setInnerValue(editorRef.current.getContent())

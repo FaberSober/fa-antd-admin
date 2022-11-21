@@ -30,6 +30,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -39,6 +40,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +61,16 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         T item = super.getById(id);
         this.decorateOne(item);
         return item;
+    }
+
+    public List<T> getByIds(List<Serializable> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        QueryWrapper<T> wrapper = new QueryWrapper<>();
+        wrapper.in("id", ids);
+        return super.list(wrapper);
     }
 
     public List<T> mineList(QueryParams query) {

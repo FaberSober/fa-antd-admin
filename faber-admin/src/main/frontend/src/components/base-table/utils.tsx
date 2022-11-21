@@ -123,7 +123,7 @@ export function genUserSorterColumn(title: string, dataIndex: string, width: num
 export function genDictSorterColumn(
   title: string,
   dataIndex: string,
-  width: number,
+  width: number|undefined,
   sorter: Fa.Sorter,
   dicts: Fa.PageDict,
   dictLabel: string,

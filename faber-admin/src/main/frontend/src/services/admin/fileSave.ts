@@ -25,7 +25,7 @@ class FileSaveApi extends BaseApi<Admin.FileSave, string> {
 	genLocalGetFile = (fileId: string) => {
 		if (fileId === undefined || fileId == null) return '';
 		if (trim(fileId) === '') return '';
-		return this.getUrl(`local/getFile/${fileId}`);
+		return this.getUrl(`getFile/${fileId}`);
 	};
 
 }

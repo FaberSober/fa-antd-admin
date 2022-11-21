@@ -125,7 +125,13 @@
     </springProfile>
 
     <springProfile name="test">
-        <logger name="springfox.documentation" level="WARN"/>
+        <logger name="com.faber" level="INFO" additivity="false">
+            <appender-ref ref="console"/>
+            <appender-ref ref="logFile"/>
+            <appender-ref ref="logErrorFile"/>
+            <appender-ref ref="logFileForAdmin"/>
+        </logger>
+        <logger name="tk.mybatis" level="INFO" />
 
         <root level="INFO">
             <appender-ref ref="logFile"/>

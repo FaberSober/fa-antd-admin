@@ -35,6 +35,7 @@ export default function BaseBizTable<RecordType extends object = any>({
   renderCheckBtns = (rowKeys: any[]) => null,
   onSceneChange = () => {},
   onConditionChange = () => {},
+  rowSelection,
   rowClickSelected,
   rowClickSingleSelected = true,
   onSelectedRowsChange,
@@ -123,12 +124,13 @@ export default function BaseBizTable<RecordType extends object = any>({
 
   const { parseColumns, scrollWidthX } = processColumns();
 
-  const rowSelection: TableRowSelection<RecordType> = {
+  const myRowSelection: TableRowSelection<RecordType> = {
     fixed: true,
     selectedRowKeys,
     onChange: (rowKeys) => {
       updateRowKeys(rowKeys);
     },
+    ...rowSelection,
     // columnWidth: 30,
   };
 
@@ -149,12 +151,12 @@ export default function BaseBizTable<RecordType extends object = any>({
               <div style={{ marginRight: 12 }}>
                 已选中&nbsp;<a>{selectedRowKeys.length}</a>&nbsp;条数据
               </div>
+              {renderCheckBtns && renderCheckBtns(selectedRowKeys)}
               {showBatchBelBtn && (
                 <Button loading={batchDeleting} onClick={handleBatchDelete} icon={<DeleteOutlined />} danger>
                   删除
                 </Button>
               )}
-              {renderCheckBtns && renderCheckBtns(selectedRowKeys)}
               <Button onClick={() => updateRowKeys([])} icon={<ClearOutlined />}>
                 取消选中
               </Button>
@@ -175,7 +177,7 @@ export default function BaseBizTable<RecordType extends object = any>({
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
           <Table
             columns={parseColumns}
-            rowSelection={showCheckbox ? rowSelection : undefined}
+            rowSelection={showCheckbox ? myRowSelection : undefined}
             scroll={{ x: scrollWidthX, y: innerScrollY }}
             onRow={(record) => ({
               onClick: () => {

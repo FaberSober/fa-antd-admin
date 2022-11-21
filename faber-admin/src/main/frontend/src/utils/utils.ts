@@ -1,4 +1,4 @@
-import {findIndex, get, isNil, isUndefined, trim} from 'lodash';
+import {findIndex, get, isNil, isUndefined, map, trim} from 'lodash';
 import {RES_CODE} from '@/configs/server.config';
 import {message} from 'antd';
 import moment from 'moment';
@@ -282,7 +282,7 @@ export function handleClipboard(text: string, successMsg: string = '') {
 	}
 }
 
-export function arrayMoveMutable(array, fromIndex, toIndex) {
+export function arrayMoveMutable(array:any[], fromIndex:number, toIndex:number) {
 	const startIndex = fromIndex < 0 ? array.length + fromIndex : fromIndex;
 
 	if (startIndex >= 0 && startIndex < array.length) {
@@ -293,7 +293,7 @@ export function arrayMoveMutable(array, fromIndex, toIndex) {
 	}
 }
 
-export function arrayMoveImmutable(array, fromIndex, toIndex) {
+export function arrayMoveImmutable(array:any[], fromIndex:number, toIndex:number) {
 	const newArray = [...array];
 	arrayMoveMutable(newArray, fromIndex, toIndex);
 	return newArray;
@@ -344,4 +344,20 @@ export function isUrlImg(url: string) {
 	const suffix = url.substr(url.lastIndexOf('.') + 1).toLowerCase();
 
 	return ['png', 'jpg', 'jpeg', 'ico', 'bmp', 'gif'].indexOf(suffix) > -1;
+}
+
+/**
+ * 将obj/list中undefined的值，设置为null。解决undefined值丢失的情况
+ * @param obj
+ */
+export function trimObj(obj: any):any {
+  if (obj instanceof Array) {
+    return obj.map(i => trimObj(i))
+  }
+
+  const newObj:any = {}
+  map(obj, (v, k) => {
+    newObj[k] = v === undefined ? null : v;
+  })
+  return newObj;
 }
