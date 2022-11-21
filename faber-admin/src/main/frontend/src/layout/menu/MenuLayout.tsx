@@ -50,7 +50,10 @@ export default function MenuLayout({children}: Fa.BaseChildProps) {
       setMenuList(menuArr)
 
       // 初始化选中的菜单
-      const menu = find(menuArr, (i) => i.linkUrl === location.pathname) as Rbac.RbacMenu
+      let menu = find(menuArr, (i) => i.linkUrl === location.pathname) as Rbac.RbacMenu
+      if (menu === undefined) {
+        menu = menuArr[0]
+      }
       syncOpenMenuById(menu.id, res.data)
     })
   }, [])

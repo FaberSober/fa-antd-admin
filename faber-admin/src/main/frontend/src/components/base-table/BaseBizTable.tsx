@@ -41,7 +41,7 @@ export default function BaseBizTable<RecordType extends object = any>({
   onSelectedRowsChange,
   showBatchBelBtn = true,
   showTopTips,
-  scrollYOccupied = 285,
+  scrollYOccupied = 273,
   scrollY,
   keyName = "id",
   ...props

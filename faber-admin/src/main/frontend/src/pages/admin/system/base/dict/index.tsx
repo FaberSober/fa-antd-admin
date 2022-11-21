@@ -69,7 +69,7 @@ export default function DictManage() {
 
         {/* 右侧面板 */}
         <div style={{ position: 'absolute', width: '100%', height: '100%', overflow: 'auto' }}>
-          <Descriptions bordered size="small" style={{ marginBottom: 12 }} labelStyle={{ width: 150 }} contentStyle={{ minWidth: 200 }}>
+          <Descriptions bordered size="small" style={{ marginBottom: 12 }} labelStyle={{ width: 150 }} contentStyle={{ minWidth: 100 }}>
             <Descriptions.Item label="字典分组名称">{viewRecord?.name}</Descriptions.Item>
             <Descriptions.Item label="字典分组编码">{viewRecord?.code}</Descriptions.Item>
             <Descriptions.Item label="描述">{viewRecord?.description}</Descriptions.Item>

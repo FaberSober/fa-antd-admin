@@ -1,7 +1,7 @@
 import React, {createContext, CSSProperties, ReactNode, useContext, useEffect, useMemo, useState} from 'react';
 import {each, find, get} from 'lodash';
 import {message, Modal, Space, Spin, Tree} from 'antd';
-import {DeleteOutlined, DownOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
+import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {ContextMenu, ContextMenuTrigger, MenuItem} from 'react-contextmenu';
 import {RES_CODE} from '@/configs/server.config';
 import {showResponse} from '@/utils/utils';
@@ -30,7 +30,7 @@ interface IProps<T, KeyType = number> extends TreeProps {
   showTips?: boolean; // 是否展示操作按钮
   tips?: string; // 是否展示操作按钮
   serviceName?: string; // 业务模块名称
-  ServiceModal?: ReactNode|Element; // 业务新增、编辑弹框
+  ServiceModal?: any; // 业务新增、编辑弹框
   className?: any;
   bodyStyle?: CSSProperties; // body补充样式
   treeStyle?: CSSProperties; // body补充样式
