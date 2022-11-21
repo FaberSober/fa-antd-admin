@@ -4,8 +4,8 @@ import {ConfigProvider} from 'antd';
 import 'moment/dist/locale/zh-cn';
 // import 'moment/dist/locale/en';
 // antd国际化配置
-import zhCN from 'antd/lib/locale/zh_CN';
-import enUS from 'antd/lib/locale/en_US';
+import zhCN from 'antd/locale/zh_CN';
+import enUS from 'antd/locale/en_US';
 // i18n国际化
 import {IntlProvider} from 'react-intl';
 import zhCNMessage from '@/lang/zh_CN';

@@ -43,18 +43,18 @@ export default defineConfig(({ command, mode }) => {
         generateScopedName: '[name]__[local]___[hash:base64:5]',
         hashPrefix: 'prefix',
       },
-      preprocessorOptions: {
-        less: {
-          // 支持内联 JavaScript
-          javascriptEnabled: true,
-          // 重写 less 变量，定制样式
-          modifyVars: {
-            // 修改antd主题色
-            '@primary-color': env.VITE_APP_STYLE_PRIMARY_COLOR,
-            'link-color': env.VITE_APP_STYLE_LINK_COLOR,
-          },
-        },
-      },
+      // preprocessorOptions: {
+      //   less: {
+      //     // 支持内联 JavaScript
+      //     javascriptEnabled: true,
+      //     // 重写 less 变量，定制样式
+      //     modifyVars: {
+      //       // 修改antd主题色
+      //       '@primary-color': env.VITE_APP_STYLE_PRIMARY_COLOR,
+      //       'link-color': env.VITE_APP_STYLE_LINK_COLOR,
+      //     },
+      //   },
+      // },
     },
     resolve: {
       alias: [
@@ -63,7 +63,7 @@ export default defineConfig(({ command, mode }) => {
         { find: '@', replacement: path.resolve(__dirname, 'src') },
         // fix less import by: @import ~
         // less import no support webpack alias '~' · Issue #2185 · vitejs/vite
-        { find: /^~antd/, replacement: "antd" },
+        // { find: /^~antd/, replacement: "antd" },
       ],
     },
     server: {
