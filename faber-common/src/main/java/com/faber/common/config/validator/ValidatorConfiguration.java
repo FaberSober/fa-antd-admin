@@ -1,4 +1,4 @@
-package com.faber.common.config;
+package com.faber.common.config.validator;
 
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +8,11 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+/**
+ * Spring hibernate validator 数据合法性校验
+ * @author xu.pengfei
+ * @date 2022/11/28 14:01
+ */
 @Configuration
 public class ValidatorConfiguration {
     @Bean

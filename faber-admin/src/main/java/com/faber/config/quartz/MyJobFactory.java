@@ -2,6 +2,7 @@ package com.faber.config.quartz;
 
 import org.jetbrains.annotations.NotNull;
 import org.quartz.spi.TriggerFiredBundle;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.scheduling.quartz.AdaptableJobFactory;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ import javax.annotation.Resource;
 @Component
 public class MyJobFactory extends AdaptableJobFactory {
 
-    @Resource
+    @Autowired
     private AutowireCapableBeanFactory capableBeanFactory;
 
     @NotNull

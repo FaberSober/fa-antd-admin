@@ -1,5 +1,6 @@
 package com.faber.config.quartz;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -15,7 +16,7 @@ import javax.annotation.Resource;
 @Configuration
 public class MySchedulerListener {
 
-    @Resource
+    @Autowired
     private MyJobFactory myJobFactory;
 
     @Bean(name = "schedulerFactoryBean")

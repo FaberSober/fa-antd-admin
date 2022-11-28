@@ -1,4 +1,4 @@
-package com.faber.common.config;
+package com.faber.common.config.enums;
 
 import cn.hutool.core.util.ClassUtil;
 import com.alibaba.excel.converters.Converter;
@@ -16,6 +16,8 @@ import java.util.Map;
  * EasyExcel 自定义类型转换器Converter-全局类型转换器
  * 加载自定义类型转换器（加载器）
  * https://blog.csdn.net/qq_38974638/article/details/119295809
+ * @author xu.pengfei
+ * @date 2022/11/28 14:00
  */
 @Configuration
 public class MyEasyExcelConverterLoader {

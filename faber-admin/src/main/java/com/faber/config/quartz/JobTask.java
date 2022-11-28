@@ -4,6 +4,7 @@ import com.faber.config.quartz.vo.JobInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.quartz.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,8 @@ import java.util.HashSet;
 @Slf4j
 public class JobTask {
 
-    @Resource
+    // 不可改成@Resource
+    @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
 
     /**

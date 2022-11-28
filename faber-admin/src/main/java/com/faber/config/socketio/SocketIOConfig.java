@@ -1,4 +1,4 @@
-package com.faber.common.config.socketio;
+package com.faber.config.socketio;
 
 import com.corundumstudio.socketio.SocketConfig;
 import com.corundumstudio.socketio.SocketIOServer;
@@ -6,6 +6,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * SocketIO
+ * @author xu.pengfei
+ * @date 2022/11/28 13:59
+ */
 @Configuration
 public class SocketIOConfig {
 
