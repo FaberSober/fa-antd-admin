@@ -20,14 +20,11 @@ import lombok.ToString;
 @Data
 @ToString
 public class Config extends BaseDelEntity {
-    private static final long serialVersionUID = 1L;
 
-    //  ID
     @TableId(type = IdType.AUTO)
     private Integer id;
 
-    // 业务模块
-    // @Column(name = "buzz_modal")
+    /** 业务模块 */
     private String buzzModal;
 
     public static final class Type {
@@ -41,36 +38,25 @@ public class Config extends BaseDelEntity {
         public static final String QUERY_CONDITION = "QUERY_CONDITION";
     }
 
-    // 配置类型
-    // @Column(name = "type")
+    /** 配置类型 */
     private String type;
 
-    // 配置名称
-    // @Column(name = "name")
+    /** 配置名称 */
     private String name;
 
-    // 配置JSON
-    // @Column(name = "data")
+    /** 配置JSON */
     private String data;
 
-    // 是否系统
-    // @Column(name = "system")
+    /** 是否系统 */
     private BoolEnum system;
 
-    // 是否默认
-    // @Column(name = "default_scene")
+    /** 是否默认 */
     private BoolEnum defaultScene;
 
-    // 是否隐藏
-    // @Column(name = "hide")
+    /** 是否隐藏 */
     private BoolEnum hide;
 
-    // 排序ID
-    // @Column(name = "sort")
+    /** 排序 */
     private Integer sort;
-
-    // 所属用户ID
-    // @Column(name = "belong_user_id")
-    private String belongUserId;
 
 }

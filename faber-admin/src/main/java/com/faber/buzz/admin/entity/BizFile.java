@@ -28,15 +28,14 @@ public class BizFile extends BaseDelEntity {
     private Integer id;
 
     @SqlEquals
-    // @Column(name = "biz_id")
     private String bizId;
 
     @SqlEquals
-    // @Column(name = "biz_type")
     private String bizType;
 
-    // 附件URL
-    // @Column(name = "url")
+    /**
+     * FIXME 附件URL 修改为存储文件ID
+     */
     private String url;
 
     public BizFile(String bizId, String bizType) {
@@ -52,4 +51,5 @@ public class BizFile extends BaseDelEntity {
         public final String value;
         public final String text;
     }
+
 }

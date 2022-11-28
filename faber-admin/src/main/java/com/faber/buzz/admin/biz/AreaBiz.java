@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 中国行政地区表
@@ -307,16 +308,16 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
      * @param areaLevel DictConstants.AreaLevel.Value
      * @return
      */
-    public static Long chopAreaCodeToLevelX(Long areaCode, Area.Level areaLevel) {
+    public static Long chopAreaCodeToLevelX(Long areaCode, AreaLevelEnum areaLevel) {
         if (areaCode == null) return areaCode;
-        if (areaLevel.value == Area.Level.NATION.value) return areaCode;
-        if (areaLevel.value > Area.Level.COUNTRY.value) return areaCode;
+        if (Objects.equals(areaLevel.getValue(), AreaLevelEnum.NATION.getValue())) return areaCode;
+        if (areaLevel.getValue() > AreaLevelEnum.COUNTRY.getValue()) return areaCode;
         if (areaCode.toString().length() != 12) return areaCode;
-        return Long.parseLong(areaCode.toString().substring(0, (areaLevel.value + 1) * 2)) * (int) Math.pow(10, (5 - areaLevel.value) * 2);
+        return Long.parseLong(areaCode.toString().substring(0, (areaLevel.getValue() + 1) * 2)) * (int) Math.pow(10, (5 - areaLevel.getValue()) * 2);
     }
 
     public static String chopAreaCodeToLevelX2(Long areaCode, Integer areaLevel) {
-        if (areaLevel <= Area.Level.COUNTY.value) {
+        if (areaLevel <= AreaLevelEnum.COUNTY.getValue()) {
             return areaCode.toString().substring(0, (areaLevel + 1) * 2);
         }
         return areaCode.toString().substring(0, (areaLevel - 2) * 3 + 6);

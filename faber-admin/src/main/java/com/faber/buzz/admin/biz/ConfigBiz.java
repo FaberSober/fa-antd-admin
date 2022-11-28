@@ -25,9 +25,7 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> implements ConfigSe
     @Override
     public boolean save(Config entity) {
         // 非系统配置，默认为上传用户所拥有
-        if (entity.getSystem() == BoolEnum.NO && entity.getBelongUserId() == null) {
-            entity.setBelongUserId(getCurrentUserId());
-
+        if (entity.getSystem() == BoolEnum.NO) {
             // 设置sort
             int sort = baseMapper.findMaxSort(entity.getBuzzModal(), entity.getType(), getCurrentUserId());
             entity.setSort(sort);
@@ -43,9 +41,7 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> implements ConfigSe
     @Override
     public boolean updateById(Config entity) {
         // 非系统配置，默认为上传用户所拥有
-        if (entity.getSystem() == BoolEnum.NO && entity.getBelongUserId() == null) {
-            entity.setBelongUserId(getCurrentUserId());
-
+        if (entity.getSystem() == BoolEnum.NO) {
             // 是否默认
             if (entity.getDefaultScene() == BoolEnum.YES) {
                 baseMapper.clearOtherDefaultScene(entity.getBuzzModal(), entity.getType(), getCurrentUserId());
@@ -69,7 +65,7 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> implements ConfigSe
         List<Config> configList = lambdaQuery().eq(Config::getBuzzModal, buzzModal)
                 .eq(Config::getType, type)
                 .eq(Config::getSystem, BoolEnum.NO)
-                .eq(Config::getBelongUserId, getCurrentUserId())
+                .eq(Config::getCrtUser, getCurrentUserId())
                 .orderByAsc(Config::getSort)
                 .list();
 
@@ -87,7 +83,7 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> implements ConfigSe
         List<Config> configList = lambdaQuery().eq(Config::getBuzzModal, buzzModal)
                 .eq(Config::getType, type)
                 .eq(Config::getSystem, BoolEnum.NO)
-                .eq(Config::getBelongUserId, getCurrentUserId())
+                .eq(Config::getCrtUser, getCurrentUserId())
                 .orderByAsc(Config::getSort)
                 .list();
         if (configList != null && configList.size() > 0) {
