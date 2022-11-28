@@ -1,11 +1,11 @@
 package com.faber.config.interceptor;
 
-import com.faber.common.config.annotation.ApiToken;
-import com.faber.common.config.annotation.IgnoreUserToken;
-import com.faber.common.config.annotation.Permission;
+import com.faber.core.config.annotation.ApiToken;
+import com.faber.core.config.annotation.IgnoreUserToken;
+import com.faber.core.config.annotation.Permission;
 import com.faber.config.utils.jwt.JWTInfo;
 import com.faber.config.utils.user.JwtTokenUtil;
-import com.faber.common.annotation.LogNoRet;
+import com.faber.core.annotation.LogNoRet;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;

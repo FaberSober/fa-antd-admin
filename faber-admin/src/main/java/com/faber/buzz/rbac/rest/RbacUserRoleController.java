@@ -2,10 +2,10 @@ package com.faber.buzz.rbac.rest;
 
 import com.faber.buzz.rbac.entity.RbacUserRole;
 import com.faber.buzz.rbac.vo.query.RbacUserRoleQueryVo;
-import com.faber.common.vo.msg.Ret;
-import com.faber.common.vo.msg.TableRet;
-import com.faber.common.web.rest.BaseController;
-import com.faber.common.vo.tree.TreeNode;
+import com.faber.core.vo.msg.Ret;
+import com.faber.core.vo.msg.TableRet;
+import com.faber.core.web.rest.BaseController;
+import com.faber.core.vo.tree.TreeNode;
 import com.faber.buzz.rbac.biz.RbacUserRoleBiz;
 import com.faber.buzz.rbac.entity.RbacMenu;
 import com.faber.buzz.rbac.entity.RbacRole;

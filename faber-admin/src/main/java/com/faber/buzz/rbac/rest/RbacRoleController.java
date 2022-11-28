@@ -1,7 +1,7 @@
 package com.faber.buzz.rbac.rest;
 
 import com.faber.buzz.rbac.entity.RbacRole;
-import com.faber.common.web.rest.BaseController;
+import com.faber.core.web.rest.BaseController;
 import com.faber.buzz.rbac.biz.RbacRoleBiz;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

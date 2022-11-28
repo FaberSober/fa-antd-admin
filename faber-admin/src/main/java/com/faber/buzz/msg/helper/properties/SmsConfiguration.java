@@ -13,7 +13,7 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.faber.buzz.msg.helper.config.MsgSendConfig;
 import com.faber.buzz.msg.helper.config.MsgSendSysConfig;
 import com.faber.buzz.msg.helper.config.PropKey;
-import com.faber.common.exception.BuzzException;
+import com.faber.core.exception.BuzzException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

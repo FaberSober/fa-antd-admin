@@ -1,7 +1,7 @@
 package com.faber.buzz.demo.biz;
 
 import com.faber.buzz.demo.entity.Student;
-import com.faber.common.web.biz.BaseBiz;
+import com.faber.core.web.biz.BaseBiz;
 import com.faber.buzz.demo.mapper.StudentMapper;
 import org.springframework.stereotype.Service;
 

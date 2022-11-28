@@ -1,10 +1,10 @@
 package com.faber.config.interceptor;
 
 import com.faber.buzz.admin.biz.UserBiz;
-import com.faber.common.config.annotation.IgnoreUserToken;
+import com.faber.core.config.annotation.IgnoreUserToken;
 import com.faber.buzz.admin.entity.User;
 import com.faber.config.utils.user.UserCheckUtil;
-import com.faber.common.context.BaseContextHandler;
+import com.faber.core.context.BaseContextHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

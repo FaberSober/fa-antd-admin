@@ -1,10 +1,10 @@
 package com.faber.buzz.admin.rest;
 
 import com.faber.buzz.admin.biz.AuthBiz;
-import com.faber.common.config.annotation.IgnoreUserToken;
+import com.faber.core.config.annotation.IgnoreUserToken;
 import com.faber.config.utils.user.AuthRequest;
-import com.faber.common.vo.msg.Ret;
-import com.faber.common.utils.BaseResHandler;
+import com.faber.core.vo.msg.Ret;
+import com.faber.core.utils.BaseResHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

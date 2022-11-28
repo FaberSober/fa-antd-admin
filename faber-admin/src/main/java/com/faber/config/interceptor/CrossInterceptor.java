@@ -1,6 +1,6 @@
 package com.faber.config.interceptor;
 
-import com.faber.common.config.annotation.CrossResponse;
+import com.faber.core.config.annotation.CrossResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.HandlerMethod;
 

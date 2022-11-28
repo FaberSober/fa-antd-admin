@@ -3,8 +3,8 @@ package com.faber.buzz.admin.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.faber.common.bean.BaseDelEntity;
-import com.faber.common.enums.BoolEnum;
+import com.faber.core.bean.BaseDelEntity;
+import com.faber.core.enums.BoolEnum;
 import lombok.Data;
 import lombok.ToString;
 

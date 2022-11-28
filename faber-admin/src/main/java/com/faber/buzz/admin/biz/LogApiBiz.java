@@ -2,7 +2,7 @@ package com.faber.buzz.admin.biz;
 
 import com.faber.buzz.admin.entity.LogApi;
 import com.faber.buzz.admin.mapper.LogApiMapper;
-import com.faber.common.web.biz.BaseBiz;
+import com.faber.core.web.biz.BaseBiz;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

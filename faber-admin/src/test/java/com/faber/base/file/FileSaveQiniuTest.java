@@ -1,7 +1,7 @@
 package com.faber.base.file;
 
 import com.faber.AdminBootstrap;
-import com.faber.common.file.FileHelperImpl;
+import com.faber.core.file.FileHelperImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

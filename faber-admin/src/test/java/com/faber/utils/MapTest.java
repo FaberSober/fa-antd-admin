@@ -1,6 +1,6 @@
 package com.faber.utils;
 
-import com.faber.common.utils.AMapUtils;
+import com.faber.core.utils.AMapUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

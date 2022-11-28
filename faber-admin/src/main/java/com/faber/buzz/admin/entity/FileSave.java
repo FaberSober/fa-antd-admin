@@ -5,9 +5,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.faber.common.bean.BaseDelEntity;
-import com.faber.common.bean.BaseUpdEntity;
-import com.faber.common.enums.FileSaveDriveEnum;
+import com.faber.core.bean.BaseDelEntity;
+import com.faber.core.enums.FileSaveDriveEnum;
 import lombok.Data;
 
 

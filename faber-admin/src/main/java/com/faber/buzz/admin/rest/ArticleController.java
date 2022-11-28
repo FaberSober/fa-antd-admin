@@ -2,8 +2,8 @@ package com.faber.buzz.admin.rest;
 
 import com.faber.buzz.admin.biz.ArticleBiz;
 import com.faber.buzz.admin.entity.Article;
-import com.faber.common.vo.msg.Ret;
-import com.faber.common.web.rest.BaseController;
+import com.faber.core.vo.msg.Ret;
+import com.faber.core.web.rest.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

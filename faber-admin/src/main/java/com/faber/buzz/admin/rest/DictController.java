@@ -1,13 +1,13 @@
 package com.faber.buzz.admin.rest;
 
 import com.faber.buzz.admin.biz.DictBiz;
-import com.faber.common.config.annotation.IgnoreUserToken;
+import com.faber.core.config.annotation.IgnoreUserToken;
 import com.faber.buzz.admin.entity.Dict;
 import com.faber.buzz.admin.vo.SystemConfigPo;
-import com.faber.common.exception.BuzzException;
-import com.faber.common.vo.DictOption;
-import com.faber.common.vo.msg.Ret;
-import com.faber.common.web.rest.BaseController;
+import com.faber.core.exception.BuzzException;
+import com.faber.core.vo.DictOption;
+import com.faber.core.vo.msg.Ret;
+import com.faber.core.web.rest.BaseController;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

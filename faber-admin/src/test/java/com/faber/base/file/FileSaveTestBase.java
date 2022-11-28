@@ -1,9 +1,7 @@
 package com.faber.base.file;
 
-import com.faber.common.file.FileHelperImpl;
-import org.junit.Test;
+import com.faber.core.file.FileHelperImpl;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

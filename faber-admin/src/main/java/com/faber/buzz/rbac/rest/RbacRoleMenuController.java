@@ -1,8 +1,8 @@
 package com.faber.buzz.rbac.rest;
 
 import com.faber.buzz.rbac.entity.RbacRoleMenu;
-import com.faber.common.vo.msg.Ret;
-import com.faber.common.web.rest.BaseController;
+import com.faber.core.vo.msg.Ret;
+import com.faber.core.web.rest.BaseController;
 import com.faber.buzz.rbac.biz.RbacRoleMenuBiz;
 import com.faber.buzz.rbac.vo.RoleMenuVo;
 import org.springframework.web.bind.annotation.*;

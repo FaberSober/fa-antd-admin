@@ -1,8 +1,8 @@
 package com.faber.buzz.demo.rest;
 
-import com.faber.common.config.annotation.Permission;
-import com.faber.common.vo.msg.Ret;
-import com.faber.common.utils.BaseResHandler;
+import com.faber.core.config.annotation.Permission;
+import com.faber.core.vo.msg.Ret;
+import com.faber.core.utils.BaseResHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;

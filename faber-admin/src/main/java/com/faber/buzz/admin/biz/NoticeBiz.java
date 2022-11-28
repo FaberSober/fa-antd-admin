@@ -2,10 +2,10 @@ package com.faber.buzz.admin.biz;
 
 import com.faber.buzz.admin.entity.Notice;
 import com.faber.buzz.admin.mapper.NoticeMapper;
-import com.faber.common.web.biz.BaseBiz;
+import com.faber.core.web.biz.BaseBiz;
 import com.faber.buzz.admin.enums.DictTypeCodeEnum;
-import com.faber.common.vo.msg.TableRet;
-import com.faber.common.vo.query.QueryParams;
+import com.faber.core.vo.msg.TableRet;
+import com.faber.core.vo.query.QueryParams;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

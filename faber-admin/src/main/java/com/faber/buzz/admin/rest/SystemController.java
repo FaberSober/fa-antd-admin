@@ -2,8 +2,8 @@ package com.faber.buzz.admin.rest;
 
 import com.faber.buzz.admin.biz.SystemBiz;
 import com.faber.buzz.admin.vo.ServerInfo;
-import com.faber.common.utils.BaseResHandler;
-import com.faber.common.vo.msg.Ret;
+import com.faber.core.utils.BaseResHandler;
+import com.faber.core.vo.msg.Ret;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

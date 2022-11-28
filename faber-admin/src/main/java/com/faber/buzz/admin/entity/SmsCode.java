@@ -3,8 +3,8 @@ package com.faber.buzz.admin.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.faber.common.annotation.SqlEquals;
-import com.faber.common.annotation.SqlTreeId;
+import com.faber.core.annotation.SqlEquals;
+import com.faber.core.annotation.SqlTreeId;
 import lombok.Data;
 
 import java.io.Serializable;

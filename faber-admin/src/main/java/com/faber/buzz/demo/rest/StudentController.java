@@ -2,7 +2,7 @@ package com.faber.buzz.demo.rest;
 
 import com.faber.buzz.demo.biz.StudentBiz;
 import com.faber.buzz.demo.entity.Student;
-import com.faber.common.web.rest.BaseController;
+import com.faber.core.web.rest.BaseController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

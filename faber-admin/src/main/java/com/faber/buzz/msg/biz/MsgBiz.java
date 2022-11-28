@@ -2,8 +2,8 @@ package com.faber.buzz.msg.biz;
 
 import com.faber.buzz.admin.biz.DictBiz;
 import com.faber.buzz.admin.biz.UserBiz;
-import com.faber.common.web.biz.BaseBiz;
-import com.faber.common.enums.BoolEnum;
+import com.faber.core.web.biz.BaseBiz;
+import com.faber.core.enums.BoolEnum;
 import com.faber.buzz.msg.entity.Msg;
 import com.faber.buzz.msg.mapper.MsgMapper;
 import com.faber.buzz.msg.vo.MsgStatisticVO;

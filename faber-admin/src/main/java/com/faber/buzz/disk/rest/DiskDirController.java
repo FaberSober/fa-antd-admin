@@ -2,8 +2,8 @@ package com.faber.buzz.disk.rest;
 
 import com.faber.buzz.disk.entity.DiskDir;
 import com.faber.buzz.disk.vo.DiskDirVO;
-import com.faber.common.vo.msg.Ret;
-import com.faber.common.web.rest.BaseController;
+import com.faber.core.vo.msg.Ret;
+import com.faber.core.web.rest.BaseController;
 import com.faber.buzz.disk.biz.DiskDirBiz;
 import org.springframework.web.bind.annotation.*;
 

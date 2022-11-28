@@ -2,8 +2,8 @@ package com.faber.buzz.admin.biz;
 
 import com.faber.buzz.admin.entity.Article;
 import com.faber.buzz.admin.mapper.ArticleMapper;
-import com.faber.common.web.biz.BaseBiz;
-import com.faber.common.exception.BuzzException;
+import com.faber.core.web.biz.BaseBiz;
+import com.faber.core.exception.BuzzException;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;

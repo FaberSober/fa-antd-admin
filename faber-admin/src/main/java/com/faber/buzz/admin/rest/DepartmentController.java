@@ -3,8 +3,8 @@ package com.faber.buzz.admin.rest;
 import com.faber.buzz.admin.biz.DepartmentBiz;
 import com.faber.buzz.admin.entity.Department;
 import com.faber.buzz.admin.vo.DepartmentInfo;
-import com.faber.common.vo.msg.Ret;
-import com.faber.common.web.rest.BaseTreeController;
+import com.faber.core.vo.msg.Ret;
+import com.faber.core.web.rest.BaseTreeController;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

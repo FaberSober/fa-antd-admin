@@ -1,8 +1,8 @@
 package com.faber.common.util;
 
-import com.faber.common.enums.DelStateEnum;
-import com.faber.common.utils.FaEnumUtils;
-import com.faber.common.vo.DictOption;
+import com.faber.core.enums.DelStateEnum;
+import com.faber.core.utils.FaEnumUtils;
+import com.faber.core.vo.DictOption;
 import org.junit.Test;
 
 import java.util.List;

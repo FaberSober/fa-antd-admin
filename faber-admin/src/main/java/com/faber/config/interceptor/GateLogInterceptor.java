@@ -1,6 +1,6 @@
 package com.faber.config.interceptor;
 
-import com.faber.common.annotation.LogNoRet;
+import com.faber.core.annotation.LogNoRet;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;

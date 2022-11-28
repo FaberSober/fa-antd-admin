@@ -2,9 +2,9 @@ package com.faber.buzz.admin.biz;
 
 import com.faber.buzz.admin.entity.Config;
 import com.faber.buzz.admin.mapper.ConfigMapper;
-import com.faber.common.web.biz.BaseBiz;
-import com.faber.common.enums.BoolEnum;
-import com.faber.common.service.ConfigService;
+import com.faber.core.web.biz.BaseBiz;
+import com.faber.core.enums.BoolEnum;
+import com.faber.core.service.ConfigService;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 

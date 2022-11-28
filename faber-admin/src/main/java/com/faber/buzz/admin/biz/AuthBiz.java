@@ -7,10 +7,10 @@ import com.faber.buzz.admin.entity.User;
 import com.faber.config.utils.jwt.JWTInfo;
 import com.faber.config.utils.user.AuthRequest;
 import com.faber.config.utils.user.JwtTokenUtil;
-import com.faber.common.context.BaseContextHandler;
-import com.faber.common.enums.BoolEnum;
-import com.faber.common.utils.IpUtils;
-import com.faber.common.utils.RequestUtils;
+import com.faber.core.context.BaseContextHandler;
+import com.faber.core.enums.BoolEnum;
+import com.faber.core.utils.IpUtils;
+import com.faber.core.utils.RequestUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

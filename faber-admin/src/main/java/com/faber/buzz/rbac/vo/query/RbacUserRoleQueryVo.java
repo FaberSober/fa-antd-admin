@@ -1,6 +1,6 @@
 package com.faber.buzz.rbac.vo.query;
 
-import com.faber.common.vo.BasePageQuery;
+import com.faber.core.vo.BasePageQuery;
 import lombok.Data;
 import lombok.ToString;
 

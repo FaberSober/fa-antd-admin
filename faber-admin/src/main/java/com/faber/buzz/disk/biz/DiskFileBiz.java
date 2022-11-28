@@ -3,9 +3,9 @@ package com.faber.buzz.disk.biz;
 import cn.hutool.core.map.MapUtil;
 import com.faber.buzz.disk.entity.DiskFile;
 import com.faber.buzz.disk.mapper.DiskFileMapper;
-import com.faber.common.bean.BaseCrtEntity;
-import com.faber.common.web.biz.BaseBiz;
-import com.faber.common.exception.BuzzException;
+import com.faber.core.bean.BaseCrtEntity;
+import com.faber.core.web.biz.BaseBiz;
+import com.faber.core.exception.BuzzException;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 

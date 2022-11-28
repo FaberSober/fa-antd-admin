@@ -1,6 +1,6 @@
 package com.faber.common.util;
 
-import com.faber.common.utils.IpUtils;
+import com.faber.core.utils.IpUtils;
 import org.junit.jupiter.api.Test;
 
 public class IpUtilsTest {

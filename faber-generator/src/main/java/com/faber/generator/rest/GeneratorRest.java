@@ -1,6 +1,6 @@
 package com.faber.generator.rest;
 
-import com.faber.common.vo.msg.TableRet;
+import com.faber.core.vo.msg.TableRet;
 import com.faber.generator.service.GeneratorService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;

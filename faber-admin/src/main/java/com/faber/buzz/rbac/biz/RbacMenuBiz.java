@@ -3,8 +3,8 @@ package com.faber.buzz.rbac.biz;
 import cn.hutool.core.util.ObjectUtil;
 import com.faber.buzz.rbac.entity.RbacMenu;
 import com.faber.buzz.rbac.mapper.RbacMenuMapper;
-import com.faber.common.web.biz.BaseTreeBiz;
-import com.faber.common.exception.BuzzException;
+import com.faber.core.web.biz.BaseTreeBiz;
+import com.faber.core.exception.BuzzException;
 import org.springframework.stereotype.Service;
 
 /**

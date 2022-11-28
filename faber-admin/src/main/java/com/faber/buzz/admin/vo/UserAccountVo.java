@@ -1,6 +1,6 @@
 package com.faber.buzz.admin.vo;
 
-import com.faber.common.validator.TelNoValidator;
+import com.faber.core.validator.TelNoValidator;
 import lombok.Data;
 
 @Data

@@ -1,6 +1,6 @@
 package ${package}.rest;
 
-import com.faber.common.web.rest.BaseController;
+import com.faber.core.web.rest.BaseController;
 import ${package}.biz.${className}Biz;
 import ${package}.entity.${className};
 import org.springframework.web.bind.annotation.RequestMapping;

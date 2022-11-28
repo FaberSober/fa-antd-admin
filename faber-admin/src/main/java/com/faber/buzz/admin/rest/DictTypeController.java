@@ -2,7 +2,7 @@ package com.faber.buzz.admin.rest;
 
 import com.faber.buzz.admin.biz.DictTypeBiz;
 import com.faber.buzz.admin.entity.DictType;
-import com.faber.common.web.rest.BaseTreeController;
+import com.faber.core.web.rest.BaseTreeController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 

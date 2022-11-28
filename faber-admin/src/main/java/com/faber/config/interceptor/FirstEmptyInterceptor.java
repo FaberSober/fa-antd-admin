@@ -1,7 +1,7 @@
 package com.faber.config.interceptor;
 
-import com.faber.common.context.BaseContextHandler;
-import com.faber.common.utils.IpUtils;
+import com.faber.core.context.BaseContextHandler;
+import com.faber.core.utils.IpUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;

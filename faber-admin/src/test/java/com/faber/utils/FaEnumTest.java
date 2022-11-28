@@ -3,8 +3,8 @@ package com.faber.utils;
 import cn.hutool.core.util.ClassLoaderUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.annotation.IEnum;
-import com.faber.common.utils.FaEnumUtils;
-import com.faber.common.vo.DictOption;
+import com.faber.core.utils.FaEnumUtils;
+import com.faber.core.vo.DictOption;
 import com.faber.buzz.msg.entity.Msg;
 import org.junit.Test;
 

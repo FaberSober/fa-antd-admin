@@ -1,10 +1,10 @@
 package com.faber.config.interceptor;
 
 import cn.hutool.core.util.StrUtil;
-import com.faber.common.config.annotation.IgnoreUserToken;
-import com.faber.common.config.annotation.Permission;
-import com.faber.common.context.BaseContextHandler;
-import com.faber.common.exception.auth.UserNoPermissionException;
+import com.faber.core.config.annotation.IgnoreUserToken;
+import com.faber.core.config.annotation.Permission;
+import com.faber.core.context.BaseContextHandler;
+import com.faber.core.exception.auth.UserNoPermissionException;
 import com.faber.buzz.rbac.biz.RbacUserRoleBiz;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
