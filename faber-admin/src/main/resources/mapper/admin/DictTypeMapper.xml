@@ -3,5 +3,4 @@
 
 <mapper namespace="com.faber.buzz.admin.mapper.DictTypeMapper">
 
-
 </mapper>
