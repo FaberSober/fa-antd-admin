@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 @Getter
-//@JSONType(serializeEnumAsJavaBean = true)
 public enum RbacMenuLevelEnum implements IEnum<Integer> {
     APP(0, "模块"),
     MENU(1, "菜单"),
@@ -22,11 +21,4 @@ public enum RbacMenuLevelEnum implements IEnum<Integer> {
         this.desc = desc;
     }
 
-//    @JsonValue
-//    public Map<String,Object> toMap() {
-//        Map<String,Object> map = new HashMap<>();
-//        map.put("code", this.code);
-//        map.put("val ", this.val);
-//        return map;
-//    }
 }
