@@ -6,7 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 忽略用户鉴权
+ * 加此注解忽略用户鉴权
+ * @author xu.pengfei
+ * @date 2022/11/28 11:36
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value={ElementType.METHOD,ElementType.TYPE})

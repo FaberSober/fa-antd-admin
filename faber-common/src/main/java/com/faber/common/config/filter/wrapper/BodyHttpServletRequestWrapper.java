@@ -11,6 +11,11 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * 请求重放-request覆盖定义
+ * @author xu.pengfei
+ * @date 2022/11/28 11:38
+ */
 public class BodyHttpServletRequestWrapper extends HttpServletRequestWrapper {
     private byte[] body;
     private ServletInputStream inputStream;

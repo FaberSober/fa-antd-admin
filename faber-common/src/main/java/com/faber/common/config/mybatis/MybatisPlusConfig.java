@@ -25,6 +25,8 @@ import java.util.List;
 
 /**
  * Mybatis Plus Config
+ * @author xu.pengfei
+ * @date 2022/11/28 11:41
  */
 @Configuration
 @MapperScan("com.faber.**.mapper")
@@ -32,6 +34,7 @@ public class MybatisPlusConfig {
 
     /**
      * 包含租户ID(tenant_id)字段的表
+     * TODO 要支持配置文件
      */
     private static final List<String> TENANT_TABLES = Arrays.asList("demo_student");
 
@@ -68,7 +71,8 @@ public class MybatisPlusConfig {
 
         mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         mybatisPlusInterceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
-        mybatisPlusInterceptor.addInnerInterceptor(new BlockAttackInnerInterceptor()); // 防全表更新与删除插件
+        // 防全表更新与删除插件
+        mybatisPlusInterceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
         sqlSessionFactory.setPlugins(mybatisPlusInterceptor);
 
         /* map 下划线转驼峰 */

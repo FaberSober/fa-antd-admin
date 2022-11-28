@@ -1,7 +1,7 @@
-package com.faber.common.config.quartz.customer;
+package com.faber.config.quartz.customer;
 
 import cn.hutool.core.util.RandomUtil;
-import com.faber.common.config.quartz.BaseJob;
+import com.faber.config.quartz.BaseJob;
 import lombok.extern.slf4j.Slf4j;
 
 /**

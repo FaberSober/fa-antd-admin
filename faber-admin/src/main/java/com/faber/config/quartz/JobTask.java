@@ -1,4 +1,4 @@
-package com.faber.common.config.quartz;
+package com.faber.config.quartz;
 
 import com.faber.admin.entity.Job;
 import lombok.extern.slf4j.Slf4j;
@@ -78,7 +78,7 @@ public class JobTask {
      * 开启
      */
 //    @Log(desc = "开启定时任务")
-    public boolean startJob(Job job) {
+    public boolean startJob(org.quartz.Job job) {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
         try {
             JobDetail jobDetail = this.getJobDetail(job);
@@ -106,7 +106,7 @@ public class JobTask {
      * 更新
      */
 //    @Log(desc = "更新定时任务", type = Log.LOG_TYPE.UPDATE)
-    public boolean updateJob(Job job) {
+    public boolean updateJob(org.quartz.Job job) {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
         String createTime = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
 
@@ -138,7 +138,7 @@ public class JobTask {
      * 删除
      */
 //    @Log(desc = "删除定时任务", type = Log.LOG_TYPE.DEL)
-    public boolean remove(Job job) {
+    public boolean remove(org.quartz.Job job) {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
         TriggerKey triggerKey = TriggerKey.triggerKey(this.getJobKeyName(job), Scheduler.DEFAULT_GROUP);
         try {
@@ -155,11 +155,11 @@ public class JobTask {
         return false;
     }
 
-    private String getJobKeyName(Job job) {
+    private String getJobKeyName(org.quartz.Job job) {
         return job.getId().toString() + "-" + job.getClazzPath();
     }
 
-    private JobDetail getJobDetail(Job job) throws ClassNotFoundException {
+    private JobDetail getJobDetail(org.quartz.Job job) throws ClassNotFoundException {
         Class clazz = Class.forName(job.getClazzPath());
         return JobBuilder.newJob(clazz)
                 .usingJobData("jobId", job.getId())

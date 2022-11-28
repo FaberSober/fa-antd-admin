@@ -1,4 +1,4 @@
-package com.faber.common.config.quartz;
+package com.faber.config.quartz;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

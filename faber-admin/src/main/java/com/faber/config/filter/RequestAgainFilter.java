@@ -1,4 +1,4 @@
-package com.faber.common.config.filter;
+package com.faber.config.filter;
 
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
@@ -27,6 +27,8 @@ import java.util.List;
  * 2. 包装response，可以读取返回内容；
  * 3. 记录请求日志；
  * 4. 销毁上下文中记录的登录用户信息；
+ * @author xu.pengfei
+ * @date 2022/11/28 11:39
  */
 @Slf4j
 @WebFilter(filterName = "RequestAgainFilter", urlPatterns = "/api/*")
@@ -34,6 +36,7 @@ public class RequestAgainFilter implements Filter {
 
     /**
      * 列表的api不记录日志
+     * TODO 这里要支持写入配置文件中
      */
     private static final List<String> NO_LOG_APIS = Arrays.asList("/api/admin/logApi/page", "api/admin/logLogin/page", "/api/admin/dict/getSystemConfig");
 

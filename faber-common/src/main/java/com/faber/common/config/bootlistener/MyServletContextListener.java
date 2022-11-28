@@ -1,5 +1,6 @@
 package com.faber.common.config.bootlistener;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -8,22 +9,22 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 /**
+ * Servlet启动监听
  * @Author: xu.pengfei
  * @Email: faberxu@gmail.com
  * @Date: 2018-08-21 9:25
  */
+@Slf4j
 @Component
 public class MyServletContextListener implements ServletContextListener {
 
-    private final Logger _logger = LoggerFactory.getLogger(this.getClass());
-
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        _logger.info("------------contextInitialized------------");
+        log.info("------------contextInitialized------------");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        _logger.info("------------contextDestroyed------------");
+        log.info("------------contextDestroyed------------");
     }
 }

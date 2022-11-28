@@ -1,4 +1,4 @@
-package com.faber.common.config.quartz;
+package com.faber.config.quartz;
 
 import org.quartz.spi.TriggerFiredBundle;
 import org.springframework.beans.factory.annotation.Autowired;

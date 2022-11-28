@@ -1,7 +1,7 @@
 package com.faber.admin.biz;
 
 import cn.hutool.core.date.DateUtil;
-import com.faber.common.config.quartz.JobTask;
+import com.faber.config.quartz.JobTask;
 import com.faber.admin.entity.Job;
 import com.faber.admin.mapper.JobMapper;
 import com.faber.common.biz.BaseBiz;

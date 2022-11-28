@@ -1,4 +1,4 @@
-package com.faber.common.config.quartz;
+package com.faber.config.quartz;
 
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;

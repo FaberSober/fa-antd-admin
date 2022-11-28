@@ -11,6 +11,11 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * 请求重放-response覆盖定义
+ * @author xu.pengfei
+ * @date 2022/11/28 11:39
+ */
 public class BodyHttpServletResponseWrapper extends HttpServletResponseWrapper {
     private ByteArrayOutputStream byteArrayOutputStream;
     private ServletOutputStream servletOutputStream;
