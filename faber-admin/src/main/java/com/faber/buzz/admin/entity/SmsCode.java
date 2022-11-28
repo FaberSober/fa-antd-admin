@@ -1,5 +1,6 @@
 package com.faber.buzz.admin.entity;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -26,19 +27,15 @@ public class SmsCode implements Serializable {
     @SqlTreeId
     private Integer id;
 
-    // 手机号
     @SqlEquals
-    // @Column(name = "phone")
+    @ExcelProperty("手机号")
     private String phone;
 
-    // 短信验证码
     @SqlEquals
-    // @Column(name = "code")
+    @ExcelProperty("短信验证码")
     private String code;
 
-    // 创建时间
-    // @Column(name = "crt_time")
+    @ExcelProperty("创建时间")
     private Date crtTime;
-
 
 }

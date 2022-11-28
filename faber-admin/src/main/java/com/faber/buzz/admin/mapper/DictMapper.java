@@ -10,7 +10,6 @@ import java.util.List;
 /**
  * 字典值
  */
-//@Mapper
 public interface DictMapper extends BaseMapper<Dict> {
 
     List<Dict> selectByTypeCode(@Param("dictTypeCode") String dictTypeCode);

@@ -10,7 +10,6 @@ import com.faber.buzz.admin.entity.Department;
  * @email faberxu@gmail.com
  * @date 2020-06-07 19:26:53
  */
-// @Mapper
 public interface DepartmentMapper extends BaseMapper<Department> {
 
 }

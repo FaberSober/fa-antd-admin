@@ -10,7 +10,6 @@ import com.faber.buzz.admin.entity.SystemUpdateLog;
  * @email faberxu@gmail.com
  * @date 2022-08-17 17:10:02
  */
-// @Mapper
 public interface SystemUpdateLogMapper extends BaseMapper<SystemUpdateLog> {
 
     /**

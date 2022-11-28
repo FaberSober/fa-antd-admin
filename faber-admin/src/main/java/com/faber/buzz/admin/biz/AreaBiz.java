@@ -229,12 +229,10 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
         return list.get(0);
     }
 
-    public Map<String, Object> locIp() {
+    public IpUtils.IpAddr locIp() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String ip = IpUtils.getRequestIp(request);
-        Map<String, Object> map = aMapUtils.getLocByIp(ip);
-        map.put("ip", ip);
-        return map;
+        return IpUtils.getIpAddrByApi(ip);
     }
 
     public List<Area> findChildrenList(String parentCode) {

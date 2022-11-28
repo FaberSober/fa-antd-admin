@@ -62,8 +62,8 @@ public class User extends BaseDelEntity {
 
     @NotNull
     @TelNoValidator
-    @ExcelProperty("手机号")
     @SqlSearch
+    @ExcelProperty("手机号")
     private String tel;
 
     @Email

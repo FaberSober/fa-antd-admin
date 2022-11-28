@@ -10,7 +10,6 @@ import com.faber.buzz.admin.entity.JobLog;
  * @email faberxu@gmail.com
  * @date 2022-09-07 16:03:51
  */
-// @Mapper
 public interface JobLogMapper extends BaseMapper<JobLog> {
 	
 }

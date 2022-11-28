@@ -11,7 +11,6 @@ import org.apache.ibatis.annotations.Param;
  * @email faberxu@gmail.com
  * @date 2020-06-02 21:21:45
  */
-// @Mapper
 public interface ConfigMapper extends BaseMapper<Config> {
 
     int findMaxSort(@Param("buzzModal") String buzzModal, @Param("type") String type, @Param("belongUserId") String belongUserId);

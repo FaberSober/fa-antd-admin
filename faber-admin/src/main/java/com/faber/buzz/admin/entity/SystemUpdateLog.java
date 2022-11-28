@@ -29,19 +29,15 @@ public class SystemUpdateLog implements Serializable {
     private Integer id;
 
     @ExcelProperty("版本号")
-    // @Column(name = "ver")
     private Integer ver;
 
     @ExcelProperty("版本编码")
-    // @Column(name = "ver_no")
     private String verNo;
 
     @ExcelProperty("备注信息")
-    // @Column(name = "remark")
     private String remark;
 
     @ExcelProperty("升级日期")
-    // @Column(name = "crt_time")
     private Date crtTime;
 
 }

@@ -29,21 +29,17 @@ public class Notice extends BaseDelEntity {
     private Integer id;
 
     @ExcelProperty("标题")
-    // @Column(name = "title")
     private String title;
 
     @ExcelProperty("内容")
-    // @Column(name = "content")
     private String content;
 
     @SqlEquals
-    @ExcelProperty("是否有效：1-有效、2-失效")
-    // @Column(name = "status")
+    @ExcelProperty("是否有效")
     private BoolEnum status;
 
     @SqlEquals
     @ExcelProperty("是否强提醒")
-    // @Column(name = "strong_notice")
     private BoolEnum strongNotice;
 
 }

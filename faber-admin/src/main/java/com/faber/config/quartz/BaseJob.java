@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import com.faber.buzz.admin.biz.JobLogBiz;
 import com.faber.buzz.admin.entity.JobLog;
+import com.faber.buzz.admin.enums.JobLogStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -36,7 +37,7 @@ public abstract class BaseJob implements Job {
             // execute finish
             jobLog.setEndTime(new Date());
             jobLog.setDuration(DateUtil.between(jobLog.getEndTime(), jobLog.getBeginTime(), DateUnit.SECOND));
-            jobLog.setStatus(JobLog.Status.DONE.value);
+            jobLog.setStatus(JobLogStatusEnum.DONE);
             jobLogBiz.updateById(jobLog);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -44,7 +45,7 @@ public abstract class BaseJob implements Job {
             // log error
             jobLog.setEndTime(new Date());
             jobLog.setDuration(DateUtil.between(jobLog.getEndTime(), jobLog.getBeginTime(), DateUnit.SECOND));
-            jobLog.setStatus(JobLog.Status.ERROR.value);
+            jobLog.setStatus(JobLogStatusEnum.ERROR);
             jobLog.setErrMsg(e.getMessage());
             jobLogBiz.updateById(jobLog);
         }
@@ -58,7 +59,7 @@ public abstract class BaseJob implements Job {
         JobLog jobLog = new JobLog();
         jobLog.setJobId(jobId);
         jobLog.setBeginTime(new Date());
-        jobLog.setStatus(JobLog.Status.DOING.value);
+        jobLog.setStatus(JobLogStatusEnum.DOING);
         jobLog.setDuration(0L);
         jobLogBiz.save(jobLog);
         return jobLog;

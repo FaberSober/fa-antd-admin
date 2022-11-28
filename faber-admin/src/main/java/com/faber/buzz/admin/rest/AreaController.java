@@ -3,6 +3,7 @@ package com.faber.buzz.admin.rest;
 import com.faber.buzz.admin.biz.AreaBiz;
 import com.faber.buzz.admin.entity.Area;
 import com.faber.buzz.admin.vo.ret.AreaPathVo;
+import com.faber.core.utils.IpUtils;
 import com.faber.core.vo.msg.Ret;
 import com.faber.core.web.rest.BaseController;
 import org.springframework.stereotype.Controller;
@@ -45,13 +46,12 @@ public class AreaController extends BaseController<AreaBiz, Area, Integer> {
 
     /**
      * Ip定位
-     * FIXME 使用新的接口
      */
     @RequestMapping(value = "/locIp", method = RequestMethod.GET)
     @ResponseBody
-    public Ret locIp() {
-        Map<String, Object> map = baseBiz.locIp();
-        return new Ret().data(map);
+    public Ret<IpUtils.IpAddr> locIp() {
+        IpUtils.IpAddr data = baseBiz.locIp();
+        return ok(data);
     }
 
 }

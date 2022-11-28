@@ -10,7 +10,6 @@ import com.faber.buzz.admin.entity.Article;
  * @email faberxu@gmail.com
  * @date 2019-08-17 20:15:13
  */
-// @Mapper
 public interface ArticleMapper extends BaseMapper<Article> {
 	
 }

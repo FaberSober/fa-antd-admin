@@ -33,27 +33,21 @@ public class Job extends BaseDelEntity implements JobInfo {
 
     @SqlSearch
     @ExcelProperty("任务名称")
-    // @Column(name = "job_name")
     private String jobName;
 
     @SqlSearch
     @ExcelProperty("cron表达式")
-    // @Column(name = "cron")
     private String cron;
 
-    // TODO 切换为int
     @SqlEquals
-    @ExcelProperty("状态:0未启动false/1启动true")
-    // @Column(name = "status")
+    @ExcelProperty("是否启动")
     private BoolEnum status = BoolEnum.NO;
 
     @SqlSearch
     @ExcelProperty("任务执行方法")
-    // @Column(name = "clazz_path")
     private String clazzPath;
 
     @ExcelProperty("任务描述")
-    // @Column(name = "job_desc")
     private String jobDesc;
 
 }

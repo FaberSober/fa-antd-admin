@@ -13,7 +13,6 @@ import java.math.BigDecimal;
  * @email faberxu@gmail.com
  * @date 2019-08-21 09:55:39
  */
-// @Mapper
 public interface AreaMapper extends BaseMapper<Area> {
 
     long findClosetByLoc(@Param("lng") BigDecimal lng, @Param("lat") BigDecimal lat);

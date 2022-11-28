@@ -11,6 +11,7 @@ import lombok.Data;
 
 
 /**
+ * 文件存储
  * @author Farando
  * @email faberxu@gmail.com
  * @date 2019-08-19 10:09:36
