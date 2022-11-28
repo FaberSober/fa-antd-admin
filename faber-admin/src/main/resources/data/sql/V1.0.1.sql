@@ -526,7 +526,7 @@ COMMIT;
 BEGIN;
 LOCK TABLES `faber_admin`.`base_job` WRITE;
 DELETE FROM `faber_admin`.`base_job`;
-INSERT INTO `faber_admin`.`base_job` (`id`,`job_name`,`cron`,`status`,`clazz_path`,`job_desc`,`crt_time`,`crt_user`,`crt_name`,`crt_host`,`upd_time`,`upd_user`,`upd_name`,`upd_host`,`del_state`) VALUES (1, '测试任务1', '0 0/5 * * * ?', 0, 'com.faber.admin.config.quartz.customer.JobDemo1', '测试任务111111', '2022-09-29 15:46:31', '1', 'admin', '127.0.0.1', '2022-09-07 17:22:54', '1', 'admin', '127.0.0.1', 0);
+INSERT INTO `faber_admin`.`base_job` (`id`,`job_name`,`cron`,`status`,`clazz_path`,`job_desc`,`crt_time`,`crt_user`,`crt_name`,`crt_host`,`upd_time`,`upd_user`,`upd_name`,`upd_host`,`del_state`) VALUES (1, '测试任务1', '0 0/5 * * * ?', 0, 'com.faber.config.quartz.customer.JobDemo1', '测试任务111111', '2022-09-29 15:46:31', '1', 'admin', '127.0.0.1', '2022-09-07 17:22:54', '1', 'admin', '127.0.0.1', 0);
 UNLOCK TABLES;
 COMMIT;
 BEGIN;

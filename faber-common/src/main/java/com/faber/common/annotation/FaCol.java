@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * Bean属性配置
+ * @author xupengfei
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value={ElementType.FIELD,ElementType.TYPE})

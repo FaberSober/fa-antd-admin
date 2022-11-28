@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
 /**
  * 统一拦截异常并处理
+ * @author xupengfei
  */
 @ControllerAdvice("com.faber")
 //@ControllerAdvice
@@ -36,21 +37,18 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UserTokenException.class)
     public BaseResponse userTokenExceptionHandler(HttpServletResponse response, UserTokenException ex) {
-//        logger.error(ex.getMessage(), ex);
         return new BaseResponse(ex.getStatus(), ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(UserInvalidException.class)
     public BaseResponse userInvalidExceptionHandler(HttpServletResponse response, UserInvalidException ex) {
-//        logger.error(ex.getMessage(), ex);
         return new BaseResponse(ex.getStatus(), ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(UserNoPermissionException.class)
     public BaseResponse userNoPermissionExceptionHandler(HttpServletResponse response, UserNoPermissionException ex) {
-//        logger.error(ex.getMessage(), ex);
         return new BaseResponse(ex.getStatus(), ex.getMessage());
     }
 

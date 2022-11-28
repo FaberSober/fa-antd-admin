@@ -2,7 +2,7 @@ package com.faber.admin.rest;
 
 import com.alibaba.fastjson.JSONObject;
 import com.faber.admin.biz.FileSaveBiz;
-import com.faber.admin.config.annotation.IgnoreUserToken;
+import com.faber.config.annotation.IgnoreUserToken;
 import com.faber.admin.entity.FileSave;
 import com.faber.common.annotation.LogNoRet;
 import com.faber.common.rest.BaseController;

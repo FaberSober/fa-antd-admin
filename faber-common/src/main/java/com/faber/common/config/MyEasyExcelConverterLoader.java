@@ -34,7 +34,7 @@ public class MyEasyExcelConverterLoader {
         allConverter.put(ConverterKeyBuild.buildKey(localDateConverter.supportJavaTypeKey(), localDateConverter.supportExcelTypeKey()), localDateConverter);
 
         // 扫描com.faber.common.enums包下的枚举类
-        ClassUtil.scanPackageBySuper("com.faber.common.enums", IEnum.class).forEach((clazz -> {
+        ClassUtil.scanPackageBySuper("com.faber", IEnum.class).forEach((clazz -> {
             defaultWriteConverter.put(ConverterKeyBuild.buildKey(clazz), baseEnumConverter);
             allConverter.put(ConverterKeyBuild.buildKey(clazz, baseEnumConverter.supportExcelTypeKey()), baseEnumConverter);
         }));
