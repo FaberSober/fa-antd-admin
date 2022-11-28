@@ -10,7 +10,6 @@ import com.faber.buzz.demo.entity.Student;
  * @email faberxu@gmail.com
  * @date 2020-06-02 17:14:45
  */
-// @Mapper
 public interface StudentMapper extends BaseMapper<Student> {
 	
 }

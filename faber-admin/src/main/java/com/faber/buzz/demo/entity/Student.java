@@ -28,23 +28,18 @@ public class Student extends BaseDelEntity {
     private String id;
 
     @ExcelProperty("学生名")
-    // @Column(name = "name")
     private String name;
 
     @ExcelProperty("年龄")
-    // @Column(name = "age")
     private Integer age;
 
     @ExcelProperty("性别")
-    // @Column(name = "sex")
     private String sex;
 
     @ExcelProperty("邮箱")
-    // @Column(name = "email")
     private String email;
 
     @ExcelProperty("生日")
-    // @Column(name = "birthday")
     private Date birthday;
 
 }

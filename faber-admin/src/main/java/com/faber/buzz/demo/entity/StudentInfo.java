@@ -27,15 +27,12 @@ public class StudentInfo implements Serializable {
     private String id;
 
     @ExcelProperty("学生ID")
-    // @Column(name = "student_id")
     private Integer studentId;
 
     @ExcelProperty("补充信息1")
-    // @Column(name = "info1")
     private String info1;
 
     @ExcelProperty("补充信息2")
-    // @Column(name = "info2")
     private String info2;
 
 }
