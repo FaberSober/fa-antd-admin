@@ -1,6 +1,6 @@
 import React from 'react';
 import {DownloadOutlined, SearchOutlined} from '@ant-design/icons';
-import {Button, Card, Form, Input, Space} from 'antd';
+import {Button, Form, Input, Space} from 'antd';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
 import modelService from '@/services/admin/logLogin';
@@ -19,7 +19,7 @@ export default function LogLoginList() {
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams)
 
   /** 生成表格字段List */
-  function genColumns():FaberTable.ColumnsProp<Admin.LogLogin>[] {
+  function genColumns() {
     const { sorter } = queryParams;
     return [
       BaseTableUtils.genIdColumn('序号', 'id', 70, sorter),
@@ -46,7 +46,7 @@ export default function LogLoginList() {
         tcRequired: true,
         tcType: 'menu',
       },
-    ];
+    ] as FaberTable.ColumnsProp<Admin.LogLogin>[];
   }
 
   return (

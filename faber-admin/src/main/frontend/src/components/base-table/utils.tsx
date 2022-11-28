@@ -73,7 +73,7 @@ export function genIdColumn(title: string, dataIndex: string, width: number, sor
     width,
     fixed: 'left',
     tcChecked,
-  };
+  } as FaberTable.ColumnsProp<any>;
 }
 
 export function genSimpleSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Fa.Sorter, tcChecked: boolean = true): FaberTable.ColumnsProp<any> {
@@ -84,10 +84,10 @@ export function genSimpleSorterColumn(title: string, dataIndex: string, width: n
     sortOrder: getSortOrder(sorter, dataIndex),
     tcChecked,
     width,
-  };
+  } as FaberTable.ColumnsProp<any>;
 }
 
-export function genNumSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Fa.Sorter, fixNum = 2, tcChecked: boolean = true) {
+export function genNumSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Fa.Sorter, fixNum = 2, tcChecked: boolean = true): FaberTable.ColumnsProp<any> {
   return {
     title,
     dataIndex,
@@ -96,10 +96,10 @@ export function genNumSorterColumn(title: string, dataIndex: string, width: numb
     tcChecked,
     width,
     render: (val: any) => tryToFixed(val, fixNum),
-  };
+  } as FaberTable.ColumnsProp<any>;
 }
 
-export function genBoolSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Fa.Sorter, tcChecked: boolean = true) {
+export function genBoolSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Fa.Sorter, tcChecked: boolean = true): FaberTable.ColumnsProp<any> {
   return {
     title,
     dataIndex,
@@ -108,10 +108,10 @@ export function genBoolSorterColumn(title: string, dataIndex: string, width: num
     sortOrder: getSortOrder(sorter, dataIndex),
     tcChecked,
     width,
-  };
+  } as FaberTable.ColumnsProp<any>;
 }
 
-export function genUserSorterColumn(title: string, dataIndex: string, width: number, sorter: Fa.Sorter) {
+export function genUserSorterColumn(title: string, dataIndex: string, width: number, sorter: Fa.Sorter): FaberTable.ColumnsProp<any> {
   return {
     ...genSimpleSorterColumn(title, dataIndex, width, sorter),
     tcCondComponent: ({ index, value, callback, ...props }: FaberTable.TcCondProp) => (
@@ -140,7 +140,7 @@ export function genDictSorterColumn(
       <DictDataSelector dictLabel={dictLabel} value={value} onChange={(v, label) => callback(v, index, label)} {...props} />
     ),
     width,
-  };
+  } as FaberTable.ColumnsProp<any>;
 }
 
 export function genEnumSorterColumn(
@@ -162,7 +162,7 @@ export function genEnumSorterColumn(
       <DictEnumSelector dicts={dicts[dataIndex]} value={value} onChange={(v, label) => callback(v, index, label)} {...props} />
     ),
     width,
-  };
+  } as FaberTable.ColumnsProp<any>;
 }
 
 export function genDateSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Fa.Sorter, format:string|undefined = undefined, tcChecked: boolean = true): FaberTable.ColumnsProp<any> {
@@ -176,7 +176,7 @@ export function genDateSorterColumn(title: string, dataIndex: string, width: num
     width,
     tcCondComponent: renderDatePicker,
     tcCondBetweenComponent: renderDateRangerPicker,
-  };
+  } as FaberTable.ColumnsProp<any>;
 }
 
 export function genTimeSorterColumn(title: string, dataIndex: string, width: number | undefined, sorter: Fa.Sorter, format = 'YYYY-MM-DD HH:mm:ss', tcChecked = true): FaberTable.ColumnsProp<any> {
@@ -190,10 +190,10 @@ export function genTimeSorterColumn(title: string, dataIndex: string, width: num
     width,
     tcCondComponent: renderTimePicker,
     tcCondBetweenComponent: renderTimeRangePicker,
-  };
+  } as FaberTable.ColumnsProp<any>;
 }
 
-export function genCtrColumns(sorter: Fa.Sorter, tcChecked: boolean = true) {
+export function genCtrColumns(sorter: Fa.Sorter, tcChecked: boolean = true): FaberTable.ColumnsProp<any>[] {
   return [
     {
       title: '创建时间',
@@ -230,10 +230,10 @@ export function genCtrColumns(sorter: Fa.Sorter, tcChecked: boolean = true) {
       sortOrder: getSortOrder(sorter, 'crtHost'),
       width: 150,
     },
-  ];
+  ] as FaberTable.ColumnsProp<any>[];
 }
 
-export function genUpdateColumns(sorter: Fa.Sorter) {
+export function genUpdateColumns(sorter: Fa.Sorter): FaberTable.ColumnsProp<any>[] {
   return [
     {
       title: '更新时间',
@@ -268,7 +268,7 @@ export function genUpdateColumns(sorter: Fa.Sorter) {
       sortOrder: getSortOrder(sorter, 'updHost'),
       width: 100,
     },
-  ];
+  ] as FaberTable.ColumnsProp<any>[];
 }
 
 /**
@@ -289,7 +289,7 @@ export function AuthDelBtn<T>({
 }) {
   return (
     <ShiroPermissionContainer permission={permission}>
-      <Popconfirm title="确认删除?" onConfirm={() => handleDelete(record)} getPopupContainer={() => document.body}>
+      <Popconfirm title="确认删除?" onConfirm={() => handleDelete(record)} placement="topRight">
         <a style={{ color: 'red' }}>
           <DeleteOutlined /> 删除
         </a>
