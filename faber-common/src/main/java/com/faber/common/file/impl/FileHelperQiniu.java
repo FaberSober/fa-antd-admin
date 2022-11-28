@@ -13,6 +13,11 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * 七牛云文件存储
+ * @author xu.pengfei
+ * @date 2022/11/28 14:20
+ */
 @Slf4j
 @Service
 @ConditionalOnProperty(name = "fa.setting.file.saveType", havingValue = "qiniu")

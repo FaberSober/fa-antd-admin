@@ -5,6 +5,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * spring request utils
+ * @author xu.pengfei
+ * @date 2022/11/28 14:33
+ */
 public class RequestUtils {
 
     public static String getAgent() {

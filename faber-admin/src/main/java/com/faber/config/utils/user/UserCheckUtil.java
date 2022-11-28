@@ -1,6 +1,6 @@
 package com.faber.config.utils.user;
 
-import com.faber.admin.entity.User;
+import com.faber.buzz.admin.entity.User;
 import com.faber.common.enums.BoolEnum;
 import com.faber.common.exception.auth.UserInvalidException;
 

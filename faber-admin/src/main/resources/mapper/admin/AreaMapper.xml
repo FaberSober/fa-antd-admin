@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.faber.admin.mapper.AreaMapper">
+<mapper namespace="com.faber.buzz.admin.mapper.AreaMapper">
 
     <select id="findClosetByLoc" parameterType="map" resultType="long">
         select a.area_code

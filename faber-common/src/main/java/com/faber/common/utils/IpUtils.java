@@ -19,6 +19,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
+/**
+ * Ip帮助类
+ * @author xu.pengfei
+ * @date 2022/11/28 14:27
+ */
 @Log
 public class IpUtils {
 
@@ -78,7 +83,9 @@ public class IpUtils {
      * @return
      */
     public static IpAddr getIpAddrByApi(String ip) {
-        if (StrUtil.isEmpty(ip)) return new IpAddr(ip, "", "", "");
+        if (StrUtil.isEmpty(ip)) {
+            return new IpAddr(ip, "", "", "");
+        }
         if (LOCAL_IP.contains(ip)) {
             return new IpAddr(ip, "本地", "本地", "本地");
         }

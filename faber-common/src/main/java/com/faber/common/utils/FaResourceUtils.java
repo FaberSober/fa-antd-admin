@@ -8,6 +8,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Spring Resource Helper Class
+ * @author xu.pengfei
+ * @date 2022/11/28 14:32
+ */
 public class FaResourceUtils {
 
     /**

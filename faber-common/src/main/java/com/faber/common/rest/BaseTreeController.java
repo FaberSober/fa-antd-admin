@@ -1,7 +1,7 @@
 package com.faber.common.rest;
 
 import com.faber.common.biz.BaseTreeBiz;
-import com.faber.common.vo.msg.ObjectRestResponse;
+import com.faber.common.vo.msg.Ret;
 import com.faber.common.vo.TreeNode;
 import com.faber.common.vo.TreePathVo;
 import com.faber.common.vo.TreePosChangeVo;
@@ -42,7 +42,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      */
     @RequestMapping(value = "/treePathLine/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<List<TreeNode<Entity>>> treePathLine(@PathVariable Key id) {
+    public Ret<List<TreeNode<Entity>>> treePathLine(@PathVariable Key id) {
         List<Entity> list = (List<Entity>) baseBiz.treePathLine(id);
         List<TreeNode<Entity>> nodeList = baseBiz.transEntityListToNodeList(list);
         return ok(nodeList);
@@ -55,7 +55,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      */
     @RequestMapping(value = "/treeListLayer/{parentId}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<List<TreeNode<Entity>>> treeListLayer(@PathVariable Key parentId) {
+    public Ret<List<TreeNode<Entity>>> treeListLayer(@PathVariable Key parentId) {
         List<Entity> list = (List<Entity>) baseBiz.treeListLayer(parentId);
         List<TreeNode<Entity>> nodeList = baseBiz.transEntityListToNodeList(list);
         return ok(nodeList);
@@ -68,7 +68,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      */
     @RequestMapping(value = "/treeFindPath/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<TreePathVo<Entity>> treeFindPath(@PathVariable Key id) {
+    public Ret<TreePathVo<Entity>> treeFindPath(@PathVariable Key id) {
         TreePathVo<Entity> data = (TreePathVo<Entity>) baseBiz.treeFindPath(id);
         return ok(data);
     }
@@ -79,7 +79,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      */
     @RequestMapping(value = "/allTree", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<List<TreeNode<Entity>>> allTree() {
+    public Ret<List<TreeNode<Entity>>> allTree() {
         List<TreeNode<Entity>> treeList = baseBiz.allTree();
         return ok(treeList);
     }
@@ -90,7 +90,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      */
     @RequestMapping(value = "/getTree", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<List<TreeNode<Entity>>> getTree(@RequestBody QueryParams query) {
+    public Ret<List<TreeNode<Entity>>> getTree(@RequestBody QueryParams query) {
         List<TreeNode<Entity>> treeList = baseBiz.getTree(query);
         return ok(treeList);
     }
@@ -102,7 +102,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      */
     @RequestMapping(value = "/allTreeFromNode/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<List<TreeNode<Entity>>> allTreeFromNode(@PathVariable("id") Key id) {
+    public Ret<List<TreeNode<Entity>>> allTreeFromNode(@PathVariable("id") Key id) {
         List<TreeNode<Entity>> treeList = baseBiz.allTreeFromNode(id);
         return ok(treeList);
     }
@@ -114,7 +114,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      */
     @RequestMapping(value = "/changePos", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Boolean> changePos(@Valid @RequestBody List<TreePosChangeVo> list) {
+    public Ret<Boolean> changePos(@Valid @RequestBody List<TreePosChangeVo> list) {
         baseBiz.changePos(list);
         return ok();
     }
@@ -126,7 +126,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      */
     @RequestMapping(value = "/moveUp/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<Boolean> moveUp(@PathVariable Key id) {
+    public Ret<Boolean> moveUp(@PathVariable Key id) {
         baseBiz.moveUp(id);
         return ok();
     }
@@ -138,7 +138,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      */
     @RequestMapping(value = "/moveDown/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<Boolean> moveDown(@PathVariable Key id) {
+    public Ret<Boolean> moveDown(@PathVariable Key id) {
         baseBiz.moveDown(id);
         return ok();
     }

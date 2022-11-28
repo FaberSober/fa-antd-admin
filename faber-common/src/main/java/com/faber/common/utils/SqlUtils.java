@@ -1,5 +1,10 @@
 package com.faber.common.utils;
 
+/**
+ * SQL utils
+ * @author xu.pengfei
+ * @date 2022/11/28 14:33
+ */
 public class SqlUtils {
 
     /**

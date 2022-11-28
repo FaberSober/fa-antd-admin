@@ -1,10 +1,10 @@
 package com.faber.admin.msg;
 
 import com.faber.AdminBootstrap;
-import com.faber.msg.helper.MsgHelper;
-import com.faber.msg.helper.config.MsgSendConfig;
-import com.faber.msg.helper.config.MsgSendSmsCode;
-import com.faber.msg.helper.config.MsgSendSysConfig;
+import com.faber.buzz.msg.helper.MsgHelper;
+import com.faber.buzz.msg.helper.config.MsgSendConfig;
+import com.faber.buzz.msg.helper.config.MsgSendSmsCode;
+import com.faber.buzz.msg.helper.config.MsgSendSysConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

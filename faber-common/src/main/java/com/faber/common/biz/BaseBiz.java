@@ -17,8 +17,8 @@ import com.faber.common.context.BaseContextHandler;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.service.ConfigService;
 import com.faber.common.utils.FaEnumUtils;
-import com.faber.common.vo.msg.ObjectRestResponse;
-import com.faber.common.vo.msg.TableResultResponse;
+import com.faber.common.vo.msg.Ret;
+import com.faber.common.vo.msg.TableRet;
 import com.faber.common.mybatis.WrapperUtils;
 import com.faber.common.utils.EasyExcelUtils;
 import com.faber.common.vo.query.ConditionGroup;
@@ -122,7 +122,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         list.forEach(this::decorateOne);
     }
 
-    public TableResultResponse<T> selectPageByQuery(QueryParams query) {
+    public TableRet<T> selectPageByQuery(QueryParams query) {
         QueryWrapper<T> wrapper = parseQuery(query);
         if (query.getPageSize() > 1000) {
             throw new BuzzException("查询结果数量大于1000，请缩小查询范围");
@@ -131,7 +131,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         // page query
         Page<T> page = new Page<>(query.getCurrent(), query.getPageSize());
         Page<T> result =  super.page(page, wrapper);
-        TableResultResponse<T> table = new TableResultResponse<T>(result);
+        TableRet<T> table = new TableRet<T>(result);
 
         // add dict options
         this.addDictOptions(table, getEntityClass());
@@ -142,7 +142,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         return table;
     }
 
-    public void addDictOptions(TableResultResponse<?> table, Class<?> clazz) {
+    public void addDictOptions(TableRet<?> table, Class<?> clazz) {
         Field[] fields = ReflectUtil.getFields(clazz, field -> IEnum.class.isAssignableFrom(field.getType()));
         for (Field field : fields) {
             table.getData().addDict(field.getName(), FaEnumUtils.toOptions((Class<? extends IEnum>) field.getType()));
@@ -248,12 +248,12 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         return BaseContextHandler.getUserId();
     }
 
-    protected ObjectRestResponse<Boolean> ok() {
-        return new ObjectRestResponse<Boolean>().rel(true);
+    protected Ret<Boolean> ok() {
+        return new Ret<Boolean>().rel(true);
     }
 
-    protected ObjectRestResponse<Object> ok(Object data) {
-        return new ObjectRestResponse<>().data(data);
+    protected Ret<Object> ok(Object data) {
+        return new Ret<>().data(data);
     }
 
 }

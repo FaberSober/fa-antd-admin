@@ -1,7 +1,7 @@
 package com.faber.utils;
 
 import cn.hutool.core.util.ReflectUtil;
-import com.faber.admin.entity.User;
+import com.faber.buzz.admin.entity.User;
 import org.junit.Test;
 
 public class ReflectUtilTest {

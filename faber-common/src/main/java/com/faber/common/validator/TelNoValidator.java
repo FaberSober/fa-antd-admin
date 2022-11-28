@@ -11,6 +11,11 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * 手机号校验
+ * @author xu.pengfei
+ * @date 2022/11/28 14:34
+ */
 @Target({FIELD})
 @Retention(RUNTIME)
 @Documented

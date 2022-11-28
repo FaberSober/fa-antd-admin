@@ -2,9 +2,15 @@ package com.faber.common.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
+import com.faber.common.bean.BaseDelEntity;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
+/**
+ * Bean删除状态{@link BaseDelEntity#getDelState()}
+ * @author xu.pengfei
+ * @date 2022/11/28 14:15
+ */
 @Getter
 public enum DelStateEnum implements IEnum<Integer> {
     VALID(0, "有效"),

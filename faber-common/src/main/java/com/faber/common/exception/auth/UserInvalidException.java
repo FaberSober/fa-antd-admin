@@ -6,6 +6,8 @@ import com.faber.common.exception.BaseException;
 
 /**
  * 用户无效
+ * @author xu.pengfei
+ * @date 2022/11/28 14:18
  */
 public class UserInvalidException extends BaseException {
     public UserInvalidException() {

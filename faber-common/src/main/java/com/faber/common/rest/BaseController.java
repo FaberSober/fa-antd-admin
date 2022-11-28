@@ -2,10 +2,10 @@ package com.faber.common.rest;
 
 import com.faber.common.annotation.LogNoRet;
 import com.faber.common.biz.BaseBiz;
-import com.faber.common.vo.msg.ObjectRestResponse;
-import com.faber.common.vo.msg.TableResultResponse;
+import com.faber.common.vo.msg.Ret;
+import com.faber.common.vo.msg.TableRet;
 import com.faber.common.utils.BaseResHandler;
-import com.faber.common.validator.ValidGroup;
+import com.faber.common.validator.Vg;
 import com.faber.common.vo.query.QueryParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,91 +51,91 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Entity> add(@Validated(value = ValidGroup.Crud.Create.class) @RequestBody Entity entity) {
+    public Ret<Entity> add(@Validated(value = Vg.Crud.C.class) @RequestBody Entity entity) {
         baseBiz.save(entity);
         return ok(entity);
     }
 
     @RequestMapping(value = "/saveBatch", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<List<Entity>> saveBatch(@Validated(value = ValidGroup.Crud.Create.class) @RequestBody List<Entity> entityList) {
+    public Ret<List<Entity>> saveBatch(@Validated(value = Vg.Crud.C.class) @RequestBody List<Entity> entityList) {
         baseBiz.saveBatch(entityList);
         return ok(entityList);
     }
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<Entity> get(@PathVariable Key id) {
+    public Ret<Entity> get(@PathVariable Key id) {
         Entity o = (Entity) baseBiz.getById(id);
         return ok(o);
     }
 
     @RequestMapping(value = "/getByIds", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<List<Entity>> getByIds(@RequestBody List<Key> ids) {
+    public Ret<List<Entity>> getByIds(@RequestBody List<Key> ids) {
         List<Entity> o = baseBiz.getByIds(ids);
         return ok(o);
     }
 
     @RequestMapping(value = "/getDetail/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<Entity> getDetail(@PathVariable Key id) {
+    public Ret<Entity> getDetail(@PathVariable Key id) {
         Entity o = (Entity) baseBiz.getDetailById(id);
         return ok(o);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Entity> update(@Validated(value = ValidGroup.Crud.Update.class) @RequestBody Entity entity) {
+    public Ret<Entity> update(@Validated(value = Vg.Crud.U.class) @RequestBody Entity entity) {
         baseBiz.updateById(entity);
         return ok();
     }
 
     @RequestMapping(value = "/updateBatch", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Boolean> updateBatch(@Validated(value = ValidGroup.Crud.Update.class) @RequestBody List<Entity> entityList) {
+    public Ret<Boolean> updateBatch(@Validated(value = Vg.Crud.U.class) @RequestBody List<Entity> entityList) {
         baseBiz.updateBatchById(entityList);
         return ok();
     }
 
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public ObjectRestResponse<Entity> remove(@PathVariable Key id) {
+    public Ret<Entity> remove(@PathVariable Key id) {
         baseBiz.removeById(id);
         return ok();
     }
 
     @RequestMapping(value = "/removeBatchByIds", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Boolean> removeBatchByIds(@RequestBody List<Key> ids) {
+    public Ret<Boolean> removeBatchByIds(@RequestBody List<Key> ids) {
         baseBiz.removeBatchByIds(ids);
         return ok();
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<List<Entity>> all() {
+    public Ret<List<Entity>> all() {
         List<Entity> list = baseBiz.list();
         return ok(list);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<List<Entity>> list(@RequestBody QueryParams query) {
+    public Ret<List<Entity>> list(@RequestBody QueryParams query) {
         List<Entity> list = baseBiz.list(query);
         return ok(list);
     }
 
     @RequestMapping(value = "/mineList", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<List<Entity>> mineList(@RequestParam QueryParams query) {
+    public Ret<List<Entity>> mineList(@RequestParam QueryParams query) {
         List<Entity> list = baseBiz.mineList(query);
         return ok(list);
     }
 
     @RequestMapping(value = "/count", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Long> count(@RequestBody QueryParams query) {
+    public Ret<Long> count(@RequestBody QueryParams query) {
         long count = baseBiz.count(baseBiz.parseQuery(query));
         return ok(count);
     }
@@ -145,7 +145,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
      */
     @RequestMapping(value = "/page", method = RequestMethod.POST)
     @ResponseBody
-    public TableResultResponse<Entity> page(@RequestBody QueryParams query) {
+    public TableRet<Entity> page(@RequestBody QueryParams query) {
         return baseBiz.selectPageByQuery(query);
     }
 

@@ -11,6 +11,8 @@ import java.io.InputStream;
 
 /**
  * 文件保存帮助类
+ * @author xu.pengfei
+ * @date 2022/11/28 14:20
  */
 public interface FileHelperImpl {
 
@@ -48,11 +50,16 @@ public interface FileHelperImpl {
      * @param dir 路径名称，默认：file
      * @param fileName 文件名
      * @return
+     * @throws IOException
      */
     String upload(InputStream is, String dir, String fileName) throws IOException;
 
     void delete(String filePath) throws IOException;
 
+    /**
+     * 获取当前配置的文件存储类型
+     * @return {@link FileSaveDriveEnum}
+     */
     default FileSaveDriveEnum getDrive() {
         FaSetting faSetting = SpringUtil.getBean(FaSetting.class);
         switch (faSetting.getFile().getSaveType()) {
@@ -64,8 +71,9 @@ public interface FileHelperImpl {
                 return FileSaveDriveEnum.ALI;
             case "tx":
                 return FileSaveDriveEnum.TX;
+            default:
+                throw new BuzzException("配置文件中未指定文件存储类型");
         }
-        throw new BuzzException("配置文件中未指定文件存储类型");
     }
 
 }

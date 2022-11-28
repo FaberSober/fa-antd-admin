@@ -5,6 +5,11 @@ import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
+/**
+ * 文件存储类型枚举
+ * @author xu.pengfei
+ * @date 2022/11/28 14:18
+ */
 @Getter
 public enum FileSaveDriveEnum implements IEnum<Integer> {
     LOCAL(1, "本地"),

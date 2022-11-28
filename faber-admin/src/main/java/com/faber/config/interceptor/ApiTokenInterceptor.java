@@ -1,8 +1,8 @@
 package com.faber.config.interceptor;
 
-import com.faber.admin.biz.UserBiz;
+import com.faber.buzz.admin.biz.UserBiz;
 import com.faber.common.config.annotation.IgnoreUserToken;
-import com.faber.admin.entity.User;
+import com.faber.buzz.admin.entity.User;
 import com.faber.config.utils.user.UserCheckUtil;
 import com.faber.common.context.BaseContextHandler;
 import lombok.extern.slf4j.Slf4j;

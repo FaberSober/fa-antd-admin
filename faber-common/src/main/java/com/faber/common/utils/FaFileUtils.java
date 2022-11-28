@@ -10,6 +10,11 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.Date;
 
+/**
+ * 文件帮助类
+ * @author xu.pengfei
+ * @date 2022/11/28 14:30
+ */
 public class FaFileUtils {
 
     /**

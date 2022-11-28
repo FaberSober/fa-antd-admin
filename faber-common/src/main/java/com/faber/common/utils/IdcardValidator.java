@@ -230,8 +230,8 @@ public class IdcardValidator {
         return Integer.parseInt(sex) % 2==0 ? 0:1;
     }
 
-    public static void main(String[] args) {
-        System.out.println(IdcardValidator.isValidate18Idcard("220101190001010976"));
-        System.out.println(IdcardValidator.is18Idcard("220101190001010976"));
-    }
+//    public static void main(String[] args) {
+//        System.out.println(IdcardValidator.isValidate18Idcard("220101190001010976"));
+//        System.out.println(IdcardValidator.is18Idcard("220101190001010976"));
+//    }
 }

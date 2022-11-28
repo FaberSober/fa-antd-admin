@@ -2,6 +2,8 @@ package com.faber.common.exception;
 
 /**
  * 通用Exception父类
+ * @author xu.pengfei
+ * @date 2022/11/28 14:19
  */
 public class BaseException extends RuntimeException {
     private int status = 200;

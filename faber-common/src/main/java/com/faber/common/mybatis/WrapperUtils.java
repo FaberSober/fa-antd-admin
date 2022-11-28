@@ -21,6 +21,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 基于MybatisPlus的高级组合查询帮助类
+ * @author xu.pengfei
+ * @date 2022/11/28 14:22
+ */
 @Slf4j
 public class WrapperUtils {
 
@@ -150,6 +155,8 @@ public class WrapperUtils {
                         break;
                     case BETWEEN:
                         ew.between(column, cond.getBegin(), cond.getEnd());
+                        break;
+                    default:
                         break;
                 }
             }

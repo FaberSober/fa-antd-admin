@@ -5,6 +5,11 @@ import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
+/**
+ * Bool
+ * @author xu.pengfei
+ * @date 2022/11/28 14:15
+ */
 @Getter
 public enum BoolEnum implements IEnum<Integer> {
     NO(0, "否"),

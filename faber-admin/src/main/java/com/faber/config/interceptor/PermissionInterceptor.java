@@ -5,7 +5,7 @@ import com.faber.common.config.annotation.IgnoreUserToken;
 import com.faber.common.config.annotation.Permission;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.exception.auth.UserNoPermissionException;
-import com.faber.rbac.biz.RbacUserRoleBiz;
+import com.faber.buzz.rbac.biz.RbacUserRoleBiz;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -39,22 +39,6 @@ public class Msg implements Serializable {
          */
         public static final String LINK_VIDEO = "LINK_VIDEO";
         /**
-         * 开始搜索标的物
-         */
-        public static final String START_SEARCH_GOODS = "START_SEARCH_GOODS";
-        /**
-         * 返回搜索标的物的搜索链接
-         */
-        public static final String SEARCH_GOODS_LINK = "SEARCH_GOODS_LINK";
-        /**
-         * 返回搜索标的物的搜索结果
-         */
-        public static final String SEARCH_GOODS_RET = "SEARCH_GOODS_RET";
-        /**
-         * 标的物属性已更新
-         */
-        public static final String GOODS_UPDATED = "GOODS_UPDATED";
-        /**
          * json格式数据
          */
         public static final String JSON = "JSON";
@@ -62,11 +46,6 @@ public class Msg implements Serializable {
          * 当前操作结束
          */
         public static final String OPERATION_DONE = "OPERATION_DONE";
-
-        /**
-         * 400-接通电话
-         */
-        public static final String TEL_SERVICE_ON_CALL = "TEL_SERVICE_ON_CALL";
         /**
          * online-站内ws消息
          */
@@ -79,22 +58,6 @@ public class Msg implements Serializable {
     private String act;
 
     private Object data;
-
-    public static String startSearchGoods(String goodsName) {
-        JSONObject jo = new JSONObject();
-        jo.put("goodsName", goodsName);
-        return Msg.builder().act(Act.START_SEARCH_GOODS).data(jo).build().toJSONString();
-    }
-
-    public static String searchGoodsLink(String link) {
-        JSONObject jo = new JSONObject();
-        jo.put("link", link);
-        return Msg.builder().act(Act.SEARCH_GOODS_LINK).data(jo).build().toJSONString();
-    }
-
-    public static String searchGoodsRet(JSONArray jo) {
-        return Msg.builder().act(Act.SEARCH_GOODS_RET).data(jo).build().toJSONString();
-    }
 
     public static String link(String label, String link) {
         JSONObject jo = new JSONObject();
@@ -123,10 +86,6 @@ public class Msg implements Serializable {
 
     public static String json(JSONObject data) {
         return Msg.builder().act(Act.JSON).data(data).build().toJSONString();
-    }
-
-    public static String goodsUpdated() {
-        return Msg.builder().act(Act.GOODS_UPDATED).data("").build().toJSONString();
     }
 
     public static String act(String act, Object data) {

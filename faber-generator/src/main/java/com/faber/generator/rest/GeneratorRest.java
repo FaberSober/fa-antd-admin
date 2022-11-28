@@ -1,6 +1,6 @@
 package com.faber.generator.rest;
 
-import com.faber.common.vo.msg.TableResultResponse;
+import com.faber.common.vo.msg.TableRet;
 import com.faber.generator.service.GeneratorService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +29,10 @@ public class GeneratorRest {
      */
     @ResponseBody
     @RequestMapping("/page")
-    public TableResultResponse<Map<String, Object>> list(@RequestParam Map<String, Object> params) {
+    public TableRet<Map<String, Object>> list(@RequestParam Map<String, Object> params) {
         List<Map<String, Object>> result = generatorService.queryList(params);
         int total = generatorService.queryTotal(params);
-        return new TableResultResponse<Map<String, Object>>(total, result);
+        return new TableRet<Map<String, Object>>(total, result);
     }
 
     /**

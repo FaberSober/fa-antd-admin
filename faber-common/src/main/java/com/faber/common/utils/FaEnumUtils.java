@@ -8,6 +8,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 枚举帮助类
+ * @author xu.pengfei
+ * @date 2022/11/28 14:29
+ */
 public class FaEnumUtils {
 
     public static List<DictOption> toOptions(Class<? extends IEnum> clazz) {

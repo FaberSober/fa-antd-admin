@@ -5,7 +5,7 @@ import com.faber.common.exception.BaseException;
 import com.faber.common.exception.auth.UserInvalidException;
 import com.faber.common.exception.auth.UserNoPermissionException;
 import com.faber.common.exception.auth.UserTokenException;
-import com.faber.common.vo.msg.BaseResponse;
+import com.faber.common.vo.msg.BaseRet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -36,40 +36,40 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UserTokenException.class)
-    public BaseResponse userTokenExceptionHandler(HttpServletResponse response, UserTokenException ex) {
-        return new BaseResponse(ex.getStatus(), ex.getMessage());
+    public BaseRet userTokenExceptionHandler(HttpServletResponse response, UserTokenException ex) {
+        return new BaseRet(ex.getStatus(), ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(UserInvalidException.class)
-    public BaseResponse userInvalidExceptionHandler(HttpServletResponse response, UserInvalidException ex) {
-        return new BaseResponse(ex.getStatus(), ex.getMessage());
+    public BaseRet userInvalidExceptionHandler(HttpServletResponse response, UserInvalidException ex) {
+        return new BaseRet(ex.getStatus(), ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(UserNoPermissionException.class)
-    public BaseResponse userNoPermissionExceptionHandler(HttpServletResponse response, UserNoPermissionException ex) {
-        return new BaseResponse(ex.getStatus(), ex.getMessage());
+    public BaseRet userNoPermissionExceptionHandler(HttpServletResponse response, UserNoPermissionException ex) {
+        return new BaseRet(ex.getStatus(), ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BaseException.class)
-    public BaseResponse baseExceptionHandler(HttpServletResponse response, BaseException ex) {
+    public BaseRet baseExceptionHandler(HttpServletResponse response, BaseException ex) {
         logger.error(ex.getMessage(), ex);
-        return new BaseResponse(ex.getStatus(), ex.getMessage());
+        return new BaseRet(ex.getStatus(), ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
-    public BaseResponse otherExceptionHandler(HttpServletResponse response, Exception ex) {
+    public BaseRet otherExceptionHandler(HttpServletResponse response, Exception ex) {
         logger.error(ex.getMessage(), ex);
         String errMsg = ex.getMessage();
-        return new BaseResponse(CommonConstants.EX_OTHER_CODE, errMsg);
+        return new BaseRet(CommonConstants.EX_OTHER_CODE, errMsg);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = {BindException.class, ValidationException.class, MethodArgumentNotValidException.class})
-    public BaseResponse handleValidationExceptions(Exception e) {
+    public BaseRet handleValidationExceptions(Exception e) {
         String errMsg = "";
         if (e instanceof MethodArgumentNotValidException) {
             // BeanValidation exception
@@ -91,7 +91,7 @@ public class GlobalExceptionHandler {
                     .collect(Collectors.joining("; "));
         }
 
-        return new BaseResponse(CommonConstants.EX_OTHER_CODE, errMsg);
+        return new BaseRet(CommonConstants.EX_OTHER_CODE, errMsg);
     }
 
     private static String objectErrorToStr(ObjectError error) {

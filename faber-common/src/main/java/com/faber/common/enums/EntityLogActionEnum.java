@@ -5,6 +5,11 @@ import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
+/**
+ * 实体增删改日志类型枚举
+ * @author xu.pengfei
+ * @date 2022/11/28 14:17
+ */
 @Getter
 public enum EntityLogActionEnum implements IEnum<Integer> {
     ADD(1, "新增"),

@@ -1,9 +1,9 @@
 package com.faber.admin.area;
 
 import com.faber.AdminBootstrap;
-import com.faber.admin.biz.AreaBiz;
-import com.faber.admin.entity.Area;
-import com.faber.common.enums.admin.AreaLevelEnum;
+import com.faber.buzz.admin.biz.AreaBiz;
+import com.faber.buzz.admin.entity.Area;
+import com.faber.buzz.admin.enums.AreaLevelEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

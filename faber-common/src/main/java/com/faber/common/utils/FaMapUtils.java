@@ -5,6 +5,11 @@ import cn.hutool.core.util.ObjectUtil;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Map帮助类
+ * @author xu.pengfei
+ * @date 2022/11/28 14:32
+ */
 public class FaMapUtils {
 
     public static Map<String, Object> removeEmptyValue(Map<String, Object> sourceMap) {

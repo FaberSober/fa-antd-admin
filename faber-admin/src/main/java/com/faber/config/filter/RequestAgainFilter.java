@@ -2,10 +2,10 @@ package com.faber.config.filter;
 
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
-import com.faber.admin.biz.LogApiBiz;
+import com.faber.buzz.admin.biz.LogApiBiz;
 import com.faber.common.config.filter.wrapper.BodyHttpServletRequestWrapper;
 import com.faber.common.config.filter.wrapper.BodyHttpServletResponseWrapper;
-import com.faber.admin.entity.LogApi;
+import com.faber.buzz.admin.entity.LogApi;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.enums.BoolEnum;
 import com.faber.common.utils.IpUtils;
