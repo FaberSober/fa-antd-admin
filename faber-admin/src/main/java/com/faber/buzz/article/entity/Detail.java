@@ -29,11 +29,9 @@ public class Detail extends BaseDelEntity {
 
     @SqlEquals
     @ExcelProperty("大纲ID")
-    // @Column(name = "outline_id")
     private Integer outlineId;
 
     @ExcelProperty("html文本")
-    // @Column(name = "detail")
     private String detail;
 
 }

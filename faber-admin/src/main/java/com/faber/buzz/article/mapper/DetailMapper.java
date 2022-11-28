@@ -14,7 +14,6 @@ import java.util.List;
  * @email faberxu@gmail.com
  * @date 2020-12-31 13:53:39
  */
-// @Mapper
 public interface DetailMapper extends BaseMapper<Detail> {
 
     List<BookOutlineDetail> getByBook(@Param("bookId") Integer bookId);

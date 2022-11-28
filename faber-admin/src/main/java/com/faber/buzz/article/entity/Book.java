@@ -34,49 +34,31 @@ public class Book extends BaseDelEntity {
 
     @SqlSearch
     @ExcelProperty("编码")
-    // @Column(name = "no")
     private String no;
 
     @SqlSearch
     @ExcelProperty("书名")
-    // @Column(name = "name")
     private String name;
 
     @SqlEquals
     @ExcelProperty("业务类型")
-    // @Column(name = "biz_type")
     private String bizType;
 
     @SqlEquals
     @ExcelProperty("业务ID")
-    // @Column(name = "biz_id")
     private String bizId;
 
     @ExcelProperty("封面图")
-    // @Column(name = "cover")
     private String cover;
 
     @ExcelProperty("描述")
-    // @Column(name = "description")
     private String description;
 
     @SqlEquals
     @ExcelProperty("是否发布")
-    // @Column(name = "pub")
     private Boolean pub;
 
     @ExcelProperty("发布时间")
-    // @Column(name = "pub_time")
     private Date pubTime;
-
-    @ToString
-    @AllArgsConstructor
-    public enum BizType {
-        Help("Help", "帮助文章"),
-        PigKnowledge("PigKnowledge", "养殖知识");
-
-        public final String value;
-        public final String text;
-    }
 
 }

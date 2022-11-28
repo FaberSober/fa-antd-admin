@@ -30,37 +30,30 @@ public class Outline extends BaseDelEntity {
 
     @SqlEquals
     @ExcelProperty("书本ID")
-    // @Column(name = "book_id")
     private Integer bookId;
 
     @SqlEquals
     @ExcelProperty("详情ID")
-    // @Column(name = "detail_id")
     private Integer detailId;
 
     @SqlEquals
     @ExcelProperty("父级节点")
-    // @Column(name = "parent_id")
     @SqlTreeParentId
     private Integer parentId;
 
     @ExcelProperty("章节号")
-    // @Column(name = "no")
     @SqlTreeName
     private String no;
 
     @ExcelProperty("标题")
-    // @Column(name = "title")
     @SqlTreeName
     private String title;
 
     @ExcelProperty("图标")
-    // @Column(name = "icon")
     private String icon;
 
     @SqlSorter
     @ExcelProperty("排序")
-    // @Column(name = "sort")
     private Integer sort;
 
 }

@@ -1,11 +1,16 @@
 package com.faber.buzz.article.biz;
 
 import com.faber.buzz.article.entity.Book;
+import com.faber.buzz.article.entity.Detail;
+import com.faber.buzz.article.entity.Outline;
 import com.faber.buzz.article.mapper.BookMapper;
+import com.faber.buzz.article.vo.BookDetail;
+import com.faber.buzz.article.vo.BookOutlineDetail;
 import com.faber.core.web.biz.BaseBiz;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 文章-书本
@@ -20,16 +25,16 @@ public class BookBiz extends BaseBiz<BookMapper, Book> {
     @Resource
     private DetailBiz detailBiz;
 
-//    public BookDetail getDetail(Integer id) {
-//        Book book = getById(id);
-//
-//        List<BookOutlineDetail> detailList = detailBiz.getBaseMapper().getByBook(id);
-//
-//        BookDetail bd = new BookDetail();
-//        bd.setBook(book);
-//        bd.setDetailList(detailList);
-//
-//        return bd;
-//    }
+    public BookDetail getBookDetail(Integer id) {
+        Book book = getById(id);
+
+        List<BookOutlineDetail> detailList = detailBiz.getBaseMapper().getByBook(id);
+
+        BookDetail bd = new BookDetail();
+        bd.setBook(book);
+        bd.setDetailList(detailList);
+
+        return bd;
+    }
 
 }

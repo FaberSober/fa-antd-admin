@@ -10,7 +10,6 @@ import com.faber.buzz.article.entity.Outline;
  * @email faberxu@gmail.com
  * @date 2020-12-31 13:53:39
  */
-// @Mapper
 public interface OutlineMapper extends BaseMapper<Outline> {
 	
 }
