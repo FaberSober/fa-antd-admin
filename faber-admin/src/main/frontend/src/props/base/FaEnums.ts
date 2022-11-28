@@ -39,15 +39,13 @@ namespace FaEnums {
   // ------------------------------------ RBAC ------------------------------------
   export enum RbacMenuLevelEnum {
     APP = 0,
-    LEVEL_1 = 1,
-    LEVEL_2 = 2,
+    MENU = 1,
     BUTTON = 9,
   }
 
   export const RbacMenuLevelEnumMap = {
     [RbacMenuLevelEnum.APP]: '模块',
-    [RbacMenuLevelEnum.LEVEL_1]: '一级菜单',
-    [RbacMenuLevelEnum.LEVEL_2]: '二级菜单',
+    [RbacMenuLevelEnum.MENU]: '菜单',
     [RbacMenuLevelEnum.BUTTON]: '按钮',
   }
 

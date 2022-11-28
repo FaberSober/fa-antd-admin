@@ -29,7 +29,7 @@ export default function DictDataRadio({ dictLabel, onFetchData, value, showSuffi
     dictService.listByCode(dictLabel).then((res) => {
       if (res && res.status === RES_CODE.OK) {
         const newList = res.data.map((v) => ({
-          value: transValue(v.value),
+          value: transValue!(v.value),
           label: v.text,
           description: v.description,
         }));
@@ -39,7 +39,7 @@ export default function DictDataRadio({ dictLabel, onFetchData, value, showSuffi
     });
   }, [dictLabel]);
 
-  const selectedOption = find(list, (d) => d.value === value);
+  const selectedOption:any = find(list, (d) => d.value === value);
 
   return (
     <div>

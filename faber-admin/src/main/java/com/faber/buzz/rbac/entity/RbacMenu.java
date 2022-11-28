@@ -42,7 +42,7 @@ public class RbacMenu extends BaseDelEntity {
     @ExcelProperty("排序")
     private Integer sort;
 
-    @ExcelProperty("菜单等级：0-模块/1-一级菜单/2-二级菜单/3-三级菜单/9-按钮")
+    @ExcelProperty("菜单等级：0-模块/1-菜单/9-按钮")
     private RbacMenuLevelEnum level;
 
     @ExcelProperty("图标标识")
