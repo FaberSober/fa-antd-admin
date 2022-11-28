@@ -2,11 +2,15 @@ package com.faber.buzz.admin.biz;
 
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ClassLoaderUtil;
+import cn.hutool.core.util.ClassUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.faber.buzz.admin.entity.Dict;
 import com.faber.buzz.admin.entity.DictType;
 import com.faber.buzz.admin.mapper.DictMapper;
 import com.faber.buzz.admin.vo.SystemConfigPo;
+import com.faber.core.context.BaseContextHandler;
+import com.faber.core.exception.NoDataException;
 import com.faber.core.web.biz.BaseBiz;
 import com.faber.buzz.admin.enums.DictTypeCodeEnum;
 import com.faber.core.exception.BuzzException;
@@ -18,10 +22,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.Serializable;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -33,6 +35,8 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
     @Resource
     @Lazy
     private DictTypeBiz dictTypeBiz;
+
+    private static final Map<String, Object> enumClassCache = new HashMap<>();
 
     @Override
     protected void preProcessQuery(QueryParams query) {
@@ -124,10 +128,25 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
     }
 
     public List<DictOption> listEnum(String enumName) {
-        // FIXME: 直接指定enum的名字，不指定前缀包名
-        String classPath = "com.faber.common.enums." + enumName;
-        Class<?> clazz = ClassLoaderUtil.loadClass(classPath);
-        return FaEnumUtils.toOptions((Class<? extends IEnum>) clazz);
+        Class<? extends IEnum> clazz = null;
+
+        if (enumClassCache.containsKey(enumName)) {
+            clazz = (Class<? extends IEnum>) enumClassCache.get(enumName);
+            return FaEnumUtils.toOptions(clazz);
+        }
+
+        Set<Class<?>> set = ClassUtil.scanPackage("com.faber", i -> {
+            return IEnum.class.isAssignableFrom(i) && StrUtil.equals(i.getSimpleName(), enumName);
+        });
+        if (set.size() == 0) throw new NoDataException();
+        if (set.size() >  1) throw new BuzzException("找到多个同名的枚举【" + enumName + "】，请联系管理员");
+
+        if (set.iterator().hasNext()) {
+            clazz = (Class<? extends IEnum>) set.iterator().next();
+            enumClassCache.put(enumName, clazz);
+            return FaEnumUtils.toOptions(clazz);
+        }
+        throw new BuzzException("未找到或找到多个同名的枚举【" + enumName + "】，请联系管理员");
     }
 
 }

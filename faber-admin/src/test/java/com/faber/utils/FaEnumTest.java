@@ -1,7 +1,9 @@
 package com.faber.utils;
 
 import cn.hutool.core.util.ClassLoaderUtil;
+import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.faber.core.utils.FaEnumUtils;
 import com.faber.core.vo.DictOption;
@@ -9,9 +11,7 @@ import com.faber.buzz.msg.entity.Msg;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class FaEnumTest {
 
@@ -32,6 +32,18 @@ public class FaEnumTest {
         Class<?> clazz = ClassLoaderUtil.loadClass(classPath);
         List<DictOption> options = FaEnumUtils.toOptions((Class<? extends IEnum>) clazz);
         System.out.println(options.toString());
+    }
+
+    @Test
+    public void testGetEnumsByClassName() {
+        String className = "AreaLevelEnum";
+        Set<Class<?>> set = ClassUtil.scanPackage("com.faber", i -> {
+            return IEnum.class.isAssignableFrom(i) && StrUtil.equals(i.getSimpleName(), className);
+        });
+        if (set.iterator().hasNext()) {
+            List<DictOption> options = FaEnumUtils.toOptions((Class<? extends IEnum>) set.iterator().next());
+            System.out.println(options.toString());
+        }
     }
 
 }
