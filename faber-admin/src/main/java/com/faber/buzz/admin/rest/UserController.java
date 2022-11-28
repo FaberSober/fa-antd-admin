@@ -59,7 +59,7 @@ public class UserController extends BaseController<UserBiz, User, String> {
      */
     @RequestMapping(value = "/updateMyApiToken", method = RequestMethod.POST)
     @ResponseBody
-    public Ret<Boolean> updateMyApiToken(@RequestBody Map<String, Object> params) {
+    public Ret<Boolean> updateMyApiToken() {
         baseBiz.updateMyApiToken(getCurrentUserId());
         return ok();
     }
