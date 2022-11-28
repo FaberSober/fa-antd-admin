@@ -8,13 +8,13 @@ const serviceModule = 'msg';
 
 class Msg extends BaseApi<Admin.Msg, string> {
 	/** 获取实体 分页 */
-	pageMine = (params: Fa.BasePageProps): Promise<Fa.Response<Fa.Page<Admin.Msg>>> => this.post(`pageMine`, params);
+	pageMine = (params: Fa.BasePageProps): Promise<Fa.Ret<Fa.Page<Admin.Msg>>> => this.post(`pageMine`, params);
 
 	/** 批量已读 */
-	batchRead = (ids: string[]): Promise<Fa.Response> => this.post(`batchRead`, ids);
+	batchRead = (ids: string[]): Promise<Fa.Ret> => this.post(`batchRead`, ids);
 
 	/** 消息数量统计 */
-	countMine = (): Promise<Fa.Response<{ unreadCount: number }>> => this.get(`countMine`);
+	countMine = (): Promise<Fa.Ret<{ unreadCount: number }>> => this.get(`countMine`);
 }
 
 export default new Msg(GATE_APP.admin, serviceModule);

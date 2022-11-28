@@ -131,7 +131,7 @@ instance.interceptors.response.use(
 	},
 );
 
-export function requestProcess<R>(request: Promise<AxiosResponse<Fa.Response<R>>>): Promise<Fa.Response<R>> {
+export function requestProcess<R>(request: Promise<AxiosResponse<Fa.Ret<R>>>): Promise<Fa.Ret<R>> {
 	return request
 		.then((res) => res.data)
 		.then((data) => {
@@ -142,19 +142,19 @@ export function requestProcess<R>(request: Promise<AxiosResponse<Fa.Response<R>>
 		});
 }
 
-export function requestGet<R>(api: string, config?: AxiosRequestConfig): Promise<Fa.Response<R>> {
+export function requestGet<R>(api: string, config?: AxiosRequestConfig): Promise<Fa.Ret<R>> {
 	return requestProcess(instance.get(api, config));
 }
 
-export function requestDelete<R>(api: string, config?: AxiosRequestConfig): Promise<Fa.Response<R>> {
+export function requestDelete<R>(api: string, config?: AxiosRequestConfig): Promise<Fa.Ret<R>> {
 	return requestProcess(instance.delete(api, config));
 }
 
-export function requestPut<R>(api: string, body: object, config?: AxiosRequestConfig): Promise<Fa.Response<R>> {
+export function requestPut<R>(api: string, body: object, config?: AxiosRequestConfig): Promise<Fa.Ret<R>> {
 	return requestProcess(instance.put(api, body, config));
 }
 
-export function requestPost<R>(api: string, body: object, config?: AxiosRequestConfig): Promise<Fa.Response<R>> {
+export function requestPost<R>(api: string, body: object, config?: AxiosRequestConfig): Promise<Fa.Ret<R>> {
 	return requestProcess(instance.post(api, body, config));
 }
 

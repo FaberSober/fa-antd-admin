@@ -8,6 +8,7 @@ import {FaberTable} from '@/components/base-table';
 import configService from '@/services/admin/config';
 import {RES_CODE} from '@/configs/server.config';
 import {BaseBizTableContext} from "@/components/base-table/BaseBizTable";
+import FaEnums from "@/props/base/FaEnums";
 
 const allSceneLabel = '全部数据';
 
@@ -39,7 +40,7 @@ function SceneDropMenu<T>({ buzzModal, columns, onChange }: IProps<T>, ref: any)
   function refreshConfigList() {
     if (localData) return;
     if (buzzModal) {
-      configService.findAllScene({ buzzModal, type: Admin.ConfigType.QUERY_CONDITION }).then((res) => {
+      configService.findAllScene({ buzzModal, type: FaEnums.ConfigTypeEnum.QUERY_CONDITION }).then((res) => {
         if (res && res.status === RES_CODE.OK) {
           setConfigList(res.data);
         }
@@ -81,7 +82,7 @@ function SceneDropMenu<T>({ buzzModal, columns, onChange }: IProps<T>, ref: any)
     <Menu selectedKeys={[value]} onClick={handleMenuClick}>
       <Menu.Item key="0">{allSceneLabel}</Menu.Item>
       {configList
-        .filter((n) => n.hide !== '1')
+        .filter((n) => n.hide !== FaEnums.BoolEnum.YES)
         .map((c) => (
           <Menu.Item key={`${c.id}`}>{c.name}</Menu.Item>
         ))}

@@ -51,7 +51,7 @@ export interface UseTableQueryParamsResProps<T> {
 }
 
 export function useTableQueryParams<T>(
-  api: (params: any) => Promise<Fa.Response<Fa.Page<T>>>,
+  api: (params: any) => Promise<Fa.Ret<Fa.Page<T>>>,
   initParams: Fa.InitQueryParams = {},
   serviceName: string
 ): UseTableQueryParamsResProps<T> {
@@ -208,7 +208,7 @@ export function useTableQueryParams<T>(
  * @param refreshList
  * @param serviceName
  */
-export function useDelete<T>(deleteApi: (id: T) => Promise<Fa.Response>, refreshList: () => void, serviceName: string = ''): [(id: T) => void] {
+export function useDelete<T>(deleteApi: (id: T) => Promise<Fa.Ret>, refreshList: () => void, serviceName: string = ''): [(id: T) => void] {
   function handleDelete(id: T) {
     deleteApi(id).then((res) => {
       showResponse(res, `删除${serviceName}信息`);

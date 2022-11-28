@@ -48,7 +48,7 @@ export function toLine(name: string) {
 /**
  * 展示服务端返回数据提示
  */
-export function showResponse(response: Fa.Response, prefix: string) {
+export function showResponse(response: Fa.Ret, prefix: string) {
 	if (response && response.status === RES_CODE.OK) {
 		message.success(`${prefix}成功`);
 	}

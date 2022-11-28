@@ -36,6 +36,12 @@ namespace FaEnums {
     [FaEnums.EntityLogActionEnum.DEL]: '删除',
   }
 
+  // ------------------------------------ Admin ------------------------------------
+  export enum ConfigTypeEnum {
+    TABLE_COLUMNS = 1,
+    QUERY_CONDITION = 2,
+  }
+
   // ------------------------------------ RBAC ------------------------------------
   export enum RbacMenuLevelEnum {
     APP = 0,

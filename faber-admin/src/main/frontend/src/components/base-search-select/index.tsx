@@ -10,11 +10,11 @@ export interface BaseSearchSelectProps<T, KeyType = number> extends SelectProps<
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
     /** [外部定义]获取所有Tree节点 */
-    search: (searchValue: string) => Promise<Fa.Response<Fa.Page<T>>>;
+    search: (searchValue: string) => Promise<Fa.Ret<Fa.Page<T>>>;
     /** [外部定义]获取Tree节点详情 */
-    findOne: (id: KeyType) => Promise<Fa.Response<T>>;
+    findOne: (id: KeyType) => Promise<Fa.Ret<T>>;
     /** [外部定义]获取Tree节点详情 */
-    findList?: (ids: KeyType[]) => Promise<Fa.Response<T[]>>;
+    findList?: (ids: KeyType[]) => Promise<Fa.Ret<T[]>>;
   };
   value?: any;
   onChange?: (v: any, option?: any) => void;

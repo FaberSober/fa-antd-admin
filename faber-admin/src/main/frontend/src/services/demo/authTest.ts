@@ -6,10 +6,10 @@ import {Fa} from "@/props/base";
 class AuthTestApi extends BaseZeroApi {
 
   /** 测试-权限1 */
-  test1 = (): Promise<Fa.Response<string>> => this.get("test1");
+  test1 = (): Promise<Fa.Ret<string>> => this.get("test1");
 
   /** 测试-权限2 */
-  test2 = (): Promise<Fa.Response<string>> => this.get("test2");
+  test2 = (): Promise<Fa.Ret<string>> => this.get("test2");
 
 }
 

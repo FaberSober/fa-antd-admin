@@ -10,6 +10,7 @@ import Admin from '@/props/admin';
 import ConditionQueryModal from '@/components/condition-query/ConditionQueryModal';
 import {FaberTable} from '@/components/base-table';
 import './SceneManageModal.less';
+import FaEnums from "@/props/base/FaEnums";
 
 interface IProps<T> extends DragModalProps {
   buzzModal: string;
@@ -34,7 +35,7 @@ function SceneManageModal<T>({ buzzModal, columns, onOk, ...restProps }: IProps<
   /** 获取远程配置 */
   function fetchRemoteConfig() {
     if (buzzModal) {
-      configService.findAllScene({ buzzModal, type: Admin.ConfigType.QUERY_CONDITION }).then((res) => {
+      configService.findAllScene({ buzzModal, type: FaEnums.ConfigTypeEnum.QUERY_CONDITION }).then((res) => {
         if (res && res.status === RES_CODE.OK) {
           setConfigList(res.data);
         }
@@ -66,7 +67,7 @@ function SceneManageModal<T>({ buzzModal, columns, onOk, ...restProps }: IProps<
   function handleItemCheck(item: Admin.Config, checked: boolean) {
     const newList = configList.map((i) => {
       if (i.id === item.id) {
-        return { ...i, hide: checked ? '0' : '1' };
+        return { ...i, hide: checked ? FaEnums.BoolEnum.NO : FaEnums.BoolEnum.YES };
       }
       return i;
     });
@@ -93,16 +94,16 @@ function SceneManageModal<T>({ buzzModal, columns, onOk, ...restProps }: IProps<
     <div className="itemContainer">
       <Checkbox
         style={{ width: 40 }}
-        disabled={item.system === '1'}
-        checked={item.system === '1' || item.hide === '0'}
+        disabled={item.system === FaEnums.BoolEnum.YES}
+        checked={item.system === FaEnums.BoolEnum.YES || item.hide === FaEnums.BoolEnum.NO}
         onChange={(e) => handleItemCheck(item, e.target.checked)}
       />
       <div style={{ flex: 1, paddingLeft: 8 }}>
         <strong>{item.name}</strong>
       </div>
-      {item.system === '1' ? <span style={{ color: '#666', marginRight: 16 }}>（系统场景）</span> : null}
+      {item.system === FaEnums.BoolEnum.YES ? <span style={{ color: '#666', marginRight: 16 }}>（系统场景）</span> : null}
       <div>
-        {item.system === '1' ? null : (
+        {item.system === FaEnums.BoolEnum.YES ? null : (
           <Space>
             <ConditionQueryModal record={item} buzzModal={buzzModal} columns={columns} onConditionChange={fetchRemoteConfig} showSuffix={false}>
               <a>

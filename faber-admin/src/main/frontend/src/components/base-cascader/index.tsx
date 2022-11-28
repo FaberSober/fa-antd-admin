@@ -12,9 +12,9 @@ export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderPro
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
     /** [外部定义]获取所有Tree节点 */
-    allTree: (params: any) => Promise<Fa.Response<Fa.TreeNode<T, KeyType>[]>>;
+    allTree: (params: any) => Promise<Fa.Ret<Fa.TreeNode<T, KeyType>[]>>;
     /** [外部定义]获取Tree节点详情 */
-    findOne: (id: KeyType) => Promise<Fa.Response<T>>;
+    findOne: (id: KeyType) => Promise<Fa.Ret<T>>;
   };
   value?: any;
   onChange?: (v: any) => void;

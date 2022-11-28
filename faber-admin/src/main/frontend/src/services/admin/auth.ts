@@ -6,7 +6,7 @@ import {requestPost} from '@/utils/request';
  * @param username
  * @param password
  */
-export function login(username: string, password: string): Promise<Fa.Response<string>> {
+export function login(username: string, password: string): Promise<Fa.Ret<string>> {
 	return requestPost('/api/auth/login', { username, password });
 }
 

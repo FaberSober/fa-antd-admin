@@ -8,7 +8,7 @@ const serviceModule = 'article';
 
 class ArticleApi extends BaseApi<Admin.Article, number> {
 	/** 获取唯一实体 */
-	findOneBuzz = (params: { bizId: string; bizType: string }): Promise<Fa.Response<Admin.Article>> => this.post(`findOneBuzz`, params);
+	findOneBuzz = (params: { bizId: string; bizType: string }): Promise<Fa.Ret<Admin.Article>> => this.post(`findOneBuzz`, params);
 }
 
 export default new ArticleApi(GATE_APP.admin, serviceModule);

@@ -50,7 +50,7 @@ namespace Fa {
   /**
    * 服务返回数据定义
    */
-  export interface Response<T = any> {
+  export interface Ret<T = any> {
     /**
      * 状态码，默认200为成功
      */

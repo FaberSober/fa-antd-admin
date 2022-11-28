@@ -27,17 +27,6 @@ public class Config extends BaseDelEntity {
     /** 业务模块 */
     private String buzzModal;
 
-    public static final class Type {
-        /**
-         * 表格字段配置
-         */
-        public static final String TABLE_COLUMNS = "TABLE_COLUMNS";
-        /**
-         * 查询条件
-         */
-        public static final String QUERY_CONDITION = "QUERY_CONDITION";
-    }
-
     /** 配置类型 */
     private String type;
 

@@ -13,18 +13,18 @@ export interface UserWebQuery extends Fa.BasePageProps {
 class User extends BaseApi<Admin.User, string, Admin.UserWeb> {
 
   /** 获取用户信息 */
-  getLoginUser = (): Promise<Fa.Response<Admin.User>> => this.get('getLoginUser');
+  getLoginUser = (): Promise<Fa.Ret<Admin.User>> => this.get('getLoginUser');
 
 	/** 分页查询 */
-	pageOut = (params: UserWebQuery): Promise<Fa.Response<Fa.Page<Admin.UserWeb>>> => this.post(`pageOut`, params);
+	pageOut = (params: UserWebQuery): Promise<Fa.Ret<Fa.Page<Admin.UserWeb>>> => this.post(`pageOut`, params);
 
 	/** ------------------------------------------ 个人账户 操作接口 ------------------------------------------ */
 
 	/** 更新个人账户基本信息 */
-  updateMine = (params: any): Promise<Fa.Response> => this.post('updateMine', params);
+  updateMine = (params: any): Promise<Fa.Ret> => this.post('updateMine', params);
 
 	/** 更新个人账户密码 */
-  updateMyPwd = (params: any): Promise<Fa.Response> => this.post('updateMyPwd', params);
+  updateMyPwd = (params: any): Promise<Fa.Ret> => this.post('updateMyPwd', params);
 
 }
 

@@ -7,7 +7,7 @@ import Admin from "@/props/admin";
 class SystemApi extends BaseZeroApi<any, string> {
 
   /** 获取服务器信息 */
-  server = (): Promise<Fa.Response<Admin.ServerInfo>> => this.get('server');
+  server = (): Promise<Fa.Ret<Admin.ServerInfo>> => this.get('server');
 
 }
 

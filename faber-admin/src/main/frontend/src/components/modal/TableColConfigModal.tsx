@@ -13,6 +13,7 @@ import configService from '@/services/admin/config';
 import {BaseBizTableContext} from "@/components/base-table/BaseBizTable";
 import './TableColConfigModal.less';
 import {FaFlexRestLayout} from "@/components/base-layout";
+import FaEnums from "@/props/base/FaEnums";
 
 const colWidthCache: { [key: string]: number } = {};
 
@@ -55,7 +56,7 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
   /** 获取服务端配置 */
   function fetchRemoteConfig() {
     if (localData) return;
-    configService.findByScene({ buzzModal, type: Admin.ConfigType.TABLE_COLUMNS }).then((res) => {
+    configService.findByScene({ buzzModal, type: FaEnums.ConfigTypeEnum.TABLE_COLUMNS }).then((res) => {
       if (res && res.status === RES_CODE.OK && res.data !== undefined && res.data !== null) {
         const configJSON: FaberTable.Config<T> = JSON.parse(res.data.data);
         if (configJSON.columns && onConfigChange) {
@@ -100,16 +101,16 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
     if (!localData) {
       const params = {
         buzzModal,
-        type: Admin.ConfigType.TABLE_COLUMNS,
+        type: FaEnums.ConfigTypeEnum.TABLE_COLUMNS,
         name: buzzName,
         data: JSON.stringify({ columns: columnsMerge }),
-        system: '0',
+        system: FaEnums.BoolEnum.NO,
       };
 
       if (config === undefined) {
         configService.add(params).then((res) => showResponse(res, '保存自定义表格配置'));
       } else {
-        configService.update(config.id, { id: config.id, belongUserId: config.belongUserId, ...params }).then((res) => showResponse(res, '更新自定义表格配置'));
+        configService.update(config.id, { id: config.id, ...params }).then((res) => showResponse(res, '更新自定义表格配置'));
       }
     }
 

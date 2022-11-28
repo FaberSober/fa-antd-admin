@@ -19,21 +19,19 @@ namespace Admin {
 		/** 业务模块 */
 		buzzModal: string;
 		/** 配置类型 */
-		type: ConfigType;
+		type: FaEnums.ConfigTypeEnum;
 		/** 配置名称 */
 		name: string;
 		/** 配置JSON */
 		data: string;
 		/** 是否系统 */
-		defaultScene: string;
+		defaultScene: FaEnums.BoolEnum;
 		/** 是否默认 */
-		hide: string;
+		hide: FaEnums.BoolEnum;
+    /** 是否系统默认 */
+    system: FaEnums.BoolEnum;
 		/** 排序ID */
 		sort: number;
-		/** 所属用户ID */
-		belongUserId: string;
-		/** 是否系统默认 */
-		system: string;
 	}
 
 	// -------------------------------------------- 系统-字典值 --------------------------------------------

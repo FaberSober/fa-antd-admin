@@ -10,7 +10,7 @@ export interface BaseSelectProps<T> extends SelectProps<T> {
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
     /** [外部定义]获取所有List节点 */
-    list: (p: any) => Promise<Fa.Response<T[]>>;
+    list: (p: any) => Promise<Fa.Ret<T[]>>;
   };
   value?: any;
   onChange?: (v: any, option?: any) => void;

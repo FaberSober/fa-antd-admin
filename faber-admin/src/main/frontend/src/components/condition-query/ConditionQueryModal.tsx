@@ -12,6 +12,7 @@ import {BaseBizTableContext} from "@/components/base-table/BaseBizTable";
 import CondGroupShow from "@/components/condition-query/CondGroupShow";
 import CondGroupEdit from "@/components/condition-query/CondGroupEdit";
 import {PlusOutlined} from "@ant-design/icons";
+import FaEnums from "@/props/base/FaEnums";
 
 
 export interface ConditionQueryModalProps<T> {
@@ -97,7 +98,7 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
 
       const params = {
         buzzModal,
-        type: Admin.ConfigType.QUERY_CONDITION,
+        type: FaEnums.ConfigTypeEnum.QUERY_CONDITION,
         system: '0',
         defaultScene: defaultScene ? '1' : '0',
         name: sceneName,

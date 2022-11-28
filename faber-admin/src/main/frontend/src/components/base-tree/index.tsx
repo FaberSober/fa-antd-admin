@@ -38,13 +38,13 @@ interface IProps<T, KeyType = number> extends TreeProps {
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
     /** [外部定义]获取所有Tree节点 */
-    allTree: () => Promise<Fa.Response<Fa.TreeNode<T, KeyType>[]>>;
+    allTree: () => Promise<Fa.Ret<Fa.TreeNode<T, KeyType>[]>>;
     /** [外部定义]改变Tree节点位置 */
-    changePos: (list: any[]) => Promise<Fa.Response>;
+    changePos: (list: any[]) => Promise<Fa.Ret>;
     /** [外部定义]获取Tree节点详情 */
-    findOne: (id: KeyType) => Promise<Fa.Response<T>>;
+    findOne: (id: KeyType) => Promise<Fa.Ret<T>>;
     /** [外部定义]删除Tree节点 */
-    remove: (id: KeyType) => Promise<Fa.Response>;
+    remove: (id: KeyType) => Promise<Fa.Ret>;
   };
   onGetTree?: (tree: Fa.TreeNode<T, KeyType>[]) => void;
   onAfterDelItem: (item: BaseTreeProps.TreeNode<T, KeyType>) => void;
