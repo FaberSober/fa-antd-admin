@@ -6,10 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 定时任务DEMO
+ * @author xu.pengfei
+ * @date 2022/11/28 13:41
  */
 @Slf4j
 public class JobDemo1 extends BaseJob {
 
+    @Override
     protected void run() {
         try {
             Thread.sleep(RandomUtil.randomInt(10));

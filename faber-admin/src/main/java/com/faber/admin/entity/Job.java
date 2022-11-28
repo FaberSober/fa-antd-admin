@@ -9,6 +9,7 @@ import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlSearch;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.enums.BoolEnum;
+import com.faber.config.quartz.vo.JobInfo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -24,7 +25,7 @@ import lombok.EqualsAndHashCode;
 @FaModalName(name = "定时任务")
 @TableName("base_job")
 @Data
-public class Job extends BaseDelEntity {
+public class Job extends BaseDelEntity implements JobInfo {
     private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.AUTO)

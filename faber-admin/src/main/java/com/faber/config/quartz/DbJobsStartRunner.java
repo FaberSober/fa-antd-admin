@@ -1,7 +1,6 @@
-package com.faber.common.config.runner;
+package com.faber.config.quartz;
 
 import com.faber.admin.biz.JobBiz;
-import com.faber.common.config.quartz.JobTask;
 import com.faber.admin.entity.Job;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;

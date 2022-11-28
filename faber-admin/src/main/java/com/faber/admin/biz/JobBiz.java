@@ -32,13 +32,17 @@ public class JobBiz extends BaseBiz<JobMapper, Job> {
 
     public void runOneTime(Long id) {
         Job job = getById(id);
-        if (job == null) throw new NoDataException();
+        if (job == null) {
+            throw new NoDataException();
+        }
         jobTask.runTaskImmediately(job);
     }
 
     public void startJob(Integer id) {
         Job job = getById(id);
-        if (job == null) throw new NoDataException();
+        if (job == null) {
+            throw new NoDataException();
+        }
         jobTask.startJob(job);
 
         job.setStatus(BoolEnum.YES);
@@ -47,7 +51,9 @@ public class JobBiz extends BaseBiz<JobMapper, Job> {
 
     public void endJob(Integer id) {
         Job job = getById(id);
-        if (job == null) throw new NoDataException();
+        if (job == null) {
+            throw new NoDataException();
+        }
 
         jobTask.remove(job);
 
@@ -56,7 +62,9 @@ public class JobBiz extends BaseBiz<JobMapper, Job> {
     }
 
     public List<String> quartzLatest(String cron, Integer times) throws ParseException  {
-        if (times > 20) throw new BuzzException("times should less then 20.");
+        if (times > 20) {
+            throw new BuzzException("times should less then 20.");
+        }
 
         CronExpression cronExpression = new CronExpression(cron);
         List<String> nextFireTimes = new ArrayList<>();

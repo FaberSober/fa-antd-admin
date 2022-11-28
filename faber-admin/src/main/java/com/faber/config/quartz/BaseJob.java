@@ -13,6 +13,11 @@ import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * 定时任务父类
+ * @author xu.pengfei
+ * @date 2022/11/28 13:43
+ */
 @Slf4j
 public abstract class BaseJob implements Job {
 
