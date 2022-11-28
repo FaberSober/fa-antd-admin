@@ -1,8 +1,8 @@
-package com.faber.common.config.web;
+package com.faber.config.web;
 
 import cn.hutool.core.collection.ListUtil;
-import com.faber.common.config.interceptor.*;
 import com.faber.common.handler.GlobalExceptionHandler;
+import com.faber.config.interceptor.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -22,8 +22,9 @@ import java.util.List;
 import java.util.TimeZone;
 
 /**
- * @author ace
- * @date 2017/9/8
+ * @author ${USER}
+ * @description
+ * @date ${DATE} ${TIME}
  */
 @Configuration("admimWebConfig")
 @Primary
@@ -95,6 +96,7 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
     /**
      * SpringBoot2 版本中spring.jackson.date-format设置以后不生效的速效解决方法
      * https://blog.csdn.net/u012581020/article/details/105955060
+     *
      * @param converters
      */
     @Override

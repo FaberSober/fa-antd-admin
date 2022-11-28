@@ -1,4 +1,4 @@
-package com.faber.common.config.interceptor;
+package com.faber.config.interceptor;
 
 import com.faber.common.config.annotation.CrossResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 用户权限点校验
+ * 跨域访问拦截
+ * @author xu.pengfei
+ * @date 2022/11/28 11:32
  */
 @Slf4j
 public class CrossInterceptor extends AbstractInterceptor {

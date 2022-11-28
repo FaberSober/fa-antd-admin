@@ -1,4 +1,4 @@
-package com.faber.common.config.interceptor;
+package com.faber.config.interceptor;
 
 import com.faber.common.annotation.LogNoRet;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 请求URL日志拦截
+ * @author xu.pengfei
+ * @date 2022/11/28 11:32
  */
 @Slf4j
 public class GateLogInterceptor extends AbstractInterceptor {

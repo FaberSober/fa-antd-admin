@@ -1,10 +1,13 @@
-package com.faber.common.utils.jwt;
+package com.faber.config.utils.jwt;
 
 import lombok.*;
 
 import java.io.Serializable;
 
 /**
+ * JWT信息
+ * @author xu.pengfei
+ * @date 2022/11/28 11:33
  */
 @Data
 @ToString
@@ -13,6 +16,9 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class JWTInfo implements Serializable {
 
+    /**
+     * 用户ID
+     */
     private String userId;
 
     /**

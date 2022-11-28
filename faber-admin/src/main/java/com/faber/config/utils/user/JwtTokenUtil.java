@@ -1,10 +1,10 @@
-package com.faber.common.utils.user;
+package com.faber.config.utils.user;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
-import com.faber.common.utils.jwt.JWTInfo;
+import com.faber.config.utils.jwt.JWTInfo;
 import com.faber.common.constant.FaSetting;
 import com.faber.common.exception.auth.UserTokenException;
 import lombok.Data;
@@ -17,6 +17,8 @@ import java.util.Date;
 
 /**
  * JWT帮助类
+ * @author xu.pengfei
+ * @date 2022/11/28 11:31
  */
 @Component
 @Data
@@ -57,13 +59,17 @@ public class JwtTokenUtil {
      */
     public JWTInfo parseToken(String token) {
         try {
-            if (StrUtil.isEmpty(token)) throw new UserTokenException("令牌失效，请重新登录！");
+            if (StrUtil.isEmpty(token)) {
+                throw new UserTokenException("令牌失效，请重新登录！");
+            }
 
             byte[] key = secret.getBytes();
 
             // 1. 验证token是否有效
             boolean verify = JWT.of(token).setKey(key).validate(0);
-            if (!verify) throw new UserTokenException("令牌失效，请重新登录！");
+            if (!verify) {
+                throw new UserTokenException("令牌失效，请重新登录！");
+            }
 
             final JWT jwt = JWTUtil.parseToken(token);
             String userId = (String) jwt.getPayload("id");

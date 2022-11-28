@@ -1,4 +1,4 @@
-package com.faber.common.config.interceptor;
+package com.faber.config.interceptor;
 
 import cn.hutool.core.util.StrUtil;
 import com.faber.common.config.annotation.IgnoreUserToken;
@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * TODO 用户权限点校验
+ * @author xu.pengfei
+ * @date 2022/11/28 11:32
  */
 @Slf4j
 public class PermissionInterceptor extends AbstractInterceptor {
@@ -34,7 +36,9 @@ public class PermissionInterceptor extends AbstractInterceptor {
             return super.preHandle(request, response, handler);
         }
         boolean hasPermission = rbacUserRoleBiz.checkUserLinkUrl(BaseContextHandler.getUserId(), permission.permission());
-        if (!hasPermission) throw new UserNoPermissionException("无权访问");
+        if (!hasPermission) {
+            throw new UserNoPermissionException("无权访问");
+        }
 
         return super.preHandle(request, response, handler);
     }

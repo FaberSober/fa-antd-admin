@@ -1,10 +1,10 @@
-package com.faber.common.config.interceptor;
+package com.faber.config.interceptor;
 
 import com.faber.admin.biz.UserBiz;
 import com.faber.common.config.annotation.IgnoreUserToken;
 import com.faber.admin.entity.User;
-import com.faber.common.utils.jwt.JWTInfo;
-import com.faber.common.utils.user.UserCheckUtil;
+import com.faber.config.utils.jwt.JWTInfo;
+import com.faber.config.utils.user.UserCheckUtil;
 import com.faber.common.context.BaseContextHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 用户授权过滤器
  * 1. 过滤request#header的jwt token授权字段：Authorization
+ * @author xu.pengfei
+ * @date 2022/11/28 11:33
  */
 @Slf4j
 public class UserAuthRestInterceptor extends AbstractInterceptor {

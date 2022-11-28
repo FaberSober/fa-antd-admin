@@ -1,4 +1,4 @@
-package com.faber.common.config.interceptor;
+package com.faber.config.interceptor;
 
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.utils.IpUtils;
@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 第一个空请求拦截，存储一些请求基本信息
+ * @author xu.pengfei
+ * @date 2022/11/28 11:32
  */
 @Slf4j
 public class FirstEmptyInterceptor extends AbstractInterceptor {

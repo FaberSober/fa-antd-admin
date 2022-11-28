@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.faber.admin.entity.Department;
 import com.faber.admin.entity.User;
 import com.faber.admin.mapper.UserMapper;
-import com.faber.common.utils.user.UserCheckUtil;
+import com.faber.config.utils.user.UserCheckUtil;
 import com.faber.admin.vo.UserAccountVo;
 import com.faber.admin.vo.UserInfo;
 import com.faber.common.biz.BaseBiz;
