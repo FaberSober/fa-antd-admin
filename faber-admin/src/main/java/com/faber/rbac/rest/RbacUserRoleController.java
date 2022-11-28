@@ -1,6 +1,5 @@
 package com.faber.rbac.rest;
 
-import com.faber.common.vo.BasePageQuery;
 import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.vo.msg.TableResultResponse;
 import com.faber.common.rest.BaseController;

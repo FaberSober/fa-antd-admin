@@ -6,7 +6,7 @@ import cn.hutool.json.JSONObject;
 import com.faber.admin.entity.SystemUpdateLog;
 import com.faber.admin.mapper.SystemUpdateLogMapper;
 import com.faber.common.biz.BaseBiz;
-import com.faber.common.util.FaResourceUtils;
+import com.faber.common.utils.FaResourceUtils;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;

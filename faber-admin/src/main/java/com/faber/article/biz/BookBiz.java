@@ -2,13 +2,10 @@ package com.faber.article.biz;
 
 import com.faber.article.entity.Book;
 import com.faber.article.mapper.BookMapper;
-import com.faber.article.vo.BookDetail;
-import com.faber.article.vo.BookOutlineDetail;
 import com.faber.common.biz.BaseBiz;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 文章-书本

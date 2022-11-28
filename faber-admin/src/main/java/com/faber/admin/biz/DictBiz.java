@@ -10,8 +10,7 @@ import com.faber.admin.vo.SystemConfigPo;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.enums.admin.DictTypeCodeEnum;
 import com.faber.common.exception.BuzzException;
-import com.faber.common.util.FaEnumUtils;
-import com.faber.common.vo.msg.ObjectRestResponse;
+import com.faber.common.utils.FaEnumUtils;
 import com.faber.common.vo.msg.TableResultResponse;
 import com.faber.common.vo.DictOption;
 import com.faber.common.vo.query.QueryParams;
@@ -125,6 +124,7 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
     }
 
     public List<DictOption> listEnum(String enumName) {
+        // FIXME: 直接指定enum的名字，不指定前缀包名
         String classPath = "com.faber.common.enums." + enumName;
         Class<?> clazz = ClassLoaderUtil.loadClass(classPath);
         return FaEnumUtils.toOptions((Class<? extends IEnum>) clazz);

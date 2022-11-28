@@ -4,8 +4,6 @@ import com.faber.admin.biz.DictBiz;
 import com.faber.admin.biz.UserBiz;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.enums.BoolEnum;
-import com.faber.common.vo.msg.TableResultResponse;
-import com.faber.common.vo.query.QueryParams;
 import com.faber.msg.entity.Msg;
 import com.faber.msg.mapper.MsgMapper;
 import com.faber.msg.vo.MsgStatisticVO;

@@ -5,7 +5,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.faber.common.constant.FaSetting;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.file.FileHelperImpl;
-import com.faber.common.util.FaFileUtils;
+import com.faber.common.utils.FaFileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

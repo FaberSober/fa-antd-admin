@@ -1,7 +1,7 @@
 package com.faber.admin.rest;
 
 import com.faber.admin.biz.DictBiz;
-import com.faber.config.annotation.IgnoreUserToken;
+import com.faber.common.config.annotation.IgnoreUserToken;
 import com.faber.admin.entity.Dict;
 import com.faber.admin.vo.SystemConfigPo;
 import com.faber.common.exception.BuzzException;

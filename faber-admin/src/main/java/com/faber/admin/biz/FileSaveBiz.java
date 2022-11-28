@@ -7,7 +7,7 @@ import com.faber.admin.mapper.FileSaveMapper;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.file.FileHelperImpl;
 import com.faber.common.file.impl.FileHelperLocal;
-import com.faber.common.util.file.QiniuHelper;
+import com.faber.common.utils.file.QiniuHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

@@ -1,6 +1,6 @@
 package com.faber.demo.rest;
 
-import com.faber.config.annotation.Permission;
+import com.faber.common.config.annotation.Permission;
 import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.utils.BaseResHandler;
 import org.springframework.web.bind.annotation.RequestMapping;

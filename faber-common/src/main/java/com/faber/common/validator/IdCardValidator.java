@@ -1,7 +1,7 @@
 package com.faber.common.validator;
 
 
-import com.faber.common.util.IdcardValidator;
+import com.faber.common.utils.IdcardValidator;
 
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;

@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.faber.admin.entity.Department;
 import com.faber.admin.entity.User;
 import com.faber.admin.mapper.UserMapper;
-import com.faber.admin.util.user.UserCheckUtil;
+import com.faber.common.utils.user.UserCheckUtil;
 import com.faber.admin.vo.UserAccountVo;
 import com.faber.admin.vo.UserInfo;
 import com.faber.common.biz.BaseBiz;
@@ -36,7 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

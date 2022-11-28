@@ -4,13 +4,13 @@ import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.faber.admin.entity.LogLogin;
 import com.faber.admin.entity.User;
-import com.faber.admin.util.jwt.JWTInfo;
-import com.faber.admin.util.user.AuthRequest;
-import com.faber.admin.util.user.JwtTokenUtil;
+import com.faber.common.utils.jwt.JWTInfo;
+import com.faber.common.utils.user.AuthRequest;
+import com.faber.common.utils.user.JwtTokenUtil;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.enums.BoolEnum;
-import com.faber.common.util.IpUtils;
-import com.faber.common.util.RequestUtils;
+import com.faber.common.utils.IpUtils;
+import com.faber.common.utils.RequestUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

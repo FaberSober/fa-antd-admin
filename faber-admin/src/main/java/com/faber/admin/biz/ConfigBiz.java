@@ -4,6 +4,7 @@ import com.faber.admin.entity.Config;
 import com.faber.admin.mapper.ConfigMapper;
 import com.faber.common.biz.BaseBiz;
 import com.faber.common.enums.BoolEnum;
+import com.faber.common.service.ConfigService;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ import java.util.Map;
  * @date 2020-06-02 21:21:45
  */
 @Service
-public class ConfigBiz extends BaseBiz<ConfigMapper, Config> {
+public class ConfigBiz extends BaseBiz<ConfigMapper, Config> implements ConfigService {
 
     @Override
     public boolean save(Config entity) {
@@ -119,5 +120,14 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> {
             }
             updateById(configDB);
         }
+    }
+
+    @Override
+    public String getConfigDataById(Integer configId) {
+        Config config = super.getById(configId);
+        if (config == null) {
+            return null;
+        }
+        return config.getData();
     }
 }

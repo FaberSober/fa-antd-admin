@@ -1,7 +1,6 @@
 package com.faber.msg.helper.config;
 
 import com.faber.common.enums.admin.MsgBuzzTypeEnum;
-import com.faber.msg.entity.Msg;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;

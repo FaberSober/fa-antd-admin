@@ -1,14 +1,13 @@
 package com.faber.common.mybatis;
 
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.faber.common.annotation.SqlEquals;
 import com.faber.common.annotation.SqlSearch;
-import com.faber.common.util.FaMapUtils;
-import com.faber.common.util.SqlUtils;
+import com.faber.common.utils.FaMapUtils;
+import com.faber.common.utils.SqlUtils;
 import com.faber.common.vo.Sorter;
 import com.faber.common.vo.query.Condition;
 import com.faber.common.vo.query.ConditionGroup;
@@ -19,7 +18,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

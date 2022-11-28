@@ -6,7 +6,6 @@ import com.faber.rbac.entity.RbacRoleMenu;
 import com.faber.rbac.mapper.RbacRoleMenuMapper;
 import com.faber.rbac.vo.RoleMenuVo;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;

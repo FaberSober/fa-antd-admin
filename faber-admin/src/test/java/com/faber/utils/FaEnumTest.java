@@ -1,10 +1,9 @@
 package com.faber.utils;
 
 import cn.hutool.core.util.ClassLoaderUtil;
-import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.annotation.IEnum;
-import com.faber.common.util.FaEnumUtils;
+import com.faber.common.utils.FaEnumUtils;
 import com.faber.common.vo.DictOption;
 import com.faber.msg.entity.Msg;
 import org.junit.Test;

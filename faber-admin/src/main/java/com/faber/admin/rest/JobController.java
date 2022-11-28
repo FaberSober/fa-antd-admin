@@ -2,7 +2,7 @@ package com.faber.admin.rest;
 
 import cn.hutool.core.map.MapUtil;
 import com.faber.admin.biz.JobBiz;
-import com.faber.config.annotation.IgnoreUserToken;
+import com.faber.common.config.annotation.IgnoreUserToken;
 import com.faber.admin.entity.Job;
 import com.faber.common.vo.msg.ObjectRestResponse;
 import com.faber.common.rest.BaseController;

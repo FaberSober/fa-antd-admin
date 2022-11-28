@@ -1,15 +1,11 @@
 package com.faber.rbac.biz;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.faber.admin.entity.Department;
-import com.faber.admin.entity.User;
 import com.faber.common.biz.BaseTreeBiz;
 import com.faber.common.exception.BuzzException;
 import com.faber.rbac.entity.RbacMenu;
 import com.faber.rbac.mapper.RbacMenuMapper;
 import org.springframework.stereotype.Service;
-
-import java.io.Serializable;
 
 /**
  * BASE-权限表

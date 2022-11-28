@@ -2,9 +2,7 @@ package com.faber.article.rest;
 
 import com.faber.article.biz.BookBiz;
 import com.faber.article.entity.Book;
-import com.faber.article.vo.BookDetail;
 import com.faber.common.rest.BaseController;
-import com.faber.common.vo.msg.ObjectRestResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
