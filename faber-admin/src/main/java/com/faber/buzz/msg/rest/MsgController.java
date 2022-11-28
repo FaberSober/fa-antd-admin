@@ -2,7 +2,7 @@ package com.faber.buzz.msg.rest;
 
 import com.faber.common.vo.msg.Ret;
 import com.faber.common.vo.msg.TableRet;
-import com.faber.common.rest.BaseController;
+import com.faber.common.web.rest.BaseController;
 import com.faber.common.vo.query.QueryParams;
 import com.faber.buzz.msg.biz.MsgBiz;
 import com.faber.buzz.msg.entity.Msg;

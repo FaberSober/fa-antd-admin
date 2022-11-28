@@ -3,7 +3,7 @@ package com.faber.buzz.admin.biz;
 import com.faber.buzz.admin.entity.Dict;
 import com.faber.buzz.admin.entity.DictType;
 import com.faber.buzz.admin.mapper.DictTypeMapper;
-import com.faber.common.biz.BaseTreeBiz;
+import com.faber.common.web.biz.BaseTreeBiz;
 import com.faber.common.exception.BuzzException;
 import org.springframework.stereotype.Service;
 

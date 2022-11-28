@@ -2,7 +2,7 @@ package com.faber.buzz.rbac.biz;
 
 import com.faber.buzz.rbac.entity.RbacRole;
 import com.faber.buzz.rbac.mapper.RbacRoleMapper;
-import com.faber.common.biz.BaseBiz;
+import com.faber.common.web.biz.BaseBiz;
 import org.springframework.stereotype.Service;
 
 /**

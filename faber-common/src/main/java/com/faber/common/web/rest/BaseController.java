@@ -1,7 +1,7 @@
-package com.faber.common.rest;
+package com.faber.common.web.rest;
 
 import com.faber.common.annotation.LogNoRet;
-import com.faber.common.biz.BaseBiz;
+import com.faber.common.web.biz.BaseBiz;
 import com.faber.common.vo.msg.Ret;
 import com.faber.common.vo.msg.TableRet;
 import com.faber.common.utils.BaseResHandler;

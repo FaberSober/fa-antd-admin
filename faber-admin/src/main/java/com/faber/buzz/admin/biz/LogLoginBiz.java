@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.faber.buzz.admin.entity.LogLogin;
 import com.faber.buzz.admin.mapper.LogLoginMapper;
-import com.faber.common.biz.BaseBiz;
+import com.faber.common.web.biz.BaseBiz;
 
 /**
  * BASE-登录日志

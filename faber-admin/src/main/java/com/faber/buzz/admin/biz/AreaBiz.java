@@ -4,7 +4,7 @@ import com.faber.buzz.admin.entity.Area;
 import com.faber.buzz.admin.mapper.AreaMapper;
 import com.faber.buzz.admin.vo.AreaPathVo;
 import com.faber.buzz.admin.vo.AreaTree;
-import com.faber.common.biz.BaseBiz;
+import com.faber.common.web.biz.BaseBiz;
 import com.faber.buzz.admin.enums.AreaLevelEnum;
 import com.faber.buzz.admin.enums.DictTypeCodeEnum;
 import com.faber.common.exception.BuzzException;

@@ -1,6 +1,6 @@
-package com.faber.common.rest;
+package com.faber.common.web.rest;
 
-import com.faber.common.biz.BaseTreeBiz;
+import com.faber.common.web.biz.BaseTreeBiz;
 import com.faber.common.vo.msg.Ret;
 import com.faber.common.vo.tree.TreeNode;
 import com.faber.common.vo.tree.TreePathVo;

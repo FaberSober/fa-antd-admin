@@ -4,7 +4,7 @@ import com.faber.buzz.article.biz.OutlineBiz;
 import com.faber.buzz.article.entity.Outline;
 import com.faber.buzz.article.vo.OutlineDetailVo;
 import com.faber.common.vo.msg.Ret;
-import com.faber.common.rest.BaseTreeController;
+import com.faber.common.web.rest.BaseTreeController;
 import com.faber.common.vo.tree.TreeNode;
 import org.springframework.web.bind.annotation.*;
 

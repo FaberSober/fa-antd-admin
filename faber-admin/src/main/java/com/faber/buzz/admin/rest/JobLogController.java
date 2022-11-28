@@ -2,7 +2,7 @@ package com.faber.buzz.admin.rest;
 
 import com.faber.buzz.admin.biz.JobLogBiz;
 import com.faber.buzz.admin.entity.JobLog;
-import com.faber.common.rest.BaseController;
+import com.faber.common.web.rest.BaseController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

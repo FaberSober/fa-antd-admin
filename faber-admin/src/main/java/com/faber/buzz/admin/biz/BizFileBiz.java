@@ -2,7 +2,7 @@ package com.faber.buzz.admin.biz;
 
 import com.faber.buzz.admin.entity.BizFile;
 import com.faber.buzz.admin.mapper.BizFileMapper;
-import com.faber.common.biz.BaseBiz;
+import com.faber.common.web.biz.BaseBiz;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

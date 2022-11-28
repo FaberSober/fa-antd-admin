@@ -3,7 +3,7 @@ package com.faber.buzz.rbac.biz;
 import com.faber.buzz.rbac.entity.RbacRoleMenu;
 import com.faber.buzz.rbac.mapper.RbacRoleMenuMapper;
 import com.faber.buzz.rbac.vo.RoleMenuVo;
-import com.faber.common.biz.BaseBiz;
+import com.faber.common.web.biz.BaseBiz;
 import com.faber.common.enums.BoolEnum;
 import org.springframework.stereotype.Service;
 

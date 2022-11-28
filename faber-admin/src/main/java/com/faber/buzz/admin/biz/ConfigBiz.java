@@ -2,7 +2,7 @@ package com.faber.buzz.admin.biz;
 
 import com.faber.buzz.admin.entity.Config;
 import com.faber.buzz.admin.mapper.ConfigMapper;
-import com.faber.common.biz.BaseBiz;
+import com.faber.common.web.biz.BaseBiz;
 import com.faber.common.enums.BoolEnum;
 import com.faber.common.service.ConfigService;
 import org.apache.commons.collections4.MapUtils;

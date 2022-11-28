@@ -1,4 +1,4 @@
-package com.faber.common.biz;
+package com.faber.common.web.biz;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;

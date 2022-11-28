@@ -5,7 +5,7 @@ import com.faber.buzz.article.entity.Detail;
 import com.faber.buzz.article.entity.Outline;
 import com.faber.buzz.article.mapper.OutlineMapper;
 import com.faber.buzz.article.vo.OutlineDetailVo;
-import com.faber.common.biz.BaseTreeBiz;
+import com.faber.common.web.biz.BaseTreeBiz;
 import com.faber.common.constant.CommonConstants;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.vo.tree.TreeNode;

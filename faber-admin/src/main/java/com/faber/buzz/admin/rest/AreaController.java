@@ -4,7 +4,7 @@ import com.faber.buzz.admin.biz.AreaBiz;
 import com.faber.buzz.admin.entity.Area;
 import com.faber.buzz.admin.vo.AreaPathVo;
 import com.faber.common.vo.msg.Ret;
-import com.faber.common.rest.BaseController;
+import com.faber.common.web.rest.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

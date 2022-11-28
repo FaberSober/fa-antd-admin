@@ -2,7 +2,7 @@ package com.faber.buzz.admin.biz;
 
 import com.faber.buzz.admin.entity.Notice;
 import com.faber.buzz.admin.mapper.NoticeMapper;
-import com.faber.common.biz.BaseBiz;
+import com.faber.common.web.biz.BaseBiz;
 import com.faber.buzz.admin.enums.DictTypeCodeEnum;
 import com.faber.common.vo.msg.TableRet;
 import com.faber.common.vo.query.QueryParams;

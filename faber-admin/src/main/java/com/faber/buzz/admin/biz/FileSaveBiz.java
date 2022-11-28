@@ -4,7 +4,7 @@ import cn.hutool.core.util.URLUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.faber.buzz.admin.entity.FileSave;
 import com.faber.buzz.admin.mapper.FileSaveMapper;
-import com.faber.common.biz.BaseBiz;
+import com.faber.common.web.biz.BaseBiz;
 import com.faber.common.file.FileHelperImpl;
 import com.faber.common.file.impl.FileHelperLocal;
 import com.faber.common.utils.file.QiniuHelper;

@@ -3,7 +3,7 @@ package com.faber.buzz.admin.biz;
 import cn.hutool.core.util.RandomUtil;
 import com.faber.buzz.admin.entity.SmsCode;
 import com.faber.buzz.admin.mapper.SmsCodeMapper;
-import com.faber.common.biz.BaseBiz;
+import com.faber.common.web.biz.BaseBiz;
 import com.faber.common.exception.BuzzException;
 import com.faber.buzz.msg.helper.config.MsgSendConfig;
 import com.faber.buzz.msg.helper.config.MsgSendSmsCode;

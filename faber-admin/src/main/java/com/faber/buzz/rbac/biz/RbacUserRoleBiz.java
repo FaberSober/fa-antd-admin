@@ -8,7 +8,7 @@ import com.faber.buzz.rbac.entity.RbacUserRole;
 import com.faber.buzz.rbac.mapper.RbacUserRoleMapper;
 import com.faber.buzz.rbac.vo.RbacUserRoleRetVo;
 import com.faber.buzz.rbac.vo.query.RbacUserRoleQueryVo;
-import com.faber.common.biz.BaseBiz;
+import com.faber.common.web.biz.BaseBiz;
 import com.faber.common.constant.CommonConstants;
 import com.faber.common.enums.BoolEnum;
 import com.faber.common.exception.BuzzException;

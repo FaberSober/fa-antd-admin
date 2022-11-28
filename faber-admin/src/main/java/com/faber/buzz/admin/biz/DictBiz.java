@@ -7,7 +7,7 @@ import com.faber.buzz.admin.entity.Dict;
 import com.faber.buzz.admin.entity.DictType;
 import com.faber.buzz.admin.mapper.DictMapper;
 import com.faber.buzz.admin.vo.SystemConfigPo;
-import com.faber.common.biz.BaseBiz;
+import com.faber.common.web.biz.BaseBiz;
 import com.faber.buzz.admin.enums.DictTypeCodeEnum;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.utils.FaEnumUtils;

@@ -4,7 +4,7 @@ import com.faber.buzz.admin.biz.DepartmentBiz;
 import com.faber.buzz.admin.entity.Department;
 import com.faber.buzz.admin.vo.DepartmentInfo;
 import com.faber.common.vo.msg.Ret;
-import com.faber.common.rest.BaseTreeController;
+import com.faber.common.web.rest.BaseTreeController;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

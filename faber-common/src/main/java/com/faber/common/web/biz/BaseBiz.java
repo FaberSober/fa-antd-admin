@@ -1,4 +1,4 @@
-package com.faber.common.biz;
+package com.faber.common.web.biz;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ReflectUtil;

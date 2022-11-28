@@ -4,7 +4,7 @@ import com.faber.buzz.admin.biz.UserBiz;
 import com.faber.buzz.admin.entity.User;
 import com.faber.buzz.admin.vo.UserAccountVo;
 import com.faber.common.vo.msg.Ret;
-import com.faber.common.rest.BaseController;
+import com.faber.common.web.rest.BaseController;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

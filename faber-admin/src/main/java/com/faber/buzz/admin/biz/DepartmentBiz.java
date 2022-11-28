@@ -7,7 +7,7 @@ import com.faber.buzz.admin.entity.User;
 import com.faber.buzz.admin.mapper.DepartmentMapper;
 import com.faber.buzz.admin.vo.DepartmentInfo;
 import com.faber.buzz.admin.vo.DepartmentPageVo;
-import com.faber.common.biz.BaseTreeBiz;
+import com.faber.common.web.biz.BaseTreeBiz;
 import com.faber.common.exception.BuzzException;
 import com.faber.common.vo.msg.TableRet;
 import com.faber.common.vo.query.QueryParams;

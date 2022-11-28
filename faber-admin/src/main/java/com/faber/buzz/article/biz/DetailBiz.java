@@ -2,7 +2,7 @@ package com.faber.buzz.article.biz;
 
 import com.faber.buzz.article.entity.Detail;
 import com.faber.buzz.article.mapper.DetailMapper;
-import com.faber.common.biz.BaseBiz;
+import com.faber.common.web.biz.BaseBiz;
 import org.springframework.stereotype.Service;
 
 /**

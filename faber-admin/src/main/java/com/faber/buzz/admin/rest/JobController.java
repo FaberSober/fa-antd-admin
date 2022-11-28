@@ -5,7 +5,7 @@ import com.faber.buzz.admin.biz.JobBiz;
 import com.faber.common.config.annotation.IgnoreUserToken;
 import com.faber.buzz.admin.entity.Job;
 import com.faber.common.vo.msg.Ret;
-import com.faber.common.rest.BaseController;
+import com.faber.common.web.rest.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

@@ -12,7 +12,7 @@ import com.faber.buzz.admin.mapper.UserMapper;
 import com.faber.config.utils.user.UserCheckUtil;
 import com.faber.buzz.admin.vo.UserAccountVo;
 import com.faber.buzz.admin.vo.UserInfo;
-import com.faber.common.biz.BaseBiz;
+import com.faber.common.web.biz.BaseBiz;
 import com.faber.common.constant.CommonConstants;
 import com.faber.common.context.BaseContextHandler;
 import com.faber.common.enums.BoolEnum;

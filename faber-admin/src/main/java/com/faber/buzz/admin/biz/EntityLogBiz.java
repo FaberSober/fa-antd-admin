@@ -15,7 +15,7 @@ import com.faber.common.annotation.FaCol;
 import com.faber.common.bean.BaseCrtEntity;
 import com.faber.common.bean.BaseDelEntity;
 import com.faber.common.bean.BaseUpdEntity;
-import com.faber.common.biz.BaseBiz;
+import com.faber.common.web.biz.BaseBiz;
 import com.faber.common.enums.EntityLogActionEnum;
 import com.faber.common.exception.BuzzException;
 import org.springframework.stereotype.Service;

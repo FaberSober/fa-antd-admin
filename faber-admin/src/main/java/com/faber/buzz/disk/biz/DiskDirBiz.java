@@ -6,7 +6,7 @@ import com.faber.buzz.disk.entity.DiskFile;
 import com.faber.buzz.disk.mapper.DiskDirMapper;
 import com.faber.buzz.disk.vo.DiskDirVO;
 import com.faber.common.bean.BaseCrtEntity;
-import com.faber.common.biz.BaseBiz;
+import com.faber.common.web.biz.BaseBiz;
 import com.faber.common.exception.BuzzException;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.BeanUtils;

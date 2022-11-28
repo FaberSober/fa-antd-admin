@@ -5,7 +5,7 @@ import com.faber.buzz.admin.biz.FileSaveBiz;
 import com.faber.buzz.admin.entity.FileSave;
 import com.faber.common.config.annotation.IgnoreUserToken;
 import com.faber.common.annotation.LogNoRet;
-import com.faber.common.rest.BaseController;
+import com.faber.common.web.rest.BaseController;
 import com.faber.common.vo.msg.Ret;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

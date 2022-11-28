@@ -1,6 +1,6 @@
 package com.faber.buzz.rbac.rest;
 
-import com.faber.common.rest.BaseTreeController;
+import com.faber.common.web.rest.BaseTreeController;
 import com.faber.buzz.rbac.biz.RbacMenuBiz;
 import com.faber.buzz.rbac.entity.RbacMenu;
 import org.springframework.web.bind.annotation.RequestMapping;
