@@ -1,7 +1,7 @@
 package com.faber.buzz.admin.rest;
 
 import com.faber.buzz.admin.biz.SystemBiz;
-import com.faber.buzz.admin.vo.ServerInfo;
+import com.faber.buzz.admin.vo.ret.ServerInfo;
 import com.faber.core.utils.BaseResHandler;
 import com.faber.core.vo.msg.Ret;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.faber.buzz.admin.vo;
+package com.faber.buzz.admin.vo.ret;
 
 import lombok.Data;
 
@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ${DESCRIPTION}
+ * 地区Tree
+ * @author xu.pengfei
+ * @date 2022/11/28 16:33
  */
 @Data
 public class AreaTree {

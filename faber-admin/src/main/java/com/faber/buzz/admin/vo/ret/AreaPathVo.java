@@ -1,4 +1,4 @@
-package com.faber.buzz.admin.vo;
+package com.faber.buzz.admin.vo.ret;
 
 import com.faber.buzz.admin.entity.Area;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.faber.buzz.admin.vo;
+package com.faber.buzz.admin.vo.ret;
 
 import lombok.Data;
 

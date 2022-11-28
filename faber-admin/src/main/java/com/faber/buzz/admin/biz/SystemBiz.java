@@ -1,7 +1,7 @@
 package com.faber.buzz.admin.biz;
 
 import cn.hutool.system.oshi.OshiUtil;
-import com.faber.buzz.admin.vo.ServerInfo;
+import com.faber.buzz.admin.vo.ret.ServerInfo;
 import org.springframework.stereotype.Service;
 
 @Service

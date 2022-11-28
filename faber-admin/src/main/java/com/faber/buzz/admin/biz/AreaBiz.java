@@ -2,8 +2,8 @@ package com.faber.buzz.admin.biz;
 
 import com.faber.buzz.admin.entity.Area;
 import com.faber.buzz.admin.mapper.AreaMapper;
-import com.faber.buzz.admin.vo.AreaPathVo;
-import com.faber.buzz.admin.vo.AreaTree;
+import com.faber.buzz.admin.vo.ret.AreaPathVo;
+import com.faber.buzz.admin.vo.ret.AreaTree;
 import com.faber.core.web.biz.BaseBiz;
 import com.faber.buzz.admin.enums.AreaLevelEnum;
 import com.faber.buzz.admin.enums.DictTypeCodeEnum;

@@ -3,7 +3,7 @@ package com.faber.buzz.admin.rest;
 import com.faber.buzz.admin.biz.DictBiz;
 import com.faber.core.config.annotation.IgnoreUserToken;
 import com.faber.buzz.admin.entity.Dict;
-import com.faber.buzz.admin.vo.SystemConfigPo;
+import com.faber.buzz.admin.vo.ret.SystemConfigPo;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.vo.DictOption;
 import com.faber.core.vo.msg.Ret;

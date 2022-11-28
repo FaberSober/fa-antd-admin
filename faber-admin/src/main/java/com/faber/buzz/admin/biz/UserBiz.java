@@ -9,7 +9,7 @@ import com.faber.buzz.admin.entity.Department;
 import com.faber.buzz.admin.entity.User;
 import com.faber.buzz.admin.enums.DictTypeCodeEnum;
 import com.faber.buzz.admin.mapper.UserMapper;
-import com.faber.buzz.admin.vo.UserAccountVo;
+import com.faber.buzz.admin.vo.query.UserAccountVo;
 import com.faber.buzz.rbac.biz.RbacUserRoleBiz;
 import com.faber.buzz.rbac.entity.RbacRole;
 import com.faber.config.utils.user.UserCheckUtil;

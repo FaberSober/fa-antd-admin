@@ -1,8 +1,13 @@
-package com.faber.buzz.admin.vo;
+package com.faber.buzz.admin.vo.query;
 
 import com.faber.core.validator.TelNoValidator;
 import lombok.Data;
 
+/**
+ * 用户更新字段Bean
+ * @author xu.pengfei
+ * @date 2022/11/28 16:34
+ */
 @Data
 public class UserAccountVo {
 

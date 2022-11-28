@@ -2,7 +2,7 @@ package com.faber.buzz.admin.rest;
 
 import com.faber.buzz.admin.biz.AreaBiz;
 import com.faber.buzz.admin.entity.Area;
-import com.faber.buzz.admin.vo.AreaPathVo;
+import com.faber.buzz.admin.vo.ret.AreaPathVo;
 import com.faber.core.vo.msg.Ret;
 import com.faber.core.web.rest.BaseController;
 import org.springframework.stereotype.Controller;
