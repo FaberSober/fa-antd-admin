@@ -6,8 +6,8 @@ import com.faber.buzz.disk.entity.DiskFile;
 import com.faber.buzz.disk.mapper.DiskDirMapper;
 import com.faber.buzz.disk.vo.DiskDirVO;
 import com.faber.core.bean.BaseCrtEntity;
-import com.faber.core.web.biz.BaseBiz;
 import com.faber.core.exception.BuzzException;
+import com.faber.core.web.biz.BaseTreeBiz;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ import java.util.Map;
  * @date 2020-07-13 10:36:38
  */
 @Service
-public class DiskDirBiz extends BaseBiz<DiskDirMapper, DiskDir> {
+public class DiskDirBiz extends BaseTreeBiz<DiskDirMapper, DiskDir> {
 
     @Resource
     private DiskFileBiz diskFileBiz;

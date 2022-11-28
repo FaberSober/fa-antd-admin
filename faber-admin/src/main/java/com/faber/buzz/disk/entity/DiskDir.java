@@ -3,7 +3,7 @@ package com.faber.buzz.disk.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.faber.core.annotation.FaModalName;
+import com.faber.core.annotation.*;
 import com.faber.core.bean.BaseDelEntity;
 import lombok.Data;
 
@@ -20,16 +20,18 @@ import lombok.Data;
 @Data
 public class DiskDir extends BaseDelEntity {
 
-    //  ID
+    /** ID */
+    @SqlTreeId
     @TableId(type = IdType.AUTO)
     private Integer id;
 
-    // 文件夹名称
-    // @Column(name = "name")
+    /** 文件夹名称 */
+    @SqlSorter
+    @SqlTreeName
     private String name;
 
-    // 父级节点
-    // @Column(name = "parent_id")
+    /** 父级节点 */
+    @SqlTreeParentId
     private Integer parentId;
 
 }

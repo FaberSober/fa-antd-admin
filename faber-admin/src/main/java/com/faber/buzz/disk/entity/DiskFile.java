@@ -21,28 +21,22 @@ import lombok.Data;
 public class DiskFile extends BaseDelEntity {
     private static final long serialVersionUID = 1L;
 
-    // ID
     @TableId(type = IdType.AUTO)
     private Integer id;
 
-    // 文件夹ID
-    // @Column(name = "dir_id")
+    /** 文件夹ID */
     private Integer dirId;
 
-    // 文件名称
-    // @Column(name = "name")
+    /** 文件名称 */
     private String name;
 
-    // 文件类型
-    // @Column(name = "type")
+    /** 文件类型 */
     private String type;
 
-    // 文件URL
-    // @Column(name = "url")
+    /** 文件URL */
     private String url;
 
-    // 文件大小(B)
-    // @Column(name = "size")
+    /** 文件大小(B) */
     private Integer size;
 
 }

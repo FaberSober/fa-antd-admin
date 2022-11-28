@@ -1,10 +1,10 @@
 package com.faber.buzz.disk.rest;
 
+import com.faber.buzz.disk.biz.DiskDirBiz;
 import com.faber.buzz.disk.entity.DiskDir;
 import com.faber.buzz.disk.vo.DiskDirVO;
 import com.faber.core.vo.msg.Ret;
-import com.faber.core.web.rest.BaseController;
-import com.faber.buzz.disk.biz.DiskDirBiz;
+import com.faber.core.web.rest.BaseTreeController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/disk/dir")
-public class DiskDirController extends BaseController<DiskDirBiz, DiskDir, Integer> {
+public class DiskDirController extends BaseTreeController<DiskDirBiz, DiskDir, Integer> {
 
     /**
      * 更新文件夹名称
