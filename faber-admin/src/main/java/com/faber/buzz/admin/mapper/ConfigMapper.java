@@ -13,8 +13,8 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface ConfigMapper extends BaseMapper<Config> {
 
-    int findMaxSort(@Param("buzzModal") String buzzModal, @Param("type") String type, @Param("belongUserId") String belongUserId);
+    int findMaxSort(@Param("buzzModal") String buzzModal, @Param("type") String type, @Param("crtUser") String crtUser);
 
-    void clearOtherDefaultScene(@Param("buzzModal") String buzzModal, @Param("type") String type, @Param("belongUserId") String belongUserId);
+    void clearOtherDefaultScene(@Param("buzzModal") String buzzModal, @Param("type") String type, @Param("crtUser") String crtUser);
 
 }
