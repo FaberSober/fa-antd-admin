@@ -6,10 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.core.annotation.*;
 import com.faber.core.bean.BaseDelEntity;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
-import org.apache.commons.lang3.StringUtils;
 
 
 /**
@@ -28,52 +25,28 @@ public class Department extends BaseDelEntity {
     @SqlTreeId
     private String id;
 
-    // 父部门ID
+    /** 父部门ID */
     @SqlEquals
     @SqlTreeParentId
     private String parentId;
 
-    // 部门名称
+    /** 部门名称 */
     @SqlTreeName
     private String name;
 
-    // 描述
+    /** 描述 */
     private String description;
 
-    // 排序
+    /** 排序 */
     @SqlSorter
     private Integer sort;
 
-    // 类型
+    /** 类型 */
     @SqlEquals
     private String type;
 
     @SqlEquals
     @ExcelProperty("负责人ID")
     private String managerId;
-
-    @ToString
-    @AllArgsConstructor
-    public enum Type {
-        CORP("CORP", "公司"),
-        DEPT("DEPT", "部门"),
-        TEAM("TEAM", "班组");
-
-        public final String value;
-        public final String text;
-
-        public static Type transByName(String name) {
-            if (StringUtils.isEmpty(name)) return TEAM;
-            switch (name) {
-                case "公司":
-                    return CORP;
-                case "部门":
-                    return DEPT;
-                case "班组":
-                default:
-                    return TEAM;
-            }
-        }
-    }
 
 }

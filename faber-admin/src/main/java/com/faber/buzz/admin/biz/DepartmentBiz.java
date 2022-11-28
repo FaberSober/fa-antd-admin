@@ -5,12 +5,11 @@ import cn.hutool.core.util.ObjectUtil;
 import com.faber.buzz.admin.entity.Department;
 import com.faber.buzz.admin.entity.User;
 import com.faber.buzz.admin.mapper.DepartmentMapper;
-import com.faber.buzz.admin.vo.DepartmentInfo;
-import com.faber.buzz.admin.vo.DepartmentPageVo;
-import com.faber.core.web.biz.BaseTreeBiz;
+import com.faber.buzz.admin.vo.ret.DepartmentVo;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.vo.msg.TableRet;
 import com.faber.core.vo.query.QueryParams;
+import com.faber.core.web.biz.BaseTreeBiz;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -65,46 +64,12 @@ public class DepartmentBiz extends BaseTreeBiz<DepartmentMapper, Department> {
         return table;
     }
 
-    public DepartmentPageVo decorate(Department entity) {
-        DepartmentPageVo vo = new DepartmentPageVo();
+    public DepartmentVo decorate(Department entity) {
+        DepartmentVo vo = new DepartmentVo();
         BeanUtil.copyProperties(entity, vo);
 
-        vo.setManager(userBiz.findUserInfoById(vo.getManagerId()));
+        vo.setManager(userBiz.getByIdWithCache(vo.getManagerId()));
         return vo;
-    }
-
-    public DepartmentInfo getInfoById(String id) {
-        Department entity = getById(id);
-
-        DepartmentInfo info = new DepartmentInfo();
-        BeanUtil.copyProperties(entity, info);
-
-        info.setManager(userBiz.findUserInfoById(info.getManagerId()));
-
-        switch (Department.Type.valueOf(info.getType())) {
-            case CORP:
-            case DEPT:
-                // 公司、部门的所属部门为自身
-                info.setBelongDept(entity);
-                break;
-            case TEAM:
-                // 班组，向上查找部门
-                info.setBelongDept(this.findUpDept(entity));
-                break;
-        }
-
-        return info;
-    }
-
-    public Department findUpDept(Department entity) {
-        if (entity == null) return null;
-        if ("-1".equalsIgnoreCase(entity.getParentId())) {
-            return entity;
-        }
-        if (Department.Type.CORP.value.equalsIgnoreCase(entity.getType()) || Department.Type.DEPT.value.equalsIgnoreCase(entity.getType())) {
-            return entity;
-        }
-        return findUpDept(getById(entity.getParentId()));
     }
 
 }

@@ -139,9 +139,9 @@ namespace Admin {
 		managerId: string;
 	}
 
-	export interface DepartmentPageVo extends Department {
+	export interface DepartmentVo extends Department {
 		/** 负责人  */
-		manager?: UserInfo;
+		manager?: User;
 	}
 
 	// -------------------------------------------- 系统-用户 --------------------------------------------
@@ -186,16 +186,6 @@ namespace Admin {
 		postName: string;
 		/** 角色名称  */
 		roleNames: string;
-	}
-
-	/** 用户 */
-	export interface UserInfo {
-		id: string;
-		username: string;
-		name: string;
-		description: string;
-		img: string;
-		departmentId: string;
 	}
 
 

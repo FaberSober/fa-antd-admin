@@ -1,6 +1,6 @@
 package com.faber.buzz.msg.vo;
 
-import com.faber.buzz.admin.vo.UserInfo;
+import com.faber.buzz.admin.entity.User;
 import com.faber.buzz.msg.entity.Msg;
 import lombok.Data;
 import lombok.ToString;
@@ -11,8 +11,8 @@ public class MsgPageVo extends Msg {
 
     private String buzzName;
 
-    private UserInfo fromUser;
+    private User fromUser;
 
-    private UserInfo toUser;
+    private User toUser;
 
 }

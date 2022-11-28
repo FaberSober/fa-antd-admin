@@ -1,6 +1,5 @@
 package com.faber.buzz.admin.biz;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.IterUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.ObjectUtil;
@@ -8,22 +7,21 @@ import com.ace.cache.api.CacheAPI;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.faber.buzz.admin.entity.Department;
 import com.faber.buzz.admin.entity.User;
+import com.faber.buzz.admin.enums.DictTypeCodeEnum;
 import com.faber.buzz.admin.mapper.UserMapper;
-import com.faber.config.utils.user.UserCheckUtil;
 import com.faber.buzz.admin.vo.UserAccountVo;
-import com.faber.buzz.admin.vo.UserInfo;
-import com.faber.core.web.biz.BaseBiz;
+import com.faber.buzz.rbac.biz.RbacUserRoleBiz;
+import com.faber.buzz.rbac.entity.RbacRole;
+import com.faber.config.utils.user.UserCheckUtil;
 import com.faber.core.constant.CommonConstants;
 import com.faber.core.context.BaseContextHandler;
 import com.faber.core.enums.BoolEnum;
-import com.faber.buzz.admin.enums.DictTypeCodeEnum;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.exception.NoDataException;
 import com.faber.core.exception.auth.UserInvalidException;
 import com.faber.core.vo.msg.TableRet;
 import com.faber.core.vo.query.QueryParams;
-import com.faber.buzz.rbac.biz.RbacUserRoleBiz;
-import com.faber.buzz.rbac.entity.RbacRole;
+import com.faber.core.web.biz.BaseBiz;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections4.MapUtils;
@@ -360,16 +358,6 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
             removeById(id);
             cacheAPI.removeByPre("user:" + id);
         });
-    }
-
-    @Deprecated
-    public UserInfo findUserInfoById(String id) {
-        if (id == null) return null;
-        User user = getById(id);
-        if (user == null) return null;
-        UserInfo userInfo = new UserInfo();
-        BeanUtil.copyProperties(user, userInfo);
-        return userInfo;
     }
 
 }
