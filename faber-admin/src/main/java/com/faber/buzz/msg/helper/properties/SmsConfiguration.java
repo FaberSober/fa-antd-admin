@@ -91,7 +91,7 @@ public class SmsConfiguration {
      * @return
      */
     public SmsProperties.Config getSmsConfig(MsgSendConfig msgSendConfig) {
-        PropKey propKey = this.getMsgSendPropKeyAnnotation(msgSendConfig);
+        PropKey propKey = getMsgSendPropKeyAnnotation(msgSendConfig);
         SmsProperties.Config config = this.properties.getSmsConfig().get(propKey.value());
         if (config == null) {
             throw new BuzzException("请配置SmsProperties的Config，属性名" + propKey.value());
@@ -107,7 +107,7 @@ public class SmsConfiguration {
      * @return
      */
     public String genTemplateContent(MsgSendConfig msgSendConfig) {
-        PropKey propKey = this.getMsgSendPropKeyAnnotation(msgSendConfig);
+        PropKey propKey = getMsgSendPropKeyAnnotation(msgSendConfig);
         if (propKey.smsEnable()) {
             SmsProperties.Config config = this.getSmsConfig(msgSendConfig);
             String template = new String(config.getTemplate());

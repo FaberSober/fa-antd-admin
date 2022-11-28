@@ -1,15 +1,12 @@
 package com.faber.buzz.msg.biz;
 
-import com.faber.buzz.admin.biz.DictBiz;
-import com.faber.buzz.admin.biz.UserBiz;
-import com.faber.core.web.biz.BaseBiz;
-import com.faber.core.enums.BoolEnum;
 import com.faber.buzz.msg.entity.Msg;
 import com.faber.buzz.msg.mapper.MsgMapper;
 import com.faber.buzz.msg.vo.MsgStatisticVO;
+import com.faber.core.enums.BoolEnum;
+import com.faber.core.web.biz.BaseBiz;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -22,12 +19,6 @@ import java.util.List;
  */
 @Service
 public class MsgBiz extends BaseBiz<MsgMapper, Msg> {
-
-    @Resource
-    private DictBiz dictBiz;
-
-    @Resource
-    private UserBiz userBiz;
 
     /**
      * 消息数量统计。

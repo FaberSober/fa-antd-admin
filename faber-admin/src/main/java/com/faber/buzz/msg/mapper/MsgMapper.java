@@ -10,7 +10,6 @@ import com.faber.buzz.msg.entity.Msg;
  * @email faberxu@gmail.com
  * @date 2020-12-13 21:19:53
  */
-// @Mapper
 public interface MsgMapper extends BaseMapper<Msg> {
 	
 }
