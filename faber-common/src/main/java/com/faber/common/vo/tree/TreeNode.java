@@ -1,4 +1,4 @@
-package com.faber.common.vo;
+package com.faber.common.vo.tree;
 
 import lombok.Data;
 
@@ -6,9 +6,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Ace on 2017/6/12.
- */
 @Data
 public class TreeNode<T> {
     protected Serializable id;

@@ -12,7 +12,7 @@ import com.faber.common.biz.BaseBiz;
 import com.faber.common.constant.CommonConstants;
 import com.faber.common.enums.BoolEnum;
 import com.faber.common.exception.BuzzException;
-import com.faber.common.vo.TreeNode;
+import com.faber.common.vo.tree.TreeNode;
 import com.faber.common.vo.msg.TableRet;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

@@ -1,7 +1,7 @@
 package com.faber.common.utils;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.faber.common.vo.TreeNode;
+import com.faber.common.vo.tree.TreeNode;
 
 import java.io.Serializable;
 import java.util.ArrayList;

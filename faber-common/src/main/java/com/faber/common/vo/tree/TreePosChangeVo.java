@@ -1,4 +1,4 @@
-package com.faber.common.vo;
+package com.faber.common.vo.tree;
 
 import lombok.Data;
 import lombok.ToString;

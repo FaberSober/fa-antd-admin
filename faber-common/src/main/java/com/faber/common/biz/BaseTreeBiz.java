@@ -12,9 +12,9 @@ import com.faber.common.annotation.SqlTreeName;
 import com.faber.common.annotation.SqlTreeParentId;
 import com.faber.common.constant.CommonConstants;
 import com.faber.common.utils.TreeUtil;
-import com.faber.common.vo.TreeNode;
-import com.faber.common.vo.TreePathVo;
-import com.faber.common.vo.TreePosChangeVo;
+import com.faber.common.vo.tree.TreeNode;
+import com.faber.common.vo.tree.TreePathVo;
+import com.faber.common.vo.tree.TreePosChangeVo;
 import com.faber.common.vo.query.QueryParams;
 
 import java.io.Serializable;
