@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Card} from "antd";
-import {UploadFileLocalMultiple} from "@/components/base-uploader";
+import {UploadFileLocal, UploadFileLocalMultiple} from "@/components/base-uploader";
 
 /**
  * @author xu.pengfei
@@ -8,18 +8,34 @@ import {UploadFileLocalMultiple} from "@/components/base-uploader";
  */
 export default function FileUploader() {
   // 这里可以设置初始化的文件ID列表
-  const [array, setArray] = useState<string[]>(['3079317daffae128f0ea701d485533b6'])
+  const [fileId, setFileId] = useState<string>()
+  const [array, setArray] = useState<string[]>([])
 
   return (
     <div className="fa-full-content fa-padding-12">
+      <Card title="单文件上传" style={{ marginBottom: 12 }}>
+        <p>说明：1. onChange返回文件ID；</p>
+        <UploadFileLocal
+          value={fileId}
+          onChange={(v) => {
+            console.log('单文件上传完成回调', v)
+            setFileId(v)
+          }}
+        />
+        <p>返回值展示：{fileId}</p>
+      </Card>
+
       <Card title="多文件上传" style={{ marginBottom: 12 }}>
+        <p>说明：1. 打开文件夹支持多选文件；2. 可设置最大选择文件数（这里设置为3）；3. onChange返回文件ID数组；</p>
         <UploadFileLocalMultiple
           value={array}
           onChange={(v) => {
-            console.log('文件全部上传完成回调', v)
+            console.log('多文件上传完成回调', v)
             setArray(v)
           }}
+          maxCount={3}
         />
+        <p>返回值展示：{JSON.stringify(array)}</p>
       </Card>
 
     </div>

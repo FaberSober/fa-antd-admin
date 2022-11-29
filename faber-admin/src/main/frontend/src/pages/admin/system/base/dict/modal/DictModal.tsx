@@ -3,12 +3,11 @@ import {get} from 'lodash';
 import {Button, Form, Input, InputNumber, Radio} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
 import {showResponse} from '@/utils/utils';
-import {RES_CODE} from '@/configs/server.config';
 import modelService from '@/services/admin/dict';
 import Admin from '@/props/admin';
 import DictTypeCascade from "../helper/DictTypeCascade";
 import {ClearOutlined} from '@ant-design/icons';
-import {UploadFileQiniu} from "@/components/base-uploader";
+import {UploadFileLocal} from "@/components/base-uploader";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 
 const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
@@ -115,7 +114,7 @@ function DictModal({ children, title, record, fetchFinish, type, ...props }: IPr
         {...props}
       >
         <Form form={form} onFinish={onFinish} initialValues={initialValues}>
-          <Button onClick={() => form.resetFields()} icon={<ClearOutlined />} style={{ position: 'absolute', bottom: -43, right: 137 }}>
+          <Button onClick={() => form.resetFields()} icon={<ClearOutlined />} style={{ position: 'absolute', bottom: -56, right: 145 }}>
             重置表单
           </Button>
 
@@ -142,7 +141,7 @@ function DictModal({ children, title, record, fetchFinish, type, ...props }: IPr
           )}
           {category === 1 && (
             <Form.Item name="value" label="字典值" rules={[{ required: true }]} {...formItemFullLayout}>
-              <UploadFileQiniu prefix="dict/file/dict" />
+              <UploadFileLocal prefix="dict/file/dict" />
             </Form.Item>
           )}
           <Form.Item name="sort" label="排序" rules={[{ required: true }]} {...formItemFullLayout}>
