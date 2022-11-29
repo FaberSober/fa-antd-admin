@@ -10,8 +10,6 @@ import {UploadFile} from 'antd/es/upload/interface';
 
 interface IProps {
   value?: string;
-  onImgUploadSuccess?: (filePath: string) => void;
-  prefix: string;
   onChange?: (path: string) => void;
   style?: CSSProperties;
 }
@@ -20,7 +18,7 @@ interface IProps {
  * @author xu.pengfei
  * @date 2020/12/25
  */
-export default function UploadImgQiniu({ value, onImgUploadSuccess, prefix, onChange, style }: IProps) {
+export default function UploadImgQiniu({ value, onChange, style }: IProps) {
   const [loading, setLoading] = useState(false);
   const [array, setArray] = useState<any[]>([]);
 
@@ -108,6 +106,7 @@ export default function UploadImgQiniu({ value, onImgUploadSuccess, prefix, onCh
       onRemove={handleRemove}
       fileList={array}
       style={style}
+      maxCount={1}
     >
       {array && array[0] ? null : (
         <div>
