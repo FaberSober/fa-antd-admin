@@ -6,8 +6,6 @@ import React from 'react';
  */
 export default function Druid() {
   return (
-    <div className="fa-full-content">
-      <iframe src="/druid/login.html" style={{ border: 'none', width: '100%', height: '100%' }} />
-    </div>
+    <iframe src="/druid/login.html" className="fa-full-content-no-padding" style={{ width: '100%', height: '100%', border: 'none', margin: 0 }} />
   )
 }
