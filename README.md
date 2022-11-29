@@ -23,6 +23,38 @@
 3. 启动jar包：`java -jar faber-admin/target/faber-admin.jar`
 4. 访问地址：http://127.0.0.1
 
+# 使用插件
+## 后端
+| 插件 | 说明 | 官网 |
+| :--- | :--- | :--- |
+| MyBatis-Plus | 数据库操作增强 | https://baomidou.com/ |
+| easyexcel | excel操作 | https://easyexcel.opensource.alibaba.com/ |
+| Spring Validation | 参数校验 | http://www.45fan.com/article.php?aid=1D2CNY5HBM62RmJc/ |
+| guava | google工具包 | https://github.com/google/guava/ |
+| hutool | 常用工具包 | https://hutool.cn/docs/ |
+| hutool-crypto | 对称加密-SymmetricCrypto | https://www.hutool.cn/docs/#/crypto/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-SymmetricCrypto?id=%e4%bb%8b%e7%bb%8d |
+| UA工具类-UserAgentUtil | HTTP接口客户端参数解析 | https://hutool.cn/docs/#/http/UA%E5%B7%A5%E5%85%B7%E7%B1%BB-UserAgentUtil/ |
+| Redis Manager | Redis在线管理 | https://github.com/ngbdf/redis-manager/ |
+| phpRedisAdmin | Redis在线管理 | https://github.com/erikdubbelboer/phpRedisAdmin/ |
+
+## 前端
+| 插件 | 说明 | 官网 |
+| :--- | :--- | :--- |
+| vite | vitejs构建 | https://www.vitejs.net/ |
+| vite-plugin-pages | 目录路由生成 | https://github.com/hannoeru/vite-plugin-pages |
+| react-router v6 | 路由 | https://github.com/hannoeru/vite-plugin-pages |
+| antd | antd前端组件 | https://ant-design.gitee.io/components/overview-cn/ |
+| fa-cron-react-editor | cron编辑器 | https://github.com/xrutayisire/react-js-cron |
+| use-bus | bus事件通知 | https://github.com/fabienjuif/use-bus |
+| tailwindcss | tailwindcss | https://tailwindcss.com |
+| react-use | React Hooks — 👍 | https://github.com/streamich/react-use |
+| ahooks | ahooks.js | https://ahooks.js.org/ |
+| tinymce | 富文本编辑器 | https://github.com/tinymce/tinymce |
+
+## Docker部署环境文件
+1. redis: `docker/redis/docker-compose.yml`
+2. phpRedisAdmin: `docker/phpRedisAdmin/docker-compose.yml`
+
 ## 项目开发使用到的地址
 1. ~~http://localhost/swagger-ui.html~~
 2. druid数据源：http://localhost/druid/index.html
@@ -58,33 +90,6 @@ public enum BoolEnum implements IEnum<Integer> {
 }
 ```
 
-# 使用插件
-## 后端
-| 插件 | 说明 | 官网 |
-| :--- | :--- | :--- |
-| MyBatis-Plus | 数据库操作增强 | https://baomidou.com/ |
-| easyexcel | excel操作 | https://easyexcel.opensource.alibaba.com/ |
-| Spring Validation | 参数校验 | http://www.45fan.com/article.php?aid=1D2CNY5HBM62RmJc/ |
-| guava | google工具包 | https://github.com/google/guava/ |
-| hutool | 常用工具包 | https://hutool.cn/docs/ |
-| hutool-crypto | 对称加密-SymmetricCrypto | https://www.hutool.cn/docs/#/crypto/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-SymmetricCrypto?id=%e4%bb%8b%e7%bb%8d |
-| UA工具类-UserAgentUtil | HTTP接口客户端参数解析 | https://hutool.cn/docs/#/http/UA%E5%B7%A5%E5%85%B7%E7%B1%BB-UserAgentUtil/ |
-
-
-## 前端
-| 插件 | 说明 | 官网 |
-| :--- | :--- | :--- |
-| vite | vitejs构建 | https://www.vitejs.net/ |
-| vite-plugin-pages | 目录路由生成 | https://github.com/hannoeru/vite-plugin-pages |
-| react-router v6 | 路由 | https://github.com/hannoeru/vite-plugin-pages |
-| antd | antd前端组件 | https://ant-design.gitee.io/components/overview-cn/ |
-| fa-cron-react-editor | cron编辑器 | https://github.com/xrutayisire/react-js-cron |
-| use-bus | bus事件通知 | https://github.com/fabienjuif/use-bus |
-| tailwindcss | tailwindcss | https://tailwindcss.com |
-| react-use | React Hooks — 👍 | https://github.com/streamich/react-use |
-| ahooks | ahooks.js | https://ahooks.js.org/ |
-| tinymce | 富文本编辑器 | https://github.com/tinymce/tinymce |
-
 ## 后端注解
 | 注解 | 说明 |
 | :--- | :--- |
@@ -118,16 +123,18 @@ ncu -u --timeout 120000 --reject pdfjs-dist
 - [ ] 表联合查询组合查询功能
 - [ ] 七牛云demo示例
 - [ ] 阿里云demo示例
-- [ ] tinymce编辑器集成
+- [X] tinymce编辑器集成
 - [ ] pdf阅读器集成
 - [X] 切换MyBatis-Plus，delState类型变更为int
 - [ ] SpringDoc：https://blog.csdn.net/wdj_yyds/article/details/125174042
 - [X] 前端tree结构的根结点ID切换为0，并使用统一的枚举值
 - [X] 导出Excel需要适配Enum类型属性的转换
-- [ ] 剔除多余的hooks使用
+- [X] 剔除多余的hooks使用
 - [ ] socket整理
 - [X] 集成Spring Validation
 - [ ] 集成redis缓存方案
+- [ ] 集成redis在线管理工具
+- [ ] 组合查询功能模块整理
 
 # 前端代码迁移
 - [x] BaseBiz查询分组List
