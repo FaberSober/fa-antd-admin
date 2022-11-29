@@ -5,10 +5,10 @@ import fileApi from '@/services/admin/fileSave';
 import {getToken} from '@/utils/cache';
 import {RES_CODE, TOKEN_KEY} from '@/configs/server.config';
 import {RcFile} from 'antd/es/upload';
-import {UploadChangeParam} from 'antd/lib/upload/interface';
+import {UploadChangeParam} from 'antd/es/upload/interface';
 import {UploadFile} from 'antd/es/upload/interface';
 
-export interface UploadFileLocalProps extends UploadProps {
+export interface UploadFileLocalProps extends Omit<UploadProps, 'onChange'> {
   children?: any;
   description?: string;
   value?: string;

@@ -79,7 +79,7 @@ export default function MsgList() {
         tcRequired: true,
         tcType: 'menu',
       },
-    ];
+    ] as FaberTable.ColumnsProp<Admin.Msg>[];
   }
 
   const batchReading = loadingEffect[modelService.getUrl('batchRead')]
@@ -95,7 +95,7 @@ export default function MsgList() {
               <Form.Item name="content" label="消息内容">
                 <Input placeholder="请输入消息内容" />
               </Form.Item>
-              <Form.Item name="isRead" label="类型">
+              <Form.Item name="isRead" label="是否已读">
                 <BaseBoolIntSelector />
               </Form.Item>
             </Form>

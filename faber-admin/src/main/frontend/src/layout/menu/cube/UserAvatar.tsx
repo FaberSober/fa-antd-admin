@@ -1,21 +1,50 @@
 import React, {useContext, useMemo} from 'react';
-import {LogoutOutlined} from '@ant-design/icons';
+import {LogoutOutlined, MessageOutlined, SecurityScanOutlined, UserOutlined} from '@ant-design/icons';
 import {Avatar, Menu, Popover} from 'antd';
 import {useIntl} from 'react-intl';
 import {UserLayoutContext} from "@/layout/UserLayout";
+import {useNavigate} from "react-router-dom";
 
 const UserPopoverContent = () => {
   const intl = useIntl();
+  const navigate = useNavigate();
   const { logout } = useContext(UserLayoutContext);
 
   // 头像下拉弹框-菜单点击
   function handleHeadDropdownClick(key: string) {
-    if (key === 'logout') {
-      logout();
+    // FIXME: 这里打开个人中心菜单后，需要在tabBar中打开对于的标签页
+    switch (key) {
+      case 'base':
+        navigate('/admin/system/account/base');
+        break;
+      case 'security':
+        navigate('/admin/system/account/security');
+        break;
+      case 'msg':
+        navigate('/admin/system/account/msg');
+        break;
+      case 'logout':
+        logout();
+        break;
     }
   }
 
   const items = useMemo(() => ([
+    {
+      label: intl.formatMessage({ id: 'menu.account.center' }),
+      key: 'base',
+      icon: <UserOutlined />,
+    },
+    {
+      label: intl.formatMessage({ id: 'menu.account.security' }),
+      key: 'security',
+      icon: <SecurityScanOutlined />,
+    },
+    {
+      label: intl.formatMessage({ id: 'menu.account.msg' }),
+      key: 'msg',
+      icon: <MessageOutlined />,
+    },
     {
       label: intl.formatMessage({ id: 'menu.account.logout' }),
       key: 'logout',

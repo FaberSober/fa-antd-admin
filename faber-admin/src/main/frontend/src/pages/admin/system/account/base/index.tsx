@@ -4,7 +4,7 @@ import Admin from '@/props/admin';
 import userService from '@/services/admin/user';
 import {PageLoading} from '@/components/antd-pro';
 import {showResponse} from '@/utils/utils';
-import {UploadImgQiniu} from "@/components/base-uploader";
+import {UploadImgLocal, UploadImgQiniu} from "@/components/base-uploader";
 import BaseSexSelector from "@/components/base-dict/BaseSexSelector";
 import {UserLayoutContext} from "@/layout/UserLayout";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
@@ -55,7 +55,7 @@ export default function AccountBase() {
       <div>
         <Form style={{ width: 600 }} form={form} onFinish={onFinish}>
           <Form.Item name="img" label="头像" {...formItemFullLayout}>
-            <UploadImgQiniu prefix="/head/img" />
+            <UploadImgLocal />
           </Form.Item>
           <Form.Item name="username" label="账户" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input disabled />

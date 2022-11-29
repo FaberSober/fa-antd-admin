@@ -32,4 +32,10 @@ public class SystemConfigPo {
      */
     private String portalLink;
 
+    /**
+     * [Web]redis web管理页面地址
+     * system:phpRedisAdmin
+     */
+    private String phpRedisAdmin;
+
 }
