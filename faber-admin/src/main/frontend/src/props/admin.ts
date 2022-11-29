@@ -330,6 +330,8 @@ namespace Admin {
 		logoWithText: string;
 		/** [官网]地址 */
 		portalLink: string;
+		/** [Web]redis web管理页面地址 */
+    phpRedisAdmin: string;
 	}
 
   // -------------------------------------------- 系统-URL请求日志 --------------------------------------------

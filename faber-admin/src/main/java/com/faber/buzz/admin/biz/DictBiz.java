@@ -121,6 +121,7 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
         po.setLogo(MapUtil.getStr(map, "system:logo"));
         po.setLogoWithText(MapUtil.getStr(map, "system:portal:logoWithText"));
         po.setPortalLink(MapUtil.getStr(map, "system:portal:link"));
+        po.setPhpRedisAdmin(MapUtil.getStr(map, "system:phpRedisAdmin"));
         return po;
     }
 
