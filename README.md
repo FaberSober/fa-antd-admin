@@ -136,8 +136,6 @@ ncu -u --timeout 120000 --reject pdfjs-dist
 - [X] 集成redis在线管理工具
 - [ ] 组合查询功能模块整理
 - [ ] 使用https访问后，druid访问nginx 302问题处理
-
-# 前端代码迁移
 - [x] BaseBiz查询分组List
 - [x] 表格高度固定
 
