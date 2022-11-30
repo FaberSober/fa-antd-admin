@@ -29,7 +29,7 @@ export default function DictDataSelector({ dictLabel, onFetchData, onChange, val
     dictService.listByCode(dictLabel).then((res) => {
       if (res && res.status === RES_CODE.OK) {
         const newList = res.data.map((v) => ({
-          value: transValue(v.value),
+          value: transValue ? transValue(v.value) : v.value,
           label: v.text,
         }));
         setList(newList);
@@ -42,15 +42,15 @@ export default function DictDataSelector({ dictLabel, onFetchData, onChange, val
     if (onChange) onChange(v, option && option.label);
   }
 
-  const options = list.map((v) => (
-    <Option key={`SysDictDataSelector_${v.value}_${uuidv1()}`} value={`${v.value}`} label={v.label}>
-      {v.label}
-    </Option>
-  ));
-
   return (
-    <Select style={{ minWidth: 170 }} onChange={handleChange} allowClear placeholder="请选择" value={value && `${value}`} {...props}>
-      {options}
-    </Select>
+    <Select
+      style={{ minWidth: 170 }}
+      onChange={handleChange}
+      allowClear
+      placeholder="请选择"
+      value={value}
+      options={list}
+      {...props}
+    />
   );
 }
