@@ -22,7 +22,6 @@ import java.util.Date;
 @TableName("demo_student")
 @Data
 public class Student extends BaseDelEntity {
-    private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.AUTO)
     private String id;
@@ -41,5 +40,14 @@ public class Student extends BaseDelEntity {
 
     @ExcelProperty("生日")
     private Date birthday;
+
+    @ExcelProperty("账户是否有效")
+    private Boolean valid;
+
+    @ExcelProperty("补充信息ID")
+    private Integer infoId;
+
+    @ExcelProperty("租户ID")
+    private Integer tenantId;
 
 }

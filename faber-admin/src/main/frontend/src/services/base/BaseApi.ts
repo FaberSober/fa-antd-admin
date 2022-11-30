@@ -4,7 +4,7 @@ import {trimObj} from "@/utils/utils";
 
 export default class BaseApi<T, KeyType, PageT = T> extends BaseZeroApi {
 	/** 增加实体信息 */
-	add = (params: any): Promise<Fa.Ret<T>> => this.post('add', params);
+	add = (params: any): Promise<Fa.Ret<T>> => this.post('save', params);
 
 	/** 增加实体信息 */
 	saveBatch = (params: any[]): Promise<Fa.Ret<T>> => this.post('saveBatch', params);
@@ -14,9 +14,6 @@ export default class BaseApi<T, KeyType, PageT = T> extends BaseZeroApi {
 
   /** 获取唯一实体 */
   getByIds = (ids: KeyType[]): Promise<Fa.Ret<T[]>> => this.post(`getByIds`, ids);
-
-	/** 获取唯一实体 */
-  findOneDetail = (id: KeyType): Promise<Fa.Ret<T>> => this.get(`getDetail/${id}`);
 
 	/** 更新实体 */
 	update = (id: KeyType, params: any): Promise<Fa.Ret> => this.post('update', { id, ...trimObj(params) });

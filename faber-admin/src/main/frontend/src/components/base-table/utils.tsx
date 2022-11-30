@@ -1,6 +1,6 @@
 import React from 'react';
 import {getDateStr, toLine, tryToFixed} from '@/utils/utils';
-import {Popconfirm} from 'antd';
+import {Badge, Popconfirm} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import {ShiroPermissionContainer} from '@/components/auth';
 import {find, isEmpty, get, trim} from 'lodash';
@@ -11,7 +11,7 @@ import {
   renderTimeRangePicker
 } from '@/components/condition-query/ConditionQueryUtils';
 import {FaberTable} from '@/components/base-table/index';
-import {DictDataSelector, DictEnumSelector} from "@/components/base-dict";
+import {BaseBoolSelector, DictDataSelector, DictEnumSelector} from "@/components/base-dict";
 import {SortOrder} from "antd/es/table/interface";
 import {Fa} from "@/props/base";
 import UserSearchSelect from "@/pages/admin/system/hr/user/helper/UserSearchSelect";
@@ -103,10 +103,13 @@ export function genBoolSorterColumn(title: string, dataIndex: string, width: num
   return {
     title,
     dataIndex,
-    render: (val: any) => (val ? '是' : '否'),
+    render: (val: any) => (val ? <Badge status="success" text="是" /> : <Badge status="default" text="否" />),
     sorter: true,
     sortOrder: getSortOrder(sorter, dataIndex),
     tcChecked,
+    tcCondComponent: ({ index, value, callback, ...props }: FaberTable.TcCondProp) => (
+      <BaseBoolSelector value={value} onChange={(v, option) => callback(v, index, get(option, 'label'))} {...props} />
+    ),
     width,
   } as FaberTable.ColumnsProp<any>;
 }

@@ -5,7 +5,7 @@ import Demo from "@/props/demo";
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */
 const serviceModule = 'tree';
 
-class Tree extends BaseTreeApi<Demo.Tree, number> {
+class Api extends BaseTreeApi<Demo.Tree, number> {
 }
 
-export default new Tree(GATE_APP.demo, serviceModule);
+export default new Api(GATE_APP.demo, serviceModule);

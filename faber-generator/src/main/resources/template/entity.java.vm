@@ -10,7 +10,6 @@ import lombok.Data;
     ###if(${hasBigDecimal})
 ###end
 
-
 /**
  * ${comments}
  * 

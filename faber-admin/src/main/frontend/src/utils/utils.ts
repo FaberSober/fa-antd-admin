@@ -361,3 +361,5 @@ export function trimObj(obj: any):any {
   })
   return newObj;
 }
+
+export const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };

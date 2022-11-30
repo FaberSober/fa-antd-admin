@@ -53,12 +53,6 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
 
     private ConfigService configService;
 
-    public T getDetailById(Serializable id) {
-        T item = super.getById(id);
-        this.decorateOne(item);
-        return item;
-    }
-
     public List<T> getByIds(List<Serializable> ids) {
         if (ids == null || ids.isEmpty()) {
             return new ArrayList<>();
@@ -246,14 +240,6 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
 
     public String getCurrentUserId() {
         return BaseContextHandler.getUserId();
-    }
-
-    protected Ret<Boolean> ok() {
-        return new Ret<Boolean>().rel(true);
-    }
-
-    protected Ret<Object> ok(Object data) {
-        return new Ret<>().data(data);
     }
 
 }
