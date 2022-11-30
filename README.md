@@ -103,6 +103,7 @@
 - [x] BaseBiz查询分组List
 - [x] 表格高度固定
 - [ ] 数据库tinyint是否类字段在ORM映射中统一修改为Bool类型
+- [ ] 数据库del_state字段名称统一修改为deleted，方便理解
 
 # 更新日志
 ## 2022-09-14

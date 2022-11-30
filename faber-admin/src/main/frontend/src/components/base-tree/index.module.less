@@ -1,5 +1,6 @@
 .treeTitleDiv {
   position: relative;
+  width: 100%;
 
   .treeOprDiv {
     position: absolute;
@@ -23,5 +24,13 @@
     display: block;
     margin-top: -2px;
     margin-right: -4px;
+  }
+}
+
+.treeDiv {
+  :global {
+    .ant-tree-title {
+      width: 100%;
+    }
   }
 }

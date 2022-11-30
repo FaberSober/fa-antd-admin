@@ -8,9 +8,9 @@ import {showResponse} from '@/utils/utils';
 import BaseTreeProps from './interface';
 import * as BaseTreeUtils from './utils';
 import Fa from '@/props/base/Fa';
-import './index.less';
 import {TreeProps} from 'antd/es/tree';
 import {FaHref} from "@/components/decorator";
+import styles from './index.module.less';
 
 
 export interface BaseTreeContextProps {
@@ -147,7 +147,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
       const showBtn = value !== 0;
       // 标题渲染
       const title = (
-        <div className="treeTitleDiv">
+        <div className={styles.treeTitleDiv}>
           <ContextMenuTrigger id={`context-menu-${value}`} holdToDisplay={-1}>
             {renderTreeLabel ? renderTreeLabel(item) : <span>{label}</span>}
           </ContextMenuTrigger>
@@ -332,7 +332,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
           </Space>
         </div>
       )}
-      <div style={{ flex: 1, overflowY: 'auto' }}>
+      <div className={styles.treeDiv} style={{ flex: 1, overflowY: 'auto' }}>
         <div style={{ padding: '0 12px', ...treeStyle }}>
           <Spin spinning={loading}>
             <Tree
