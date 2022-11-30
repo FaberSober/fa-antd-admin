@@ -102,6 +102,7 @@
 - [ ] 使用https访问后，druid访问nginx 302问题处理
 - [x] BaseBiz查询分组List
 - [x] 表格高度固定
+- [ ] 数据库tinyint是否类字段在ORM映射中统一修改为Bool类型
 
 # 更新日志
 ## 2022-09-14

@@ -5,7 +5,6 @@ import DictEnumApiRadio from './DictEnumApiRadio';
 import DictEnumApiShow from './DictEnumApiShow';
 import DictDataRadio from './DictDataRadio';
 import DictDataShow from './DictDataShow';
-import BaseAuditRadio from './BaseAuditRadio';
 import BaseBoolRadio from './BaseBoolRadio';
 import BaseBoolIntRadio from './BaseBoolIntRadio';
 import BaseBoolSelector from './BaseBoolSelector';
@@ -22,7 +21,6 @@ export {
   DictEnumApiShow,
   DictDataRadio,
   DictDataShow,
-  BaseAuditRadio,
   BaseBoolRadio,
   BaseBoolIntRadio,
   BaseBoolSelector,
