@@ -13,3 +13,4 @@ log/
 faber-admin/src/test/resources/application-dev.yml
 faber-admin/src/main/resources/application-dev.yml
 faber-admin/src/main/resources/application-prod.yml
+faber-generator/src/main/resources/application-dev.yml

@@ -7,6 +7,8 @@ server:
 
 # mysql
 spring:
+    profiles:
+        active: dev
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.jdbc.Driver
