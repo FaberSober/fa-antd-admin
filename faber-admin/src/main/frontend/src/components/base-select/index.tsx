@@ -63,14 +63,14 @@ export default function BaseSelect<RecordType extends object = any>({
     if (labelKey instanceof Function) {
       return labelKey(data);
     }
-    return get(data, labelKey);
+    return get(data, labelKey!);
   }
 
   function parseValue(data: RecordType) {
     if (valueKey instanceof Function) {
       return valueKey(data);
     }
-    return transValueToString ? `${get(data, valueKey)}` : get(data, valueKey);
+    return transValueToString ? `${get(data, valueKey!)}` : get(data, valueKey!);
   }
 
   return (

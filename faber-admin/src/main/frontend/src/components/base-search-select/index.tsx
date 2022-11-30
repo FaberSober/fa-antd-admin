@@ -119,7 +119,7 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
     () => {
       searchNow()
     },
-    250,
+    500,
     [search]
   );
 
