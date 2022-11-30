@@ -4,7 +4,7 @@
 
 ## 项目说明
 一个前后端分离的springboot项目，未使用微服务，部署简单。maven一键打包前后端代码，只需部署一个最终的jar来启动服务。适合小型项目。
-- 前端：react18 + antd4.x + vite3(快速开发 + 打包生产)
+- 前端：react18 + antd5.x + vite3(快速开发 + 打包生产)
 - 后端：springboot2.4.x
 - 环境：mysql5.7 + redis4
 
@@ -33,7 +33,7 @@
 | guava | google工具包 | https://github.com/google/guava/ |
 | hutool | 常用工具包 | https://hutool.cn/docs/ |
 | hutool-crypto | 对称加密-SymmetricCrypto | https://www.hutool.cn/docs/#/crypto/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-SymmetricCrypto?id=%e4%bb%8b%e7%bb%8d |
-| UA工具类-UserAgentUtil | HTTP接口客户端参数解析 | https://hutool.cn/docs/#/http/UA%E5%B7%A5%E5%85%B7%E7%B1%BB-UserAgentUtil/ |
+| UserAgentUtil | HTTP接口客户端参数解析 | https://hutool.cn/docs/#/http/UA%E5%B7%A5%E5%85%B7%E7%B1%BB-UserAgentUtil/ |
 | Redis Manager | Redis在线管理 | https://github.com/ngbdf/redis-manager/ |
 | phpRedisAdmin | Redis在线管理 | https://github.com/erikdubbelboer/phpRedisAdmin/ |
 
@@ -60,51 +60,15 @@
 2. druid数据源：http://localhost/druid/index.html
 3. 代码生成：http://localhost:7777
 
-## 一些约定
-1. tree结构数据，根结点的ID默认为0；
+# 详细文档
+## 前台
+1. [升级npm依赖](./doc/frontend/ncu.md)
 
-### 2. 枚举类型定义约定
-```java
-package com.faber.common.enums;
-
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.baomidou.mybatisplus.annotation.IEnum;
-import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.Getter;
-
-@Getter
-public enum BoolEnum implements IEnum<Integer> {
-   NO(0, "否"),
-   YES(1, "是");
-
-   @JsonValue
-   @EnumValue
-   private final Integer value;
-   private final String desc;
-
-   BoolEnum(Integer value, String desc) {
-      this.value = value;
-      this.desc = desc;
-   }
-
-}
-```
-
-## 后端注解
-| 注解 | 说明 |
-| :--- | :--- |
-| @LogNoRet | 不记录系统日志，如查询类的page分页，返回信息太大，不记录到系统日志中 |
-
-### 升级npm依赖
-```bash
-ncu -u --timeout 120000 --reject pdfjs-dist
-```
-
-# 代码生成器使用
-## 前端
-1. 复制ui-rn/src目录到前端src目录下
-2. 修改src/props/index.ts文件（如果没有该文件，则自行创建），将代码生成的ui-rn/src/props/entityxxx.ts namespace中的内容复制到src/props/index.ts文件中；
-3. 检查src/configs/server.config.ts文件GATE_APP中是否配置services中的路径
+## 后台
+1. [后台约定的一些规则](./doc/server/common.md)
+1. [枚举](./doc/server/enum.md)
+1. [注解](./doc/server/annotation.md)
+1. [代码生成器](./doc/server/genetator.md)
 
 
 # RoadMap
