@@ -2,15 +2,13 @@ import React, {useContext, useState} from 'react';
 import {get} from 'lodash';
 import {Form, Input} from 'antd';
 import DragModal from '@/components/modal/DragModal';
-import {showResponse} from '@/utils/utils';
+import {showResponse, formItemFullLayout} from '@/utils/utils';
 import modelService from '@/services/rbac/rbacRole';
 import Rbac from '@/props/rbac';
 import {BaseBoolIntRadio} from "@/components/base-dict";
-import FaEnums from "@/props/base/FaEnums";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import {Fa} from "@/props/base";
 
-const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
 const serviceName = '角色';
 

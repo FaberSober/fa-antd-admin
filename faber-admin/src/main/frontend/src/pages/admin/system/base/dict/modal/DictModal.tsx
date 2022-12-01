@@ -2,15 +2,13 @@ import React, {useContext, useEffect, useImperativeHandle, useState} from 'react
 import {get} from 'lodash';
 import {Button, Form, Input, InputNumber, Radio} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
-import {showResponse} from '@/utils/utils';
+import {showResponse, formItemFullLayout} from '@/utils/utils';
 import modelService from '@/services/admin/dict';
 import Admin from '@/props/admin';
 import DictTypeCascade from "../helper/DictTypeCascade";
 import {ClearOutlined} from '@ant-design/icons';
 import {UploadFileLocal} from "@/components/base-uploader";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-
-const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
 const serviceName = '字典值';
 

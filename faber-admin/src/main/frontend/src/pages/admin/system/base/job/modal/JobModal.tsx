@@ -2,15 +2,12 @@ import React, {useContext, useState} from 'react';
 import {get} from 'lodash';
 import {Form, Input} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
-import {showResponse} from '@/utils/utils';
-import {RES_CODE} from '@/configs/server.config';
+import {showResponse, formItemFullLayout} from '@/utils/utils';
 import modelService from '@/services/admin/job';
 import Admin from '@/props/admin';
 import {CronModal} from "@/components/base-field";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 
-
-const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
 const serviceName = '系统定时任务';
 

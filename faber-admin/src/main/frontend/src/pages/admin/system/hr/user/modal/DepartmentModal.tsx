@@ -2,14 +2,13 @@ import React, {useContext, useEffect, useState} from 'react';
 import {get} from 'lodash';
 import {Form, Input} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
-import {showResponse} from '@/utils/utils';
+import {showResponse, formItemFullLayout} from '@/utils/utils';
 import modelService from '@/services/admin/department';
 import Admin from '@/props/admin';
 import DepartmentCascade from "../helper/DepartmentCascade";
 import UserSearchSelect from "../helper/UserSearchSelect";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 
-const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
 const serviceName = '部门';
 

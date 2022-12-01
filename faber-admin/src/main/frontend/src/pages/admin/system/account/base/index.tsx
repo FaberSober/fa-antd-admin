@@ -4,7 +4,7 @@ import Admin from '@/props/admin';
 import userService from '@/services/admin/user';
 import {PageLoading} from '@/components/antd-pro';
 import {showResponse} from '@/utils/utils';
-import {UploadImgLocal, UploadImgQiniu} from "@/components/base-uploader";
+import {UploadImgLocal} from "@/components/base-uploader";
 import BaseSexSelector from "@/components/base-dict/BaseSexSelector";
 import {UserLayoutContext} from "@/layout/UserLayout";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";

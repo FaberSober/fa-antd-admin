@@ -2,7 +2,7 @@ import React, {useContext, useImperativeHandle, useState} from 'react';
 import {get} from 'lodash';
 import {Form, Input} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
-import {showResponse} from '@/utils/utils';
+import {showResponse, formItemFullLayout} from '@/utils/utils';
 import modelService from '@/services/admin/user';
 import rbacUserRoleApi from '@/services/rbac/rbacUserRole';
 import Admin from '@/props/admin';
@@ -13,7 +13,6 @@ import RbacRoleSelect from "@/pages/admin/system/hr/role/components/RbacRoleSele
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import FaEnums from "@/props/base/FaEnums";
 
-const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
 
 const serviceName = '用户';
 
