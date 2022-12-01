@@ -56,8 +56,8 @@ export default function MsgList() {
         ...BaseTableUtils.genSimpleSorterColumn('消息内容', 'content', undefined, sorter),
         render: (val, record) => (
           <div>
-            <Badge status={record.isRead === true ? 'default' : 'processing'} />
-            <span style={{ color: record.isRead === true ? '#999' : '#333' }}>{val}</span>
+            <Badge status={record.isRead ? 'default' : 'processing'} />
+            <span style={{ color: record.isRead ? '#999' : '#333' }}>{val}</span>
           </div>
         ),
       },
@@ -69,7 +69,7 @@ export default function MsgList() {
         dataIndex: 'opr',
         render: (text: string, record: Admin.Msg) => (
           <Space>
-            {record.isRead !== true && (
+            {!record.isRead && (
               <FaHref onClick={() => handleReadOne(record.id)} icon={<CheckOutlined />} text="已读" />
             )}
           </Space>

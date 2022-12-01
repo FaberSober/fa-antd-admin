@@ -94,16 +94,16 @@ function SceneManageModal<T>({ buzzModal, columns, onOk, ...restProps }: IProps<
     <div className="itemContainer">
       <Checkbox
         style={{ width: 40 }}
-        disabled={item.system === true}
-        checked={item.system === true || item.hide === false}
+        disabled={item.system}
+        checked={item.system || !item.hide}
         onChange={(e) => handleItemCheck(item, e.target.checked)}
       />
       <div style={{ flex: 1, paddingLeft: 8 }}>
         <strong>{item.name}</strong>
       </div>
-      {item.system === true ? <span style={{ color: '#666', marginRight: 16 }}>（系统场景）</span> : null}
+      {item.system ? <span style={{ color: '#666', marginRight: 16 }}>（系统场景）</span> : null}
       <div>
-        {item.system === true ? null : (
+        {item.system ? null : (
           <Space>
             <ConditionQueryModal record={item} buzzModal={buzzModal} columns={columns} onConditionChange={fetchRemoteConfig} showSuffix={false}>
               <a>

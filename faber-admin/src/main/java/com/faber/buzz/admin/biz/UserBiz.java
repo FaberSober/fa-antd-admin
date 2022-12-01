@@ -93,7 +93,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
 
     public User getLoginUser() {
         User user = getUserById(BaseContextHandler.getUserId());
-        if (user.getStatus() == false) throw new BuzzException("无效账户");
+        if (!user.getStatus()) throw new BuzzException("无效账户");
         user.setPassword(null);
         return user;
     }

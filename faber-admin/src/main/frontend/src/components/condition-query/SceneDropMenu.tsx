@@ -82,7 +82,7 @@ function SceneDropMenu<T>({ buzzModal, columns, onChange }: IProps<T>, ref: any)
     <Menu selectedKeys={[value]} onClick={handleMenuClick}>
       <Menu.Item key="0">{allSceneLabel}</Menu.Item>
       {configList
-        .filter((n) => n.hide !== true)
+        .filter((n) => !n.hide)
         .map((c) => (
           <Menu.Item key={`${c.id}`}>{c.name}</Menu.Item>
         ))}

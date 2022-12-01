@@ -38,7 +38,7 @@ export default function JobList() {
 
   /** 任务启停 */
   function handleJobStatus(record: Admin.Job) {
-    if (record.status === false) {
+    if (!record.status) {
       modelService
         .startJob(record.id)
         .then((res) => showResponse(res, '启动任务'))
@@ -52,7 +52,7 @@ export default function JobList() {
   }
 
   /** 生成表格字段List */
-  function genColumns(): FaberTable.ColumnsProp<Admin.Job>[] {
+  function genColumns() {
     const { sorter } = queryParams;
     return [
       BaseTableUtils.genSimpleSorterColumn('ID', 'id', 70, sorter),
@@ -67,7 +67,7 @@ export default function JobList() {
       BaseTableUtils.genSimpleSorterColumn('cron表达式', 'cron', 120, sorter),
       {
         ...BaseTableUtils.genSimpleSorterColumn('状态', 'status', 80, sorter),
-        render: (val) => (val === true ? <Badge status="processing" text="运作中" /> : <Badge status="default" text="暂停" />),
+        render: (val) => (val ? <Badge status="processing" text="运作中" /> : <Badge status="default" text="暂停" />),
       },
       BaseTableUtils.genSimpleSorterColumn('任务执行方法', 'clazzPath', 400, sorter),
       BaseTableUtils.genSimpleSorterColumn('任务描述', 'jobDesc', undefined, sorter),
@@ -81,16 +81,16 @@ export default function JobList() {
             <Popconfirm title="确定立即执行一次该任务" onConfirm={() => handleRunOneTime(record.id)} getPopupContainer={() => document.body}>
               <FaHref icon={<ThunderboltOutlined />} text="执行" />
             </Popconfirm>
-            <Popconfirm title={record.status === false ? '确定启动任务?' : '确定停止任务?'} onConfirm={() => handleJobStatus(record)} getPopupContainer={() => document.body}>
+            <Popconfirm title={!record.status ? '确定启动任务?' : '确定停止任务?'} onConfirm={() => handleJobStatus(record)} getPopupContainer={() => document.body}>
               <a>
-                {record.status === false ? (
+                {!record.status ? (
                   <FaHref icon={<PlayCircleOutlined />} text="启动" />
                 ) : (
                   <FaHref icon={<PauseCircleOutlined />} text="停止" />
                 )}
               </a>
             </Popconfirm>
-            {record.status === false && (
+            {!record.status && (
               <JobModal title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList}>
                 <FaHref icon={<EditOutlined />} text="编辑" />
               </JobModal>
@@ -103,7 +103,7 @@ export default function JobList() {
         tcRequired: true,
         tcType: 'menu',
       },
-    ];
+    ] as FaberTable.ColumnsProp<Admin.Job>[];
   }
 
   return (

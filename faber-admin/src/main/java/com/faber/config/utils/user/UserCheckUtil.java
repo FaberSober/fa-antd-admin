@@ -18,7 +18,7 @@ public class UserCheckUtil {
         if (user == null) {
             throw new UserInvalidException();
         }
-        if (user.getStatus() == false) {
+        if (!user.getStatus()) {
             throw new UserInvalidException("账户被冻结，请联系管理员");
         }
     }

@@ -24,13 +24,13 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> implements ConfigSe
     @Override
     public boolean save(Config entity) {
         // 非系统配置，默认为上传用户所拥有
-        if (entity.getSystem() == false) {
+        if (!entity.getSystem()) {
             // 设置sort
             int sort = baseMapper.findMaxSort(entity.getBuzzModal(), entity.getType(), getCurrentUserId());
             entity.setSort(sort);
 
             // 是否默认
-            if (entity.getDefaultScene() == true) {
+            if (entity.getDefaultScene()) {
                 baseMapper.clearOtherDefaultScene(entity.getBuzzModal(), entity.getType(), getCurrentUserId());
             }
         }
@@ -40,9 +40,9 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> implements ConfigSe
     @Override
     public boolean updateById(Config entity) {
         // 非系统配置，默认为上传用户所拥有
-        if (entity.getSystem() == false) {
+        if (!entity.getSystem()) {
             // 是否默认
-            if (entity.getDefaultScene() == true) {
+            if (entity.getDefaultScene()) {
                 baseMapper.clearOtherDefaultScene(entity.getBuzzModal(), entity.getType(), getCurrentUserId());
             }
         }
@@ -108,7 +108,7 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> implements ConfigSe
 
             Config configDB = getById(newConfig.getId());
 
-            if (configDB.getSystem() == false) {
+            if (!configDB.getSystem()) {
                 configDB.setSort(i); // 更新排序
                 configDB.setHide(newConfig.getHide()); // 更新是否隐藏
                 configDB.setDefaultScene(newConfig.getDefaultScene());  // 是否默认
