@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {Card} from "antd";
 import {FaDragHandle, FaSortableContainer, FaSortableItem} from "@/components/base-drag";
 import {arrayMove} from "@/utils/utils";
+import {DndContext} from '@dnd-kit/core';
+import {SortableContext} from '@dnd-kit/sortable';
 
 
 /**
@@ -28,6 +30,24 @@ export default function drag() {
 
   return (
     <div>
+      <Card title="拖动排序-带有拖动把手" style={{ marginBottom: 12 }}>
+        <p>说明：1. 使用dnd-kit组件；working...</p>
+
+        <div style={{ width: 400 }}>
+          <DndContext>
+            <SortableContext items={array}>
+              {array.map(item => (
+                <div key={item.id} className="fa-flex-row-center" style={{ padding: '0', borderBottom: '1px solid #ccc' }}>
+                  <div style={{ flex: 1 }}>{item.name}</div>
+                </div>
+              ))}
+            </SortableContext>
+          </DndContext>
+        </div>
+
+        <p>value: {JSON.stringify(array.map(i => i.id))}</p>
+      </Card>
+
       <Card title="拖动排序-带有拖动把手" style={{ marginBottom: 12 }}>
         <p>说明：1. 使用react-sortable-hoc组件；2. 二次封装后使用更简单；</p>
 

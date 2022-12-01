@@ -101,10 +101,12 @@
 - [X] 集成redis在线管理工具
 - [ ] 组合查询功能模块整理
 - [ ] 使用https访问后，druid访问nginx 302问题处理
-- [x] BaseBiz查询分组List
-- [x] 表格高度固定
-- [ ] 数据库tinyint是否类字段在ORM映射中统一修改为Bool类型
-- [ ] 数据库del_state字段名称统一修改为deleted，方便理解
+- [X] BaseBiz查询分组List
+- [X] 表格高度固定
+- [X] 数据库tinyint是否类字段在ORM映射中统一修改为Bool类型
+- [X] 数据库del_state字段名称统一修改为deleted，
+- [ ] 使用dnd-kit替换现有的拖动排序
+- [ ] 使用react-contexify替换现有的右键菜单
 
 # 更新日志
 ## 2022-09-14
