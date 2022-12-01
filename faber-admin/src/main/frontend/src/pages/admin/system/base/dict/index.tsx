@@ -28,7 +28,7 @@ export default function DictManage() {
       if (`${keys[0]}` === '0') {
         setViewRecord(undefined);
       } else {
-        dictTypeService.findOne(keys[0]).then((res) => {
+        dictTypeService.getById(keys[0]).then((res) => {
           if (res && res.status === RES_CODE.OK) {
             setViewRecord(res.data);
           }

@@ -10,7 +10,7 @@ export default class BaseApi<T, KeyType, PageT = T> extends BaseZeroApi {
 	saveBatch = (params: any[]): Promise<Fa.Ret<T>> => this.post('saveBatch', params);
 
 	/** 获取唯一实体 */
-	findOne = (id: KeyType): Promise<Fa.Ret<T>> => this.get(`get/${id}`);
+	getById = (id: KeyType): Promise<Fa.Ret<T>> => this.get(`getById/${id}`);
 
   /** 获取唯一实体 */
   getByIds = (ids: KeyType[]): Promise<Fa.Ret<T[]>> => this.post(`getByIds`, ids);

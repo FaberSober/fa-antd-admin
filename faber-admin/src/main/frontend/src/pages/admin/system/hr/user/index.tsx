@@ -28,7 +28,7 @@ export default function UserDepartmentManage() {
       if (`${keys[0]}` === '0') {
         setViewRecord(undefined);
       } else {
-        departmentService.findOne(keys[0]).then((res) => {
+        departmentService.getById(keys[0]).then((res) => {
           if (res && res.status === RES_CODE.OK) {
             setViewRecord(res.data);
           }

@@ -19,7 +19,7 @@ export default function tree() {
   /** 点击选中tree节点的事件，这里可以获取点击节点的属性 */
   function onTreeSelect(keys: any[], event: any) {
     if (keys && keys[0]) {
-      treeApi.findOne(keys[0]).then((res) => setSel(res.data));
+      treeApi.getById(keys[0]).then((res) => setSel(res.data));
     }
   }
 

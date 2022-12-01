@@ -16,7 +16,7 @@ export default function UserSearchSelect(props: UserSearchSelectProps) {
       labelKey="name"
       serviceApi={{
         search: (searchValue) => modalService.page({ current: 1, pageSize: 20, queryMap: { name: searchValue } }),
-        findOne: (value) => modalService.findOne(value),
+        findOne: (value) => modalService.getById(value),
         findList: (ids) => modalService.list({ 'id#$in': [...ids] }),
       }}
       placeholder="请输入员工名称进行搜索"

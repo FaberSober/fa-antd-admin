@@ -28,7 +28,7 @@ export default function UploadFileLocal({ children, description, onChange, value
 
     setLoading(true);
     fileApi
-      .findOne(value)
+      .getById(value)
       .then((res) => {
         setLoading(false);
         if (res && res.status === RES_CODE.OK) {

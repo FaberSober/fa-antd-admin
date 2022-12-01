@@ -30,7 +30,7 @@ export default function UploadImgQiniu({ value, onChange, style }: IProps) {
 
     setLoading(true);
     fileApi
-      .findOne(fileId)
+      .getById(fileId)
       .then((res) => {
         setLoading(false);
         if (res && res.status === RES_CODE.OK) {
