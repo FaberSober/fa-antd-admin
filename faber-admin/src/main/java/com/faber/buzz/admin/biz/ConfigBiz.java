@@ -3,7 +3,6 @@ package com.faber.buzz.admin.biz;
 import com.faber.buzz.admin.entity.Config;
 import com.faber.buzz.admin.mapper.ConfigMapper;
 import com.faber.core.web.biz.BaseBiz;
-import com.faber.core.enums.BoolEnum;
 import com.faber.core.service.ConfigService;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
@@ -25,13 +24,13 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> implements ConfigSe
     @Override
     public boolean save(Config entity) {
         // 非系统配置，默认为上传用户所拥有
-        if (entity.getSystem() == BoolEnum.NO) {
+        if (entity.getSystem() == false) {
             // 设置sort
             int sort = baseMapper.findMaxSort(entity.getBuzzModal(), entity.getType(), getCurrentUserId());
             entity.setSort(sort);
 
             // 是否默认
-            if (entity.getDefaultScene() == BoolEnum.YES) {
+            if (entity.getDefaultScene() == true) {
                 baseMapper.clearOtherDefaultScene(entity.getBuzzModal(), entity.getType(), getCurrentUserId());
             }
         }
@@ -41,9 +40,9 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> implements ConfigSe
     @Override
     public boolean updateById(Config entity) {
         // 非系统配置，默认为上传用户所拥有
-        if (entity.getSystem() == BoolEnum.NO) {
+        if (entity.getSystem() == false) {
             // 是否默认
-            if (entity.getDefaultScene() == BoolEnum.YES) {
+            if (entity.getDefaultScene() == true) {
                 baseMapper.clearOtherDefaultScene(entity.getBuzzModal(), entity.getType(), getCurrentUserId());
             }
         }
@@ -57,14 +56,14 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> implements ConfigSe
         // 查找系统配置
         List<Config> config2List = lambdaQuery().eq(Config::getBuzzModal, buzzModal)
                 .eq(Config::getType, type)
-                .eq(Config::getSystem, BoolEnum.YES)
+                .eq(Config::getSystem, true)
                 .orderByAsc(Config::getSort)
                 .list();
 
         // 查找个人配置
         List<Config> configList = lambdaQuery().eq(Config::getBuzzModal, buzzModal)
                 .eq(Config::getType, type)
-                .eq(Config::getSystem, BoolEnum.NO)
+                .eq(Config::getSystem, false)
                 .eq(Config::getCrtUser, getCurrentUserId())
                 .orderByAsc(Config::getSort)
                 .list();
@@ -82,7 +81,7 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> implements ConfigSe
         // 优先查找个人配置
         List<Config> configList = lambdaQuery().eq(Config::getBuzzModal, buzzModal)
                 .eq(Config::getType, type)
-                .eq(Config::getSystem, BoolEnum.NO)
+                .eq(Config::getSystem, false)
                 .eq(Config::getCrtUser, getCurrentUserId())
                 .orderByAsc(Config::getSort)
                 .list();
@@ -93,7 +92,7 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> implements ConfigSe
         // 其次查找系统配置
         List<Config> config2List = lambdaQuery().eq(Config::getBuzzModal, buzzModal)
                 .eq(Config::getType, type)
-                .eq(Config::getSystem, BoolEnum.YES)
+                .eq(Config::getSystem, true)
                 .orderByAsc(Config::getSort)
                 .list();
         if (config2List != null && config2List.size() > 0) {
@@ -109,7 +108,7 @@ public class ConfigBiz extends BaseBiz<ConfigMapper, Config> implements ConfigSe
 
             Config configDB = getById(newConfig.getId());
 
-            if (configDB.getSystem() == BoolEnum.NO) {
+            if (configDB.getSystem() == false) {
                 configDB.setSort(i); // 更新排序
                 configDB.setHide(newConfig.getHide()); // 更新是否隐藏
                 configDB.setDefaultScene(newConfig.getDefaultScene());  // 是否默认

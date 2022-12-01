@@ -1,7 +1,6 @@
 package com.faber.config.utils.user;
 
 import com.faber.buzz.admin.entity.User;
-import com.faber.core.enums.BoolEnum;
 import com.faber.core.exception.auth.UserInvalidException;
 
 /**
@@ -19,7 +18,7 @@ public class UserCheckUtil {
         if (user == null) {
             throw new UserInvalidException();
         }
-        if (user.getStatus() == BoolEnum.NO) {
+        if (user.getStatus() == false) {
             throw new UserInvalidException("账户被冻结，请联系管理员");
         }
     }

@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.core.bean.BaseDelEntity;
-import com.faber.core.enums.BoolEnum;
 import lombok.Data;
 import lombok.ToString;
 
@@ -37,13 +36,13 @@ public class Config extends BaseDelEntity {
     private String data;
 
     /** 是否系统 */
-    private BoolEnum system;
+    private Boolean system;
 
     /** 是否默认 */
-    private BoolEnum defaultScene;
+    private Boolean defaultScene;
 
     /** 是否隐藏 */
-    private BoolEnum hide;
+    private Boolean hide;
 
     /** 排序 */
     private Integer sort;

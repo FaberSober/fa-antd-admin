@@ -11,7 +11,6 @@ import com.faber.core.annotation.FaModalName;
 import com.faber.core.annotation.SqlEquals;
 import com.faber.core.annotation.SqlSearch;
 import com.faber.core.bean.BaseDelEntity;
-import com.faber.core.enums.BoolEnum;
 import com.faber.buzz.admin.enums.SexEnum;
 import com.faber.core.validator.TelNoValidator;
 import com.faber.core.validator.Vg;
@@ -78,7 +77,7 @@ public class User extends BaseDelEntity {
     @NotNull
     @SqlEquals
     @ExcelProperty("状态")
-    private BoolEnum status;
+    private Boolean status;
 
     @ExcelProperty("角色名称")
     private String roleNames;

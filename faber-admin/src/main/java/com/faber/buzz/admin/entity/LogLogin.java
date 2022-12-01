@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.annotation.SqlEquals;
 import com.faber.core.bean.BaseDelEntity;
-import com.faber.core.enums.BoolEnum;
 import lombok.Data;
 
 
@@ -41,7 +40,7 @@ public class LogLogin extends BaseDelEntity {
 
     @SqlEquals
     @ExcelProperty("是否为移动终端")
-    private BoolEnum mobile;
+    private Boolean mobile;
 
     @ExcelProperty("省")
     private String pro;

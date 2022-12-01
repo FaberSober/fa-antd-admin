@@ -5,7 +5,6 @@ import com.faber.buzz.admin.entity.User;
 import com.faber.buzz.msg.biz.MsgBiz;
 import com.faber.buzz.msg.helper.MsgHelper;
 import com.faber.buzz.msg.helper.config.MsgSendConfig;
-import com.faber.core.enums.BoolEnum;
 import com.faber.buzz.msg.entity.Msg;
 import com.faber.buzz.msg.helper.properties.SmsConfiguration;
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +62,7 @@ public class MsgHelperImpl implements MsgHelper {
         msg.setToUserId(toUserId);
         msg.setBuzzType(msgSendConfig.getBuzzType());
         msg.setBuzzId(msgSendConfig.getBuzzId());
-        msg.setIsRead(BoolEnum.NO);
+        msg.setIsRead(false);
         return msg;
     }
 }

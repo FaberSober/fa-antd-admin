@@ -8,7 +8,6 @@ import com.faber.core.annotation.FaModalName;
 import com.faber.core.annotation.SqlEquals;
 import com.faber.core.annotation.SqlSearch;
 import com.faber.core.bean.BaseCrtEntity;
-import com.faber.core.enums.BoolEnum;
 import lombok.Data;
 import lombok.ToString;
 
@@ -45,7 +44,7 @@ public class LogApi extends BaseCrtEntity {
 
     @SqlEquals
     @ExcelProperty("是否为移动终端")
-    private BoolEnum mobile;
+    private Boolean mobile;
 
     @ExcelProperty("请求花费时间")
     private Long duration;

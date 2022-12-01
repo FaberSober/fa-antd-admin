@@ -15,7 +15,6 @@ import com.faber.buzz.rbac.entity.RbacRole;
 import com.faber.config.utils.user.UserCheckUtil;
 import com.faber.core.constant.CommonConstants;
 import com.faber.core.context.BaseContextHandler;
-import com.faber.core.enums.BoolEnum;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.exception.NoDataException;
 import com.faber.core.exception.auth.UserInvalidException;
@@ -94,7 +93,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
 
     public User getLoginUser() {
         User user = getUserById(BaseContextHandler.getUserId());
-        if (user.getStatus() == BoolEnum.NO) throw new BuzzException("无效账户");
+        if (user.getStatus() == false) throw new BuzzException("无效账户");
         user.setPassword(null);
         return user;
     }

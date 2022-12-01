@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.bean.BaseDelEntity;
-import com.faber.core.enums.BoolEnum;
 import lombok.Data;
 import lombok.ToString;
 
@@ -37,6 +36,6 @@ public class RbacRole extends BaseDelEntity {
     private String remarks;
 
     @ExcelProperty("是否启用")
-    private BoolEnum status;
+    private Boolean status;
 
 }

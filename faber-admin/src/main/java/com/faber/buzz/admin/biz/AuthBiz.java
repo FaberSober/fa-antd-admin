@@ -8,7 +8,6 @@ import com.faber.config.utils.jwt.JWTInfo;
 import com.faber.config.utils.user.AuthRequest;
 import com.faber.config.utils.user.JwtTokenUtil;
 import com.faber.core.context.BaseContextHandler;
-import com.faber.core.enums.BoolEnum;
 import com.faber.core.utils.IpUtils;
 import com.faber.core.utils.RequestUtils;
 import org.springframework.stereotype.Service;
@@ -52,7 +51,7 @@ public class AuthBiz {
         logLogin.setOs(ua.getOs().toString());
         logLogin.setBrowser(ua.getBrowser().toString());
         logLogin.setVersion(ua.getVersion());
-        logLogin.setMobile(ua.isMobile() ? BoolEnum.YES : BoolEnum.NO);
+        logLogin.setMobile(ua.isMobile());
 
         // 获取IP地址
         IpUtils.IpAddr ipAddr = IpUtils.getIpAddrByApi(BaseContextHandler.getIp());

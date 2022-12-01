@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.bean.BaseDelEntity;
-import com.faber.core.enums.BoolEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,6 +36,6 @@ public class RbacRoleMenu extends BaseDelEntity {
     private Long menuId;
 
     @ExcelProperty("是否半勾选")
-    private BoolEnum halfChecked;
+    private Boolean halfChecked;
 
 }

@@ -5,7 +5,6 @@ import com.faber.buzz.admin.mapper.JobMapper;
 import com.faber.config.quartz.JobTask;
 import com.faber.buzz.admin.entity.Job;
 import com.faber.core.web.biz.BaseBiz;
-import com.faber.core.enums.BoolEnum;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.exception.NoDataException;
 import org.quartz.CronExpression;
@@ -45,7 +44,7 @@ public class JobBiz extends BaseBiz<JobMapper, Job> {
         }
         jobTask.startJob(job);
 
-        job.setStatus(BoolEnum.YES);
+        job.setStatus(true);
         updateById(job);
     }
 
@@ -57,7 +56,7 @@ public class JobBiz extends BaseBiz<JobMapper, Job> {
 
         jobTask.remove(job);
 
-        job.setStatus(BoolEnum.NO);
+        job.setStatus(false);
         updateById(job);
     }
 
@@ -77,7 +76,7 @@ public class JobBiz extends BaseBiz<JobMapper, Job> {
     }
 
     public List<Job> getStartUpJobs() {
-        return lambdaQuery().eq(Job::getStatus, BoolEnum.YES).list();
+        return lambdaQuery().eq(Job::getStatus, true).list();
     }
 
 }

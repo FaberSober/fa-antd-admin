@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.core.annotation.*;
-import com.faber.core.annotation.*;
 import com.faber.core.bean.BaseDelEntity;
-import com.faber.core.enums.BoolEnum;
 import com.faber.buzz.rbac.enums.RbacLinkTypeEnum;
 import com.faber.buzz.rbac.enums.RbacMenuLevelEnum;
 import lombok.Data;
@@ -49,7 +47,7 @@ public class RbacMenu extends BaseDelEntity {
     private String icon;
 
     @ExcelProperty("是否启用0-禁用/1-启用")
-    private BoolEnum status;
+    private Boolean status;
 
     @ExcelProperty("链接类型【1-内部链接(默认)2-外部链接】")
     private RbacLinkTypeEnum linkType;

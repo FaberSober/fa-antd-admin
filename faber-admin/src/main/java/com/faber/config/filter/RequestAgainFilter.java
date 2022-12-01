@@ -7,7 +7,6 @@ import com.faber.core.config.filter.wrapper.BodyHttpServletRequestWrapper;
 import com.faber.core.config.filter.wrapper.BodyHttpServletResponseWrapper;
 import com.faber.buzz.admin.entity.LogApi;
 import com.faber.core.context.BaseContextHandler;
-import com.faber.core.enums.BoolEnum;
 import com.faber.core.utils.IpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -77,7 +76,7 @@ public class RequestAgainFilter implements Filter {
             log.setOs(ua.getOs().toString());
             log.setBrowser(ua.getBrowser().toString());
             log.setVersion(ua.getVersion());
-            log.setMobile(ua.isMobile() ? BoolEnum.YES : BoolEnum.NO);
+            log.setMobile(ua.isMobile() ? true : false);
 
             log.setCrtHost(IpUtils.getRequestIp(requestWrapper));
             log.setRequest(requestWrapper.getBody());

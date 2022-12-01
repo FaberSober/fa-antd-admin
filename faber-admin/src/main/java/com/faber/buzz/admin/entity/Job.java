@@ -8,7 +8,6 @@ import com.faber.core.annotation.FaModalName;
 import com.faber.core.annotation.SqlEquals;
 import com.faber.core.annotation.SqlSearch;
 import com.faber.core.bean.BaseDelEntity;
-import com.faber.core.enums.BoolEnum;
 import com.faber.config.quartz.vo.JobInfo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -41,7 +40,7 @@ public class Job extends BaseDelEntity implements JobInfo {
 
     @SqlEquals
     @ExcelProperty("是否启动")
-    private BoolEnum status = BoolEnum.NO;
+    private Boolean status = false;
 
     @SqlSearch
     @ExcelProperty("任务执行方法")

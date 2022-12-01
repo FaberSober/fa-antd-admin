@@ -10,7 +10,6 @@ import com.faber.buzz.rbac.vo.RbacUserRoleRetVo;
 import com.faber.buzz.rbac.vo.query.RbacUserRoleQueryVo;
 import com.faber.core.web.biz.BaseBiz;
 import com.faber.core.constant.CommonConstants;
-import com.faber.core.enums.BoolEnum;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.vo.tree.TreeNode;
 import com.faber.core.vo.msg.TableRet;
@@ -60,7 +59,7 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper, RbacUserRole> {
         List<Long> roleIds = this.getUserRoleIds(userId);
         if (roleIds.isEmpty()) return new ArrayList<>();
 
-        return rbacRoleBiz.lambdaQuery().eq(RbacRole::getStatus, BoolEnum.YES).in(RbacRole::getId, roleIds).list();
+        return rbacRoleBiz.lambdaQuery().eq(RbacRole::getStatus, true).in(RbacRole::getId, roleIds).list();
     }
 
     public List<RbacMenu> getUserMenus(String userId) {

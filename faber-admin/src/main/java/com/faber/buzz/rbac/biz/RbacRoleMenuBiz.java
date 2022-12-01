@@ -4,7 +4,6 @@ import com.faber.buzz.rbac.entity.RbacRoleMenu;
 import com.faber.buzz.rbac.mapper.RbacRoleMenuMapper;
 import com.faber.buzz.rbac.vo.RoleMenuVo;
 import com.faber.core.web.biz.BaseBiz;
-import com.faber.core.enums.BoolEnum;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,10 +20,10 @@ import java.util.stream.Collectors;
 @Service
 public class RbacRoleMenuBiz extends BaseBiz<RbacRoleMenuMapper, RbacRoleMenu> {
 
-    public List<Long> getMenuIdsWithHalfCheck(Long roleId, BoolEnum boolEnum) {
+    public List<Long> getMenuIdsWithHalfCheck(Long roleId, Boolean bool) {
         return lambdaQuery()
                 .eq(RbacRoleMenu::getRoleId, roleId)
-                .eq(RbacRoleMenu::getHalfChecked, boolEnum)
+                .eq(RbacRoleMenu::getHalfChecked, bool)
                 .list()
                 .stream()
                 .map(RbacRoleMenu::getMenuId)
@@ -34,8 +33,8 @@ public class RbacRoleMenuBiz extends BaseBiz<RbacRoleMenuMapper, RbacRoleMenu> {
     public RoleMenuVo getRoleMenu(Long roleId) {
         RoleMenuVo vo = new RoleMenuVo();
         vo.setRoleId(roleId);
-        vo.setCheckedRoleIds(this.getMenuIdsWithHalfCheck(roleId, BoolEnum.NO));
-        vo.setHalfCheckedRoleIds(this.getMenuIdsWithHalfCheck(roleId, BoolEnum.YES));
+        vo.setCheckedRoleIds(this.getMenuIdsWithHalfCheck(roleId, false));
+        vo.setHalfCheckedRoleIds(this.getMenuIdsWithHalfCheck(roleId, true));
         return vo;
     }
 
@@ -46,10 +45,10 @@ public class RbacRoleMenuBiz extends BaseBiz<RbacRoleMenuMapper, RbacRoleMenu> {
 
         List<RbacRoleMenu> list = new ArrayList<>();
         for (Long menuId : roleMenuVo.getCheckedRoleIds()) {
-            list.add(new RbacRoleMenu(null, roleId, menuId, BoolEnum.NO));
+            list.add(new RbacRoleMenu(null, roleId, menuId, false));
         }
         for (Long menuId : roleMenuVo.getHalfCheckedRoleIds()) {
-            list.add(new RbacRoleMenu(null, roleId, menuId, BoolEnum.YES));
+            list.add(new RbacRoleMenu(null, roleId, menuId, true));
         }
 
         this.saveBatch(list);
