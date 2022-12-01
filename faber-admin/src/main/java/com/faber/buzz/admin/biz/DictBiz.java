@@ -118,6 +118,7 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
         SystemConfigPo po = new SystemConfigPo();
         // 系统服务配置
         po.setTitle(MapUtil.getStr(map, "system:title"));
+        po.setSubTitle(MapUtil.getStr(map, "system:subTitle"));
         po.setLogo(MapUtil.getStr(map, "system:logo"));
         po.setLogoWithText(MapUtil.getStr(map, "system:portal:logoWithText"));
         po.setPortalLink(MapUtil.getStr(map, "system:portal:link"));

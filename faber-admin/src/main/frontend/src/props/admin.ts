@@ -324,6 +324,8 @@ namespace Admin {
 	export interface SystemConfigPo {
     /** [网站]标题 */
 		title: string;
+    /** [网站]副标题 */
+    subTitle: string;
     /** [网站]logo */
 		logo: string;
     /** [网站]logo带文字 */

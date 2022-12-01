@@ -29,6 +29,7 @@ export default function Login() {
     // 获取系统配置参数
     dictApi.getSystemConfig().then((res) => setSystemConfig(res.data))
 
+    // 使用vanta制作背景效果图
     const vantaEffect = WAVES({
       el: vantaRef.current,
       THREE: THREE, // use a custom THREE when initializing
@@ -67,31 +68,27 @@ export default function Login() {
   const loading = loadingEffect['/api/auth/jwt/token']
   return (
     <div ref={vantaRef} className={styles['main-container']}>
-      <div />
-      <div className={styles['login-container']}>
-        <h1 style={{ color: '#FFF' }}>{systemConfig?.title || '-'}</h1>
-        <span style={{ color: '#FFF', marginBottom: 24 }}>{systemConfig?.title || '-'}</span>
-        <div className={styles.main}>
-          <div>
-            <div className={styles.title}>用户登录</div>
-            <Form form={form} onFinish={onFinish}>
-              <Form.Item name="username" rules={[{ required: true, message: '请输入账号' }]}>
-                <Input size="large" prefix={<UserOutlined />} placeholder="请输入账号" />
-              </Form.Item>
-              <Form.Item name="password" rules={[{ required: true, message: '请输入密码' }]}>
-                <Input.Password size="large" prefix={<LockOutlined />} type="password" placeholder="请输入密码" />
-              </Form.Item>
-              <Form.Item name="captcha" rules={[{ required: true, message: '请输入验证码' }, { validator: validateCaptcha }]}>
-                <Input size="large" prefix={<FieldNumberOutlined />} placeholder="请输入验证码" addonAfter={<Captcha onCodeChange={(c) => setCode(c)} />} />
-              </Form.Item>
-              <Button size="large" block loading={loading} className={styles.submit} type="primary" htmlType="submit">
-                登录
-              </Button>
-            </Form>
-          </div>
-        </div>
+      <div className={styles.bannerDiv}>
+        <div className={styles.bannerTitle}>{systemConfig?.title || '-'}</div>
+        <div className={styles.bannerSubTitle}>{systemConfig?.subTitle || '-'}</div>
+      </div>
 
-        <div style={{ height: 150 }} />
+      <div className={styles.loginContainer}>
+        <div className={styles.title}>用户登录</div>
+        <Form form={form} onFinish={onFinish}>
+          <Form.Item name="username" rules={[{ required: true, message: '请输入账号' }]}>
+            <Input size="large" prefix={<UserOutlined />} placeholder="请输入账号" />
+          </Form.Item>
+          <Form.Item name="password" rules={[{ required: true, message: '请输入密码' }]}>
+            <Input.Password size="large" prefix={<LockOutlined />} type="password" placeholder="请输入密码" />
+          </Form.Item>
+          <Form.Item name="captcha" rules={[{ required: true, message: '请输入验证码' }, { validator: validateCaptcha }]}>
+            <Input size="large" prefix={<FieldNumberOutlined />} placeholder="请输入验证码" addonAfter={<Captcha onCodeChange={(c) => setCode(c)} />} />
+          </Form.Item>
+          <Button size="large" block loading={loading} className={styles.submit} type="primary" htmlType="submit">
+            登录
+          </Button>
+        </Form>
       </div>
     </div>
   );

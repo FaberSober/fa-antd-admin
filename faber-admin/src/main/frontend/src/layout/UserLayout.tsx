@@ -20,7 +20,7 @@ export interface UserLayoutContextProps {
   refreshUnreadCount: () => void,
 }
 
-const defaultConfig = { title: '', logo: '', logoWithText: '', portalLink: '' }
+const defaultConfig:Admin.SystemConfigPo = { title: '', subTitle: '', logo: '', logoWithText: '', portalLink: '', phpRedisAdmin: '' }
 
 export const UserLayoutContext = createContext<UserLayoutContextProps>({
   user: undefined!,

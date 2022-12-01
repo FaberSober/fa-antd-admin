@@ -9,7 +9,7 @@ import routes from '~react-pages'
 import {PageLoading} from "@/components/antd-pro";
 
 // eslint-disable-next-line no-console
-console.log(routes)
+// console.log(routes)
 
 function App() {
   return (
