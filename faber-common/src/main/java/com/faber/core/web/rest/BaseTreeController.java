@@ -1,5 +1,6 @@
 package com.faber.core.web.rest;
 
+import com.faber.core.annotation.LogNoRet;
 import com.faber.core.web.biz.BaseTreeBiz;
 import com.faber.core.vo.msg.Ret;
 import com.faber.core.vo.tree.TreeNode;
@@ -40,6 +41,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      * @param id 选中的节点ID
      * @return
      */
+    @LogNoRet
     @RequestMapping(value = "/treePathLine/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Ret<List<TreeNode<Entity>>> treePathLine(@PathVariable Key id) {
@@ -53,6 +55,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      * @param parentId 选中的节点parentId
      * @return
      */
+    @LogNoRet
     @RequestMapping(value = "/treeListLayer/{parentId}", method = RequestMethod.GET)
     @ResponseBody
     public Ret<List<TreeNode<Entity>>> treeListLayer(@PathVariable Key parentId) {
@@ -66,6 +69,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      * @param id 选中的节点ID
      * @return
      */
+    @LogNoRet
     @RequestMapping(value = "/treeFindPath/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Ret<TreePathVo<Entity>> treeFindPath(@PathVariable Key id) {
@@ -77,6 +81,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      * 获取所有节点Tree
      * @return
      */
+    @LogNoRet
     @RequestMapping(value = "/allTree", method = RequestMethod.GET)
     @ResponseBody
     public Ret<List<TreeNode<Entity>>> allTree() {
@@ -88,6 +93,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      * 获取所有节点Tree
      * @return
      */
+    @LogNoRet
     @RequestMapping(value = "/getTree", method = RequestMethod.POST)
     @ResponseBody
     public Ret<List<TreeNode<Entity>>> getTree(@RequestBody QueryParams query) {
@@ -100,6 +106,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      * @param id 指定节点ID
      * @return
      */
+    @LogNoRet
     @RequestMapping(value = "/allTreeFromNode/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Ret<List<TreeNode<Entity>>> allTreeFromNode(@PathVariable("id") Key id) {

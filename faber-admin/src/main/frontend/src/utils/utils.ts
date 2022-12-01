@@ -147,6 +147,22 @@ export function isWindows() {
 	return /windows|win32/i.test(navigator.userAgent);
 }
 
+/**
+ * 判断str是否是json
+ * @param input
+ */
+export function isJson(input: string | undefined): boolean {
+  if (input === undefined) return false;
+  try {
+    // json格式化
+    JSON.stringify(JSON.parse(input), null, '\t')
+    return true;
+  } catch (err) {
+    // console.error(err)
+  }
+  return false;
+}
+
 export function tryFormatJson(input: string | undefined): string {
 	if (input === undefined) return '';
 	try {

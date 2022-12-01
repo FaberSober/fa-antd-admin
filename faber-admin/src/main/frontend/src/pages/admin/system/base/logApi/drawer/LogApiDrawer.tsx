@@ -2,6 +2,9 @@ import React, {useState} from 'react';
 import {Descriptions, Drawer} from 'antd';
 import {DragModalProps} from '@/components/modal/DragModal';
 import Admin from '@/props/admin';
+import ReactJson from 'react-json-view'
+import {isJson} from "@/utils/utils";
+
 
 export interface GateLogDrawerProps extends DragModalProps {
   record: Admin.LogApi;
@@ -35,7 +38,16 @@ export default function LogApiDrawer({ children, record, ...props }: GateLogDraw
           <Descriptions.Item label="地址">{record.addr}</Descriptions.Item>
           <Descriptions.Item label="请求内容">{record.request}</Descriptions.Item>
           <Descriptions.Item label="返回码">{record.retStatus}</Descriptions.Item>
-          <Descriptions.Item label="返回内容">{record.response}</Descriptions.Item>
+          <Descriptions.Item label="返回内容">
+            {isJson(record.response) ? (
+              <ReactJson
+                src={JSON.parse(record.response)}
+                collapsed
+                style={{ fontSize: '10px' }}
+                // theme="monokai"
+              />
+            ) : record.response}
+          </Descriptions.Item>
         </Descriptions>
       </Drawer>
     </span>

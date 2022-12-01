@@ -105,6 +105,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok();
     }
 
+    @LogNoRet
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ResponseBody
     public Ret<List<Entity>> all() {
@@ -112,6 +113,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok(list);
     }
 
+    @LogNoRet
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     public Ret<List<Entity>> list(@RequestBody QueryParams query) {
@@ -119,6 +121,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok(list);
     }
 
+    @LogNoRet
     @RequestMapping(value = "/mineList", method = RequestMethod.POST)
     @ResponseBody
     public Ret<List<Entity>> mineList(@RequestParam QueryParams query) {
@@ -136,6 +139,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
     /**
      * 分页查询
      */
+    @LogNoRet
     @RequestMapping(value = "/page", method = RequestMethod.POST)
     @ResponseBody
     public TableRet<Entity> page(@RequestBody QueryParams query) {
