@@ -108,7 +108,7 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
       };
 
       if (config === undefined) {
-        configService.add(params).then((res) => showResponse(res, '保存自定义表格配置'));
+        configService.save(params).then((res) => showResponse(res, '保存自定义表格配置'));
       } else {
         configService.update(config.id, { id: config.id, ...params }).then((res) => showResponse(res, '更新自定义表格配置'));
       }

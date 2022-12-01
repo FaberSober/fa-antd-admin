@@ -29,7 +29,7 @@ export default function TreeModal({ children, parentId, title, record, ...props 
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    modelService.add(params).then((res) => {
+    modelService.save(params).then((res) => {
       showResponse(res, `新增${serviceName}`);
       setModalVisible(false);
       // @ts-ignore

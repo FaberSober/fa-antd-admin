@@ -22,9 +22,9 @@ import java.util.List;
  * <table>
  *     <thead><tr><td>方法</td><td>说明</td></tr></thead>
  *     <tbody>
- *         <tr><td>{@link BaseController#add}</td>                  <td>新增</td></tr>
+ *         <tr><td>{@link BaseController#save}</td>                 <td>新增</td></tr>
  *         <tr><td>{@link BaseController#saveBatch}</td>            <td>新增批量</td></tr>
- *         <tr><td>{@link BaseController#get}</td>                  <td>id查询</td></tr>
+ *         <tr><td>{@link BaseController#getById}</td>              <td>id查询</td></tr>
  *         <tr><td>{@link BaseController#getByIds}</td>             <td>ids集合查询</td></tr>
  *         <tr><td>{@link BaseController#update}</td>               <td>更新</td></tr>
  *         <tr><td>{@link BaseController#updateBatch}</td>          <td>批量更新</td></tr>
@@ -49,9 +49,9 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
     @Autowired
     protected Biz baseBiz;
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
-    public Ret<Entity> add(@Validated(value = Vg.Crud.C.class) @RequestBody Entity entity) {
+    public Ret<Entity> save(@Validated(value = Vg.Crud.C.class) @RequestBody Entity entity) {
         baseBiz.save(entity);
         return ok(entity);
     }
@@ -63,9 +63,9 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok(entityList);
     }
 
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getById/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Ret<Entity> get(@PathVariable Key id) {
+    public Ret<Entity> getById(@PathVariable Key id) {
         Entity o = (Entity) baseBiz.getById(id);
         return ok(o);
     }

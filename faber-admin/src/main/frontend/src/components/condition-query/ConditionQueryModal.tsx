@@ -109,7 +109,7 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
         const response = await configService.update(record.id, { ...record, ...params });
         showResponse(response, '更新场景');
       } else {
-        const response = await configService.add(params);
+        const response = await configService.save(params);
         showResponse(response, '新增场景');
       }
       setLoading(false);

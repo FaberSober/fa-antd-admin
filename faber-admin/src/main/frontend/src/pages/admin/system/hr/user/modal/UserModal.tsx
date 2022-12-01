@@ -48,7 +48,7 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    modelService.add(params).then((res) => {
+    modelService.save(params).then((res) => {
       showResponse(res, `新增${serviceName}`);
       setModalVisible(false);
       if (fetchFinish) fetchFinish();

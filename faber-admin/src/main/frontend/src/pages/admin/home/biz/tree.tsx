@@ -26,7 +26,7 @@ export default function tree() {
   return (
     <div className="fa-full-content fa-padding-12">
       <Card title="远程数据Tree-带一个根节点" style={{ marginBottom: 12 }}>
-        <p>说明：1. 从接口获取数据；2. 远程数据返回Tree型数据；3. 示例为字典分组选择；</p>
+        <p>说明：1. 从接口获取数据；2. 远程数据返回Tree型数据；3. 禁止拖动；</p>
 
         <BaseTree
           showRoot
@@ -36,13 +36,14 @@ export default function tree() {
           showTips={false}
           showTopBtn={false}
           bodyStyle={{ width: 400, height: 200 }}
+          draggable={false}
         />
 
         <p>选中节点：{JSON.stringify(sel)}</p>
       </Card>
 
       <Card title="远程数据Tree-可编辑" style={{ marginBottom: 12 }}>
-        <p>说明：1. 从接口获取数据；2. 远程数据返回Tree型数据；3. 示例为字典分组选择；</p>
+        <p>说明：1. 从接口获取数据；2. 远程数据返回Tree型数据；3. 支持拖动排序；</p>
 
         <BaseTree
           // showRoot
@@ -64,7 +65,7 @@ export default function tree() {
               onMenuClick: () => { message.info('补充菜单1') },
             },
           ]}
-          bodyStyle={{ width: 400, height: 200 }}
+          bodyStyle={{ width: 400, height: 300 }}
         />
       </Card>
     </div>

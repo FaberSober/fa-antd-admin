@@ -4,7 +4,7 @@ import {trimObj} from "@/utils/utils";
 
 export default class BaseApi<T, KeyType, PageT = T> extends BaseZeroApi {
 	/** 增加实体信息 */
-	add = (params: any): Promise<Fa.Ret<T>> => this.post('save', params);
+	save = (params: any): Promise<Fa.Ret<T>> => this.post('save', params);
 
 	/** 增加实体信息 */
 	saveBatch = (params: any[]): Promise<Fa.Ret<T>> => this.post('saveBatch', params);
