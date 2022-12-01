@@ -63,6 +63,7 @@
 # 详细文档
 ## 前台
 1. [升级npm依赖](./doc/frontend/ncu.md)
+1. [登录页面](./doc/frontend/login.md)
 
 ## 后台
 1. [后台约定的一些规则](./doc/server/common.md)

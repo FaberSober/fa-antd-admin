@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {FieldNumberOutlined, LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Form, Input} from 'antd';
@@ -11,8 +11,13 @@ import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import styles from './login.module.less'
 import Admin from "@/props/admin";
 import dictApi from "@/services/admin/dict";
+import * as THREE from 'three'
+import p5 from 'p5'
+import WAVES from 'vanta/dist/vanta.waves.min'
+
 
 export default function Login() {
+  const vantaRef = useRef()
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -23,6 +28,23 @@ export default function Login() {
   useEffect(() => {
     // 获取系统配置参数
     dictApi.getSystemConfig().then((res) => setSystemConfig(res.data))
+
+    const vantaEffect = WAVES({
+      el: vantaRef.current,
+      THREE: THREE, // use a custom THREE when initializing
+      p5: p5, // use a custom p5 when initializing
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 1.00,
+      zoom: 0.79,
+    })
+    return () => {
+      if (vantaEffect) vantaEffect.destroy()
+    }
   }, [])
 
   function onFinish(fieldsValue: any) {
@@ -44,7 +66,8 @@ export default function Login() {
 
   const loading = loadingEffect['/api/auth/jwt/token']
   return (
-    <div className={styles['main-container']}>
+    <div ref={vantaRef} className={styles['main-container']}>
+      <div />
       <div className={styles['login-container']}>
         <h1 style={{ color: '#FFF' }}>{systemConfig?.title || '-'}</h1>
         <span style={{ color: '#FFF', marginBottom: 24 }}>{systemConfig?.title || '-'}</span>
