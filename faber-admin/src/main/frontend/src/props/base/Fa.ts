@@ -43,7 +43,7 @@ namespace Fa {
 
 	export interface BaseDelEntity extends BaseOprEntity {
 		/** 删除状态 */
-		delState?: boolean;
+    deleted?: boolean;
 	}
 
 	// ------------------------------------- Http Request -------------------------------------

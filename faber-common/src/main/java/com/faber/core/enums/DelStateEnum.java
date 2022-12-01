@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 /**
- * Bean删除状态{@link BaseDelEntity#getDelState()}
+ * Bean删除状态{@link BaseDelEntity#getDeleted()}
  * @author xu.pengfei
  * @date 2022/11/28 14:15
  */

@@ -2,7 +2,6 @@ package com.faber.core.config.mybatis;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.faber.core.context.BaseContextHandler;
-import com.faber.core.enums.DelStateEnum;
 import org.apache.ibatis.reflection.MetaObject;
 
 import java.time.LocalDateTime;
@@ -25,7 +24,7 @@ public class MysqlMetaObjectHandler implements MetaObjectHandler {
         this.strictInsertFill(metaObject, "crtTime", LocalDateTime.class, LocalDateTime.now());
         this.strictInsertFill(metaObject, "crtHost", String.class, BaseContextHandler.getIp());
 
-        this.strictInsertFill(metaObject, "delState", DelStateEnum.class, DelStateEnum.VALID);
+        this.strictInsertFill(metaObject, "deleted", Boolean.class, true);
     }
 
     @Override
