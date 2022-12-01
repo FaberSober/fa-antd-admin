@@ -14,7 +14,7 @@ export default function BaseNotice() {
   const [array, setArray] = useState<Admin.Notice[]>([]);
 
   useEffect(() => {
-    noticeService.list({ status: FaEnums.BoolEnum.YES, strongNotice: FaEnums.BoolEnum.YES }).then((res) => {
+    noticeService.list({ status: true, strongNotice: true }).then((res) => {
       if (res && res.status === RES_CODE.OK) {
         setArray(res.data);
       }

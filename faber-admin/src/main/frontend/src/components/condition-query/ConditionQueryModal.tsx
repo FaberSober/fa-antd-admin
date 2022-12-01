@@ -99,10 +99,10 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
       const params = {
         buzzModal,
         type: FaEnums.ConfigTypeEnum.QUERY_CONDITION,
-        system: '0',
-        defaultScene: defaultScene ? '1' : '0',
         name: sceneName,
         data: JSON.stringify(condGroupList),
+        system: false,
+        defaultScene,
       };
       setLoading(true);
       if (record) {

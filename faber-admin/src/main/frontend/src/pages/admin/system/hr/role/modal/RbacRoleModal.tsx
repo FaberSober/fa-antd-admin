@@ -58,7 +58,7 @@ export default function RbacRoleModal({ children, title, record, fetchFinish, ..
     return {
       name: get(record, 'name'),
       remarks: get(record, 'remarks'),
-      status: get(record, 'status', FaEnums.BoolEnum.YES),
+      status: get(record, 'status', true),
     }
   }
 

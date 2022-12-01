@@ -17,7 +17,7 @@ namespace Rbac {
 		/** 图标标识 */
 		icon: string;
 		/** 是否启用0-禁用/1-启用 */
-		status: FaEnums.BoolEnum;
+		status: boolean;
 		/** 链接类型【1-内部链接(默认)2-外部链接】 */
 		linkType: FaEnums.RbacLinkTypeEnum;
 		/** 链接地址【pathinfo#method】 */
@@ -33,7 +33,7 @@ namespace Rbac {
 		/** 角色描述 */
 		remarks: string;
 		/** 是否启用 */
-		status: FaEnums.BoolEnum;
+		status: boolean;
 	}
 
 	/** BASE-角色权限对应表 */
@@ -45,7 +45,7 @@ namespace Rbac {
 		/** 权限ID */
 		menuId: string;
 		/** 是否半勾选0-否/1-是 */
-		halfChecked: FaEnums.BoolEnum;
+		halfChecked: boolean;
 	}
 
 	/** BASE-用户角色关联表 */

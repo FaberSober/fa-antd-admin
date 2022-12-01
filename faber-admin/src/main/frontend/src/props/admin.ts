@@ -25,11 +25,11 @@ namespace Admin {
 		/** 配置JSON */
 		data: string;
 		/** 是否系统 */
-		defaultScene: FaEnums.BoolEnum;
+		defaultScene: boolean;
 		/** 是否默认 */
-		hide: FaEnums.BoolEnum;
+		hide: boolean;
     /** 是否系统默认 */
-    system: FaEnums.BoolEnum;
+    system: boolean;
 		/** 排序ID */
 		sort: number;
 	}
@@ -166,7 +166,7 @@ namespace Admin {
 		/** 性别  */
 		sex: FaEnums.SexEnum;
 		/** 状态是否有效  */
-		status: FaEnums.BoolEnum;
+		status: boolean;
 		/** 描述  */
     roleNames: string;
 		/** 描述  */
@@ -208,9 +208,9 @@ namespace Admin {
 		/** 内容  */
 		content: string;
 		/** 是否有效  */
-		status: FaEnums.BoolEnum;
+		status: boolean;
 		/** 是否强提醒  */
-		strongNotice: FaEnums.BoolEnum;
+		strongNotice: boolean;
 	}
 
 	// -------------------------------------------- 系统-系统定时任务 --------------------------------------------
@@ -223,7 +223,7 @@ namespace Admin {
 		/** cron表达式  */
 		cron: string;
 		/** 是否启动  */
-		status: FaEnums.BoolEnum;
+		status: boolean;
 		/** 任务执行方法  */
 		clazzPath: string;
 		/** 任务描述  */
@@ -311,7 +311,7 @@ namespace Admin {
 		/** 消息内容  */
 		content: string;
 		/** 是否已读  */
-		isRead: FaEnums.BoolEnum;
+		isRead: boolean;
 		/** 已读时间  */
 		readTime: string;
 		/** 业务类型  */
@@ -352,7 +352,7 @@ namespace Admin {
     /** 浏览器版本 */
     version: string;
     /** 是否为移动终端 */
-    mobile: FaEnums.BoolEnum;
+    mobile: boolean;
     /** 请求花费时间 */
     duration: number;
     /** 省 */
@@ -387,7 +387,7 @@ namespace Admin {
     /** 浏览器版本 */
     version: string;
     /** 是否为移动终端 */
-    mobile: FaEnums.BoolEnum;
+    mobile: boolean;
     /** 省 */
     pro: string;
     /** 市 */

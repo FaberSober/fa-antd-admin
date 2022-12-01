@@ -14,12 +14,8 @@ import lombok.ToString;
 public abstract class BaseDelEntity extends BaseUpdEntity {
 
     @ExcelIgnore
-    @TableLogic(value = "0", delval = "1")
+    @TableLogic(value = "false", delval = "true")
     @TableField(select = false)
-    private DelStateEnum delState;
-
-    public void removeLogic() {
-        this.delState = DelStateEnum.DELETED;
-    }
+    private Boolean delState;
 
 }

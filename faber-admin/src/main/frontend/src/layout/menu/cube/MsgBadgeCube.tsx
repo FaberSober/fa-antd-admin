@@ -19,7 +19,7 @@ function MsgList() {
   }, [unreadCount]);
 
   function fetchMsgList() {
-    msgService.pageMine({ pageSize: 10, isRead: FaEnums.BoolEnum.NO }).then((res) => {
+    msgService.pageMine({ pageSize: 10, isRead: false }).then((res) => {
       if (res && res.status === RES_CODE.OK) {
         setData(res.data.rows);
       }

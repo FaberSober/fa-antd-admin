@@ -36,10 +36,10 @@ public class Config extends BaseDelEntity {
     private String data;
 
     /** 是否系统 */
-    private Boolean system;
+    private Boolean system = false;
 
     /** 是否默认 */
-    private Boolean defaultScene;
+    private Boolean defaultScene = false;
 
     /** 是否隐藏 */
     private Boolean hide;

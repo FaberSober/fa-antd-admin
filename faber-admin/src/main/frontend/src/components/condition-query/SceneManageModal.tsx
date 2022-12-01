@@ -67,7 +67,7 @@ function SceneManageModal<T>({ buzzModal, columns, onOk, ...restProps }: IProps<
   function handleItemCheck(item: Admin.Config, checked: boolean) {
     const newList = configList.map((i) => {
       if (i.id === item.id) {
-        return { ...i, hide: checked ? FaEnums.BoolEnum.NO : FaEnums.BoolEnum.YES };
+        return { ...i, hide: checked ? false : true };
       }
       return i;
     });
@@ -94,16 +94,16 @@ function SceneManageModal<T>({ buzzModal, columns, onOk, ...restProps }: IProps<
     <div className="itemContainer">
       <Checkbox
         style={{ width: 40 }}
-        disabled={item.system === FaEnums.BoolEnum.YES}
-        checked={item.system === FaEnums.BoolEnum.YES || item.hide === FaEnums.BoolEnum.NO}
+        disabled={item.system === true}
+        checked={item.system === true || item.hide === false}
         onChange={(e) => handleItemCheck(item, e.target.checked)}
       />
       <div style={{ flex: 1, paddingLeft: 8 }}>
         <strong>{item.name}</strong>
       </div>
-      {item.system === FaEnums.BoolEnum.YES ? <span style={{ color: '#666', marginRight: 16 }}>（系统场景）</span> : null}
+      {item.system === true ? <span style={{ color: '#666', marginRight: 16 }}>（系统场景）</span> : null}
       <div>
-        {item.system === FaEnums.BoolEnum.YES ? null : (
+        {item.system === true ? null : (
           <Space>
             <ConditionQueryModal record={item} buzzModal={buzzModal} columns={columns} onConditionChange={fetchRemoteConfig} showSuffix={false}>
               <a>

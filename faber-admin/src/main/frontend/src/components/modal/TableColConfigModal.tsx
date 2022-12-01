@@ -95,7 +95,7 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
         return { dataIndex, tcRequired, tcChecked, width: colWidthCache[BaseTableUtils.dataIndexToString(dataIndex)], sort: index };
       }
       return { dataIndex, tcRequired, tcChecked, width, sort: index };
-    });
+    }) as FaberTable.ColumnsProp<T>[];
 
     // 新增or更新
     if (!localData) {
@@ -104,7 +104,8 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
         type: FaEnums.ConfigTypeEnum.TABLE_COLUMNS,
         name: buzzName,
         data: JSON.stringify({ columns: columnsMerge }),
-        system: FaEnums.BoolEnum.NO,
+        system: false,
+        defaultScene: false,
       };
 
       if (config === undefined) {

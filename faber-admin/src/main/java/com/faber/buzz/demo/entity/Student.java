@@ -4,7 +4,9 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.faber.buzz.admin.enums.SexEnum;
 import com.faber.core.annotation.FaModalName;
+import com.faber.core.annotation.SqlEquals;
 import com.faber.core.bean.BaseDelEntity;
 import lombok.Data;
 
@@ -32,8 +34,9 @@ public class Student extends BaseDelEntity {
     @ExcelProperty("年龄")
     private Integer age;
 
+    @SqlEquals
     @ExcelProperty("性别")
-    private String sex;
+    private SexEnum sex;
 
     @ExcelProperty("邮箱")
     private String email;
@@ -41,12 +44,15 @@ public class Student extends BaseDelEntity {
     @ExcelProperty("生日")
     private Date birthday;
 
+    @SqlEquals
     @ExcelProperty("账户是否有效")
     private Boolean valid;
 
+    @SqlEquals
     @ExcelProperty("补充信息ID")
     private Integer infoId;
 
+    @SqlEquals
     @ExcelProperty("租户ID")
     private Integer tenantId;
 

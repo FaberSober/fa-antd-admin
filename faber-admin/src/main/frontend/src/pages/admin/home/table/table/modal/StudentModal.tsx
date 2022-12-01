@@ -8,6 +8,7 @@ import { getDateStr000, getInitialKeyTimeValue, showResponse, formItemFullLayout
 import modelService from '@/services/demo/student';
 import Fa from '@/props/base/Fa';
 import Demo from '@/props/demo';
+import {DictEnumApiSelector} from "@/components/base-dict";
 
 
 /**
@@ -87,7 +88,7 @@ export default function StudentModal({ children, title, record, fetchFinish, ...
             <Input />
           </Form.Item>
           <Form.Item name="sex" label="性别" rules={[{ required: true }]} {...formItemFullLayout}>
-            <Input />
+            <DictEnumApiSelector enumName="SexEnum" />
           </Form.Item>
           <Form.Item name="email" label="邮箱" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input />

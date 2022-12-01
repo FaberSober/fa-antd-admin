@@ -63,7 +63,7 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
       name: get(record, 'name'),
       level: get(record, 'level'),
       icon: get(record, 'icon'),
-      status: get(record, 'status', FaEnums.BoolEnum.YES),
+      status: get(record, 'status', true),
       linkType: get(record, 'linkType', FaEnums.RbacLinkTypeEnum.INNER),
       linkUrl: get(record, 'linkUrl'),
     }
