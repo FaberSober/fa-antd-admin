@@ -42,8 +42,9 @@ export default function LogApiDrawer({ children, record, ...props }: GateLogDraw
             {isJson(record.response) ? (
               <ReactJson
                 src={JSON.parse(record.response)}
-                collapsed
-                style={{ fontSize: '10px' }}
+                collapsed={2}
+                displayDataTypes={false}
+                style={{ fontSize: '10px', maxHeight: '90vh', overflow: 'auto' }}
                 // theme="monokai"
               />
             ) : record.response}
