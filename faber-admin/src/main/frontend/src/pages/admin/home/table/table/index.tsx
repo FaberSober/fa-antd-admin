@@ -22,7 +22,7 @@ export default function StudentList() {
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams)
 
   /** 生成表格字段List */
-  function genColumns():FaberTable.ColumnsProp<Demo.Student>[] {
+  function genColumns() {
     const { sorter } = queryParams;
     return [
       BaseTableUtils.genIdColumn('ID', 'id', 70, sorter),
@@ -52,7 +52,7 @@ export default function StudentList() {
         tcRequired: true,
         tcType: 'menu',
       },
-    ];
+    ] as FaberTable.ColumnsProp<Demo.Student>[];
   }
 
   return (
