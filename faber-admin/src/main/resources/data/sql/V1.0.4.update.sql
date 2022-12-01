@@ -1,0 +1,24 @@
+-- 数据库del_state字段名称统一修改为deleted
+ALTER TABLE article_book     CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE article_detail   CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE article_outline  CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE base_biz_file    CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE base_config  CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE base_department  CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE base_dict    CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE base_dict_type   CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE base_entity_log  CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE base_file_save   CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE base_job     CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE base_log_login   CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE base_msg     CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE base_notice  CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE base_rbac_menu   CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE base_rbac_role   CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE base_rbac_role_menu  CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE base_rbac_user_role  CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE base_user    CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE demo_student     CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE demo_tree    CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE disk_dir     CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
+ALTER TABLE disk_file    CHANGE COLUMN `del_state` `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除';
