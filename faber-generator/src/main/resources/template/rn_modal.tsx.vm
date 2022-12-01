@@ -3,14 +3,11 @@ import { get } from 'lodash';
 import { Form, Input, DatePicker } from 'antd';
 import DragModal from '@/components/modal/DragModal';
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import { getDateStr000, getInitialKeyTimeValue, showResponse } from '@/utils/utils';
+import { getDateStr000, getInitialKeyTimeValue, showResponse, formItemFullLayout } from '@/utils/utils';
 import modelService from '@/services/${moduleName}/${secondModuleName}';
 import Fa from '@/props/base/Fa';
 import ${moduleNameUpperCaseFirstOne} from '@/props/${moduleName}';
 
-const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
-
-const serviceName = '${comments}';
 
 /**
  * ${comments}实体新增、编辑弹框
@@ -24,7 +21,7 @@ export default function ${className}Modal({ children, title, record, fetchFinish
   /** 新增Item */
   function invokeInsertTask(params: any) {
     modelService.add(params).then((res) => {
-      showResponse(res, `新增${serviceName}`);
+      showResponse(res, '新增${comments}');
       setOpen(false);
       if (fetchFinish) fetchFinish();
     })
@@ -33,7 +30,7 @@ export default function ${className}Modal({ children, title, record, fetchFinish
   /** 更新Item */
   function invokeUpdateTask(params: any) {
     modelService.update(params.id, params).then((res) => {
-      showResponse(res, `更新${serviceName}`);
+      showResponse(res, 更新${comments});
       setOpen(false);
       if (fetchFinish) fetchFinish();
     })
