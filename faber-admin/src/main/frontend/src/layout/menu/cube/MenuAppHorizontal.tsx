@@ -25,7 +25,7 @@ export default function MenuAppHorizontal() {
       items={items}
       selectedKeys={menuSelAppId ? [menuSelAppId] : []}
       onSelect={({ key }) => setMenuSelAppId(key)}
-      style={{ flex: 1, border: "none" }}
+      style={{ flex: 1, border: "none", marginLeft: -4 }}
     />
   )
 }
