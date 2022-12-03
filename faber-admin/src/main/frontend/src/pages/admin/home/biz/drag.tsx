@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Button, Card} from "antd";
 import {FaSortList} from "@/components/base-drag";
 import FaDragItem from "@/components/base-drag/FaDragItem";
+import {PlusOutlined} from "@ant-design/icons";
 
 
 function genList(i: number): { id: number, name: string }[] {
@@ -57,6 +58,16 @@ export default function drag() {
 
         <div style={{width: 400, height: 300}}>
           <FaDragItem>
+            <Button>Drag me</Button>
+          </FaDragItem>
+        </div>
+      </Card>
+
+      <Card title="拖动元素-带有拖动把手" style={{marginBottom: 12}}>
+        <p>说明：1. 使用dnd-kit组件；2. 拖动后回到原位置；</p>
+
+        <div style={{width: 400, height: 300}}>
+          <FaDragItem handle handleNode={<PlusOutlined />}>
             <Button>Drag me</Button>
           </FaDragItem>
         </div>

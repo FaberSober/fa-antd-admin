@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Modal} from 'antd';
 import Draggable from 'react-draggable';
 import {ModalProps} from 'antd/es/modal';
+import FaDragItem from "@/components/base-drag/FaDragItem";
 
 export interface DragModalProps extends ModalProps {
   children?: JSX.Element;
@@ -17,33 +18,25 @@ function DragModal(props: DragModalProps) {
   if (!props.open) return null;
   return (
     <Modal
-      title={
-        <div
-          style={{
-            width: '100%',
-            cursor: 'move',
-            margin: -12,
-            padding: 12,
-            backgroundColor: 'transparent',
-          }}
-          onMouseOver={() => {
-            if (disabled) {
-              setDisabled(false);
-            }
-          }}
-          onMouseOut={() => {
-            setDisabled(true);
-          }}
-          // fix eslintjsx-a11y/mouse-events-have-key-events
-          // https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/mouse-events-have-key-events.md
-          onFocus={() => {}}
-          onBlur={() => {}}
-          // end
-        >
-          {title}
-        </div>
-      }
-      modalRender={(modal) => <Draggable disabled={disabled}>{modal}</Draggable>}
+      // title={
+      //   <div
+      //     style={{
+      //       width: '100%',
+      //       cursor: 'move',
+      //       backgroundColor: 'transparent',
+      //     }}
+      //     onMouseOver={() => {
+      //       if (disabled) {
+      //         setDisabled(false);
+      //       }
+      //     }}
+      //     onMouseOut={() => setDisabled(true)}
+      //   >
+      //     {title}
+      //   </div>
+      // }
+      title={title}
+      modalRender={(modal) => <FaDragItem hold handle handleStyle={{ position: 'absolute', top: -40, left: 0, right: 50, height: 40, backgroundColor: '#F00' }}>{modal}</FaDragItem>}
       destroyOnClose
       maskClosable={false}
       {...restProps}

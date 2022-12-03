@@ -8,6 +8,7 @@ export interface FaDraggableProps {
   children?: ReactNode;
   style?: CSSProperties;
   handle?: boolean;
+  handleNode?: ReactNode;
   handleStyle?: CSSProperties;
 }
 
@@ -15,12 +16,12 @@ export interface FaDraggableProps {
  * @author xu.pengfei
  * @date 2022/12/3 9:44
  */
-export default function FaDraggable({ handle, children, style, handleStyle }:FaDraggableProps) {
+export default function FaDraggable({ handle, handleNode, children, style, handleStyle }:FaDraggableProps) {
   const {attributes, listeners, setNodeRef, transform} = useDraggable({
     id: 'draggable',
   });
   const styleTrans = transform ? {
-    display: 'inline-block',
+    // display: 'inline-block',
     transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
   } : {};
 
@@ -29,8 +30,8 @@ export default function FaDraggable({ handle, children, style, handleStyle }:FaD
     <div ref={setNodeRef} style={{ ...styleTrans, ...style }} {...(handle ? {} : listeners)} {...attributes}>
       {children}
       {handle && (
-        <div className={styles.dragHandle} style={handleStyle} {...listeners}>
-          <MenuOutlined />
+        <div id="drag-handle" className={styles.dragHandle} style={handleStyle} {...listeners}>
+          {handleNode}
         </div>
       )}
     </div>
