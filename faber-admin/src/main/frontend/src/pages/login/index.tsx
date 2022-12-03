@@ -65,7 +65,7 @@ export default function Login() {
     return Promise.resolve();
   }
 
-  const loading = loadingEffect['/api/auth/jwt/token']
+  const loading = loadingEffect['/api/auth/login']
   return (
     <div ref={vantaRef} className={styles['main-container']}>
       <div className={styles.bannerDiv}>
