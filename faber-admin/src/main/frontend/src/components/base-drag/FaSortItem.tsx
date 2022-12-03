@@ -44,7 +44,7 @@ export default function FaSortItem({ id, handle, style, children, vertical }:FaS
     <div ref={setNodeRef} style={{ ...styleTrans, ...style }} {...(handle ? {} : listeners)} {...attributes}>
       {children}
       {handle && (
-        <div className={styles.dragHandle} style={style} {...listeners}>
+        <div className={styles.dragHandle} {...listeners}>
           <MenuOutlined />
         </div>
       )}

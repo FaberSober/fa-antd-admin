@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Card} from "antd";
-import {FaDragHandle, FaSortableContainer, FaSortableItem, FaSortList} from "@/components/base-drag";
+import {FaSortList} from "@/components/base-drag";
 import {arrayMove} from "@/utils/utils";
 
 
@@ -47,16 +47,14 @@ export default function drag() {
         <p>说明：1. 使用dnd-kit组件；2. 二次封装后使用更简单；</p>
 
         <div style={{ width: 400 }}>
-          <FaSortableContainer onSortEnd={onSortEnd} useDragHandle>
-            {array2.map((value, index) => (
-              <FaSortableItem key={value.id} index={index}>
-                <div className="fa-flex-row-center" style={{ padding: '0', borderBottom: '1px solid #ccc' }}>
-                  <div style={{ flex: 1 }}>{value.name}</div>
-                  <FaDragHandle />
-                </div>
-              </FaSortableItem>
-            ))}
-          </FaSortableContainer>
+          <FaSortList
+            list={array2}
+            renderItem={(i) => <div style={{ flex: 1 }}>{i.name}</div>}
+            itemStyle={{  borderBottom: '1px solid #ccc' }}
+            onSortEnd={(l) => setArray2(l)}
+            vertical
+            handle
+          />
         </div>
 
         <p>value: {JSON.stringify(array2.map(i => i.id))}</p>
