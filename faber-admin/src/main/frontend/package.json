@@ -10,7 +10,7 @@
     "@ant-design/icons": "4.8.0",
     "@dnd-kit/core": "6.0.5",
     "@dnd-kit/sortable": "7.0.1",
-    "@dnd-kit/utilities": "^3.2.0",
+    "@dnd-kit/utilities": "3.2.0",
     "@tinymce/tinymce-react": "4.2.0",
     "ahooks": "3.7.2",
     "antd": "5.0.3",

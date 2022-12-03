@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Card} from "antd";
+import {Button, Card, Switch} from "antd";
 import {FaSortList} from "@/components/base-drag";
 import FaDragItem from "@/components/base-drag/FaDragItem";
 import {PlusOutlined} from "@ant-design/icons";
@@ -17,6 +17,7 @@ function genList(i: number): { id: number, name: string }[] {
 export default function drag() {
   const [array, setArray] = useState(genList(5))
   const [array2, setArray2] = useState(genList(5))
+  const [disabled, setDisabled] = useState(false)
 
   return (
     <div>
@@ -76,8 +77,9 @@ export default function drag() {
       <Card title="拖动元素-固定位置" style={{marginBottom: 12}}>
         <p>说明：1. 使用dnd-kit组件；2. 拖动后固定在新位置；</p>
 
+        <Switch checkedChildren="启用拖动" unCheckedChildren="禁用拖动" checked={!disabled} onChange={(e) => setDisabled(!e)} style={{ marginBottom: 12 }} />
         <div style={{width: 400, height: 300, position: 'relative'}}>
-          <FaDragItem hold>
+          <FaDragItem disabled={disabled} hold>
             <Button>Drag me</Button>
           </FaDragItem>
         </div>

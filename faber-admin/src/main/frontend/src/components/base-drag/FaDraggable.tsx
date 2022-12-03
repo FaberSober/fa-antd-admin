@@ -5,6 +5,7 @@ import {MenuOutlined} from "@ant-design/icons";
 
 
 export interface FaDraggableProps {
+  disabled?: boolean; // 是否禁用拖动
   children?: ReactNode;
   style?: CSSProperties;
   handle?: boolean;
@@ -16,7 +17,7 @@ export interface FaDraggableProps {
  * @author xu.pengfei
  * @date 2022/12/3 9:44
  */
-export default function FaDraggable({ handle, handleNode, children, style, handleStyle }:FaDraggableProps) {
+export default function FaDraggable({ disabled, handle, handleNode, children, style, handleStyle }:FaDraggableProps) {
   const {attributes, listeners, setNodeRef, transform} = useDraggable({
     id: 'draggable',
   });
@@ -25,9 +26,13 @@ export default function FaDraggable({ handle, handleNode, children, style, handl
     transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
   } : {};
 
+  let rootListeners = listeners;
+  if (disabled || handle) {
+    rootListeners = {}
+  }
 
   return (
-    <div ref={setNodeRef} style={{ ...styleTrans, ...style }} {...(handle ? {} : listeners)} {...attributes}>
+    <div ref={setNodeRef} style={{ ...styleTrans, ...style }} {...rootListeners} {...attributes}>
       {children}
       {handle && (
         <div id="drag-handle" className={styles.dragHandle} style={handleStyle} {...listeners}>

@@ -6,7 +6,6 @@ import FaDraggable, {FaDraggableProps} from "./FaDraggable";
 
 export interface FaDragItem extends FaDraggableProps {
   hold?: boolean; // 拖动后固定在新位置
-  disabled?: boolean; // 是否禁用拖动
 }
 
 /**
@@ -14,7 +13,7 @@ export interface FaDragItem extends FaDraggableProps {
  * @author xu.pengfei
  * @date 2022/12/3 11:01
  */
-export default function FaDragItem({ hold, disabled, style, ...props }: FaDragItem) {
+export default function FaDragItem({ hold, style, ...props }: FaDragItem) {
   const [{x, y}, setCoordinates] = useState<Coordinates>({ x: 0, y: 0 });
 
   const styleCal: CSSProperties = hold ? {
