@@ -1,7 +1,6 @@
 import React, {CSSProperties, ReactNode} from 'react';
 import {useDraggable} from "@dnd-kit/core";
 import styles from "@/components/base-drag/index.module.less";
-import {MenuOutlined} from "@ant-design/icons";
 
 
 export interface FaDraggableProps {
