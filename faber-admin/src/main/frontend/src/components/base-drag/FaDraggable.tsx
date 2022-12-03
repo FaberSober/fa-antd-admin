@@ -5,30 +5,31 @@ import {MenuOutlined} from "@ant-design/icons";
 
 
 export interface FaDraggableProps {
-  handle?: boolean;
   children?: ReactNode;
   style?: CSSProperties;
+  handle?: boolean;
+  handleStyle?: CSSProperties;
 }
 
 /**
  * @author xu.pengfei
  * @date 2022/12/3 9:44
  */
-export default function FaDraggable(props:FaDraggableProps) {
+export default function FaDraggable({ handle, children, style, handleStyle }:FaDraggableProps) {
   const {attributes, listeners, setNodeRef, transform} = useDraggable({
     id: 'draggable',
   });
-  const style = transform ? {
+  const styleTrans = transform ? {
     display: 'inline-block',
     transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-  } : undefined;
+  } : {};
 
 
   return (
-    <div ref={setNodeRef} style={{  ...style, ...props.style }} {...(props.handle ? {} : listeners)} {...attributes}>
-      {props.children}
-      {props.handle && (
-        <div className={styles.dragHandle} style={style} {...listeners}>
+    <div ref={setNodeRef} style={{ ...styleTrans, ...style }} {...(handle ? {} : listeners)} {...attributes}>
+      {children}
+      {handle && (
+        <div className={styles.dragHandle} style={handleStyle} {...listeners}>
           <MenuOutlined />
         </div>
       )}
