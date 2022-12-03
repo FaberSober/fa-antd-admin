@@ -17,7 +17,7 @@ import WAVES from 'vanta/dist/vanta.waves.min'
 
 
 export default function Login() {
-  const vantaRef = useRef()
+  const vantaRef = useRef<any>()
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
   const navigate = useNavigate();

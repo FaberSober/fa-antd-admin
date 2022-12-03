@@ -1,16 +1,17 @@
-import React, {ReactNode, useImperativeHandle, useState} from 'react';
+import React, {useImperativeHandle, useState} from 'react';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
 import configService from '@/services/admin/config';
-import {arrayMove, showResponse} from '@/utils/utils';
+import {showResponse} from '@/utils/utils';
 import {RES_CODE} from '@/configs/server.config';
-import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
-import {DeleteOutlined, EditOutlined, MenuOutlined} from '@ant-design/icons';
+import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {Checkbox, Popconfirm, Space, Tooltip} from 'antd';
 import Admin from '@/props/admin';
 import ConditionQueryModal from '@/components/condition-query/ConditionQueryModal';
 import {FaberTable} from '@/components/base-table';
-import './SceneManageModal.less';
+import styles from './SceneManageModal.module.less';
 import FaEnums from "@/props/base/FaEnums";
+import {FaSortList} from "@/components/base-drag";
+
 
 interface IProps<T> extends DragModalProps {
   buzzModal: string;
@@ -19,9 +20,10 @@ interface IProps<T> extends DragModalProps {
 }
 
 /**
- * 表格自定义列Modal
+ * 管理保存的查询场景：
+ * 1. 场景排序；
+ * 2. 场景编辑、删除；
  */
-/* eslint-disable react/jsx-props-no-spreading */
 function SceneManageModal<T>({ buzzModal, columns, onOk, ...restProps }: IProps<T>, ref: any) {
   const [loading, setLoading] = useState(false);
   const [configList, setConfigList] = useState<Admin.Config[]>([]);
@@ -74,58 +76,6 @@ function SceneManageModal<T>({ buzzModal, columns, onOk, ...restProps }: IProps<
     setConfigList(newList);
   }
 
-  function onSortEnd({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) {
-    if (oldIndex === newIndex) return;
-
-    const newItems = arrayMove(configList, oldIndex, newIndex);
-    setConfigList(newItems);
-  }
-
-  const DragHandle = SortableHandle(() => (
-    <div style={{ cursor: 'move' }}>
-      <MenuOutlined />
-    </div>
-  ));
-
-  interface SProp {
-    item: Admin.Config;
-  }
-  const SortableItem = SortableElement(({ item }: SProp) => (
-    <div className="itemContainer">
-      <Checkbox
-        style={{ width: 40 }}
-        disabled={item.system}
-        checked={item.system || !item.hide}
-        onChange={(e) => handleItemCheck(item, e.target.checked)}
-      />
-      <div style={{ flex: 1, paddingLeft: 8 }}>
-        <strong>{item.name}</strong>
-      </div>
-      {item.system ? <span style={{ color: '#666', marginRight: 16 }}>（系统场景）</span> : null}
-      <div>
-        {item.system ? null : (
-          <Space>
-            <ConditionQueryModal record={item} buzzModal={buzzModal} columns={columns} onConditionChange={fetchRemoteConfig} showSuffix={false}>
-              <a>
-                <EditOutlined /> 编辑
-              </a>
-            </ConditionQueryModal>
-            <Popconfirm title="确认删除?" onConfirm={() => handleDelete(item.id)} getPopupContainer={() => document.body}>
-              <Tooltip placement="bottom" title="删除">
-                <a style={{ color: 'red' }}>
-                  <DeleteOutlined /> 删除
-                </a>
-              </Tooltip>
-            </Popconfirm>
-            <DragHandle />
-          </Space>
-        )}
-      </div>
-    </div>
-  ));
-
-  const MySortableContainer = SortableContainer((props: { children: ReactNode }) => <div>{props.children}</div>);
-
   return (
     <DragModal title="管理场景" onOk={handleSave} confirmLoading={loading} width={700} destroyOnClose {...restProps}>
       <div>
@@ -134,11 +84,46 @@ function SceneManageModal<T>({ buzzModal, columns, onOk, ...restProps }: IProps<
           <div style={{ flex: 1, paddingLeft: 8 }}>场景名称</div>
           <div>操作</div>
         </div>
-        <MySortableContainer onSortEnd={onSortEnd} useDragHandle>
-          {configList.map((value, index) => (
-            <SortableItem key={`item-${value.id}`} index={index} item={value} />
-          ))}
-        </MySortableContainer>
+
+        <FaSortList
+          list={configList}
+          renderItem={(item) => (
+            <div className={styles.itemContainer}>
+              <Checkbox
+                style={{ width: 40 }}
+                disabled={item.system}
+                checked={item.system || !item.hide}
+                onChange={(e) => handleItemCheck(item, e.target.checked)}
+              />
+              <div style={{ flex: 1, paddingLeft: 8 }}>
+                <strong>{item.name}</strong>
+              </div>
+              {item.system ? <span style={{ color: '#666', marginRight: 16 }}>（系统场景）</span> : null}
+              <div>
+                {item.system ? null : (
+                  <Space>
+                    <ConditionQueryModal record={item} buzzModal={buzzModal} columns={columns} onConditionChange={fetchRemoteConfig} showSuffix={false}>
+                      <a>
+                        <EditOutlined /> 编辑
+                      </a>
+                    </ConditionQueryModal>
+                    <Popconfirm title="确认删除?" onConfirm={() => handleDelete(item.id)} getPopupContainer={() => document.body}>
+                      <Tooltip placement="bottom" title="删除">
+                        <a style={{ color: 'red' }}>
+                          <DeleteOutlined /> 删除
+                        </a>
+                      </Tooltip>
+                    </Popconfirm>
+                  </Space>
+                )}
+              </div>
+            </div>
+          )}
+          itemStyle={{ borderBottom: '1px solid #ccc'}}
+          onSortEnd={(l) => setConfigList(l)}
+          vertical
+          handle
+        />
       </div>
     </DragModal>
   );
