@@ -1,8 +1,7 @@
 import React, {createContext, CSSProperties, ReactNode, useContext, useEffect, useMemo, useState} from 'react';
 import {each, find, get} from 'lodash';
-import {message, Modal, Space, Spin, Tree} from 'antd';
+import {Modal, Space, Spin, Tree} from 'antd';
 import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
-import {ContextMenu, ContextMenuTrigger, MenuItem} from 'react-contextmenu';
 import {RES_CODE} from '@/configs/server.config';
 import {showResponse} from '@/utils/utils';
 import BaseTreeProps from './interface';
@@ -13,7 +12,6 @@ import {FaHref} from "@/components/decorator";
 import styles from './index.module.less';
 import {Menu, Item, useContextMenu, ItemParams} from "react-contexify";
 import 'react-contexify/ReactContexify.css';
-import icon from "@/pages/admin/home/home/icon";
 
 
 export interface BaseTreeContextProps {

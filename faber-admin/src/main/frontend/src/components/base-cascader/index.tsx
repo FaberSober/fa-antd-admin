@@ -7,7 +7,7 @@ import * as BaseTreeUtils from '@/components/base-tree/utils';
 import BaseTreeProps from '../base-tree/interface';
 import {RES_CODE} from '@/configs/server.config';
 
-export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderProps<T>, 'options'> {
+export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderProps<T>, 'options'|'onChange'> {
   showRoot?: boolean;
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
@@ -17,7 +17,8 @@ export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderPro
     getById: (id: KeyType) => Promise<Fa.Ret<T>>;
   };
   value?: any;
-  onChange?: (v: any) => void;
+  onChange?: (v: KeyType|undefined, lastItem: T|undefined, vList: KeyType[], itemList: T[]) => void;
+  // TODO 整理此属性
   onChangeWithItem?: (key: KeyType|undefined, data: T|undefined) => void;
   rootName?: string;
   extraParams?: any;
@@ -41,7 +42,7 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
   ...props
 }: BaseCascaderProps<RecordType, KeyType>) {
   const [innerValue, setInnerValue] = useState<any[]>([]);
-  const [options, setOptions] = useState<BaseTreeProps.TreeNode[] | undefined>([]);
+  const [options, setOptions] = useState<Fa.TreeNode<RecordType, KeyType>[] | undefined>([]);
 
   useEffect(() => {
     setValuePath(value);
@@ -52,15 +53,7 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
   }, [extraParams]);
 
   function fetchTreeData() {
-    serviceApi.allTree({}).then((res) => {
-      if (res && res.status === RES_CODE.OK) {
-        let treeArr = BaseTreeUtils.parseNode(res.data);
-        if (showRoot) {
-          treeArr = [{ ...Fa.ROOT_DEFAULT, value: rootId, label: rootName, children: treeArr }];
-        }
-        setOptions(treeArr);
-      }
-    });
+    serviceApi.allTree({}).then((res) => setOptions(res.data));
   }
 
   function setValuePath(v: any) {
@@ -71,23 +64,28 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
     setInnerValue(values);
   }
 
-  function handleChange(newValue: any) {
+  function handleChange(newValue: any, selectedOptions: any[]) {
+    console.log(newValue, selectedOptions)
     setInnerValue(newValue);
-    if (onChange) onChange(newValue[newValue.length - 1]);
+    const lastValue = newValue[newValue.length - 1];
+    const lastItem = selectedOptions[selectedOptions.length - 1];
+    if (onChange) onChange(lastValue, lastItem, newValue, selectedOptions);
     // 获取Item信息
     if (onChangeWithItem) {
-      const key = newValue[newValue.length - 1];
-      if (key !== undefined) {
-        serviceApi.getById(key).then((res) => {
-          if (res && res.status === RES_CODE.OK) {
-            onChangeWithItem(key, res.data);
-          }
-        });
-      } else {
-        onChangeWithItem(undefined, undefined);
-      }
+      onChangeWithItem(lastValue, lastItem);
     }
   }
 
-  return <Cascader placeholder="请选择" {...props} value={innerValue} options={options} onChange={handleChange} changeOnSelect />;
+  console.log(innerValue, options)
+  return (
+    <Cascader
+      fieldNames={{ label: 'name', value: 'id' }}
+      placeholder="请选择"
+      {...props}
+      value={innerValue}
+      options={options}
+      onChange={handleChange}
+      changeOnSelect
+    />
+  );
 }
