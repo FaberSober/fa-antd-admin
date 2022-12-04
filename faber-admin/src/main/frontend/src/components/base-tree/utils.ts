@@ -101,11 +101,12 @@ export function findTreeItem(tree: Fa.TreeNode[], id: any, callback?: (data: Fa.
  * @param tree tree数据
  * @param dragKey 拖动节点key
  * @param dropKey 放置节点key
- * @param dropPosition 放置位置：0上/1下
+ * @param dropPosition 放置位置：-1前/0上/1下
  * @param dropToGap 是否放置到间隙位置
+ * @param dropNodeChildren 放置节点children
  * @param dropNodeExpand 放置节点是否展开
  */
-export function dropItem(tree: Fa.TreeNode[], dragKey: any, dropKey: any, dropPosition: number, dropToGap: boolean, dropNodeExpand: boolean):Fa.TreeNode[] {
+export function dropItem(tree: Fa.TreeNode[], dragKey: any, dropKey: any, dropPosition: number, dropToGap: boolean, dropNodeChildren: any[], dropNodeExpand: boolean):Fa.TreeNode[] {
   const data = cloneDeep(tree);
   const { node: dropNode } = findTreeItem(tree, dropKey)!;
 
@@ -120,18 +121,15 @@ export function dropItem(tree: Fa.TreeNode[], dragKey: any, dropKey: any, dropPo
     dropInfo.node.children = dropInfo.node.children || [];
     // where to insert 添加到头部
     dropInfo.node.children.unshift(dragObj);
-    dragObj.parentId = dropInfo.node.id
   } else if (
-    (dropNode.children || []).length > 0 && // Has children
+    (dropNodeChildren || []).length > 0 && // Has children
     dropNodeExpand && // Is expanded
     dropPosition === 1 // On the bottom gap在放置节点的下间隙
   ) {
     dropInfo.node.children = dropInfo.node.children || [];
     // where to insert 添加到头部
     dropInfo.node.children.unshift(dragObj);
-    dragObj.parentId = dropInfo.node.id
   } else {
-    dragObj.parentId = dropInfo.node.parentId
     const { index: i, siblings: ar } = dropInfo;
     if (dropPosition === -1) {
       ar.splice(i, 0, dragObj);
