@@ -83,20 +83,17 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
   ...props
 }: IProps<RecordType, KeyType>) {
   const { renderCount } = useContext(BaseTreeContext)
-  // ------------------------------------------ context menu ------------------------------------------
 
   const [loading, setLoading] = useState(false);
   const [addItemModalVisible, setAddItemModalVisible] = useState(false);
   const [editItemModalVisible, setEditItemModalVisible] = useState(false);
   const [treeData, setTreeData] = useState<Fa.TreeNode<RecordType, KeyType>[]>([]);
-  const [flatDeptList, setFlatDeptList] = useState<BaseTreeProps.FlatTreeNode[]>([]);
   const [clickItem, setClickItem] = useState<BaseTreeProps.TreeNode<RecordType, KeyType> | RecordType>();
   const [expandedKeys, setExpandedKeys] = useState<any[]>([]);
 
   useEffect(() => {
     fetchCourtTree();
   }, [renderCount, extraEffectArgs]);
-
 
   // ------------------------------------------ context menu ------------------------------------------
   const { show } = useContextMenu({
@@ -125,11 +122,6 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
         confirmDelItem(item)
         break;
     }
-  }
-
-  const handleExtraItemClick = (e: ItemParams, extraMenu: BaseTreeProps.ExtraContextMenus) => {
-    const item = e.props as BaseTreeProps.TreeNode<RecordType>;
-    extraMenu.onMenuClick(e, item)
   }
 
   function handleAddItem(item?: BaseTreeProps.TreeNode<RecordType, KeyType>) {
@@ -167,60 +159,11 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
     });
   }
 
-  function renderTreeData(data: BaseTreeProps.TreeNode<RecordType>[] | undefined): BaseTreeProps.NodeProps[] {
-    if (data === undefined) return [];
-    return data.map((item) => {
-      const { label, value } = item;
-      // 标题渲染
-      const title = (
-        <div className={styles.treeTitleDiv} onContextMenu={(e) => handleContextMenu(e, item)}>
-          {renderTreeLabel ? renderTreeLabel(item) : <span>{label}</span>}
-          {/*<ContextMenuTrigger id={`context-menu-${value}`} holdToDisplay={-1}>*/}
-          {/*  {renderTreeLabel ? renderTreeLabel(item) : <span>{label}</span>}*/}
-          {/*</ContextMenuTrigger>*/}
-          {/*{showOprBtn && showBtn ? (*/}
-          {/*  <ContextMenu id={`context-menu-${value}`}>*/}
-          {/*    {showOprBtnAdd && (*/}
-          {/*      <MenuItem data={item} onClick={handleAddItem}>*/}
-          {/*        <PlusOutlined /> 新增*/}
-          {/*      </MenuItem>*/}
-          {/*    )}*/}
-          {/*    {showOprBtnEdit && (*/}
-          {/*      <MenuItem data={item} onClick={handleEditItem}>*/}
-          {/*        <EditOutlined /> 编辑*/}
-          {/*      </MenuItem>*/}
-          {/*    )}*/}
-          {/*    {extraContextMenus?.map((ms) => {*/}
-          {/*      const { key, title, onMenuClick } = ms;*/}
-          {/*      return (*/}
-          {/*        <MenuItem key={key} data={item} onClick={onMenuClick}>*/}
-          {/*          {title}*/}
-          {/*        </MenuItem>*/}
-          {/*      );*/}
-          {/*    })}*/}
-          {/*    <MenuItem data={item} onClick={confirmDelItem}>*/}
-          {/*      <span style={{ color: '#ff4d4f' }}>*/}
-          {/*        <DeleteOutlined /> 删除*/}
-          {/*      </span>*/}
-          {/*    </MenuItem>*/}
-          {/*  </ContextMenu>*/}
-          {/*) : null}*/}
-        </div>
-      );
-      // 子节点渲染
-      let children;
-      if (item.children && item.children[0]) {
-        children = renderTreeData(item.children);
-      }
-      return {
-        key: value,
-        title,
-        children,
-        name: label,
-        source: item.sourceData
-      };
-    });
+  const handleExtraItemClick = (e: ItemParams, extraMenu: BaseTreeProps.ExtraContextMenus) => {
+    const item = e.props as BaseTreeProps.TreeNode<RecordType>;
+    extraMenu.onMenuClick(e, item)
   }
+  // ------------------------------------------ context menu ------------------------------------------
 
   function fetchCourtTree() {
     setLoading(true);
@@ -231,8 +174,6 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
         }
         // const newTreeData = renderTreeData(treeArr);
         setTreeData(treeArr as any[]);
-        // Tree平铺List
-        setFlatDeptList(BaseTreeUtils.flatTreeList(treeArr));
         if (expandedKeys === undefined || expandedKeys.length === 0) {
           if (showRoot) {
             setExpandedKeys([0]);
@@ -337,10 +278,14 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
     handleChangePos(changeItems);
   }
 
-  const allKeys = useMemo(() => flatDeptList.map((i) => i.key), [flatDeptList])
+  function handleExpandAll() {
+    const flatTree = BaseTreeUtils.flatTree(treeData)
+    setExpandedKeys(flatTree.map((i) => i.key))
+  }
 
   return (
     <div className={className} style={{ width: '100%', height: '100%', backgroundColor: '#fff', display: 'flex', flexDirection: 'column', ...bodyStyle }}>
+      {/* top tools */}
       {showTopBtn && (
         <div style={{ padding: 12, display: 'flex', alignItems: 'center' }}>
           <div style={{ flex: 1 }}>
@@ -349,26 +294,22 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
             )}
           </div>
           <Space>
-            <a onClick={() => setExpandedKeys(allKeys)}>展开</a>
+            <a onClick={() => handleExpandAll()}>展开</a>
             <a onClick={() => setExpandedKeys([])}>收起</a>
           </Space>
         </div>
       )}
+
+      {/* main tree */}
       <div className={styles.treeDiv} style={{ flex: 1, overflowY: 'auto' }}>
         <div style={{ padding: '0 12px', ...treeStyle }}>
           <Spin spinning={loading}>
             <Tree
               blockNode
               showLine={{ showLeafIcon: false }}
-              // switcherIcon={<DownOutlined />}
               treeData={treeData as any[]}
               draggable={{ icon: false }}
-              // onDragEnter={this.onDragEnter}
               onDrop={onDrop}
-              // switcherIcon={<Icon type="down" />}
-              // defaultExpandParent
-              // defaultExpandAll
-              // loadData={this.onLoadData}
               expandedKeys={expandedKeys}
               onExpand={(eks) => setExpandedKeys(eks)}
               fieldNames={{ key: 'id', title: 'name' }}
@@ -383,6 +324,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
         </div>
       </div>
 
+      {/* context menu */}
       <Menu id={MENU_ID} className={styles.contextMenu}>
         {showOprBtnAdd && <Item id="add" onClick={handleItemClick} ><PlusOutlined /> 新增</Item>}
         {showOprBtnEdit && <Item id="edit" onClick={handleItemClick}><EditOutlined /> 编辑</Item>}

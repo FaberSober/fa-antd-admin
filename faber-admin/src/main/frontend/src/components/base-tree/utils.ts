@@ -18,6 +18,19 @@ export function parseNode<T = any>(nodeList: Fa.TreeNode<T, any>[] | undefined):
 }
 
 /** 平铺Tree型结构 */
+export function flatTree(tree: Fa.TreeNode[] = [], pid: string | number = 0): BaseTreeProps.FlatTreeNode[] {
+  const list: BaseTreeProps.FlatTreeNode[] = [];
+  tree.forEach((item, index) => {
+    const { children, id, name } = item;
+    if (children && children[0]) {
+      list.push(...flatTree(children, item.id));
+    }
+    list.push({ key: id, index, pid, name });
+  });
+  return list;
+}
+
+/** 平铺Tree型结构 */
 export function flatTreeList(tree: BaseTreeProps.NodeProps[] = [], pid: string | number = 0): BaseTreeProps.FlatTreeNode[] {
 	const list: BaseTreeProps.FlatTreeNode[] = [];
 	tree.forEach((item, index) => {

@@ -46,7 +46,7 @@ export default function tree() {
         <p>说明：1. 从接口获取数据；2. 远程数据返回Tree型数据；3. 支持拖动排序；</p>
 
         <BaseTree
-          showRoot
+          // showRoot
           showOprBtn
           onSelect={(keys) => console.log('onSelect', keys)}
           onAfterDelItem={() => setSel(undefined)}

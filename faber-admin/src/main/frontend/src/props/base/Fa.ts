@@ -187,7 +187,7 @@ namespace Fa {
 	/**
 	 * 通用返回的Tree节点
 	 */
-	export interface TreeNode<T = any, KeyType = string> {
+	export interface TreeNode<T = any, KeyType = any> {
 		id: KeyType;
 		parentId: KeyType;
 		name: string;
