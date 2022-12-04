@@ -12,8 +12,13 @@ namespace Fa {
   }
 
   export const ROOT_DEFAULT = {
-    value: Fa.Constant.TREE_SUPER_ROOT_ID,
-    label: Fa.Constant.TREE_SUPER_ROOT_LABEL,
+    id: Fa.Constant.TREE_SUPER_ROOT_ID,
+    name: Fa.Constant.TREE_SUPER_ROOT_LABEL,
+    parentId: -1,
+    sort: 0,
+    sourceData: undefined,
+    value: Fa.Constant.TREE_SUPER_ROOT_ID, // TODO remove this
+    label: Fa.Constant.TREE_SUPER_ROOT_LABEL, // TODO remove this
     isLeaf: false,
     hasChildren: true
   }

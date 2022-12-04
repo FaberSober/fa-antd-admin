@@ -19,7 +19,7 @@ export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderPro
   value?: any;
   onChange?: (v: KeyType|undefined, lastItem: T|undefined, vList: KeyType[], itemList: T[]) => void;
   onChangeWithItem?: (key: KeyType|undefined, data: T|undefined) => void;
-  rootId?: number;
+  rootId?: KeyType;
   rootName?: string;
   extraParams?: any; // 补充副作用参数，变更会触发cascader重新拉取api tree数据
 }
@@ -35,6 +35,7 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
   value,
   onChange,
   onChangeWithItem,
+  // @ts-ignore
   rootId = Fa.Constant.TREE_SUPER_ROOT_ID,
   rootName = Fa.Constant.TREE_SUPER_ROOT_LABEL,
   extraParams,
@@ -52,7 +53,13 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
   }, [extraParams]);
 
   function fetchTreeData() {
-    serviceApi.allTree({}).then((res) => setOptions(res.data));
+    serviceApi.allTree({}).then((res) => {
+      let treeArr = res.data
+      if (showRoot) {
+        treeArr = [{ ...Fa.ROOT_DEFAULT, id: rootId, name: rootName, children: res.data } as any];
+      }
+      setOptions(treeArr)
+    });
   }
 
   function setValuePath(v: any) {

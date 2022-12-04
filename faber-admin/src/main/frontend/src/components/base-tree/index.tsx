@@ -83,6 +83,20 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
   ...props
 }: IProps<RecordType, KeyType>) {
   const { renderCount } = useContext(BaseTreeContext)
+  // ------------------------------------------ context menu ------------------------------------------
+
+  const [loading, setLoading] = useState(false);
+  const [addItemModalVisible, setAddItemModalVisible] = useState(false);
+  const [editItemModalVisible, setEditItemModalVisible] = useState(false);
+  const [treeData, setTreeData] = useState<Fa.TreeNode<RecordType, KeyType>[]>([]);
+  const [flatDeptList, setFlatDeptList] = useState<BaseTreeProps.FlatTreeNode[]>([]);
+  const [clickItem, setClickItem] = useState<BaseTreeProps.TreeNode<RecordType, KeyType> | RecordType>();
+  const [expandedKeys, setExpandedKeys] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchCourtTree();
+  }, [renderCount, extraEffectArgs]);
+
 
   // ------------------------------------------ context menu ------------------------------------------
   const { show } = useContextMenu({
@@ -90,7 +104,6 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
   });
 
   function handleContextMenu(event: any, props: BaseTreeProps.TreeNode<RecordType>){
-    console.log('handleContextMenu', event, props)
     // 默认根节点无右键菜单
     if (props.value === Fa.Constant.TREE_SUPER_ROOT_ID) return;
     if (!showOprBtn) return;
@@ -118,19 +131,6 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
     const item = e.props as BaseTreeProps.TreeNode<RecordType>;
     extraMenu.onMenuClick(e, item)
   }
-  // ------------------------------------------ context menu ------------------------------------------
-
-  const [loading, setLoading] = useState(false);
-  const [addItemModalVisible, setAddItemModalVisible] = useState(false);
-  const [editItemModalVisible, setEditItemModalVisible] = useState(false);
-  const [treeData, setTreeData] = useState<BaseTreeProps.NodeProps[]>([]);
-  const [flatDeptList, setFlatDeptList] = useState<BaseTreeProps.FlatTreeNode[]>([]);
-  const [clickItem, setClickItem] = useState<BaseTreeProps.TreeNode<RecordType, KeyType> | RecordType>();
-  const [expandedKeys, setExpandedKeys] = useState<any[]>([]);
-
-  useEffect(() => {
-    fetchCourtTree();
-  }, [renderCount, extraEffectArgs]);
 
   function handleAddItem(item?: BaseTreeProps.TreeNode<RecordType, KeyType>) {
     setClickItem(item);
@@ -227,12 +227,12 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
     serviceApi.allTree().then((res) => {
         let treeArr = BaseTreeUtils.parseNode<RecordType>(res.data);
         if (showRoot) {
-          treeArr = [{ ...{ ...Fa.ROOT_DEFAULT, label: rootName }, children: treeArr }];
+          treeArr = [{ ...Fa.ROOT_DEFAULT, label: rootName, children: treeArr }];
         }
-        const newTreeData = renderTreeData(treeArr);
-        setTreeData(newTreeData);
+        // const newTreeData = renderTreeData(treeArr);
+        setTreeData(treeArr as any[]);
         // Tree平铺List
-        setFlatDeptList(BaseTreeUtils.flatTreeList(newTreeData));
+        setFlatDeptList(BaseTreeUtils.flatTreeList(treeArr));
         if (expandedKeys === undefined || expandedKeys.length === 0) {
           if (showRoot) {
             setExpandedKeys([0]);
@@ -361,7 +361,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
               blockNode
               showLine={{ showLeafIcon: false }}
               // switcherIcon={<DownOutlined />}
-              treeData={treeData}
+              treeData={treeData as any[]}
               draggable={{ icon: false }}
               // onDragEnter={this.onDragEnter}
               onDrop={onDrop}
@@ -371,6 +371,8 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
               // loadData={this.onLoadData}
               expandedKeys={expandedKeys}
               onExpand={(eks) => setExpandedKeys(eks)}
+              fieldNames={{ key: 'id', title: 'name' }}
+              titleRender={(item: any) => <div className={styles.treeTitleDiv} onContextMenu={e => handleContextMenu(e, item)}>{item.name}</div>}
               {...props}
             />
             {/* @ts-ignore */}
