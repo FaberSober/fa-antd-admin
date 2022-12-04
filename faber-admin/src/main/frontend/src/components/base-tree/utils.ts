@@ -1,4 +1,4 @@
-import {isNil, trim} from 'lodash';
+import {get, isNil, trim} from 'lodash';
 import Fa from '@/props/base/Fa';
 import BaseTreeProps from './interface';
 
@@ -30,17 +30,17 @@ export function flatTreeList(tree: BaseTreeProps.NodeProps[] = [], pid: string |
 	return list;
 }
 
-function findPathInner(options: any[] | undefined, destId: any): any {
+function findPathInner(options: any[] | undefined, destId: any, valueKey = 'value'): any {
 	if (isNil(options)) return undefined;
 	for (let i = 0; i < options.length; i += 1) {
 		const o = options[i];
 		// first check self is desc
-		if (trim(o.value) === trim(destId)) {
+		if (trim(get(o, valueKey)) === trim(destId)) {
 			return [o];
 		}
 		if (o.children && o.children[0]) {
 			// try find in children
-			const co = findPathInner(o.children, destId);
+			const co = findPathInner(o.children, destId, valueKey);
 			if (co) {
 				return [o, ...co];
 			}
@@ -49,6 +49,12 @@ function findPathInner(options: any[] | undefined, destId: any): any {
 	return undefined;
 }
 
-export function findPath(options: any[] | undefined, destId: any) {
-	return findPathInner(options, destId) || [];
+/**
+ * 从options中查找目标值的路径数组
+ * @param options
+ * @param destId
+ * @param valueKey
+ */
+export function findPath(options: any[] | undefined, destId: any, valueKey = 'value') {
+	return findPathInner(options, destId, valueKey) || [];
 }

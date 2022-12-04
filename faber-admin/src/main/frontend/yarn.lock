@@ -2600,20 +2600,12 @@ react-color@2.19.3:
     reactcss "^1.2.0"
     tinycolor2 "^1.4.1"
 
-react-contexify@^6.0.0:
+react-contexify@6.0.0:
   version "6.0.0"
   resolved "https://registry.npmmirror.com/react-contexify/-/react-contexify-6.0.0.tgz#52959bb507d6a31224fe870ae147e211e359abe1"
   integrity sha512-jMhz6yZI81Jv3UDj7TXqCkhdkCFEEmvwGCPXsQuA2ZUC8EbCuVQ6Cy8FzKMXa0y454XTDClBN2YFvvmoFlrFkg==
   dependencies:
     clsx "^1.2.1"
-
-react-contextmenu@2.14.0:
-  version "2.14.0"
-  resolved "https://registry.npmmirror.com/react-contextmenu/-/react-contextmenu-2.14.0.tgz#d8966f30614b9b780b928be4c8d92bd740d55cdd"
-  integrity sha512-ktqMOuad6sCFNJs/ltEwppN8F0YeXmqoZfwycgtZR/MxOXMYx1xgYC44SzWH259HdGyshk1/7sXGuIRwj9hzbw==
-  dependencies:
-    classnames "^2.2.5"
-    object-assign "^4.1.0"
 
 react-dom@18.2.0:
   version "18.2.0"

@@ -18,11 +18,10 @@ export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderPro
   };
   value?: any;
   onChange?: (v: KeyType|undefined, lastItem: T|undefined, vList: KeyType[], itemList: T[]) => void;
-  // TODO 整理此属性
   onChangeWithItem?: (key: KeyType|undefined, data: T|undefined) => void;
-  rootName?: string;
-  extraParams?: any;
   rootId?: number;
+  rootName?: string;
+  extraParams?: any; // 补充副作用参数，变更会触发cascader重新拉取api tree数据
 }
 
 /**
@@ -36,8 +35,8 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
   value,
   onChange,
   onChangeWithItem,
-  rootName = Fa.Constant.TREE_SUPER_ROOT_LABEL,
   rootId = Fa.Constant.TREE_SUPER_ROOT_ID,
+  rootName = Fa.Constant.TREE_SUPER_ROOT_LABEL,
   extraParams,
   ...props
 }: BaseCascaderProps<RecordType, KeyType>) {
@@ -58,25 +57,19 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
 
   function setValuePath(v: any) {
     if (isNil(v)) return;
-    // 递归查询
-    const path = BaseTreeUtils.findPath(options, value);
-    const values = path.map((d: any) => d.value);
+    const path = BaseTreeUtils.findPath(options, value, 'id');
+    const values = path.map((d: any) => d.id);
     setInnerValue(values);
   }
 
   function handleChange(newValue: any, selectedOptions: any[]) {
-    console.log(newValue, selectedOptions)
     setInnerValue(newValue);
     const lastValue = newValue[newValue.length - 1];
     const lastItem = selectedOptions[selectedOptions.length - 1];
     if (onChange) onChange(lastValue, lastItem, newValue, selectedOptions);
-    // 获取Item信息
-    if (onChangeWithItem) {
-      onChangeWithItem(lastValue, lastItem);
-    }
+    if (onChangeWithItem) onChangeWithItem(lastValue, lastItem);
   }
 
-  console.log(innerValue, options)
   return (
     <Cascader
       fieldNames={{ label: 'name', value: 'id' }}
