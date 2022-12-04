@@ -14,7 +14,7 @@ export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderPro
     /** [外部定义]获取所有Tree节点 */
     allTree: (params: any) => Promise<Fa.Ret<Fa.TreeNode<T, KeyType>[]>>;
     /** [外部定义]获取Tree节点详情 */
-    findOne: (id: KeyType) => Promise<Fa.Ret<T>>;
+    getById: (id: KeyType) => Promise<Fa.Ret<T>>;
   };
   value?: any;
   onChange?: (v: any) => void;
@@ -78,7 +78,7 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
     if (onChangeWithItem) {
       const key = newValue[newValue.length - 1];
       if (key !== undefined) {
-        serviceApi.findOne(key).then((res) => {
+        serviceApi.getById(key).then((res) => {
           if (res && res.status === RES_CODE.OK) {
             onChangeWithItem(key, res.data);
           }

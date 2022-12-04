@@ -105,7 +105,7 @@
 - [X] 表格高度固定
 - [X] 数据库tinyint是否类字段在ORM映射中统一修改为Bool类型
 - [X] 数据库del_state字段名称统一修改为deleted，
-- [ ] 使用dnd-kit替换现有的拖动排序
+- [X] 使用dnd-kit替换现有的拖动排序
 - [ ] 使用react-contexify替换现有的右键菜单
 
 # 更新日志
