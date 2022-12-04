@@ -23,6 +23,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -37,6 +38,12 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
      * 增强Tree数据查询，有的表可能会有一些自定义字段限制Tree结构的获取，子类可以覆盖重写此方法，来增加自定义字段的查询条件。
      */
     protected void enhanceTreeQuery(QueryWrapper<T> wrapper) {}
+
+    @Override
+    public boolean save(T entity) {
+        this.setNextSort(entity); // 设置entity的排序
+        return super.save(entity);
+    }
 
     /**
      * 给定选中的value，返回value向上查找的节点路径[1, 1-1, 1-1-1]
@@ -304,6 +311,7 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
             treeNode.setId(this.getEntityId(entity));
             treeNode.setParentId(this.getEntityParentId(entity));
             treeNode.setName(ObjectUtil.toString(this.getEntityName(entity)));
+            treeNode.setSort(this.getEntitySortId(entity));
             // 判断节点是否还有子节点
             treeNode.setHasChildren(this.countChildren(beanList, this.getEntityId(entity)) > 0);
             treeNode.setSourceData(entity);
@@ -352,11 +360,9 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
         wrapper.eq(getTreeParentIdFieldColumnName(), parentId);
         this.enhanceTreeQuery(wrapper);
         wrapper.orderByDesc(this.getSortedFieldColumnName());
-        List<T> list = super.page(new Page<>(1, 1), wrapper).getRecords();
-        if (list != null && list.size() > 0) {
-            return getEntitySortId(list.get(0));
-        }
-        return -1;
+        wrapper.select(String.format("IFNULL(max(%s), -1) as value", getSortedFieldColumnName()));
+        List<Map<String, Object>> result = baseMapper.selectMaps(wrapper);
+        return Integer.parseInt(result.get(0).get("value") + "");
     }
 
     /**

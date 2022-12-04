@@ -31,12 +31,6 @@ public class DepartmentBiz extends BaseTreeBiz<DepartmentMapper, Department> {
     private UserBiz userBiz;
 
     @Override
-    public boolean save(Department entity) {
-        super.setNextSort(entity); // 设置entity的排序
-        return super.save(entity);
-    }
-
-    @Override
     public boolean updateById(Department entity) {
         if (ObjectUtil.equal(entity.getParentId(), entity.getId())) {
             throw new BuzzException("父节点不能是自身");

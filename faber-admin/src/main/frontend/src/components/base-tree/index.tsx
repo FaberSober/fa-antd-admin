@@ -1,16 +1,16 @@
-import React, {createContext, CSSProperties, ReactNode, useContext, useEffect, useMemo, useState} from 'react';
+import React, {createContext, CSSProperties, ReactNode, useContext, useEffect, useState} from 'react';
 import {each, find, get} from 'lodash';
 import {Modal, Space, Spin, Tree} from 'antd';
 import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {RES_CODE} from '@/configs/server.config';
 import {showResponse} from '@/utils/utils';
 import BaseTreeProps from './interface';
-import * as BaseTreeUtils from './utils';
+import * as TreeUtils from './utils';
 import Fa from '@/props/base/Fa';
 import {TreeProps} from 'antd/es/tree';
 import {FaHref} from "@/components/decorator";
 import styles from './index.module.less';
-import {Menu, Item, useContextMenu, ItemParams} from "react-contexify";
+import {Item, ItemParams, Menu, useContextMenu} from "react-contexify";
 import 'react-contexify/ReactContexify.css';
 
 
@@ -168,7 +168,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
   function fetchCourtTree() {
     setLoading(true);
     serviceApi.allTree().then((res) => {
-        let treeArr = BaseTreeUtils.parseNode<RecordType>(res.data);
+        let treeArr = TreeUtils.parseNode<RecordType>(res.data);
         if (showRoot) {
           treeArr = [{ ...Fa.ROOT_DEFAULT, label: rootName, children: treeArr }];
         }
@@ -192,81 +192,25 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
     fetchCourtTree();
   }
 
-  function handleChangePos(list: any[]) {
-    serviceApi.changePos(list).then((res) => {
-      fetchCourtTree();
-    });
-  }
-
   function onDrop(info: any) {
     const dropKey = info.node.key;
     const dragKey = info.dragNode.key;
     const dropPos = info.node.pos.split('-');
     const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
+    // console.log(info, 'info.dropToGap', info.dropToGap, 'dropKey', dropKey, 'dragKey', dragKey, 'dropPos', dropPos, 'dropPosition', dropPosition)
 
-    // eslint-disable-next-line consistent-return
-    const loop = (dataList: any[], key: any, callback: (data: any, index: number, dataList: any[]) => void) => {
-      for (let i = 0; i < dataList.length; i += 1) {
-        if (dataList[i].key === key) {
-          return callback(dataList[i], i, dataList);
-        }
-        if (dataList[i].children) {
-          loop(dataList[i].children, key, callback);
-        }
-      }
-    };
-    const data = [...treeData];
-
-    // Find dragObject
-    let dragObj: any;
-    loop(data, dragKey, (item, index, arr) => {
-      arr.splice(index, 1);
-      dragObj = item;
-    });
-
-    if (!info.dropToGap) {
-      // Drop on the content
-      loop(data, dropKey, (item) => {
-        // eslint-disable-next-line no-param-reassign
-        item.children = item.children || [];
-        // where to insert 示例添加到头部，可以是随意位置
-        item.children.unshift(dragObj);
-      });
-    } else if (
-      (info.node.props.children || []).length > 0 && // Has children
-      info.node.props.expanded && // Is expanded
-      dropPosition === 1 // On the bottom gap
-    ) {
-      loop(data, dropKey, (item) => {
-        // eslint-disable-next-line no-param-reassign
-        item.children = item.children || [];
-        // where to insert 示例添加到头部，可以是随意位置
-        item.children.unshift(dragObj);
-      });
-    } else {
-      let ar;
-      let i;
-      loop(data, dropKey, (item, index, arr) => {
-        ar = arr;
-        i = index;
-      });
-      if (dropPosition === 0) {
-        // @ts-ignore
-        ar.splice(i, 0, dragObj);
-      } else {
-        // @ts-ignore
-        ar.splice(i + 1, 0, dragObj);
-      }
-    }
-
-    setTreeData(data);
+    // 生成新的排序tree
+    const newTree = TreeUtils.dropItem(treeData, dragKey, dropKey, dropPosition, info.dropToGap, info.node.props.expanded);
+    setTreeData(newTree);
 
     // 触发更新排序
-    const newFlatDeptList = BaseTreeUtils.flatTreeList(data);
+    const oldTreeFlat = TreeUtils.flatTree(treeData);
+    const newTreeFlat = TreeUtils.flatTree(newTree);
+
     // 筛选出sort、pid变更的节点
     const changeItems: any[] = [];
-    each(flatDeptList, (item) => {
-      const newItem = find(newFlatDeptList, (n) => n.key === item.key);
+    each(oldTreeFlat, (item) => {
+      const newItem = find(newTreeFlat, (n) => n.key === item.key);
       if (newItem === undefined) {
         return;
       }
@@ -274,12 +218,15 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
         changeItems.push(newItem);
       }
     });
-    // console.log('changeItems', changeItems);
-    handleChangePos(changeItems);
+
+    // api update
+    serviceApi.changePos(changeItems).then((res) => {
+      fetchCourtTree();
+    });
   }
 
   function handleExpandAll() {
-    const flatTree = BaseTreeUtils.flatTree(treeData)
+    const flatTree = TreeUtils.flatTree(treeData)
     setExpandedKeys(flatTree.map((i) => i.key))
   }
 

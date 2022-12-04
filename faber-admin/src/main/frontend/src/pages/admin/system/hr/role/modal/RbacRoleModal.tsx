@@ -65,7 +65,7 @@ export default function RbacRoleModal({ children, title, record, fetchFinish, ..
     form.setFieldsValue(getInitialValues())
   }
 
-  const loading = loadingEffect[modelService.getUrl('add')] || loadingEffect[modelService.getUrl('update')];
+  const loading = loadingEffect[modelService.getUrl('save')] || loadingEffect[modelService.getUrl('update')];
   return (
     <span>
       <span onClick={showModal}>{children}</span>

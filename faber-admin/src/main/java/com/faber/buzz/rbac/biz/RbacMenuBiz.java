@@ -19,8 +19,6 @@ public class RbacMenuBiz extends BaseTreeBiz<RbacMenuMapper, RbacMenu> {
 
     @Override
     public boolean save(RbacMenu entity) {
-        super.setNextSort(entity);
-
         long count = lambdaQuery().eq(RbacMenu::getLinkUrl, entity.getLinkUrl()).count();
         if (count > 0) throw new BuzzException("链接已存在，不可重复录入");
 

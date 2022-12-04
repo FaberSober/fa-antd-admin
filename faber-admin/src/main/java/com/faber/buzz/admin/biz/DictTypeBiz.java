@@ -26,8 +26,6 @@ public class DictTypeBiz extends BaseTreeBiz<DictTypeMapper, DictType> {
         long count = lambdaQuery().eq(DictType::getCode, entity.getCode()).count();
         if (count > 0) throw new BuzzException("字典分组编码重复");
 
-        super.setNextSort(entity); // 设置entity的排序
-
         return super.save(entity);
     }
 

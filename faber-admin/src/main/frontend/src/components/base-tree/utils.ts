@@ -1,4 +1,4 @@
-import {get, isNil, trim} from 'lodash';
+import {cloneDeep, get, isNil, trim} from 'lodash';
 import Fa from '@/props/base/Fa';
 import BaseTreeProps from './interface';
 
@@ -70,4 +70,75 @@ function findPathInner(options: any[] | undefined, destId: any, valueKey = 'valu
  */
 export function findPath(options: any[] | undefined, destId: any, valueKey = 'value') {
 	return findPathInner(options, destId, valueKey) || [];
+}
+
+/**
+ * 指定id，在tree中查找item，找到节点后回调
+ * @param tree
+ * @param id
+ * @param callback 找到节点后的回调
+ */
+export function findTreeItem(tree: Fa.TreeNode[], id: any, callback?: (data: Fa.TreeNode, index: number, dataList: Fa.TreeNode[]) => void): {
+  node: Fa.TreeNode,
+  index: number,
+  siblings: Fa.TreeNode[],
+}|undefined {
+  for (let i = 0; i < tree.length; i += 1) {
+    if (tree[i].id === id) {
+      if (callback) callback(tree[i], i, tree);
+      return { node: tree[i], index: i, siblings: tree }
+    }
+    if (tree[i].children) {
+      const result = findTreeItem(tree[i].children!, id, callback)
+      if (result) return result;
+    }
+  }
+}
+
+
+/**
+ * Tree节点拖动排序
+ * @param tree tree数据
+ * @param dragKey 拖动节点key
+ * @param dropKey 放置节点key
+ * @param dropPosition 放置位置：0上/1下
+ * @param dropToGap 是否放置到间隙位置
+ * @param dropNodeExpand 放置节点是否展开
+ */
+export function dropItem(tree: Fa.TreeNode[], dragKey: any, dropKey: any, dropPosition: number, dropToGap: boolean, dropNodeExpand: boolean):Fa.TreeNode[] {
+  const data = cloneDeep(tree);
+  const { node: dropNode } = findTreeItem(tree, dropKey)!;
+
+  // Find dragObject
+  const dragInfo = findTreeItem(data, dragKey)!;
+  dragInfo.siblings.splice(dragInfo.index, 1);
+  const dragObj = dragInfo.node;
+
+  const dropInfo = findTreeItem(data, dropKey)!;
+  if (!dropToGap) {
+    // Drop on the content放置到节点的展开子节点上，默认追加到队尾
+    dropInfo.node.children = dropInfo.node.children || [];
+    // where to insert 添加到头部
+    dropInfo.node.children.unshift(dragObj);
+    dragObj.parentId = dropInfo.node.id
+  } else if (
+    (dropNode.children || []).length > 0 && // Has children
+    dropNodeExpand && // Is expanded
+    dropPosition === 1 // On the bottom gap在放置节点的下间隙
+  ) {
+    dropInfo.node.children = dropInfo.node.children || [];
+    // where to insert 添加到头部
+    dropInfo.node.children.unshift(dragObj);
+    dragObj.parentId = dropInfo.node.id
+  } else {
+    dragObj.parentId = dropInfo.node.parentId
+    const { index: i, siblings: ar } = dropInfo;
+    if (dropPosition === -1) {
+      ar.splice(i, 0, dragObj);
+    } else {
+      ar.splice(i + 1, 0, dragObj);
+    }
+  }
+
+  return data;
 }
