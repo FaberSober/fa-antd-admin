@@ -12,7 +12,7 @@ export interface BaseSearchSelectProps<T, KeyType = number> extends SelectProps<
     /** [外部定义]获取所有Tree节点 */
     search: (searchValue: string) => Promise<Fa.Ret<Fa.Page<T>>>;
     /** [外部定义]获取Tree节点详情 */
-    findOne: (id: KeyType) => Promise<Fa.Ret<T>>;
+    getById: (id: KeyType) => Promise<Fa.Ret<T>>;
     /** [外部定义]获取Tree节点详情 */
     findList?: (ids: KeyType[]) => Promise<Fa.Ret<T[]>>;
   };
@@ -82,7 +82,7 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
         });
       }
     } else {
-      serviceApi?.findOne(outValue).then((res) => {
+      serviceApi?.getById(outValue).then((res) => {
         const newList = [{ label: parseLabel(res.data), value: parseValue(res.data) }];
         setArray(newList);
       });

@@ -1,8 +1,6 @@
 import React, {ReactNode, useContext, useEffect, useState} from 'react';
 import {find, sortBy} from 'lodash';
-import {MenuOutlined} from '@ant-design/icons';
 import {Button, Checkbox, Drawer, Input, Space} from 'antd';
-import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
 import {arrayMove, showResponse} from '@/utils/utils';
 import {RES_CODE} from '@/configs/server.config';
 import {ModalProps} from 'antd/es/modal';
@@ -11,9 +9,11 @@ import * as BaseTableUtils from '@/components/base-table/utils';
 import Admin from '@/props/admin';
 import configService from '@/services/admin/config';
 import {BaseBizTableContext} from "@/components/base-table/BaseBizTable";
-import './TableColConfigModal.less';
 import {FaFlexRestLayout} from "@/components/base-layout";
 import FaEnums from "@/props/base/FaEnums";
+import {FaSortList} from "@/components/base-drag";
+import styles from './TableColConfigModal.module.less';
+
 
 const colWidthCache: { [key: string]: number } = {};
 
@@ -146,37 +146,37 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
     colWidthCache[BaseTableUtils.dataIndexToString(item.dataIndex)] = value;
   }
 
-  const DragHandle = SortableHandle(() => (
-    <div style={{ cursor: 'move' }}>
-      <MenuOutlined />
-    </div>
-  ));
+  // const DragHandle = SortableHandle(() => (
+  //   <div style={{ cursor: 'move' }}>
+  //     <MenuOutlined />
+  //   </div>
+  // ));
 
-  interface SProp {
-    item: FaberTable.ColumnsProp<T>;
-  }
-  const SortableItem = SortableElement(({ item }: SProp) => (
-    <div className="itemContainer">
-      <Checkbox disabled={item.tcRequired} checked={item.tcRequired || item.tcChecked} onChange={(e) => handleItemCheck(item, e.target.checked)} />
-      <div style={{ flex: 1, paddingLeft: 8, fontSize: '14px' }} onClick={() => handleItemCheck(item, !item.tcChecked)}>
-        <span>{item.title}</span>
-      </div>
-      {item.tcRequired ? <span style={{ color: '#666', marginRight: 16 }}>（必选）</span> : null}
-      <div style={{ width: 100, marginRight: 8 }}>
-        <Input
-          // addonBefore="宽度"
-          // addonAfter="px"
-          size="small"
-          defaultValue={item.width}
-          placeholder="auto"
-          onChange={(e) => handleWidthChange(Number(e.target.value), item)}
-        />
-      </div>
-      <DragHandle />
-    </div>
-  ));
-
-  const MySortableContainer = SortableContainer((props: { children: ReactNode }) => <div>{props.children}</div>);
+  // interface SProp {
+  //   item: FaberTable.ColumnsProp<T>;
+  // }
+  // const SortableItem = SortableElement(({ item }: SProp) => (
+  //   <div className="itemContainer">
+  //     <Checkbox disabled={item.tcRequired} checked={item.tcRequired || item.tcChecked} onChange={(e) => handleItemCheck(item, e.target.checked)} />
+  //     <div style={{ flex: 1, paddingLeft: 8, fontSize: '14px' }} onClick={() => handleItemCheck(item, !item.tcChecked)}>
+  //       <span>{item.title}</span>
+  //     </div>
+  //     {item.tcRequired ? <span style={{ color: '#666', marginRight: 16 }}>（必选）</span> : null}
+  //     <div style={{ width: 100, marginRight: 8 }}>
+  //       <Input
+  //         // addonBefore="宽度"
+  //         // addonAfter="px"
+  //         size="small"
+  //         defaultValue={item.width}
+  //         placeholder="auto"
+  //         onChange={(e) => handleWidthChange(Number(e.target.value), item)}
+  //       />
+  //     </div>
+  //     <DragHandle />
+  //   </div>
+  // ));
+  //
+  // const MySortableContainer = SortableContainer((props: { children: ReactNode }) => <div>{props.children}</div>);
 
   return (
     <span>
@@ -194,16 +194,45 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
         <div style={{ height: '100%', position: 'relative' }}>
           <div className="fa-full-content-no-padding fa-flex-column">
             <div className="fa-flex-row-center" style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
-              <div className="tableColTheadItem" style={{ flex: 1, borderRight: '1px solid #ccc' }}>字段</div>
-              <div className="tableColTheadItem" style={{ width: 100 }}>宽度(px)</div>
-              <div className="tableColTheadItem" style={{ width: 31 }}></div>
+              <div className={styles.tableColTheadItem} style={{ flex: 1, borderRight: '1px solid #ccc' }}>字段</div>
+              <div className={styles.tableColTheadItem} style={{ width: 100 }}>宽度(px)</div>
+              <div className={styles.tableColTheadItem} style={{ width: 31 }} />
             </div>
             <FaFlexRestLayout>
-              <MySortableContainer onSortEnd={onSortEnd} useDragHandle>
-                {items.map((value, index) => (
-                  <SortableItem key={`item-${value.dataIndex}`} index={index} item={value} />
-                ))}
-              </MySortableContainer>
+              <FaSortList
+                list={items}
+                rowKey="dataIndex"
+                renderItem={(item) => (
+                  <div className={styles.itemContainer}>
+                    <Checkbox disabled={item.tcRequired} checked={item.tcRequired || item.tcChecked} onChange={(e) => handleItemCheck(item, e.target.checked)} />
+                    <div style={{ flex: 1, paddingLeft: 8, fontSize: '14px' }} onClick={() => handleItemCheck(item, !item.tcChecked)}>
+                      <span>{item.title}</span>
+                    </div>
+                    {item.tcRequired ? <span style={{ color: '#666', marginRight: 16 }}>（必选）</span> : null}
+                    <div style={{ width: 100, marginRight: 8 }}>
+                      <Input
+                        // addonBefore="宽度"
+                        // addonAfter="px"
+                        size="small"
+                        defaultValue={item.width}
+                        placeholder="auto"
+                        onChange={(e) => handleWidthChange(Number(e.target.value), item)}
+                      />
+                    </div>
+                  </div>
+                )}
+                itemStyle={{borderBottom: '1px solid #ccc'}}
+                onSortEnd={(l) => setItems(l)}
+                vertical
+                handle
+              />
+
+
+              {/*<MySortableContainer onSortEnd={onSortEnd} useDragHandle>*/}
+              {/*  {items.map((value, index) => (*/}
+              {/*    <SortableItem key={`item-${value.dataIndex}`} index={index} item={value} />*/}
+              {/*  ))}*/}
+              {/*</MySortableContainer>*/}
             </FaFlexRestLayout>
 
             <Space style={{ marginTop: 12 }}>

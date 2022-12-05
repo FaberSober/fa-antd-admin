@@ -45,10 +45,8 @@ export default function AreaCascader({ showRoot, leafLevel = 4, leafPath, value,
       const areaCode = leafPath ? getLastValue(value) : value;
       if (!isNil(areaCode)) {
         areaService.findOnePath(areaCode).then((res) => {
-          if (res && res.status === RES_CODE.OK) {
-            const values = res.data.list.map((d) => d.areaCode);
-            setInnerValue(showRoot ? [CHINA_AD_CODE, ...values] : values);
-          }
+          const values = res.data.list.map((d) => d.areaCode);
+          setInnerValue(showRoot ? [CHINA_AD_CODE, ...values] : values);
         });
       }
     }
@@ -119,31 +117,22 @@ export default function AreaCascader({ showRoot, leafLevel = 4, leafPath, value,
     });
   }
 
-  function handleChange(areaCodeList: number[]) {
+  function handleChange(areaCodeList: number[], areaList: Admin.Area[]) {
     setInnerValue(areaCodeList);
     // 需要返回路径
     if (leafPath) {
-      if (onChange) onChange(areaCodeList);
+      if (onChange) onChange(areaCodeList, areaList);
       return;
     }
 
     if (areaCodeList && areaCodeList[0]) {
-      if (onChange) onChange(areaCodeList[areaCodeList.length - 1]);
-      if (onChangeWithItem) {
-        const key = areaCodeList[areaCodeList.length - 1];
-        areaService.findByAreaCode(key).then((res) => {
-          if (res && res.status === RES_CODE.OK) {
-            onChangeWithItem(key, res.data);
-          }
-        });
-      }
+      const lastValue = areaCodeList[areaCodeList.length - 1]
+      const lastItem = areaList[areaList.length - 1]
+      if (onChange) onChange(lastValue, lastItem);
+      if (onChangeWithItem) onChangeWithItem(lastValue, lastItem);
     } else {
-      if (onChange) {
-        onChange(undefined);
-      }
-      if (onChangeWithItem) {
-        onChangeWithItem(undefined, undefined);
-      }
+      if (onChange) onChange(undefined, undefined);
+      if (onChangeWithItem) onChangeWithItem(undefined, undefined);
     }
   }
 

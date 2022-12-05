@@ -7,21 +7,21 @@ import * as BaseTreeUtils from '@/components/base-tree/utils';
 import BaseTreeProps from '../base-tree/interface';
 import {RES_CODE} from '@/configs/server.config';
 
-export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderProps<T>, 'options'> {
+export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderProps<T>, 'options'|'onChange'> {
   showRoot?: boolean;
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
     /** [外部定义]获取所有Tree节点 */
     allTree: (params: any) => Promise<Fa.Ret<Fa.TreeNode<T, KeyType>[]>>;
     /** [外部定义]获取Tree节点详情 */
-    findOne: (id: KeyType) => Promise<Fa.Ret<T>>;
+    getById: (id: KeyType) => Promise<Fa.Ret<T>>;
   };
   value?: any;
-  onChange?: (v: any) => void;
+  onChange?: (v: KeyType|undefined, lastItem: T|undefined, vList: KeyType[], itemList: T[]) => void;
   onChangeWithItem?: (key: KeyType|undefined, data: T|undefined) => void;
+  rootId?: KeyType;
   rootName?: string;
-  extraParams?: any;
-  rootId?: number;
+  extraParams?: any; // 补充副作用参数，变更会触发cascader重新拉取api tree数据
 }
 
 /**
@@ -35,13 +35,14 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
   value,
   onChange,
   onChangeWithItem,
-  rootName = Fa.Constant.TREE_SUPER_ROOT_LABEL,
+  // @ts-ignore
   rootId = Fa.Constant.TREE_SUPER_ROOT_ID,
+  rootName = Fa.Constant.TREE_SUPER_ROOT_LABEL,
   extraParams,
   ...props
 }: BaseCascaderProps<RecordType, KeyType>) {
   const [innerValue, setInnerValue] = useState<any[]>([]);
-  const [options, setOptions] = useState<BaseTreeProps.TreeNode[] | undefined>([]);
+  const [options, setOptions] = useState<Fa.TreeNode<RecordType, KeyType>[] | undefined>([]);
 
   useEffect(() => {
     setValuePath(value);
@@ -53,41 +54,38 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
 
   function fetchTreeData() {
     serviceApi.allTree({}).then((res) => {
-      if (res && res.status === RES_CODE.OK) {
-        let treeArr = BaseTreeUtils.parseNode(res.data);
-        if (showRoot) {
-          treeArr = [{ ...Fa.ROOT_DEFAULT, value: rootId, label: rootName, children: treeArr }];
-        }
-        setOptions(treeArr);
+      let treeArr = res.data
+      if (showRoot) {
+        treeArr = [{ ...Fa.ROOT_DEFAULT, id: rootId, name: rootName, children: res.data } as any];
       }
+      setOptions(treeArr)
     });
   }
 
   function setValuePath(v: any) {
     if (isNil(v)) return;
-    // 递归查询
-    const path = BaseTreeUtils.findPath(options, value);
-    const values = path.map((d: any) => d.value);
+    const path = BaseTreeUtils.findPath(options, value, 'id');
+    const values = path.map((d: any) => d.id);
     setInnerValue(values);
   }
 
-  function handleChange(newValue: any) {
+  function handleChange(newValue: any, selectedOptions: any[]) {
     setInnerValue(newValue);
-    if (onChange) onChange(newValue[newValue.length - 1]);
-    // 获取Item信息
-    if (onChangeWithItem) {
-      const key = newValue[newValue.length - 1];
-      if (key !== undefined) {
-        serviceApi.findOne(key).then((res) => {
-          if (res && res.status === RES_CODE.OK) {
-            onChangeWithItem(key, res.data);
-          }
-        });
-      } else {
-        onChangeWithItem(undefined, undefined);
-      }
-    }
+    const lastValue = newValue[newValue.length - 1];
+    const lastItem = selectedOptions[selectedOptions.length - 1];
+    if (onChange) onChange(lastValue, lastItem, newValue, selectedOptions);
+    if (onChangeWithItem) onChangeWithItem(lastValue, lastItem);
   }
 
-  return <Cascader placeholder="请选择" {...props} value={innerValue} options={options} onChange={handleChange} changeOnSelect />;
+  return (
+    <Cascader
+      fieldNames={{ label: 'name', value: 'id' }}
+      placeholder="请选择"
+      {...props}
+      value={innerValue}
+      options={options}
+      onChange={handleChange}
+      changeOnSelect
+    />
+  );
 }

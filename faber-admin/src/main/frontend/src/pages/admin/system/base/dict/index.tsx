@@ -57,7 +57,7 @@ export default function DictManage() {
           extraContextMenus={[
             {
               key: 'add-dict',
-              menuTitle: (
+              title: (
                 <>
                   <PlusOutlined /> 新增字典值
                 </>

@@ -1,3 +1,5 @@
+import {ReactNode} from "react";
+
 namespace BaseTreeProps {
 	/**
 	 * 运用于BaseTree的node节点
@@ -23,8 +25,8 @@ namespace BaseTreeProps {
 
 	export interface ExtraContextMenus {
 		key: string;
-		menuTitle: string | JSX.Element;
-		// TODO 优化e、item的TS类型
+		icon?: ReactNode;
+		title: string | ReactNode;
 		onMenuClick: (e: any, item: any) => void;
 	}
 

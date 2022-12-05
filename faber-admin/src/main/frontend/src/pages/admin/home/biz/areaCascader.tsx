@@ -24,8 +24,10 @@ export default function areaCascader() {
         <AreaCascader
           style={{ minWidth: 200, width: 'auto' }}
           value={value1}
-          onChange={(v) => setValue1(v)}
-          onChangeWithItem={(key, item) => setValue1Area(item)}
+          onChange={(v, item) => {
+            setValue1(v)
+            setValue1Area(item)
+          }}
         />
       </Card>
 

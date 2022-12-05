@@ -2,6 +2,7 @@ package com.faber.buzz.rbac.rest;
 
 import com.faber.buzz.rbac.entity.RbacUserRole;
 import com.faber.buzz.rbac.vo.query.RbacUserRoleQueryVo;
+import com.faber.core.annotation.LogNoRet;
 import com.faber.core.vo.msg.Ret;
 import com.faber.core.vo.msg.TableRet;
 import com.faber.core.web.rest.BaseController;
@@ -64,6 +65,7 @@ public class RbacUserRoleController extends BaseController<RbacUserRoleBiz, Rbac
      */
     @RequestMapping(value = "/getMyMenusTree", method = RequestMethod.GET)
     @ResponseBody
+    @LogNoRet
     public Ret<List<TreeNode<RbacMenu>>> getMyMenusTree() {
         List<TreeNode<RbacMenu>> o = baseBiz.getUserMenusTree(getCurrentUserId());
         return ok(o);
@@ -74,6 +76,7 @@ public class RbacUserRoleController extends BaseController<RbacUserRoleBiz, Rbac
      */
     @RequestMapping(value = "/pageVo", method = RequestMethod.POST)
     @ResponseBody
+    @LogNoRet
     public TableRet<RbacUserRoleRetVo> pageVo(@RequestBody RbacUserRoleQueryVo query) {
         return baseBiz.pageVo(query);
     }

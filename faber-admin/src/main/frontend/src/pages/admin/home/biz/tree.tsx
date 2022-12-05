@@ -56,13 +56,10 @@ export default function tree() {
           serviceApi={treeApi}
           extraContextMenus={[
             {
-              key: 'add-dict',
-              menuTitle: (
-                <>
-                  <PlusOutlined /> 补充菜单1
-                </>
-              ),
-              onMenuClick: () => { message.info('补充菜单1') },
+              key: 'extra-menu1',
+              icon: <PlusOutlined />,
+              title: '补充菜单1',
+              onMenuClick: (e, item) => { message.info('点击补充菜单1' + JSON.stringify(item)) },
             },
           ]}
           bodyStyle={{ width: 400, height: 300 }}

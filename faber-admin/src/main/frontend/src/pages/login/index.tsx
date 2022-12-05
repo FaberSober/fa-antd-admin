@@ -17,7 +17,7 @@ import WAVES from 'vanta/dist/vanta.waves.min'
 
 
 export default function Login() {
-  const vantaRef = useRef()
+  const vantaRef = useRef<any>()
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ export default function Login() {
     return Promise.resolve();
   }
 
-  const loading = loadingEffect['/api/auth/jwt/token']
+  const loading = loadingEffect['/api/auth/login']
   return (
     <div ref={vantaRef} className={styles['main-container']}>
       <div className={styles.bannerDiv}>

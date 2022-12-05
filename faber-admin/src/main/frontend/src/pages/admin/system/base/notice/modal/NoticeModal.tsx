@@ -57,7 +57,7 @@ export default function NoticeModal({ children, title, record, fetchFinish, ...p
     }
   }
 
-  const loading = loadingEffect[modelService.getUrl('add')] || loadingEffect[modelService.getUrl('update')]
+  const loading = loadingEffect[modelService.getUrl('save')] || loadingEffect[modelService.getUrl('update')]
   return (
     <span>
       <span onClick={() => setModalVisible(true)}>{children}</span>

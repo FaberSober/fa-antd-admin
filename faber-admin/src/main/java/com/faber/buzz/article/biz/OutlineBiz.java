@@ -29,12 +29,6 @@ public class OutlineBiz extends BaseTreeBiz<OutlineMapper, Outline> {
     private DetailBiz detailBiz;
 
     @Override
-    public boolean save(Outline entity) {
-        super.setNextSort(entity); // 设置entity的排序
-        return super.save(entity);
-    }
-
-    @Override
     public boolean updateById(Outline entity) {
         if (entity.getParentId() == entity.getId().intValue()) {
             throw new BuzzException("父节点不能是自身");

@@ -73,7 +73,7 @@ export default function TreeModal({ children, parentId, title, record, ...props 
     form.setFieldsValue(getInitialValues())
   }, [props.open])
 
-  const loading = loadingEffect[modelService.getUrl('add')] || loadingEffect[modelService.getUrl('update')];
+  const loading = loadingEffect[modelService.getUrl('save')] || loadingEffect[modelService.getUrl('update')];
   return (
     <span>
       <span onClick={showModal}>{children}</span>
@@ -88,7 +88,7 @@ export default function TreeModal({ children, parentId, title, record, ...props 
       >
         <Form form={form} onFinish={onFinish}>
           <Form.Item name="parentId" label="上级节点" rules={[{ required: true }]} {...formItemFullLayout}>
-            <TreeCascade />
+            <TreeCascade showRoot />
           </Form.Item>
           <Form.Item name="name" label="名称" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input />

@@ -57,7 +57,7 @@ export default function UserDepartmentManage() {
           extraContextMenus={[
             {
               key: 'add-dict',
-              menuTitle: (
+              title: (
                 <div>
                   <PlusOutlined /> 新增账户
                 </div>
