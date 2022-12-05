@@ -2,10 +2,10 @@ import React, {useContext, useState} from 'react';
 import {get} from 'lodash';
 import {Form, Input} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
-import {showResponse, formItemFullLayout} from '@/utils/utils';
+import {formItemFullLayout, showResponse} from '@/utils/utils';
 import modelService from '@/services/admin/notice';
 import Admin from '@/props/admin';
-import {BaseBoolIntRadio} from '@/components/base-dict';
+import {BaseBoolRadio} from '@/components/base-dict';
 import {UploadImgLocal} from "@/components/base-uploader";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 
@@ -89,13 +89,13 @@ export default function NoticeModal({ children, title, record, fetchFinish, ...p
             <Input.TextArea maxLength={255} />
           </Form.Item>
           <Form.Item name="url" label="图片" {...formItemFullLayout}>
-            <UploadImgLocal prefix="notice/img" />
+            <UploadImgLocal />
           </Form.Item>
           <Form.Item name="status" label="是否有效" rules={[{ required: true }]} {...formItemFullLayout}>
-            <BaseBoolIntRadio />
+            <BaseBoolRadio />
           </Form.Item>
           <Form.Item name="strongNotice" label="是否强提醒" rules={[{ required: true }]} {...formItemFullLayout}>
-            <BaseBoolIntRadio />
+            <BaseBoolRadio />
           </Form.Item>
         </Form>
       </DragModal>
