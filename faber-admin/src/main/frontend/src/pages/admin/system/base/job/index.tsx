@@ -8,7 +8,7 @@ import {
   SearchOutlined,
   ThunderboltOutlined
 } from '@ant-design/icons';
-import {Badge, Button, Card, Form, Input, Popconfirm, Space} from 'antd';
+import {Badge, Button, Form, Input, Popconfirm, Space} from 'antd';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import {showResponse} from '@/utils/utils';
 import modelService from '@/services/admin/job';
@@ -16,8 +16,8 @@ import Admin from '@/props/admin';
 import JobModal from './modal/JobModal';
 import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
 import JobLogDrawer from "./jobLog/JobLogDrawer";
-import {FaHref} from "@/components/decorator";
-import FaEnums from "@/props/base/FaEnums";
+import {AuthDelBtn, FaHref} from "@/components/decorator";
+
 
 const serviceName = '系统定时任务';
 const buzzModal = 'base_job';
@@ -95,7 +95,7 @@ export default function JobList() {
                 <FaHref icon={<EditOutlined />} text="编辑" />
               </JobModal>
             )}
-            <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />
+            <AuthDelBtn handleDelete={() => handleDelete(record.id)} />
           </Space>
         ),
         width: 220,

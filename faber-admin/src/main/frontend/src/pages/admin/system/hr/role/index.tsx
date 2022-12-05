@@ -13,7 +13,7 @@ import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHo
 import modelService from '@/services/rbac/rbacRole';
 import Rbac from '@/props/rbac';
 import RbacRoleModal from './modal/RbacRoleModal';
-import {FaHref} from "@/components/decorator";
+import {AuthDelBtn, FaHref} from "@/components/decorator";
 import RbacRoleMenuDrawer from "./modal/RbacRoleMenuDrawer";
 import RbacRoleUserDrawer from "./modal/RbacRoleUserDrawer";
 
@@ -30,7 +30,7 @@ export default function RbacRoleList() {
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams)
 
   /** 生成表格字段List */
-  function genColumns():FaberTable.ColumnsProp<Rbac.RbacRole>[] {
+  function genColumns() {
     const { sorter } = queryParams;
     return [
       BaseTableUtils.genSimpleSorterColumn('角色名称', 'name', 200, sorter),
@@ -52,7 +52,7 @@ export default function RbacRoleList() {
             <RbacRoleUserDrawer record={record}>
               <FaHref icon={<UsergroupAddOutlined />} text="用户" />
             </RbacRoleUserDrawer>
-            <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />
+            <AuthDelBtn handleDelete={() => handleDelete(record.id)} />
           </Space>
         ),
         width: 220,
@@ -60,7 +60,7 @@ export default function RbacRoleList() {
         tcRequired: true,
         tcType: 'menu',
       },
-    ];
+    ] as FaberTable.ColumnsProp<Rbac.RbacRole>[];
   }
 
   return (

@@ -5,6 +5,7 @@ import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table'
 import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
 import modelService from '@/services/admin/jobLog';
 import Admin from '@/props/admin';
+import {AuthDelBtn} from "@/components/decorator";
 
 const serviceName = '系统定时任务-执行日志';
 const buzzModal = 'base_job_log';
@@ -28,7 +29,7 @@ export default function JobLogList({ jobId }: JobLogListProps) {
   }, [jobId])
 
   /** 生成表格字段List */
-  function genColumns():FaberTable.ColumnsProp<Admin.JobLog>[] {
+  function genColumns() {
     const { sorter } = queryParams;
     return [
       BaseTableUtils.genIdColumn('ID', 'id', 70, sorter),
@@ -45,7 +46,7 @@ export default function JobLogList({ jobId }: JobLogListProps) {
         dataIndex: 'opr',
         render: (_, record) => (
           <Space>
-            <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />
+            <AuthDelBtn handleDelete={() => handleDelete(record.id)} />
           </Space>
         ),
         width: 80,
@@ -53,7 +54,7 @@ export default function JobLogList({ jobId }: JobLogListProps) {
         tcRequired: true,
         tcType: 'menu',
       },
-    ];
+    ] as FaberTable.ColumnsProp<Admin.JobLog>[];
   }
 
   return (

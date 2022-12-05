@@ -47,7 +47,7 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saveAsScene, setSaveAsScene] = useState(false);
-  const [defaultScene] = useState(false); // 是否设置为默认场景
+  const [defaultScene, setDefaultScene] = useState(false); // 是否设置为默认场景
   const [sceneName, setSceneName] = useState<string>();
 
   /** 处理-增加item */
@@ -139,6 +139,7 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
     setCondGroupList(condGroupList.filter(c => c.id !== condGroup.id))
   }
 
+  const inEdit = record !== undefined;
   return (
     <span>
       <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -174,24 +175,26 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
               <PlusOutlined /> 添加条件分组
             </a>
           </div>
-          <Alert type="info" description="1. IN查询用英文逗号(,)进行分隔查询；" style={{ marginTop: 8 }} />
+          {/*<Alert type="info" description="1. IN查询用英文逗号(,)进行分隔查询；" style={{ marginTop: 8 }} />*/}
 
           {/* 保存为场景 */}
           <div style={{ display: 'flex', alignItems: 'center', height: 40, marginTop: 12 }}>
-            <Checkbox disabled={record !== undefined} checked={saveAsScene} onChange={(e) => setSaveAsScene(e.target.checked)}>
-              保存为场景
-            </Checkbox>
-          {saveAsScene ? (
-            <Input value={sceneName} onChange={(e) => setSceneName(e.target.value)} style={{ width: 200 }} placeholder="请输入场景名称" maxLength={30} />
-          ) : null}
+            {!inEdit && (
+              <Checkbox disabled={record !== undefined} checked={saveAsScene} onChange={(e) => setSaveAsScene(e.target.checked)}>
+                保存为场景
+              </Checkbox>
+            )}
+            {(saveAsScene || inEdit) ? (
+              <Input value={sceneName} onChange={(e) => setSceneName(e.target.value)} style={{ width: 200 }} placeholder="请输入场景名称" maxLength={30} />
+            ) : null}
           </div>
-          {/* {saveAsScene ? (
+          {(saveAsScene || inEdit) ? (
             <div style={{ marginTop: 12 }}>
-              <Checkbox checked={defaultScene} onChange={(e) => this.setState({ defaultScene: e.target.checked })}>
+              <Checkbox checked={defaultScene} onChange={e => setDefaultScene(e.target.checked)}>
                 设置为默认
               </Checkbox>
             </div>
-          ) : null} */}
+          ) : null}
         </div>
       </DragModal>
     </span>

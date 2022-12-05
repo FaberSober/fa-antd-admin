@@ -74,14 +74,14 @@ export default function RbacMenuTreeList() {
     { title: '链接', dataIndex: ['sourceData', 'linkUrl'] },
     {
       title: '操作',
-      render: (text: string, record: Fa.TreeNode<Rbac.RbacMenu>) => (
+      render: (_, record) => (
         <Space>
           <FaHref onClick={() => moveUp(record.id)} icon={<ArrowUpOutlined />} />
           <FaHref onClick={() => moveDown(record.id)} icon={<ArrowDownOutlined />} />
           <RbacMenuModal title="编辑菜单" record={record.sourceData} fetchFinish={refreshData}>
             <FaHref icon={<EditOutlined />} text="编辑" />
           </RbacMenuModal>
-          <AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />
+          <AuthDelBtn handleDelete={() => handleDelete(record.id)} />
         </Space>
       ),
       width: 180,

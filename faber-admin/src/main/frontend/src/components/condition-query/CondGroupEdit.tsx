@@ -1,7 +1,7 @@
 import React from 'react';
 import ConditionQuery from "@/components/condition-query/interface";
 import {Button, Input, Radio, Select, Space} from "antd";
-import {find, remove} from "lodash";
+import {each, find, remove} from "lodash";
 import {CloseCircleFilled, DeleteOutlined, PlusOutlined} from "@ant-design/icons";
 import {BaseTableUtils, FaberTable} from '@/components/base-table';
 import {v1 as uuidv1} from "uuid";
@@ -106,6 +106,11 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
     }
   }
 
+  const options = [];
+  each(ConditionQuery.OPR_MAP, (v, k) => {
+    options.push({ value: k, label: v })
+  })
+
   return (
     <div style={{ borderBottom: '1px dashed #ccc', marginBottom: 12 }}>
       <Radio.Group
@@ -141,20 +146,7 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
                   ))}
               </Select>
               {/* 筛选操作符 */}
-              <Select style={{ width: 100, marginRight: 12 }} value={opr} onChange={(v) => handleChangeOpt(v, index)}>
-                <Select.Option value={ConditionQuery.CondOpr.equal}>等于</Select.Option>
-                <Select.Option value={ConditionQuery.CondOpr.not_equal}>不等于</Select.Option>
-                <Select.Option value={ConditionQuery.CondOpr.greater}>大于</Select.Option>
-                <Select.Option value={ConditionQuery.CondOpr.greater_equal}>大于等于</Select.Option>
-                <Select.Option value={ConditionQuery.CondOpr.less}>小于</Select.Option>
-                <Select.Option value={ConditionQuery.CondOpr.less_equal}>小于等于</Select.Option>
-                <Select.Option value={ConditionQuery.CondOpr.in}>IN</Select.Option>
-                <Select.Option value={ConditionQuery.CondOpr.contain}>包含</Select.Option>
-                <Select.Option value={ConditionQuery.CondOpr.not_contain}>不包含</Select.Option>
-                <Select.Option value={ConditionQuery.CondOpr.start_contain}>开始于</Select.Option>
-                <Select.Option value={ConditionQuery.CondOpr.end_contain}>结束于</Select.Option>
-                <Select.Option value={ConditionQuery.CondOpr.between}>{ConditionQuery.OPR_MAP.between}</Select.Option>
-              </Select>
+              <Select options={options} style={{ width: 100, marginRight: 12 }} value={opr} onChange={(v) => handleChangeOpt(v, index)} />
               {/* 筛选值 */}
               {/* 单值输入 */}
               {opr !== ConditionQuery.CondOpr.between ? (

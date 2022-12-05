@@ -1,7 +1,7 @@
 import React from 'react';
 import { DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Space } from 'antd';
-import {FaHref} from "@/components/decorator";
+import {AuthDelBtn, FaHref} from "@/components/decorator";
 import { ShiroPermissionContainer } from '@/components/auth';
 import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import { useExport, useTableQueryParams, clearForm, useDelete } from "@/utils/myHooks";
@@ -44,7 +44,7 @@ export default function StudentList() {
                 <FaHref icon={<EditOutlined />} text="编辑" />
               </StudentModal>
             </ShiroPermissionContainer>
-            <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />
+            <AuthDelBtn handleDelete={() => handleDelete(record.id)} />
           </Space>
         ),
         width: 120,

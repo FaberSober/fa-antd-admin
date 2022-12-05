@@ -6,7 +6,7 @@ import Admin from '@/props/admin';
 import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import {isUrlImg, previewImage} from "@/utils/utils";
-import {FaHref} from "@/components/decorator";
+import {AuthDelBtn, FaHref} from "@/components/decorator";
 import DictModal from '../modal/DictModal';
 
 
@@ -72,12 +72,12 @@ function DictList({ type }: IProps, ref: any) {
       {
         title: '操作',
         dataIndex: 'opr',
-        render: (text: string, record: Admin.Dict) => (
+        render: (_, record) => (
           <Space>
             <DictModal title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList}>
               <FaHref icon={<EditOutlined />} text="编辑" />
             </DictModal>
-            <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />
+            <AuthDelBtn handleDelete={() => handleDelete(record.id)} />
           </Space>
         ),
         width: 120,

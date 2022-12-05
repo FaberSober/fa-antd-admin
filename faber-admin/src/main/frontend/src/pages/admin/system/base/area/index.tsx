@@ -1,12 +1,12 @@
 import React from 'react';
 import {DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
-import {Button, Card, Form, Input, Space} from 'antd';
+import {Button, Form, Input, Space} from 'antd';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import modelService from '@/services/admin/area';
 import Admin from '@/props/admin';
 import AreaModal from './modal/AreaModal';
 import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
-import {FaHref} from "@/components/decorator";
+import {AuthDelBtn, FaHref} from "@/components/decorator";
 
 const serviceName = '中国行政地区表';
 const buzzModal = 'base_area';
@@ -21,7 +21,7 @@ export default function AreaList() {
   const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName);
 
   /** 生成表格字段List */
-  function genColumns(): FaberTable.ColumnsProp<Admin.Area>[] {
+  function genColumns() {
     const { sorter } = queryParams;
     return [
       // BaseTableUtils.genSimpleSorterColumn('ID', 'id', 70, sorter),
@@ -39,12 +39,12 @@ export default function AreaList() {
       {
         title: '操作',
         dataIndex: 'opr',
-        render: (text: string, record: Admin.Area) => (
+        render: (_, record) => (
           <Space>
             <AreaModal title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList}>
               <FaHref icon={<EditOutlined />} text="编辑" />
             </AreaModal>
-            <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />
+            <AuthDelBtn handleDelete={() => handleDelete(record.id)} />
           </Space>
         ),
         width: 120,
@@ -52,7 +52,7 @@ export default function AreaList() {
         tcRequired: true,
         tcType: 'menu',
       },
-    ];
+    ] as FaberTable.ColumnsProp<Admin.Area>[];
   }
 
   return (

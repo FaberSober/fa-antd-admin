@@ -6,6 +6,7 @@ import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHo
 import modelService from '@/services/admin/logApi';
 import Admin from '@/props/admin';
 import LogApiDrawer from './drawer/LogApiDrawer';
+import {AuthDelBtn} from "@/components/decorator";
 
 const serviceName = 'URL请求日志';
 const buzzModal = 'base_log_api';
@@ -20,7 +21,7 @@ export default function LogApiList() {
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams)
 
   /** 生成表格字段List */
-  function genColumns():FaberTable.ColumnsProp<Admin.LogApi>[] {
+  function genColumns() {
     const { sorter } = queryParams;
     return [
       BaseTableUtils.genIdColumn('序号', 'id', 70, sorter),
@@ -47,7 +48,7 @@ export default function LogApiList() {
             <LogApiDrawer record={record}>
               <a><EyeOutlined />查看</a>
             </LogApiDrawer>
-            <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} permission={undefined} />
+            <AuthDelBtn handleDelete={() => handleDelete(record.id)} />
           </Space>
         ),
         width: 120,
@@ -55,7 +56,7 @@ export default function LogApiList() {
         tcRequired: true,
         tcType: 'menu',
       },
-    ];
+    ] as FaberTable.ColumnsProp<Admin.LogApi>[];
   }
 
   return (

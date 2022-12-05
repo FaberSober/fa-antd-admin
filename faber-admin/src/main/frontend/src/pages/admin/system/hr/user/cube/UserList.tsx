@@ -8,7 +8,7 @@ import Admin from '@/props/admin';
 import UserModal from '../modal/UserModal';
 import DepartmentCascade from "../helper/DepartmentCascade";
 import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
-import {FaHref} from "@/components/decorator";
+import {AuthDelBtn, FaHref} from "@/components/decorator";
 
 const serviceName = '用户';
 const buzzModal = 'UserList-v2';
@@ -40,7 +40,7 @@ function UserList({ departmentId }: IProps, ref: any) {
   }));
 
   /** 生成表格字段List */
-  function genColumns(): FaberTable.ColumnsProp<Admin.UserWeb>[] {
+  function genColumns() {
     const { sorter } = queryParams;
     return [
       BaseTableUtils.genSimpleSorterColumn('ID', 'id', 340, sorter, false),
@@ -65,12 +65,12 @@ function UserList({ departmentId }: IProps, ref: any) {
       {
         title: '操作',
         dataIndex: 'opr',
-        render: (text: string, record: Admin.User) => (
+        render: (_, record) => (
           <Space>
             <UserModal title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList}>
               <FaHref icon={<EditOutlined />} text="编辑" />
             </UserModal>
-            <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />
+            <AuthDelBtn handleDelete={() => handleDelete(record.id)} />
           </Space>
         ),
         width: 120,
@@ -78,7 +78,7 @@ function UserList({ departmentId }: IProps, ref: any) {
         tcRequired: true,
         tcType: 'menu',
       },
-    ];
+    ] as FaberTable.ColumnsProp<Admin.UserWeb>[];
   }
 
   return (

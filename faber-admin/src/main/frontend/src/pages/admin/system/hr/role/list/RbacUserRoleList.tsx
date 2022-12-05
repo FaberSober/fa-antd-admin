@@ -5,6 +5,7 @@ import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table'
 import {clearForm, useDelete, useTableQueryParams} from "@/utils/myHooks";
 import modelService from '@/services/rbac/rbacUserRole';
 import Rbac from '@/props/rbac';
+import {AuthDelBtn} from "@/components/decorator";
 
 const serviceName = '角色用户';
 const buzzModal = 'RbacUserRoleList';
@@ -26,7 +27,7 @@ export default function RbacUserRoleList({ rbacRole }: RbacUserRoleListProps) {
   const [handleDelete] = useDelete<string>(modelService.remove, fetchPageList, serviceName)
 
   /** 生成表格字段List */
-  function genColumns():FaberTable.ColumnsProp<Rbac.RbacUserRoleRetVo>[] {
+  function genColumns() {
     const { sorter } = queryParams;
     return [
       BaseTableUtils.genSimpleSorterColumn('用户名称', 'name', 150, sorter),
@@ -38,7 +39,7 @@ export default function RbacUserRoleList({ rbacRole }: RbacUserRoleListProps) {
         dataIndex: 'opr',
         render: (_, record) => (
           <Space>
-            <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} permission={undefined} />
+            <AuthDelBtn handleDelete={() => handleDelete(record.id)} />
           </Space>
         ),
         width: 80,
@@ -46,7 +47,7 @@ export default function RbacUserRoleList({ rbacRole }: RbacUserRoleListProps) {
         tcRequired: true,
         tcType: 'menu',
       },
-    ];
+    ] as FaberTable.ColumnsProp<Rbac.RbacUserRoleRetVo>[];
   }
 
   return (

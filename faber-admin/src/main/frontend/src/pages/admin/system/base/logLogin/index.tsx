@@ -5,6 +5,7 @@ import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table'
 import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
 import modelService from '@/services/admin/logLogin';
 import Admin from '@/props/admin';
+import {AuthDelBtn} from "@/components/decorator";
 
 const serviceName = '登录日志';
 const buzzModal = 'base_log_login_v1';
@@ -38,7 +39,7 @@ export default function LogLoginList() {
         dataIndex: 'opr',
         render: (_, record) => (
           <Space>
-            <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />
+            <AuthDelBtn handleDelete={() => handleDelete(record.id)} />
           </Space>
         ),
         width: 70,

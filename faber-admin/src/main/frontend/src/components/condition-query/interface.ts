@@ -39,16 +39,16 @@ namespace ConditionQuery {
 	}
 
 	export const OPR_MAP: { [key: string]: string } = {
-		[ConditionQuery.CondOpr.equal]: '等于',
-		[ConditionQuery.CondOpr.not_equal]: '不等于',
+		[ConditionQuery.CondOpr.equal]: '=',
+		[ConditionQuery.CondOpr.not_equal]: '!=',
+    [ConditionQuery.CondOpr.greater]: '>',
+    [ConditionQuery.CondOpr.greater_equal]: '>=',
+    [ConditionQuery.CondOpr.less]: '<',
+    [ConditionQuery.CondOpr.less_equal]: '<=',
 		[ConditionQuery.CondOpr.contain]: '包含',
 		[ConditionQuery.CondOpr.not_contain]: '不包含',
 		[ConditionQuery.CondOpr.start_contain]: '开始于',
 		[ConditionQuery.CondOpr.end_contain]: '结束于',
-		[ConditionQuery.CondOpr.greater]: '大于',
-		[ConditionQuery.CondOpr.greater_equal]: '大于等于',
-		[ConditionQuery.CondOpr.less]: '小于',
-		[ConditionQuery.CondOpr.less_equal]: '小于等于',
 		[ConditionQuery.CondOpr.between]: '介于',
 		[ConditionQuery.CondOpr.in]: 'IN',
 	};

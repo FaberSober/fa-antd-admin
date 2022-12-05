@@ -3,14 +3,15 @@ import DragModal, {DragModalProps} from '@/components/modal/DragModal';
 import configService from '@/services/admin/config';
 import {showResponse} from '@/utils/utils';
 import {RES_CODE} from '@/configs/server.config';
-import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
-import {Checkbox, Popconfirm, Space, Tooltip} from 'antd';
+import {EditOutlined} from '@ant-design/icons';
+import {Checkbox, Space} from 'antd';
 import Admin from '@/props/admin';
 import ConditionQueryModal from '@/components/condition-query/ConditionQueryModal';
 import {FaberTable} from '@/components/base-table';
 import styles from './SceneManageModal.module.less';
 import FaEnums from "@/props/base/FaEnums";
 import {FaSortList} from "@/components/base-drag";
+import {AuthDelBtn} from "@/components/decorator";
 
 
 interface IProps<T> extends DragModalProps {
@@ -107,13 +108,7 @@ function SceneManageModal<T>({ buzzModal, columns, onOk, ...restProps }: IProps<
                         <EditOutlined /> 编辑
                       </a>
                     </ConditionQueryModal>
-                    <Popconfirm title="确认删除?" onConfirm={() => handleDelete(item.id)} getPopupContainer={() => document.body}>
-                      <Tooltip placement="bottom" title="删除">
-                        <a style={{ color: 'red' }}>
-                          <DeleteOutlined /> 删除
-                        </a>
-                      </Tooltip>
-                    </Popconfirm>
+                    <AuthDelBtn handleDelete={() => handleDelete(item.id)} />
                   </Space>
                 )}
               </div>

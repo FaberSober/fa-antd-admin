@@ -274,29 +274,3 @@ export function genUpdateColumns(sorter: Fa.Sorter): FaberTable.ColumnsProp<any>
   ] as FaberTable.ColumnsProp<any>[];
 }
 
-/**
- * 返回加权限校验的删除按钮
- * @param record
- * @param handleDelete
- * @param elements
- * @param permission
- */
-export function AuthDelBtn<T>({
-  record,
-  handleDelete,
-  permission,
-}: {
-  record: T;
-  handleDelete: (v: T) => void;
-  permission?: string;
-}) {
-  return (
-    <ShiroPermissionContainer permission={permission}>
-      <Popconfirm title="确认删除?" onConfirm={() => handleDelete(record)} placement="topRight">
-        <a style={{ color: 'red' }}>
-          <DeleteOutlined /> 删除
-        </a>
-      </Popconfirm>
-    </ShiroPermissionContainer>
-  );
-}

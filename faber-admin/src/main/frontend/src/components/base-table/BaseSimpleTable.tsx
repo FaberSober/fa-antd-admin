@@ -8,6 +8,7 @@ import {showResponse} from '@/utils/utils';
 import FaberTable from './FaberTable';
 
 /**
+ * TODO 暂未用到，后续删除
  * 基础业务表格组件
  * 1. 带字段自定义配置展示功能
  */

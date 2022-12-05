@@ -181,7 +181,7 @@ export default function BaseBizTable<RecordType extends object = any>({
                 if (selectedRowKeys.indexOf(clickId) > -1) {
                   newRowKey = selectedRowKeys.filter((i) => i === clickId);
                 } else {
-                  newRowKey = [...selectedRowKeys, get(record, keyName)];
+                  newRowKey = [...selectedRowKeys, get(record, keyName!)];
                 }
               }
               setSelectedRowKeys(newRowKey);

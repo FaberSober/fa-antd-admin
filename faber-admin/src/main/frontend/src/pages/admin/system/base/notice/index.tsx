@@ -8,7 +8,7 @@ import NoticeModal from './modal/NoticeModal';
 import {DictDataSelector} from '@/components/base-dict';
 import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
 import {previewImage} from '@/utils/utils';
-import {FaHref} from "@/components/decorator";
+import {AuthDelBtn, FaHref} from "@/components/decorator";
 
 const serviceName = '通知与公告';
 const buzzModal = 'base_notice';
@@ -23,7 +23,7 @@ export default function NoticeList() {
   const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName);
 
   /** 生成表格字段List */
-  function genColumns(): FaberTable.ColumnsProp<Admin.Notice>[] {
+  function genColumns() {
     const { sorter } = queryParams;
     return [
       // BaseTableUtils.genSimpleSorterColumn('ID', 'id', 70, sorter),
@@ -46,7 +46,7 @@ export default function NoticeList() {
             <NoticeModal title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList}>
               <FaHref icon={<EditOutlined />} text="编辑" />
             </NoticeModal>
-            <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />
+            <AuthDelBtn handleDelete={() => handleDelete(record.id)} />
           </Space>
         ),
         width: 120,
@@ -54,7 +54,7 @@ export default function NoticeList() {
         tcRequired: true,
         tcType: 'menu',
       },
-    ];
+    ] as FaberTable.ColumnsProp<Admin.Notice>[];
   }
 
   return (
