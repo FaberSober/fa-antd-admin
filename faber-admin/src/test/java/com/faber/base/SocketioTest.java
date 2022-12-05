@@ -1,6 +1,7 @@
 package com.faber.base;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.json.JSONObject;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +42,11 @@ public class SocketioTest {
                 Thread.sleep(3000);
                 // 自定义事件`push_data_event` -> 向服务端发送消息
                 socket.emit("push_data_event", "发送数据 " + DateUtil.now());
+
+                JSONObject json = new JSONObject();
+                json.set("userName", "xx");
+                json.set("message", "");
+                socket.emit("ackevent1", json.toString());
             }
         } catch (Exception e) {
             e.printStackTrace();
