@@ -7,7 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.faber.core.utils.FaEnumUtils;
 import com.faber.core.vo.DictOption;
-import com.faber.buzz.msg.entity.Msg;
+import com.faber.api.msg.entity.Msg;
 import org.junit.Test;
 
 import java.lang.reflect.Field;

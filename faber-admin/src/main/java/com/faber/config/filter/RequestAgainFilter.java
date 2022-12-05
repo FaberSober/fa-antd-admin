@@ -2,10 +2,10 @@ package com.faber.config.filter;
 
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
-import com.faber.buzz.admin.biz.LogApiBiz;
+import com.faber.api.admin.biz.LogApiBiz;
 import com.faber.core.config.filter.wrapper.BodyHttpServletRequestWrapper;
 import com.faber.core.config.filter.wrapper.BodyHttpServletResponseWrapper;
-import com.faber.buzz.admin.entity.LogApi;
+import com.faber.api.admin.entity.LogApi;
 import com.faber.core.context.BaseContextHandler;
 import com.faber.core.utils.IpUtils;
 import lombok.extern.slf4j.Slf4j;

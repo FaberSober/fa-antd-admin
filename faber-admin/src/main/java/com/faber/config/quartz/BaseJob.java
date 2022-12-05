@@ -2,9 +2,9 @@ package com.faber.config.quartz;
 
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
-import com.faber.buzz.admin.biz.JobLogBiz;
-import com.faber.buzz.admin.entity.JobLog;
-import com.faber.buzz.admin.enums.JobLogStatusEnum;
+import com.faber.api.admin.biz.JobLogBiz;
+import com.faber.api.admin.entity.JobLog;
+import com.faber.api.admin.enums.JobLogStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
