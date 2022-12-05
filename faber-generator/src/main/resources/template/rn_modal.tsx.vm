@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { get } from 'lodash';
-import { Form, Input, DatePicker } from 'antd';
+import { Form, Input } from 'antd';
+import {EditOutlined, PlusOutlined} from "@ant-design/icons";
+import {FaHref} from "@/components/decorator";
 import DragModal from '@/components/modal/DragModal';
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import { getDateStr000, getInitialKeyTimeValue, showResponse, formItemFullLayout } from '@/utils/utils';
-import modelService from '@/services/${moduleName}/${secondModuleName}';
+import { showResponse, formItemFullLayout } from '@/utils/utils';
+import api from '@/services/${moduleName}/${secondModuleName}';
 import Fa from '@/props/base/Fa';
 import ${moduleNameUpperCaseFirstOne} from '@/props/${moduleName}';
 
@@ -12,7 +14,7 @@ import ${moduleNameUpperCaseFirstOne} from '@/props/${moduleName}';
 /**
  * ${comments}实体新增、编辑弹框
  */
-export default function ${className}Modal({ children, title, record, fetchFinish, ...props }: Fa.CommonModalProps<${moduleNameUpperCaseFirstOne}.${className}>) {
+export default function ${className}Modal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: Fa.CommonModalProps<${moduleNameUpperCaseFirstOne}.${className}>) {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 
@@ -20,7 +22,7 @@ export default function ${className}Modal({ children, title, record, fetchFinish
   
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    modelService.add(params).then((res) => {
+    api.add(params).then((res) => {
       showResponse(res, '新增${comments}');
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -29,7 +31,7 @@ export default function ${className}Modal({ children, title, record, fetchFinish
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
-    modelService.update(params.id, params).then((res) => {
+    api.update(params.id, params).then((res) => {
       showResponse(res, 更新${comments});
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -65,10 +67,14 @@ export default function ${className}Modal({ children, title, record, fetchFinish
     form.setFieldsValue(getInitialValues())
   }
 
-  const loading = loadingEffect[modelService.getUrl('add')] || loadingEffect[modelService.getUrl('update')];
+  const loading = loadingEffect[api.getUrl('add')] || loadingEffect[api.getUrl('update')];
   return (
     <span>
-      <span onClick={showModal}>{children}</span>
+      <span onClick={showModal}>
+        {children}
+        {addBtn && <Button icon={<PlusOutlined />} type="primary">新增</Button>}
+        {editBtn && <FaHref icon={<EditOutlined />} text="编辑" />}
+      </span>
       <DragModal
         title={title}
         open={open}

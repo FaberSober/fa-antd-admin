@@ -1,25 +1,27 @@
 import React from 'react';
 import { DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Space } from 'antd';
-import {FaHref} from "@/components/decorator";
-import { ShiroPermissionContainer } from '@/components/auth';
+import {AuthDelBtn} from "@/components/decorator";
 import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import { useExport, useTableQueryParams, clearForm, useDelete } from "@/utils/myHooks";
-import modelService from '@/services/${moduleName}/${secondModuleName}';
+import api from '@/services/${moduleName}/${secondModuleName}';
 import ${moduleNameUpperCaseFirstOne} from '@/props/${moduleName}';
 import ${className}Modal from './modal/${className}Modal';
 
 const serviceName = '${comments}';
 const buzzModal = '${tableName}';
 
+/**
+ * ${comments}表格查询
+ */
 export default function ${className}List() {
   const [form] = Form.useForm();
 
   const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } =
-          useTableQueryParams<${moduleNameUpperCaseFirstOne}.${className}>(modelService.page, {}, serviceName)
+          useTableQueryParams<${moduleNameUpperCaseFirstOne}.${className}>(api.page, {}, serviceName)
 
-  const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName)
-  const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams)
+  const [handleDelete] = useDelete<number>(api.remove, fetchPageList, serviceName)
+  const [exporting, fetchExportExcel] = useExport(api.exportExcel, queryParams)
 
   /** 生成表格字段List */
   function genColumns() {
@@ -37,14 +39,10 @@ export default function ${className}List() {
       {
         title: '操作',
         dataIndex: 'opr',
-        render: (_, record) => (
+        render: (_, r) => (
           <Space>
-            <ShiroPermissionContainer>
-              <${className}Modal title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList}>
-                <FaHref icon={<EditOutlined />} text="编辑" />
-              </${className}Modal>
-            </ShiroPermissionContainer>
-            <BaseTableUtils.AuthDelBtn record={record} handleDelete={(r) => handleDelete(r.id)} />
+            <${className}Modal editBtn title={`编辑${serviceName}信息`} record={r} fetchFinish={fetchPageList} />
+            <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
           </Space>
         ),
         width: 120,
@@ -72,19 +70,9 @@ export default function ${className}List() {
 
           <div>
             <Space>
-              <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
-                查询
-              </Button>
-              <Button onClick={() => clearForm(form)} loading={loading}>
-                重置
-              </Button>
-              <ShiroPermissionContainer>
-                <${className}Modal title={`新增${serviceName}信息`} fetchFinish={fetchPageList} destroyOnClose={false}>
-                  <Button icon={<PlusOutlined />} type="primary">
-                    新增
-                  </Button>
-                </${className}Modal>
-              </ShiroPermissionContainer>
+              <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
+              <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+              <${className}Modal addBtn title={`新增${serviceName}信息`} fetchFinish={fetchPageList} />
               <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
             </Space>
           </div>
@@ -92,15 +80,15 @@ export default function ${className}List() {
       </div>
 
       <BaseBizTable
+        rowKey="id"
         buzzModal={buzzModal}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}
         dataSource={list}
-        rowKey={(item) => item.id}
         onChange={handleTableChange}
         refreshList={() => fetchPageList()}
-        batchDelete={(ids) => modelService.removeBatchByIds(ids)}
+        batchDelete={(ids) => api.removeBatchByIds(ids)}
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
       />

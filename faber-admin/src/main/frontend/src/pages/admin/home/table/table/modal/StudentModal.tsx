@@ -1,16 +1,16 @@
 import React, { useContext, useState } from 'react';
 import { get } from 'lodash';
 import {Form, Input, DatePicker, Button} from 'antd';
+import {EditOutlined, PlusOutlined} from "@ant-design/icons";
+import {FaHref} from "@/components/decorator";
 import DragModal from '@/components/modal/DragModal';
 import BaseBoolRadio from "@/components/base-dict/BaseBoolRadio";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import { getDateStr000, getInitialKeyTimeValue, showResponse, formItemFullLayout } from '@/utils/utils';
-import modelService from '@/services/demo/student';
+import api from '@/services/demo/student';
 import Fa from '@/props/base/Fa';
 import Demo from '@/props/demo';
 import {DictEnumApiSelector} from "@/components/base-dict";
-import {EditOutlined, PlusOutlined} from "@ant-design/icons";
-import {FaHref} from "@/components/decorator";
 
 
 /**
@@ -24,7 +24,7 @@ export default function StudentModal({ children, title, record, fetchFinish, add
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    modelService.save(params).then((res) => {
+    api.save(params).then((res) => {
       showResponse(res, '新增学生');
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -33,7 +33,7 @@ export default function StudentModal({ children, title, record, fetchFinish, add
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
-    modelService.update(params.id, params).then((res) => {
+    api.update(params.id, params).then((res) => {
       showResponse(res, '更新学生');
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -69,7 +69,7 @@ export default function StudentModal({ children, title, record, fetchFinish, add
     form.setFieldsValue(getInitialValues())
   }
 
-  const loading = loadingEffect[modelService.getUrl('save')] || loadingEffect[modelService.getUrl('update')];
+  const loading = loadingEffect[api.getUrl('save')] || loadingEffect[api.getUrl('update')];
   return (
     <span>
       <span onClick={showModal}>

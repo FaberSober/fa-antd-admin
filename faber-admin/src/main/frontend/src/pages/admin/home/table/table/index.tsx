@@ -4,21 +4,24 @@ import {Button, Form, Input, Space} from 'antd';
 import {AuthDelBtn} from "@/components/decorator";
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
-import modelService from '@/services/demo/student';
+import api from '@/services/demo/student';
 import Demo from '@/props/demo';
 import StudentModal from './modal/StudentModal';
 
 const serviceName = '学生表-表格查询示例';
 const buzzModal = 'demo_student';
 
+/**
+ * Demo-学生表表格查询
+ */
 export default function StudentList() {
   const [form] = Form.useForm();
 
   const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } =
-    useTableQueryParams<Demo.Student>(modelService.page, {}, serviceName)
+    useTableQueryParams<Demo.Student>(api.page, {}, serviceName)
 
-  const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName)
-  const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams)
+  const [handleDelete] = useDelete<number>(api.remove, fetchPageList, serviceName)
+  const [exporting, fetchExportExcel] = useExport(api.exportExcel, queryParams)
 
   /** 生成表格字段List */
   function genColumns() {
@@ -36,10 +39,10 @@ export default function StudentList() {
       {
         title: '操作',
         dataIndex: 'opr',
-        render: (_, record) => (
+        render: (_, r) => (
           <Space>
-            <StudentModal editBtn title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList} />
-            <AuthDelBtn handleDelete={() => handleDelete(record.id)} />
+            <StudentModal editBtn title={`编辑${serviceName}信息`} record={r} fetchFinish={fetchPageList} />
+            <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
           </Space>
         ),
         width: 120,
@@ -77,15 +80,15 @@ export default function StudentList() {
       </div>
 
       <BaseBizTable
+        rowKey="id"
         buzzModal={buzzModal}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}
         dataSource={list}
-        rowKey={(item) => item.id}
         onChange={handleTableChange}
         refreshList={() => fetchPageList()}
-        batchDelete={(ids) => modelService.removeBatchByIds(ids)}
+        batchDelete={(ids) => api.removeBatchByIds(ids)}
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
       />
