@@ -85,7 +85,7 @@ export default function MsgList() {
   const batchReading = loadingEffect[modelService.getUrl('batchRead')]
   return (
     <div className="fa-full-content fa-flex-column">
-      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
+      <div className="fa-flex-row-center fa-p8">
         <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <Form form={form} layout="inline" onFinish={setFormValues}>

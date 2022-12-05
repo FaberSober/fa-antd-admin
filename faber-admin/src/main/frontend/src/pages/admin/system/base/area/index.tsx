@@ -57,7 +57,7 @@ export default function AreaList() {
 
   return (
     <div className="fa-full-content fa-flex-column">
-      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
+      <div className="fa-flex-row-center fa-p8">
         <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <Form style={{ flex: 1, flexDirection: 'row-reverse' }} form={form} layout="inline" onFinish={setFormValues}>

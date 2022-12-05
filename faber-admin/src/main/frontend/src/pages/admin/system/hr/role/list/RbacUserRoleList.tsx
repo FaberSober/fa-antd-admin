@@ -52,7 +52,7 @@ export default function RbacUserRoleList({ rbacRole }: RbacUserRoleListProps) {
 
   return (
     <div className="fa-full-content fa-flex-column fa-bg-white">
-      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
+      <div className="fa-flex-row-center fa-p8">
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <Form form={form} layout="inline" onFinish={setFormValues}>
             <Form.Item name="name" label="用户名称">
