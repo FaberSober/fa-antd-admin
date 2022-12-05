@@ -100,7 +100,7 @@
 - [X] 集成Spring Validation
 - [ ] 集成redis缓存方案
 - [X] 集成redis在线管理工具
-- [ ] 组合查询功能模块整理
+- [X] 组合查询功能模块整理
 - [ ] 使用https访问后，druid访问nginx 302问题处理
 - [X] BaseBiz查询分组List
 - [X] 表格高度固定
