@@ -22,7 +22,7 @@ export default function tinymce() {
   }
 
   return (
-    <div className="fa-full-content fa-padding-12">
+    <div className="fa-full-content fa-p12">
       <Card title="直接使用" style={{ marginBottom: 12 }}>
         <BaseTinyMCE style={{ width: 800, height: 500 }} />
       </Card>

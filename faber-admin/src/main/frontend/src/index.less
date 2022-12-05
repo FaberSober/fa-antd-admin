@@ -1,3 +1,4 @@
+@import '~@/utils/utils.less';
 //@import '~antd/dist/antd.less';
 
 //// 修改暗色背景
@@ -71,6 +72,7 @@
 
 .ant-drawer-body {
   padding: 12px !important;
+  position: relative;
 }
 
 .ant-pagination {
@@ -129,7 +131,14 @@ ul {
   background-color: #FFFFFF;
 }
 
-.fa-padding-12 {
+.fa-card {
+  padding: 12px;
+  background-color: #FFFFFF;
+  border-radius: @fa-border-radius;
+  border: 1px solid @fa-border-color;
+}
+
+.fa-p12 {
   padding: 12px;
 }
 

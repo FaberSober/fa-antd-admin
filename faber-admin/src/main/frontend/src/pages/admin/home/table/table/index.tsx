@@ -54,7 +54,7 @@ export default function StudentList() {
   }
 
   return (
-    <div className="fa-full-content">
+    <div className="fa-full-content fa-flex-column fa-bg-white">
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
         <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>

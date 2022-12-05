@@ -27,13 +27,7 @@ export default function RbacRoleUserDrawer({ children, title, record, success, .
         width={700}
         {...props}
       >
-        <div style={{ height: '100%', position: 'relative' }}>
-          <div className="fa-full-content fa-flex-column">
-            <FaFlexRestLayout>
-              <RbacUserRoleList rbacRole={record} />
-            </FaFlexRestLayout>
-          </div>
-        </div>
+        <RbacUserRoleList rbacRole={record} />
       </Drawer>
     </span>
   )

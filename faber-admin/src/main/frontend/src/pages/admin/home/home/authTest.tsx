@@ -26,7 +26,7 @@ export default function AuthTest() {
   const loading1 = loadingEffect[authTestApi.getUrl("test1")]
   const loading2 = loadingEffect[authTestApi.getUrl("test2")]
   return (
-    <div className="fa-full-content fa-bg-white fa-padding-12">
+    <div className="fa-full-content fa-bg-white fa-p12">
       <Space>
         <Button onClick={test1} loading={loading1}>有权限</Button>
         <Button onClick={test2} loading={loading2}>无权限</Button>

@@ -84,33 +84,23 @@ export default function MsgList() {
 
   const batchReading = loadingEffect[modelService.getUrl('batchRead')]
   return (
-    <div className="fa-full-content fa-bg-white">
+    <div className="fa-full-content fa-flex-column">
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
-        <div style={{ display: 'flex' }}>
-          <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
-        </div>
+        <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-          <div>
-            <Form form={form} layout="inline" onFinish={setFormValues}>
-              <Form.Item name="content" label="消息内容">
-                <Input placeholder="请输入消息内容" />
-              </Form.Item>
-              <Form.Item name="isRead" label="是否已读">
-                <BaseBoolIntSelector />
-              </Form.Item>
-            </Form>
-          </div>
+          <Form form={form} layout="inline" onFinish={setFormValues}>
+            <Form.Item name="content" label="消息内容">
+              <Input placeholder="请输入消息内容" />
+            </Form.Item>
+            <Form.Item name="isRead" label="是否已读">
+              <BaseBoolIntSelector />
+            </Form.Item>
+          </Form>
 
-          <div>
-            <Space>
-              <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
-                查询
-              </Button>
-              <Button onClick={() => clearForm(form)} loading={loading}>
-                重置
-              </Button>
-            </Space>
-          </div>
+          <Space>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+          </Space>
         </div>
       </div>
 

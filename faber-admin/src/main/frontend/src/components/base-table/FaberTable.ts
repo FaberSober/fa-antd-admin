@@ -62,7 +62,6 @@ namespace FaberTable {
 		showBatchBelBtn?: boolean; // 是否展示多选删除按钮
 		showTopTips?: boolean; // 是否展示顶部选中文本信息
 		onSelectedRowsChange?: (rows: any[]) => void; // 选中keys变更回调
-    scrollYOccupied?: number; // y轴滚动已经被占据的高度
 		scrollY?: number;
 		keyName?: string; // Key字段名称
 	}

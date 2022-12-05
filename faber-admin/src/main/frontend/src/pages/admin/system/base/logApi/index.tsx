@@ -60,31 +60,21 @@ export default function LogApiList() {
   }
 
   return (
-    <div className="fa-full-content fa-bg-white">
+    <div className="fa-full-content fa-flex-column fa-bg-white">
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
-        <div style={{ display: 'flex' }}>
-          <strong style={{ fontSize: '18px', marginLeft: 8 }}>{serviceName}</strong>
-        </div>
+        <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-          <div>
-            <Form form={form} layout="inline" onFinish={setFormValues}>
-              <Form.Item name="url" label="URL">
-                <Input placeholder="请输入请求URL" />
-              </Form.Item>
-            </Form>
-          </div>
+          <Form form={form} layout="inline" onFinish={setFormValues}>
+            <Form.Item name="url" label="URL">
+              <Input placeholder="请输入请求URL" />
+            </Form.Item>
+          </Form>
 
-          <div>
-            <Space>
-              <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
-                查询
-              </Button>
-              <Button onClick={() => clearForm(form)} loading={loading}>
-                重置
-              </Button>
-              <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
-            </Space>
-          </div>
+          <Space>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+          </Space>
         </div>
       </div>
 

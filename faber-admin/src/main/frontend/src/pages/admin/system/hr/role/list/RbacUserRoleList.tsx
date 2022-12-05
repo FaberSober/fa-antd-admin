@@ -51,24 +51,20 @@ export default function RbacUserRoleList({ rbacRole }: RbacUserRoleListProps) {
   }
 
   return (
-    <div>
-      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', marginBottom: 12 }}>
+    <div className="fa-full-content fa-flex-column fa-bg-white">
+      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-          <div>
-            <Form form={form} layout="inline" onFinish={setFormValues}>
-              <Form.Item name="name" label="用户名称">
-                <Input placeholder="请输入用户名称" />
-              </Form.Item>
-            </Form>
-          </div>
+          <Form form={form} layout="inline" onFinish={setFormValues}>
+            <Form.Item name="name" label="用户名称">
+              <Input placeholder="请输入用户名称" />
+            </Form.Item>
+          </Form>
 
-          <div>
-            <Space>
-              <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
-              <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
-              <Button icon={<PlusOutlined />} type="primary">新增</Button>
-            </Space>
-          </div>
+          <Space>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+            <Button icon={<PlusOutlined />} type="primary">新增</Button>
+          </Space>
         </div>
       </div>
 

@@ -10,6 +10,7 @@ import { useLocalStorage } from 'react-use';
 import BaseTreeProps from "@/components/base-tree/interface";
 import DictList from "./cube/DictList";
 import DictTypeModal from "./modal/DictTypeModal";
+import {FaFlexRestLayout} from "@/components/base-layout";
 
 /**
  * @author xu.pengfei
@@ -57,25 +58,24 @@ export default function DictManage() {
           extraContextMenus={[
             {
               key: 'add-dict',
-              title: (
-                <>
-                  <PlusOutlined /> 新增字典值
-                </>
-              ),
+              icon: <PlusOutlined />,
+              title: '新增字典值',
               onMenuClick: () => listRef.current.showAddModal(),
             },
           ]}
         />
 
         {/* 右侧面板 */}
-        <div style={{ position: 'absolute', width: '100%', height: '100%', overflow: 'auto' }}>
+        <div className="fa-flex-column fa-full">
           <Descriptions bordered size="small" style={{ marginBottom: 12 }} labelStyle={{ width: 150 }} contentStyle={{ minWidth: 100 }}>
             <Descriptions.Item label="字典分组名称">{viewRecord?.name}</Descriptions.Item>
             <Descriptions.Item label="字典分组编码">{viewRecord?.code}</Descriptions.Item>
             <Descriptions.Item label="描述">{viewRecord?.description}</Descriptions.Item>
           </Descriptions>
 
-          <DictList ref={listRef} type={viewRecord?.id} />
+          <FaFlexRestLayout>
+            <DictList ref={listRef} type={viewRecord?.id} />
+          </FaFlexRestLayout>
         </div>
       </SplitPane>
     </div>

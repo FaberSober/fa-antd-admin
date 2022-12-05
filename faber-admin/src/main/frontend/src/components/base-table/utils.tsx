@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {getDateStr, toLine, tryToFixed} from '@/utils/utils';
 import {Badge, Popconfirm} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
@@ -15,6 +15,7 @@ import {BaseBoolSelector, DictDataSelector, DictEnumSelector} from "@/components
 import {SortOrder} from "antd/es/table/interface";
 import {Fa} from "@/props/base";
 import UserSearchSelect from "@/pages/admin/system/hr/user/helper/UserSearchSelect";
+import {useSize} from "ahooks";
 
 
 export function dataIndexToString(dataIndex: string | string[]) {
@@ -274,3 +275,16 @@ export function genUpdateColumns(sorter: Fa.Sorter): FaberTable.ColumnsProp<any>
   ] as FaberTable.ColumnsProp<any>[];
 }
 
+export function useScrollY(id: string): [scrollY: number|undefined] {
+  const size = useSize(document.getElementById(id));
+  const [innerScrollY, setInnerScrollY] = useState<number|undefined>(undefined)
+
+  useEffect(() => {
+    const y = size ? size.height - 87 : undefined;
+    if (innerScrollY !== y) {
+      setInnerScrollY(y)
+    }
+  }, [size])
+
+  return [innerScrollY]
+}

@@ -57,18 +57,15 @@ export default function UserDepartmentManage() {
           extraContextMenus={[
             {
               key: 'add-dict',
-              title: (
-                <div>
-                  <PlusOutlined /> 新增账户
-                </div>
-              ),
+              icon: <PlusOutlined />,
+              title: '新增账户',
               onMenuClick: () => listRef.current.showAddModal(),
             },
           ]}
         />
 
         {/* 右侧面板 */}
-        <div style={{ position: 'absolute', width: '100%', height: '100%', overflow: 'auto' }}>
+        <div className="fa-flex-column fa-full">
           <UserList ref={listRef} departmentId={viewRecord?.id} />
         </div>
       </SplitPane>

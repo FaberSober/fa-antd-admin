@@ -29,7 +29,7 @@ export default function Server() {
 
   const loading = loadingEffect[systemApi.getUrl('server')];
   return (
-    <div className="fa-full-content fa-padding-12">
+    <div className="fa-full-content fa-p12">
       <Space style={{ marginBottom: 12 }}>
         <Button onClick={fetchData} loading={loading} icon={<ReloadOutlined />}>刷新</Button>
       </Space>

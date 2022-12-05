@@ -13,7 +13,7 @@ export default function cascader() {
   const [data1, setData1] = useState<number>()
 
   return (
-    <div className="fa-full-content fa-padding-12">
+    <div className="fa-full-content fa-p12">
       <Card title="级联选择-带一个根节点" style={{ marginBottom: 12 }}>
         <p>说明：1. 从接口获取数据；2. 远程数据返回Tree型数据；</p>
 

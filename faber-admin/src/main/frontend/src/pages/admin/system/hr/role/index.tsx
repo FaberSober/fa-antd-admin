@@ -64,30 +64,24 @@ export default function RbacRoleList() {
   }
 
   return (
-    <div className="fa-full-content fa-bg-white">
+    <div className="fa-full-content fa-flex-column fa-bg-white">
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
-        <div style={{ display: 'flex' }}>
-          <strong style={{ fontSize: '18px', marginLeft: 8 }}>{serviceName}</strong>
-        </div>
+        <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-          <div>
-            <Form form={form} layout="inline" onFinish={setFormValues}>
-              <Form.Item name="name" label="角色名称">
-                <Input placeholder="请输入角色名称" />
-              </Form.Item>
-            </Form>
-          </div>
+          <Form form={form} layout="inline" onFinish={setFormValues}>
+            <Form.Item name="name" label="角色名称">
+              <Input placeholder="请输入角色名称" />
+            </Form.Item>
+          </Form>
 
-          <div>
-            <Space>
-              <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
-              <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
-              <RbacRoleModal title={`新增${serviceName}信息`} fetchFinish={fetchPageList} destroyOnClose={false}>
-                <Button icon={<PlusOutlined />} type="primary">新增</Button>
-              </RbacRoleModal>
-              <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
-            </Space>
-          </div>
+          <Space>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+            <RbacRoleModal title={`新增${serviceName}信息`} fetchFinish={fetchPageList} destroyOnClose={false}>
+              <Button icon={<PlusOutlined />} type="primary">新增</Button>
+            </RbacRoleModal>
+            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+          </Space>
         </div>
       </div>
 

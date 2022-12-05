@@ -13,7 +13,7 @@ export default function dict() {
   const [value2, setValue2] = useState()
 
   return (
-    <div className="fa-full-content fa-padding-12">
+    <div className="fa-full-content fa-p12">
       <Card title="字典选择器-Select" style={{ marginBottom: 12 }}>
         <p>说明：1. 从接口获取数据；2. Select组件；3. 数据在"字典管理"中配置；</p>
 

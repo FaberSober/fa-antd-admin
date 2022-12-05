@@ -1,7 +1,7 @@
 import React, {useEffect, useImperativeHandle, useRef} from 'react';
 import {get} from 'lodash';
 import {DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
-import {Button, Card, Form, Input, Space} from 'antd';
+import {Button, Form, Input, Space} from 'antd';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import modelService from '@/services/admin/user';
 import Admin from '@/props/admin';
@@ -82,33 +82,27 @@ function UserList({ departmentId }: IProps, ref: any) {
   }
 
   return (
-    <Card>
+    <div className="fa-full-content fa-flex-column fa-p12 fa-bg-white">
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', marginBottom: 12 }}>
-        <div style={{ display: 'flex' }}>
-          <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
-        </div>
+        <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-          <div>
-            <Form form={form} layout="inline" onFinish={setFormValues}>
-              <Form.Item name="tel" label="手机号">
-                <Input placeholder="请输入手机号" />
-              </Form.Item>
-              <Form.Item name="name" label="姓名">
-                <Input placeholder="请输入姓名" />
-              </Form.Item>
-            </Form>
-          </div>
+          <Form form={form} layout="inline" onFinish={setFormValues}>
+            <Form.Item name="tel" label="手机号">
+              <Input placeholder="请输入手机号" />
+            </Form.Item>
+            <Form.Item name="name" label="姓名">
+              <Input placeholder="请输入姓名" />
+            </Form.Item>
+          </Form>
 
-          <div>
-            <Space>
-              <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
-              <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
-              <UserModal ref={addModalRef} title={`新增${serviceName}信息`} fetchFinish={fetchPageList} destroyOnClose={false} departmentId={departmentId}>
-                <Button icon={<PlusOutlined />} type="primary">新增</Button>
-              </UserModal>
-              <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
-            </Space>
-          </div>
+          <Space>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+            <UserModal ref={addModalRef} title={`新增${serviceName}信息`} fetchFinish={fetchPageList} destroyOnClose={false} departmentId={departmentId}>
+              <Button icon={<PlusOutlined />} type="primary">新增</Button>
+            </UserModal>
+            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+          </Space>
         </div>
       </div>
 
@@ -127,7 +121,7 @@ function UserList({ departmentId }: IProps, ref: any) {
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
       />
-    </Card>
+    </div>
   );
 }
 

@@ -58,11 +58,9 @@ export default function NoticeList() {
   }
 
   return (
-    <div className="fa-full-content fa-bg-white">
+    <div className="fa-full-content fa-flex-column fa-bg-white">
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
-        <div style={{ display: 'flex' }}>
-          <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
-        </div>
+        <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <Form style={{ flex: 1, flexDirection: 'row-reverse' }} form={form} layout="inline" onFinish={setFormValues}>
             <Form.Item name="status" label="状态">
@@ -73,24 +71,14 @@ export default function NoticeList() {
             </Form.Item>
           </Form>
 
-          <div>
-            <Space>
-              <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
-                查询
-              </Button>
-              <Button onClick={() => clearForm(form)} loading={loading}>
-                重置
-              </Button>
-              <NoticeModal title={`新增${serviceName}信息`} fetchFinish={fetchPageList} destroyOnClose={false}>
-                <Button icon={<PlusOutlined />} type="primary">
-                  新增
-                </Button>
-              </NoticeModal>
-              <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>
-                导出
-              </Button>
-            </Space>
-          </div>
+          <Space>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+            <NoticeModal title={`新增${serviceName}信息`} fetchFinish={fetchPageList} destroyOnClose={false}>
+              <Button icon={<PlusOutlined />} type="primary">新增</Button>
+            </NoticeModal>
+            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+          </Space>
         </div>
       </div>
 

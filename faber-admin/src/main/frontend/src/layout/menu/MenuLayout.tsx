@@ -145,7 +145,7 @@ export default function MenuLayout({children}: Fa.BaseChildProps) {
                   <OpenTabs />
                 </div>
                 <FaFlexRestLayout>
-                  <div className="fa-main fa-bg-white">
+                  <div className="fa-main">
                     {children}
                   </div>
                 </FaFlexRestLayout>

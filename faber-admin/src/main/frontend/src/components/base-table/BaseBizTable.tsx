@@ -1,14 +1,15 @@
-import React, {createContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {find, get, sumBy} from 'lodash';
 import {ClearOutlined, DeleteOutlined, SettingOutlined} from '@ant-design/icons';
 import {Button, Modal, Space, Table} from 'antd';
-import TableColConfigModal from '../modal/TableColConfigModal';
 import FaberTable from './FaberTable';
-import {useWindowSize} from 'react-use';
 import {showResponse} from '@/utils/utils';
-import {dataIndexToString} from './utils';
+import {dataIndexToString, useScrollY} from './utils';
 import ComplexQuery from '@/components/condition-query/ComplexQuery'
 import {TableRowSelection} from "antd/es/table/interface";
+import {v4} from 'uuid'
+import {FaFlexRestLayout} from "@/components/base-layout";
+import TableColConfigModal from '../modal/TableColConfigModal';
 
 
 /**
@@ -33,22 +34,14 @@ export default function BaseBizTable<RecordType extends object = any>({
   onSelectedRowsChange,
   showBatchBelBtn = true,
   showTopTips,
-  scrollYOccupied = 265,
   scrollY,
   keyName = "id",
   ...props
 }: FaberTable.BaseTableProps<RecordType>) {
-  const [config, setConfig] = useState<FaberTable.ColumnsProp<RecordType>[]>();
-  const [innerScrollY, setInnerScrollY] = useState(document.body.clientHeight - scrollYOccupied); // 限制表格内部滚动
-  const {width, height} = useWindowSize();
+  const [id] = useState(v4())
+  const [innerScrollY] = useScrollY(id)
 
-  useEffect(() => {
-    if (scrollY) {
-      setInnerScrollY(scrollY)
-    } else {
-      setInnerScrollY(document.body.clientHeight - scrollYOccupied);
-    }
-  }, [scrollY, height, scrollYOccupied])
+  const [config, setConfig] = useState<FaberTable.ColumnsProp<RecordType>[]>();
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [batchDeleting, setBatchDeleting] = useState(false)
@@ -134,7 +127,7 @@ export default function BaseBizTable<RecordType extends object = any>({
   }
 
   return (
-    <div className="fa-flex-column">
+    <div className="fa-flex-column" style={{ flex: 1 }}>
       <div>
         {/* 多选删除 */}
         {selectedRowKeys.length > 0 && (
@@ -156,8 +149,10 @@ export default function BaseBizTable<RecordType extends object = any>({
           </div>
         )}
       </div>
-      <div id="fa-table" style={{ flex: 1, position: 'relative' }}>
+
+      <FaFlexRestLayout id={id}>
         <Table
+          id={id}
           columns={parseColumns}
           rowSelection={showCheckbox ? myRowSelection : undefined}
           scroll={{ x: scrollWidthX, y: innerScrollY }}
@@ -193,7 +188,7 @@ export default function BaseBizTable<RecordType extends object = any>({
             </TableColConfigModal>
           </div>
         ) : null}
-      </div>
+      </FaFlexRestLayout>
     </div>
   );
 }

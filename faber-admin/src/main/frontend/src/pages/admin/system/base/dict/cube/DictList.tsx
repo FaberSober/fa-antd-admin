@@ -89,11 +89,9 @@ function DictList({ type }: IProps, ref: any) {
   }
 
   return (
-    <Card>
+    <div className="fa-full-content fa-flex-column fa-card">
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', marginBottom: 12 }}>
-        <div style={{ display: 'flex' }}>
-          <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
-        </div>
+        <strong style={{ fontSize: '18px', marginLeft: 8 }}>{serviceName}</strong>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <Form style={{ flex: 1, flexDirection: 'row-reverse' }} form={form} layout="inline" onFinish={setFormValues}>
             <Form.Item name="search" label="搜索">
@@ -101,16 +99,14 @@ function DictList({ type }: IProps, ref: any) {
             </Form.Item>
           </Form>
 
-          <div>
-            <Space>
-              <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
-              <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
-              <DictModal ref={addModalRef} title={`新增${serviceName}信息`} fetchFinish={fetchPageList} destroyOnClose={false} type={type}>
-                <Button icon={<PlusOutlined />} type="primary">新增</Button>
-              </DictModal>
-              <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
-            </Space>
-          </div>
+          <Space>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+            <DictModal ref={addModalRef} title={`新增${serviceName}信息`} fetchFinish={fetchPageList} destroyOnClose={false} type={type}>
+              <Button icon={<PlusOutlined />} type="primary">新增</Button>
+            </DictModal>
+            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+          </Space>
         </div>
       </div>
 
@@ -126,9 +122,8 @@ function DictList({ type }: IProps, ref: any) {
         batchDelete={(ids) => modelService.removeBatchByIds(ids)}
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
-        scrollYOccupied={355}
       />
-    </Card>
+    </div>
   );
 }
 export default React.forwardRef(DictList);
