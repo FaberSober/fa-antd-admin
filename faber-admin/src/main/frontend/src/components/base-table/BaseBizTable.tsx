@@ -10,13 +10,6 @@ import {dataIndexToString} from './utils';
 import ComplexQuery from '@/components/condition-query/ComplexQuery'
 import {TableRowSelection} from "antd/es/table/interface";
 
-interface CProps {
-  localData: boolean; // 是否本地数据[查询场景、字段配置]
-}
-
-export const BaseBizTableContext = createContext<CProps>({
-  localData: false,
-});
 
 /**
  * 基础业务表格组件
@@ -26,7 +19,6 @@ export default function BaseBizTable<RecordType extends object = any>({
   showTableColConfigBtn = true,
   showComplexQuery = true,
   showCheckbox = true,
-  localData = false,
   buzzModal = '',
   columns,
   refreshList,
@@ -142,76 +134,74 @@ export default function BaseBizTable<RecordType extends object = any>({
   }
 
   return (
-    <BaseBizTableContext.Provider value={{ localData }}>
+    <div>
       <div>
-        <div>
-          {/* 多选删除 */}
-          {selectedRowKeys.length > 0 && (
-            <Space style={{ padding: 8, display: 'flex', lineHeight: '32px' }}>
-              <div style={{ marginRight: 12 }}>
-                已选中&nbsp;<a>{selectedRowKeys.length}</a>&nbsp;条数据
-              </div>
-              {renderCheckBtns && renderCheckBtns(selectedRowKeys)}
-              {showBatchBelBtn && (
-                <Button loading={batchDeleting} onClick={handleBatchDelete} icon={<DeleteOutlined />} danger>
-                  删除
-                </Button>
-              )}
-              <Button onClick={() => updateRowKeys([])} icon={<ClearOutlined />}>
-                取消选中
+        {/* 多选删除 */}
+        {selectedRowKeys.length > 0 && (
+          <Space style={{ padding: 8, display: 'flex', lineHeight: '32px' }}>
+            <div style={{ marginRight: 12 }}>
+              已选中&nbsp;<a>{selectedRowKeys.length}</a>&nbsp;条数据
+            </div>
+            {renderCheckBtns && renderCheckBtns(selectedRowKeys)}
+            {showBatchBelBtn && (
+              <Button loading={batchDeleting} onClick={handleBatchDelete} icon={<DeleteOutlined />} danger>
+                删除
               </Button>
-            </Space>
-          )}
-          {/* 高级组合查询 */}
-          {selectedRowKeys.length === 0 && (
-            <div style={{ padding: 8, display: 'flex', alignItems: 'center' }}>
-              {showComplexQuery && <ComplexQuery columns={columns} buzzModal={buzzModal} onSceneChange={onSceneChange} onConditionChange={onConditionChange} />}
-              <div style={{ flex: 1 }}>{renderQuerySuffix && renderQuerySuffix()}</div>
-              <div style={{ lineHeight: '32px' }}>
-                共<a style={{ fontWeight: 600, margin: '0 4px' }}>{get(props, 'pagination.total')}</a>条数据
-              </div>
+            )}
+            <Button onClick={() => updateRowKeys([])} icon={<ClearOutlined />}>
+              取消选中
+            </Button>
+          </Space>
+        )}
+        {/* 高级组合查询 */}
+        {selectedRowKeys.length === 0 && (
+          <div style={{ padding: 8, display: 'flex', alignItems: 'center' }}>
+            {showComplexQuery && <ComplexQuery columns={columns} buzzModal={buzzModal} onSceneChange={onSceneChange} onConditionChange={onConditionChange} />}
+            <div style={{ flex: 1 }}>{renderQuerySuffix && renderQuerySuffix()}</div>
+            <div style={{ lineHeight: '32px' }}>
+              共<a style={{ fontWeight: 600, margin: '0 4px' }}>{get(props, 'pagination.total')}</a>条数据
             </div>
-          )}
-        </div>
-        <div style={{ position: 'relative' }}>
-          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          <Table
-            columns={parseColumns}
-            rowSelection={showCheckbox ? myRowSelection : undefined}
-            scroll={{ x: scrollWidthX, y: innerScrollY }}
-            onRow={(record) => ({
-              onClick: () => {
-                if (!rowClickSelected) return;
-                const clickId = get(record, 'id');
-                let newRowKey = [];
-                if (rowClickSingleSelected) {
-                  newRowKey = [clickId];
-                } else {
-                  if (selectedRowKeys.indexOf(clickId) > -1) {
-                    newRowKey = selectedRowKeys.filter((i) => i === clickId);
-                  } else {
-                    newRowKey = [...selectedRowKeys, get(record, keyName)];
-                  }
-                }
-                setSelectedRowKeys(newRowKey);
-                if (onSelectedRowsChange) {
-                  onSelectedRowsChange(newRowKey);
-                }
-              },
-            })}
-            size="small"
-            {...props}
-          />
-          {/* 表格自定义配置 */}
-          {showTableColConfigBtn ? (
-            <div style={{ position: 'absolute', right: 4, top: 4, zIndex: 9 }}>
-              <TableColConfigModal columns={columns} buzzModal={buzzModal} buzzName="表格字段展示配置" onConfigChange={handleTableColConfigChange}>
-                <Button icon={<SettingOutlined />} type="text" />
-              </TableColConfigModal>
-            </div>
-          ) : null}
-        </div>
+          </div>
+        )}
       </div>
-    </BaseBizTableContext.Provider>
+      <div style={{ position: 'relative' }}>
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Table
+          columns={parseColumns}
+          rowSelection={showCheckbox ? myRowSelection : undefined}
+          scroll={{ x: scrollWidthX, y: innerScrollY }}
+          onRow={(record) => ({
+            onClick: () => {
+              if (!rowClickSelected) return;
+              const clickId = get(record, 'id');
+              let newRowKey = [];
+              if (rowClickSingleSelected) {
+                newRowKey = [clickId];
+              } else {
+                if (selectedRowKeys.indexOf(clickId) > -1) {
+                  newRowKey = selectedRowKeys.filter((i) => i === clickId);
+                } else {
+                  newRowKey = [...selectedRowKeys, get(record, keyName)];
+                }
+              }
+              setSelectedRowKeys(newRowKey);
+              if (onSelectedRowsChange) {
+                onSelectedRowsChange(newRowKey);
+              }
+            },
+          })}
+          size="small"
+          {...props}
+        />
+        {/* 表格自定义配置 */}
+        {showTableColConfigBtn ? (
+          <div style={{ position: 'absolute', right: 4, top: 4, zIndex: 9 }}>
+            <TableColConfigModal columns={columns} buzzModal={buzzModal} buzzName="表格字段展示配置" onConfigChange={handleTableColConfigChange}>
+              <Button icon={<SettingOutlined />} type="text" />
+            </TableColConfigModal>
+          </div>
+        ) : null}
+      </div>
+    </div>
   );
 }

@@ -26,7 +26,7 @@ export default function FaLazyContainer({ showCond, children }: LazyContainerPro
   }
 
   return (
-    <div className="fa-full-content-no-padding" style={{ display: showCond ? 'block' : 'none' }}>
+    <div className="fa-full-content" style={{ display: showCond ? 'block' : 'none' }}>
       {children}
     </div>
   )

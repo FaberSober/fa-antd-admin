@@ -8,11 +8,11 @@ import {FaberTable} from '@/components/base-table';
 import * as BaseTableUtils from '@/components/base-table/utils';
 import Admin from '@/props/admin';
 import configService from '@/services/admin/config';
-import {BaseBizTableContext} from "@/components/base-table/BaseBizTable";
 import {FaFlexRestLayout} from "@/components/base-layout";
 import FaEnums from "@/props/base/FaEnums";
 import {FaSortList} from "@/components/base-drag";
 import styles from './TableColConfigModal.module.less';
+import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 
 
 const colWidthCache: { [key: string]: number } = {};
@@ -27,13 +27,11 @@ interface IProps<T> extends ModalProps {
 
 /**
  * 表格自定义列Modal
- * TODO 操作一栏需要固定在最后，无法移动
+ * 1. 操作一栏不进行排序，默认放在最后一排
  */
 function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigChange, children, ...restProps }: IProps<T>) {
-  const { localData } = useContext(BaseBizTableContext)
-
+  const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [config, setConfig] = useState<Admin.Config>();
-  const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [items, setItems] = useState<FaberTable.ColumnsProp<T>[]>(columns);
 
@@ -55,7 +53,6 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
 
   /** 获取服务端配置 */
   function fetchRemoteConfig() {
-    if (localData) return;
     configService.findByScene({ buzzModal, type: FaEnums.ConfigTypeEnum.TABLE_COLUMNS }).then((res) => {
       if (res && res.status === RES_CODE.OK && res.data !== undefined && res.data !== null) {
         const configJSON: FaberTable.Config<T> = JSON.parse(res.data.data);
@@ -86,8 +83,6 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
 
   /** 保存配置 */
   function handleSave() {
-    setLoading(true);
-
     // 合并修改配置&之前的配置
     const columnsMerge: FaberTable.ColumnsProp<T>[] = items.map((item, index) => {
       const { dataIndex, tcRequired, tcChecked, width } = item;
@@ -98,36 +93,24 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
     }) as FaberTable.ColumnsProp<T>[];
 
     // 新增or更新
-    if (!localData) {
-      const params = {
-        buzzModal,
-        type: FaEnums.ConfigTypeEnum.TABLE_COLUMNS,
-        name: buzzName,
-        data: JSON.stringify({ columns: columnsMerge }),
-        system: false,
-        defaultScene: false,
-      };
+    const params = {
+      buzzModal,
+      type: FaEnums.ConfigTypeEnum.TABLE_COLUMNS,
+      name: buzzName,
+      data: JSON.stringify({ columns: columnsMerge }),
+      system: false,
+      defaultScene: false,
+    };
 
-      if (config === undefined) {
-        configService.save(params).then((res) => showResponse(res, '保存自定义表格配置'));
-      } else {
-        configService.update(config.id, { id: config.id, ...params }).then((res) => showResponse(res, '更新自定义表格配置'));
-      }
+    if (config === undefined) {
+      configService.save(params).then((res) => showResponse(res, '保存自定义表格配置'));
+    } else {
+      configService.update(config.id, { id: config.id, ...params }).then((res) => showResponse(res, '更新自定义表格配置'));
     }
 
     setModalVisible(false);
     // 通知外部
     if (onConfigChange) onConfigChange(columnsMerge);
-
-    setLoading(false);
-  }
-
-  /** 排序变更 */
-  function onSortEnd({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) {
-    if (oldIndex === newIndex) return;
-
-    const newItems = arrayMove(items, oldIndex, newIndex);
-    setItems(newItems);
   }
 
   /** 处理Item勾选 */
@@ -146,38 +129,7 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
     colWidthCache[BaseTableUtils.dataIndexToString(item.dataIndex)] = value;
   }
 
-  // const DragHandle = SortableHandle(() => (
-  //   <div style={{ cursor: 'move' }}>
-  //     <MenuOutlined />
-  //   </div>
-  // ));
-
-  // interface SProp {
-  //   item: FaberTable.ColumnsProp<T>;
-  // }
-  // const SortableItem = SortableElement(({ item }: SProp) => (
-  //   <div className="itemContainer">
-  //     <Checkbox disabled={item.tcRequired} checked={item.tcRequired || item.tcChecked} onChange={(e) => handleItemCheck(item, e.target.checked)} />
-  //     <div style={{ flex: 1, paddingLeft: 8, fontSize: '14px' }} onClick={() => handleItemCheck(item, !item.tcChecked)}>
-  //       <span>{item.title}</span>
-  //     </div>
-  //     {item.tcRequired ? <span style={{ color: '#666', marginRight: 16 }}>（必选）</span> : null}
-  //     <div style={{ width: 100, marginRight: 8 }}>
-  //       <Input
-  //         // addonBefore="宽度"
-  //         // addonAfter="px"
-  //         size="small"
-  //         defaultValue={item.width}
-  //         placeholder="auto"
-  //         onChange={(e) => handleWidthChange(Number(e.target.value), item)}
-  //       />
-  //     </div>
-  //     <DragHandle />
-  //   </div>
-  // ));
-  //
-  // const MySortableContainer = SortableContainer((props: { children: ReactNode }) => <div>{props.children}</div>);
-
+  const loading = loadingEffect[configService.getUrl('save')] || loadingEffect[configService.getUrl('update')]
   return (
     <span>
       <span onClick={showModelHandler}>{children}</span>
@@ -189,56 +141,48 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
         onClose={() => setModalVisible(false)}
         width={500}
         destroyOnClose
+        extra={<Button size="small" type="primary" onClick={handleSave} loading={loading}>更新</Button>}
+        bodyStyle={{ position: 'relative' }}
         {...restProps}
       >
-        <div style={{ height: '100%', position: 'relative' }}>
-          <div className="fa-full-content-no-padding fa-flex-column">
-            <div className="fa-flex-row-center" style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
-              <div className={styles.tableColTheadItem} style={{ flex: 1, borderRight: '1px solid #ccc' }}>字段</div>
-              <div className={styles.tableColTheadItem} style={{ width: 100 }}>宽度(px)</div>
-              <div className={styles.tableColTheadItem} style={{ width: 31 }} />
-            </div>
-            <FaFlexRestLayout>
-              <FaSortList
-                list={items}
-                rowKey="dataIndex"
-                renderItem={(item) => (
-                  <div className={styles.itemContainer}>
-                    <Checkbox disabled={item.tcRequired} checked={item.tcRequired || item.tcChecked} onChange={(e) => handleItemCheck(item, e.target.checked)} />
-                    <div style={{ flex: 1, paddingLeft: 8, fontSize: '14px' }} onClick={() => handleItemCheck(item, !item.tcChecked)}>
-                      <span>{item.title}</span>
-                    </div>
-                    {item.tcRequired ? <span style={{ color: '#666', marginRight: 16 }}>（必选）</span> : null}
-                    <div style={{ width: 100, marginRight: 8 }}>
-                      <Input
-                        // addonBefore="宽度"
-                        // addonAfter="px"
-                        size="small"
-                        defaultValue={item.width}
-                        placeholder="auto"
-                        onChange={(e) => handleWidthChange(Number(e.target.value), item)}
-                      />
-                    </div>
-                  </div>
-                )}
-                itemStyle={{borderBottom: '1px solid #ccc'}}
-                onSortEnd={(l) => setItems(l)}
-                vertical
-                handle
-              />
-
-
-              {/*<MySortableContainer onSortEnd={onSortEnd} useDragHandle>*/}
-              {/*  {items.map((value, index) => (*/}
-              {/*    <SortableItem key={`item-${value.dataIndex}`} index={index} item={value} />*/}
-              {/*  ))}*/}
-              {/*</MySortableContainer>*/}
-            </FaFlexRestLayout>
-
-            <Space style={{ marginTop: 12 }}>
-              <Button type="primary" onClick={handleSave} loading={loading}>更新</Button>
-            </Space>
+        <div className="fa-full-content-p12 fa-flex-column">
+          <div className="fa-flex-row-center" style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
+            <div className={styles.tableColTheadItem} style={{ flex: 1, borderRight: '1px solid #ccc' }}>字段</div>
+            <div className={styles.tableColTheadItem} style={{ width: 100 }}>宽度(px)</div>
+            <div className={styles.tableColTheadItem} style={{ width: 31 }} />
           </div>
+          <FaFlexRestLayout>
+            <FaSortList
+              list={items.filter(i => i.tcType !== 'menu')}
+              rowKey="dataIndex"
+              renderItem={(item) => (
+                <div className={styles.itemContainer}>
+                  <Checkbox disabled={item.tcRequired} checked={item.tcRequired || item.tcChecked} onChange={(e) => handleItemCheck(item, e.target.checked)} />
+                  <div style={{ flex: 1, paddingLeft: 8, fontSize: '14px' }} onClick={() => handleItemCheck(item, !item.tcChecked)}>
+                    <span>{item.title}</span>
+                  </div>
+                  {item.tcRequired ? <span style={{ color: '#666', marginRight: 16 }}>（必选）</span> : null}
+                  <div style={{ width: 100, marginRight: 8 }}>
+                    <Input
+                      // addonBefore="宽度"
+                      // addonAfter="px"
+                      size="small"
+                      defaultValue={item.width}
+                      placeholder="auto"
+                      onChange={(e) => handleWidthChange(Number(e.target.value), item)}
+                    />
+                  </div>
+                </div>
+              )}
+              itemStyle={{borderBottom: '1px solid #ccc'}}
+              onSortEnd={(l) => {
+                setItems([ ...l, ...items.filter(i => i.tcType === 'menu') ])
+              }}
+              vertical
+              handle
+            />
+          </FaFlexRestLayout>
+
         </div>
       </Drawer>
     </span>

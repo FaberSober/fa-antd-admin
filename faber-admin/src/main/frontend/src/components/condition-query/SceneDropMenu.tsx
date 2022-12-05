@@ -7,7 +7,6 @@ import Admin from '@/props/admin';
 import {FaberTable} from '@/components/base-table';
 import configService from '@/services/admin/config';
 import {RES_CODE} from '@/configs/server.config';
-import {BaseBizTableContext} from "@/components/base-table/BaseBizTable";
 import FaEnums from "@/props/base/FaEnums";
 
 const allSceneLabel = '全部数据';
@@ -22,8 +21,6 @@ interface IProps<T> {
  * 场景下拉菜单组件
  */
 function SceneDropMenu<T>({ buzzModal, columns, onChange }: IProps<T>, ref: any) {
-  const { localData } = useContext(BaseBizTableContext)
-
   const manageModalRef = useRef<any | null>(null);
 
   const [configList, setConfigList] = useState<Admin.Config[]>([]);
@@ -38,7 +35,6 @@ function SceneDropMenu<T>({ buzzModal, columns, onChange }: IProps<T>, ref: any)
   }));
 
   function refreshConfigList() {
-    if (localData) return;
     if (buzzModal) {
       configService.findAllScene({ buzzModal, type: FaEnums.ConfigTypeEnum.QUERY_CONDITION }).then((res) => {
         if (res && res.status === RES_CODE.OK) {
@@ -100,13 +96,11 @@ function SceneDropMenu<T>({ buzzModal, columns, onChange }: IProps<T>, ref: any)
 
   return (
     <div>
-      {!localData && (
-        <Dropdown overlay={menu} trigger={['click']}>
-          <a style={{ color: '#666', minWidth: 70, display: 'inline-block' }} onClick={(e) => e.preventDefault()}>
-            {label} <DownOutlined />
-          </a>
-        </Dropdown>
-      )}
+      <Dropdown overlay={menu} trigger={['click']}>
+        <a style={{ color: '#666', minWidth: 70, display: 'inline-block' }} onClick={(e) => e.preventDefault()}>
+          {label} <DownOutlined />
+        </a>
+      </Dropdown>
       <SceneManageModal
         ref={manageModalRef}
         buzzModal={buzzModal}

@@ -9,6 +9,6 @@ import {UserLayoutContext} from "@/layout/UserLayout";
 export default function redis() {
   const {systemConfig} = useContext(UserLayoutContext)
   return (
-    <iframe src={systemConfig.phpRedisAdmin} className="fa-full-content-no-padding" style={{ width: '100%', height: '100%', border: 'none', margin: 0 }} />
+    <iframe src={systemConfig.phpRedisAdmin} className="fa-full-content" style={{ width: '100%', height: '100%', border: 'none', margin: 0 }} />
   )
 }

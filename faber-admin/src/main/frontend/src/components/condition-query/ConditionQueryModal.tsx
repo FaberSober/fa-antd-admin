@@ -1,4 +1,4 @@
-import React, {ReactNode, useContext, useState} from 'react';
+import React, {ReactNode, useState} from 'react';
 import {trim} from 'lodash';
 import {v1 as uuidv1} from 'uuid';
 import {Alert, Checkbox, Divider, Input, message} from 'antd';
@@ -8,7 +8,6 @@ import configService from '@/services/admin/config';
 import Admin from '@/props/admin';
 import {showResponse} from '@/utils/utils';
 import {FaberTable} from '@/components/base-table';
-import {BaseBizTableContext} from "@/components/base-table/BaseBizTable";
 import CondGroupShow from "@/components/condition-query/CondGroupShow";
 import CondGroupEdit from "@/components/condition-query/CondGroupEdit";
 import {PlusOutlined} from "@ant-design/icons";
@@ -44,8 +43,6 @@ function genOneEmptyCondGroup(): ConditionQuery.CondGroup {
       },
  */
 export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, onConditionChange, columns, children }: ConditionQueryModalProps<T>) {
-  const { localData } = useContext(BaseBizTableContext)
-
   const [condGroupList, setCondGroupList] = useState<ConditionQuery.CondGroup[]>(record ? JSON.parse(record.data) : [genOneEmptyCondGroup()]);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -180,16 +177,14 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
           <Alert type="info" description="1. IN查询用英文逗号(,)进行分隔查询；" style={{ marginTop: 8 }} />
 
           {/* 保存为场景 */}
-          {!localData && (
-            <div style={{ display: 'flex', alignItems: 'center', height: 40, marginTop: 12 }}>
-              <Checkbox disabled={record !== undefined} checked={saveAsScene} onChange={(e) => setSaveAsScene(e.target.checked)}>
-                保存为场景
-              </Checkbox>
-              {saveAsScene ? (
-                <Input value={sceneName} onChange={(e) => setSceneName(e.target.value)} style={{ width: 200 }} placeholder="请输入场景名称" maxLength={30} />
-              ) : null}
-            </div>
-          )}
+          <div style={{ display: 'flex', alignItems: 'center', height: 40, marginTop: 12 }}>
+            <Checkbox disabled={record !== undefined} checked={saveAsScene} onChange={(e) => setSaveAsScene(e.target.checked)}>
+              保存为场景
+            </Checkbox>
+          {saveAsScene ? (
+            <Input value={sceneName} onChange={(e) => setSceneName(e.target.value)} style={{ width: 200 }} placeholder="请输入场景名称" maxLength={30} />
+          ) : null}
+          </div>
           {/* {saveAsScene ? (
             <div style={{ marginTop: 12 }}>
               <Checkbox checked={defaultScene} onChange={(e) => this.setState({ defaultScene: e.target.checked })}>

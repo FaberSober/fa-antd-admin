@@ -5,7 +5,6 @@ import {FilterOutlined} from '@ant-design/icons';
 import ConditionQueryModal from './ConditionQueryModal';
 import SceneDropMenu from './SceneDropMenu';
 import ConditionQuery from '@/components/condition-query/interface';
-import {BaseBizTableContext} from "@/components/base-table/BaseBizTable";
 
 interface IProps<T> {
   buzzModal: string
@@ -19,8 +18,6 @@ interface IProps<T> {
  * 场景查询&高级筛选联合组件
  */
 export default function ComplexQuery<T>({ columns, buzzModal, onSceneChange, onConditionChange, style }: IProps<T>) {
-  const {} = useContext(BaseBizTableContext)
-
   const sceneDropMenuRef = useRef<any | null>(null);
 
   /** 高级查询-筛选条件变更 */

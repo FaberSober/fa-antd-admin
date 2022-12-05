@@ -7,21 +7,12 @@ import {useWindowSize} from 'react-use';
 import {showResponse} from '@/utils/utils';
 import FaberTable from './FaberTable';
 
-interface CProps {
-  localData: boolean; // 是否本地数据[查询场景、字段配置]
-}
-
-export const BaseBizTableContext = createContext<CProps>({
-  localData: false,
-});
-
 /**
  * 基础业务表格组件
  * 1. 带字段自定义配置展示功能
  */
 export default function BaseSimpleTable<RecordType extends object = any>({
   showCheckbox = true,
-  localData = false,
   columns,
   refreshList,
   batchDelete,
@@ -110,59 +101,57 @@ export default function BaseSimpleTable<RecordType extends object = any>({
   }
 
   return (
-    <BaseBizTableContext.Provider value={{ localData }}>
-      <div>
-        {showTopTips && (
-          <div>
-            {/* 多选删除 */}
-            {selectedRowKeys.length > 0 && (
-              <Space style={{ padding: 8, display: 'flex', lineHeight: '32px' }}>
-                <div style={{ marginRight: 12 }}>
-                  已选中&nbsp;<a>{selectedRowKeys.length}</a>&nbsp;条数据
-                </div>
-                {showBatchBelBtn && (
-                  <Button loading={batchDeleting} onClick={handleBatchDelete} type="text" icon={<DeleteOutlined />} danger>
-                    删除
-                  </Button>
-                )}
-                {renderCheckBtns && renderCheckBtns(selectedRowKeys)}
-                <Button onClick={() => updateRowKeys([])} type="text" icon={<ClearOutlined />}>
-                  取消选中
+    <div>
+      {showTopTips && (
+        <div>
+          {/* 多选删除 */}
+          {selectedRowKeys.length > 0 && (
+            <Space style={{ padding: 8, display: 'flex', lineHeight: '32px' }}>
+              <div style={{ marginRight: 12 }}>
+                已选中&nbsp;<a>{selectedRowKeys.length}</a>&nbsp;条数据
+              </div>
+              {showBatchBelBtn && (
+                <Button loading={batchDeleting} onClick={handleBatchDelete} type="text" icon={<DeleteOutlined />} danger>
+                  删除
                 </Button>
-              </Space>
-            )}
-          </div>
-        )}
-        <div style={{ position: 'relative' }}>
-          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          <Table
-            columns={parseColumns}
-            rowSelection={showCheckbox ? rowSelection : undefined}
-            scroll={{ x: scrollWidthX, y: innerScrollY }}
-            onRow={(record) => ({
-              onClick: () => {
-                if (!rowClickSelected) return;
-                const clickId = get(record, 'id');
-                let newRowKey = [];
-                if (rowClickSingleSelected) {
-                  newRowKey = [clickId];
-                } else {
-                  if (selectedRowKeys.indexOf(clickId) > -1) {
-                    newRowKey = selectedRowKeys.filter((i) => i === clickId);
-                  } else {
-                    newRowKey = [...selectedRowKeys, get(record, keyName)];
-                  }
-                }
-                setSelectedRowKeys(newRowKey);
-                if (onSelectedRowsChange) {
-                  onSelectedRowsChange(newRowKey);
-                }
-              },
-            })}
-            {...props}
-          />
+              )}
+              {renderCheckBtns && renderCheckBtns(selectedRowKeys)}
+              <Button onClick={() => updateRowKeys([])} type="text" icon={<ClearOutlined />}>
+                取消选中
+              </Button>
+            </Space>
+          )}
         </div>
+      )}
+      <div style={{ position: 'relative' }}>
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Table
+          columns={parseColumns}
+          rowSelection={showCheckbox ? rowSelection : undefined}
+          scroll={{ x: scrollWidthX, y: innerScrollY }}
+          onRow={(record) => ({
+            onClick: () => {
+              if (!rowClickSelected) return;
+              const clickId = get(record, 'id');
+              let newRowKey = [];
+              if (rowClickSingleSelected) {
+                newRowKey = [clickId];
+              } else {
+                if (selectedRowKeys.indexOf(clickId) > -1) {
+                  newRowKey = selectedRowKeys.filter((i) => i === clickId);
+                } else {
+                  newRowKey = [...selectedRowKeys, get(record, keyName)];
+                }
+              }
+              setSelectedRowKeys(newRowKey);
+              if (onSelectedRowsChange) {
+                onSelectedRowsChange(newRowKey);
+              }
+            },
+          })}
+          {...props}
+        />
       </div>
-    </BaseBizTableContext.Provider>
+    </div>
   );
 }
