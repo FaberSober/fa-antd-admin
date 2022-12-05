@@ -46,9 +46,9 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
   const [condGroupList, setCondGroupList] = useState<ConditionQuery.CondGroup[]>(record ? JSON.parse(record.data) : [genOneEmptyCondGroup()]);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [saveAsScene, setSaveAsScene] = useState(false);
+  const [saveAsScene, setSaveAsScene] = useState(record !== undefined);
   const [defaultScene, setDefaultScene] = useState(false); // 是否设置为默认场景
-  const [sceneName, setSceneName] = useState<string>();
+  const [sceneName, setSceneName] = useState<string|undefined>(record?.name);
 
   /** 处理-增加item */
   async function handleSave() {
@@ -188,13 +188,13 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
               <Input value={sceneName} onChange={(e) => setSceneName(e.target.value)} style={{ width: 200 }} placeholder="请输入场景名称" maxLength={30} />
             ) : null}
           </div>
-          {(saveAsScene || inEdit) ? (
-            <div style={{ marginTop: 12 }}>
-              <Checkbox checked={defaultScene} onChange={e => setDefaultScene(e.target.checked)}>
-                设置为默认
-              </Checkbox>
-            </div>
-          ) : null}
+          {/*{(saveAsScene || inEdit) ? (*/}
+          {/*  <div style={{ marginTop: 12 }}>*/}
+          {/*    <Checkbox checked={defaultScene} onChange={e => setDefaultScene(e.target.checked)}>*/}
+          {/*      设置为默认*/}
+          {/*    </Checkbox>*/}
+          {/*  </div>*/}
+          {/*) : null}*/}
         </div>
       </DragModal>
     </span>

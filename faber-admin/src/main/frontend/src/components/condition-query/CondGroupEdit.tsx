@@ -44,7 +44,7 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
 
   /** 筛选值变更 */
   function handleChangeValue(v: string, index: number, name?: string) {
-    console.log('handleChangeValue', v, index, name)
+    // console.log('handleChangeValue', v, index, name)
     const newCondList = condGroup.condList.map((cond, i) => (index === i ? { ...cond, value: v, name } : cond));
     setConditionList(newCondList);
   }
@@ -112,7 +112,6 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
     options.push({ value: k, label: v })
   })
 
-  console.log('condGroup.condList', condGroup.condList)
   return (
     <div style={{ borderBottom: '1px dashed #ccc', marginBottom: 12 }}>
       <Radio.Group
