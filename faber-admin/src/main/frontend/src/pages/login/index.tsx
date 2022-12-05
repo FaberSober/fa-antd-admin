@@ -11,9 +11,6 @@ import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import styles from './login.module.less'
 import Admin from "@/props/admin";
 import dictApi from "@/services/admin/dict";
-import * as THREE from 'three'
-import p5 from 'p5'
-import WAVES from 'vanta/dist/vanta.waves.min'
 
 
 export default function Login() {
@@ -30,10 +27,9 @@ export default function Login() {
     dictApi.getSystemConfig().then((res) => setSystemConfig(res.data))
 
     // 使用vanta制作背景效果图
-    const vantaEffect = WAVES({
+    const vantaEffect = window.VANTA.WAVES({
       el: vantaRef.current,
-      THREE: THREE, // use a custom THREE when initializing
-      p5: p5, // use a custom p5 when initializing
+      // THREE: THREE, // use a custom THREE when initializing
       mouseControls: true,
       touchControls: true,
       gyroControls: false,

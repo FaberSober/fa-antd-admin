@@ -19,7 +19,6 @@
     "fa-cron-react-editor": "0.0.13",
     "filesize": "10.0.5",
     "lodash": "4.17.21",
-    "p5": "1.5.0",
     "path-to-regexp": "6.2.1",
     "pdfjs-dist": "2.16.105",
     "querystring": "0.2.1",
@@ -33,10 +32,8 @@
     "react-router-dom": "6.4.4",
     "react-split-pane": "0.1.92",
     "react-use": "17.4.0",
-    "three": "0.147.0",
     "use-bus": "2.5.2",
-    "uuid": "9.0.0",
-    "vanta": "0.5.24"
+    "uuid": "9.0.0"
   },
   "devDependencies": {
     "@types/lodash": "4.14.191",
