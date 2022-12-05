@@ -93,14 +93,14 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
     if (labelKey instanceof Function) {
       return labelKey(data);
     }
-    return get(data, labelKey);
+    return get(data, labelKey!);
   }
 
   function parseValue(data: RecordType) {
     if (valueKey instanceof Function) {
       return valueKey(data);
     }
-    return get(data, valueKey);
+    return get(data, valueKey!);
   }
 
   function searchNow() {

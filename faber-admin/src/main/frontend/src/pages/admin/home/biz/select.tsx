@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {Card} from "antd";
 import BaseSelect from "@/components/base-select";
-import rbacRoleApi from '@/services/rbac/rbacRole';
-import UserSearchSelect from "@/pages/admin/system/hr/user/helper/UserSearchSelect";
+import studentApi from '@/services/demo/student';
+import StudentSearchSelect from "@/pages/admin/demo/student/helper/StudentSearchSelect";
 
 
 /**
@@ -19,7 +19,7 @@ export default function select() {
       <Card title="远程数据选择-一次加载全部数据" style={{ marginBottom: 12 }}>
         <p>说明：1. 从接口获取数据；2. Select组件；3. 只要继承了BaseController的api接口都可以使用；</p>
 
-        <BaseSelect serviceApi={rbacRoleApi} value={value1} onChange={(v) => setValue1(v)} />
+        <BaseSelect serviceApi={studentApi} value={value1} onChange={(v) => setValue1(v)} />
 
         <p>value: {value1}</p>
       </Card>
@@ -27,7 +27,7 @@ export default function select() {
       <Card title="远程数据选择-搜索加载前20条数据" style={{ marginBottom: 12 }}>
         <p>说明：1. 从接口获取数据；2. Select组件(支持搜索过滤)；3. 加入防抖500ms；4. 参考用户搜索选择；</p>
 
-        <UserSearchSelect value={value2} onChange={(v) => setValue2(v)} />
+        <StudentSearchSelect value={value2} onChange={(v) => setValue2(v)} />
 
         <p>value: {value2}</p>
       </Card>
