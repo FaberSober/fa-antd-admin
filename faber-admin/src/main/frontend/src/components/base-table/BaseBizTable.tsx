@@ -134,7 +134,7 @@ export default function BaseBizTable<RecordType extends object = any>({
   }
 
   return (
-    <div>
+    <div className="fa-flex-column">
       <div>
         {/* 多选删除 */}
         {selectedRowKeys.length > 0 && (
@@ -156,7 +156,7 @@ export default function BaseBizTable<RecordType extends object = any>({
           </div>
         )}
       </div>
-      <div style={{ position: 'relative' }}>
+      <div id="fa-table" style={{ flex: 1, position: 'relative' }}>
         <Table
           columns={parseColumns}
           rowSelection={showCheckbox ? myRowSelection : undefined}
