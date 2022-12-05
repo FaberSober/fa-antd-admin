@@ -1,10 +1,9 @@
 import React from 'react';
-import { DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Space } from 'antd';
-import {AuthDelBtn, FaHref} from "@/components/decorator";
-import { ShiroPermissionContainer } from '@/components/auth';
-import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
-import { useExport, useTableQueryParams, clearForm, useDelete } from "@/utils/myHooks";
+import {DownloadOutlined, SearchOutlined} from '@ant-design/icons';
+import {Button, Form, Input, Space} from 'antd';
+import {AuthDelBtn} from "@/components/decorator";
+import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
+import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
 import modelService from '@/services/demo/student';
 import Demo from '@/props/demo';
 import StudentModal from './modal/StudentModal';
@@ -39,11 +38,7 @@ export default function StudentList() {
         dataIndex: 'opr',
         render: (_, record) => (
           <Space>
-            <ShiroPermissionContainer>
-              <StudentModal title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList}>
-                <FaHref icon={<EditOutlined />} text="编辑" />
-              </StudentModal>
-            </ShiroPermissionContainer>
+            <StudentModal editBtn title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList} />
             <AuthDelBtn handleDelete={() => handleDelete(record.id)} />
           </Space>
         ),
@@ -72,19 +67,9 @@ export default function StudentList() {
 
           <div>
             <Space>
-              <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
-                查询
-              </Button>
-              <Button onClick={() => clearForm(form)} loading={loading}>
-                重置
-              </Button>
-              <ShiroPermissionContainer>
-                <StudentModal title={`新增${serviceName}信息`} fetchFinish={fetchPageList} destroyOnClose={false}>
-                  <Button icon={<PlusOutlined />} type="primary">
-                    新增
-                  </Button>
-                </StudentModal>
-              </ShiroPermissionContainer>
+              <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
+              <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+              <StudentModal addBtn title={`新增${serviceName}信息`} fetchFinish={fetchPageList} />
               <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
             </Space>
           </div>

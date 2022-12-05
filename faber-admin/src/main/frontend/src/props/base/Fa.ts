@@ -108,6 +108,8 @@ namespace Fa {
     title?: string;
     record?: T;
     fetchFinish?: () => void;
+    addBtn?: boolean; // 是否展示新增按钮
+    editBtn?: boolean; // 是否展示编辑按钮
   }
 
   /**

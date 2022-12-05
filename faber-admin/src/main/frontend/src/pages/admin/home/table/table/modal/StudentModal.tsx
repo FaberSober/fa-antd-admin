@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { get } from 'lodash';
-import { Form, Input, DatePicker } from 'antd';
+import {Form, Input, DatePicker, Button} from 'antd';
 import DragModal from '@/components/modal/DragModal';
 import BaseBoolRadio from "@/components/base-dict/BaseBoolRadio";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
@@ -9,12 +9,14 @@ import modelService from '@/services/demo/student';
 import Fa from '@/props/base/Fa';
 import Demo from '@/props/demo';
 import {DictEnumApiSelector} from "@/components/base-dict";
+import {EditOutlined, PlusOutlined} from "@ant-design/icons";
+import {FaHref} from "@/components/decorator";
 
 
 /**
  * Demo-学生表实体新增、编辑弹框
  */
-export default function StudentModal({ children, title, record, fetchFinish, ...props }: Fa.CommonModalProps<Demo.Student>) {
+export default function StudentModal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: Fa.CommonModalProps<Demo.Student>) {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 
@@ -70,7 +72,11 @@ export default function StudentModal({ children, title, record, fetchFinish, ...
   const loading = loadingEffect[modelService.getUrl('save')] || loadingEffect[modelService.getUrl('update')];
   return (
     <span>
-      <span onClick={showModal}>{children}</span>
+      <span onClick={showModal}>
+        {children}
+        {addBtn && <Button icon={<PlusOutlined />} type="primary">新增</Button>}
+        {editBtn && <FaHref icon={<EditOutlined />} text="编辑" />}
+      </span>
       <DragModal
         title={title}
         open={open}
