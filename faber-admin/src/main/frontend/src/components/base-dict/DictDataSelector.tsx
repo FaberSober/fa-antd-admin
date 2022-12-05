@@ -4,6 +4,7 @@ import {Select} from 'antd';
 import {RES_CODE} from '@/configs/server.config';
 import {SelectProps} from 'antd/es/select';
 import dictService from '@/services/admin/dict';
+import {optionsToLabel} from "@/utils/utils";
 
 const { Option } = Select;
 
@@ -39,7 +40,7 @@ export default function DictDataSelector({ dictLabel, onFetchData, onChange, val
   }
 
   function handleChange(v: any, option: any) {
-    if (onChange) onChange(v, option && option.label);
+    if (onChange) onChange(v, optionsToLabel(option));
   }
 
   return (

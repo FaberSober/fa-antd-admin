@@ -44,6 +44,7 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
 
   /** 筛选值变更 */
   function handleChangeValue(v: string, index: number, name?: string) {
+    console.log('handleChangeValue', v, index, name)
     const newCondList = condGroup.condList.map((cond, i) => (index === i ? { ...cond, value: v, name } : cond));
     setConditionList(newCondList);
   }
@@ -100,7 +101,7 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
   }
 
   function handleTypeChange(type:ConditionQuery.Type) {
-    console.log('handleTypeChange', type)
+    // console.log('handleTypeChange', type)
     if (onChange) {
       onChange({ ...condGroup, type })
     }
@@ -111,6 +112,7 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
     options.push({ value: k, label: v })
   })
 
+  console.log('condGroup.condList', condGroup.condList)
   return (
     <div style={{ borderBottom: '1px dashed #ccc', marginBottom: 12 }}>
       <Radio.Group
@@ -158,13 +160,14 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
                       callback: (v, i, name) => handleChangeValue(v, i, name),
                       style: { width: 400, marginRight: 12 },
                       placeholder: '请输入筛选条件的值',
+                      mode: opr === ConditionQuery.CondOpr.in ? 'multiple' : undefined,
                     })
                   ) : (
                     <Input
                       style={{ width: 400, marginRight: 12 }}
                       value={value}
                       onChange={(e) => handleChangeValue(e.target.value, index)}
-                      placeholder="请输入筛选条件的值"
+                      placeholder={opr === ConditionQuery.CondOpr.in ? '多个值用逗号分割' : '请输入筛选条件的值'}
                     />
                   )}
                 </>

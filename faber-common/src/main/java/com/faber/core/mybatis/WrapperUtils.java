@@ -126,7 +126,12 @@ public class WrapperUtils {
                         ew.ne(column, value);
                         break;
                     case IN:
-                        List<String> list = Arrays.asList(ObjectUtil.toString(value).split(","));
+                        List<String> list;
+                        if (value instanceof List) {
+                            list = (List<String>) value;
+                        } else {
+                            list = Arrays.asList(ObjectUtil.toString(value).split("[,，]"));
+                        }
                         ew.in(list.size() > 0, column, list);
                         break;
                     case LIKE:

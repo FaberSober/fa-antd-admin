@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {getDateStr, toLine, tryToFixed} from '@/utils/utils';
+import {getDateStr, optionsToLabel, toLine, tryToFixed} from '@/utils/utils';
 import {Badge, Popconfirm} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import {ShiroPermissionContainer} from '@/components/auth';
@@ -109,7 +109,7 @@ export function genBoolSorterColumn(title: string, dataIndex: string, width: num
     sortOrder: getSortOrder(sorter, dataIndex),
     tcChecked,
     tcCondComponent: ({ index, value, callback, ...props }: FaberTable.TcCondProp) => (
-      <BaseBoolSelector value={value} onChange={(v, option) => callback(v, index, get(option, 'label'))} {...props} />
+      <BaseBoolSelector value={value} onChange={(v, option) => callback(v, index, optionsToLabel(option))} {...props} />
     ),
     width,
   } as FaberTable.ColumnsProp<any>;
@@ -119,7 +119,7 @@ export function genUserSorterColumn(title: string, dataIndex: string, width: num
   return {
     ...genSimpleSorterColumn(title, dataIndex, width, sorter),
     tcCondComponent: ({ index, value, callback, ...props }: FaberTable.TcCondProp) => (
-      <UserSearchSelect value={value} onChange={(v: any, item: any) => callback(v, index, get(item, 'label'))} {...props} />
+      <UserSearchSelect value={value} onChange={(v: any, item: any) => callback(v, index, optionsToLabel(item))} {...props} />
     ),
   };
 }

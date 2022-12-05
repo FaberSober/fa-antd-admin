@@ -40,6 +40,7 @@ namespace ConditionQuery {
 
 	export const OPR_MAP: { [key: string]: string } = {
 		[ConditionQuery.CondOpr.equal]: '=',
+    [ConditionQuery.CondOpr.in]: 'IN',
 		[ConditionQuery.CondOpr.not_equal]: '!=',
     [ConditionQuery.CondOpr.greater]: '>',
     [ConditionQuery.CondOpr.greater_equal]: '>=',
@@ -50,7 +51,6 @@ namespace ConditionQuery {
 		[ConditionQuery.CondOpr.start_contain]: '开始于',
 		[ConditionQuery.CondOpr.end_contain]: '结束于',
 		[ConditionQuery.CondOpr.between]: '介于',
-		[ConditionQuery.CondOpr.in]: 'IN',
 	};
 }
 

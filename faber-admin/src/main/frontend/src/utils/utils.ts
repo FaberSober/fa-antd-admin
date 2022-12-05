@@ -378,4 +378,15 @@ export function trimObj(obj: any):any {
   return newObj;
 }
 
+/**
+ * 将Select选中的options解析为字符串，用于前段展示
+ * @param option
+ */
+export function optionsToLabel(option: any):string {
+  if (option instanceof Array) {
+    return (option || []).map(i => i.label).join()
+  }
+  return option && option.label
+}
+
 export const formItemFullLayout = { labelCol: { span: 4 }, wrapperCol: { span: 19 } };
