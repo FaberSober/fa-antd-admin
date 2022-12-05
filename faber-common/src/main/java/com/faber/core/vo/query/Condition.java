@@ -12,6 +12,7 @@ public class Condition implements Serializable {
     private ConditionOprEnum opr;
     private String key;
     private String title;
+    private String name;
     private Object value;
 
     private String begin; // opr=between

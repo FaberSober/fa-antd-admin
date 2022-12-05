@@ -96,7 +96,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
             configService = SpringUtil.getBean(ConfigService.class);
         }
         String configData = configService.getConfigDataById(query.getSceneId());
-        if (StrUtil.isEmpty(configData)) {
+        if (StrUtil.isNotEmpty(configData)) {
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
                 TypeReference<List<ConditionGroup>> typeReference = new TypeReference<List<ConditionGroup>>() {};

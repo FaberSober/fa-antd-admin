@@ -178,6 +178,7 @@ export default function BaseBizTable<RecordType extends object = any>({
             },
           })}
           size="small"
+          showSorterTooltip={false}
           {...props}
         />
         {/* 表格自定义配置 */}

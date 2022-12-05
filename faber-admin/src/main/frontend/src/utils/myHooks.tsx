@@ -126,7 +126,7 @@ export function useTableQueryParams<T>(
     };
 
     if (hasIn(sorterArg, 'field')) {
-      const newSorter: Fa.Sorter = { field: get(sorterArg, 'field', ''), order: get(sorterArg, 'order') };
+      const newSorter: Fa.Sorter = { field: get(sorterArg, 'field', ''), order: get(sorterArg, 'order')! };
       updateQueryParams({ pagination: newPagination, sorter: newSorter });
     } else {
       setPagination(newPagination);
@@ -148,9 +148,9 @@ export function useTableQueryParams<T>(
         // 外部补充查询条件
         ...queryParams.extraParams,
       },
-      ...queryParams.formValues,
-      // 外部补充查询条件
-      ...queryParams.extraParams,
+      // ...queryParams.formValues,
+      // // 外部补充查询条件
+      // ...queryParams.extraParams,
     };
     api(params)
       .then((res) => {

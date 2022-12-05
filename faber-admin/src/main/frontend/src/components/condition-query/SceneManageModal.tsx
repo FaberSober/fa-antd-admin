@@ -70,7 +70,7 @@ function SceneManageModal<T>({ buzzModal, columns, onOk, ...restProps }: IProps<
   function handleItemCheck(item: Admin.Config, checked: boolean) {
     const newList = configList.map((i) => {
       if (i.id === item.id) {
-        return { ...i, hide: checked ? false : true };
+        return { ...i, hide: !checked };
       }
       return i;
     });
