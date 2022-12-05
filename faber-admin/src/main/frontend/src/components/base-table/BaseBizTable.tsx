@@ -39,7 +39,7 @@ export default function BaseBizTable<RecordType extends object = any>({
   ...props
 }: FaberTable.BaseTableProps<RecordType>) {
   const [config, setConfig] = useState<FaberTable.ColumnsProp<RecordType>[]>();
-  const [innerScrollY, setInnerScrollY] = useState(document.body.clientHeight - scrollYOccupied)
+  const [innerScrollY, setInnerScrollY] = useState(document.body.clientHeight - scrollYOccupied); // 限制表格内部滚动
   const {width, height} = useWindowSize();
 
   useEffect(() => {
@@ -139,18 +139,10 @@ export default function BaseBizTable<RecordType extends object = any>({
         {/* 多选删除 */}
         {selectedRowKeys.length > 0 && (
           <Space style={{ padding: 8, display: 'flex', lineHeight: '32px' }}>
-            <div style={{ marginRight: 12 }}>
-              已选中&nbsp;<a>{selectedRowKeys.length}</a>&nbsp;条数据
-            </div>
+            <div style={{ marginRight: 12 }}>已选中&nbsp;<a>{selectedRowKeys.length}</a>&nbsp;条数据</div>
             {renderCheckBtns && renderCheckBtns(selectedRowKeys)}
-            {showBatchBelBtn && (
-              <Button loading={batchDeleting} onClick={handleBatchDelete} icon={<DeleteOutlined />} danger>
-                删除
-              </Button>
-            )}
-            <Button onClick={() => updateRowKeys([])} icon={<ClearOutlined />}>
-              取消选中
-            </Button>
+            {showBatchBelBtn && <Button loading={batchDeleting} onClick={handleBatchDelete} icon={<DeleteOutlined />} danger>删除</Button>}
+            <Button onClick={() => updateRowKeys([])} icon={<ClearOutlined />}>取消选中</Button>
           </Space>
         )}
         {/* 高级组合查询 */}
@@ -165,13 +157,13 @@ export default function BaseBizTable<RecordType extends object = any>({
         )}
       </div>
       <div style={{ position: 'relative' }}>
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <Table
           columns={parseColumns}
           rowSelection={showCheckbox ? myRowSelection : undefined}
           scroll={{ x: scrollWidthX, y: innerScrollY }}
           onRow={(record) => ({
             onClick: () => {
+              // 点击row选中功能实现
               if (!rowClickSelected) return;
               const clickId = get(record, 'id');
               let newRowKey = [];
