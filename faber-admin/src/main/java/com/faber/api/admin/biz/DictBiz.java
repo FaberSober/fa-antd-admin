@@ -16,6 +16,7 @@ import com.faber.core.utils.FaEnumUtils;
 import com.faber.core.vo.msg.TableRet;
 import com.faber.core.vo.DictOption;
 import com.faber.core.vo.query.QueryParams;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,12 @@ import java.util.stream.Collectors;
  */
 @Service
 public class DictBiz extends BaseBiz<DictMapper, Dict> {
+
+    @Value("${socketio.host}")
+    private String socketioHost;
+
+    @Value("${socketio.port}")
+    private Integer socketioPort;
 
     @Resource
     @Lazy
@@ -123,6 +130,10 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
         po.setLogoWithText(MapUtil.getStr(map, "system:portal:logoWithText"));
         po.setPortalLink(MapUtil.getStr(map, "system:portal:link"));
         po.setPhpRedisAdmin(MapUtil.getStr(map, "system:phpRedisAdmin"));
+
+        // socketio
+        po.setSocketUrl(socketioHost + ":" + socketioPort);
+
         return po;
     }
 

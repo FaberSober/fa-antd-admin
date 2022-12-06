@@ -20,12 +20,12 @@ public class DemoSocketImpl implements SocketIOService {
 
     @Override
     public void addListener(SocketIOServer server) {
-        server.addEventListener("chatevent", Map.class, (client, map, ackRequest) -> {
+        server.addEventListener("chatevent", ChatObject.class, (client, data, ackRequest) -> {
             String clientIp = FaSocketUtils.getIpByClient(client);
             log.debug(clientIp + " *********************** " + "chatevent");
-            log.debug("data: " + map.toString());
-            map.put("message", map.get("message") + "[已收到]");
-            client.sendEvent("chatevent", map);
+            log.debug("data: " + data.toString());
+            data.setMessage(data.getMessage() + "[已收到]");
+            client.sendEvent("chatevent", data);
         });
     }
 

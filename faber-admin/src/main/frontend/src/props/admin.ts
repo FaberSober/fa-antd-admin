@@ -334,6 +334,8 @@ namespace Admin {
 		portalLink: string;
 		/** [Web]redis web管理页面地址 */
     phpRedisAdmin: string;
+    /** [Web]SocketIO服务地址 */
+    socketUrl: string;
 	}
 
   // -------------------------------------------- 系统-URL请求日志 --------------------------------------------

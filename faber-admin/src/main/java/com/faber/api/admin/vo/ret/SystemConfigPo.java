@@ -44,4 +44,10 @@ public class SystemConfigPo {
      */
     private String phpRedisAdmin;
 
+    /**
+     * [Web]SocketIO服务地址
+     * 取值为yml配置文件socketio.host+port
+     */
+    private String socketUrl;
+
 }

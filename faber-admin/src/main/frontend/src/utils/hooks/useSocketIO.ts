@@ -1,6 +1,15 @@
-import {useCallback, useEffect, useRef, useState} from 'react';
+import {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import {trim} from 'lodash';
 import {message} from 'antd';
+import {UserLayoutContext} from "@/layout/UserLayout";
+import {getToken} from "@/utils/cache";
+
+
+export interface Props {
+  query?: any;
+  onConnect?: () => void;
+  onDisconnect?: () => void;
+}
 
 export interface Ret {
 	ready: boolean;
@@ -18,28 +27,31 @@ export interface Ret {
  * @author xu.pengfei
  * @date 2021/3/20
  */
-export default function useSocketIO(socketServer: string, query: any = { from: 'web' }): Ret {
+export default function useSocketIO({query = { from: 'web', token: getToken() }, onConnect, onDisconnect}: Props): Ret {
+  const {systemConfig} = useContext(UserLayoutContext)
 	const socketRef = useRef<any>();
 	const [ready, setReady] = useState(false);
 
 	useEffect(() => {
-		if (trim(socketServer) === '') return;
-		socketRef.current = window.io(socketServer, {
+		if (trim(systemConfig.socketUrl) === '') return;
+		socketRef.current = window.io(systemConfig.socketUrl, {
 			query,
 			transports: ['websocket', 'xhr-polling', 'jsonp-polling'],
 		});
 		socketRef.current?.on('connect', () => {
 			console.log('连接成功');
+			if (onConnect) onConnect();
 		});
 		socketRef.current?.on('disconnect', () => {
 			console.log('已下线!');
+      if (onDisconnect) onDisconnect();
 		});
 		setReady(true);
 		return () => {
 			console.log('useSocketIO detach!!!');
 			socketRef.current?.disconnect();
 		};
-	}, [socketServer]);
+	}, [systemConfig.socketUrl]);
 
 	const socketEmit = useCallback(
 		(event: string, ...args: any[]) => {
@@ -50,7 +62,7 @@ export default function useSocketIO(socketServer: string, query: any = { from: '
 			// console.log('socketEmit', socketRef.current);
 			socketRef.current?.emit(event, ...args);
 		},
-		[ready, socketServer],
+		[ready, systemConfig.socketUrl],
 	);
 
 	return { ready, socketEmit, socketInstance: socketRef.current };

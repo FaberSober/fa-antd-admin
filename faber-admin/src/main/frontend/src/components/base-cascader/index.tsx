@@ -69,12 +69,12 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
     setInnerValue(values);
   }
 
-  function handleChange(newValue: any, selectedOptions: any[]) {
+  function handleChange(newValue: KeyType[], selectedOptions: Fa.TreeNode<RecordType, KeyType>[]) {
     setInnerValue(newValue);
     const lastValue = newValue[newValue.length - 1];
     const lastItem = selectedOptions[selectedOptions.length - 1];
-    if (onChange) onChange(lastValue, lastItem, newValue, selectedOptions);
-    if (onChangeWithItem) onChangeWithItem(lastValue, lastItem);
+    if (onChange) onChange(lastValue, lastItem, newValue, selectedOptions.map(i => i.sourceData));
+    if (onChangeWithItem) onChangeWithItem(lastValue, lastItem.sourceData);
   }
 
   return (

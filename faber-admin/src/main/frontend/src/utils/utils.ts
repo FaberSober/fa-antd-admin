@@ -55,6 +55,20 @@ export function showResponse(response: Fa.Ret, prefix: string) {
 }
 
 /**
+ * date('YYYY-MM-DD HH:mm:ss')str
+ */
+export function getCurDateTime(format = 'YYYY-MM-DD HH:mm:ss') {
+  return dayjs().format(format);
+}
+
+/**
+ * date('HH:mm:ss')str
+ */
+export function getCurTime(format = 'HH:mm:ss.SSS') {
+  return dayjs().format(format);
+}
+
+/**
  * date('YYYY-MM-DD')格式化str
  * @param {*} date
  * @param {*} format
