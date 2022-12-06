@@ -3,7 +3,6 @@ package com.faber.api.admin.biz;
 import cn.hutool.core.collection.IterUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.ObjectUtil;
-import com.ace.cache.api.CacheAPI;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.faber.api.admin.entity.Department;
 import com.faber.api.admin.entity.User;
@@ -46,9 +45,6 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class UserBiz extends BaseBiz<UserMapper, User> {
-
-    @Resource
-    private CacheAPI cacheAPI;
 
     @Resource
     private DictBiz dictBiz;
@@ -342,8 +338,6 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
             User user = getById(id);
             user.setPassword(password);
             super.updateById(user);
-
-            cacheAPI.removeByPre("user:" + id);
         });
     }
 
@@ -355,7 +349,6 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
 
         ids.forEach(id -> {
             removeById(id);
-            cacheAPI.removeByPre("user:" + id);
         });
     }
 

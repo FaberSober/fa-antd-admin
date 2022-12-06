@@ -1,6 +1,5 @@
 package com.faber;
 
-import com.ace.cache.EnableAceCache;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
@@ -17,7 +16,6 @@ import java.util.Set;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableAceCache
 @EnableTransactionManagement
 @ServletComponentScan
 public class AdminBootstrap {

@@ -31,7 +31,7 @@
         <module>faber-admin</module>
         <module>faber-admin-server</module>
         <module>faber-generator</module>
-        <module>ace-cache</module>
+<!--        <module>ace-cache</module>-->
     </modules>
     <packaging>pom</packaging>
     <developers>
