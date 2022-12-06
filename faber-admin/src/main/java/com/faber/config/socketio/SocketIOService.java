@@ -1,5 +1,7 @@
 package com.faber.config.socketio;
 
+import com.corundumstudio.socketio.SocketIOServer;
+
 /**
  * @author xupengfei
  * @email faberxu@gmail.com
@@ -10,6 +12,6 @@ public interface SocketIOService {
     /**
      * 添加socket监听接口
      */
-    void addListener();
+    void addListener(SocketIOServer server);
 
 }
