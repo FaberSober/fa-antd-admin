@@ -96,7 +96,8 @@
 - [X] 前端tree结构的根结点ID切换为0，并使用统一的枚举值
 - [X] 导出Excel需要适配Enum类型属性的转换
 - [X] 剔除多余的hooks使用
-- [ ] socket整理
+- [X] socket整理
+- [ ] socket连接加入auth
 - [X] 集成Spring Validation
 - [ ] 集成redis缓存方案
 - [X] 集成redis在线管理工具

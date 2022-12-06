@@ -30,12 +30,6 @@ import java.util.stream.Collectors;
 @Service
 public class DictBiz extends BaseBiz<DictMapper, Dict> {
 
-    @Value("${socketio.hostName}")
-    private String socketioHostName;
-
-    @Value("${socketio.port}")
-    private Integer socketioPort;
-
     @Resource
     @Lazy
     private DictTypeBiz dictTypeBiz;
@@ -130,9 +124,7 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
         po.setLogoWithText(MapUtil.getStr(map, "system:portal:logoWithText"));
         po.setPortalLink(MapUtil.getStr(map, "system:portal:link"));
         po.setPhpRedisAdmin(MapUtil.getStr(map, "system:phpRedisAdmin"));
-
-        // socketio
-        po.setSocketUrl(socketioHostName + ":" + socketioPort);
+        po.setSocketUrl(MapUtil.getStr(map, "system:socketUrl"));
 
         return po;
     }

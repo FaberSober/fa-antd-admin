@@ -46,7 +46,7 @@ public class SystemConfigPo {
 
     /**
      * [Web]SocketIO服务地址
-     * 取值为yml配置文件socketio.host+port
+     * system:socketUrl
      */
     private String socketUrl;
 
