@@ -1,7 +1,9 @@
 package com.faber.config.socketio;
 
+import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.listener.DataListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +63,17 @@ public class BaseSocketIOService {
             log.debug(clientIp + " *********************** " + "客户端已断开连接");
             client.disconnect();
             // 这里可以加clientMap移除逻辑
+        });
+
+        server.addEventListener("chatevent", Map.class, new DataListener<Map>() {
+            @Override
+            public void onData(SocketIOClient client, Map map, AckRequest ackRequest) throws Exception {
+                String clientIp = FaSocketUtils.getIpByClient(client);
+                log.debug(clientIp + " *********************** " + "chatevent");
+                log.debug("data: " + map.toString());
+                map.put("message", map.get("message") + "[已收到]");
+                client.sendEvent("chatevent", map);
+            }
         });
 
         // TODO 扫描实现了SocketIOService的业务bean，注册server监听接口

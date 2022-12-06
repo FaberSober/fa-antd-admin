@@ -48,7 +48,9 @@ public class SocketioTest {
 
     private Socket getSocket() throws URISyntaxException {
         // 服务端socket.io连接通信地址
-        String url = "http://127.0.0.1:8081";
+//        String url = "http://127.0.0.1:8081";
+        String url = "http://127.0.0.1:9092";
+
         IO.Options options = new IO.Options();
         options.transports = new String[]{"websocket"};
         options.reconnectionAttempts = 2;
@@ -56,8 +58,8 @@ public class SocketioTest {
         options.reconnectionDelay = 1000;
         // 连接超时时间(ms)
         options.timeout = 500;
-        // userId: 唯一标识 传给服务端存储
-        return IO.socket(url + "?userId=1", options);
+
+        return IO.socket(url, options);
     }
 
 }
