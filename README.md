@@ -65,12 +65,15 @@
 1. [升级npm依赖](./doc/frontend/ncu.md)
 1. [登录页面](./doc/frontend/login.md)
 1. [bus事件总线](./doc/frontend/bus.md)
+1. [socketio](./doc/frontend/socket.md)
 
 ## 后台
 1. [后台约定的一些规则](./doc/server/common.md)
 1. [枚举](./doc/server/enum.md)
 1. [注解](./doc/server/annotation.md)
 1. [代码生成器](./doc/server/genetator.md)
+1. [socketio](./doc/server/socket.md)
+1. [nginx部署](./doc/server/nginx.md)
 
 
 # RoadMap

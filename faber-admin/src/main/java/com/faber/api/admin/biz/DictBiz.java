@@ -3,6 +3,7 @@ package com.faber.api.admin.biz;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.faber.api.admin.entity.Dict;
 import com.faber.api.admin.entity.DictType;
@@ -125,6 +126,12 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
         po.setPortalLink(MapUtil.getStr(map, "system:portal:link"));
         po.setPhpRedisAdmin(MapUtil.getStr(map, "system:phpRedisAdmin"));
         po.setSocketUrl(MapUtil.getStr(map, "system:socketUrl"));
+
+        // 开发环境参数设置
+        if ("dev".equalsIgnoreCase(SpringUtil.getActiveProfile())) {
+            po.setPhpRedisAdmin("http://127.0.0.1:8182");
+            po.setSocketUrl("127.0.0.1:8081");
+        }
 
         return po;
     }
