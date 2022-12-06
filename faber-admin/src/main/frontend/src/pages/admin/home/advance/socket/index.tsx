@@ -4,6 +4,7 @@ import {trim} from 'lodash'
 import useSocketIO from "@/utils/hooks/useSocketIO";
 import {getCurTime} from "@/utils/utils";
 import {FaFlexRestLayout} from "@/components/base-layout";
+import {useUpdate} from "ahooks";
 
 
 interface Msg {
@@ -15,21 +16,25 @@ function genMsg(msg?: string): Msg {
   return { time: getCurTime(), msg: trim(msg) }
 }
 
+const msgList:Msg[] = [];
+
+
 /**
  * @author xu.pengfei
  * @date 2022/12/6 13:55
  */
 export default function index() {
-  const [msgList, setMsgList] = useState<Msg[]>([])
   const {ready, socketInstance, socketEmit} = useSocketIO({
     onConnect: () => addMsg('Client has connected to the server!'),
     onDisconnect: () => addMsg('The client has disconnected!'),
   })
+  const update = useUpdate();
 
   const [input, setInput] = useState<string>()
 
   function addMsg(msg:string) {
-    setMsgList([ ...msgList, genMsg(msg) ])
+    msgList.push(genMsg(msg))
+    update();
   }
 
   useEffect(() => {

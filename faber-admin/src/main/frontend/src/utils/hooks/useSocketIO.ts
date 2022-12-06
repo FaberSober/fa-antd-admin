@@ -42,10 +42,13 @@ export default function useSocketIO({query = { from: 'web', token: getToken() },
 			console.log('连接成功');
 			if (onConnect) onConnect();
 		});
-		socketRef.current?.on('disconnect', () => {
+		socketRef.current?.on('ping', () => {
 			console.log('已下线!');
       if (onDisconnect) onDisconnect();
 		});
+    socketRef.current?.on('disconnect', () => {
+      console.log('ping');
+    });
 		setReady(true);
 		return () => {
 			console.log('useSocketIO detach!!!');
