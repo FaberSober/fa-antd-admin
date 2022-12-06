@@ -30,8 +30,8 @@ import java.util.stream.Collectors;
 @Service
 public class DictBiz extends BaseBiz<DictMapper, Dict> {
 
-    @Value("${socketio.host}")
-    private String socketioHost;
+    @Value("${socketio.hostName}")
+    private String socketioHostName;
 
     @Value("${socketio.port}")
     private Integer socketioPort;
@@ -132,7 +132,7 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
         po.setPhpRedisAdmin(MapUtil.getStr(map, "system:phpRedisAdmin"));
 
         // socketio
-        po.setSocketUrl(socketioHost + ":" + socketioPort);
+        po.setSocketUrl(socketioHostName + ":" + socketioPort);
 
         return po;
     }

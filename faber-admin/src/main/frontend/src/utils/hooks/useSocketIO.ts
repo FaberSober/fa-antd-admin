@@ -34,7 +34,7 @@ export default function useSocketIO({query = { from: 'web', token: getToken() },
 
 	useEffect(() => {
 		if (trim(systemConfig.socketUrl) === '') return;
-		socketRef.current = window.io(systemConfig.socketUrl, {
+		socketRef.current = window.io(window.location.protocol + "//" + systemConfig.socketUrl, {
 			query,
 			transports: ['websocket', 'xhr-polling', 'jsonp-polling'],
 		});
