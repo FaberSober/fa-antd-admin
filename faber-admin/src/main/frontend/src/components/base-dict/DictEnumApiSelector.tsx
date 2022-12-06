@@ -6,7 +6,6 @@ import dictService from '@/services/admin/dict';
 interface IProps extends SelectProps<any> {
   enumName: string; // 枚举名称
   onFetchData?: (list: any[]) => void; // 获取数据回调
-  onChange?: (value: any, label: any) => void;
   transValue?: (v: any) => any; // value类型转换
 }
 
@@ -14,7 +13,7 @@ interface IProps extends SelectProps<any> {
  * @author xu.pengfei
  * @date 2020/12/25
  */
-export default function DictEnumApiSelector({ enumName, onFetchData, onChange, value, transValue = (v) => v, ...props }: IProps) {
+export default function DictEnumApiSelector({ enumName, onFetchData, transValue = (v) => v, ...props }: IProps) {
   const [list, setList] = useState<any[]>([]);
 
   useEffect(() => {
@@ -32,17 +31,11 @@ export default function DictEnumApiSelector({ enumName, onFetchData, onChange, v
     });
   }
 
-  function handleChange(v: any, option: any) {
-    if (onChange) onChange(v, option && option.label);
-  }
-
   return (
     <Select
       style={{ minWidth: 170 }}
-      onChange={handleChange}
       allowClear
       placeholder="请选择"
-      value={value && `${value}`}
       options={list}
       {...props}
     />

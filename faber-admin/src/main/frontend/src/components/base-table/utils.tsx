@@ -141,7 +141,7 @@ export function genDictSorterColumn(
     sortOrder: getSortOrder(sorter, dataIndex),
     tcChecked,
     tcCondComponent: ({ index, value, callback, ...props }: FaberTable.TcCondProp) => (
-      <DictDataSelector dictLabel={dictLabel} value={value} onChange={(v, label) => callback(v, index, label)} {...props} />
+      <DictDataSelector dictLabel={dictLabel} value={value} onChange={(v, o) => callback(v, index, optionsToLabel(o))} {...props} />
     ),
     width,
   } as FaberTable.ColumnsProp<any>;
@@ -163,7 +163,7 @@ export function genEnumSorterColumn(
     sortOrder: getSortOrder(sorter, dataIndex),
     tcChecked,
     tcCondComponent: ({ index, value, callback, ...props }: FaberTable.TcCondProp) => (
-      <DictEnumSelector dicts={dicts[dataIndex]} value={value} onChange={(v, label) => callback(v, index, label)} {...props} />
+      <DictEnumSelector dicts={dicts[dataIndex]} value={value} onChange={(v, o) => callback(v, index, optionsToLabel(o))} {...props} />
     ),
     width,
   } as FaberTable.ColumnsProp<any>;

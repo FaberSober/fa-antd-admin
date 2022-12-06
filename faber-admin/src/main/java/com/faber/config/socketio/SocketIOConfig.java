@@ -2,6 +2,7 @@ package com.faber.config.socketio;
 
 import com.corundumstudio.socketio.SocketConfig;
 import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.Transport;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,6 +54,11 @@ public class SocketIOConfig {
         config.setUpgradeTimeout(upgradeTimeout);
         config.setPingTimeout(pingTimeout);
         config.setPingInterval(pingInterval);
+
+//        config.setMaxFramePayloadLength(800000 * 3);
+//        config.setTransports(Transport.POLLING, Transport.WEBSOCKET);
+//        config.setOrigin(":*:"); // 设置跨域访问
+
         return new SocketIOServer(config);
     }
 
