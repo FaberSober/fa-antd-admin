@@ -45,6 +45,7 @@ export default function index() {
   }, [ready]);
 
   function handleSend() {
+    addMsg(input || '')
     socketEmit('chatevent', { userName: '用户1', message: input })
     setInput('')
   }
@@ -59,7 +60,7 @@ export default function index() {
       <FaFlexRestLayout>
         {msgList.map(m => (
           <div key={m.time} className="fa-flex-row-center">
-            <div style={{ color: '#F90', marginRight: 8 }}>{m.time}</div>
+            <div style={{ color: '#F90', width: 90 }}>{m.time}</div>
             <div>{m.msg}</div>
           </div>
         ))}

@@ -44,10 +44,10 @@ export default function useSocketIO({query = { from: 'web', token: getToken() },
 		});
     socketRef.current?.on('disconnect', () => {
       console.log('已下线!');
+      if (onDisconnect) onDisconnect();
     });
     socketRef.current?.on('ping', () => {
       console.log('ping');
-      if (onDisconnect) onDisconnect();
     });
 		setReady(true);
 		return () => {
