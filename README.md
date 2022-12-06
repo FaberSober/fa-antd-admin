@@ -118,12 +118,7 @@
 - [ ] 通用导入方法
 - [ ] 多租户
 
-# 更新日志
-## 2022-09-14
-1. 请求URL日志记录
-
-## 2022-09-07
-1. 增加定时任务执行日志
+# [CHANGELOG](./CHANGELOG.md)
 
 # 参考资料
 [RABC 权限拦截设置](https://blog.csdn.net/ytsydmx/article/details/123801763)
