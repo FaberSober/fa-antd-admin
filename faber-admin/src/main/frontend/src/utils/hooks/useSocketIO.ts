@@ -42,12 +42,12 @@ export default function useSocketIO({query = { from: 'web', token: getToken() },
 			console.log('连接成功');
 			if (onConnect) onConnect();
 		});
-		socketRef.current?.on('ping', () => {
-			console.log('已下线!');
-      if (onDisconnect) onDisconnect();
-		});
     socketRef.current?.on('disconnect', () => {
+      console.log('已下线!');
+    });
+    socketRef.current?.on('ping', () => {
       console.log('ping');
+      if (onDisconnect) onDisconnect();
     });
 		setReady(true);
 		return () => {
