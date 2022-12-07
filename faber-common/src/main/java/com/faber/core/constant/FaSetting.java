@@ -13,6 +13,7 @@ public class FaSetting {
     private File file;
     private Qiniu qiniu;
     private Amap amap;
+    private Url url;
 
     /**
      * JWT配置
@@ -62,5 +63,20 @@ public class FaSetting {
          * key
          */
         private String key;
+    }
+
+    /**
+     * Url
+     */
+    @Data
+    public static class Url {
+        /**
+         * phpRedisAdmin
+         */
+        private String phpRedisAdmin;
+        /**
+         * socketUrl
+         */
+        private String socketUrl;
     }
 }

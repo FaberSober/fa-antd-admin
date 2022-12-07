@@ -2,6 +2,9 @@
 演示地址：http://fa.dward.cn/login
 演示账户：admin/888888
 
+- Github: https://github.com/FaberSober/vite-react-antd-admin
+- Gitee: https://gitee.com/faberxu/vite-react-antd-admin
+
 ## 项目说明
 一个前后端分离的springboot项目，未使用微服务，部署简单。maven一键打包前后端代码，只需部署一个最终的jar来启动服务。适合小型项目。
 - 前端：react18 + antd5.x + vite3(快速开发 + 打包生产)

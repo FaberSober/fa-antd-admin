@@ -40,13 +40,13 @@ public class SystemConfigPo {
 
     /**
      * [Web]redis web管理页面地址
-     * system:phpRedisAdmin
+     * 配置文件: fa.setting.url.phpRedisAdmin
      */
     private String phpRedisAdmin;
 
     /**
      * [Web]SocketIO服务地址
-     * system:socketUrl
+     * 配置文件: fa.setting.url.socketUrl
      */
     private String socketUrl;
 

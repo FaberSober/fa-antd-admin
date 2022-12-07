@@ -9,6 +9,7 @@ import com.faber.api.admin.entity.Dict;
 import com.faber.api.admin.entity.DictType;
 import com.faber.api.admin.mapper.DictMapper;
 import com.faber.api.admin.vo.ret.SystemConfigPo;
+import com.faber.core.constant.FaSetting;
 import com.faber.core.exception.NoDataException;
 import com.faber.core.web.biz.BaseBiz;
 import com.faber.api.admin.enums.DictTypeCodeEnum;
@@ -34,6 +35,9 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
     @Resource
     @Lazy
     private DictTypeBiz dictTypeBiz;
+
+    @Resource
+    private FaSetting faSetting;
 
     private static final Map<String, Object> enumClassCache = new HashMap<>();
 
@@ -124,14 +128,9 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
         po.setLogo(MapUtil.getStr(map, "system:logo"));
         po.setLogoWithText(MapUtil.getStr(map, "system:portal:logoWithText"));
         po.setPortalLink(MapUtil.getStr(map, "system:portal:link"));
-        po.setPhpRedisAdmin(MapUtil.getStr(map, "system:phpRedisAdmin"));
-        po.setSocketUrl(MapUtil.getStr(map, "system:socketUrl"));
 
-        // 开发环境参数设置
-        if ("dev".equalsIgnoreCase(SpringUtil.getActiveProfile())) {
-            po.setPhpRedisAdmin("http://127.0.0.1:8182");
-            po.setSocketUrl("127.0.0.1:8081");
-        }
+        po.setPhpRedisAdmin(faSetting.getUrl().getPhpRedisAdmin());
+        po.setSocketUrl(faSetting.getUrl().getSocketUrl());
 
         return po;
     }
