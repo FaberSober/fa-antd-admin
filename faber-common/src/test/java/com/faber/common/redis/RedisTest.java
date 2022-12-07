@@ -48,7 +48,7 @@ public class RedisTest {
 
     @Test
     public void testString() {
-        RBucket<String> bucket = redisson.getBucket("myBucket");
+        RBucket<String> bucket = redisson.getBucket("test:myBucket");
         bucket.setAsync("Hello");
         log.info(bucket.get());
     }
