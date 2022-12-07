@@ -1,5 +1,6 @@
 package com.faber.common.redis;
 
+import cn.hutool.core.thread.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -147,6 +148,68 @@ public class RedisTest {
 
         latch.await(30, TimeUnit.SECONDS);
         log.info("Finish");
+    }
+
+    @Test
+    public void testQueue() {
+        RQueue<CustomMessage> queue = redisson.getQueue("anyQueue");
+        queue.add(new CustomMessage("Hello"));
+        CustomMessage obj = queue.peek();
+        CustomMessage someObj = queue.poll();
+    }
+
+    @Test
+    public void testQueueScene() throws InterruptedException {
+        RQueue<CustomMessage> queue = redisson.getQueue("anyQueue2");
+        CountDownLatch latch = new CountDownLatch(10);
+
+        // 一个生产者进程，每1s放入一条数据
+        new Thread(() -> {
+            for (int i = 0; i < 10; i++) {
+                CustomMessage obj = new CustomMessage("Hello" + i);
+                queue.add(obj);
+                log.info("Produce Obj: {}", obj);
+                ThreadUtil.sleep(1000);
+            }
+        }).start();
+
+        ThreadUtil.sleep(2000);
+
+        // 一个消费者进程，每2s消费一条数据
+        new Thread(() -> {
+            while (!queue.isEmpty()) {
+                CustomMessage obj = queue.poll();
+                log.info("Consume Obj: {}", obj);
+                latch.countDown();
+                ThreadUtil.sleep(2000);
+            }
+        }).start();
+
+        latch.await(30, TimeUnit.SECONDS);
+        log.info("Finish");
+
+        //16:17:36.680 [Thread-0] INFO com.faber.common.redis.RedisTest - Produce Obj: CustomMessage(message=Hello0)
+        //16:17:37.689 [Thread-0] INFO com.faber.common.redis.RedisTest - Produce Obj: CustomMessage(message=Hello1)
+        //16:17:38.696 [Thread-0] INFO com.faber.common.redis.RedisTest - Produce Obj: CustomMessage(message=Hello2)
+        //16:17:39.704 [Thread-0] INFO com.faber.common.redis.RedisTest - Produce Obj: CustomMessage(message=Hello3)
+        //16:17:40.709 [Thread-0] INFO com.faber.common.redis.RedisTest - Produce Obj: CustomMessage(message=Hello4)
+        //16:17:41.714 [Thread-0] INFO com.faber.common.redis.RedisTest - Produce Obj: CustomMessage(message=Hello5)
+        //16:17:42.717 [Thread-0] INFO com.faber.common.redis.RedisTest - Produce Obj: CustomMessage(message=Hello6)
+        //16:17:43.723 [Thread-0] INFO com.faber.common.redis.RedisTest - Produce Obj: CustomMessage(message=Hello7)
+        //16:17:44.729 [Thread-0] INFO com.faber.common.redis.RedisTest - Produce Obj: CustomMessage(message=Hello8)
+        //16:17:45.732 [Thread-0] INFO com.faber.common.redis.RedisTest - Produce Obj: CustomMessage(message=Hello9)
+        //
+        //
+        //16:17:38.700 [Thread-1] INFO com.faber.common.redis.RedisTest - Consume Obj: CustomMessage(message=Hello0)
+        //16:17:40.712 [Thread-1] INFO com.faber.common.redis.RedisTest - Consume Obj: CustomMessage(message=Hello1)
+        //16:17:42.718 [Thread-1] INFO com.faber.common.redis.RedisTest - Consume Obj: CustomMessage(message=Hello2)
+        //16:17:44.725 [Thread-1] INFO com.faber.common.redis.RedisTest - Consume Obj: CustomMessage(message=Hello3)
+        //16:17:46.734 [Thread-1] INFO com.faber.common.redis.RedisTest - Consume Obj: CustomMessage(message=Hello4)
+        //16:17:48.745 [Thread-1] INFO com.faber.common.redis.RedisTest - Consume Obj: CustomMessage(message=Hello5)
+        //16:17:50.752 [Thread-1] INFO com.faber.common.redis.RedisTest - Consume Obj: CustomMessage(message=Hello6)
+        //16:17:52.756 [Thread-1] INFO com.faber.common.redis.RedisTest - Consume Obj: CustomMessage(message=Hello7)
+        //16:17:54.765 [Thread-1] INFO com.faber.common.redis.RedisTest - Consume Obj: CustomMessage(message=Hello8)
+        //16:17:56.775 [Thread-1] INFO com.faber.common.redis.RedisTest - Consume Obj: CustomMessage(message=Hello9)
     }
 
 }
