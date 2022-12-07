@@ -1,6 +1,7 @@
 package com.faber.common.redis;
 
 import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -210,6 +211,45 @@ public class RedisTest {
         //16:17:52.756 [Thread-1] INFO com.faber.common.redis.RedisTest - Consume Obj: CustomMessage(message=Hello7)
         //16:17:54.765 [Thread-1] INFO com.faber.common.redis.RedisTest - Consume Obj: CustomMessage(message=Hello8)
         //16:17:56.775 [Thread-1] INFO com.faber.common.redis.RedisTest - Consume Obj: CustomMessage(message=Hello9)
+    }
+
+    @Test
+    public void testDelayQueue() {
+        RQueue<String> distinationQueue = redisson.getQueue("anyDelayQueue");
+        RDelayedQueue<String> delayedQueue = redisson.getDelayedQueue(distinationQueue);
+        // 10秒钟以后将消息发送到指定队列
+        delayedQueue.offer("msg1", 10, TimeUnit.SECONDS);
+        // 一分钟以后将消息发送到指定队列
+        delayedQueue.offer("msg2", 1, TimeUnit.MINUTES);
+    }
+
+    @Test
+    public void testDelayQueueScene1() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(5);
+
+        RBlockingQueue<String> blockingQueue = redisson.getBlockingQueue("dest_queue1");
+        RDelayedQueue<String> delayedQueue = redisson.getDelayedQueue(blockingQueue);
+        new Thread(() -> {
+            while (true) {
+                try {
+                    // 阻塞队列有数据就返回，否则wait
+                    String info = blockingQueue.take();
+                    log.error(info);
+                    latch.countDown();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        for (int i = 1; i <= 5; i++) {
+            // 向阻塞队列放入数据
+            delayedQueue.offer("fffffffff" + i, 13, TimeUnit.SECONDS);
+            ThreadUtil.sleep(5 * 1000);
+        }
+
+        latch.await(60, TimeUnit.SECONDS);
+        log.info("Finish");
     }
 
 }
