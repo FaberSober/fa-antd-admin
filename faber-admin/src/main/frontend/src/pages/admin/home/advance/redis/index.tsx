@@ -52,7 +52,7 @@ export default function index() {
           </Form>
         </Card>
 
-        <Card title="添加缓存" className="fa-mb12">
+        <Card title="获取缓存" className="fa-mb12">
           <Form form={form1} onFinish={onFinish1}>
             <Form.Item name="key" label="Key" rules={[{ required: true }]} {...formItemFullLayout}>
               <Input />
