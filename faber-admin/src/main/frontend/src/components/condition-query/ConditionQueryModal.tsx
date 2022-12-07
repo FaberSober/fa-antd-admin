@@ -44,7 +44,7 @@ function genOneEmptyCondGroup(): ConditionQuery.CondGroup {
  */
 export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, onConditionChange, columns, children }: ConditionQueryModalProps<T>) {
   const [condGroupList, setCondGroupList] = useState<ConditionQuery.CondGroup[]>(record ? JSON.parse(record.data) : [genOneEmptyCondGroup()]);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saveAsScene, setSaveAsScene] = useState(record !== undefined);
   const [defaultScene, setDefaultScene] = useState(false); // 是否设置为默认场景
@@ -115,7 +115,7 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
     if (onConditionChange) {
       onConditionChange(condGroupList, saveAsScene);
     }
-    setModalVisible(false);
+    setOpen(false);
   }
 
   function handleCondGroupChange(condGroup: ConditionQuery.CondGroup, triggerSave?: boolean) {
@@ -143,7 +143,7 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
   return (
     <span>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <span onClick={() => setModalVisible(true)}>{children}</span>
+        <span onClick={() => setOpen(true)}>{children}</span>
         {/* 高级筛选结果展示 */}
         {showSuffix ? (
           <div style={{ display: 'flex', flexWrap: 'wrap' }}>
@@ -158,10 +158,10 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
       </div>
       <DragModal
         title="高级筛选"
-        open={modalVisible}
+        open={open}
         onOk={handleSave}
         confirmLoading={loading}
-        onCancel={() => setModalVisible(false)}
+        onCancel={() => setOpen(false)}
         width={750}
         destroyOnClose
       >

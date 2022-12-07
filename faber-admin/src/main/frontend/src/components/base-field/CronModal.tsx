@@ -20,7 +20,7 @@ export default function CronModal({ children, initialValue, onChange, ...props }
   const [times, setTimes] = useState<string[]>([])
   const [errorMsg, setErrorMsg] = useState<string|undefined>(undefined);
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     jobApi.quartzLatest(cron, 5).then((res) => {
@@ -38,17 +38,17 @@ export default function CronModal({ children, initialValue, onChange, ...props }
     if (onChange) {
       onChange(trim(cron))
     }
-    setModalVisible(false)
+    setOpen(false)
   }
 
   return (
     <span>
-      <span onClick={() => setModalVisible(true)}>{children || <a>cron表达式编辑</a>}</span>
+      <span onClick={() => setOpen(true)}>{children || <a>cron表达式编辑</a>}</span>
       <DragModal
         title="cron表达式编辑"
-        open={modalVisible}
+        open={open}
         onOk={() => onFinish()}
-        onCancel={() => setModalVisible(false)}
+        onCancel={() => setOpen(false)}
         width={844}
         style={{ top: 44 }}
         {...props}

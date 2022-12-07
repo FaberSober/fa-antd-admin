@@ -15,15 +15,15 @@ export interface GateLogDrawerProps extends DragModalProps {
  实体新增、编辑弹框
  */
 export default function LogApiDrawer({ children, record, ...props }: GateLogDrawerProps) {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <span>
-      <span onClick={() => setModalVisible(true)}>{children}</span>
+      <span onClick={() => setOpen(true)}>{children}</span>
       <Drawer
         title="查看请求详情"
-        open={modalVisible}
-        onClose={() => setModalVisible(false)}
+        open={open}
+        onClose={() => setOpen(false)}
         width={700}
         {...props}
       >

@@ -24,13 +24,13 @@ export default function AreaModal({ children, title, record, fetchFinish, ...pro
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const [open, setOpen] = useState(false);
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
     modelService.save(params).then((res) => {
       showResponse(res, `新增${serviceName}`);
-      setModalVisible(false);
+      setOpen(false);
       if (fetchFinish) fetchFinish();
     })
   }
@@ -40,7 +40,7 @@ export default function AreaModal({ children, title, record, fetchFinish, ...pro
     modelService.update(params.id, params).then((res) => {
         showResponse(res, `更新${serviceName}`);
         if (res && res.status === RES_CODE.OK) {
-          setModalVisible(false);
+          setOpen(false);
           if (fetchFinish) fetchFinish();
         }
       })
@@ -75,7 +75,7 @@ export default function AreaModal({ children, title, record, fetchFinish, ...pro
   }
 
   function showModal() {
-    setModalVisible(true)
+    setOpen(true)
     form.setFieldsValue(getInitialValues())
   }
 
@@ -85,10 +85,10 @@ export default function AreaModal({ children, title, record, fetchFinish, ...pro
       <span onClick={showModal}>{children}</span>
       <DragModal
         title={title}
-        open={modalVisible}
+        open={open}
         onOk={() => form.submit()}
         confirmLoading={loading}
-        onCancel={() => setModalVisible(false)}
+        onCancel={() => setOpen(false)}
         width={700}
         {...props}
       >

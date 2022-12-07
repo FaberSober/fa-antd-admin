@@ -32,7 +32,7 @@ interface IProps<T> extends ModalProps {
 function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigChange, children, ...restProps }: IProps<T>) {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [config, setConfig] = useState<Admin.Config>();
-  const [modalVisible, setModalVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   const [items, setItems] = useState<FaberTable.ColumnsProp<T>[]>(columns);
 
   /**
@@ -77,7 +77,7 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
     if (e) {
       e.stopPropagation();
     }
-    setModalVisible(true);
+    setOpen(true);
     fetchRemoteConfig();
   }
 
@@ -108,7 +108,7 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
       configService.update(config.id, { id: config.id, ...params }).then((res) => showResponse(res, '更新自定义表格配置'));
     }
 
-    setModalVisible(false);
+    setOpen(false);
     // 通知外部
     if (onConfigChange) onConfigChange(columnsMerge);
   }
@@ -135,14 +135,13 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
       <span onClick={showModelHandler}>{children}</span>
       <Drawer
         title="自定义表格字段"
-        open={modalVisible}
+        open={open}
         onOk={handleSave}
         confirmLoading={loading}
-        onClose={() => setModalVisible(false)}
+        onClose={() => setOpen(false)}
         width={500}
         destroyOnClose
         extra={<Button size="small" type="primary" onClick={handleSave} loading={loading}>更新</Button>}
-        bodyStyle={{ position: 'relative' }}
         {...restProps}
       >
         <div className="fa-full-content-p12 fa-flex-column">

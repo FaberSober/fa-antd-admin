@@ -15,7 +15,7 @@ export interface UploadFileLocalProps extends Omit<UploadProps, 'onChange'> {
   onChange?: (fileIds: string[]) => void;
 }
 
-const doneIds = []; // 记录已经上传完成的文件uid
+const doneIds:any[] = []; // 记录已经上传完成的文件uid
 
 /**
  * 多文件上传

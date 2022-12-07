@@ -26,12 +26,12 @@ function DictModal({ children, title, record, fetchFinish, type, ...props }: IPr
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   const [category, setCategory] = useState(0);
 
   useImperativeHandle(ref, () => ({
     showModal: () => {
-      setModalVisible(true);
+      setOpen(true);
     },
   }));
 
@@ -45,7 +45,7 @@ function DictModal({ children, title, record, fetchFinish, type, ...props }: IPr
   function invokeInsertTask(params: any) {
     modelService.save(params).then((res) => {
       showResponse(res, `新增${serviceName}`);
-      setModalVisible(false);
+      setOpen(false);
       if (fetchFinish) fetchFinish();
     })
   }
@@ -54,7 +54,7 @@ function DictModal({ children, title, record, fetchFinish, type, ...props }: IPr
   function invokeUpdateTask(params: any) {
     modelService.update(params.id, params).then((res) => {
       showResponse(res, `更新${serviceName}`);
-      setModalVisible(false);
+      setOpen(false);
       if (fetchFinish) fetchFinish();
     })
   }
@@ -88,7 +88,7 @@ function DictModal({ children, title, record, fetchFinish, type, ...props }: IPr
   };
 
   function showModal() {
-    setModalVisible(true);
+    setOpen(true);
     if (record) {
       setCategory(record.category);
     }
@@ -103,10 +103,10 @@ function DictModal({ children, title, record, fetchFinish, type, ...props }: IPr
       <span onClick={() => showModal()}>{children}</span>
       <DragModal
         title={title}
-        open={modalVisible}
+        open={open}
         onOk={() => form.submit()}
         confirmLoading={loading}
-        onCancel={() => setModalVisible(false)}
+        onCancel={() => setOpen(false)}
         width={700}
         bodyStyle={{ paddingRight: 24, position: 'relative' }}
         {...props}

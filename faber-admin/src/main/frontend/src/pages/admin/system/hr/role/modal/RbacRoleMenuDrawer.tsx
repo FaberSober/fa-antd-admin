@@ -24,7 +24,7 @@ export default function RbacRoleMenuDrawer({ children, title, record, success, .
   const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([]);
   const [halfCheckedKeys, setHalfCheckedKeys] = useState<React.Key[]>([]);
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const [open, setOpen] = useState(false);
 
   function refreshData() {
     rbacMenuApi.allTree().then((res) => {
@@ -48,7 +48,7 @@ export default function RbacRoleMenuDrawer({ children, title, record, success, .
   }
 
   function showModal() {
-    setModalVisible(true)
+    setOpen(true)
     refreshData()
   }
 
@@ -58,33 +58,24 @@ export default function RbacRoleMenuDrawer({ children, title, record, success, .
       <span onClick={showModal}>{children}</span>
       <Drawer
         title="角色权限设置"
-        open={modalVisible}
-        onClose={() => setModalVisible(false)}
+        open={open}
+        onClose={() => setOpen(false)}
         width={700}
+        extra={<Button size="small" type="primary" onClick={handleSave} loading={loading}>更新</Button>}
         {...props}
       >
-        <div style={{ height: '100%', position: 'relative' }}>
-          <div className="fa-full-content fa-flex-column">
-            <FaFlexRestLayout>
-              <Tree
-                checkable
-                // @ts-ignore
-                treeData={tree}
-                fieldNames={{ title: 'name', key: 'id' }}
-                checkedKeys={checkedKeys}
-                onCheck={(checked, e  ) => {
-                  // @ts-ignore
-                  setCheckedKeys(checked)
-                  setHalfCheckedKeys(e.halfCheckedKeys || [])
-                }}
-              />
-            </FaFlexRestLayout>
-
-            <Space style={{ marginTop: 12 }}>
-              <Button type="primary" onClick={handleSave} loading={loading}>更新</Button>
-            </Space>
-          </div>
-        </div>
+        <Tree
+          checkable
+          // @ts-ignore
+          treeData={tree}
+          fieldNames={{ title: 'name', key: 'id' }}
+          checkedKeys={checkedKeys}
+          onCheck={(checked, e  ) => {
+            // @ts-ignore
+            setCheckedKeys(checked)
+            setHalfCheckedKeys(e.halfCheckedKeys || [])
+          }}
+        />
       </Drawer>
     </span>
   )

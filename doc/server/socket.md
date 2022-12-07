@@ -1,7 +1,38 @@
 # socket
 
 ## 后端实现socket监听
-参考代码：``
+参考代码：`faber-admin/src/main/java/com/faber/api/demo/socket/DemoSocketImpl.java`
+
+代码如下：
+```java
+import com.corundumstudio.socketio.SocketIOServer;
+import com.faber.core.config.socket.FaSocketUtils;
+import com.faber.core.config.socket.SocketIOService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+/**
+ * 继承SocketIOService接口，添加socket监听即可
+ */
+@Slf4j
+@Service
+public class DemoSocketImpl implements SocketIOService {
+
+    @Override
+    public void addListener(SocketIOServer server) {
+        server.addEventListener("chatevent", ChatObject.class, (client, data, ackRequest) -> {
+            String clientIp = FaSocketUtils.getIpByClient(client);
+            log.debug(clientIp + " *********************** " + "chatevent");
+            log.debug("data: " + data.toString());
+            data.setMessage(data.getMessage() + "[已收到]");
+            client.sendEvent("chatevent", data);
+        });
+    }
+
+}
+
+```
+
 
 ## socketio服务端
 > 服务端使用组件[netty-socketio](https://github.com/mrniko/netty-socketio)

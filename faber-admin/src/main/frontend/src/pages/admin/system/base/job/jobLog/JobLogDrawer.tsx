@@ -12,10 +12,10 @@ export interface JobLogDrawerProps extends DragModalProps {
  * BASE-系统定时任务-执行日志实体新增、编辑弹框
  */
 export default function JobLogDrawer({ children, jobId, ...props }: JobLogDrawerProps) {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [open, setOpen] = useState(false);
 
   function showModal() {
-    setModalVisible(true)
+    setOpen(true)
   }
 
   return (
@@ -23,8 +23,8 @@ export default function JobLogDrawer({ children, jobId, ...props }: JobLogDrawer
       <span onClick={showModal}>{children}</span>
       <Drawer
         title="定时任务日志查看"
-        open={modalVisible}
-        onClose={() => setModalVisible(false)}
+        open={open}
+        onClose={() => setOpen(false)}
         width={1200}
         {...props}
       >
