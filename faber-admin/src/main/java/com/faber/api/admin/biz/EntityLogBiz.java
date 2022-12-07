@@ -16,7 +16,7 @@ import com.faber.core.bean.BaseCrtEntity;
 import com.faber.core.bean.BaseDelEntity;
 import com.faber.core.bean.BaseUpdEntity;
 import com.faber.core.web.biz.BaseBiz;
-import com.faber.core.enums.EntityLogActionEnum;
+import com.faber.api.admin.enums.EntityLogActionEnum;
 import com.faber.core.exception.BuzzException;
 import org.springframework.stereotype.Service;
 

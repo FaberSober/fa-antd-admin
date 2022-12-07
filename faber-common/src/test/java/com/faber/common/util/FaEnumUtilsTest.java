@@ -1,6 +1,6 @@
 package com.faber.common.util;
 
-import com.faber.core.enums.BoolEnum;
+import com.faber.core.enums.FileSaveDriveEnum;
 import com.faber.core.utils.FaEnumUtils;
 import com.faber.core.vo.DictOption;
 import org.junit.Test;
@@ -11,7 +11,7 @@ public class FaEnumUtilsTest {
 
     @Test
     public void testEnumToOptions() {
-        List<DictOption> options = FaEnumUtils.toOptions(BoolEnum.class);
+        List<DictOption> options = FaEnumUtils.toOptions(FileSaveDriveEnum.class);
         System.out.println(options.toString());
     }
 

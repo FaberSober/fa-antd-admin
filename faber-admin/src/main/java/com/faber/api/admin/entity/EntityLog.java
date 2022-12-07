@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.annotation.SqlEquals;
 import com.faber.core.bean.BaseCrtEntity;
-import com.faber.core.enums.EntityLogActionEnum;
+import com.faber.api.admin.enums.EntityLogActionEnum;
 import lombok.Data;
 
 

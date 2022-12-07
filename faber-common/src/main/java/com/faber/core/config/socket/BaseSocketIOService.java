@@ -26,8 +26,8 @@ public class BaseSocketIOService {
     private SocketIOServer server;
 
     /**
-     * 存放已连接的客户端【单兵设备】
-     * Key: 设备IMEI
+     * 存放已登录连接的客户端。
+     * Key: 用户ID
      * SocketIOClient: 设备的socketio连接
      */
     protected static Map<String, SocketIOClient> clientMap = new ConcurrentHashMap<>();

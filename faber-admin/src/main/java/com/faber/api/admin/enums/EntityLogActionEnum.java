@@ -1,4 +1,4 @@
-package com.faber.core.enums;
+package com.faber.api.admin.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
@@ -6,21 +6,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 /**
- * Bool
+ * 实体增删改日志类型枚举
  * @author xu.pengfei
- * @date 2022/11/28 14:15
+ * @date 2022/11/28 14:17
  */
 @Getter
-public enum BoolEnum implements IEnum<Integer> {
-    NO(0, "否"),
-    YES(1, "是");
+public enum EntityLogActionEnum implements IEnum<Integer> {
+    ADD(1, "新增"),
+    UPDATE(2, "更新"),
+    DEL(3, "删除");
 
     @JsonValue
     @EnumValue
     private final Integer value;
     private final String desc;
 
-    BoolEnum(Integer value, String desc) {
+    EntityLogActionEnum(Integer value, String desc) {
         this.value = value;
         this.desc = desc;
     }
