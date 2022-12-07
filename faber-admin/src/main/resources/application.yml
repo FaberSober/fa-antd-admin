@@ -1,5 +1,9 @@
 server:
   port: 80
+  compression:
+    enabled: true
+    min-response-size: 1024
+    mime-types: application/json,application/xml,text/html,text/plain,text/css,application/x-javascript
 spring:
   application:
     name: faber-admin-dev

@@ -148,6 +148,7 @@
             <appender-ref ref="logFileForAdmin"/>
         </logger>
         <logger name="tk.mybatis" level="INFO" />
+        <logger name="com.alicp.jetcache" level="INFO" />
 
         <root level="ERROR">
             <appender-ref ref="console"/>
