@@ -2,11 +2,11 @@ package com.faber.common.redis;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
+import org.junit.Test;
 import org.redisson.Redisson;
 import org.redisson.api.*;
 import org.redisson.api.listener.MessageListener;
 import org.redisson.config.Config;
-import org.junit.Test;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -113,6 +113,40 @@ public class RedisTest {
 
         boolean b = countDownLatch.await(10, TimeUnit.SECONDS);
         log.info("b: " + b);
+    }
+
+    @Test
+    public void testRateLimiter() throws InterruptedException {
+        RRateLimiter rateLimiter = redisson.getRateLimiter("myRateLimiter");
+        rateLimiter.delete();
+        rateLimiter = redisson.getRateLimiter("myRateLimiter");
+        // 初始化
+        // 最大流速 = 每5秒钟产生2个令牌
+        rateLimiter.trySetRate(RateType.OVERALL, 2, 5, RateIntervalUnit.SECONDS);
+
+        // 测试场景，现在需要11个令牌，立刻获取
+        CountDownLatch latch = new CountDownLatch(11);
+
+        // 实际获取的过程如下，可以看出每5s中只会获取2个令牌
+        //15:36:11.813 [main] INFO com.faber.common.redis.RedisTest - GET pass token 1
+        //15:36:11.818 [main] INFO com.faber.common.redis.RedisTest - GET pass token 2
+        //15:36:11.822 [main] INFO com.faber.common.redis.RedisTest - GET pass token 3
+        //15:36:16.832 [main] INFO com.faber.common.redis.RedisTest - GET pass token 4
+        //15:36:16.835 [main] INFO com.faber.common.redis.RedisTest - GET pass token 5
+        //15:36:21.845 [main] INFO com.faber.common.redis.RedisTest - GET pass token 6
+        //15:36:21.849 [main] INFO com.faber.common.redis.RedisTest - GET pass token 7
+        //15:36:26.858 [main] INFO com.faber.common.redis.RedisTest - GET pass token 8
+        //15:36:26.861 [main] INFO com.faber.common.redis.RedisTest - GET pass token 9
+        //15:36:31.865 [main] INFO com.faber.common.redis.RedisTest - GET pass token 10
+        //15:36:31.868 [main] INFO com.faber.common.redis.RedisTest - GET pass token 11
+        for (int i = 0; i < 11; i++) {
+            log.info("GET pass token " + (i + 1));
+            rateLimiter.acquire(1);
+            latch.countDown();
+        }
+
+        latch.await(30, TimeUnit.SECONDS);
+        log.info("Finish");
     }
 
 }
