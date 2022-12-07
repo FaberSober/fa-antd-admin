@@ -1,7 +1,6 @@
 package com.faber.common.redis;
 
 import cn.hutool.core.thread.ThreadUtil;
-import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -147,7 +146,7 @@ public class RedisTest {
             latch.countDown();
         }
 
-        latch.await(30, TimeUnit.SECONDS);
+        latch.await();
         log.info("Finish");
     }
 
@@ -186,7 +185,7 @@ public class RedisTest {
             }
         }).start();
 
-        latch.await(30, TimeUnit.SECONDS);
+        latch.await();
         log.info("Finish");
 
         //16:17:36.680 [Thread-0] INFO com.faber.common.redis.RedisTest - Produce Obj: CustomMessage(message=Hello0)
@@ -248,7 +247,52 @@ public class RedisTest {
             ThreadUtil.sleep(5 * 1000);
         }
 
-        latch.await(60, TimeUnit.SECONDS);
+        latch.await();
+        log.info("Finish");
+    }
+
+    @Test
+    public void testGetLock() {
+        RLock lock = redisson.getLock("anyLock");
+        // 最常见的使用方法
+        lock.lock();
+        lock.unlock();
+    }
+
+    @Test
+    public void testGetLock2() throws InterruptedException {
+        RLock lock = redisson.getLock("anyLock2");
+        // 加锁以后10秒钟自动解锁
+        // 无需调用unlock方法手动解锁
+        lock.lock(10, TimeUnit.SECONDS);
+
+        // 尝试加锁，最多等待100秒，上锁以后10秒自动解锁
+        boolean res = lock.tryLock(100, 10, TimeUnit.SECONDS);
+        if (res) {
+            try {
+                log.info("get lock and run...");
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+
+    @Test
+    public void testCountDownLatch() throws InterruptedException {
+        RCountDownLatch latch = redisson.getCountDownLatch("anyCountDownLatch");
+        latch.trySetCount(5);
+
+        new Thread(() -> {
+            // 在其他线程或其他JVM里
+            RCountDownLatch latch1 = redisson.getCountDownLatch("anyCountDownLatch");
+            for (int i = 0; i < 10; i++) {
+                ThreadUtil.sleep(3, TimeUnit.SECONDS);
+                latch1.countDown();
+                log.info("Count: " + latch1.getCount());
+            }
+        }).start();
+
+        latch.await();
         log.info("Finish");
     }
 
