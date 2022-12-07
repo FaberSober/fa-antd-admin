@@ -100,7 +100,7 @@ jetcache:
       type: redisson
       keyConvertor: fastjson2
       broadcastChannel: projectA
-      keyPrefix: projectA
+      keyPrefix: 'projectA:'
       valueEncoder: java
       valueDecoder: java
       defaultExpireInMillis: 5000

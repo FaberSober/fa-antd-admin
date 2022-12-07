@@ -1,5 +1,6 @@
 import {requestDelete, requestDownload, requestGet, requestPost, requestPut} from '@/utils/request';
 import {AxiosRequestConfig} from 'axios';
+import queryString from "querystring";
 
 export default class BaseZeroApi {
 	public apiPrefix: string;
@@ -11,7 +12,7 @@ export default class BaseZeroApi {
 		this.apiModal = apiModal;
 	}
 
-	get = <E>(api: string, config?: AxiosRequestConfig) => requestGet<E>(`${this.apiPrefix}/${this.apiModal}/${api}`, config);
+	get = <E>(api: string, params?: any, config?: AxiosRequestConfig) => requestGet<E>(`${this.apiPrefix}/${this.apiModal}/${api}`, { ...config, params });
 
 	delete = <E>(api: string, config?: AxiosRequestConfig) => requestDelete<E>(`${this.apiPrefix}/${this.apiModal}/${api}`, config);
 

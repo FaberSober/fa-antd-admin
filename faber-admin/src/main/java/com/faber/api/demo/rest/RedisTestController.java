@@ -12,7 +12,7 @@ import javax.annotation.Resource;
  * Redis测试api
  */
 @RestController
-@RequestMapping("/api/demo/authTest")
+@RequestMapping("/api/demo/redisTest")
 public class RedisTestController extends BaseResHandler {
 
     @Resource
@@ -23,7 +23,7 @@ public class RedisTestController extends BaseResHandler {
      */
     @RequestMapping(value = "/addCache", method = RequestMethod.GET)
     @ResponseBody
-    public Ret<String> addCache(@RequestParam("key") String key, @RequestParam("value") String value) {
+    public Ret<Boolean> addCache(@RequestParam("key") String key, @RequestParam("value") String value) {
         redisTestBiz.addCache(key, value);
         return ok();
     }
@@ -34,8 +34,8 @@ public class RedisTestController extends BaseResHandler {
     @RequestMapping(value = "/getCache", method = RequestMethod.GET)
     @ResponseBody
     public Ret<String> getCache(@RequestParam("key") String key) {
-        redisTestBiz.getCache(key);
-        return ok();
+        String data = redisTestBiz.getCache(key);
+        return ok(data);
     }
 
 }

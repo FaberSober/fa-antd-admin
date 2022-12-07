@@ -19,7 +19,7 @@ public class RedisTestBiz {
 
     @PostConstruct
     public void init() {
-        QuickConfig qc = QuickConfig.newBuilder("strCache")
+        QuickConfig qc = QuickConfig.newBuilder("strCache:")
                 .expire(Duration.ofSeconds(100))
                 .cacheType(CacheType.BOTH) // two level cache
                 .localLimit(50)
@@ -32,8 +32,8 @@ public class RedisTestBiz {
         strCache.put(key, value);
     }
 
-    public void getCache(String key) {
-        strCache.get(key);
+    public String getCache(String key) {
+        return strCache.get(key);
     }
 
 }

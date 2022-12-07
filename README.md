@@ -38,7 +38,7 @@
 | hutool-crypto | 对称加密-SymmetricCrypto | https://www.hutool.cn/docs/#/crypto/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-SymmetricCrypto?id=%e4%bb%8b%e7%bb%8d |
 | UserAgentUtil | HTTP接口客户端参数解析 | https://hutool.cn/docs/#/http/UA%E5%B7%A5%E5%85%B7%E7%B1%BB-UserAgentUtil/ |
 | [redisson](https://github.com/redisson/redisson/wiki) | redis缓存 | https://github.com/redisson/redisson/ |
-| jetcache | 通用缓存访问框架 | https://github.com/alibaba/jetcache/ |
+| [jetcache](https://github.com/alibaba/jetcache/blob/master/introduce_CN.md) | 通用缓存访问框架 | https://github.com/alibaba/jetcache/ |
 | ~~Redis Manager~~ | Redis在线管理 | https://github.com/ngbdf/redis-manager/ |
 | phpRedisAdmin | Redis在线管理 | https://github.com/erikdubbelboer/phpRedisAdmin/ |
 

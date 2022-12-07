@@ -19,7 +19,7 @@ class AreaApi extends BaseApi<Admin.Area, number> {
 	findByAreaCode = (areaCode: number): Promise<Fa.Ret<Admin.Area>> => this.get(`findByAreaCode/${areaCode}`);
 
 	/** 获取唯一实体 */
-	findAreaByLoc = (lng: number, lat: number): Promise<Fa.Ret<Admin.Area>> => this.get(`findAreaByLoc?lng=${lng}&lat=${lat}`);
+	findAreaByLoc = (lng: number, lat: number): Promise<Fa.Ret<Admin.Area>> => this.get('findAreaByLoc', {lng, lat});
 }
 
 export default new AreaApi(GATE_APP.admin, serviceModule);
