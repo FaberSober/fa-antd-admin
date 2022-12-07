@@ -1,4 +1,4 @@
-package com.faber.core.validator;
+package com.faber.core.config.validator.validator;
 
 
 import com.faber.core.utils.IdcardValidator;

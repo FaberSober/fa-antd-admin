@@ -5,7 +5,7 @@ import com.faber.core.web.biz.BaseBiz;
 import com.faber.core.vo.msg.Ret;
 import com.faber.core.vo.msg.TableRet;
 import com.faber.core.utils.BaseResHandler;
-import com.faber.core.validator.Vg;
+import com.faber.core.config.validator.validator.Vg;
 import com.faber.core.vo.query.QueryParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

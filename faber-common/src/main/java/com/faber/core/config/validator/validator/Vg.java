@@ -1,4 +1,4 @@
-package com.faber.core.validator;
+package com.faber.core.config.validator.validator;
 
 import javax.validation.groups.Default;
 

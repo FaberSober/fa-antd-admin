@@ -1,4 +1,4 @@
-package com.faber.core.validator;
+package com.faber.core.config.validator.validator;
 
 import cn.hutool.core.util.StrUtil;
 import org.springframework.util.StringUtils;

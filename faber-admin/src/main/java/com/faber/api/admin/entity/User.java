@@ -12,8 +12,8 @@ import com.faber.core.annotation.SqlEquals;
 import com.faber.core.annotation.SqlSearch;
 import com.faber.core.bean.BaseDelEntity;
 import com.faber.api.admin.enums.SexEnum;
-import com.faber.core.validator.TelNoValidator;
-import com.faber.core.validator.Vg;
+import com.faber.core.config.validator.validator.TelNoValidator;
+import com.faber.core.config.validator.validator.Vg;
 import lombok.Data;
 
 import javax.validation.constraints.Email;

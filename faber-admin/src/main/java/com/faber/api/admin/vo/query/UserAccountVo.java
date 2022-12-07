@@ -1,6 +1,6 @@
 package com.faber.api.admin.vo.query;
 
-import com.faber.core.validator.TelNoValidator;
+import com.faber.core.config.validator.validator.TelNoValidator;
 import lombok.Data;
 
 /**
