@@ -1,4 +1,4 @@
-package com.faber.config.socketio;
+package com.faber.core.config.socket;
 
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.extra.spring.SpringUtil;

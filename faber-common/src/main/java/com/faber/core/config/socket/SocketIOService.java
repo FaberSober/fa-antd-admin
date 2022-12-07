@@ -1,4 +1,4 @@
-package com.faber.config.socketio;
+package com.faber.core.config.socket;
 
 import com.corundumstudio.socketio.SocketIOServer;
 

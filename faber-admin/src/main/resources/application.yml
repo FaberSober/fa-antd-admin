@@ -64,7 +64,7 @@ spring:
     port: ${REDIS_PORT:6379}
     database: 0
     timeout: 2000
-    password: 'admin@elec#1234'
+    password: ~
     sysName: faber-admin #默认key前缀
     enable: true #是否启用ace-cache
     userkey: #用户会话的标志，存放于cookie或request header
@@ -82,6 +82,24 @@ spring:
 mybatis-plus:
   # Maven 多模块项目的扫描路径需以 classpath*: 开头 （即加载多个 jar 包下的 XML 文件）
   mapper-locations: classpath*:/mapper/**/*.xml
+
+# jetcache
+jetcache:
+  statIntervalMinutes: 1
+  areaInCacheName: false
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson2
+  remote:
+    default:
+      type: redisson
+      keyConvertor: fastjson2
+      broadcastChannel: projectA
+      keyPrefix: projectA
+      valueEncoder: java
+      valueDecoder: java
+      defaultExpireInMillis: 5000
 
 # 配置swagger
 swagger:

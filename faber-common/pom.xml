@@ -65,6 +65,13 @@
             <version>3.17.7</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.alicp.jetcache/jetcache-starter-redisson -->
+        <dependency>
+            <groupId>com.alicp.jetcache</groupId>
+            <artifactId>jetcache-starter-redisson</artifactId>
+            <version>2.7.1</version>
+        </dependency>
+
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -81,6 +88,13 @@
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
             <version>2.3.0</version>
+        </dependency>
+
+        <!-- netty-socketio -->
+        <dependency>
+            <groupId>com.corundumstudio.socketio</groupId>
+            <artifactId>netty-socketio</artifactId>
+            <version>1.7.22</version>
         </dependency>
 
         <!-- 七牛云sdk -->

@@ -1,12 +1,10 @@
 package com.faber.api.demo.socket;
 
 import com.corundumstudio.socketio.SocketIOServer;
-import com.faber.config.socketio.FaSocketUtils;
-import com.faber.config.socketio.SocketIOService;
+import com.faber.core.config.socket.FaSocketUtils;
+import com.faber.core.config.socket.SocketIOService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 
 /**

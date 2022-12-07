@@ -1,5 +1,6 @@
 package com.faber;
 
+import com.alicp.jetcache.anno.config.EnableMethodCache;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
@@ -18,6 +19,7 @@ import java.util.Set;
 @EnableScheduling
 @EnableTransactionManagement
 @ServletComponentScan
+@EnableMethodCache(basePackages = "com.faber")
 public class AdminBootstrap {
 
     public static void main(String[] args) {

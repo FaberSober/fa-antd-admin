@@ -39,28 +39,10 @@
             <version>1.2.12</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.redisson</groupId>-->
-<!--            <artifactId>redisson-spring-boot-starter</artifactId>-->
-<!--            <version>3.18.1</version>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
-        <!-- springboot 2.1.x 升级 2.3.x报错：java.lang.ClassNotFoundException: redis.clients.jedis.BinaryClient$LIST_POSITION -->
-<!--        <dependency>-->
-<!--            <groupId>redis.clients</groupId>-->
-<!--            <artifactId>jedis</artifactId>-->
-<!--            <version>2.10.2</version>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -86,13 +68,6 @@
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-core</artifactId>
             <version>4.5.3</version>
-        </dependency>
-
-        <!-- netty-socketio -->
-        <dependency>
-            <groupId>com.corundumstudio.socketio</groupId>
-            <artifactId>netty-socketio</artifactId>
-            <version>1.7.22</version>
         </dependency>
 
         <!-- socket.io客户端 -->

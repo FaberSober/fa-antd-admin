@@ -1,5 +1,8 @@
 # socket
 
+## 后端实现socket监听
+参考代码：``
+
 ## socketio服务端
 > 服务端使用组件[netty-socketio](https://github.com/mrniko/netty-socketio)
 
