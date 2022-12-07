@@ -29,7 +29,9 @@ export default function index() {
   }
 
   function refreshIframe() {
-    setUrl(`${systemConfig.phpRedisAdmin}?a=${Date.parse(new Date()) / 1000}`)
+    // setUrl(`${systemConfig.phpRedisAdmin}?a=${Date.parse(new Date()) / 1000}`)
+    document.getElementById('phpRedisAdmin').contentWindow.location.reload();
+
   }
 
   const loading = loadingEffect[redisTestApi.getUrl('addCache')];
