@@ -22,8 +22,16 @@ public class RedisTest {
         Config config = new Config();
         config.useSingleServer()
                 // use "rediss://" for SSL connection
-                .setAddress("redis://127.0.0.1:6379");
+                .setAddress("redis://127.0.0.1:6379")
+                .setPassword("fa@redis#1276");
         return Redisson.create(config);
+    }
+
+    @Test
+    public void testGetConfig() {
+        RedissonClient client = getRedissonClient();
+        Config config = client.getConfig();
+        System.out.println(config);
     }
 
     @Test
@@ -31,7 +39,8 @@ public class RedisTest {
         RedissonClient client = getRedissonClient();
         RMap<String, String> map = client.getMap("anyMap");
         map.put("foo", "bar1");
-        map.expire(Duration.ofSeconds(30));
+        map.put("foo2", "bar2");
+//        map.expire(Duration.ofSeconds(30));
     }
 
     @Test
