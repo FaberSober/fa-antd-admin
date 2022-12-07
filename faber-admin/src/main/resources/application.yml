@@ -152,7 +152,7 @@ fa:
       salt: DYgaREIsYrj24QxN
     url:
       phpRedisAdmin: http://127.0.0.1:8182
-      socketUrl: http://127.0.0.1:8081
+      socketUrl: 127.0.0.1:8081
 
 #============================================================================
 # netty socket io setting

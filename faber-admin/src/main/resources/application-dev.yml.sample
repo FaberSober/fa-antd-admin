@@ -1,0 +1,42 @@
+#测试环境###########################################################################################################################################
+spring:
+  application:
+    name: faber-admin-dev
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    druid:
+      name: faber-admin
+      url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DBNAME:faber_admin}?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&useSSL=false
+      username: ${MYSQL_USERNAME:root}
+      password: ${MYSQL_PASSWORD:123456}
+
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    password: 123456
+
+server:
+  port: 80
+
+socketio:
+  host: 127.0.0.1
+  port: 8081
+
+
+fa:
+  setting:
+    file:
+      # 系统文件存储方式: local-本地存储/qiniu-七牛云
+      saveType: local
+      # 这里是增加一层路径，用于区分
+      prefix: dev
+    # Qiniu
+    qiniu:
+      accessKey: xxx
+      secretKey: xxx
+      bucket: fa-web
+      host: http://fa.file.dward.cn
+
