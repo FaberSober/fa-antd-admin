@@ -2,8 +2,11 @@ package com.faber.api.rbac.biz;
 
 import com.faber.api.rbac.entity.RbacRole;
 import com.faber.api.rbac.mapper.RbacRoleMapper;
+import com.faber.core.config.redis.annotation.FaCacheClear;
 import com.faber.core.web.biz.BaseBiz;
 import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
 
 /**
  * BASE-角色表
@@ -14,4 +17,23 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RbacRoleBiz extends BaseBiz<RbacRoleMapper, RbacRole> {
+
+    @FaCacheClear(pre = "rbac:")
+    @Override
+    public boolean save(RbacRole entity) {
+        return super.save(entity);
+    }
+
+    @FaCacheClear(pre = "rbac:")
+    @Override
+    public boolean updateById(RbacRole entity) {
+        return super.updateById(entity);
+    }
+
+    @FaCacheClear(pre = "rbac:")
+    @Override
+    public boolean removeById(Serializable id) {
+        return super.removeById(id);
+    }
+
 }

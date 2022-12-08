@@ -296,4 +296,15 @@ public class RedisTest {
         log.info("Finish");
     }
 
+    @Test
+    public void getKeys() {
+        RKeys keys = redisson.getKeys();
+
+        Iterable<String> keysByPattern = keys.getKeysByPattern("fa-web:rbac:*");
+
+        for (String s : keysByPattern) {
+            log.info(s);
+        }
+    }
+
 }

@@ -35,7 +35,7 @@ public class MsgHelperImpl implements MsgHelper {
         if (toUserIds == null || toUserIds.length == 0) return;
 
         for (String toUserId : toUserIds) {
-            User user = userBiz.getUserById(toUserId);
+            User user = userBiz.getById(toUserId);
             if (user == null) continue;
 
             Msg msg = this.genBaseMsg(fromUserId, toUserId, msgSendConfig);

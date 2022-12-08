@@ -2,11 +2,13 @@ package com.faber.api.admin.vo.ret;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 系统参数
  */
 @Data
-public class SystemConfigPo {
+public class SystemConfigPo implements Serializable {
 
     /**
      * 网站标题

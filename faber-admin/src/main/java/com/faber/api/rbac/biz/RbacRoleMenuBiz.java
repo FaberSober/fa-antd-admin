@@ -3,9 +3,11 @@ package com.faber.api.rbac.biz;
 import com.faber.api.rbac.entity.RbacRoleMenu;
 import com.faber.api.rbac.mapper.RbacRoleMenuMapper;
 import com.faber.api.rbac.vo.RoleMenuVo;
+import com.faber.core.config.redis.annotation.FaCacheClear;
 import com.faber.core.web.biz.BaseBiz;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +21,24 @@ import java.util.stream.Collectors;
  */
 @Service
 public class RbacRoleMenuBiz extends BaseBiz<RbacRoleMenuMapper, RbacRoleMenu> {
+
+    @FaCacheClear(pre = "rbac:")
+    @Override
+    public boolean save(RbacRoleMenu entity) {
+        return super.save(entity);
+    }
+
+    @FaCacheClear(pre = "rbac:")
+    @Override
+    public boolean updateById(RbacRoleMenu entity) {
+        return super.updateById(entity);
+    }
+
+    @FaCacheClear(pre = "rbac:")
+    @Override
+    public boolean removeById(Serializable id) {
+        return super.removeById(id);
+    }
 
     public List<Long> getMenuIdsWithHalfCheck(Long roleId, Boolean bool) {
         return lambdaQuery()
@@ -38,6 +58,7 @@ public class RbacRoleMenuBiz extends BaseBiz<RbacRoleMenuMapper, RbacRoleMenu> {
         return vo;
     }
 
+    @FaCacheClear(pre = "rbac:")
     public void updateRoleMenu(RoleMenuVo roleMenuVo) {
         long roleId = roleMenuVo.getRoleId();
         // 删除之前的角色

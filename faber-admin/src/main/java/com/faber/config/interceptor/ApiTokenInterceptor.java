@@ -59,7 +59,7 @@ public class ApiTokenInterceptor extends AbstractInterceptor {
      */
     private void setUserInfo() {
         // 这里默认给线程赋上userId=1的用户
-        User user = userBiz.getUserById("1");
+        User user = userBiz.getById("1");
         BaseContextHandler.setUsername(user.getUsername());
         BaseContextHandler.setName(user.getName());
         BaseContextHandler.setUserId(user.getId() + "");

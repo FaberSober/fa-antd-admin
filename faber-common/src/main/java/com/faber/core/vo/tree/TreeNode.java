@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class TreeNode<T> {
+public class TreeNode<T> implements Serializable {
     protected Serializable id;
     protected Serializable parentId;
     private String name;

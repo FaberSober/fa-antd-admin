@@ -3,6 +3,9 @@ package com.faber.api.admin.biz;
 import cn.hutool.core.collection.IterUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.ObjectUtil;
+import com.alicp.jetcache.anno.CacheInvalidate;
+import com.alicp.jetcache.anno.CacheUpdate;
+import com.alicp.jetcache.anno.Cached;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.faber.api.admin.entity.Department;
 import com.faber.api.admin.entity.User;
@@ -88,7 +91,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     }
 
     public User getLoginUser() {
-        User user = getUserById(BaseContextHandler.getUserId());
+        User user = getById(BaseContextHandler.getUserId());
         if (!user.getStatus()) throw new BuzzException("无效账户");
         user.setPassword(null);
         return user;
@@ -129,6 +132,12 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         entity.setRoleNames(roleNames);
     }
 
+    @Cached(name="user:", key="#id", expire = 3600)
+    @Override
+    public User getById(Serializable id) {
+        return super.getById(id);
+    }
+
     @Override
     public boolean save(User entity) {
         this.checkBeanValid(entity);
@@ -144,6 +153,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         return true;
     }
 
+    @CacheUpdate(name="user:", key="#entity.id", value="#entity")
     @Override
     public boolean updateById(User entity) {
         User beanDB = getById(entity.getId());
@@ -159,6 +169,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         return super.updateById(entity);
     }
 
+    @CacheInvalidate(name="user:", key="#id")
     @Override
     public boolean removeById(Serializable id) {
         // 不能删除自身账户和admin账户
@@ -175,18 +186,12 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
      *
      * @param username 用户名
      */
-//    @Cache(key = "user{1}")
     public User getUserByUsername(String username) {
         return lambdaQuery().eq(User::getUsername, username).one();
     }
 
     public User getUserByTel(String tel) {
         return lambdaQuery().eq(User::getTel, tel).one();
-    }
-
-//    @Cache(key = "user{1}")
-    public User getUserById(String id) {
-        return getById(id);
     }
 
     public User findByApiToken(String token) {
@@ -273,7 +278,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         return super.updateById(beanDB);
     }
 
-//    @CacheClear(pre = "user{1}")
+    @CacheInvalidate(name="user:", key="#userId")
     public boolean updateMine(String userId, UserAccountVo vo) {
         // 插入时校验手机号是否重复
         long telCount = lambdaQuery()
@@ -295,7 +300,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         return super.updateById(user);
     }
 
-//    @CacheClear(pre = "user{1}")
+    @CacheInvalidate(name="user:", key="#userId")
     public boolean updateMyPwd(String userId, Map<String, Object> params) {
         String oldPwd = (String) params.get("oldPwd");
         String newPwd = (String) params.get("newPwd");
@@ -311,7 +316,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         return super.updateById(user);
     }
 
-//    @CacheClear(pre = "user{1}")
+    @CacheInvalidate(name="user:", key="#userId")
     public boolean updateMyApiToken(String userId) {
         User user = getById(userId);
         user.setApiToken(UUID.fastUUID().toString(true));

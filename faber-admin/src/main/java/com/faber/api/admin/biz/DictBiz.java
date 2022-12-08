@@ -4,6 +4,9 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.alicp.jetcache.anno.CacheInvalidate;
+import com.alicp.jetcache.anno.Cached;
+import com.alicp.jetcache.anno.KeyConvertor;
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.faber.api.admin.entity.Dict;
 import com.faber.api.admin.entity.DictType;
@@ -23,6 +26,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,6 +44,18 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
     private FaSetting faSetting;
 
     private static final Map<String, Object> enumClassCache = new HashMap<>();
+
+    @CacheInvalidate(name="systemConfig", key="new String('')")
+    @Override
+    public boolean updateById(Dict entity) {
+        return super.updateById(entity);
+    }
+
+    @CacheInvalidate(name="systemConfig", key="new String('')")
+    @Override
+    public boolean removeById(Serializable id) {
+        return super.removeById(id);
+    }
 
     @Override
     protected void preProcessQuery(QueryParams query) {
@@ -107,11 +123,8 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
         return lambdaQuery().eq(Dict::getType, dictTypeId).list();
     }
 
-    /**
-     * 获取系统参数配置
-     * @return
-     */
-    public SystemConfigPo getSystemConfig() {
+    @Cached(name="systemConfig", key="new String('')", expire = 3600)
+    public SystemConfigPo getSystemConfigFromDB() {
         DictType dictType = dictTypeBiz.lambdaQuery().eq(DictType::getCode, "system").one();
 
         List<Dict> dictList = lambdaQuery().eq(Dict::getType, dictType.getId()).list();
@@ -129,6 +142,17 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
         po.setLogoWithText(MapUtil.getStr(map, "system:portal:logoWithText"));
         po.setPortalLink(MapUtil.getStr(map, "system:portal:link"));
 
+        return po;
+    }
+
+    /**
+     * 获取系统参数配置
+     * @return
+     */
+    public SystemConfigPo getSystemConfig() {
+        SystemConfigPo po = getSystemConfigFromDB();
+
+        // 配置文件中的配置
         po.setPhpRedisAdmin(faSetting.getUrl().getPhpRedisAdmin());
         po.setSocketUrl(faSetting.getUrl().getSocketUrl());
 

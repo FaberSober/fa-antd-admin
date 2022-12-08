@@ -1,6 +1,7 @@
 package com.faber.api.rbac.biz;
 
 import cn.hutool.core.util.StrUtil;
+import com.alicp.jetcache.anno.Cached;
 import com.faber.api.rbac.entity.RbacMenu;
 import com.faber.api.rbac.entity.RbacRole;
 import com.faber.api.rbac.entity.RbacRoleMenu;
@@ -8,11 +9,12 @@ import com.faber.api.rbac.entity.RbacUserRole;
 import com.faber.api.rbac.mapper.RbacUserRoleMapper;
 import com.faber.api.rbac.vo.RbacUserRoleRetVo;
 import com.faber.api.rbac.vo.query.RbacUserRoleQueryVo;
-import com.faber.core.web.biz.BaseBiz;
+import com.faber.core.config.redis.annotation.FaCacheClear;
 import com.faber.core.constant.CommonConstants;
 import com.faber.core.exception.BuzzException;
-import com.faber.core.vo.tree.TreeNode;
 import com.faber.core.vo.msg.TableRet;
+import com.faber.core.vo.tree.TreeNode;
+import com.faber.core.web.biz.BaseBiz;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,7 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper, RbacUserRole> {
     @Autowired
     private RbacMenuBiz rbacMenuBiz;
 
+    @FaCacheClear(pre = "rbac:")
     @Override
     public boolean removeById(Serializable id) {
         if ((Long)id == 1L) {
@@ -55,6 +58,7 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper, RbacUserRole> {
         return userRoleList.stream().map(RbacUserRole::getRoleId).collect(Collectors.toList());
     }
 
+    @Cached(name="rbac:userRoles:", key="#userId", expire = 3600)
     public List<RbacRole> getUserRoles(String userId) {
         List<Long> roleIds = this.getUserRoleIds(userId);
         if (roleIds.isEmpty()) return new ArrayList<>();
@@ -73,6 +77,7 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper, RbacUserRole> {
         return rbacMenuBiz.lambdaQuery().in(RbacMenu::getId, menuIds).orderByAsc(RbacMenu::getSort).list();
     }
 
+    @Cached(name="rbac:userMenus:", key="#userId", expire = 3600)
     public List<TreeNode<RbacMenu>> getUserMenusTree(String userId) {
         List<RbacMenu> list = this.getUserMenus(userId);
         return rbacMenuBiz.getMenuTree(list, CommonConstants.ROOT);

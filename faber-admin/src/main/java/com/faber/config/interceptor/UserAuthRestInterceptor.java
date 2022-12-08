@@ -35,7 +35,7 @@ public class UserAuthRestInterceptor extends AbstractInterceptor {
         JWTInfo jwtInfo = super.getJwtInfo(request);
 
         // 判断用户状态是否正常
-        User user = userBiz.getUserById(jwtInfo.getUserId());
+        User user = userBiz.getById(jwtInfo.getUserId());
         UserCheckUtil.checkUserValid(user);
 
         BaseContextHandler.setUsername(user.getUsername());

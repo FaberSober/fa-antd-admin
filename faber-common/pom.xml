@@ -42,6 +42,11 @@
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
         <!-- 集成Validator校验框架 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

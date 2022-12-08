@@ -2,10 +2,10 @@ import React, {useContext, useState} from 'react';
 import {get} from 'lodash';
 import {Form, Input} from 'antd';
 import DragModal from '@/components/modal/DragModal';
-import {showResponse, formItemFullLayout} from '@/utils/utils';
+import {formItemFullLayout, showResponse} from '@/utils/utils';
 import modelService from '@/services/rbac/rbacRole';
 import Rbac from '@/props/rbac';
-import {BaseBoolIntRadio} from "@/components/base-dict";
+import {BaseBoolRadio} from "@/components/base-dict";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import {Fa} from "@/props/base";
 
@@ -86,7 +86,7 @@ export default function RbacRoleModal({ children, title, record, fetchFinish, ..
             <Input />
           </Form.Item>
           <Form.Item name="status" label="是否启用" rules={[{ required: true }]} {...formItemFullLayout}>
-            <BaseBoolIntRadio />
+            <BaseBoolRadio />
           </Form.Item>
         </Form>
       </DragModal>

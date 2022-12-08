@@ -43,6 +43,12 @@ public class StudentBiz extends BaseBiz<StudentMapper, Student> {
 }
 ```
 
+### key使用固定字符串
+> key生成使用SpEL，可以参考[Spring系列14：SpEL详解](https://blog.csdn.net/Joe192/article/details/125744579)
+```java
+@Cached(name="systemConfig", key="new String('')", expire = 3600)
+```
+
 ## 命名规范
 1. 建议全部大写，不强制
 2. key不能太长也不能太短，太短可读性太差，键名越长越占资源（毕竟内存很贵 按需申请）
@@ -57,4 +63,8 @@ public class StudentBiz extends BaseBiz<StudentMapper, Student> {
 eg：常见的设置登录token
 key： PRO:USER:LOGINNAME:373166324
 value：12kd-dsj5ce-d4445-h4sd472
+
+## 参考资料
+1. Spring系列14：SpEL详解: https://blog.csdn.net/Joe192/article/details/125744579
+
 

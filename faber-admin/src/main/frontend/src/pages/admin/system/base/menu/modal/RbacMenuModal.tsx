@@ -6,7 +6,7 @@ import {showResponse, formItemFullLayout} from '@/utils/utils';
 import modelService from '@/services/rbac/rbacMenu';
 import Rbac from '@/props/rbac';
 import FaEnums from "@/props/base/FaEnums";
-import {BaseBoolIntRadio, DictEnumApiRadio} from "@/components/base-dict";
+import {BaseBoolIntRadio, BaseBoolRadio, DictEnumApiRadio} from "@/components/base-dict";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import RbacMenuCascader from "../helper/RbacMenuCascader";
 import {Fa} from "@/props/base";
@@ -96,7 +96,7 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
             <DictEnumApiRadio enumName="RbacMenuLevelEnum" />
           </Form.Item>
           <Form.Item name="status" label="是否启用" rules={[{ required: true }]} {...formItemFullLayout}>
-            <BaseBoolIntRadio />
+            <BaseBoolRadio />
           </Form.Item>
           <Form.Item name="linkType" label="链接类型" rules={[{ required: true }]} {...formItemFullLayout}>
             <Select>
