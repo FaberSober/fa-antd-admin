@@ -197,7 +197,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
     const dragKey = info.dragNode.key;
     const dropPos = info.node.pos.split('-');
     const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
-    console.log(info, 'info.dropToGap', info.dropToGap, 'dropKey', dropKey, 'dragKey', dragKey, 'dropPos', dropPos, 'dropPosition', dropPosition)
+    // console.log(info, 'info.dropToGap', info.dropToGap, 'dropKey', dropKey, 'dragKey', dragKey, 'dropPos', dropPos, 'dropPosition', dropPosition)
 
     // 生成新的排序tree
     const newTree = TreeUtils.dropItem(treeData, dragKey, dropKey, dropPosition, info.dropToGap, info.node.props.children, info.node.props.expanded);

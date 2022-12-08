@@ -321,7 +321,7 @@ public abstract class BaseTreeBiz<M extends BaseMapper<T>, T> extends BaseBiz<M,
     }
 
     protected long countChildren(List<T> beanList, Serializable id) {
-        return beanList.stream().filter(i -> getEntityParentId(i) == id).count();
+        return beanList.stream().filter(i -> ObjectUtil.equal(getEntityParentId(i), id)).count();
     }
 
     /**
