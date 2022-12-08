@@ -3,10 +3,8 @@ package com.faber.api.admin.biz;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import com.alicp.jetcache.anno.CacheInvalidate;
 import com.alicp.jetcache.anno.Cached;
-import com.alicp.jetcache.anno.KeyConvertor;
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.faber.api.admin.entity.Dict;
 import com.faber.api.admin.entity.DictType;
@@ -21,7 +19,6 @@ import com.faber.core.utils.FaEnumUtils;
 import com.faber.core.vo.msg.TableRet;
 import com.faber.core.vo.DictOption;
 import com.faber.core.vo.query.QueryParams;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +57,7 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
     @Override
     protected void preProcessQuery(QueryParams query) {
         // 字典分组级联查询
-        Map<String, Object> queryMap = query.getQueryMap();
+        Map<String, Object> queryMap = query.getQuery();
         if (queryMap.containsKey("type")) {
             Integer type  = Integer.parseInt(queryMap.get("type").toString());
 

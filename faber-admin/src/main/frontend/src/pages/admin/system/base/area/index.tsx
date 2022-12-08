@@ -26,7 +26,7 @@ export default function AreaList() {
     return [
       // BaseTableUtils.genSimpleSorterColumn('ID', 'id', 70, sorter),
       BaseTableUtils.genSimpleSorterColumn('名称', 'name', 150, sorter),
-      BaseTableUtils.genDictSorterColumn('层级', 'level', 70, sorter, dicts, 'common_area_level'),
+      BaseTableUtils.genEnumSorterColumn('层级', 'level', 70, sorter, dicts),
       BaseTableUtils.genSimpleSorterColumn('父级行政代码', 'parentCode', 150, sorter),
       BaseTableUtils.genSimpleSorterColumn('行政代码', 'areaCode', 150, sorter),
       BaseTableUtils.genSimpleSorterColumn('邮政编码', 'zipCode', 100, sorter),

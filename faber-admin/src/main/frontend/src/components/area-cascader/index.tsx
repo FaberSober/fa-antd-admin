@@ -75,7 +75,7 @@ export default function AreaCascader({ showRoot, leafLevel = 4, leafPath, value,
       });
     } else {
       // 获取省级根节点
-      areaService.list({ queryMap: { level: 0 }, sorter: 'area_code ASC' }).then((res) => {
+      areaService.list({ query: { level: 0 }, sorter: 'area_code ASC' }).then((res) => {
         if (res && res.status === RES_CODE.OK) {
           const options = res.data.map((d) => ({
             label: d.name,
@@ -99,7 +99,7 @@ export default function AreaCascader({ showRoot, leafLevel = 4, leafPath, value,
     if (targetOption.children && targetOption.children[0]) return;
 
     targetOption.loading = true;
-    areaService.list({ queryMap: { parentCode: targetOption.value }, sorter: 'area_code ASC' }).then((res) => {
+    areaService.list({ query: { parentCode: targetOption.value }, sorter: 'area_code ASC' }).then((res) => {
       if (res && res.status === RES_CODE.OK) {
         // load options lazily
         targetOption.loading = false;

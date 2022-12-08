@@ -63,7 +63,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     }
 
     public List<T> mineList(QueryParams query) {
-        query.getQueryMap().put("crtUser", getCurrentUserId());
+        query.getQuery().put("crtUser", getCurrentUserId());
         return this.list(query);
     }
 

@@ -3,10 +3,9 @@ import {get} from 'lodash';
 import {Form, Input} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
 import {showResponse, formItemFullLayout} from '@/utils/utils';
-import {RES_CODE} from '@/configs/server.config';
 import modelService from '@/services/admin/area';
 import Admin from '@/props/admin';
-import {DictDataSelector} from '@/components/base-dict';
+import {DictDataSelector, DictEnumApiSelector} from '@/components/base-dict';
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 
 const serviceName = '中国行政地区表';
@@ -38,23 +37,18 @@ export default function AreaModal({ children, title, record, fetchFinish, ...pro
   /** 更新Item */
   function invokeUpdateTask(params: any) {
     modelService.update(params.id, params).then((res) => {
-        showResponse(res, `更新${serviceName}`);
-        if (res && res.status === RES_CODE.OK) {
-          setOpen(false);
-          if (fetchFinish) fetchFinish();
-        }
-      })
+      showResponse(res, `更新${serviceName}`);
+      setOpen(false);
+      if (fetchFinish) fetchFinish();
+    })
   }
 
   /** 提交表单 */
   function onFinish(fieldsValue: any) {
-    const values = {
-      ...fieldsValue,
-    };
     if (record) {
-      invokeUpdateTask({ ...record, ...values });
+      invokeUpdateTask({ ...record, ...fieldsValue });
     } else {
-      invokeInsertTask({ ...values });
+      invokeInsertTask({ ...fieldsValue });
     }
   }
 
@@ -94,7 +88,7 @@ export default function AreaModal({ children, title, record, fetchFinish, ...pro
       >
         <Form form={form} onFinish={onFinish}>
           <Form.Item name="level" label="层级" rules={[{ required: true }]} {...formItemFullLayout}>
-            <DictDataSelector dictLabel="common_area_level" />
+            <DictEnumApiSelector enumName="AreaLevelEnum" />
           </Form.Item>
           <Form.Item name="parentCode" label="父级行政代码" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input />

@@ -95,7 +95,7 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper, RbacUserRole> {
 
     public TableRet<RbacUserRoleRetVo> pageVo(BasePageQuery<RbacUserRoleQueryVo> query) {
         PageInfo<RbacUserRoleRetVo> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
-                .doSelectPageInfo(() -> baseMapper.pageVo(query.getQueryMap(), query.getSorter()));
+                .doSelectPageInfo(() -> baseMapper.pageVo(query.getQuery(), query.getSorter()));
         return new TableRet<>(info);
     }
 

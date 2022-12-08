@@ -22,7 +22,7 @@ public class BasePageQuery<T> implements Serializable {
     private String queryUserId;
 
     /** 查询参数 */
-    private T queryMap;
+    private T query;
 
     public long getSkip() {
         return (long) (this.getCurrent() - 1) * this.getPageSize();

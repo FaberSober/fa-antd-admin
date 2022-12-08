@@ -32,7 +32,7 @@ public class WrapperUtils {
     public static <T> QueryWrapper<T> parseQuery(QueryParams query, Class<T> clazz) {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
 
-        Map<String, Object> queryMap = FaMapUtils.removeEmptyValue(query.getQueryMap());
+        Map<String, Object> queryMap = FaMapUtils.removeEmptyValue(query.getQuery());
 
         boolean condition = queryMap.size() > 0;
         wrapper.and(condition, ew -> {

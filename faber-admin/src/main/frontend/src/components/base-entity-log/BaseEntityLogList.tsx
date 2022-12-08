@@ -39,7 +39,7 @@ export default function BaseEntityLogList({ bizId, bizType }: BaseEntityLogListP
   }, [bizId, bizType])
 
   function fetchData() {
-    entityLogApi.list({ queryMap: { bizId, bizType }, sorter: 'id DESC' }).then(res => setList(res.data))
+    entityLogApi.list({ query: { bizId, bizType }, sorter: 'id DESC' }).then(res => setList(res.data))
   }
 
   return (

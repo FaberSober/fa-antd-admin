@@ -15,7 +15,7 @@ export default function StudentSearchSelect(props: IProps) {
       valueKey="id"
       labelKey="name"
       serviceApi={{
-        search: (searchValue) => api.page({ current: 1, pageSize: 20, queryMap: { name: searchValue } }),
+        search: (searchValue) => api.page({ current: 1, pageSize: 20, query: { name: searchValue } }),
         getById: (value) => api.getById(value),
         findList: (ids) => api.list({ 'id#$in': [...ids] }),
       }}

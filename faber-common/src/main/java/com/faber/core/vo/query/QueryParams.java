@@ -26,7 +26,7 @@ public class QueryParams implements Serializable {
     /** 单查询字段 */
     private String search;
     /** 表格查询字段 */
-    private Map<String, Object> queryMap = new HashMap<>();
+    private Map<String, Object> query = new HashMap<>();
     /** 查询场景ID */
     private Integer sceneId;
 

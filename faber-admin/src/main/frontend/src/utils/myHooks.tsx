@@ -143,7 +143,7 @@ export function useTableQueryParams<T>(
       sorter: BaseTableUtils.getSorter(queryParams.sorter),
       sceneId: queryParams.sceneId,
       conditionList: queryParams.conditionList,
-      queryMap: {
+      query: {
         ...queryParams.formValues,
         // 外部补充查询条件
         ...queryParams.extraParams,
@@ -230,7 +230,7 @@ export function useExport(exportApi: (params: any) => Promise<undefined>, queryP
       sorter: BaseTableUtils.getSorter(queryParams.sorter),
       sceneId: queryParams.sceneId,
       conditionList: queryParams.conditionList,
-      queryMap: {
+      query: {
         ...queryParams.formValues,
         // 外部补充查询条件
         ...queryParams.extraParams,

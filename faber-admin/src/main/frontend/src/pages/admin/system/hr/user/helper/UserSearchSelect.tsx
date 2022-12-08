@@ -15,7 +15,7 @@ export default function UserSearchSelect(props: UserSearchSelectProps) {
       valueKey="id"
       labelKey="name"
       serviceApi={{
-        search: (searchValue) => modalService.page({ current: 1, pageSize: 20, queryMap: { name: searchValue } }),
+        search: (searchValue) => modalService.page({ current: 1, pageSize: 20, query: { name: searchValue } }),
         getById: (value) => modalService.getById(value),
         findList: (ids) => modalService.list({ 'id#$in': [...ids] }),
       }}

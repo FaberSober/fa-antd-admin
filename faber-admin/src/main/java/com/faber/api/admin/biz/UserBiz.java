@@ -4,7 +4,6 @@ import cn.hutool.core.collection.IterUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.ObjectUtil;
 import com.alicp.jetcache.anno.CacheInvalidate;
-import com.alicp.jetcache.anno.CacheUpdate;
 import com.alicp.jetcache.anno.Cached;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.faber.api.admin.entity.Department;
@@ -205,7 +204,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     @Override
     protected void preProcessQuery(QueryParams query) {
         // 部门分组级联查询
-        Map<String, Object> queryMap = query.getQueryMap();
+        Map<String, Object> queryMap = query.getQuery();
         if (queryMap.containsKey("departmentId")) {
             String departmentId = MapUtils.getString(queryMap, "departmentId");
 
@@ -226,13 +225,13 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     @Deprecated
     public TableRet<User> pageJoin(QueryParams query) {
         // 处理map
-        for (Map.Entry<String, Object> entry : query.getQueryMap().entrySet()) {
+        for (Map.Entry<String, Object> entry : query.getQuery().entrySet()) {
             if ("departmentName".equals(entry.getKey())) {
-                query.getQueryMap().put("d.name", entry.getValue());
+                query.getQuery().put("d.name", entry.getValue());
             } else {
-                query.getQueryMap().put("t." + entry.getKey(), entry.getValue());
+                query.getQuery().put("t." + entry.getKey(), entry.getValue());
             }
-            query.getQueryMap().remove(entry.getKey());
+            query.getQuery().remove(entry.getKey());
         }
 
         QueryWrapper<User> wrapper = parseQuery(query);
