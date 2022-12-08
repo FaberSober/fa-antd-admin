@@ -36,10 +36,20 @@ export default function LogApiDrawer({ children, record, ...props }: GateLogDraw
           <Descriptions.Item label="省">{record.pro}</Descriptions.Item>
           <Descriptions.Item label="市">{record.city}</Descriptions.Item>
           <Descriptions.Item label="地址">{record.addr}</Descriptions.Item>
-          <Descriptions.Item label="请求内容">{record.request}</Descriptions.Item>
+          <Descriptions.Item label="请求内容">
+            {open && isJson(record.request) ? (
+              <ReactJson
+                src={JSON.parse(record.request)}
+                collapsed={2}
+                displayDataTypes={false}
+                style={{ fontSize: '10px', maxHeight: '90vh', overflow: 'auto' }}
+                // theme="monokai"
+              />
+            ) : record.request}
+          </Descriptions.Item>
           <Descriptions.Item label="返回码">{record.retStatus}</Descriptions.Item>
           <Descriptions.Item label="返回内容">
-            {isJson(record.response) ? (
+            {open && isJson(record.response) ? (
               <ReactJson
                 src={JSON.parse(record.response)}
                 collapsed={2}
