@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Alert, Button, Card, Form, Input, Space} from "antd";
+import {Alert, Button, Card, Form, Input} from "antd";
 import redisTestApi from '@/services/demo/redisTest'
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import {formItemFullLayout} from "@/utils/utils";
@@ -17,7 +17,6 @@ export default function index() {
   const [form] = Form.useForm();
   const [form1] = Form.useForm();
 
-  const [url, setUrl] = useState<string>(systemConfig.phpRedisAdmin)
   const [data, setData] = useState<string>()
 
   function onFinish({key, value}: any) {
@@ -29,9 +28,7 @@ export default function index() {
   }
 
   function refreshIframe() {
-    // setUrl(`${systemConfig.phpRedisAdmin}?a=${Date.parse(new Date()) / 1000}`)
-    document.getElementById('phpRedisAdmin').contentWindow.location.reload();
-
+    document.getElementById('phpRedisAdmin').contentWindow.location = systemConfig.phpRedisAdmin
   }
 
   const loading = loadingEffect[redisTestApi.getUrl('addCache')];
@@ -68,7 +65,7 @@ export default function index() {
       </div>
 
       <FaFlexRestLayout>
-        <iframe id="phpRedisAdmin" src={url} className="fa-full-content" style={{ width: '100%', height: '100%', border: 'none', margin: 0 }} />
+        <iframe id="phpRedisAdmin" src={systemConfig.phpRedisAdmin} className="fa-full-content" style={{ width: '100%', height: '100%', border: 'none', margin: 0 }} />
 
         <Button onClick={refreshIframe} style={{ position: 'relative', top: 10, left: 180 }}>刷新</Button>
       </FaFlexRestLayout>

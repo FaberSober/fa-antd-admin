@@ -68,6 +68,7 @@
 # 详细文档
 ## 前台
 1. [升级npm依赖](./doc/frontend/ncu.md)
+1. [env环境变量](./doc/frontend/env.md)
 1. [登录页面](./doc/frontend/login.md)
 1. [bus事件总线](./doc/frontend/bus.md)
 1. [socketio](./doc/frontend/socket.md)

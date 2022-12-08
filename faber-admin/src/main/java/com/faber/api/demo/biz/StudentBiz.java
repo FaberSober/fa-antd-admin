@@ -1,9 +1,14 @@
 package com.faber.api.demo.biz;
 
+import com.alicp.jetcache.anno.CacheInvalidate;
+import com.alicp.jetcache.anno.CacheUpdate;
+import com.alicp.jetcache.anno.Cached;
 import com.faber.api.demo.entity.Student;
 import com.faber.core.web.biz.BaseBiz;
 import com.faber.api.demo.mapper.StudentMapper;
 import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
 
 /**
  * Demo-学生表
@@ -14,6 +19,24 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class StudentBiz extends BaseBiz<StudentMapper, Student> {
+
+    @Cached(name="studentCache-", key="#id", expire = 3600)
+    @Override
+    public Student getById(Serializable id) {
+        return super.getById(id);
+    }
+
+    @CacheUpdate(name="studentCache-", key="#entity.id", value="#entity")
+    @Override
+    public boolean updateById(Student entity) {
+        return super.updateById(entity);
+    }
+
+    @CacheInvalidate(name="studentCache-", key="#id")
+    @Override
+    public boolean removeById(Serializable id) {
+        return super.removeById(id);
+    }
 
 //    public TableResultResponse<StudentJoinInfo> pageJoin(Query query) {
 //        Example example = parseQuery(query, StudentJoinInfo.class);
