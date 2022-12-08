@@ -80,6 +80,7 @@
 1. [代码生成器](./doc/server/genetator.md)
 1. [socketio](./doc/server/socket.md)
 1. [nginx部署](./doc/server/nginx.md)
+1. [参考资料](./doc/server/ref.md)
 
 
 # RoadMap
@@ -127,8 +128,3 @@
 - [ ] 流程引擎
 
 # [CHANGELOG](./CHANGELOG.md)
-
-# 参考资料
-[RABC 权限拦截设置](https://blog.csdn.net/ytsydmx/article/details/123801763)
-[EasyExcel与@Accessors(chain = true)不兼容分析](https://blog.csdn.net/qq_28036249/article/details/108035369)
-[Gson 与 FastJson 对比](https://blog.csdn.net/HA_LLL/article/details/121970037)
