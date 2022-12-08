@@ -36,6 +36,7 @@ export default function index() {
   }
 
   function refreshIframe() {
+    // @ts-ignore
     document.getElementById('phpRedisAdmin').contentWindow.location = systemConfig.phpRedisAdmin
   }
 

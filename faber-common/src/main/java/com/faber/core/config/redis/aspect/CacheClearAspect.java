@@ -1,5 +1,7 @@
 package com.faber.core.config.redis.aspect;
 
+import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.faber.core.config.redis.annotation.FaCacheClear;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -48,12 +50,24 @@ public class CacheClearAspect {
 
     private void clearCache(ProceedingJoinPoint invocation, FaCacheClear anno) {
         String pre = anno.pre();
+        String key = anno.key();
 
-        RKeys keys = redisson.getKeys();
-        Iterable<String> keysByPattern = keys.getKeysByPattern(keyPrefix + pre + "*");
-        for (String key : keysByPattern) {
-            RBucket<Object> rBucket = redisson.getBucket(key);
-            rBucket.delete();
+        if (StrUtil.isNotEmpty(key)) {
+            // 这里简单的使用反射获取方法参数值
+            Object[] arguments = invocation.getArgs();
+            Object objValue = ReflectUtil.getFieldValue(arguments[0], key);
+            String fullKey = keyPrefix + pre + StrUtil.toString(objValue);
+            RBucket<Object> rBucket = redisson.getBucket(fullKey);
+            if (rBucket != null) {
+                rBucket.delete();
+            }
+        } else {
+            RKeys keys = redisson.getKeys();
+            Iterable<String> keysByPattern = keys.getKeysByPattern(keyPrefix + pre + "*");
+            for (String k : keysByPattern) {
+                RBucket<Object> rBucket = redisson.getBucket(k);
+                rBucket.delete();
+            }
         }
     }
 

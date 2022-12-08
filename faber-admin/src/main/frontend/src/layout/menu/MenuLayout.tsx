@@ -7,7 +7,7 @@ import {FaFlexRestLayout} from "@/components/base-layout";
 import FaEnums from "@/props/base/FaEnums";
 import Rbac from "@/props/rbac";
 import {findTreePath, flatTreeList} from "@/utils/treeUtils";
-import {Fa} from "@/props/base";
+import Fa from "@/props/base/Fa";
 import rbacUserRoleApi from "@/services/rbac/rbacUserRole";
 import MenuLayoutContext, {MenuLayoutContextProps} from './context/MenuLayoutContext'
 import Logo from "./cube/Logo";

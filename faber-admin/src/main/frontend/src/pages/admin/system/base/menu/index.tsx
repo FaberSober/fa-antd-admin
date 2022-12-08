@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Fa} from "@/props/base";
+import Fa from "@/props/base/Fa";
 import {Button, Modal, Space, Table} from "antd";
 import {ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {ColumnsType} from "antd/es/table";

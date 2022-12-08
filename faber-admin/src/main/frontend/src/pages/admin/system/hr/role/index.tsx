@@ -77,7 +77,7 @@ export default function RbacRoleList() {
           <Space>
             <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
             <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
-            <RbacRoleModal title={`新增${serviceName}信息`} fetchFinish={fetchPageList} destroyOnClose={false}>
+            <RbacRoleModal title={`新增${serviceName}信息`} fetchFinish={fetchPageList}>
               <Button icon={<PlusOutlined />} type="primary">新增</Button>
             </RbacRoleModal>
             <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>

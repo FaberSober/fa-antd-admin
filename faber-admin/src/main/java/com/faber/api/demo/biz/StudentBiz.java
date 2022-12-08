@@ -20,7 +20,7 @@ import java.io.Serializable;
 @Service
 public class StudentBiz extends BaseBiz<StudentMapper, Student> {
 
-    @Cached(name="student:", key="#id", expire = 3600)
+    @Cached(name="student:", key="#id")
     @Override
     public Student getById(Serializable id) {
         return super.getById(id);

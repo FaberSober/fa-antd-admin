@@ -17,7 +17,7 @@ interface IProps {
   departmentId?: string;
 }
 
-function UserList({ departmentId }: IProps, ref: any) {
+export default function UserList({ departmentId }: IProps) {
   const addModalRef = useRef<any | null>(null);
   const [form] = Form.useForm();
 
@@ -32,12 +32,6 @@ function UserList({ departmentId }: IProps, ref: any) {
   const [handleDelete] = useDelete<string>(modelService.remove, fetchPageList, serviceName);
 
   useEffect(() => setExtraParams({ departmentId }), [departmentId]);
-
-  useImperativeHandle(ref, () => ({
-    showAddModal: () => {
-      addModalRef.current.showModal();
-    },
-  }));
 
   /** 生成表格字段List */
   function genColumns() {
@@ -98,7 +92,7 @@ function UserList({ departmentId }: IProps, ref: any) {
           <Space>
             <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
             <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
-            <UserModal ref={addModalRef} title={`新增${serviceName}信息`} fetchFinish={fetchPageList} destroyOnClose={false} departmentId={departmentId}>
+            <UserModal title={`新增${serviceName}信息`} fetchFinish={fetchPageList}>
               <Button icon={<PlusOutlined />} type="primary">新增</Button>
             </UserModal>
             <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
@@ -124,5 +118,3 @@ function UserList({ departmentId }: IProps, ref: any) {
     </div>
   );
 }
-
-export default React.forwardRef(UserList);

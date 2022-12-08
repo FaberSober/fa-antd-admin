@@ -170,7 +170,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
     serviceApi.allTree().then((res) => {
         let treeArr = TreeUtils.parseNode<RecordType>(res.data);
         if (showRoot) {
-          treeArr = [{ ...Fa.ROOT_DEFAULT, label: rootName, children: treeArr }];
+          treeArr = [{ ...Fa.ROOT_DEFAULT, name: rootName, children: treeArr }];
         }
         // const newTreeData = renderTreeData(treeArr);
         setTreeData(treeArr as any[]);

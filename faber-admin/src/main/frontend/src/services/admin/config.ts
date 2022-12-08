@@ -2,7 +2,7 @@ import queryString from 'querystring';
 import {GATE_APP} from '@/configs/server.config';
 import Admin from '@/props/admin';
 import {BaseApi} from '@/services/base';
-import {Fa} from "@/props/base";
+import Fa from "@/props/base/Fa";
 import FaEnums from "@/props/base/FaEnums";
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */

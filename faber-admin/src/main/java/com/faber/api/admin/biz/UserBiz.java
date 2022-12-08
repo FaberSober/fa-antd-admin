@@ -15,6 +15,7 @@ import com.faber.api.admin.vo.query.UserAccountVo;
 import com.faber.api.rbac.biz.RbacUserRoleBiz;
 import com.faber.api.rbac.entity.RbacRole;
 import com.faber.config.utils.user.UserCheckUtil;
+import com.faber.core.config.redis.annotation.FaCacheClear;
 import com.faber.core.constant.CommonConstants;
 import com.faber.core.context.BaseContextHandler;
 import com.faber.core.exception.BuzzException;
@@ -132,7 +133,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         entity.setRoleNames(roleNames);
     }
 
-    @Cached(name="user:", key="#id", expire = 3600)
+    @Cached(name="user:", key="#id")
     @Override
     public User getById(Serializable id) {
         return super.getById(id);
@@ -153,7 +154,8 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         return true;
     }
 
-    @CacheUpdate(name="user:", key="#entity.id", value="#entity")
+    @CacheInvalidate(name="user:", key="#entity.id")
+    @FaCacheClear(pre = "rbac:userMenus:", key = "id")
     @Override
     public boolean updateById(User entity) {
         User beanDB = getById(entity.getId());

@@ -89,7 +89,7 @@ mybatis-plus:
 
 # jetcache
 jetcache:
-  statIntervalMinutes: 1
+  statIntervalMinutes: 10
   areaInCacheName: false
   local:
     default:
@@ -101,9 +101,9 @@ jetcache:
       keyConvertor: fastjson2
       broadcastChannel: fa-web
       keyPrefix: 'fa-web:'
-      valueEncoder: java
-      valueDecoder: java
-      defaultExpireInMillis: 5000
+      valueEncoder: kryo5
+      valueDecoder: kryo5
+      defaultExpireInMillis: 5000000
 
 # 配置swagger
 swagger:

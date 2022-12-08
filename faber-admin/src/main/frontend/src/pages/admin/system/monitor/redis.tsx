@@ -12,6 +12,7 @@ export default function redis() {
   const {systemConfig} = useContext(UserLayoutContext)
 
   function refreshIframe() {
+    // @ts-ignore
     document.getElementById('phpRedisAdmin').contentWindow.location = systemConfig.phpRedisAdmin
   }
 

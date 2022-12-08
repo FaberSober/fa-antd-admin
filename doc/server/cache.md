@@ -49,6 +49,12 @@ public class StudentBiz extends BaseBiz<StudentMapper, Student> {
 @Cached(name="systemConfig", key="new String('')", expire = 3600)
 ```
 
+## server命名规则整理
+| key | 说明 |
+| :--- | :--- |
+| user:{userId} | 用户ID信息缓存 |
+| rbac:userMenus:{userId} | 用户ID菜单列表 |
+
 ## 命名规范
 1. 建议全部大写，不强制
 2. key不能太长也不能太短，太短可读性太差，键名越长越占资源（毕竟内存很贵 按需申请）

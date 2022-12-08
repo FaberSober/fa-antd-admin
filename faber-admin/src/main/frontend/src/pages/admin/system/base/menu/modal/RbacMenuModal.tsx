@@ -9,7 +9,7 @@ import FaEnums from "@/props/base/FaEnums";
 import {BaseBoolIntRadio, BaseBoolRadio, DictEnumApiRadio} from "@/components/base-dict";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import RbacMenuCascader from "../helper/RbacMenuCascader";
-import {Fa} from "@/props/base";
+import Fa from "@/props/base/Fa";
 
 const serviceName = '菜单';
 

@@ -59,7 +59,6 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper, RbacUserRole> {
         return userRoleList.stream().map(RbacUserRole::getRoleId).collect(Collectors.toList());
     }
 
-    @Cached(name="rbac:userRoles:", key="#userId", expire = 3600)
     public List<RbacRole> getUserRoles(String userId) {
         List<Long> roleIds = this.getUserRoleIds(userId);
         if (roleIds.isEmpty()) return new ArrayList<>();
@@ -78,7 +77,7 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper, RbacUserRole> {
         return rbacMenuBiz.lambdaQuery().in(RbacMenu::getId, menuIds).orderByAsc(RbacMenu::getSort).list();
     }
 
-    @Cached(name="rbac:userMenus:", key="#userId", expire = 3600)
+    @Cached(name="rbac:userMenus:", key="#userId")
     public List<TreeNode<RbacMenu>> getUserMenusTree(String userId) {
         List<RbacMenu> list = this.getUserMenus(userId);
         return rbacMenuBiz.getMenuTree(list, CommonConstants.ROOT);

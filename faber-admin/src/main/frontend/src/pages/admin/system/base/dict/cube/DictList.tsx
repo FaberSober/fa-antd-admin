@@ -102,7 +102,7 @@ function DictList({ type }: IProps, ref: any) {
           <Space>
             <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
             <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
-            <DictModal ref={addModalRef} title={`新增${serviceName}信息`} fetchFinish={fetchPageList} destroyOnClose={false} type={type}>
+            <DictModal ref={addModalRef} title={`新增${serviceName}信息`} fetchFinish={fetchPageList} type={type}>
               <Button icon={<PlusOutlined />} type="primary">新增</Button>
             </DictModal>
             <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>

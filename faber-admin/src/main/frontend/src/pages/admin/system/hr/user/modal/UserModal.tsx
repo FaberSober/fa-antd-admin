@@ -1,14 +1,14 @@
-import React, {useContext, useImperativeHandle, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {get} from 'lodash';
 import {Form, Input, Switch} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
-import {showResponse, formItemFullLayout} from '@/utils/utils';
+import {formItemFullLayout, showResponse} from '@/utils/utils';
 import modelService from '@/services/admin/user';
 import rbacUserRoleApi from '@/services/rbac/rbacUserRole';
 import Admin from '@/props/admin';
-import {BaseBoolRadio, DictDataRadio, DictEnumApiRadio} from '@/components/base-dict';
+import {DictEnumApiRadio} from '@/components/base-dict';
 import DepartmentCascade from "../helper/DepartmentCascade";
-import {UploadImgLocal, UploadImgQiniu} from "@/components/base-uploader";
+import {UploadImgLocal} from "@/components/base-uploader";
 import RbacRoleSelect from "@/pages/admin/system/hr/role/components/RbacRoleSelect";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import FaEnums from "@/props/base/FaEnums";
@@ -17,27 +17,20 @@ import FaEnums from "@/props/base/FaEnums";
 const serviceName = '用户';
 
 interface IProps extends DragModalProps {
-  // parentId?: string;
   title?: string;
   record?: Admin.User;
   fetchFinish?: () => void;
-  departmentId?: string;
   addLoc?: { lng: number, lat: number },
 }
 
 /**
  * 用户实体新增、编辑弹框
  */
-function UserModal({ children, title, record, fetchFinish, departmentId, addLoc, ...props }: IProps, ref: any) {
+export default function UserModal({ children, title, record, fetchFinish, addLoc, ...props }: IProps) {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
+  const [departmentId, setDepartmentId] = useState<string|undefined>();
   const [open, setOpen] = useState(false);
-
-  useImperativeHandle(ref, () => ({
-    showModal: () => {
-      showModal();
-    },
-  }));
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
@@ -153,5 +146,3 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
     </span>
   );
 }
-
-export default React.forwardRef(UserModal);

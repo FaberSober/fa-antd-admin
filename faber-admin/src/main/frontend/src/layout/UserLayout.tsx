@@ -1,5 +1,5 @@
 import React, {createContext, useEffect, useState} from 'react';
-import {Fa} from "@/props/base";
+import Fa from "@/props/base/Fa";
 import {PageLoading} from "@/components/antd-pro";
 import Admin from "@/props/admin";
 import userApi from '@/services/admin/user'

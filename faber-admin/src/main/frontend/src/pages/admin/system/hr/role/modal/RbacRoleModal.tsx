@@ -7,7 +7,7 @@ import modelService from '@/services/rbac/rbacRole';
 import Rbac from '@/props/rbac';
 import {BaseBoolRadio} from "@/components/base-dict";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import {Fa} from "@/props/base";
+import Fa from "@/props/base/Fa";
 
 
 const serviceName = '角色';

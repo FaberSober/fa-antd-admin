@@ -1,7 +1,7 @@
 import {GATE_APP} from '@/configs/server.config';
 import Admin from '@/props/admin';
 import {BaseApi} from '@/services/base';
-import {Fa} from "@/props/base";
+import Fa from "@/props/base/Fa";
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */
 const serviceModule = 'job';

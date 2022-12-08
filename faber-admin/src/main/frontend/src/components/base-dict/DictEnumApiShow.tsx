@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {find, trim} from 'lodash';
 import dictService from '@/services/admin/dict';
-import {Fa} from "@/props/base";
+import Fa from "@/props/base/Fa";
 
 interface IProps  {
   value: any;

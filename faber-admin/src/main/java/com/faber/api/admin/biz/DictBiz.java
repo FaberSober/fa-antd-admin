@@ -123,7 +123,7 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
         return lambdaQuery().eq(Dict::getType, dictTypeId).list();
     }
 
-    @Cached(name="systemConfig", key="new String('')", expire = 3600)
+    @Cached(name="systemConfig", key="new String('')")
     public SystemConfigPo getSystemConfigFromDB() {
         DictType dictType = dictTypeBiz.lambdaQuery().eq(DictType::getCode, "system").one();
 

@@ -21,4 +21,9 @@ public @interface FaCacheClear {
      */
     String pre() default "";
 
+    /**
+     * 缓存key，从方法参数中获取，目前支持取第一个参数
+     */
+    String key() default "";
+
 }
