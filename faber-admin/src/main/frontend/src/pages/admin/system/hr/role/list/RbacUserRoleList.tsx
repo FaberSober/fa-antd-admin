@@ -63,7 +63,7 @@ export default function RbacUserRoleList({ rbacRole }: RbacUserRoleListProps) {
           <Space>
             <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
             <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
-            <Button icon={<PlusOutlined />} type="primary">新增</Button>
+            {/*<Button icon={<PlusOutlined />} type="primary">新增</Button>*/}
           </Space>
         </div>
       </div>

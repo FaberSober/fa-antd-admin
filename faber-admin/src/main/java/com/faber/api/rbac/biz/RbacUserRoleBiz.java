@@ -12,6 +12,7 @@ import com.faber.api.rbac.vo.query.RbacUserRoleQueryVo;
 import com.faber.core.config.redis.annotation.FaCacheClear;
 import com.faber.core.constant.CommonConstants;
 import com.faber.core.exception.BuzzException;
+import com.faber.core.vo.BasePageQuery;
 import com.faber.core.vo.msg.TableRet;
 import com.faber.core.vo.tree.TreeNode;
 import com.faber.core.web.biz.BaseBiz;
@@ -93,9 +94,9 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper, RbacUserRole> {
         return baseMapper.countByUserIdAndLinkUrl(userId, linkUrl) > 0;
     }
 
-    public TableRet<RbacUserRoleRetVo> pageVo(RbacUserRoleQueryVo query) {
+    public TableRet<RbacUserRoleRetVo> pageVo(BasePageQuery<RbacUserRoleQueryVo> query) {
         PageInfo<RbacUserRoleRetVo> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
-                .doSelectPageInfo(() -> baseMapper.pageVo(query));
+                .doSelectPageInfo(() -> baseMapper.pageVo(query.getQueryMap(), query.getSorter()));
         return new TableRet<>(info);
     }
 

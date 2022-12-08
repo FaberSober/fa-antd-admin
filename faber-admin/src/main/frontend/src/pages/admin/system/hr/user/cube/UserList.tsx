@@ -55,7 +55,7 @@ function UserList({ departmentId }: IProps, ref: any) {
           <DepartmentCascade value={value} onChangeWithItem={(v: any, item: any) => callback(v, index, get(item, 'name'))} {...props} />
         ),
       },
-      BaseTableUtils.genDictSorterColumn('状态', 'status', 100, sorter, dicts, 'common_user_status'),
+      BaseTableUtils.genBoolSorterColumn('账户有效', 'status', 100, sorter),
       BaseTableUtils.genDictSorterColumn('性别', 'sex', 100, sorter, dicts, 'common_sex'),
       BaseTableUtils.genSimpleSorterColumn('邮箱', 'email', 150, sorter, false),
       BaseTableUtils.genSimpleSorterColumn('地址', 'address', 200, sorter, false),

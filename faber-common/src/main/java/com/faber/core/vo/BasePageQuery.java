@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Data
 @ToString
-public class BasePageQuery implements Serializable {
+public class BasePageQuery<T> implements Serializable {
 
     /** 当前页码 */
     private int current = 1;
@@ -20,6 +20,9 @@ public class BasePageQuery implements Serializable {
 
     /** 查询用户 */
     private String queryUserId;
+
+    /** 查询参数 */
+    private T queryMap;
 
     public long getSkip() {
         return (long) (this.getCurrent() - 1) * this.getPageSize();

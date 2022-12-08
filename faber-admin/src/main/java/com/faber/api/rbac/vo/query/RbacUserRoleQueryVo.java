@@ -1,12 +1,13 @@
 package com.faber.api.rbac.vo.query;
 
-import com.faber.core.vo.BasePageQuery;
 import lombok.Data;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 @Data
 @ToString
-public class RbacUserRoleQueryVo extends BasePageQuery {
+public class RbacUserRoleQueryVo implements Serializable {
 
     private Long roleId;
     private String name;

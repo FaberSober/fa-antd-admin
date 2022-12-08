@@ -9,14 +9,14 @@
           LEFT JOIN base_user u ON t.user_id = u.id
          WHERE t.deleted = 0
            AND u.deleted = 0
-        <if test="roleId != null and roleId != ''">
-            AND t.role_id = #{roleId}
+        <if test="query.roleId != null and query.roleId != ''">
+            AND t.role_id = #{query.roleId}
         </if>
-        <if test="name != null and name != ''">
-            AND u.`name` LIKE concat('%', #{name}, '%')
+        <if test="query.name != null and query.name != ''">
+            AND u.`name` LIKE concat('%', #{query.name}, '%')
         </if>
-        <if test="username != null and username != ''">
-            AND u.`username` LIKE concat('%', #{username}, '%')
+        <if test="query.username != null and query.username != ''">
+            AND u.`username` LIKE concat('%', #{query.username}, '%')
         </if>
         <if test="sorter != null and sorter != ''">
             ORDER BY ${sorter}

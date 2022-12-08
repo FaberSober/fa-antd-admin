@@ -76,7 +76,7 @@ public class User extends BaseDelEntity {
 
     @NotNull
     @SqlEquals
-    @ExcelProperty("状态")
+    @ExcelProperty("账户有效")
     private Boolean status;
 
     @ExcelProperty("角色名称")

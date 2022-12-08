@@ -14,7 +14,7 @@ interface IProps extends SelectProps<any> {
  * @author xu.pengfei
  * @date 2020/12/25
  */
-export default function DictDataSelector({ dictLabel, onFetchData, transValue = (v) => v, ...props }: IProps) {
+export default function DictDataSelector({ dictLabel, onFetchData, transValue, ...props }: IProps) {
   const [list, setList] = useState<any[]>([]);
 
   useEffect(() => {
@@ -23,14 +23,12 @@ export default function DictDataSelector({ dictLabel, onFetchData, transValue = 
 
   function fetchData() {
     dictService.listByCode(dictLabel).then((res) => {
-      if (res && res.status === RES_CODE.OK) {
-        const newList = res.data.map((v) => ({
-          value: transValue ? transValue(v.value) : v.value,
-          label: v.text,
-        }));
-        setList(newList);
-        if (onFetchData) onFetchData(newList);
-      }
+      const newList = res.data.map((v) => ({
+        value: transValue ? transValue(v.value) : v.value,
+        label: v.text,
+      }));
+      setList(newList);
+      if (onFetchData) onFetchData(newList);
     });
   }
 

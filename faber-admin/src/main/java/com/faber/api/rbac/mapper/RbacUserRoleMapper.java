@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface RbacUserRoleMapper extends BaseMapper<RbacUserRole> {
 
-    List<RbacUserRoleRetVo> pageVo(RbacUserRoleQueryVo query);
+    List<RbacUserRoleRetVo> pageVo(@Param("query") RbacUserRoleQueryVo query, @Param("sorter") String sorter);
 
     int countByUserIdAndLinkUrl(@Param("userId") String userId, @Param("linkUrl") String linkUrl);
 	

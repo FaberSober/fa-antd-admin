@@ -1,14 +1,14 @@
 import React, {useContext, useImperativeHandle, useState} from 'react';
 import {get} from 'lodash';
-import {Form, Input} from 'antd';
+import {Form, Input, Switch} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
 import {showResponse, formItemFullLayout} from '@/utils/utils';
 import modelService from '@/services/admin/user';
 import rbacUserRoleApi from '@/services/rbac/rbacUserRole';
 import Admin from '@/props/admin';
-import {DictDataRadio} from '@/components/base-dict';
+import {BaseBoolRadio, DictDataRadio, DictEnumApiRadio} from '@/components/base-dict';
 import DepartmentCascade from "../helper/DepartmentCascade";
-import {UploadImgQiniu} from "@/components/base-uploader";
+import {UploadImgLocal, UploadImgQiniu} from "@/components/base-uploader";
 import RbacRoleSelect from "@/pages/admin/system/hr/role/components/RbacRoleSelect";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import FaEnums from "@/props/base/FaEnums";
@@ -38,12 +38,6 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
       showModal();
     },
   }));
-
-  // useEffect(() => {
-  //   if (record !== undefined) {
-  //     form.setFieldsValue({ departmentId });
-  //   }
-  // }, [departmentId]);
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
@@ -139,17 +133,17 @@ function UserModal({ children, title, record, fetchFinish, departmentId, addLoc,
           <Form.Item name="roleIds" label="角色" rules={[{ required: true }]} {...formItemFullLayout}>
             <RbacRoleSelect mode="multiple" />
           </Form.Item>
-          <Form.Item name="status" label="状态" rules={[{ required: true }]} {...formItemFullLayout}>
-            <DictDataRadio dictLabel="common_user_status" transValue={(v) => Number(v)} />
+          <Form.Item name="status" label="账户有效" rules={[{ required: true }]} {...formItemFullLayout} valuePropName="checked">
+            <Switch />
           </Form.Item>
           <Form.Item name="email" label="邮箱" {...formItemFullLayout}>
             <Input />
           </Form.Item>
           <Form.Item name="sex" label="性别" {...formItemFullLayout}>
-            <DictDataRadio dictLabel="common_sex" transValue={(v) => Number(v)} />
+            <DictEnumApiRadio enumName="SexEnum" />
           </Form.Item>
           <Form.Item name="img" label="头像" {...formItemFullLayout}>
-            <UploadImgQiniu prefix="/head/img" />
+            <UploadImgLocal />
           </Form.Item>
           <Form.Item name="description" label="备注" {...formItemFullLayout}>
             <Input.TextArea />
