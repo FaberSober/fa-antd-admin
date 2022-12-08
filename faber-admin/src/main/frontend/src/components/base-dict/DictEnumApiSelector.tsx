@@ -13,7 +13,7 @@ interface IProps extends SelectProps<any> {
  * @author xu.pengfei
  * @date 2020/12/25
  */
-export default function DictEnumApiSelector({ enumName, onFetchData, transValue = (v) => v, ...props }: IProps) {
+export default function DictEnumApiSelector({ enumName, onFetchData, transValue, ...props }: IProps) {
   const [list, setList] = useState<any[]>([]);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function DictEnumApiSelector({ enumName, onFetchData, transValue 
   function fetchData() {
     dictService.listEnum(enumName).then((res) => {
       const newList = res.data.map((v) => ({
-        value: transValue ? transValue(v.value) : v.value,
+        value: transValue ? transValue(v.value) : Number(v.value),
         label: v.text,
       }));
       setList(newList);

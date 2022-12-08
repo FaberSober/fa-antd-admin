@@ -20,19 +20,19 @@ import java.io.Serializable;
 @Service
 public class StudentBiz extends BaseBiz<StudentMapper, Student> {
 
-    @Cached(name="studentCache-", key="#id", expire = 3600)
+    @Cached(name="student:", key="#id", expire = 3600)
     @Override
     public Student getById(Serializable id) {
         return super.getById(id);
     }
 
-    @CacheUpdate(name="studentCache-", key="#entity.id", value="#entity")
+    @CacheUpdate(name="student:", key="#entity.id", value="#entity")
     @Override
     public boolean updateById(Student entity) {
         return super.updateById(entity);
     }
 
-    @CacheInvalidate(name="studentCache-", key="#id")
+    @CacheInvalidate(name="student:", key="#id")
     @Override
     public boolean removeById(Serializable id) {
         return super.removeById(id);

@@ -99,8 +99,8 @@ jetcache:
     default:
       type: redisson
       keyConvertor: fastjson2
-      broadcastChannel: projectA
-      keyPrefix: 'projectA:'
+      broadcastChannel: fa-web
+      keyPrefix: 'fa-web:'
       valueEncoder: java
       valueDecoder: java
       defaultExpireInMillis: 5000

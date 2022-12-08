@@ -1,10 +1,12 @@
 import React, {useContext, useState} from 'react';
 import {Alert, Button, Card, Form, Input} from "antd";
 import redisTestApi from '@/services/demo/redisTest'
+import studentApi from '@/services/demo/student'
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import {formItemFullLayout} from "@/utils/utils";
 import {FaFlexRestLayout} from "@/components/base-layout";
 import {UserLayoutContext} from "@/layout/UserLayout";
+import Demo from "@/props/demo";
 
 
 /**
@@ -16,8 +18,10 @@ export default function index() {
   const {systemConfig} = useContext(UserLayoutContext)
   const [form] = Form.useForm();
   const [form1] = Form.useForm();
+  const [form2] = Form.useForm();
 
   const [data, setData] = useState<string>()
+  const [student, setStudent] = useState<Demo.Student>()
 
   function onFinish({key, value}: any) {
     redisTestApi.addCache(key, value).then(refreshIframe)
@@ -25,6 +29,10 @@ export default function index() {
 
   function onFinish1({key}: any) {
     redisTestApi.getCache(key).then(res => setData(res.data))
+  }
+
+  function onFinish2({id}: any) {
+    studentApi.getById(id).then(res => setStudent(res.data)).then(refreshIframe)
   }
 
   function refreshIframe() {
@@ -61,7 +69,20 @@ export default function index() {
           </Form>
         </Card>
 
-        <Alert description="缓存100s后失效" />
+        <Alert description="缓存100s后失效" className="fa-mb12" />
+
+        <Card title="获取Student" className="fa-mb12">
+          <Form form={form2} onFinish={onFinish2}>
+            <Form.Item name="id" label="id" rules={[{ required: true }]} {...formItemFullLayout}>
+              <Input />
+            </Form.Item>
+
+            <Button loading={loading2} htmlType="submit">获取Student</Button>
+
+            <p>获取缓存：{student?.id} {student?.name}</p>
+          </Form>
+        </Card>
+
       </div>
 
       <FaFlexRestLayout>

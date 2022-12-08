@@ -2,6 +2,7 @@
 ## 枚举类型定义约定
 枚举类型参考如下示例类：
 1. 继承IEnum；
+2. enum类型的数据，在数据库中建议存储为tinyint(4)类型字段；
 
 ```java
 package com.faber.common.enums;
