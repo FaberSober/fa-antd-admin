@@ -80,6 +80,7 @@
 1. [代码生成器](./doc/server/genetator.md)
 1. [socketio](./doc/server/socket.md)
 1. [nginx部署](./doc/server/nginx.md)
+1. [mybatisplus](./doc/server/mybatisplus.md)
 1. [参考资料](./doc/server/ref.md)
 
 
@@ -112,6 +113,7 @@
 - [ ] 集成redis缓存方案
 - [X] 集成redis在线管理工具
 - [X] 组合查询功能模块整理
+- [ ] 组合查询功能-扩展-支持mysql json格式字段过滤查询
 - [ ] 使用https访问后，druid访问nginx 302问题处理
 - [X] BaseBiz查询分组List
 - [X] 表格高度固定

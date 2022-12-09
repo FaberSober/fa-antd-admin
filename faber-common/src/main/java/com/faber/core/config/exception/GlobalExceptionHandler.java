@@ -1,4 +1,4 @@
-package com.faber.core.handler;
+package com.faber.core.config.exception;
 
 import com.faber.core.constant.CommonConstants;
 import com.faber.core.exception.BaseException;

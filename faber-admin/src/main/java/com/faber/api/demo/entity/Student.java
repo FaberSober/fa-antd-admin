@@ -67,11 +67,23 @@ public class Student extends BaseDelEntity {
     @ExcelProperty("标签")
     private List<Tag> tags;
 
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    @ExcelProperty("详细信息")
+    private Info info;
+
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Tag implements Serializable {
         private String name;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Info implements Serializable {
+        private String info1;
+        private String info2;
     }
 
     public void addTag(Tag tag) {

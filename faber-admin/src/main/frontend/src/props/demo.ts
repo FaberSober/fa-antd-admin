@@ -7,6 +7,12 @@ namespace Demo {
     name: string;
   }
 
+  /** Demo-学生表-详细信息 */
+  export interface StudentInfo {
+    info1: string;
+    info2: string;
+  }
+
   /** Demo-学生表 */
   export interface Student extends Fa.BaseDelEntity {
     /** ID */
@@ -29,6 +35,8 @@ namespace Demo {
     tenantId: string;
     /** 标签 */
     tags: StudentTag[];
+    /** 详细信息 */
+    info: StudentInfo;
   }
 
   /** DEMO-tree数据 */

@@ -1,5 +1,6 @@
 package com.faber.demo.student;
 
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.faber.AdminBootstrap;
 import com.faber.api.demo.biz.StudentBiz;
 import com.faber.api.demo.entity.Student;
@@ -11,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author xupengfei
@@ -33,10 +36,67 @@ public class StudentTest {
 
     @Test
     public void testUpdateById() {
-        Student student = studentMapper.selectById(1);
-        student.addTag(new Student.Tag("新生"));
-        studentMapper.updateById(student);
-        log.info("student: {}", student);
+        {
+            Student student = studentMapper.selectById(1);
+            // update json array
+            student.setTags(new ArrayList<>());
+            student.setTags(new ArrayList<Student.Tag>() {{
+                add(new Student.Tag("新生"));
+                add(new Student.Tag("一年级"));
+            }});
+            // update json object
+            student.setInfo(new Student.Info("hello", "world"));
+            studentMapper.updateById(student);
+            log.info("student: {}", student);
+        }
+        
+        {
+            Student student = studentMapper.selectById(2);
+            // update json array
+            student.setTags(new ArrayList<Student.Tag>() {{
+                add(new Student.Tag("新生"));
+                add(new Student.Tag("二年级"));
+            }});
+            // update json object
+            student.setInfo(new Student.Info("hello", "bar"));
+            studentMapper.updateById(student);
+            log.info("student: {}", student);
+        }
+    }
+
+    @Test
+    public void testJsonQuery() {
+        // json array like query
+        {
+            List<Student> list = new LambdaQueryChainWrapper<>(studentMapper)
+                    .apply("tags -> '$[*].name' LIKE CONCAT('%',{0},'%')", "新")
+                    .list();
+            log.info("list: {}", list);
+        }
+
+        // json object like query
+        {
+            List<Student> list = new LambdaQueryChainWrapper<>(studentMapper)
+                    .apply("info -> '$.info1' LIKE CONCAT('%',{0},'%')", "he")
+                    .list();
+            log.info("list: {}", list);
+        }
+
+        // json array equal query
+        {
+            List<Student> list = new LambdaQueryChainWrapper<>(studentMapper)
+                    .apply("JSON_CONTAINS(tags, JSON_OBJECT('name', '{0}'))", "新生")
+                    .list();
+            log.info("list: {}", list);
+        }
+
+        // json object equal query
+        {
+            List<Student> list = new LambdaQueryChainWrapper<>(studentMapper)
+                    .apply("info -> '$.info1' = {0}", "hello")
+                    .list();
+            log.info("list: {}", list);
+        }
     }
 
 }

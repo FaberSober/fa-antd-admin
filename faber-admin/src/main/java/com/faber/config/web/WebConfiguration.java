@@ -1,7 +1,7 @@
 package com.faber.config.web;
 
 import cn.hutool.core.collection.ListUtil;
-import com.faber.core.handler.GlobalExceptionHandler;
+import com.faber.core.config.exception.GlobalExceptionHandler;
 import com.faber.config.interceptor.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
