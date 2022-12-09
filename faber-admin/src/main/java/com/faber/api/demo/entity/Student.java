@@ -2,15 +2,22 @@ package com.faber.api.demo.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.faber.api.admin.enums.SexEnum;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.annotation.SqlEquals;
 import com.faber.core.bean.BaseDelEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -21,7 +28,7 @@ import java.util.Date;
  * @date 2020-06-02 17:14:45
  */
 @FaModalName(name = "学生")
-@TableName("demo_student")
+@TableName(value = "demo_student", autoResultMap = true)
 @Data
 public class Student extends BaseDelEntity {
 
@@ -55,5 +62,23 @@ public class Student extends BaseDelEntity {
     @SqlEquals
     @ExcelProperty("租户ID")
     private Integer tenantId;
+
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    @ExcelProperty("标签")
+    private List<Tag> tags;
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Tag implements Serializable {
+        private String name;
+    }
+
+    public void addTag(Tag tag) {
+        if (this.tags == null) {
+            this.tags = new ArrayList<>();
+        }
+        this.tags.add(tag);
+    }
 
 }

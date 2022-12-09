@@ -1,6 +1,6 @@
 import React from 'react';
 import {DownloadOutlined, SearchOutlined} from '@ant-design/icons';
-import {Button, Form, Input, Space} from 'antd';
+import {Button, Form, Input, Space, Tag} from 'antd';
 import {AuthDelBtn} from "@/components/decorator";
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
@@ -33,7 +33,13 @@ export default function StudentList() {
       BaseTableUtils.genEnumSorterColumn('性别', 'sex', 100, sorter, dicts),
       BaseTableUtils.genSimpleSorterColumn('邮箱', 'email', 200, sorter),
       BaseTableUtils.genDateSorterColumn('生日', 'birthday', 120, sorter),
-      BaseTableUtils.genBoolSorterColumn('账户是否有效', 'valid', undefined, sorter),
+      BaseTableUtils.genBoolSorterColumn('账户是否有效', 'valid', 120, sorter),
+      {
+        ...BaseTableUtils.genSimpleSorterColumn('标签', 'tags', undefined, sorter),
+        render: (v, r) => {
+          return (r.tags || []).map(t => <Tag key={t.name}>{t.name}</Tag>)
+        },
+      },
       ...BaseTableUtils.genCtrColumns(sorter),
       ...BaseTableUtils.genUpdateColumns(sorter),
       {

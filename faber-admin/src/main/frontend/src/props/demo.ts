@@ -2,6 +2,11 @@ import Fa from '@/props/base/Fa';
 
 namespace Demo {
 
+  /** Demo-学生表-标签 */
+  export interface StudentTag {
+    name: string;
+  }
+
   /** Demo-学生表 */
   export interface Student extends Fa.BaseDelEntity {
     /** ID */
@@ -22,6 +27,8 @@ namespace Demo {
     infoId: string;
     /** 租户ID */
     tenantId: string;
+    /** 标签 */
+    tags: StudentTag[];
   }
 
   /** DEMO-tree数据 */
