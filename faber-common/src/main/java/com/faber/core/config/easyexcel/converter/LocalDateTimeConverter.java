@@ -1,4 +1,4 @@
-package com.faber.core.converter;
+package com.faber.core.config.easyexcel.converter;
 
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.enums.CellDataTypeEnum;

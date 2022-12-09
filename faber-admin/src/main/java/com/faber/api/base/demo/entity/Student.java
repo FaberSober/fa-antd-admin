@@ -1,6 +1,7 @@
 package com.faber.api.base.demo.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -10,6 +11,7 @@ import com.faber.api.base.admin.enums.SexEnum;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.annotation.SqlEquals;
 import com.faber.core.bean.BaseDelEntity;
+import com.faber.core.config.easyexcel.type.FaJsonObj;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +34,7 @@ import java.util.List;
 @Data
 public class Student extends BaseDelEntity {
 
+    @ColumnWidth(10)
     @TableId(type = IdType.AUTO)
     private String id;
 
@@ -74,23 +77,16 @@ public class Student extends BaseDelEntity {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Tag implements Serializable {
+    public static class Tag implements Serializable, FaJsonObj {
         private String name;
     }
 
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Info implements Serializable {
+    public static class Info implements Serializable, FaJsonObj {
         private String info1;
         private String info2;
-    }
-
-    public void addTag(Tag tag) {
-        if (this.tags == null) {
-            this.tags = new ArrayList<>();
-        }
-        this.tags.add(tag);
     }
 
 }
