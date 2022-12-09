@@ -1,5 +1,6 @@
 package com.faber.api.base.demo.entity;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.baomidou.mybatisplus.annotation.*;
@@ -70,6 +71,7 @@ public class Student extends BaseDelEntity {
     @ExcelProperty("详细信息")
     private Info info;
 
+    @ExcelIgnore
     @TableField(value = "tags -> '$[*].name'",
             insertStrategy = FieldStrategy.NEVER,
             updateStrategy = FieldStrategy.NEVER,

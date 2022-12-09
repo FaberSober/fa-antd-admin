@@ -18,7 +18,6 @@ interface IProps {
 }
 
 export default function UserList({ departmentId }: IProps) {
-  const addModalRef = useRef<any | null>(null);
   const [form] = Form.useForm();
 
   const { queryParams, setFormValues, handleTableChange, setExtraParams, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } =

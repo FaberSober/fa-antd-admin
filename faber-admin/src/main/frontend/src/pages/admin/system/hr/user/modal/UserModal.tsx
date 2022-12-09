@@ -12,6 +12,7 @@ import {UploadImgLocal} from "@/components/base-uploader";
 import RbacRoleSelect from "@/pages/admin/system/hr/role/components/RbacRoleSelect";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import FaEnums from "@/props/base/FaEnums";
+import useBus from "use-bus";
 
 
 const serviceName = '用户';
@@ -20,17 +21,26 @@ interface IProps extends DragModalProps {
   title?: string;
   record?: Admin.User;
   fetchFinish?: () => void;
-  addLoc?: { lng: number, lat: number },
 }
 
 /**
  * 用户实体新增、编辑弹框
  */
-export default function UserModal({ children, title, record, fetchFinish, addLoc, ...props }: IProps) {
+export default function UserModal({ children, title, record, fetchFinish, ...props }: IProps) {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
-  const [departmentId, setDepartmentId] = useState<string|undefined>();
   const [open, setOpen] = useState(false);
+
+  useBus(
+    ['@@UserModal/SHOW_ADD'],
+    ({ type, payload }) => {
+      if (record === undefined) {
+        form.setFieldsValue({ departmentId: payload.departmentId})
+        setOpen(true)
+      }
+    },
+    [record],
+  )
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
@@ -69,14 +79,12 @@ export default function UserModal({ children, title, record, fetchFinish, addLoc
       tel: get(record, 'tel'),
       email: get(record, 'email'),
       password: get(record, 'password'),
-      departmentId: get(record, 'departmentId', departmentId),
+      departmentId: get(record, 'departmentId'),
       sex: get(record, 'sex', FaEnums.SexEnum.UNKNOWN),
       status: get(record, 'status', true),
       description: get(record, 'description'),
       post: get(record, 'post'),
       img: get(record, 'img'),
-      lng: get(record, 'lng', addLoc?.lng),
-      lat: get(record, 'lat', addLoc?.lat),
       roleIds: [],
     }
   }

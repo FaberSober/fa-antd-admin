@@ -4,9 +4,10 @@ import BaseTree from '@/components/base-tree';
 import Admin from '@/props/admin';
 import departmentService from '@/services/admin/department';
 import {useLocalStorage} from 'react-use';
-import BaseTreeProps from "@/components/base-tree/interface";
 import DepartmentModal from "./modal/DepartmentModal";
 import UserList from "./cube/UserList";
+import {dispatch} from 'use-bus'
+import {PlusOutlined} from "@ant-design/icons";
 
 
 /**
@@ -18,13 +19,16 @@ export default function UserDepartmentManage() {
   const [splitPos, setSplitPos] = useLocalStorage<number>('UserDepartmentManage.splitPos', 250);
   const [viewRecord, setViewRecord] = useState<Admin.Department>();
 
-  /** 点击选中tree节点的事件，这里可以获取点击节点的属性 */
   function onTreeSelect(keys: any[], event: any) {
-    setViewRecord(event.node.sourceData)
+    setViewRecord(keys.length > 0 ? event.node.sourceData : undefined)
   }
 
-  function onAfterDelItem(item: BaseTreeProps.TreeNode<Admin.Department, string>) {
+  function onAfterDelItem() {
     setViewRecord(undefined);
+  }
+
+  function handleAddUser(e: any) {
+    dispatch({ type: '@@UserModal/SHOW_ADD', payload: { departmentId: e.props.sourceData.id } })
   }
 
   return (
@@ -32,7 +36,7 @@ export default function UserDepartmentManage() {
       <SplitPane split="vertical" minSize={200} maxSize={350} defaultSize={splitPos} onChange={(size) => setSplitPos(size)}>
         {/* 左侧面板 */}
         <BaseTree
-          showRoot
+          // showRoot
           rootName="全部"
           showOprBtn
           onSelect={onTreeSelect}
@@ -41,6 +45,14 @@ export default function UserDepartmentManage() {
           serviceName="部门"
           ServiceModal={DepartmentModal}
           serviceApi={departmentService}
+          extraContextMenus={[
+            {
+              key: 'add-user',
+              icon: <PlusOutlined />,
+              title: '新增用户',
+              onMenuClick: handleAddUser,
+            },
+          ]}
         />
 
         {/* 右侧面板 */}

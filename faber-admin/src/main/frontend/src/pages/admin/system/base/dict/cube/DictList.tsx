@@ -17,8 +17,7 @@ interface IProps {
   type?: number;
 }
 
-function DictList({ type }: IProps, ref: any) {
-  const addModalRef = useRef<any | null>(null);
+export default function DictList({ type }: IProps) {
   const [form] = Form.useForm();
 
   const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, setExtraParams, fetchPageList, loading, list, paginationProps } =
@@ -28,12 +27,6 @@ function DictList({ type }: IProps, ref: any) {
   const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName);
 
   useEffect(() => setExtraParams({ type }), [type]);
-
-  useImperativeHandle(ref, () => ({
-    showAddModal: () => {
-      addModalRef.current.showModal();
-    },
-  }));
 
   /** 生成表格字段List */
   function genColumns() {
@@ -102,7 +95,7 @@ function DictList({ type }: IProps, ref: any) {
           <Space>
             <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
             <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
-            <DictModal ref={addModalRef} title={`新增${serviceName}信息`} fetchFinish={fetchPageList} type={type}>
+            <DictModal title={`新增${serviceName}信息`} fetchFinish={fetchPageList}>
               <Button icon={<PlusOutlined />} type="primary">新增</Button>
             </DictModal>
             <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
@@ -126,4 +119,3 @@ function DictList({ type }: IProps, ref: any) {
     </div>
   );
 }
-export default React.forwardRef(DictList);

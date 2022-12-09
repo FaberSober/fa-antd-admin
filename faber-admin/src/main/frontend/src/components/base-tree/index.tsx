@@ -273,16 +273,16 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
 
       {/* context menu */}
       <Menu id={MENU_ID} className={styles.contextMenu}>
-        {showOprBtnAdd && <Item id="add" onClick={handleItemClick} ><PlusOutlined /> 新增</Item>}
-        {showOprBtnEdit && <Item id="edit" onClick={handleItemClick}><EditOutlined /> 编辑</Item>}
+        {showOprBtnAdd && <Item id="add" onClick={handleItemClick} ><PlusOutlined style={{ width: 20 }} /> 新增</Item>}
+        {showOprBtnEdit && <Item id="edit" onClick={handleItemClick}><EditOutlined style={{ width: 20 }} /> 编辑</Item>}
         {extraContextMenus?.map((em) => (
           <Item id={em.key} key={em.key} onClick={(e) => handleExtraItemClick(e, em)}>
-            {em.icon && em.icon}
+            <span style={{ width: 20 }}>{em.icon && em.icon}</span>
             {em.title}
           </Item>
         ))}
         {showOprBtnEdit && <Item id="del" onClick={handleItemClick}>
-          <span style={{ color: '#F00' }}><DeleteOutlined /> 删除</span>
+          <span style={{ color: '#F00' }}><DeleteOutlined style={{ width: 16 }} /> 删除</span>
         </Item>}
       </Menu>
 

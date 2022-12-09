@@ -9,6 +9,8 @@ import DictTypeCascade from "../helper/DictTypeCascade";
 import {ClearOutlined} from '@ant-design/icons';
 import {UploadFileLocal} from "@/components/base-uploader";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
+import useBus from "use-bus";
+
 
 const serviceName = '字典值';
 
@@ -16,30 +18,28 @@ interface IProps extends DragModalProps {
   title?: string;
   record?: Admin.Dict;
   fetchFinish?: () => void;
-  type?: number;
 }
 
 /**
  * 字典值实体新增、编辑弹框
  */
-function DictModal({ children, title, record, fetchFinish, type, ...props }: IProps, ref: any) {
+function DictModal({ children, title, record, fetchFinish, ...props }: IProps, ref: any) {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState(0);
 
-  useImperativeHandle(ref, () => ({
-    showModal: () => {
-      setOpen(true);
+  useBus(
+    ['@@DictModal/SHOW_ADD'],
+    ({ type, payload }) => {
+      if (record === undefined) {
+        form.setFieldsValue({ type: payload.type})
+        setOpen(true)
+      }
     },
-  }));
-
-  useEffect(() => {
-    if (form && record !== undefined) {
-      form.setFieldsValue({ type });
-    }
-  }, [type]);
+    [record],
+  )
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
@@ -61,14 +61,10 @@ function DictModal({ children, title, record, fetchFinish, type, ...props }: IPr
 
   /** 提交表单 */
   function onFinish(fieldsValue: any) {
-    const values = {
-      ...fieldsValue,
-      // birthday: getDateStr000(fieldsValue.birthday),
-    };
     if (record) {
-      invokeUpdateTask({ ...record, ...values });
+      invokeUpdateTask({ ...record, ...fieldsValue });
     } else {
-      invokeInsertTask({ ...values });
+      invokeInsertTask({ ...fieldsValue });
     }
   }
 
@@ -79,7 +75,7 @@ function DictModal({ children, title, record, fetchFinish, type, ...props }: IPr
   }
 
   const initialValues = {
-    type: get(record, 'type', type),
+    type: get(record, 'type'),
     category: get(record, 'category'),
     text: get(record, 'text'),
     value: get(record, 'value'),

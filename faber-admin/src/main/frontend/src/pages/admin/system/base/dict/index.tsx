@@ -1,45 +1,36 @@
-import React, {useRef, useState} from 'react';
-import {RES_CODE} from '@/configs/server.config';
+import React, {useState} from 'react';
 import SplitPane from 'react-split-pane';
 import BaseTree from '@/components/base-tree';
-import {CaretRightOutlined, PlusOutlined} from '@ant-design/icons';
-import {Collapse, Descriptions} from 'antd';
+import {PlusOutlined} from '@ant-design/icons';
+import {Descriptions} from 'antd';
 import Admin from '@/props/admin';
 import dictTypeService from '@/services/admin/dictType';
-import { useLocalStorage } from 'react-use';
-import BaseTreeProps from "@/components/base-tree/interface";
+import {useLocalStorage} from 'react-use';
 import DictList from "./cube/DictList";
 import DictTypeModal from "./modal/DictTypeModal";
 import {FaFlexRestLayout} from "@/components/base-layout";
+import {dispatch} from "use-bus";
+
 
 /**
+ * 字典管理
  * @author xu.pengfei
  * @date 2020/12/25
  */
 export default function DictManage() {
-  const listRef = useRef<any | null>(null);
-
   const [viewRecord, setViewRecord] = useState<Admin.DictType>();
   const [splitPos, setSplitPos] = useLocalStorage<number>('DictManage.splitPos', 250);
 
-  /** 点击选中tree节点的事件，这里可以获取点击节点的属性 */
   function onTreeSelect(keys: any[], event: any) {
-    if (keys && keys[0]) {
-      // 0为根节点
-      if (`${keys[0]}` === '0') {
-        setViewRecord(undefined);
-      } else {
-        dictTypeService.getById(keys[0]).then((res) => {
-          if (res && res.status === RES_CODE.OK) {
-            setViewRecord(res.data);
-          }
-        });
-      }
-    }
+    setViewRecord(keys.length > 0 ? event.node.sourceData : undefined)
   }
 
-  function onAfterDelItem(item: BaseTreeProps.TreeNode) {
+  function onAfterDelItem() {
     setViewRecord(undefined);
+  }
+
+  function handleAddDict(e: any) {
+    dispatch({ type: '@@DictModal/SHOW_ADD', payload: { type: e.props.sourceData.id } })
   }
 
   return (
@@ -60,7 +51,7 @@ export default function DictManage() {
               key: 'add-dict',
               icon: <PlusOutlined />,
               title: '新增字典值',
-              onMenuClick: () => listRef.current.showAddModal(),
+              onMenuClick: handleAddDict,
             },
           ]}
         />
@@ -74,7 +65,7 @@ export default function DictManage() {
           </Descriptions>
 
           <FaFlexRestLayout>
-            <DictList ref={listRef} type={viewRecord?.id} />
+            <DictList type={viewRecord?.id} />
           </FaFlexRestLayout>
         </div>
       </SplitPane>
