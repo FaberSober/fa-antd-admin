@@ -91,6 +91,15 @@ export default function StudentList() {
         batchDelete={(ids) => api.removeBatchByIds(ids)}
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
+        expandable={{
+          expandedRowRender: (record:Demo.Student) => (
+            <p style={{ margin: 0 }}>
+              info1: {record.info.info1};
+              info2: {record.info.info2};
+            </p>
+          ),
+          rowExpandable: (record:Demo.Student) => record.info,
+        }}
       />
     </div>
   );

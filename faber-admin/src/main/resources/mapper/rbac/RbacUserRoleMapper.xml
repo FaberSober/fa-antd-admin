@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.faber.api.rbac.mapper.RbacUserRoleMapper">
+<mapper namespace="com.faber.api.base.rbac.mapper.RbacUserRoleMapper">
 
-    <select id="pageVo" parameterType="com.faber.api.rbac.vo.query.RbacUserRoleQueryVo" resultType="com.faber.api.rbac.vo.RbacUserRoleRetVo">
+    <select id="pageVo" parameterType="com.faber.api.base.rbac.vo.query.RbacUserRoleQueryVo" resultType="com.faber.api.base.rbac.vo.RbacUserRoleRetVo">
         SELECT t.*, u.`name`, u.username
           FROM base_rbac_user_role t
           LEFT JOIN base_user u ON t.user_id = u.id

@@ -21,16 +21,14 @@ export const SITE_INFO = {
 
 /** -------------------------------- 网关配置 -------------------------------- */
 export const GATE_APP = {
-	/** JWT授权服务 */
-	auth: '/api/auth',
 	/** ADMIN服务 */
-	admin: '/api/admin',
+	admin: '/api/base/admin',
 	/** article服务 */
-	article: '/api/article',
+	article: '/api/base/article',
 	/** Demo服务 */
-	demo: '/api/demo',
+	demo: '/api/base/demo',
 	/** rbac服务 */
-  rbac: '/api/rbac',
+  rbac: '/api/base/rbac',
 };
 
 /** -------------------------------- WebSocket配置 -------------------------------- */

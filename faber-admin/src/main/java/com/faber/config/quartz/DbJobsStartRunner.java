@@ -1,7 +1,7 @@
 package com.faber.config.quartz;
 
-import com.faber.api.admin.biz.JobBiz;
-import com.faber.api.admin.entity.Job;
+import com.faber.api.base.admin.biz.JobBiz;
+import com.faber.api.base.admin.entity.Job;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;

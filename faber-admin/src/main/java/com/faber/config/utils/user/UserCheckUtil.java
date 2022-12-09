@@ -1,6 +1,6 @@
 package com.faber.config.utils.user;
 
-import com.faber.api.admin.entity.User;
+import com.faber.api.base.admin.entity.User;
 import com.faber.core.exception.auth.UserInvalidException;
 
 /**

@@ -2,10 +2,8 @@ package com.faber.base.redis;
 
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.CacheManager;
-import com.alicp.jetcache.anno.method.CacheConfigUtil;
-import com.alicp.jetcache.anno.support.CachedAnnoConfig;
 import com.faber.AdminBootstrap;
-import com.faber.api.admin.vo.ret.SystemConfigPo;
+import com.faber.api.base.admin.vo.ret.SystemConfigPo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;

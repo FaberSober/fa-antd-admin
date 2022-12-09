@@ -1,7 +1,7 @@
 package com.faber.admin;
 
 import com.faber.AdminBootstrap;
-import com.faber.api.admin.biz.SystemUpdateLogBiz;
+import com.faber.api.base.admin.biz.SystemUpdateLogBiz;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -75,6 +75,7 @@
 
 ## 后台
 1. [后台约定的一些规则](./doc/server/common.md)
+1. [API路径定义](./doc/server/api.md)
 1. [枚举](./doc/server/enum.md)
 1. [注解](./doc/server/annotation.md)
 1. [代码生成器](./doc/server/genetator.md)
@@ -97,7 +98,6 @@
 - [ ] 单点登录控制
 - [X] 定时任务执行日志
 - [X] 定时任务corn图形化选择
-- [ ] 表联合查询组合查询功能
 - [ ] 七牛云demo示例
 - [ ] 阿里云demo示例
 - [X] tinymce编辑器集成
@@ -114,6 +114,8 @@
 - [X] 集成redis在线管理工具
 - [X] 组合查询功能模块整理
 - [ ] 组合查询功能-扩展-支持mysql json格式字段过滤查询
+- [ ] 导出Excel-扩展-支持mysql json格式字段导出
+- [ ] 表联合查询组合查询功能
 - [ ] 使用https访问后，druid访问nginx 302问题处理
 - [X] BaseBiz查询分组List
 - [X] 表格高度固定

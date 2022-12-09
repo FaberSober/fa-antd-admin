@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.faber.api.admin.mapper.DictMapper">
+<mapper namespace="com.faber.api.base.admin.mapper.DictMapper">
 
-    <select id="selectByTypeCode" resultType="com.faber.api.admin.entity.Dict">
+    <select id="selectByTypeCode" resultType="com.faber.api.base.admin.entity.Dict">
         SELECT t.*
           FROM base_dict t
           LEFT JOIN base_dict_type a ON t.type = a.id
@@ -25,7 +25,7 @@
                  LIMIT 1
     </select>
 
-    <select id="getByCodeAndText" parameterType="map" resultType="com.faber.api.admin.entity.Dict">
+    <select id="getByCodeAndText" parameterType="map" resultType="com.faber.api.base.admin.entity.Dict">
         SELECT t.*
         FROM base_dict t
         LEFT JOIN base_dict_type dt ON t.type = dt.id
@@ -36,7 +36,7 @@
         ORDER BY t.sort ASC
     </select>
 
-    <select id="getByCodeAndValue" parameterType="map" resultType="com.faber.api.admin.entity.Dict">
+    <select id="getByCodeAndValue" parameterType="map" resultType="com.faber.api.base.admin.entity.Dict">
         SELECT t.*
         FROM base_dict t
         LEFT JOIN base_dict_type dt ON t.type = dt.id
