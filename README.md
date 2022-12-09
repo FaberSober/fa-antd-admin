@@ -72,6 +72,7 @@
 1. [登录页面](./doc/frontend/login.md)
 1. [bus事件总线](./doc/frontend/bus.md)
 1. [socketio](./doc/frontend/socket.md)
+1. [拖动排序](./doc/frontend/dnd.md)
 
 ## 后台
 1. [后台约定的一些规则](./doc/server/common.md)
@@ -131,5 +132,7 @@
 - [ ] ES
 - [ ] 流程引擎
 - [ ] 报表功能
+- [ ] 系统配置
+- [ ] 日志记录级别
 
 # [CHANGELOG](./CHANGELOG.md)

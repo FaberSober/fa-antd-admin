@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import SplitPane from 'react-split-pane';
 import BaseTree from '@/components/base-tree';
 import {PlusOutlined} from '@ant-design/icons';
-import {Descriptions} from 'antd';
+import {Descriptions, Empty} from 'antd';
 import Admin from '@/props/admin';
 import dictTypeService from '@/services/admin/dictType';
 import {useLocalStorage} from 'react-use';
@@ -10,6 +10,7 @@ import DictList from "./cube/DictList";
 import DictTypeModal from "./modal/DictTypeModal";
 import {FaFlexRestLayout} from "@/components/base-layout";
 import {dispatch} from "use-bus";
+import DictSortList from "@/pages/admin/system/base/dict/cube/DictSortList";
 
 
 /**
@@ -58,15 +59,19 @@ export default function DictManage() {
 
         {/* 右侧面板 */}
         <div className="fa-flex-column fa-full">
-          <Descriptions bordered size="small" style={{ marginBottom: 12 }} labelStyle={{ width: 150 }} contentStyle={{ minWidth: 100 }}>
-            <Descriptions.Item label="字典分组名称">{viewRecord?.name}</Descriptions.Item>
-            <Descriptions.Item label="字典分组编码">{viewRecord?.code}</Descriptions.Item>
-            <Descriptions.Item label="描述">{viewRecord?.description}</Descriptions.Item>
-          </Descriptions>
+          {viewRecord ? (
+            <div className="fa-flex-column fa-full">
+              <Descriptions className="fa-bg-white fa-mb12 fa-p12" bordered size="small" labelStyle={{ width: 150 }} contentStyle={{ minWidth: 100 }}>
+                <Descriptions.Item label="字典分组名称">{viewRecord?.name}</Descriptions.Item>
+                <Descriptions.Item label="字典分组编码">{viewRecord?.code}</Descriptions.Item>
+                <Descriptions.Item label="描述">{viewRecord?.description}</Descriptions.Item>
+              </Descriptions>
 
-          <FaFlexRestLayout>
-            <DictList type={viewRecord?.id} />
-          </FaFlexRestLayout>
+              <FaFlexRestLayout>
+                <DictSortList type={viewRecord.id} />
+              </FaFlexRestLayout>
+            </div>
+          ) : <Empty description="请先选择字典分组" />}
         </div>
       </SplitPane>
     </div>

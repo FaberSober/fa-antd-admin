@@ -43,7 +43,7 @@ export default function FaSortList<T>({ list, rowKey = 'id', renderItem, onSortE
   }
 
   function getRowKey(item: T) {
-    return get(item, rowKey)
+    return get(item, rowKey!)
   }
 
   return (

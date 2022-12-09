@@ -31,13 +31,13 @@ export default class BaseApi<T, KeyType, PageT = T> extends BaseZeroApi {
 	all = (): Promise<Fa.Ret<T[]>> => this.get('all');
 
 	/** 获取实体List */
-	list = (params: any): Promise<Fa.Ret<T[]>> => this.post('list', params);
+	list = (params: Fa.BaseQueryParams): Promise<Fa.Ret<T[]>> => this.post('list', params);
 
 	/** 获取实体List-用户创建 */
-	mineList = (params: any): Promise<Fa.Ret<T[]>> => this.post('mineList', params);
+	mineList = (params: Fa.BaseQueryParams): Promise<Fa.Ret<T[]>> => this.post('mineList', params);
 
 	/** 获取实体List */
-	count = (params: any): Promise<Fa.Ret<number>> => this.post('count', params);
+	count = (params: Fa.BaseQueryParams): Promise<Fa.Ret<number>> => this.post('count', params);
 
 	/** 获取实体 分页 */
 	page = (params: Fa.BasePageProps): Promise<Fa.Ret<Fa.Page<PageT>>> => this.post('page', params);

@@ -29,14 +29,14 @@ import java.util.Map;
 @Slf4j
 public class WrapperUtils {
 
-    public static <T> QueryWrapper<T> parseQuery(QueryParams query, Class<T> clazz) {
+    public static <T> QueryWrapper<T> parseQuery(QueryParams queryParams, Class<T> clazz) {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
 
-        Map<String, Object> queryMap = FaMapUtils.removeEmptyValue(query.getQuery());
+        Map<String, Object> query = FaMapUtils.removeEmptyValue(queryParams.getQuery());
 
-        boolean condition = queryMap.size() > 0;
+        boolean condition = query.size() > 0;
         wrapper.and(condition, ew -> {
-            for (Map.Entry<String, Object> entry : queryMap.entrySet()) {
+            for (Map.Entry<String, Object> entry : query.entrySet()) {
                 // xxx#$min，xxx#$max 类型的key，为最小值、最大值判定
                 String key = entry.getKey();
                 if (key.contains("#$")) {
@@ -77,26 +77,26 @@ public class WrapperUtils {
         });
 
         // 单查询字段
-        if (StringUtils.isNotEmpty(query.getSearch())) {
+        if (StringUtils.isNotEmpty(queryParams.getSearch())) {
             wrapper.and(ew -> {
                 for (Field field : clazz.getDeclaredFields()) {
                     SqlSearch annotation = field.getAnnotation(SqlSearch.class);
                     if (annotation != null) {
                         String fieldColumn = StrUtil.toUnderlineCase(field.getName());
-                        ew.like(fieldColumn, SqlUtils.filterLikeValue(query.getSearch()));
+                        ew.like(fieldColumn, SqlUtils.filterLikeValue(queryParams.getSearch()));
                     }
                 }
             });
         }
 
         // 高级查询-过滤条件List
-        if (query.getConditionList() != null && query.getConditionList().size() > 0) {
-            for (ConditionGroup conditionGroup : query.getConditionList()) {
+        if (queryParams.getConditionList() != null && queryParams.getConditionList().size() > 0) {
+            for (ConditionGroup conditionGroup : queryParams.getConditionList()) {
                 processConditionList(conditionGroup, wrapper);
             }
         }
 
-        Sorter sorter = query.getSorterInfo();
+        Sorter sorter = queryParams.getSorterInfo();
         if (sorter != null) {
             wrapper.orderBy(true, sorter.isAsc(), sorter.getField());
         }

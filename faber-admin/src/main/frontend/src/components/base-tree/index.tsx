@@ -44,7 +44,7 @@ interface IProps<T, KeyType = number> extends TreeProps {
     /** [外部定义]改变Tree节点位置 */
     changePos: (list: any[]) => Promise<Fa.Ret>;
     /** [外部定义]获取Tree节点详情 */
-    getById: (id: KeyType) => Promise<Fa.Ret<T>>;
+    // getById: (id: KeyType) => Promise<Fa.Ret<T>>;
     /** [外部定义]删除Tree节点 */
     remove: (id: KeyType) => Promise<Fa.Ret>;
   };
@@ -131,13 +131,9 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
   }
 
   function handleEditItem(item: BaseTreeProps.TreeNode<RecordType, KeyType>) {
-    serviceApi.getById(item.value).then((res) => {
-      if (res && res.status === RES_CODE.OK) {
-        setClickItem(res.data);
-        setAddItemModalVisible(false);
-        setEditItemModalVisible(true);
-      }
-    });
+    setClickItem(item.sourceData);
+    setAddItemModalVisible(false);
+    setEditItemModalVisible(true);
   }
 
   function handleDelItem(item: BaseTreeProps.TreeNode<RecordType, KeyType>) {
@@ -170,7 +166,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
     serviceApi.allTree().then((res) => {
         let treeArr = TreeUtils.parseNode<RecordType>(res.data);
         if (showRoot) {
-          treeArr = [{ ...Fa.ROOT_DEFAULT, name: rootName, children: treeArr }];
+          treeArr = [{ ...Fa.ROOT_DEFAULT, name: rootName, children: treeArr }] as any[];
         }
         // const newTreeData = renderTreeData(treeArr);
         setTreeData(treeArr as any[]);

@@ -54,20 +54,20 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
         return super.removeById(id);
     }
 
-    @Override
-    protected void preProcessQuery(QueryParams query) {
-        // 字典分组级联查询
-        Map<String, Object> queryMap = query.getQuery();
-        if (queryMap.containsKey("type")) {
-            Integer type  = Integer.parseInt(queryMap.get("type").toString());
-
-            List<DictType> dctTypeList = dictTypeBiz.findAllChildren(type);
-            List<Integer> dctTypeIdList = dctTypeList.stream().map(DictType::getId).collect(Collectors.toList());
-            queryMap.put("type#$in", dctTypeIdList);
-
-            queryMap.remove("type");
-        }
-    }
+//    @Override
+//    protected void preProcessQuery(QueryParams query) {
+//        // 字典分组级联查询
+//        Map<String, Object> queryMap = query.getQuery();
+//        if (queryMap.containsKey("type")) {
+//            Integer type  = Integer.parseInt(queryMap.get("type").toString());
+//
+//            List<DictType> dctTypeList = dictTypeBiz.findAllChildren(type);
+//            List<Integer> dctTypeIdList = dctTypeList.stream().map(DictType::getId).collect(Collectors.toList());
+//            queryMap.put("type#$in", dctTypeIdList);
+//
+//            queryMap.remove("type");
+//        }
+//    }
 
     @Override
     public TableRet<Dict> selectPageByQuery(QueryParams query) {

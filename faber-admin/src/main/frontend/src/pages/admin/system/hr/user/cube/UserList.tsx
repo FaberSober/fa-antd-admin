@@ -23,14 +23,14 @@ export default function UserList({ departmentId }: IProps) {
   const { queryParams, setFormValues, handleTableChange, setExtraParams, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } =
     useTableQueryParams<Admin.UserWeb>(
       modelService.page,
-      { extraParams: { departmentId }, sorter: { field: 'crtTime', order: 'descend' } },
+      { extraParams: { departmentIdSuper: departmentId }, sorter: { field: 'crtTime', order: 'descend' } },
       serviceName
     );
 
-  const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, { ...queryParams, extraParams: { departmentId } });
+  const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, { ...queryParams, extraParams: { departmentIdSuper: departmentId } });
   const [handleDelete] = useDelete<string>(modelService.remove, fetchPageList, serviceName);
 
-  useEffect(() => setExtraParams({ departmentId }), [departmentId]);
+  useEffect(() => setExtraParams({ departmentIdSuper: departmentId }), [departmentId]);
 
   /** 生成表格字段List */
   function genColumns() {

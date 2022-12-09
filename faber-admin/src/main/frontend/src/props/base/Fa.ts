@@ -112,18 +112,9 @@ namespace Fa {
     editBtn?: boolean; // 是否展示编辑按钮
   }
 
-  /**
-   * 通用entity新增、编辑弹框的属性
-   */
-  export interface CommonViewIdModalProps<T> extends DragModalProps {
-    id: T;
-  }
-
-  /**
-   * 通用entity新增、编辑弹框的属性
-   */
-  export interface CommonViewModalProps<T> extends DragModalProps {
-    record: T;
+  export interface BaseQueryParams {
+    query: any,
+    [key:string]: any,
   }
 
   /**
@@ -169,6 +160,7 @@ namespace Fa {
 		sorter?: string; // 排序
 		current?: number;
 		pageSize?: number;
+    query?: any,
 		/**
 		 * 允许用户扩充 Item 字段
 		 */

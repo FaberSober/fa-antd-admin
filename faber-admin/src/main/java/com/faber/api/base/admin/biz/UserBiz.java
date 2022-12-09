@@ -205,8 +205,9 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     protected void preProcessQuery(QueryParams query) {
         // 部门分组级联查询
         Map<String, Object> queryMap = query.getQuery();
-        if (queryMap.containsKey("departmentId")) {
-            String departmentId = MapUtils.getString(queryMap, "departmentId");
+        if (queryMap.containsKey("departmentIdSuper")) {
+            String departmentId = MapUtils.getString(queryMap, "departmentIdSuper");
+            queryMap.remove("departmentIdSuper");
 
             List<Department> departmentList = departmentBiz.findAllChildren(departmentId);
             if (departmentList != null && !departmentList.isEmpty()) {

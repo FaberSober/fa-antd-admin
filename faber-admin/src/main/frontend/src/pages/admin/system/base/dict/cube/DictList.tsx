@@ -1,6 +1,6 @@
-import React, {useEffect, useImperativeHandle, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
-import {Button, Card, Form, Image, Input, Space} from 'antd';
+import {Button, Form, Image, Input, Space} from 'antd';
 import modelService from '@/services/admin/dict';
 import Admin from '@/props/admin';
 import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
