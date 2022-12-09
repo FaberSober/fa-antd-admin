@@ -114,7 +114,7 @@
 - [X] 集成redis在线管理工具
 - [X] 组合查询功能模块整理
 - [ ] 组合查询功能-扩展-支持mysql json格式字段过滤查询
-- [ ] 导出Excel-扩展-支持mysql json格式字段导出
+- [X] 导出Excel-扩展-支持mysql json格式字段导出
 - [ ] 表联合查询组合查询功能
 - [ ] 使用https访问后，druid访问nginx 302问题处理
 - [X] BaseBiz查询分组List
@@ -130,5 +130,6 @@
 - [ ] 多租户
 - [ ] ES
 - [ ] 流程引擎
+- [ ] 报表功能
 
 # [CHANGELOG](./CHANGELOG.md)

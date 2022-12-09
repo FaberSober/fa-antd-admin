@@ -1,5 +1,6 @@
 package com.faber.demo.student;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.faber.AdminBootstrap;
 import com.faber.api.base.demo.entity.Student;
@@ -84,7 +85,7 @@ public class StudentTest {
         // json array equal query
         {
             List<Student> list = new LambdaQueryChainWrapper<>(studentMapper)
-                    .apply("JSON_CONTAINS(tags, JSON_OBJECT('name', '{0}'))", "新生")
+                    .apply("JSON_CONTAINS(tags, JSON_OBJECT('name', {0}))", "新生")
                     .list();
             log.info("list: {}", list);
         }
@@ -96,6 +97,17 @@ public class StudentTest {
                     .list();
             log.info("list: {}", list);
         }
+    }
+
+    @Test
+    public void testQuery1() {
+        // 这个示例暂时无法之际从数据库中获取json的值，填写到tagNames中
+        // 参考的blog可以实现，暂未找到原因。https://blog.csdn.net/m0_73311735/article/details/126869623
+        List<Student> list = new LambdaQueryChainWrapper<>(studentMapper)
+                .select(Student::getTagNames)
+                .eq(Student::getId, 1)
+                .list();
+        log.info("list: {}", list);
     }
 
 }

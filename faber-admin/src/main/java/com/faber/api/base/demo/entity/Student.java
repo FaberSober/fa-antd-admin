@@ -2,10 +2,7 @@ package com.faber.api.base.demo.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.faber.api.base.admin.enums.SexEnum;
 import com.faber.core.annotation.FaModalName;
@@ -17,7 +14,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -73,6 +69,12 @@ public class Student extends BaseDelEntity {
     @TableField(typeHandler = JacksonTypeHandler.class)
     @ExcelProperty("详细信息")
     private Info info;
+
+    @TableField(value = "tags -> '$[*].name'",
+            insertStrategy = FieldStrategy.NEVER,
+            updateStrategy = FieldStrategy.NEVER,
+            select = false)
+    private String tagNames;
 
     @Data
     @NoArgsConstructor
