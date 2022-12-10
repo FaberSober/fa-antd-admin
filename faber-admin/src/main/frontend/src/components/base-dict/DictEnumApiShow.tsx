@@ -1,7 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {find, trim} from 'lodash';
-import dictService from '@/services/admin/dict';
-import Fa from "@/props/base/Fa";
 import {useEnum} from "@/components/base-dict/hooks";
 
 interface IProps  {

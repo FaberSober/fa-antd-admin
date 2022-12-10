@@ -5,10 +5,8 @@ import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.ObjectUtil;
 import com.alicp.jetcache.anno.CacheInvalidate;
 import com.alicp.jetcache.anno.Cached;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.faber.api.base.admin.entity.Department;
 import com.faber.api.base.admin.entity.User;
-import com.faber.api.base.admin.enums.DictTypeCodeEnum;
 import com.faber.api.base.admin.mapper.UserMapper;
 import com.faber.api.base.admin.vo.query.UserAccountVo;
 import com.faber.api.base.rbac.biz.RbacUserRoleBiz;
@@ -20,11 +18,8 @@ import com.faber.core.context.BaseContextHandler;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.exception.NoDataException;
 import com.faber.core.exception.auth.UserInvalidException;
-import com.faber.core.vo.msg.TableRet;
 import com.faber.core.vo.query.QueryParams;
 import com.faber.core.web.biz.BaseBiz;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -39,8 +34,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
 /**
- * 用户业务信息
+ * 用户
  *
  * @author wanghaobin
  * @create 2017-06-08 16:23
@@ -48,9 +44,6 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class UserBiz extends BaseBiz<UserMapper, User> {
-
-    @Resource
-    private DictBiz dictBiz;
 
     @Lazy
     @Resource
@@ -218,54 +211,10 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         }
     }
 
-    /**
-     * 关联查询和QueryParams的处理过于复杂，不太利于复用，暂不优化
-     * @param query
-     * @return
-     */
-    @Deprecated
-    public TableRet<User> pageJoin(QueryParams query) {
-        // 处理map
-        for (Map.Entry<String, Object> entry : query.getQuery().entrySet()) {
-            if ("departmentName".equals(entry.getKey())) {
-                query.getQuery().put("d.name", entry.getValue());
-            } else {
-                query.getQuery().put("t." + entry.getKey(), entry.getValue());
-            }
-            query.getQuery().remove(entry.getKey());
-        }
-
-        QueryWrapper<User> wrapper = parseQuery(query);
-        if (query.getPageSize() > 1000) throw new BuzzException("查询结果数量大于1000，请缩小查询范围");
-
-        wrapper.eq("t.del_state", 0);
-        wrapper.eq("d.del_state", 0);
-
-        PageInfo<User> result = PageHelper.startPage(query.getCurrent(), query.getPageSize())
-                .doSelectPageInfo(() -> baseMapper.listJoin(wrapper));
-        TableRet<User> userTable = new TableRet<>(result);
-
-        // 枚举值
-        userTable.getData().addDict("status", dictBiz.getByCode(DictTypeCodeEnum.COMMON_USER_STATUS));
-        userTable.getData().addDict("sex", dictBiz.getByCode(DictTypeCodeEnum.COMMON_SEX));
-
-        return userTable;
-    }
-
     @Override
-    public TableRet<User> selectPageByQuery(QueryParams query) {
-        TableRet<User> userTable =  super.selectPageByQuery(query);
-
-        userTable.getData().getRows().forEach(i -> {
-            Department department = departmentBiz.getByIdWithCache(i.getDepartmentId());
-            i.setDepartmentName(department.getName());
-        });
-
-        // 枚举值
-        userTable.getData().addDict("status", dictBiz.getByCode(DictTypeCodeEnum.COMMON_USER_STATUS));
-        userTable.getData().addDict("sex", dictBiz.getByCode(DictTypeCodeEnum.COMMON_SEX));
-
-        return userTable;
+    public void decorateOne(User i) {
+        Department department = departmentBiz.getByIdWithCache(i.getDepartmentId());
+        i.setDepartmentName(department.getName());
     }
 
     public boolean resetPwd(Map<String, Object> params) {

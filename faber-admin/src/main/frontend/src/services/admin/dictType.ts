@@ -14,6 +14,9 @@ class DictType extends BaseTreeApi<Admin.DictType, number> {
   /** 获取实体List */
   listEnum = (enumName: string): Promise<Fa.Ret<Fa.Dict[]>> => this.get('listEnum', {enumName});
 
+  /** 获取系统配置参数 */
+  getSystemConfig = (): Promise<Fa.Ret<Admin.SystemConfigPo>> => this.get('getSystemConfig');
+
 }
 
 export default new DictType(GATE_APP.admin, serviceModule);

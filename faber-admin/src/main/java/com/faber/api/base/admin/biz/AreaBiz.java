@@ -1,24 +1,18 @@
 package com.faber.api.base.admin.biz;
 
 import com.faber.api.base.admin.entity.Area;
+import com.faber.api.base.admin.enums.AreaLevelEnum;
 import com.faber.api.base.admin.mapper.AreaMapper;
 import com.faber.api.base.admin.vo.ret.AreaPathVo;
 import com.faber.api.base.admin.vo.ret.AreaTree;
-import com.faber.api.base.admin.enums.AreaLevelEnum;
-import com.faber.api.base.admin.enums.DictTypeCodeEnum;
-import com.faber.core.web.biz.BaseBiz;
 import com.faber.core.exception.BuzzException;
-import com.faber.core.utils.AMapUtils;
-import com.faber.core.vo.msg.TableRet;
 import com.faber.core.utils.IpUtils;
-import com.faber.core.vo.query.QueryParams;
+import com.faber.core.web.biz.BaseBiz;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -34,12 +28,6 @@ import java.util.Objects;
  */
 @Service
 public class AreaBiz extends BaseBiz<AreaMapper, Area> {
-
-    @Resource
-    private DictBiz dictBiz;
-
-    @Autowired
-    private AMapUtils aMapUtils;
 
     @Override
     public boolean save(Area entity) {
@@ -57,24 +45,6 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
         if (count > 0) throw new BuzzException("编码重复");
         return super.updateById(entity);
     }
-
-    @Override
-    public TableRet<Area> selectPageByQuery(QueryParams query) {
-        TableRet<Area> table = super.selectPageByQuery(query);
-        table.getData().addDict("level", dictBiz.getByCode(DictTypeCodeEnum.COMMON_AREA_LEVEL));
-        return table;
-    }
-
-//    /**
-//     * 根据areaCode查询Area
-//     * @param areaCode
-//     * @return
-//     */
-//    public Area selectByAreaCode(long areaCode) {
-//        Example example = new Example(Area.class);
-//        example.createCriteria().andEqualTo("areaCode", areaCode);
-//        return mapper.selectOneByExample(example);
-//    }
 
     public AreaPathVo path(long areaCode) {
         List<Area> list = pathLine(areaCode);

@@ -63,46 +63,15 @@ namespace Admin {
     deleted?: boolean;
   }
 
-	/** 字典值 */
-	export interface Dict extends Fa.BaseDelEntity {
-		/** ID */
-		id: number;
-		/** 字典分组 */
-		type: string;
-		/** 字典类型：0-文本/1-文件 */
-		category: number;
-		/** 字典文本 */
-		text: string;
-		/** 字典值 */
-		value: string;
-		/** 颜色值 */
-		color: string;
-		/** 排序 */
-		sort: number;
-		/** 描述 */
-		description: string;
-	}
-
-	export interface DictWebVO extends Dict {
-		dictType?: DictType;
-	}
 
 	// -------------------------------------------- 系统-中国行政地区表 --------------------------------------------
-	export enum AreaLevel {
-		NATION = -1,
-		PROVINCE = 0,
-		CITY = 1,
-		COUNTY = 2,
-		COUNTRY = 3,
-		VILLAGE = 4,
-	}
 
 	/** 中国行政地区表 */
 	export interface Area extends Fa.BaseDelEntity {
 		/** ID */
 		id: number;
 		/** 层级 */
-		level: AreaLevel;
+		level: FaEnums.AreaLevel;
 		/** 父级行政代码 */
 		parentCode: number;
 		/** 行政代码 */
@@ -126,12 +95,6 @@ namespace Admin {
 	}
 
 	// -------------------------------------------- 系统-部门 --------------------------------------------
-	export enum DepartmentType {
-		CORP = 'CORP',
-		DEPT = 'DEPT',
-		TEAM = 'TEAM',
-	}
-
 	export interface Department extends Fa.BaseDelEntity {
 		/** ID */
 		id: string;
@@ -144,7 +107,7 @@ namespace Admin {
 		/** 排序ID */
 		sortId: number;
 		/** 类型  */
-		type: DepartmentType;
+		type: FaEnums.DepartmentType;
 		/** 负责人ID  */
 		managerId: string;
 	}

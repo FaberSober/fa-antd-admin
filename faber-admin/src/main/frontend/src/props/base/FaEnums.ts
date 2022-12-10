@@ -1,16 +1,6 @@
 namespace FaEnums {
 
   // ------------------------------------ BASE ------------------------------------
-  export enum BoolEnum {
-    NO = 0,
-    YES = 1,
-  }
-
-  export enum DelStateEnum {
-    AVAILABLE = 0,
-    DELETED = 1,
-  }
-
   export enum SexEnum {
     FEMALE = 0,
     MALE = 1,
@@ -40,6 +30,21 @@ namespace FaEnums {
   export enum ConfigTypeEnum {
     TABLE_COLUMNS = 1,
     QUERY_CONDITION = 2,
+  }
+
+  export enum AreaLevel {
+    NATION = -1,
+    PROVINCE = 0,
+    CITY = 1,
+    COUNTY = 2,
+    COUNTRY = 3,
+    VILLAGE = 4,
+  }
+
+  export enum DepartmentType {
+    CORP = 'CORP',
+    DEPT = 'DEPT',
+    TEAM = 'TEAM',
   }
 
   // ------------------------------------ RBAC ------------------------------------

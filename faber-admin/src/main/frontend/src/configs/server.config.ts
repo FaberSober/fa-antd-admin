@@ -72,5 +72,7 @@ declare global {
     mqtt: any;
     /** mqtt */
     globalData: any;
+    /** VANTA */
+    VANTA: any;
   }
 }

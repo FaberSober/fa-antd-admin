@@ -80,7 +80,7 @@ export default function UserModal({ children, title, record, fetchFinish, ...pro
       email: get(record, 'email'),
       password: get(record, 'password'),
       departmentId: get(record, 'departmentId'),
-      sex: get(record, 'sex', FaEnums.SexEnum.UNKNOWN),
+      sex: get(record, 'sex'),
       status: get(record, 'status', true),
       description: get(record, 'description'),
       post: get(record, 'post'),

@@ -1,16 +1,18 @@
 package com.faber.api.base.admin.biz;
 
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.IEnum;
-import com.faber.api.base.admin.entity.Dict;
 import com.faber.api.base.admin.entity.DictType;
 import com.faber.api.base.admin.mapper.DictTypeMapper;
+import com.faber.api.base.admin.vo.ret.SystemConfigPo;
+import com.faber.core.constant.FaSetting;
+import com.faber.core.exception.BuzzException;
 import com.faber.core.exception.NoDataException;
 import com.faber.core.utils.FaEnumUtils;
 import com.faber.core.vo.DictOption;
 import com.faber.core.web.biz.BaseTreeBiz;
-import com.faber.core.exception.BuzzException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,7 +29,7 @@ import java.util.Set;
 public class DictTypeBiz extends BaseTreeBiz<DictTypeMapper, DictType> {
 
     @Resource
-    private DictBiz dictBiz;
+    private FaSetting faSetting;
 
     private static final Map<String, Object> enumClassCache = new HashMap<>();
 
@@ -62,14 +64,7 @@ public class DictTypeBiz extends BaseTreeBiz<DictTypeMapper, DictType> {
         for (DictType o : list) {
             // 1. 逻辑删除字典类型
             super.removeById(o.getId());
-
-            // 2. 逻辑删除关联字典值
-            List<Dict> dictList = dictBiz.getByDictTypeId(o.getId());
-            for (Dict dict : dictList) {
-                dictBiz.removeById(dict.getId());
-            }
         }
-
         return true;
     }
 
@@ -97,6 +92,33 @@ public class DictTypeBiz extends BaseTreeBiz<DictTypeMapper, DictType> {
             return FaEnumUtils.toOptions(clazz);
         }
         throw new BuzzException("未找到或找到多个同名的枚举【" + enumName + "】，请联系管理员");
+    }
+
+    /**
+     * 获取系统参数配置
+     * @return
+     */
+    public SystemConfigPo getSystemConfig() {
+        DictType dictType = getByCode("system");
+
+        Map<String, Object> map = new HashMap<>();
+        for (DictType.Dict dict : dictType.getDicts()) {
+            map.put(dict.getLabel(), dict.getValue());
+        }
+
+        SystemConfigPo po = new SystemConfigPo();
+        // 系统服务配置
+        po.setTitle(MapUtil.getStr(map, "system:title"));
+        po.setSubTitle(MapUtil.getStr(map, "system:subTitle"));
+        po.setLogo(MapUtil.getStr(map, "system:logo"));
+        po.setLogoWithText(MapUtil.getStr(map, "system:portal:logoWithText"));
+        po.setPortalLink(MapUtil.getStr(map, "system:portal:link"));
+
+        // 配置文件中的配置
+        po.setPhpRedisAdmin(faSetting.getUrl().getPhpRedisAdmin());
+        po.setSocketUrl(faSetting.getUrl().getSocketUrl());
+
+        return po;
     }
 
 }
