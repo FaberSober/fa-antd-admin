@@ -5,16 +5,20 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.faber.core.annotation.*;
 import com.faber.core.bean.BaseDelEntity;
 import com.faber.core.config.easyexcel.type.FaJsonObj;
+import com.faber.core.config.mybatis.handler.AbstractObjectTypeHandler;
+import com.faber.core.config.mybatis.handler.GenericAndJson;
 import com.faber.core.config.validator.validator.Vg;
+import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -57,7 +61,7 @@ public class DictType extends BaseDelEntity {
 
     @NotNull
     @ExcelProperty("字典列表")
-    @TableField(typeHandler = JacksonTypeHandler.class)
+    @TableField(typeHandler = DictTypeHandler.class)
     private List<Dict> dicts;
 
     @Data
@@ -71,6 +75,15 @@ public class DictType extends BaseDelEntity {
         private String value;
         private String label;
         private Boolean deleted;
+    }
+
+    public static class DictTypeHandler extends AbstractObjectTypeHandler<List<Dict>> {
+//        @Override
+//        public List<Dict> getNullableResult(ResultSet rs, String columnName) throws SQLException {
+//            String string = rs.getString(columnName);
+//            return GenericAndJson.jsonToObject(string, new TypeReference<List<Dict>>() {
+//            });
+//        }
     }
 
 }
