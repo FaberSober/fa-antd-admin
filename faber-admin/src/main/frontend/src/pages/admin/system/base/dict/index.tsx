@@ -10,6 +10,7 @@ import {FaFlexRestLayout} from "@/components/base-layout";
 import {FaSortList} from "@/components/base-drag";
 import DictForm from "@/pages/admin/system/base/dict/cube/DictForm";
 import {showResponse} from "@/utils/utils";
+import {FaLabel} from "@/components/decorator";
 
 
 /**
@@ -41,7 +42,7 @@ export default function DictManage() {
   function handleChangeDicts(list: any) {
     if (viewRecord === undefined) return;
 
-    const dicts = list.map((v: any, i: any) => ({ ...v, id: i + 1 }));
+    const dicts = [...list, ...viewRecord.dicts.filter(i => i.deleted)].map((v: any, i: any) => ({ ...v, id: i + 1 }));
     setViewRecord({ ...viewRecord, dicts })
     dictTypeApi.update(viewRecord.id, {
       ...viewRecord,
@@ -110,11 +111,7 @@ export default function DictManage() {
         <div className="fa-flex-column fa-full">
           {viewRecord ? (
             <div className="fa-flex-column fa-full">
-              <Descriptions className="fa-bg-white fa-mb12 fa-p12" bordered size="small" labelStyle={{ width: 150 }} contentStyle={{ minWidth: 100 }}>
-                <Descriptions.Item label="字典分组名称">{viewRecord?.name}</Descriptions.Item>
-                <Descriptions.Item label="字典分组编码">{viewRecord?.code}</Descriptions.Item>
-                <Descriptions.Item label="描述">{viewRecord?.description}</Descriptions.Item>
-              </Descriptions>
+              <FaLabel title={`${viewRecord?.name}/${viewRecord?.code}/${viewRecord?.description || ''}`} style={{ marginBottom: 12 }} />
 
               <FaFlexRestLayout className="fa-bg-white">
                 <div className="fa-flex-row-center fa-bg-grey">
@@ -125,7 +122,7 @@ export default function DictManage() {
                 <FaSortList
                   list={showDicts}
                   renderItem={(i) => <DictForm dict={i} onChange={handleEditDict} onDelete={handleDelDict} />}
-                  itemStyle={{ borderBottom: '1px solid #eee', position: 'relative'}}
+                  itemStyle={{ borderBottom: '1px solid #eee', position: 'relative', cursor: 'default'}}
                   onSortEnd={(l) => handleChangeDicts(l)}
                   vertical
                   handle
