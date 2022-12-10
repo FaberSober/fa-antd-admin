@@ -10,6 +10,7 @@ export interface FaSortItemProps {
   id: any,
   handle?: boolean;
   style?: CSSProperties;
+  handleStyle?: CSSProperties;
   children?: ReactNode;
   vertical?: boolean;
 }
@@ -18,7 +19,7 @@ export interface FaSortItemProps {
  * @author xu.pengfei
  * @date 2022/12/3 9:54
  */
-export default function FaSortItem({ id, handle, style, children, vertical }:FaSortItemProps) {
+export default function FaSortItem({ id, handle, style, handleStyle, children, vertical }:FaSortItemProps) {
   const {
     attributes,
     listeners,
@@ -44,7 +45,7 @@ export default function FaSortItem({ id, handle, style, children, vertical }:FaS
     <div ref={setNodeRef} style={{ ...styleTrans, ...style }} {...(handle ? {} : listeners)} {...attributes}>
       {children}
       {handle && (
-        <div className={styles.dragHandle} {...listeners}>
+        <div className={styles.dragHandle} style={handleStyle} {...listeners}>
           <MenuOutlined />
         </div>
       )}

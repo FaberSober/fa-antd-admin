@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
 import SplitPane from 'react-split-pane';
 import BaseTree from '@/components/base-tree';
-import {PlusOutlined} from '@ant-design/icons';
 import {Descriptions, Empty} from 'antd';
 import Admin from '@/props/admin';
-import dictTypeService from '@/services/admin/dictType';
+import dictTypeApi from '@/services/admin/dictType';
 import {useLocalStorage} from 'react-use';
-import DictList from "./cube/DictList";
 import DictTypeModal from "./modal/DictTypeModal";
 import {FaFlexRestLayout} from "@/components/base-layout";
-import {dispatch} from "use-bus";
-import DictSortList from "@/pages/admin/system/base/dict/cube/DictSortList";
+import {FaSortList} from "@/components/base-drag";
+import DictForm from "@/pages/admin/system/base/dict/cube/DictForm";
+import {showResponse} from "@/utils/utils";
 
 
 /**
@@ -23,17 +22,75 @@ export default function DictManage() {
   const [splitPos, setSplitPos] = useLocalStorage<number>('DictManage.splitPos', 250);
 
   function onTreeSelect(keys: any[], event: any) {
-    setViewRecord(keys.length > 0 ? event.node.sourceData : undefined)
+    if (keys.length > 0) {
+      dictTypeApi.getById(keys[0]).then(res => setViewRecord(res.data))
+    } else {
+      setViewRecord(undefined)
+    }
   }
 
   function onAfterDelItem() {
     setViewRecord(undefined);
   }
 
-  function handleAddDict(e: any) {
-    dispatch({ type: '@@DictModal/SHOW_ADD', payload: { type: e.props.sourceData.id } })
+  function refreshData() {
+    if (viewRecord === undefined) return;
+    dictTypeApi.getById(viewRecord.id).then(res => setViewRecord(res.data))
   }
 
+  function handleChangeDicts(list: any) {
+    if (viewRecord === undefined) return;
+
+    const dicts = list.map((v: any, i: any) => ({ ...v, id: i + 1 }));
+    setViewRecord({ ...viewRecord, dicts })
+    dictTypeApi.update(viewRecord.id, {
+      ...viewRecord,
+      dicts
+    }).then(res => {
+      showResponse(res, '更新字典排序');
+    })
+  }
+
+  function handleAddDict(v:any) {
+    if (viewRecord === undefined) return;
+
+    const dicts = viewRecord.dicts || [];
+    dictTypeApi.update(viewRecord.id, {
+      ...viewRecord,
+      dicts: [ ...dicts, { id: dicts.length + 1, ...v, deleted: false } ]
+    }).then(res => {
+      showResponse(res, '新增字典');
+      refreshData();
+    })
+  }
+
+  function handleEditDict(v:any) {
+    if (viewRecord === undefined) return;
+
+    const dicts = viewRecord.dicts.map(d => d.id === v.id ? v : d)
+    dictTypeApi.update(viewRecord.id, {
+      ...viewRecord,
+      dicts,
+    }).then(res => {
+      showResponse(res, '更新字典');
+      refreshData();
+    })
+  }
+
+  function handleDelDict(v:any) {
+    if (viewRecord === undefined) return;
+
+    const dicts = viewRecord.dicts.map(d => d.id === v.id ? { ...v, deleted: true } : d)
+    dictTypeApi.update(viewRecord.id, {
+      ...viewRecord,
+      dicts,
+    }).then(res => {
+      showResponse(res, '删除字典');
+      refreshData();
+    })
+  }
+
+  const showDicts = (viewRecord?.dicts || []).filter(i => !i.deleted)
   return (
     <div className="fa-full-content">
       <SplitPane split="vertical" minSize={200} maxSize={350} defaultSize={splitPos} onChange={(size) => setSplitPos(size)}>
@@ -46,15 +103,7 @@ export default function DictManage() {
           // 自定义配置
           serviceName="字典分组"
           ServiceModal={DictTypeModal}
-          serviceApi={dictTypeService}
-          extraContextMenus={[
-            {
-              key: 'add-dict',
-              icon: <PlusOutlined />,
-              title: '新增字典值',
-              onMenuClick: handleAddDict,
-            },
-          ]}
+          serviceApi={dictTypeApi}
         />
 
         {/* 右侧面板 */}
@@ -67,8 +116,24 @@ export default function DictManage() {
                 <Descriptions.Item label="描述">{viewRecord?.description}</Descriptions.Item>
               </Descriptions>
 
-              <FaFlexRestLayout>
-                <DictSortList type={viewRecord.id} />
+              <FaFlexRestLayout className="fa-bg-white">
+                <div className="fa-flex-row-center fa-bg-grey">
+                  <div className="fa-p12 fa-border-b fa-border-r" style={{ flex: 1 }}>字典名称</div>
+                  <div className="fa-p12 fa-border-b fa-border-r" style={{ flex: 1 }}>字典值</div>
+                  <div className="fa-p12 fa-border-b " style={{ width: 80 }}>操作</div>
+                </div>
+                <FaSortList
+                  list={showDicts}
+                  renderItem={(i) => <DictForm dict={i} onChange={handleEditDict} onDelete={handleDelDict} />}
+                  itemStyle={{ borderBottom: '1px solid #eee', position: 'relative'}}
+                  onSortEnd={(l) => handleChangeDicts(l)}
+                  vertical
+                  handle
+                  handleStyle={{ position: 'absolute', right: 10, top: 14 }}
+                />
+                <DictForm onChange={handleAddDict} />
+
+
               </FaFlexRestLayout>
             </div>
           ) : <Empty description="请先选择字典分组" />}

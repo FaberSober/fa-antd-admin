@@ -1,4 +1,4 @@
-import React, {CSSProperties, ReactNode, useState} from 'react';
+import React, {CSSProperties, ReactNode, useEffect, useState} from 'react';
 import {closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import {SortableContext, arrayMove, sortableKeyboardCoordinates, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import {findIndex, get} from 'lodash';
@@ -12,6 +12,7 @@ export interface FaSortListProps<T> {
   onSortEnd?: (list: T[]) => void;
   handle?: boolean; // 是否使用拖动把手
   itemStyle?: CSSProperties;
+  handleStyle?: CSSProperties;
   vertical?: boolean;
 }
 
@@ -20,7 +21,9 @@ export interface FaSortListProps<T> {
  * @author xu.pengfei
  * @date 2022/12/3 9:57
  */
-export default function FaSortList<T>({ list, rowKey = 'id', renderItem, onSortEnd, handle, itemStyle, vertical }: FaSortListProps<T>) {
+export default function FaSortList<T>({ list, rowKey = 'id', renderItem, onSortEnd, handle, itemStyle, handleStyle, vertical }: FaSortListProps<T>) {
+  console.log(list)
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -57,7 +60,7 @@ export default function FaSortList<T>({ list, rowKey = 'id', renderItem, onSortE
         strategy={verticalListSortingStrategy}
       >
         {list.map(i => (
-          <FaSortItem key={getRowKey(i)} id={getRowKey(i)} handle={handle} vertical={vertical} style={itemStyle}>
+          <FaSortItem key={getRowKey(i)} id={getRowKey(i)} handle={handle} vertical={vertical} style={itemStyle} handleStyle={handleStyle}>
             {renderItem(i)}
           </FaSortItem>
         ))}

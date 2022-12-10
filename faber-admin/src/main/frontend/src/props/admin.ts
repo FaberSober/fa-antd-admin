@@ -49,7 +49,19 @@ namespace Admin {
 		sortId: number;
 		/** 描述 */
 		description: string;
+		dicts: DictVo[];
 	}
+
+	export interface DictVo {
+    /** ID */
+    id: number;
+    /** 字典值 */
+    value: string;
+    /** 字典文本 */
+    label: string;
+    /** 删除状态 */
+    deleted?: boolean;
+  }
 
 	/** 字典值 */
 	export interface Dict extends Fa.BaseDelEntity {
