@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {find, trim} from 'lodash';
 import dictService from '@/services/admin/dict';
 import Fa from "@/props/base/Fa";
+import {useEnum} from "@/components/base-dict/hooks";
 
 interface IProps  {
   value: any;
@@ -13,14 +14,10 @@ interface IProps  {
  * @date 2020/12/25
  */
 export default function DictEnumApiShow({ enumName, value }: IProps) {
-  const [list, setList] = useState<Fa.Dict[]>([]);
+  const {options} = useEnum(enumName)
 
-  useEffect(() => {
-    dictService.listEnum(enumName).then(res => setList(res.data))
-  }, [enumName]);
-
-  const item = find(list, (i) => trim(i.value) === trim(value))
+  const item = find(options, (i) => trim(i.value) === trim(value))
   return (
-    <span>{item && item.text}</span>
+    <span>{item && item.label}</span>
   );
 }

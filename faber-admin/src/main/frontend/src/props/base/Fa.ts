@@ -51,6 +51,11 @@ namespace Fa {
     deleted?: boolean;
 	}
 
+  export interface Option {
+    value: string;
+    label: string;
+  }
+
 	// ------------------------------------- Http Request -------------------------------------
   /**
    * 服务返回数据定义

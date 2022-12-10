@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DictOption {
     private String value;
+    // TODO 统一命名为label
     private String text;
     private String color;
     private int sort;

@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Radio} from 'antd';
-import {SelectProps} from 'antd/es/select';
-import dictService from '@/services/admin/dict';
+import {RadioProps} from "antd/es/radio";
+import {useEnum} from "@/components/base-dict/hooks";
 
-interface IProps extends SelectProps<any> {
+
+interface IProps extends RadioProps  {
   enumName: string; // 枚举名称
-  onFetchData?: (list: any[]) => void; // 获取数据回调
   transValue?: (v: any) => any; // value类型转换
 }
 
@@ -13,26 +13,11 @@ interface IProps extends SelectProps<any> {
  * @author xu.pengfei
  * @date 2020/12/25
  */
-export default function DictEnumApiRadio({ enumName, onFetchData, transValue, ...props }: IProps) {
-  const [list, setList] = useState<any[]>([]);
-
-  useEffect(() => {
-    fetchData();
-  }, [enumName]);
-
-  function fetchData() {
-    dictService.listEnum(enumName).then((res) => {
-      const newList = res.data.map((v) => ({
-        value: transValue ? transValue(v.value) : Number(v.value),
-        label: v.text,
-      }));
-      setList(newList);
-      if (onFetchData) onFetchData(newList);
-    });
-  }
+export default function DictEnumApiRadio({ enumName, transValue, ...props }: IProps) {
+  const {options} = useEnum(enumName, transValue)
 
   return (
-    <Radio.Group options={list} optionType="button" buttonStyle="solid" {...props} />
+    <Radio.Group options={options} optionType="button" buttonStyle="solid" {...props} />
   );
 }
 

@@ -5,9 +5,9 @@ import userService from '@/services/admin/user';
 import {PageLoading} from '@/components/antd-pro';
 import {showResponse} from '@/utils/utils';
 import {UploadImgLocal} from "@/components/base-uploader";
-import BaseSexSelector from "@/components/base-dict/BaseSexSelector";
 import {UserLayoutContext} from "@/layout/UserLayout";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
+import {DictEnumApiSelector} from "@/components/base-dict";
 
 const formItemFullLayout = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
 const tailLayout = { wrapperCol: { offset: 8, span: 16 } };
@@ -67,7 +67,7 @@ export default function AccountBase() {
             <Input />
           </Form.Item>
           <Form.Item name="sex" label="性别" {...formItemFullLayout}>
-            <BaseSexSelector />
+            <DictEnumApiSelector enumName="SexEnum" />
           </Form.Item>
           <Form.Item name="email" label="邮箱" {...formItemFullLayout}>
             <Input />

@@ -6,12 +6,7 @@ import DictEnumApiShow from './DictEnumApiShow';
 import DictDataRadio from './DictDataRadio';
 import DictDataShow from './DictDataShow';
 import BaseBoolRadio from './BaseBoolRadio';
-import BaseBoolIntRadio from './BaseBoolIntRadio';
 import BaseBoolSelector from './BaseBoolSelector';
-import DictFileDownload from './DictFileDownload';
-import BaseBoolIntSelector from './BaseBoolIntSelector';
-import BaseSexRadio from './BaseSexRadio';
-import BaseSexSelector from './BaseSexSelector';
 
 export {
   DictDataSelector,
@@ -22,10 +17,5 @@ export {
   DictDataRadio,
   DictDataShow,
   BaseBoolRadio,
-  BaseBoolIntRadio,
   BaseBoolSelector,
-  DictFileDownload,
-  BaseBoolIntSelector,
-  BaseSexRadio,
-  BaseSexSelector,
 };

@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import dictService from '@/services/admin/dict';
-import Admin from '@/props/admin';
-import {RES_CODE} from '@/configs/server.config';
+import React from 'react';
+import {find} from 'lodash'
+import {useDict} from "@/components/base-dict/hooks";
 
 export interface DictDataShowProps {
-  dictLabel: string | undefined;
+  dictLabel: string;
   dictValue: string | undefined;
 }
 
@@ -14,19 +13,8 @@ export interface DictDataShowProps {
  * @date 2021/1/7
  */
 export default function DictDataShow({ dictLabel, dictValue }: DictDataShowProps) {
-  const [dict, setDict] = useState<Admin.Dict>();
+  const {options} = useDict(dictLabel)
 
-  useEffect(() => {
-    if (dictLabel !== undefined && dictValue !== undefined) {
-      dictService.getByCodeAndValue(dictLabel, dictValue).then((res) => {
-        if (res && res.status === RES_CODE.OK) {
-          if (res.data && res.data[0]) {
-            setDict(res.data[0]);
-          }
-        }
-      });
-    }
-  }, [dictLabel, dictValue]);
-
-  return <div>{dict?.text}</div>;
+  const option = find(options, o => `${o.value}` == `${dictValue}`)
+  return <div>{option ? option.label : ''}</div>;
 }
