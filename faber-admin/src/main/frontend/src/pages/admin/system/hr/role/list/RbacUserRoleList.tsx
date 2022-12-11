@@ -69,7 +69,7 @@ export default function RbacUserRoleList({ rbacRole }: RbacUserRoleListProps) {
       </div>
 
       <BaseBizTable
-        buzzModal={buzzModal}
+        biz={buzzModal}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}

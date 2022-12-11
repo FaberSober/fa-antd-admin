@@ -81,7 +81,7 @@ export default function StudentList() {
 
       <BaseBizTable
         rowKey="id"
-        buzzModal={buzzModal}
+        biz={buzzModal}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}

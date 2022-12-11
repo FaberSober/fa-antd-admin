@@ -79,7 +79,7 @@ export default function LogApiList() {
       </div>
 
       <BaseBizTable
-        buzzModal={buzzModal}
+        biz={buzzModal}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}

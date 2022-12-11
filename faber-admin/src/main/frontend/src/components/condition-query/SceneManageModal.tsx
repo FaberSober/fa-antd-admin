@@ -15,7 +15,7 @@ import {AuthDelBtn} from "@/components/decorator";
 
 
 interface IProps<T> extends DragModalProps {
-  buzzModal: string;
+  biz: string;
   columns: FaberTable.ColumnsProp<T>[];
   onOk?: () => void;
 }
@@ -25,9 +25,9 @@ interface IProps<T> extends DragModalProps {
  * 1. 场景排序；
  * 2. 场景编辑、删除；
  */
-function SceneManageModal<T>({ buzzModal, columns, onOk, ...restProps }: IProps<T>, ref: any) {
+function SceneManageModal<T>({ biz, columns, onOk, ...restProps }: IProps<T>, ref: any) {
   const [loading, setLoading] = useState(false);
-  const [configList, setConfigList] = useState<Admin.Config[]>([]);
+  const [configList, setConfigList] = useState<Admin.ConfigScene[]>([]);
 
   useImperativeHandle(ref, () => ({
     fetchRemoteConfig: () => {
@@ -37,8 +37,8 @@ function SceneManageModal<T>({ buzzModal, columns, onOk, ...restProps }: IProps<
 
   /** 获取远程配置 */
   function fetchRemoteConfig() {
-    if (buzzModal) {
-      configService.findAllScene({ buzzModal, type: FaEnums.ConfigTypeEnum.QUERY_CONDITION }).then((res) => {
+    if (biz) {
+      configService.findAllScene({ biz }).then((res) => {
         if (res && res.status === RES_CODE.OK) {
           setConfigList(res.data);
         }
@@ -67,7 +67,7 @@ function SceneManageModal<T>({ buzzModal, columns, onOk, ...restProps }: IProps<
   }
 
   /** 处理Item勾选 */
-  function handleItemCheck(item: Admin.Config, checked: boolean) {
+  function handleItemCheck(item: Admin.ConfigScene, checked: boolean) {
     const newList = configList.map((i) => {
       if (i.id === item.id) {
         return { ...i, hide: !checked };
@@ -103,7 +103,7 @@ function SceneManageModal<T>({ buzzModal, columns, onOk, ...restProps }: IProps<
               <div>
                 {item.system ? null : (
                   <Space>
-                    <ConditionQueryModal record={item} buzzModal={buzzModal} columns={columns} onConditionChange={fetchRemoteConfig} showSuffix={false}>
+                    <ConditionQueryModal record={item} buzzModal={biz} columns={columns} onConditionChange={fetchRemoteConfig} showSuffix={false}>
                       <a>
                         <EditOutlined /> 编辑
                       </a>

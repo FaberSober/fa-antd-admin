@@ -1,19 +1,17 @@
 import React, {useEffect, useImperativeHandle, useMemo, useRef, useState} from 'react';
 import {find} from 'lodash';
-import {Dropdown, Menu} from 'antd';
+import {Dropdown} from 'antd';
 import {DownOutlined, SettingOutlined} from '@ant-design/icons';
 import SceneManageModal from '@/components/condition-query/SceneManageModal';
 import Admin from '@/props/admin';
 import {FaberTable} from '@/components/base-table';
 import configService from '@/services/admin/config';
 import {RES_CODE} from '@/configs/server.config';
-import FaEnums from "@/props/base/FaEnums";
-import {FaHref} from "@/components/decorator";
 
 const allSceneLabel = '全部数据';
 
 interface IProps<T> {
-  buzzModal: string;
+  biz: string;
   columns: FaberTable.ColumnsProp<T>[];
   onChange: (key: string, label: string) => void;
 }
@@ -21,10 +19,10 @@ interface IProps<T> {
 /**
  * 场景下拉菜单组件
  */
-function SceneDropMenu<T>({ buzzModal, columns, onChange }: IProps<T>, ref: any) {
+function SceneDropMenu<T>({ biz, columns, onChange }: IProps<T>, ref: any) {
   const manageModalRef = useRef<any | null>(null);
 
-  const [configList, setConfigList] = useState<Admin.Config[]>([]);
+  const [configList, setConfigList] = useState<Admin.ConfigScene[]>([]);
   const [manageModalVisible, setManageModalVisible] = useState(false);
   const [value, setValue] = useState<string>('0');
   const [label, setLabel] = useState<string>(allSceneLabel);
@@ -36,8 +34,8 @@ function SceneDropMenu<T>({ buzzModal, columns, onChange }: IProps<T>, ref: any)
   }));
 
   function refreshConfigList() {
-    if (buzzModal) {
-      configService.findAllScene({ buzzModal, type: FaEnums.ConfigTypeEnum.QUERY_CONDITION }).then((res) => {
+    if (biz) {
+      configService.findAllScene({ biz }).then((res) => {
         if (res && res.status === RES_CODE.OK) {
           setConfigList(res.data);
         }
@@ -47,7 +45,7 @@ function SceneDropMenu<T>({ buzzModal, columns, onChange }: IProps<T>, ref: any)
 
   useEffect(() => {
     refreshConfigList();
-  }, [buzzModal]);
+  }, [biz]);
 
   function handleMenuClick(e: any) {
     const { key } = e;
@@ -65,9 +63,9 @@ function SceneDropMenu<T>({ buzzModal, columns, onChange }: IProps<T>, ref: any)
       const config = find(configList, (c) => `${c.id}` === key);
       newLabel = config?.name;
     }
-    setLabel(newLabel);
+    setLabel(newLabel!);
     setValue(`${key}`);
-    if (onChange) onChange(`${key}`, newLabel);
+    if (onChange) onChange(`${key}`, newLabel!);
   }
 
   const items = useMemo(() => {
@@ -89,7 +87,7 @@ function SceneDropMenu<T>({ buzzModal, columns, onChange }: IProps<T>, ref: any)
       </Dropdown>
       <SceneManageModal
         ref={manageModalRef}
-        buzzModal={buzzModal}
+        biz={biz}
         // @ts-ignore
         columns={columns}
         open={manageModalVisible}

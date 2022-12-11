@@ -15,27 +15,21 @@ public class ConfigSceneController extends BaseController<ConfigSceneBiz, Config
 
     /**
      * 查找所有场景配置
-     *
-     * @param params
-     * @return
      */
     @RequestMapping(value = "/findAllScene", method = RequestMethod.GET)
     @ResponseBody
-    public Ret<List<ConfigScene>> findAllScene(@RequestParam Map<String, Object> params) {
-        List<ConfigScene> list = baseBiz.findAllScene(params);
+    public Ret<List<ConfigScene>> findAllScene(@RequestParam("biz") String biz) {
+        List<ConfigScene> list = baseBiz.findAllScene(biz);
         return new Ret<List<ConfigScene>>().data(list);
     }
 
     /**
      * 查找场景配置
-     *
-     * @param params
-     * @return
      */
     @RequestMapping(value = "/findByScene", method = RequestMethod.GET)
     @ResponseBody
-    public Ret<ConfigScene> findByScene(@RequestParam Map<String, Object> params) {
-        ConfigScene configScene = baseBiz.findByScene(params);
+    public Ret<ConfigScene> findByScene(@RequestParam("biz") String biz) {
+        ConfigScene configScene = baseBiz.findByScene(biz);
         return new Ret<ConfigScene>().data(configScene);
     }
 

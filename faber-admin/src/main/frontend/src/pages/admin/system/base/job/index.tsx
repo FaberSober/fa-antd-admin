@@ -129,7 +129,7 @@ export default function JobList() {
       </div>
 
       <BaseBizTable
-        buzzModal={buzzModal}
+        biz={buzzModal}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}

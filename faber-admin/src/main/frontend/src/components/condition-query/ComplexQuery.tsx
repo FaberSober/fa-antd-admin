@@ -1,4 +1,4 @@
-import React, {CSSProperties, useContext, useRef} from 'react';
+import React, {CSSProperties, useRef} from 'react';
 import {FaberTable} from '@/components/base-table';
 import {Button, Space} from 'antd';
 import {FilterOutlined} from '@ant-design/icons';
@@ -7,7 +7,7 @@ import SceneDropMenu from './SceneDropMenu';
 import ConditionQuery from '@/components/condition-query/interface';
 
 interface IProps<T> {
-  buzzModal: string
+  biz: string
   columns: FaberTable.ColumnsProp<T>[];
   onSceneChange: (key: string, label: string) => void; // 场景变化
   onConditionChange: (conditionList: ConditionQuery.CondGroup[]) => void; // 组合查询条件变更
@@ -17,7 +17,7 @@ interface IProps<T> {
 /**
  * 场景查询&高级筛选联合组件
  */
-export default function ComplexQuery<T>({ columns, buzzModal, onSceneChange, onConditionChange, style }: IProps<T>) {
+export default function ComplexQuery<T>({ columns, biz, onSceneChange, onConditionChange, style }: IProps<T>) {
   const sceneDropMenuRef = useRef<any | null>(null);
 
   /** 高级查询-筛选条件变更 */
@@ -35,12 +35,12 @@ export default function ComplexQuery<T>({ columns, buzzModal, onSceneChange, onC
       <Space style={{ flex: 1 }}>
         <SceneDropMenu
           ref={sceneDropMenuRef}
-          buzzModal={buzzModal}
+          biz={biz}
           // @ts-ignore
           columns={columns}
           onChange={onSceneChange}
         />
-        <ConditionQueryModal showSuffix buzzModal={buzzModal} columns={columns} onConditionChange={handleConditionChange}>
+        <ConditionQueryModal showSuffix buzzModal={biz} columns={columns} onConditionChange={handleConditionChange}>
           <Button icon={<FilterOutlined />} type="text" style={{ color: '#666' }}>
             高级筛选
           </Button>

@@ -70,7 +70,7 @@ export default function LogLoginList() {
       </div>
 
       <BaseBizTable
-        buzzModal={buzzModal}
+        biz={buzzModal}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}

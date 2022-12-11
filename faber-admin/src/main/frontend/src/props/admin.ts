@@ -4,15 +4,13 @@ import FaEnums from "@/props/base/FaEnums";
 namespace Admin {
 	// -------------------------------------------- 系统-配置表 --------------------------------------------
 	/**
-	 * 系统-配置表
+	 * 配置-查询场景
 	 */
-	export interface Config extends Fa.BaseDelEntity {
+	export interface ConfigScene extends Fa.BaseDelEntity {
 		/** ID */
 		id: number;
 		/** 业务模块 */
-		buzzModal: string;
-		/** 配置类型 */
-		type: FaEnums.ConfigTypeEnum;
+		biz: string;
 		/** 配置名称 */
 		name: string;
 		/** 配置JSON */

@@ -19,7 +19,7 @@ const colWidthCache: { [key: string]: number } = {};
 
 interface IProps<T> extends ModalProps {
   columns: FaberTable.ColumnsProp<T>[]; // 配置字段
-  buzzModal: string; // Config#buzzModal业务模块
+  biz: string; // Config#buzzModal业务模块
   buzzName: string; // Config#name业务名称
   onConfigChange: (v: FaberTable.ColumnsProp<T>[]) => void; // 排序结束
   children: ReactNode;
@@ -29,16 +29,16 @@ interface IProps<T> extends ModalProps {
  * 表格自定义列Modal
  * 1. 操作一栏不进行排序，默认放在最后一排
  */
-function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigChange, children, ...restProps }: IProps<T>) {
+function TableColConfigModal<T>({ columns = [], biz, buzzName, onConfigChange, children, ...restProps }: IProps<T>) {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
-  const [config, setConfig] = useState<Admin.Config>();
+  const [config, setConfig] = useState<Admin.ConfigScene>();
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<FaberTable.ColumnsProp<T>[]>(columns);
 
   /**
    * 解析columns与远端配置，并排序
    */
-  function parseItemsSorted(columnsArgs: FaberTable.ColumnsProp<T>[], configArgs: Admin.Config): FaberTable.ColumnsProp<T>[] {
+  function parseItemsSorted(columnsArgs: FaberTable.ColumnsProp<T>[], configArgs: Admin.ConfigScene): FaberTable.ColumnsProp<T>[] {
     const configJSON: FaberTable.Config<T> = JSON.parse(configArgs.data);
     const itemList = columnsArgs.map((item) => {
       const remoteItem = find(configJSON.columns, (col) => {
@@ -53,7 +53,7 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
 
   /** 获取服务端配置 */
   function fetchRemoteConfig() {
-    configService.findByScene({ buzzModal, type: FaEnums.ConfigTypeEnum.TABLE_COLUMNS }).then((res) => {
+    configService.findByScene({ biz }).then((res) => {
       if (res && res.status === RES_CODE.OK && res.data !== undefined && res.data !== null) {
         const configJSON: FaberTable.Config<T> = JSON.parse(res.data.data);
         if (configJSON.columns && onConfigChange) {
@@ -94,8 +94,7 @@ function TableColConfigModal<T>({ columns = [], buzzModal, buzzName, onConfigCha
 
     // 新增or更新
     const params = {
-      buzzModal,
-      type: FaEnums.ConfigTypeEnum.TABLE_COLUMNS,
+      biz,
       name: buzzName,
       data: JSON.stringify({ columns: columnsMerge }),
       system: false,

@@ -17,7 +17,7 @@ import FaEnums from "@/props/base/FaEnums";
 export interface ConditionQueryModalProps<T> {
   showSuffix?: boolean;
   buzzModal: string; // 业务模块
-  record?: Admin.Config; // 远程业务配置
+  record?: Admin.ConfigScene; // 远程业务配置
   onConditionChange?: (conditionList: ConditionQuery.CondGroup[], saveAsScene: boolean) => void; // 保存成功的回调
   columns: FaberTable.ColumnsProp<T>[];
   children: ReactNode;
@@ -95,7 +95,6 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
 
       const params = {
         buzzModal,
-        type: FaEnums.ConfigTypeEnum.QUERY_CONDITION,
         name: sceneName,
         data: JSON.stringify(condGroupList),
         system: false,

@@ -50,18 +50,15 @@ public class ConfigSceneBiz extends BaseBiz<ConfigSceneMapper, ConfigScene> impl
         return super.updateById(entity);
     }
 
-    public List<ConfigScene> findAllScene(Map<String, Object> params) {
-        String buzzModal = MapUtils.getString(params, "buzzModal");
-        String type = MapUtils.getString(params, "type");
-
+    public List<ConfigScene> findAllScene(String biz) {
         // 查找系统配置
-        List<ConfigScene> configScene2List = lambdaQuery().eq(ConfigScene::getBiz, buzzModal)
+        List<ConfigScene> configScene2List = lambdaQuery().eq(ConfigScene::getBiz, biz)
                 .eq(ConfigScene::getSystem, true)
                 .orderByAsc(ConfigScene::getSort)
                 .list();
 
         // 查找个人配置
-        List<ConfigScene> configSceneList = lambdaQuery().eq(ConfigScene::getBiz, buzzModal)
+        List<ConfigScene> configSceneList = lambdaQuery().eq(ConfigScene::getBiz, biz)
                 .eq(ConfigScene::getSystem, false)
                 .eq(ConfigScene::getCrtUser, getCurrentUserId())
                 .orderByAsc(ConfigScene::getSort)
@@ -73,12 +70,9 @@ public class ConfigSceneBiz extends BaseBiz<ConfigSceneMapper, ConfigScene> impl
         return allList;
     }
 
-    public ConfigScene findByScene(Map<String, Object> params) {
-        String buzzModal = MapUtils.getString(params, "buzzModal");
-        String type = MapUtils.getString(params, "type");
-
+    public ConfigScene findByScene(String biz) {
         // 优先查找个人配置
-        List<ConfigScene> configSceneList = lambdaQuery().eq(ConfigScene::getBiz, buzzModal)
+        List<ConfigScene> configSceneList = lambdaQuery().eq(ConfigScene::getBiz, biz)
                 .eq(ConfigScene::getSystem, false)
                 .eq(ConfigScene::getCrtUser, getCurrentUserId())
                 .orderByAsc(ConfigScene::getSort)
@@ -88,7 +82,7 @@ public class ConfigSceneBiz extends BaseBiz<ConfigSceneMapper, ConfigScene> impl
         }
 
         // 其次查找系统配置
-        List<ConfigScene> configScene2List = lambdaQuery().eq(ConfigScene::getBiz, buzzModal)
+        List<ConfigScene> configScene2List = lambdaQuery().eq(ConfigScene::getBiz, biz)
                 .eq(ConfigScene::getSystem, true)
                 .orderByAsc(ConfigScene::getSort)
                 .list();

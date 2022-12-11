@@ -1,7 +1,7 @@
 import {ReactNode} from 'react';
 import ConditionQuery from '@/components/condition-query/interface';
 import {ColumnProps, TableProps} from "antd/es/table";
-import {Fa} from '@/props/base';
+import Fa from '@/props/base/Fa';
 
 /**
  * 通用业务表格配置
@@ -72,7 +72,7 @@ namespace FaberTable {
   export interface BaseTableProps<RecordType extends object = any> extends BaseSimpleTableProps<RecordType> {
     showTableColConfigBtn?: boolean; // 是否展示自定义表格字段按钮
     showComplexQuery?: boolean; // 是否展示高级查询
-    buzzModal: string; // 业务模块：用于区分存储表格自定义配置的Key
+    biz: string; // 业务模块：用于区分存储表格自定义配置的Key
     renderQuerySuffix?: () => ReactNode; // 自定义追加的查询条件后缀
     onSceneChange?: (sceneId: string) => void; // 查询场景变更
     onConditionChange?: (conditionList: ConditionQuery.CondGroup[]) => void; // 组合查询条件变更
