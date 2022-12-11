@@ -11,7 +11,6 @@ import DepartmentCascade from "../helper/DepartmentCascade";
 import {UploadImgLocal} from "@/components/base-uploader";
 import RbacRoleSelect from "@/pages/admin/system/hr/role/components/RbacRoleSelect";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import FaEnums from "@/props/base/FaEnums";
 import useBus from "use-bus";
 
 

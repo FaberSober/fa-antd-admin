@@ -44,6 +44,18 @@ public class RbacMenuBiz extends BaseTreeBiz<RbacMenuMapper, RbacMenu> {
 
     @FaCacheClear(pre = "rbac:")
     @Override
+    public void moveUp(Serializable id) {
+        super.moveUp(id);
+    }
+
+    @FaCacheClear(pre = "rbac:")
+    @Override
+    public void moveDown(Serializable id) {
+        super.moveDown(id);
+    }
+
+    @FaCacheClear(pre = "rbac:")
+    @Override
     public boolean removeById(Serializable id) {
         return super.removeById(id);
     }

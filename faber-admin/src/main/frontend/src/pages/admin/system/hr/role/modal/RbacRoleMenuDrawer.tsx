@@ -44,6 +44,7 @@ export default function RbacRoleMenuDrawer({ children, title, record, success, .
       halfCheckedRoleIds: halfCheckedKeys.map((i) => Number(i)),
     }).then(res => {
       showResponse(res, "更新角色权限")
+      setOpen(false)
     })
   }
 
