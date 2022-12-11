@@ -11,4 +11,4 @@
 ## 前端
 1. 复制ui-rn/src目录到前端src目录下
 2. 修改src/props/index.ts文件（如果没有该文件，则自行创建），将代码生成的ui-rn/src/props/entityxxx.ts namespace中的内容复制到src/props/index.ts文件中；
-3. 检查src/configs/server.config.ts文件GATE_APP中是否配置services中的路径
+3. 检查src/configs/server.configScene.ts文件GATE_APP中是否配置services中的路径

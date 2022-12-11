@@ -6,8 +6,8 @@
 代码如下：
 ```java
 import com.corundumstudio.socketio.SocketIOServer;
-import com.faber.core.config.socket.FaSocketUtils;
-import com.faber.core.config.socket.SocketIOService;
+import com.faber.core.configScene.socket.FaSocketUtils;
+import com.faber.core.configScene.socket.SocketIOService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

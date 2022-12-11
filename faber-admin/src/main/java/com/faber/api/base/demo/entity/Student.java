@@ -26,9 +26,9 @@ import java.util.List;
  * @email faberxu@gmail.com
  * @date 2020-06-02 17:14:45
  */
+@Data
 @FaModalName(name = "学生")
 @TableName(value = "demo_student", autoResultMap = true)
-@Data
 public class Student extends BaseDelEntity {
 
     @ColumnWidth(10)

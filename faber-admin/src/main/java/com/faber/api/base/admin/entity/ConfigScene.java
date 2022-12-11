@@ -1,30 +1,36 @@
 package com.faber.api.base.admin.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.faber.core.annotation.FaModalName;
 import com.faber.core.bean.BaseDelEntity;
+import com.faber.core.vo.query.Condition;
+import com.faber.core.vo.query.ConditionGroup;
 import lombok.Data;
 import lombok.ToString;
 
 
 /**
- * 系统-配置表
+ * 配置-查询场景
  *
  * @author Farando
  * @email faberxu@gmail.com
  * @date 2020-06-02 21:21:45
  */
-@TableName("base_config")
 @Data
 @ToString
-public class Config extends BaseDelEntity {
+@FaModalName(name = "配置-查询场景")
+@TableName(value = "base_config_scene", autoResultMap = true)
+public class ConfigScene extends BaseDelEntity {
 
     @TableId(type = IdType.AUTO)
     private Integer id;
 
     /** 业务模块 */
-    private String buzzModal;
+    private String biz;
 
     /** 配置类型 */
     private String type;
@@ -33,7 +39,8 @@ public class Config extends BaseDelEntity {
     private String name;
 
     /** 配置JSON */
-    private String data;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private ConditionGroup[] data;
 
     /** 是否系统 */
     private Boolean system = false;

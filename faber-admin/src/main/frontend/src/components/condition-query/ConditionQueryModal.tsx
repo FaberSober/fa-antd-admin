@@ -1,7 +1,7 @@
 import React, {ReactNode, useState} from 'react';
 import {trim} from 'lodash';
 import {v1 as uuidv1} from 'uuid';
-import {Alert, Checkbox, Divider, Input, message} from 'antd';
+import {Checkbox, Divider, Input, message} from 'antd';
 import DragModal from '@/components/modal/DragModal';
 import ConditionQuery from '@/components/condition-query/interface';
 import configService from '@/services/admin/config';

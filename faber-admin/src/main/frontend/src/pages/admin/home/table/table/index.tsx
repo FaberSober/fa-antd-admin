@@ -28,12 +28,12 @@ export default function StudentList() {
     const { sorter } = queryParams;
     return [
       BaseTableUtils.genIdColumn('ID', 'id', 70, sorter),
-      BaseTableUtils.genSimpleSorterColumn('学生名', 'name', 120, sorter),
-      BaseTableUtils.genSimpleSorterColumn('年龄', 'age', 100, sorter),
-      BaseTableUtils.genEnumSorterColumn('性别', 'sex', 100, sorter, dicts),
-      BaseTableUtils.genSimpleSorterColumn('邮箱', 'email', 200, sorter),
-      BaseTableUtils.genDateSorterColumn('生日', 'birthday', 120, sorter),
-      BaseTableUtils.genBoolSorterColumn('账户是否有效', 'valid', 120, sorter),
+      BaseTableUtils.genSimpleSorterColumn('学生名', 'name', 110, sorter),
+      BaseTableUtils.genSimpleSorterColumn('年龄', 'age', 60, sorter),
+      BaseTableUtils.genEnumSorterColumn('性别', 'sex', 60, sorter, dicts),
+      BaseTableUtils.genSimpleSorterColumn('邮箱', 'email', 150, sorter),
+      BaseTableUtils.genDateSorterColumn('生日', 'birthday', 100, sorter),
+      BaseTableUtils.genBoolSorterColumn('账户有效', 'valid', 100, sorter),
       {
         ...BaseTableUtils.genSimpleSorterColumn('标签', 'tags', undefined, sorter),
         render: (v, r) => {

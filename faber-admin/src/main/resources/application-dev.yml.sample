@@ -2,7 +2,7 @@
 spring:
   application:
     name: faber-admin-dev
-  config:
+  configScene:
     activate:
       on-profile: dev
 

@@ -1,5 +1,6 @@
 package com.faber.core.web.biz;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -22,8 +23,6 @@ import com.faber.core.config.mybatis.WrapperUtils;
 import com.faber.core.utils.EasyExcelUtils;
 import com.faber.core.vo.query.ConditionGroup;
 import com.faber.core.vo.query.QueryParams;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -94,18 +93,14 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
         if (configService == null) {
             configService = SpringUtil.getBean(ConfigService.class);
         }
-        String configData = configService.getConfigDataById(query.getSceneId());
-        if (StrUtil.isNotEmpty(configData)) {
-            try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                TypeReference<List<ConditionGroup>> typeReference = new TypeReference<List<ConditionGroup>>() {};
-                List<ConditionGroup> list = objectMapper.readValue(configData, typeReference);
-                query.addConditionGroupList(list);
-            } catch (Exception e) {
-                _logger.error("config: {}", configData);
-                _logger.error(e.getMessage(), e);
-                throw new BuzzException("解析条件失败，请联系管理员");
+        try {
+            ConditionGroup[] configData = configService.getConfigDataById(query.getSceneId());
+            if (configData != null) {
+                query.addConditionGroupList(ListUtil.toList(configData));
             }
+        } catch (Exception e) {
+            _logger.error(e.getMessage(), e);
+            throw new BuzzException("解析条件失败，请联系管理员");
         }
     }
 
