@@ -26,7 +26,7 @@ public class ResourceTest {
     @Test
     public void getJarSameDirFile() throws IOException  {
         testJarSameDirFileExist("/static/upload/xxx.png");
-        testJarSameDirFileExist("/data/updateLog.json");
+        testJarSameDirFileExist("/sql/updateLog.json");
     }
 
     /**
