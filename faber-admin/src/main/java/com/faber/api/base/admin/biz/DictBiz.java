@@ -3,157 +3,73 @@ package com.faber.api.base.admin.biz;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alicp.jetcache.anno.CacheInvalidate;
-import com.alicp.jetcache.anno.Cached;
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.faber.api.base.admin.entity.Dict;
-import com.faber.api.base.admin.entity.DictType;
 import com.faber.api.base.admin.mapper.DictMapper;
 import com.faber.api.base.admin.vo.ret.SystemConfigPo;
 import com.faber.core.constant.FaSetting;
-import com.faber.core.exception.NoDataException;
-import com.faber.core.web.biz.BaseBiz;
-import com.faber.api.base.admin.enums.DictTypeCodeEnum;
 import com.faber.core.exception.BuzzException;
+import com.faber.core.exception.NoDataException;
 import com.faber.core.utils.FaEnumUtils;
-import com.faber.core.vo.msg.TableRet;
 import com.faber.core.vo.DictOption;
-import com.faber.core.vo.query.QueryParams;
-import org.springframework.context.annotation.Lazy;
+import com.faber.core.web.biz.BaseTreeBiz;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * 字典值
+ * 字典
  */
 @Service
-public class DictBiz extends BaseBiz<DictMapper, Dict> {
-
-    @Resource
-    @Lazy
-    private DictTypeBiz dictTypeBiz;
+public class DictBiz extends BaseTreeBiz<DictMapper, Dict> {
 
     @Resource
     private FaSetting faSetting;
 
     private static final Map<String, Object> enumClassCache = new HashMap<>();
 
-    @CacheInvalidate(name="systemConfig", key="new String('')")
+    @Override
+    public boolean save(Dict entity) {
+        // 插入时校验编码是否重复
+        long count = lambdaQuery().eq(Dict::getCode, entity.getCode()).count();
+        if (count > 0) throw new BuzzException("字典分组编码重复");
+
+        return super.save(entity);
+    }
+
     @Override
     public boolean updateById(Dict entity) {
+        if (entity.getParentId() == entity.getId().intValue()) {
+            throw new BuzzException("父节点不能是自身");
+        }
+
+        // 插入时校验编码是否重复
+        long count = lambdaQuery()
+                .eq(Dict::getCode, entity.getCode())
+                .ne(Dict::getId, entity.getId())
+                .count();
+        if (count > 0) throw new BuzzException("字典分组编码重复");
+
         return super.updateById(entity);
     }
 
-    @CacheInvalidate(name="systemConfig", key="new String('')")
     @Override
     public boolean removeById(Serializable id) {
-        return super.removeById(id);
-    }
-
-//    @Override
-//    protected void preProcessQuery(QueryParams query) {
-//        // 字典分组级联查询
-//        Map<String, Object> queryMap = query.getQuery();
-//        if (queryMap.containsKey("type")) {
-//            Integer type  = Integer.parseInt(queryMap.get("type").toString());
-//
-//            List<DictType> dctTypeList = dictTypeBiz.findAllChildren(type);
-//            List<Integer> dctTypeIdList = dctTypeList.stream().map(DictType::getId).collect(Collectors.toList());
-//            queryMap.put("type#$in", dctTypeIdList);
-//
-//            queryMap.remove("type");
-//        }
-//    }
-
-    @Override
-    public TableRet<Dict> selectPageByQuery(QueryParams query) {
-        TableRet<Dict> tableRet = super.selectPageByQuery(query);
-        tableRet.getData().getRows().forEach(element -> {
-            element.setDictType(dictTypeBiz.getById(element.getType()));
-        });
-        return tableRet;
-    }
-
-    public List<Dict> getByTypeCode(String dictTypeCode) {
-        return baseMapper.selectByTypeCode(dictTypeCode);
-    }
-
-    public List<DictOption> getByCode(DictTypeCodeEnum codeEnum) {
-        List<Dict> dictList = baseMapper.selectByTypeCode(codeEnum.getValue());
-        List<DictOption> options = new ArrayList<>();
-        dictList.forEach(d -> {
-            options.add(new DictOption(d.getValue(), d.getText(), d.getColor(), d.getSort()));
-        });
-        return options;
-    }
-
-    public List<Dict> getByCodeAndText(String dictTypeCode, String dictText) {
-        return baseMapper.getByCodeAndText(dictTypeCode, dictText);
-    }
-
-    public List<Dict> getByCodeAndValue(String dictTypeCode, String dictValue) {
-        return baseMapper.getByCodeAndValue(dictTypeCode, dictValue);
-    }
-
-
-    /**
-     * @param dictTypeCode {@link DictType#getCode()}
-     * @param text         {@link Dict#getText()}
-     * @return
-     */
-    public Dict getByTypeAndText(String dictTypeCode, String text) {
-        List<Dict> list = baseMapper.getByCodeAndText(dictTypeCode, text);
-        if (list == null || list.isEmpty()) {
-            throw new BuzzException("No Dict Data Found");
+        List<Dict> list = super.getAllChildrenFromNode(id);
+        for (Dict o : list) {
+            // 1. 逻辑删除字典类型
+            super.removeById(o.getId());
         }
-        if (list.size() > 1) {
-            _logger.error("Dict has 2 same value {}", text);
-        }
-        return list.get(0);
+        return true;
     }
 
-    public List<Dict> getByDictTypeId(Integer dictTypeId) {
-        return lambdaQuery().eq(Dict::getType, dictTypeId).list();
-    }
-
-    @Cached(name="systemConfig", key="new String('')")
-    public SystemConfigPo getSystemConfigFromDB() {
-        DictType dictType = dictTypeBiz.lambdaQuery().eq(DictType::getCode, "system").one();
-
-        List<Dict> dictList = lambdaQuery().eq(Dict::getType, dictType.getId()).list();
-
-        Map<String, Object> map = new HashMap<>();
-        for (Dict dict : dictList) {
-            map.put(dict.getText(), dict.getValue());
-        }
-
-        SystemConfigPo po = new SystemConfigPo();
-        // 系统服务配置
-        po.setTitle(MapUtil.getStr(map, "system:title"));
-        po.setSubTitle(MapUtil.getStr(map, "system:subTitle"));
-        po.setLogo(MapUtil.getStr(map, "system:logo"));
-        po.setLogoWithText(MapUtil.getStr(map, "system:portal:logoWithText"));
-        po.setPortalLink(MapUtil.getStr(map, "system:portal:link"));
-
-        return po;
-    }
-
-    /**
-     * 获取系统参数配置
-     * @return
-     */
-    public SystemConfigPo getSystemConfig() {
-        SystemConfigPo po = getSystemConfigFromDB();
-
-        // 配置文件中的配置
-        po.setPhpRedisAdmin(faSetting.getUrl().getPhpRedisAdmin());
-        po.setSocketUrl(faSetting.getUrl().getSocketUrl());
-
-        return po;
+    public Dict getByCode(String code) {
+        return lambdaQuery().eq(Dict::getCode, code).one();
     }
 
     public List<DictOption> listEnum(String enumName) {
@@ -176,6 +92,33 @@ public class DictBiz extends BaseBiz<DictMapper, Dict> {
             return FaEnumUtils.toOptions(clazz);
         }
         throw new BuzzException("未找到或找到多个同名的枚举【" + enumName + "】，请联系管理员");
+    }
+
+    /**
+     * 获取系统参数配置
+     * @return
+     */
+    public SystemConfigPo getSystemConfig() {
+        Dict dict = getByCode("system");
+
+        Map<String, Object> map = new HashMap<>();
+        for (Dict.Option option : dict.getOptions()) {
+            map.put(option.getLabel(), option.getValue());
+        }
+
+        SystemConfigPo po = new SystemConfigPo();
+        // 系统服务配置
+        po.setTitle(MapUtil.getStr(map, "system:title"));
+        po.setSubTitle(MapUtil.getStr(map, "system:subTitle"));
+        po.setLogo(MapUtil.getStr(map, "system:logo"));
+        po.setLogoWithText(MapUtil.getStr(map, "system:portal:logoWithText"));
+        po.setPortalLink(MapUtil.getStr(map, "system:portal:link"));
+
+        // 配置文件中的配置
+        po.setPhpRedisAdmin(faSetting.getUrl().getPhpRedisAdmin());
+        po.setSocketUrl(faSetting.getUrl().getSocketUrl());
+
+        return po;
     }
 
 }

@@ -1,59 +1,75 @@
 package com.faber.api.base.admin.entity;
 
-import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.faber.core.annotation.FaModalName;
-import com.faber.core.annotation.SqlEquals;
-import com.faber.core.annotation.SqlSearch;
-import com.faber.core.annotation.SqlSorter;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.faber.core.annotation.*;
 import com.faber.core.bean.BaseDelEntity;
-import lombok.Data;
+import com.faber.core.config.easyexcel.type.FaJsonObj;
+import com.faber.core.config.validator.validator.Vg;
+import lombok.*;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import java.io.Serializable;
 
 
 /**
- * 字典值
+ * 字典分类
  */
-@FaModalName(name = "字典值")
-@TableName("base_dict")
+@TableName(value = "base_dict", autoResultMap = true)
 @Data
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class Dict extends BaseDelEntity {
-    private static final long serialVersionUID = 1L;
 
+    @Null(groups = Vg.Crud.C.class)
+    @NotNull(groups = Vg.Crud.U.class)
     @TableId(type = IdType.AUTO)
+    @SqlTreeId
     private Integer id;
 
+    @NotNull
+    @ExcelProperty("编码")
+    private String code;
+
+    @NotNull
+    @ExcelProperty("名称")
+    @SqlTreeName
+    private String name;
+
+    @NotNull
     @SqlEquals
-    @ExcelProperty("字典分组")
-    private Integer type;
-
-    @SqlEquals
-    @ExcelProperty("字典类型：0-文本/1-文件")
-    private Integer category;
-
-    @SqlSearch
-    @ExcelProperty("字典文本")
-    private String text;
-
-    @SqlSearch
-    @ExcelProperty("字典值")
-    private String value;
-
-    @ExcelProperty("颜色")
-    private String color;
+    @ExcelProperty("上级节点")
+    @SqlTreeParentId
+    private Integer parentId;
 
     @SqlSorter
-    @ExcelProperty("排序")
-    private Integer sort;
+    @ExcelProperty("排序ID")
+    private Integer sortId;
 
     @ExcelProperty("描述")
     private String description;
 
-    @ExcelIgnore
-    @TableField(exist = false)
-    private DictType dictType;
+    @NotNull
+    @ExcelProperty("字典列表")
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private Option[] options;
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Option implements Serializable, FaJsonObj {
+        /**
+         * 这里的ID只是用来排序的，保存时不能保存此ID。要保存value！
+         */
+        private Integer id;
+        private String value;
+        private String label;
+        private Boolean deleted;
+    }
 
 }

@@ -3,48 +3,4 @@
 
 <mapper namespace="com.faber.api.base.admin.mapper.DictMapper">
 
-    <select id="selectByTypeCode" resultType="com.faber.api.base.admin.entity.Dict">
-        SELECT t.*
-          FROM base_dict t
-          LEFT JOIN base_dict_type a ON t.type = a.id
-         WHERE t.deleted = 0
-           AND a.deleted = 0
-           AND a.`code` = #{dictTypeCode}
-         ORDER BY t.sort ASC
-    </select>
-
-    <select id="selectByValue" parameterType="map" resultType="string">
-        SELECT t.text
-        FROM base_dict t
-        WHERE t.deleted = 0
-          AND t.type = (
-            SELECT id FROM base_dict_type WHERE `code` = #{dictTypeCode}
-        )
-          AND t.`value` = #{value}
-        ORDER BY sort ASC
-                 LIMIT 1
-    </select>
-
-    <select id="getByCodeAndText" parameterType="map" resultType="com.faber.api.base.admin.entity.Dict">
-        SELECT t.*
-        FROM base_dict t
-        LEFT JOIN base_dict_type dt ON t.type = dt.id
-        WHERE dt.deleted = 0
-          AND t.deleted = 0
-          AND dt.`code` = #{dictTypeCode}
-          AND t.text = #{dictText}
-        ORDER BY t.sort ASC
-    </select>
-
-    <select id="getByCodeAndValue" parameterType="map" resultType="com.faber.api.base.admin.entity.Dict">
-        SELECT t.*
-        FROM base_dict t
-        LEFT JOIN base_dict_type dt ON t.type = dt.id
-        WHERE dt.deleted = 0
-          AND t.deleted = 0
-          AND dt.`code` = #{dictTypeCode}
-          AND t.value = #{dictValue}
-        ORDER BY t.sort ASC
-    </select>
-
 </mapper>

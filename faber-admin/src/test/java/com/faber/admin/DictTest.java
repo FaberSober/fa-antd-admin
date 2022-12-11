@@ -1,7 +1,7 @@
 package com.faber.admin;
 
 import com.faber.AdminBootstrap;
-import com.faber.api.base.admin.biz.DictTypeBiz;
+import com.faber.api.base.admin.biz.DictBiz;
 import com.faber.api.base.admin.vo.ret.SystemConfigPo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 public class DictTest {
 
     @Resource
-    private DictTypeBiz dictTypeBiz;
+    private DictBiz dictBiz;
 
 //    @Resource
 //    private DictBiz dictBiz;
@@ -48,7 +48,7 @@ public class DictTest {
 
     @Test
     public void testGetSystemConfig() {
-        SystemConfigPo systemConfigPo = dictTypeBiz.getSystemConfig();
+        SystemConfigPo systemConfigPo = dictBiz.getSystemConfig();
         System.out.println(systemConfigPo);
     }
 

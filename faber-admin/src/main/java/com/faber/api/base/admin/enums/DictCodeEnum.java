@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 @Getter
-public enum DictTypeCodeEnum implements IEnum<String> {
+public enum DictCodeEnum implements IEnum<String> {
     COMMON_SEX("common_sex", "账户/性别"),
     COMMON_USER_STATUS("common_user_status", "账户/状态"),
     COMMON_AREA_LEVEL("common_area_level", "地区/层级"),
@@ -17,7 +17,7 @@ public enum DictTypeCodeEnum implements IEnum<String> {
     private final String value;
     private final String desc;
 
-    DictTypeCodeEnum(String value, String desc) {
+    DictCodeEnum(String value, String desc) {
         this.value = value;
         this.desc = desc;
     }

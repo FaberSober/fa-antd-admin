@@ -1,7 +1,7 @@
 package com.faber.api.base.admin.rest;
 
-import com.faber.api.base.admin.biz.DictTypeBiz;
-import com.faber.api.base.admin.entity.DictType;
+import com.faber.api.base.admin.biz.DictBiz;
+import com.faber.api.base.admin.entity.Dict;
 import com.faber.api.base.admin.vo.ret.SystemConfigPo;
 import com.faber.core.config.annotation.IgnoreUserToken;
 import com.faber.core.vo.DictOption;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/base/admin/dictType")
-public class DictTypeController extends BaseTreeController<DictTypeBiz, DictType, Integer> {
+@RequestMapping("/api/base/admin/dict")
+public class DictController extends BaseTreeController<DictBiz, Dict, Integer> {
 
     /**
      * 指定code查找字典
@@ -26,8 +26,8 @@ public class DictTypeController extends BaseTreeController<DictTypeBiz, DictType
      */
     @RequestMapping(value = "getByCode", method = RequestMethod.GET)
     @ResponseBody
-    public Ret<DictType> getByCode(@RequestParam("code") String code) {
-        DictType data = baseBiz.getByCode(code);
+    public Ret<Dict> getByCode(@RequestParam("code") String code) {
+        Dict data = baseBiz.getByCode(code);
         return ok(data);
     }
 
