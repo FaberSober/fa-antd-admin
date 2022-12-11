@@ -3,13 +3,6 @@ import FaEnums from "@/props/base/FaEnums";
 
 namespace Admin {
 	// -------------------------------------------- 系统-配置表 --------------------------------------------
-	export enum ConfigType {
-		/** 表格字段配置 */
-		TABLE_COLUMNS = 'TABLE_COLUMNS',
-		/** 查询条件 */
-		QUERY_CONDITION = 'QUERY_CONDITION',
-	}
-
 	/**
 	 * 系统-配置表
 	 */
@@ -235,41 +228,6 @@ namespace Admin {
     /** 创建时间 */
     endTime?: string;
   }
-
-	// -------------------------------------------- 系统-系统定时任务 --------------------------------------------
-	export enum BizFileBizType {
-		ILLEGAL_CAPTURE = 'ILLEGAL_CAPTURE', // 违章抓拍记录
-	}
-
-	/** 通用-业务附件 */
-	export interface BizFile extends Fa.BaseDelEntity {
-		id: number;
-		/** 业务ID */
-		bizId: string;
-		/** 业务类型 */
-		bizType: BizFileBizType;
-		/** 附件URL */
-		url: string;
-	}
-
-	export enum ArticleStatus {
-		DRAFT = 1, // 待发起
-		PUBLISH = 2, // 已发起
-	}
-
-	export interface Article extends Fa.BaseDelEntity {
-		id: number;
-		/** 业务ID */
-		bizId: string;
-		/** 业务类型 */
-		bizType: string;
-		/** 标题 */
-		title: string;
-		/** html文本 */
-		detail: string;
-		/** html文本 */
-		articleStatus: ArticleStatus;
-	}
 
 	// -------------------------------------------- 系统-消息 --------------------------------------------
 	/** Base-消息 */
