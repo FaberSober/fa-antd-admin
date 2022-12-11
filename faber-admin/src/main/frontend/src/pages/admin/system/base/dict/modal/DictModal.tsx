@@ -53,7 +53,7 @@ export default function DictModal({ children, parentId, title, record, ...props 
     if (record) {
       invokeUpdateTask({ ...record, ...values });
     } else {
-      invokeInsertTask({ ...values });
+      invokeInsertTask({ ...values, options: [] });
     }
   }
 
