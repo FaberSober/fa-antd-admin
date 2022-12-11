@@ -184,7 +184,7 @@ export default function BaseBizTable<RecordType extends object = any>({
         {/* 表格自定义配置 */}
         {showTableColConfigBtn ? (
           <div style={{ position: 'absolute', right: 4, top: 4, zIndex: 9 }}>
-            <TableColConfigModal columns={columns} biz={biz} buzzName="表格字段展示配置" onConfigChange={handleTableColConfigChange}>
+            <TableColConfigModal columns={columns} biz={biz} onConfigChange={handleTableColConfigChange}>
               <Button icon={<SettingOutlined />} type="text" />
             </TableColConfigModal>
           </div>

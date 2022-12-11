@@ -5,17 +5,17 @@
 
     <select id="findMaxSort" parameterType="map" resultType="int">
         SELECT IFNULL(MAX(t.sort), 0)
-        FROM base_config t
-        WHERE t.deleted = 0
+        FROM base_config_scene t
+        WHERE t.deleted = false
           AND t.biz = #{biz}
           AND t.crt_user = #{crtUser}
     </select>
 
 
     <select id="clearOtherDefaultScene" parameterType="map">
-        UPDATE base_config
-           SET default_scene = 0
-        WHERE biz =  #{biz}
+        UPDATE base_config_scene
+           SET default_scene = false
+        WHERE biz = #{biz}
           AND crt_user = #{crtUser}
     </select>
 

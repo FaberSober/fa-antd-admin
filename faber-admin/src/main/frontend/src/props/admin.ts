@@ -1,5 +1,7 @@
 import Fa from '@/props/base/Fa';
 import FaEnums from "@/props/base/FaEnums";
+import {FaberTable} from "@/components/base-table";
+import ConditionQuery from "@/components/condition-query/interface";
 
 namespace Admin {
 	// -------------------------------------------- 系统-配置表 --------------------------------------------
@@ -14,7 +16,7 @@ namespace Admin {
 		/** 配置名称 */
 		name: string;
 		/** 配置JSON */
-		data: string;
+		data: ConditionQuery.CondGroup[];
 		/** 是否系统 */
 		defaultScene: boolean;
 		/** 是否默认 */
@@ -24,6 +26,18 @@ namespace Admin {
 		/** 排序ID */
 		sort: number;
 	}
+
+  /**
+   * 配置-查询场景
+   */
+  export interface ConfigCol extends Fa.BaseDelEntity {
+    /** ID */
+    id: number;
+    /** 业务模块 */
+    biz: string;
+    /** 配置JSON */
+    data: FaberTable.ColumnsProp<any>[];
+  }
 
 	// -------------------------------------------- 系统-字典值 --------------------------------------------
 	/** 字典分类 */

@@ -9,7 +9,7 @@ import LogApiDrawer from './drawer/LogApiDrawer';
 import {AuthDelBtn} from "@/components/decorator";
 
 const serviceName = 'URL请求日志';
-const buzzModal = 'base_log_api';
+const biz = 'base_log_api';
 
 export default function LogApiList() {
   const [form] = Form.useForm();
@@ -79,7 +79,7 @@ export default function LogApiList() {
       </div>
 
       <BaseBizTable
-        biz={buzzModal}
+        biz={biz}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}

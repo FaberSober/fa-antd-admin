@@ -7,7 +7,7 @@ import com.faber.core.vo.query.ConditionGroup;
  * @description
  * @date 2022/11/28 10:56
  */
-public interface ConfigService {
+public interface ConfigSceneService {
 
     /**
      * TO-DO: 这个要改为结构化的Bean返回，返回String不利于代码理解

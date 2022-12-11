@@ -8,7 +8,7 @@ import Admin from '@/props/admin';
 import {AuthDelBtn} from "@/components/decorator";
 
 const serviceName = '系统定时任务-执行日志';
-const buzzModal = 'base_job_log';
+const biz = 'base_job_log';
 
 
 export interface JobLogListProps {
@@ -77,7 +77,7 @@ export default function JobLogList({ jobId }: JobLogListProps) {
       </div>
 
       <BaseBizTable
-        biz={buzzModal}
+        biz={biz}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}

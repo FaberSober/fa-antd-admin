@@ -22,8 +22,6 @@ export interface FaSortListProps<T> {
  * @date 2022/12/3 9:57
  */
 export default function FaSortList<T>({ list, rowKey = 'id', renderItem, onSortEnd, handle, itemStyle, handleStyle, vertical }: FaSortListProps<T>) {
-  console.log(list)
-
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {

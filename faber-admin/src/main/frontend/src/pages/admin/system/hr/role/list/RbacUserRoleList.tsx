@@ -8,7 +8,7 @@ import Rbac from '@/props/rbac';
 import {AuthDelBtn} from "@/components/decorator";
 
 const serviceName = '角色用户';
-const buzzModal = 'RbacUserRoleList';
+const biz = 'RbacUserRoleList';
 
 export interface RbacUserRoleListProps {
   rbacRole: Rbac.RbacRole;
@@ -69,7 +69,7 @@ export default function RbacUserRoleList({ rbacRole }: RbacUserRoleListProps) {
       </div>
 
       <BaseBizTable
-        biz={buzzModal}
+        biz={biz}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}

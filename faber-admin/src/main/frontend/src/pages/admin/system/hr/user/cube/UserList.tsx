@@ -11,7 +11,7 @@ import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHo
 import {AuthDelBtn, FaHref} from "@/components/decorator";
 
 const serviceName = '用户';
-const buzzModal = 'UserList-v2';
+const biz = 'UserList-v2';
 
 interface IProps {
   departmentId?: string;
@@ -100,7 +100,7 @@ export default function UserList({ departmentId }: IProps) {
       </div>
 
       <BaseBizTable
-        biz={buzzModal}
+        biz={biz}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}

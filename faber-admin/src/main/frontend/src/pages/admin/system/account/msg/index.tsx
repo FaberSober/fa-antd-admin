@@ -11,7 +11,7 @@ import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import {BaseBoolSelector} from "@/components/base-dict";
 
 const serviceName = '消息';
-const buzzModal = 'base_msg';
+const biz = 'base_msg';
 
 export default function MsgList() {
   const { loadingEffect } = useContext(ApiEffectLayoutContext);
@@ -104,7 +104,7 @@ export default function MsgList() {
       </div>
 
       <BaseBizTable
-        biz={buzzModal}
+        biz={biz}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}

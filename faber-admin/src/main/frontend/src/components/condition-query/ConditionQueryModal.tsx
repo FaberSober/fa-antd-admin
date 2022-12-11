@@ -4,19 +4,18 @@ import {v1 as uuidv1} from 'uuid';
 import {Checkbox, Divider, Input, message} from 'antd';
 import DragModal from '@/components/modal/DragModal';
 import ConditionQuery from '@/components/condition-query/interface';
-import configService from '@/services/admin/config';
+import configService from '@/services/admin/configScene';
 import Admin from '@/props/admin';
 import {showResponse} from '@/utils/utils';
 import {FaberTable} from '@/components/base-table';
 import CondGroupShow from "@/components/condition-query/CondGroupShow";
 import CondGroupEdit from "@/components/condition-query/CondGroupEdit";
 import {PlusOutlined} from "@ant-design/icons";
-import FaEnums from "@/props/base/FaEnums";
 
 
 export interface ConditionQueryModalProps<T> {
   showSuffix?: boolean;
-  buzzModal: string; // 业务模块
+  biz: string; // 业务模块
   record?: Admin.ConfigScene; // 远程业务配置
   onConditionChange?: (conditionList: ConditionQuery.CondGroup[], saveAsScene: boolean) => void; // 保存成功的回调
   columns: FaberTable.ColumnsProp<T>[];
@@ -42,8 +41,8 @@ function genOneEmptyCondGroup(): ConditionQuery.CondGroup {
         width: 180,
       },
  */
-export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, onConditionChange, columns, children }: ConditionQueryModalProps<T>) {
-  const [condGroupList, setCondGroupList] = useState<ConditionQuery.CondGroup[]>(record ? JSON.parse(record.data) : [genOneEmptyCondGroup()]);
+export default function ConditionQueryModal<T>({ showSuffix, biz, record, onConditionChange, columns, children }: ConditionQueryModalProps<T>) {
+  const [condGroupList, setCondGroupList] = useState<ConditionQuery.CondGroup[]>(record ? record.data : [genOneEmptyCondGroup()]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saveAsScene, setSaveAsScene] = useState(record !== undefined);
@@ -94,9 +93,9 @@ export default function ConditionQueryModal<T>({ showSuffix, buzzModal, record, 
       }
 
       const params = {
-        buzzModal,
+        biz,
         name: sceneName,
-        data: JSON.stringify(condGroupList),
+        data: condGroupList,
         system: false,
         defaultScene,
       };

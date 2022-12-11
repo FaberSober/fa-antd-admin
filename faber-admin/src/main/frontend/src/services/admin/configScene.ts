@@ -4,7 +4,7 @@ import {BaseApi} from '@/services/base';
 import Fa from "@/props/base/Fa";
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */
-class ConfigApi extends BaseApi<Admin.ConfigScene, number> {
+class Api extends BaseApi<Admin.ConfigScene, number> {
 	/** 查找所有场景配置 */
 	findAllScene = (params: { biz: string }): Promise<Fa.Ret<Admin.ConfigScene[]>> => this.get(`findAllScene`, params);
 
@@ -15,4 +15,4 @@ class ConfigApi extends BaseApi<Admin.ConfigScene, number> {
 	batchUpdate = (params: { id: number; hide: boolean; defaultScene: boolean }[]): Promise<Fa.Ret> => this.post(`batchUpdate`, params);
 }
 
-export default new ConfigApi(GATE_APP.admin, 'config');
+export default new Api(GATE_APP.admin, 'configScene');

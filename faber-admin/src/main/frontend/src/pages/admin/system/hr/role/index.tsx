@@ -18,7 +18,7 @@ import RbacRoleMenuDrawer from "./modal/RbacRoleMenuDrawer";
 import RbacRoleUserDrawer from "./modal/RbacRoleUserDrawer";
 
 const serviceName = '角色';
-const buzzModal = 'base_rbac_role';
+const biz = 'base_rbac_role';
 
 export default function RbacRoleList() {
   const [form] = Form.useForm();
@@ -86,7 +86,7 @@ export default function RbacRoleList() {
       </div>
 
       <BaseBizTable
-        biz={buzzModal}
+        biz={biz}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}

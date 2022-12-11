@@ -1,15 +1,13 @@
 import React, {useImperativeHandle, useState} from 'react';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
-import configService from '@/services/admin/config';
+import configService from '@/services/admin/configScene';
 import {showResponse} from '@/utils/utils';
-import {RES_CODE} from '@/configs/server.config';
 import {EditOutlined} from '@ant-design/icons';
 import {Checkbox, Space} from 'antd';
 import Admin from '@/props/admin';
 import ConditionQueryModal from '@/components/condition-query/ConditionQueryModal';
 import {FaberTable} from '@/components/base-table';
 import styles from './SceneManageModal.module.less';
-import FaEnums from "@/props/base/FaEnums";
 import {FaSortList} from "@/components/base-drag";
 import {AuthDelBtn} from "@/components/decorator";
 
@@ -37,24 +35,19 @@ function SceneManageModal<T>({ biz, columns, onOk, ...restProps }: IProps<T>, re
 
   /** 获取远程配置 */
   function fetchRemoteConfig() {
-    if (biz) {
-      configService.findAllScene({ biz }).then((res) => {
-        if (res && res.status === RES_CODE.OK) {
-          setConfigList(res.data);
-        }
-      });
-    }
+    if (biz === undefined) return;
+    configService.findAllScene({ biz }).then((res) => {
+      setConfigList(res.data);
+    });
   }
 
   /** 处理-增加item */
   async function handleSave() {
     setLoading(true);
-    const params = configList.map((item) => ({ id: item.id, hide: item.hide, defaultScene: item.defaultScene }));
-    const res = await configService.batchUpdate(params);
+    const params = configList.map((item, index) => ({ ...item, sort: index + 1 }));
+    const res = await configService.updateBatch(params);
     showResponse(res, '更新场景配置');
-    if (res && res.status === RES_CODE.OK) {
-      if (onOk) onOk();
-    }
+    if (onOk) onOk();
     setLoading(false);
   }
 
@@ -103,7 +96,7 @@ function SceneManageModal<T>({ biz, columns, onOk, ...restProps }: IProps<T>, re
               <div>
                 {item.system ? null : (
                   <Space>
-                    <ConditionQueryModal record={item} buzzModal={biz} columns={columns} onConditionChange={fetchRemoteConfig} showSuffix={false}>
+                    <ConditionQueryModal record={item} biz={biz} columns={columns} onConditionChange={fetchRemoteConfig} showSuffix={false}>
                       <a>
                         <EditOutlined /> 编辑
                       </a>

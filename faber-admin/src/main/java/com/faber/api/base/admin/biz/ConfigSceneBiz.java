@@ -4,13 +4,11 @@ import com.faber.api.base.admin.entity.ConfigScene;
 import com.faber.api.base.admin.mapper.ConfigSceneMapper;
 import com.faber.core.vo.query.ConditionGroup;
 import com.faber.core.web.biz.BaseBiz;
-import com.faber.core.service.ConfigService;
-import org.apache.commons.collections4.MapUtils;
+import com.faber.core.service.ConfigSceneService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 系统-配置表
@@ -20,20 +18,17 @@ import java.util.Map;
  * @date 2020-06-02 21:21:45
  */
 @Service
-public class ConfigSceneBiz extends BaseBiz<ConfigSceneMapper, ConfigScene> implements ConfigService {
+public class ConfigSceneBiz extends BaseBiz<ConfigSceneMapper, ConfigScene> implements ConfigSceneService {
 
     @Override
     public boolean save(ConfigScene entity) {
-        // 非系统配置，默认为上传用户所拥有
-        if (!entity.getSystem()) {
-            // 设置sort
-            int sort = baseMapper.findMaxSort(entity.getBiz(), getCurrentUserId());
-            entity.setSort(sort);
+        // 设置sort
+        int sort = baseMapper.findMaxSort(entity.getBiz(), getCurrentUserId());
+        entity.setSort(sort);
 
-            // 是否默认
-            if (entity.getDefaultScene()) {
-                baseMapper.clearOtherDefaultScene(entity.getBiz(), getCurrentUserId());
-            }
+        // 是否默认
+        if (entity.getDefaultScene()) {
+            baseMapper.clearOtherDefaultScene(entity.getBiz(), getCurrentUserId());
         }
         return super.save(entity);
     }

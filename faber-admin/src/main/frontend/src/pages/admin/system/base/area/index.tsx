@@ -9,7 +9,7 @@ import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHo
 import {AuthDelBtn, FaHref} from "@/components/decorator";
 
 const serviceName = '中国行政地区表';
-const buzzModal = 'base_area';
+const biz = 'base_area';
 
 export default function AreaList() {
   const [form] = Form.useForm();
@@ -78,7 +78,7 @@ export default function AreaList() {
       </div>
 
       <BaseBizTable
-        biz={buzzModal}
+        biz={biz}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}

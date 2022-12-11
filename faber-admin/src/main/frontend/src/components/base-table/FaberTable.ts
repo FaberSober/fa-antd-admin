@@ -42,13 +42,6 @@ namespace FaberTable {
 	}
 
 	/**
-	 * 自定义表格配置
-	 */
-	export interface Config<T> {
-		columns?: ColumnsProp<T>[]; // 表格字段配置
-	}
-
-	/**
 	 * BaseTable的定义
 	 */
 	export interface BaseSimpleTableProps<RecordType extends object = any> extends TableProps<RecordType> {

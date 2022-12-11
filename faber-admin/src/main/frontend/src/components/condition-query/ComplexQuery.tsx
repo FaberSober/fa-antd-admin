@@ -40,7 +40,7 @@ export default function ComplexQuery<T>({ columns, biz, onSceneChange, onConditi
           columns={columns}
           onChange={onSceneChange}
         />
-        <ConditionQueryModal showSuffix buzzModal={biz} columns={columns} onConditionChange={handleConditionChange}>
+        <ConditionQueryModal showSuffix biz={biz} columns={columns} onConditionChange={handleConditionChange}>
           <Button icon={<FilterOutlined />} type="text" style={{ color: '#666' }}>
             高级筛选
           </Button>

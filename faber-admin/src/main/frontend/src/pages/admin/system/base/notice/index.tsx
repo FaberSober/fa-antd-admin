@@ -11,7 +11,7 @@ import {previewImage} from '@/utils/utils';
 import {AuthDelBtn, FaHref} from "@/components/decorator";
 
 const serviceName = '通知与公告';
-const buzzModal = 'base_notice';
+const biz = 'base_notice';
 
 export default function NoticeList() {
   const [form] = Form.useForm();
@@ -83,7 +83,7 @@ export default function NoticeList() {
       </div>
 
       <BaseBizTable
-        biz={buzzModal}
+        biz={biz}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}

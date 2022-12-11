@@ -16,7 +16,7 @@ import com.faber.core.annotation.FaModalName;
 import com.faber.core.constant.CommonConstants;
 import com.faber.core.context.BaseContextHandler;
 import com.faber.core.exception.BuzzException;
-import com.faber.core.service.ConfigService;
+import com.faber.core.service.ConfigSceneService;
 import com.faber.core.utils.FaEnumUtils;
 import com.faber.core.vo.msg.TableRet;
 import com.faber.core.config.mybatis.WrapperUtils;
@@ -49,7 +49,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
 
     protected final Logger _logger = LoggerFactory.getLogger(this.getClass());
 
-    private ConfigService configService;
+    private ConfigSceneService configSceneService;
 
     public List<T> getByIds(List<Serializable> ids) {
         if (ids == null || ids.isEmpty()) {
@@ -90,11 +90,11 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
             return;
         }
 
-        if (configService == null) {
-            configService = SpringUtil.getBean(ConfigService.class);
+        if (configSceneService == null) {
+            configSceneService = SpringUtil.getBean(ConfigSceneService.class);
         }
         try {
-            ConditionGroup[] configData = configService.getConfigDataById(query.getSceneId());
+            ConditionGroup[] configData = configSceneService.getConfigDataById(query.getSceneId());
             if (configData != null) {
                 query.addConditionGroupList(ListUtil.toList(configData));
             }

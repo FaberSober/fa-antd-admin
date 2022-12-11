@@ -9,7 +9,7 @@ import Demo from '@/props/demo';
 import StudentModal from './modal/StudentModal';
 
 const serviceName = '学生表-表格查询示例';
-const buzzModal = 'demo_student';
+const biz = 'demo_student';
 
 /**
  * Demo-学生表表格查询
@@ -81,7 +81,7 @@ export default function StudentList() {
 
       <BaseBizTable
         rowKey="id"
-        biz={buzzModal}
+        biz={biz}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}

@@ -1,15 +1,13 @@
 import React, {ReactNode, useContext, useEffect, useState} from 'react';
 import {find, sortBy} from 'lodash';
-import {Button, Checkbox, Drawer, Input, Space} from 'antd';
-import {arrayMove, showResponse} from '@/utils/utils';
-import {RES_CODE} from '@/configs/server.config';
+import {Button, Checkbox, Drawer, Input} from 'antd';
+import {showResponse} from '@/utils/utils';
 import {ModalProps} from 'antd/es/modal';
 import {FaberTable} from '@/components/base-table';
 import * as BaseTableUtils from '@/components/base-table/utils';
 import Admin from '@/props/admin';
-import configService from '@/services/admin/config';
+import configColApi from '@/services/admin/configCol';
 import {FaFlexRestLayout} from "@/components/base-layout";
-import FaEnums from "@/props/base/FaEnums";
 import {FaSortList} from "@/components/base-drag";
 import styles from './TableColConfigModal.module.less';
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
@@ -19,8 +17,7 @@ const colWidthCache: { [key: string]: number } = {};
 
 interface IProps<T> extends ModalProps {
   columns: FaberTable.ColumnsProp<T>[]; // 配置字段
-  biz: string; // Config#buzzModal业务模块
-  buzzName: string; // Config#name业务名称
+  biz: string; // Config#biz业务模块
   onConfigChange: (v: FaberTable.ColumnsProp<T>[]) => void; // 排序结束
   children: ReactNode;
 }
@@ -29,19 +26,18 @@ interface IProps<T> extends ModalProps {
  * 表格自定义列Modal
  * 1. 操作一栏不进行排序，默认放在最后一排
  */
-function TableColConfigModal<T>({ columns = [], biz, buzzName, onConfigChange, children, ...restProps }: IProps<T>) {
+function TableColConfigModal<T>({ columns = [], biz, onConfigChange, children, ...restProps }: IProps<T>) {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
-  const [config, setConfig] = useState<Admin.ConfigScene>();
+  const [config, setConfig] = useState<Admin.ConfigCol>();
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<FaberTable.ColumnsProp<T>[]>(columns);
 
   /**
    * 解析columns与远端配置，并排序
    */
-  function parseItemsSorted(columnsArgs: FaberTable.ColumnsProp<T>[], configArgs: Admin.ConfigScene): FaberTable.ColumnsProp<T>[] {
-    const configJSON: FaberTable.Config<T> = JSON.parse(configArgs.data);
+  function parseItemsSorted(columnsArgs: FaberTable.ColumnsProp<T>[], configColumns: FaberTable.ColumnsProp<T>[]): FaberTable.ColumnsProp<T>[] {
     const itemList = columnsArgs.map((item) => {
-      const remoteItem = find(configJSON.columns, (col) => {
+      const remoteItem = find(configColumns, (col) => {
         const dIndex = col.dataIndex instanceof Array ? col.dataIndex.join() : col.dataIndex;
         const cIndex = item.dataIndex instanceof Array ? item.dataIndex.join() : item.dataIndex;
         return dIndex === cIndex;
@@ -53,17 +49,16 @@ function TableColConfigModal<T>({ columns = [], biz, buzzName, onConfigChange, c
 
   /** 获取服务端配置 */
   function fetchRemoteConfig() {
-    configService.findByScene({ biz }).then((res) => {
-      if (res && res.status === RES_CODE.OK && res.data !== undefined && res.data !== null) {
-        const configJSON: FaberTable.Config<T> = JSON.parse(res.data.data);
-        if (configJSON.columns && onConfigChange) {
-          onConfigChange(configJSON.columns);
-        }
-        setConfig(res.data);
-        const newItems = parseItemsSorted(columns, res.data);
-        // console.log('newItems', newItems)
-        setItems(newItems);
+    configColApi.page({ query: { biz }, pageSize: 1, sorter: 'id DESC' }).then((res) => {
+      if (res.data.rows.length === 0) return;
+      const config = res.data.rows[0];
+      if (onConfigChange) {
+        onConfigChange(config.data);
       }
+      setConfig(config);
+      const newItems = parseItemsSorted(columns, config.data);
+      // console.log('newItems', newItems)
+      setItems(newItems);
     });
   }
 
@@ -95,16 +90,13 @@ function TableColConfigModal<T>({ columns = [], biz, buzzName, onConfigChange, c
     // 新增or更新
     const params = {
       biz,
-      name: buzzName,
-      data: JSON.stringify({ columns: columnsMerge }),
-      system: false,
-      defaultScene: false,
+      data: columnsMerge,
     };
 
     if (config === undefined) {
-      configService.save(params).then((res) => showResponse(res, '保存自定义表格配置'));
+      configColApi.save(params).then((res) => showResponse(res, '保存自定义表格配置'));
     } else {
-      configService.update(config.id, { id: config.id, ...params }).then((res) => showResponse(res, '更新自定义表格配置'));
+      configColApi.update(config.id, { id: config.id, ...params }).then((res) => showResponse(res, '更新自定义表格配置'));
     }
 
     setOpen(false);
@@ -128,7 +120,7 @@ function TableColConfigModal<T>({ columns = [], biz, buzzName, onConfigChange, c
     colWidthCache[BaseTableUtils.dataIndexToString(item.dataIndex)] = value;
   }
 
-  const loading = loadingEffect[configService.getUrl('save')] || loadingEffect[configService.getUrl('update')]
+  const loading = loadingEffect[configColApi.getUrl('save')] || loadingEffect[configColApi.getUrl('update')]
   return (
     <span>
       <span onClick={showModelHandler}>{children}</span>

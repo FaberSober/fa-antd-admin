@@ -8,7 +8,7 @@ import Admin from '@/props/admin';
 import {AuthDelBtn} from "@/components/decorator";
 
 const serviceName = '登录日志';
-const buzzModal = 'base_log_login_v1';
+const biz = 'base_log_login_v1';
 
 export default function LogLoginList() {
   const [form] = Form.useForm();
@@ -70,7 +70,7 @@ export default function LogLoginList() {
       </div>
 
       <BaseBizTable
-        biz={buzzModal}
+        biz={biz}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}

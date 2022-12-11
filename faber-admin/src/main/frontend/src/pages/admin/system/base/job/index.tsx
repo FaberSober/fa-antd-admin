@@ -20,7 +20,7 @@ import {AuthDelBtn, FaHref} from "@/components/decorator";
 
 
 const serviceName = '系统定时任务';
-const buzzModal = 'base_job';
+const biz = 'base_job';
 
 export default function JobList() {
   const [form] = Form.useForm();
@@ -129,7 +129,7 @@ export default function JobList() {
       </div>
 
       <BaseBizTable
-        biz={buzzModal}
+        biz={biz}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}
