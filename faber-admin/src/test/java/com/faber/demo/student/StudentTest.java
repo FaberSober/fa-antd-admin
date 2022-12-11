@@ -31,6 +31,8 @@ public class StudentTest {
     @Test
     public void testGetById() {
         Student student = studentMapper.selectById(1);
+        log.info(student.getTags()[0].getName());
+        log.info(student.getInfo().getInfo1());
         log.info("student: {}", student);
     }
 
@@ -39,11 +41,10 @@ public class StudentTest {
         {
             Student student = studentMapper.selectById(1);
             // update json array
-            student.setTags(new ArrayList<>());
-            student.setTags(new ArrayList<Student.Tag>() {{
-                add(new Student.Tag("新生"));
-                add(new Student.Tag("一年级"));
-            }});
+            student.setTags(new Student.Tag[] {
+                    new Student.Tag("新生"),
+                    new Student.Tag("一年级")
+            });
             // update json object
             student.setInfo(new Student.Info("hello", "world"));
             studentMapper.updateById(student);
@@ -53,10 +54,10 @@ public class StudentTest {
         {
             Student student = studentMapper.selectById(2);
             // update json array
-            student.setTags(new ArrayList<Student.Tag>() {{
-                add(new Student.Tag("新生"));
-                add(new Student.Tag("二年级"));
-            }});
+            student.setTags(new Student.Tag[] {
+                    new Student.Tag("新生"),
+                    new Student.Tag("二年级")
+            });
             // update json object
             student.setInfo(new Student.Info("hello", "bar"));
             studentMapper.updateById(student);

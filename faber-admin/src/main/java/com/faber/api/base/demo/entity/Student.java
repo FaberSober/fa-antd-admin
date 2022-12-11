@@ -65,7 +65,7 @@ public class Student extends BaseDelEntity {
 
     @TableField(typeHandler = JacksonTypeHandler.class)
     @ExcelProperty("标签")
-    private List<Tag> tags;
+    private Tag[] tags;
 
     @TableField(typeHandler = JacksonTypeHandler.class)
     @ExcelProperty("详细信息")

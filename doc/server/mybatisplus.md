@@ -4,6 +4,10 @@
 1. `faber-admin/src/main/java/com/faber/api/demo/entity/Student.java`
 2. `faber-admin/src/test/java/com/faber/demo/student/StudentTest.java`
 
+> 如果是json array，在Bean中定义要使用Clazz[]数组格式，不能使用List<Clazz>格式，否则会报错。
+
+Mybatis通用JsonTypeHandler: http://events.jianshu.io/p/0246df229a1f
+
 实体Bean定义时注意以下几点
 ```java
 // 要加入autoResultMap = true
@@ -14,9 +18,9 @@ public class Student extends BaseDelEntity {
     // 使用typeHandler = JacksonTypeHandler.class
     @TableField(typeHandler = JacksonTypeHandler.class)
     @ExcelProperty("标签")
-    private List<Tag> tags;
+    private Tag[] tags;
 
-    @Data
+    @Data``
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Tag implements Serializable {

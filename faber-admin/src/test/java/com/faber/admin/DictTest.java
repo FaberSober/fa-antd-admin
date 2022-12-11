@@ -1,30 +1,25 @@
-//package com.faber.admin;
-//
-//import com.faber.AdminBootstrap;
-//import com.faber.api.base.admin.biz.DictBiz;
-//import com.faber.api.base.admin.biz.DictTypeBiz;
-//import com.faber.api.base.admin.entity.Dict;
-//import com.faber.api.base.admin.entity.DictType;
-//import com.faber.api.base.admin.mapper.DictTypeMapper;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.context.junit4.SpringRunner;
-//
-//import javax.annotation.Resource;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(classes = {AdminBootstrap.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//public class DictTest {
-//
-//    @Resource
-//    private DictTypeBiz dictTypeBiz;
-//
+package com.faber.admin;
+
+import com.faber.AdminBootstrap;
+import com.faber.api.base.admin.biz.DictTypeBiz;
+import com.faber.api.base.admin.vo.ret.SystemConfigPo;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.annotation.Resource;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {AdminBootstrap.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class DictTest {
+
+    @Resource
+    private DictTypeBiz dictTypeBiz;
+
 //    @Resource
 //    private DictBiz dictBiz;
-//
+
 //    /**
 //     * 将dict数据搬迁到dictType.dict的json数据中
 //     */
@@ -50,5 +45,11 @@
 //            dictTypeBiz.updateById(dictType);
 //        }
 //    }
-//
-//}
+
+    @Test
+    public void testGetSystemConfig() {
+        SystemConfigPo systemConfigPo = dictTypeBiz.getSystemConfig();
+        System.out.println(systemConfigPo);
+    }
+
+}

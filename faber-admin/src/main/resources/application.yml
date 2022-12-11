@@ -82,10 +82,10 @@ spring:
       max-file-size: 50MB
 #      location: /tmp
 
-# Mybatis-Plus
-mybatis-plus:
-  # Maven 多模块项目的扫描路径需以 classpath*: 开头 （即加载多个 jar 包下的 XML 文件）
-  mapper-locations: classpath*:/mapper/**/*.xml
+# Mybatis-Plus，在MybatisPlusConfig中代码配置
+#mybatis-plus:
+#  # Maven 多模块项目的扫描路径需以 classpath*: 开头 （即加载多个 jar 包下的 XML 文件）
+#  mapper-locations: classpath*:/mapper/**/*.xml
 
 # jetcache
 jetcache:
