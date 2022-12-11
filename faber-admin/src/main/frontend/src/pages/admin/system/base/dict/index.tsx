@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import SplitPane from 'react-split-pane';
 import BaseTree from '@/components/base-tree';
-import {Descriptions, Empty} from 'antd';
+import {Empty} from 'antd';
 import Admin from '@/props/admin';
-import dictTypeApi from '@/services/admin/dictType';
+import dictApi from '@/services/admin/dict';
 import {useLocalStorage} from 'react-use';
-import DictTypeModal from "./modal/DictTypeModal";
+import DictModal from "./modal/DictModal";
 import {FaFlexRestLayout} from "@/components/base-layout";
 import {FaSortList} from "@/components/base-drag";
 import DictForm from "@/pages/admin/system/base/dict/cube/DictForm";
@@ -19,12 +19,12 @@ import {FaLabel} from "@/components/decorator";
  * @date 2020/12/25
  */
 export default function DictManage() {
-  const [viewRecord, setViewRecord] = useState<Admin.DictType>();
+  const [viewRecord, setViewRecord] = useState<Admin.Dict>();
   const [splitPos, setSplitPos] = useLocalStorage<number>('DictManage.splitPos', 250);
 
   function onTreeSelect(keys: any[], event: any) {
     if (keys.length > 0) {
-      dictTypeApi.getById(keys[0]).then(res => setViewRecord(res.data))
+      dictApi.getById(keys[0]).then(res => setViewRecord(res.data))
     } else {
       setViewRecord(undefined)
     }
@@ -36,17 +36,17 @@ export default function DictManage() {
 
   function refreshData() {
     if (viewRecord === undefined) return;
-    dictTypeApi.getById(viewRecord.id).then(res => setViewRecord(res.data))
+    dictApi.getById(viewRecord.id).then(res => setViewRecord(res.data))
   }
 
   function handleChangeDicts(list: any) {
     if (viewRecord === undefined) return;
 
-    const dicts = [...list, ...viewRecord.dicts.filter(i => i.deleted)].map((v: any, i: any) => ({ ...v, id: i + 1 }));
-    setViewRecord({ ...viewRecord, dicts })
-    dictTypeApi.update(viewRecord.id, {
+    const options = [...list, ...viewRecord.options.filter(i => i.deleted)].map((v: any, i: any) => ({ ...v, id: i + 1 }));
+    setViewRecord({ ...viewRecord, options: options })
+    dictApi.update(viewRecord.id, {
       ...viewRecord,
-      dicts
+      options
     }).then(res => {
       showResponse(res, '更新字典排序');
     })
@@ -55,10 +55,10 @@ export default function DictManage() {
   function handleAddDict(v:any) {
     if (viewRecord === undefined) return;
 
-    const dicts = viewRecord.dicts || [];
-    dictTypeApi.update(viewRecord.id, {
+    const options = viewRecord.options || [];
+    dictApi.update(viewRecord.id, {
       ...viewRecord,
-      dicts: [ ...dicts, { id: dicts.length + 1, ...v, deleted: false } ]
+      options: [ ...options, { id: options.length + 1, ...v, deleted: false } ]
     }).then(res => {
       showResponse(res, '新增字典');
       refreshData();
@@ -68,10 +68,10 @@ export default function DictManage() {
   function handleEditDict(v:any) {
     if (viewRecord === undefined) return;
 
-    const dicts = viewRecord.dicts.map(d => d.id === v.id ? v : d)
-    dictTypeApi.update(viewRecord.id, {
+    const options = viewRecord.options.map(d => d.id === v.id ? v : d)
+    dictApi.update(viewRecord.id, {
       ...viewRecord,
-      dicts,
+      options,
     }).then(res => {
       showResponse(res, '更新字典');
       refreshData();
@@ -81,17 +81,17 @@ export default function DictManage() {
   function handleDelDict(v:any) {
     if (viewRecord === undefined) return;
 
-    const dicts = viewRecord.dicts.map(d => d.id === v.id ? { ...v, deleted: true } : d)
-    dictTypeApi.update(viewRecord.id, {
+    const options = viewRecord.options.map(d => d.id === v.id ? { ...v, deleted: true } : d)
+    dictApi.update(viewRecord.id, {
       ...viewRecord,
-      dicts,
+      options,
     }).then(res => {
       showResponse(res, '删除字典');
       refreshData();
     })
   }
 
-  const showDicts = (viewRecord?.dicts || []).filter(i => !i.deleted)
+  const showDicts = (viewRecord?.options || []).filter(i => !i.deleted)
   return (
     <div className="fa-full-content">
       <SplitPane split="vertical" minSize={200} maxSize={350} defaultSize={splitPos} onChange={(size) => setSplitPos(size)}>
@@ -103,8 +103,8 @@ export default function DictManage() {
           onAfterDelItem={onAfterDelItem}
           // 自定义配置
           serviceName="字典分组"
-          ServiceModal={DictTypeModal}
-          serviceApi={dictTypeApi}
+          ServiceModal={DictModal}
+          serviceApi={dictApi}
         />
 
         {/* 右侧面板 */}

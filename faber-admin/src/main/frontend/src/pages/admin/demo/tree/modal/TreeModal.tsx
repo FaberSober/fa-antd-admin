@@ -13,7 +13,7 @@ const serviceName = 'Tree数据';
 interface IProps extends DragModalProps {
   parentId?: number;
   title?: string;
-  record?: Admin.DictType;
+  record?: Admin.Dict;
 }
 
 /**

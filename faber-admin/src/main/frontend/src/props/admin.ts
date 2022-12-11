@@ -36,7 +36,7 @@ namespace Admin {
 
 	// -------------------------------------------- 系统-字典值 --------------------------------------------
 	/** 字典分类 */
-	export interface DictType extends Fa.BaseDelEntity {
+	export interface Dict extends Fa.BaseDelEntity {
 		/** ID */
 		id: number;
 		/** 编码 */
@@ -49,10 +49,11 @@ namespace Admin {
 		sortId: number;
 		/** 描述 */
 		description: string;
-		dicts: DictVo[];
+    /** options */
+		options: Option[];
 	}
 
-	export interface DictVo {
+	export interface Option {
     /** ID */
     id: number;
     /** 字典值 */

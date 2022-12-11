@@ -5,9 +5,9 @@ import {FaHref} from "@/components/decorator";
 
 
 export interface DictFormProps {
-  dict?: Admin.DictVo;
-  onChange?: (v: Admin.DictVo) => void;
-  onDelete?: (v: Admin.DictVo) => void;
+  dict?: Admin.Option;
+  onChange?: (v: Admin.Option) => void;
+  onDelete?: (v: Admin.Option) => void;
 }
 
 /**

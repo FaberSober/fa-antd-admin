@@ -10,7 +10,7 @@ import {Captcha} from "@/components/base-field";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import styles from './login.module.less'
 import Admin from "@/props/admin";
-import dictApi from "@/services/admin/dictType";
+import dictApi from "@/services/admin/dict";
 
 
 export default function Login() {

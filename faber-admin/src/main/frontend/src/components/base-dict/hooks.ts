@@ -1,20 +1,20 @@
 import {useEffect, useState} from "react";
 import Admin from "@/props/admin";
-import dictTypeApi from "@/services/admin/dictType";
+import dictApi from "@/services/admin/dict";
 import Fa from "@/props/base/Fa";
-import dictApi from "@/services/admin/dictType";
+import dictApi from "@/services/admin/dict";
 
 
 export function useDict(code: string, transValue?: (v: any) => any): {
   options: Fa.Option[];
 } {
-  const [dict, setDict] = useState<Admin.DictType>();
+  const [dict, setDict] = useState<Admin.Dict>();
 
   useEffect(() => {
-    dictTypeApi.getByCode(code).then((res) => setDict(res.data));
+    dictApi.getByCode(code).then((res) => setDict(res.data));
   }, [code]);
 
-  const options = dict ? dict.dicts.map((v) => ({
+  const options = dict ? dict.options.map((v) => ({
     value: transValue ? transValue(v.value) : v.value,
     label: v.label,
   })) : []

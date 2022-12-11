@@ -3,9 +3,9 @@ import {get} from 'lodash';
 import {Form, Input} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
 import {showResponse, formItemFullLayout} from '@/utils/utils';
-import modelService from '@/services/admin/dictType';
+import modelService from '@/services/admin/dict';
 import Admin from '@/props/admin';
-import DictTypeCascade from "../helper/DictTypeCascade";
+import DictCascade from "../helper/DictCascade";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 
 const serviceName = '字典分类';
@@ -13,13 +13,13 @@ const serviceName = '字典分类';
 interface IProps extends DragModalProps {
   parentId?: number;
   title?: string;
-  record?: Admin.DictType;
+  record?: Admin.Dict;
 }
 
 /**
  * 字典分类实体新增、编辑弹框
  */
-export default function DictTypeModal({ children, parentId, title, record, ...props }: IProps) {
+export default function DictModal({ children, parentId, title, record, ...props }: IProps) {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 
@@ -90,7 +90,7 @@ export default function DictTypeModal({ children, parentId, title, record, ...pr
       >
         <Form form={form} onFinish={onFinish}>
           <Form.Item name="parentId" label="上级节点" rules={[{ required: true }]} {...formItemFullLayout}>
-            <DictTypeCascade />
+            <DictCascade />
           </Form.Item>
           <Form.Item name="name" label="名称" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input />

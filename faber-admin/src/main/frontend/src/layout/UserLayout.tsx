@@ -7,7 +7,7 @@ import rbacUserRoleApi from '@/services/rbac/rbacUserRole'
 import Rbac from "@/props/rbac";
 import {clearToken} from "@/utils/cache";
 import {useNavigate} from "react-router-dom";
-import dictApi from "@/services/admin/dictType";
+import dictApi from "@/services/admin/dict";
 import msgApi from "@/services/admin/msg";
 
 export interface UserLayoutContextProps {
