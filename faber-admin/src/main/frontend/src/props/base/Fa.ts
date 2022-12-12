@@ -1,5 +1,4 @@
 import {ReactNode} from "react";
-import FaEnums from "@/props/base/FaEnums";
 import {DragModalProps} from '@/components/modal/DragModal';
 import ConditionQuery from '@/components/condition-query/interface';
 

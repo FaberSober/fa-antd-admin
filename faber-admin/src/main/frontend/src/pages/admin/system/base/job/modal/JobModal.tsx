@@ -1,12 +1,13 @@
 import React, {useContext, useState} from 'react';
 import {get} from 'lodash';
-import {Form, Input} from 'antd';
+import {Form, Input, Select} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
-import {showResponse, formItemFullLayout} from '@/utils/utils';
+import {formItemFullLayout, showResponse} from '@/utils/utils';
 import modelService from '@/services/admin/job';
 import Admin from '@/props/admin';
 import {CronModal} from "@/components/base-field";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
+import Fa from "@/props/base/Fa";
 
 
 const serviceName = '系统定时任务';
@@ -25,6 +26,7 @@ export default function JobModal({ children, title, record, fetchFinish, ...prop
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
+  const [jobs, setJobs] = useState<Fa.Option[]>([])
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
@@ -67,6 +69,7 @@ export default function JobModal({ children, title, record, fetchFinish, ...prop
 
   function showModal() {
     setOpen(true)
+    modelService.getAllJobs().then(res => setJobs(res.data))
     form.setFieldsValue(getInitialValues())
   }
 
@@ -91,7 +94,7 @@ export default function JobModal({ children, title, record, fetchFinish, ...prop
             <Input addonAfter={<CronModal initialValue={get(record, 'cron')} onChange={(v) => form.setFieldValue('cron', v)} />} />
           </Form.Item>
           <Form.Item name="clazzPath" label="任务执行方法" rules={[{ required: true }]} {...formItemFullLayout}>
-            <Input />
+            <Select options={jobs} />
           </Form.Item>
           <Form.Item name="jobDesc" label="任务描述" {...formItemFullLayout}>
             <Input.TextArea maxLength={255} />

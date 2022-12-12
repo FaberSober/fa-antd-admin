@@ -25,6 +25,9 @@ class Job extends BaseApi<Admin.Job, number> {
 				headers: { hideErrorMsg: '1' },
 			},
 		);
+
+  /** Get All Quartz Job Class List. */
+  getAllJobs = (): Promise<Fa.Ret<Fa.Option[]>> => this.get('getAllJobs');
 }
 
 export default new Job(GATE_APP.admin, serviceModule);

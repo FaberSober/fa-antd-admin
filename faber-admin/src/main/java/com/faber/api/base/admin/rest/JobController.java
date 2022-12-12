@@ -4,6 +4,7 @@ import cn.hutool.core.map.MapUtil;
 import com.faber.api.base.admin.biz.JobBiz;
 import com.faber.api.base.admin.entity.Job;
 import com.faber.core.config.annotation.IgnoreUserToken;
+import com.faber.core.vo.Option;
 import com.faber.core.vo.msg.Ret;
 import com.faber.core.web.rest.BaseController;
 import org.springframework.stereotype.Controller;
@@ -59,6 +60,17 @@ public class JobController extends BaseController<JobBiz, Job, Integer> {
         String cron = MapUtil.getStr(params, "cron");
         Integer times = MapUtil.getInt(params, "times");
         List<String> list = baseBiz.quartzLatest(cron, times);
+        return ok(list);
+    }
+
+    /**
+     * Get All Quartz Job Class List.
+     * @return
+     */
+    @GetMapping("/getAllJobs")
+    @ResponseBody
+    public Ret<List<Option>> getAllJobs() {
+        List<Option> list = baseBiz.getAllJobs();
         return ok(list);
     }
 

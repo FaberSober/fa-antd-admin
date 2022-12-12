@@ -1,12 +1,15 @@
 package com.faber.api.base.admin.biz;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ClassUtil;
+import com.faber.api.base.admin.entity.Job;
 import com.faber.api.base.admin.mapper.JobMapper;
 import com.faber.config.quartz.JobTask;
-import com.faber.api.base.admin.entity.Job;
-import com.faber.core.web.biz.BaseBiz;
+import com.faber.core.annotation.FaJob;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.exception.NoDataException;
+import com.faber.core.vo.Option;
+import com.faber.core.web.biz.BaseBiz;
 import org.quartz.CronExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 系统定时任务
@@ -77,6 +81,13 @@ public class JobBiz extends BaseBiz<JobMapper, Job> {
 
     public List<Job> getStartUpJobs() {
         return lambdaQuery().eq(Job::getStatus, true).list();
+    }
+
+    public List<Option> getAllJobs() {
+        return ClassUtil.scanPackageByAnnotation("com.faber", FaJob.class)
+                .stream()
+                .map(clazz -> new Option(clazz.getName(), clazz.getAnnotation(FaJob.class).value() + "_" + clazz.getName()))
+                .collect(Collectors.toList());
     }
 
 }
