@@ -39,6 +39,24 @@ namespace Admin {
     data: FaberTable.ColumnsProp<any>[];
   }
 
+  /**
+   * 配置-查询场景
+   */
+  export interface ConfigSys extends Fa.BaseDelEntity {
+    /** ID */
+    id: number;
+    /** 配置JSON */
+    data: Config;
+  }
+
+  export interface Config {
+    title: string;
+    subTitle: string;
+    logo: string;
+    logoWithText: string;
+    portalLink: string;
+  }
+
 	// -------------------------------------------- 系统-字典值 --------------------------------------------
 	/** 字典分类 */
 	export interface Dict extends Fa.BaseDelEntity {
