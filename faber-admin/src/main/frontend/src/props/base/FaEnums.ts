@@ -27,11 +27,6 @@ namespace FaEnums {
   }
 
   // ------------------------------------ Admin ------------------------------------
-  export enum ConfigTypeEnum {
-    TABLE_COLUMNS = 1,
-    QUERY_CONDITION = 2,
-  }
-
   export enum AreaLevel {
     NATION = -1,
     PROVINCE = 0,
