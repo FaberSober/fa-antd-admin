@@ -105,6 +105,10 @@ jetcache:
       valueDecoder: kryo5
       defaultExpireInMillis: 5000000
 
+# elasticsearch
+easy-es:
+  address: 127.0.0.1:9200
+
 # 配置swagger
 swagger:
   enabled: true
