@@ -111,7 +111,7 @@
 - [X] socket整理
 - [ ] socket连接加入auth
 - [X] 集成Spring Validation
-- [ ] 集成redis缓存方案
+- [X] 集成redis缓存方案
 - [X] 集成redis在线管理工具
 - [X] 组合查询功能模块整理
 - [ ] 组合查询功能-扩展-支持mysql json格式字段过滤查询
