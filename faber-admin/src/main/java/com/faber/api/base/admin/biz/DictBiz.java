@@ -1,13 +1,10 @@
 package com.faber.api.base.admin.biz;
 
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.faber.api.base.admin.entity.Dict;
 import com.faber.api.base.admin.mapper.DictMapper;
-import com.faber.api.base.admin.vo.ret.SystemConfigPo;
-import com.faber.core.constant.FaSetting;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.exception.NoDataException;
 import com.faber.core.utils.FaEnumUtils;
@@ -15,7 +12,6 @@ import com.faber.core.vo.DictOption;
 import com.faber.core.web.biz.BaseTreeBiz;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -27,9 +23,6 @@ import java.util.Set;
  */
 @Service
 public class DictBiz extends BaseTreeBiz<DictMapper, Dict> {
-
-    @Resource
-    private FaSetting faSetting;
 
     private static final Map<String, Object> enumClassCache = new HashMap<>();
 
@@ -92,33 +85,6 @@ public class DictBiz extends BaseTreeBiz<DictMapper, Dict> {
             return FaEnumUtils.toOptions(clazz);
         }
         throw new BuzzException("未找到或找到多个同名的枚举【" + enumName + "】，请联系管理员");
-    }
-
-    /**
-     * 获取系统参数配置
-     * @return
-     */
-    public SystemConfigPo getSystemConfig() {
-        Dict dict = getByCode("system");
-
-        Map<String, Object> map = new HashMap<>();
-        for (Dict.Option option : dict.getOptions()) {
-            map.put(option.getLabel(), option.getValue());
-        }
-
-        SystemConfigPo po = new SystemConfigPo();
-        // 系统服务配置
-        po.setTitle(MapUtil.getStr(map, "system:title"));
-        po.setSubTitle(MapUtil.getStr(map, "system:subTitle"));
-        po.setLogo(MapUtil.getStr(map, "system:logo"));
-        po.setLogoWithText(MapUtil.getStr(map, "system:portal:logoWithText"));
-        po.setPortalLink(MapUtil.getStr(map, "system:portal:link"));
-
-        // 配置文件中的配置
-        po.setPhpRedisAdmin(faSetting.getUrl().getPhpRedisAdmin());
-        po.setSocketUrl(faSetting.getUrl().getSocketUrl());
-
-        return po;
     }
 
 }

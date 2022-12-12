@@ -1,5 +1,5 @@
 import React, {CSSProperties, useEffect, useState} from 'react';
-import {message, Upload} from 'antd';
+import {message, Upload, UploadProps} from 'antd';
 import {LoadingOutlined, PlusOutlined} from '@ant-design/icons';
 import fileApi from '@/services/admin/fileSave';
 import {getToken} from '@/utils/cache';
@@ -8,9 +8,9 @@ import {RcFile} from 'antd/es/upload';
 import {UploadChangeParam} from 'antd/lib/upload/interface';
 import {UploadFile} from 'antd/es/upload/interface';
 
-interface IProps {
+interface IProps extends Omit<UploadProps, 'onChange'> {
   value?: string;
-  onChange?: (path: string) => void;
+  onChange?: (fileId: string) => void;
   style?: CSSProperties;
 }
 
@@ -18,27 +18,21 @@ interface IProps {
  * @author xu.pengfei
  * @date 2020/12/25
  */
-export default function UploadImgQiniu({ value, onChange, style }: IProps) {
+export default function UploadImgQiniu({ value, onChange, style, ...props }: IProps) {
   const [loading, setLoading] = useState(false);
   const [array, setArray] = useState<any[]>([]);
 
   useEffect(() => {
     if (value === undefined || value == null) return;
 
-    const fileId = value.substr(value.lastIndexOf('/') + 1);
-    if (fileId === '') return;
-
     setLoading(true);
-    fileApi
-      .getById(fileId)
-      .then((res) => {
-        setLoading(false);
-        if (res && res.status === RES_CODE.OK) {
-          const fileData = res.data;
-          setArray([{ uid: fileData.id, size: fileData.size, name: fileData.name, url: fileApi.genLocalGetFile(fileData.id) }]);
-        }
-      })
-      .catch(() => setLoading(false));
+    fileApi.getById(value).then((res) => {
+      setLoading(false);
+      if (res && res.status === RES_CODE.OK) {
+        const fileData = res.data;
+        setArray([{ uid: fileData.id, size: fileData.size, name: fileData.name, url: fileApi.genLocalGetFile(fileData.id) }]);
+      }
+    }).catch(() => setLoading(false));
   }, [value]);
 
   function beforeUpload(file: RcFile) {
@@ -70,7 +64,7 @@ export default function UploadImgQiniu({ value, onChange, style }: IProps) {
       // console.log('info.file.status === \'done\'', info)
       if (info.file.response.status === 200) {
         if (onChange) {
-          onChange(fileApi.genLocalGetFile(info.file.response.data.id));
+          onChange(info.file.response.data.id);
         }
         setArray([info.file]);
       }
@@ -87,11 +81,10 @@ export default function UploadImgQiniu({ value, onChange, style }: IProps) {
     // console.log('handleRemove', file)
     if (onChange) {
       // @ts-ignore
-      onChange('');
+      onChange(undefined);
     }
   }
 
-  // console.log('array', array);
   return (
     <Upload
       name="file"
@@ -107,6 +100,7 @@ export default function UploadImgQiniu({ value, onChange, style }: IProps) {
       fileList={array}
       style={style}
       maxCount={1}
+      {...props}
     >
       {array && array[0] ? null : (
         <div>

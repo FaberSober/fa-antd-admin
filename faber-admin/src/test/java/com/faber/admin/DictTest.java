@@ -2,8 +2,6 @@ package com.faber.admin;
 
 import com.faber.AdminBootstrap;
 import com.faber.api.base.admin.biz.DictBiz;
-import com.faber.api.base.admin.vo.ret.SystemConfigPo;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -46,10 +44,5 @@ public class DictTest {
 //        }
 //    }
 
-    @Test
-    public void testGetSystemConfig() {
-        SystemConfigPo systemConfigPo = dictBiz.getSystemConfig();
-        System.out.println(systemConfigPo);
-    }
 
 }

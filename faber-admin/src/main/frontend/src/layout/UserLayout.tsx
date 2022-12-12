@@ -7,7 +7,7 @@ import rbacUserRoleApi from '@/services/rbac/rbacUserRole'
 import Rbac from "@/props/rbac";
 import {clearToken} from "@/utils/cache";
 import {useNavigate} from "react-router-dom";
-import dictApi from "@/services/admin/dict";
+import configSysApi from "@/services/admin/configSys";
 import msgApi from "@/services/admin/msg";
 
 export interface UserLayoutContextProps {
@@ -49,7 +49,7 @@ export default function UserLayout({ children }: Fa.BaseChildProps) {
     refreshUser()
     rbacUserRoleApi.getMyRoles().then((res) => setRoles(res.data))
     // 获取系统配置参数
-    dictApi.getSystemConfig().then((res) => setSystemConfig(res.data))
+    configSysApi.getSystemConfig().then((res) => setSystemConfig(res.data))
   }, [])
 
   function refreshUser() {

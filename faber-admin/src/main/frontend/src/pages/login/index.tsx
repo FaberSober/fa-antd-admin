@@ -10,7 +10,7 @@ import {Captcha} from "@/components/base-field";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import styles from './login.module.less'
 import Admin from "@/props/admin";
-import dictApi from "@/services/admin/dict";
+import configSysApi from "@/services/admin/configSys";
 
 
 export default function Login() {
@@ -24,7 +24,7 @@ export default function Login() {
 
   useEffect(() => {
     // 获取系统配置参数
-    dictApi.getSystemConfig().then((res) => setSystemConfig(res.data))
+    configSysApi.getSystemConfig().then((res) => setSystemConfig(res.data))
 
     // 使用vanta制作背景效果图
     const vantaEffect = window.VANTA.WAVES({

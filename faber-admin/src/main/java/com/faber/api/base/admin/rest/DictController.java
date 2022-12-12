@@ -2,8 +2,6 @@ package com.faber.api.base.admin.rest;
 
 import com.faber.api.base.admin.biz.DictBiz;
 import com.faber.api.base.admin.entity.Dict;
-import com.faber.api.base.admin.vo.ret.SystemConfigPo;
-import com.faber.core.config.annotation.IgnoreUserToken;
 import com.faber.core.vo.DictOption;
 import com.faber.core.vo.msg.Ret;
 import com.faber.core.web.rest.BaseTreeController;
@@ -41,18 +39,6 @@ public class DictController extends BaseTreeController<DictBiz, Dict, Integer> {
     public Ret<List<DictOption>> listEnum(String enumName) {
         List<DictOption> list = baseBiz.listEnum(enumName);
         return ok(list);
-    }
-
-
-    /**
-     * 获取系统配置参数
-     */
-    @RequestMapping(value = "getSystemConfig", method = RequestMethod.GET)
-    @ResponseBody
-    @IgnoreUserToken
-    public Ret<SystemConfigPo> getSystemConfig() {
-        SystemConfigPo data = baseBiz.getSystemConfig();
-        return ok(data);
     }
 
 }

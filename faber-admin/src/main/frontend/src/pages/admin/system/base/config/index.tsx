@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Tabs} from "antd";
 import ConfigSystem from "@/pages/admin/system/base/config/cube/ConfigSystem";
 
@@ -8,6 +8,8 @@ import ConfigSystem from "@/pages/admin/system/base/config/cube/ConfigSystem";
  * @date 2022/12/11 22:42
  */
 export default function index() {
+  const [tab, setTab] = useState('1')
+
   return (
     <div className="fa-full-content-p12">
       <Tabs
@@ -16,10 +18,11 @@ export default function index() {
         tabBarStyle={{ padding: '0 12px' }}
         items={[
           { label: `系统配置`, key: '1', children: <ConfigSystem /> },
-          { label: `文件配置`, key: '2', children: `Content of Tab Pane 3` },
-          { label: `邮件配置`, key: '3', children: `Content of Tab Pane 2` },
-          { label: `短信配置`, key: '4', children: `Content of Tab Pane 3` },
+          { label: `文件配置`, key: '2', children: `TODO` },
+          { label: `邮件配置`, key: '3', children: `TODO` },
+          { label: `短信配置`, key: '4', children: `TODO` },
         ]}
+        destroyInactiveTabPane
       />
     </div>
   )

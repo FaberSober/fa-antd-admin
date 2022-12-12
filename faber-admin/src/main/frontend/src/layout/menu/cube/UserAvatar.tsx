@@ -4,6 +4,8 @@ import {Avatar, Menu, Popover} from 'antd';
 import {useIntl} from 'react-intl';
 import {UserLayoutContext} from "@/layout/UserLayout";
 import {useNavigate} from "react-router-dom";
+import fileSaveApi from '@/services/admin/fileSave'
+
 
 const UserPopoverContent = () => {
   const intl = useIntl();
@@ -71,7 +73,7 @@ export default function UserAvatar() {
   return (
     <Popover placement="bottomRight" content={<UserPopoverContent />} trigger="click" getPopupContainer={() => document.body}>
       <div style={{ padding: '0 12px', cursor: 'pointer', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-        <Avatar size="small" src={user?.img} />
+        <Avatar size="small" src={user ? fileSaveApi.genLocalGetFile(user.img) : ''} />
         <span style={{ color: '#eee', marginLeft: 12 }}>{user.name}</span>
       </div>
     </Popover>

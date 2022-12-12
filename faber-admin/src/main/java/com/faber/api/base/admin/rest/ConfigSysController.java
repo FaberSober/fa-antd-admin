@@ -2,9 +2,11 @@ package com.faber.api.base.admin.rest;
 
 import com.faber.api.base.admin.biz.ConfigSysBiz;
 import com.faber.api.base.admin.entity.ConfigSys;
+import com.faber.api.base.admin.vo.ret.SystemConfigPo;
+import com.faber.core.config.annotation.IgnoreUserToken;
+import com.faber.core.vo.msg.Ret;
 import com.faber.core.web.rest.BaseController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -16,5 +18,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/base/admin/configSys")
 public class ConfigSysController extends BaseController<ConfigSysBiz, ConfigSys, Integer> {
+
+    /**
+     * 获取系统配置
+     */
+    @RequestMapping(value = "/getOne", method = RequestMethod.GET)
+    @ResponseBody
+    public Ret<ConfigSys> getOne() {
+        ConfigSys o = baseBiz.getOne();
+        return ok(o);
+    }
+
+    /**
+     * 获取系统配置参数
+     */
+    @RequestMapping(value = "getSystemConfig", method = RequestMethod.GET)
+    @ResponseBody
+    @IgnoreUserToken
+    public Ret<SystemConfigPo> getSystemConfig() {
+        SystemConfigPo data = baseBiz.getSystemConfig();
+        return ok(data);
+    }
 
 }
