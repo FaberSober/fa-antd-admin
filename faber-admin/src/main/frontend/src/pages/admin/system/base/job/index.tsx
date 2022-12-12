@@ -82,13 +82,11 @@ export default function JobList() {
               <FaHref icon={<ThunderboltOutlined />} text="执行" />
             </Popconfirm>
             <Popconfirm title={!record.status ? '确定启动任务?' : '确定停止任务?'} onConfirm={() => handleJobStatus(record)} getPopupContainer={() => document.body}>
-              <a>
-                {!record.status ? (
-                  <FaHref icon={<PlayCircleOutlined />} text="启动" />
-                ) : (
-                  <FaHref icon={<PauseCircleOutlined />} text="停止" />
-                )}
-              </a>
+              {!record.status ? (
+                <FaHref icon={<PlayCircleOutlined />} text="启动" />
+              ) : (
+                <FaHref icon={<PauseCircleOutlined />} text="停止" />
+              )}
             </Popconfirm>
             {!record.status && (
               <JobModal title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList}>
