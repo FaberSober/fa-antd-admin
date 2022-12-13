@@ -15,7 +15,7 @@ import java.util.Map;
 
 
 /**
- * BASE-配置-表格字段
+ * BASE-配置-通用
  *
  * @author Farando
  * @email faberxu@gmail.com
@@ -23,9 +23,9 @@ import java.util.Map;
  */
 @Data
 @ToString
-@FaModalName(name = "配置-查询场景")
-@TableName(value = "base_config_col", autoResultMap = true)
-public class ConfigCol extends BaseDelEntity {
+@FaModalName(name = "配置-通用")
+@TableName(value = "base_config", autoResultMap = true)
+public class Config extends BaseDelEntity {
 
     @TableId(type = IdType.AUTO)
     private Integer id;
@@ -33,6 +33,10 @@ public class ConfigCol extends BaseDelEntity {
     /** 业务模块 */
     @SqlEquals
     private String biz;
+
+    /** 配置类型(给前段使用，后端不注重的类型) */
+    @SqlEquals
+    private String type;
 
     /** 配置JSON */
     @TableField(typeHandler = JacksonTypeHandler.class)
