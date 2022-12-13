@@ -12,6 +12,7 @@ import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import RbacMenuModal from "./modal/RbacMenuModal";
 import rbacMenuApi from '@/services/rbac/rbacMenu'
 import Rbac from '@/props/rbac';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
 /**
@@ -62,7 +63,7 @@ export default function RbacMenuTreeList() {
     {
       title: '图标',
       dataIndex: ['sourceData', 'icon'],
-      render: (val:string|undefined) => val ? <i className={val} /> : null,
+      render: (val:string|undefined) => val ? <FontAwesomeIcon icon={val} /> : null,
       width: 100,
     },
     {
@@ -95,7 +96,7 @@ export default function RbacMenuTreeList() {
       <Space style={{ margin: 12 }}>
         <Button onClick={refreshData} loading={loadingTree}>刷新</Button>
         <RbacMenuModal title="新增菜单" fetchFinish={refreshData}>
-          <Button type="primary" icon={<PlusOutlined />}>新增菜单</Button>
+          <Button type="primary" icon={<PlusOutlined />} loading={loadingTree}>新增菜单</Button>
         </RbacMenuModal>
         <Button danger onClick={handleBatchDelete} loading={loadingTree} disabled={selectedRowKeys.length === 0} icon={<DeleteOutlined />}>删除</Button>
       </Space>

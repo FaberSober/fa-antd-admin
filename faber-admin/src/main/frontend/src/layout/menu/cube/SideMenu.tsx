@@ -6,6 +6,7 @@ import Rbac from "@/props/rbac";
 import MenuLayoutContext from "@/layout/menu/context/MenuLayoutContext";
 import FaEnums from "@/props/base/FaEnums";
 import {SiderLayout} from "@/components/antd-pro";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
 /**
@@ -23,7 +24,7 @@ export default function SideMenu() {
       key: i.id,
       label: i.name,
       children: loop(i.children),
-      icon: i.sourceData.icon ? <div className="fa-flex-column-center" style={{ width: 14, display: 'inline-block' }}><i className={i.sourceData.icon} /></div> : null,
+      icon: i.sourceData.icon ? <div className="fa-flex-column-center" style={{ width: 14, display: 'inline-block' }}><FontAwesomeIcon icon={i.sourceData.icon} /></div> : null,
     }))
   }
   const items = loop(menuTree)

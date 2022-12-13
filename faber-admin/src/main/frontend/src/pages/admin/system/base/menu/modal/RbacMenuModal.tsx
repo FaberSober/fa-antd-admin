@@ -6,10 +6,11 @@ import {showResponse, formItemFullLayout} from '@/utils/utils';
 import modelService from '@/services/rbac/rbacMenu';
 import Rbac from '@/props/rbac';
 import FaEnums from "@/props/base/FaEnums";
-import {BaseBoolIntRadio, BaseBoolRadio, DictEnumApiRadio} from "@/components/base-dict";
+import {BaseBoolRadio, DictEnumApiRadio} from "@/components/base-dict";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import RbacMenuCascader from "../helper/RbacMenuCascader";
 import Fa from "@/props/base/Fa";
+import FontAwesomeSelect from "@/components/icons/FontAwesomeSelect";
 
 const serviceName = '菜单';
 
@@ -108,7 +109,7 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
             { record ? (<Input />) : <Input addonBefore={parentItem ? parentItem.linkUrl : undefined} /> }
           </Form.Item>
           <Form.Item name="icon" label="图标标识" rules={[{ required: false }]} {...formItemFullLayout}>
-            <Input addonAfter={<a href="https://fontawesome.com/search" target="_blank">搜索图标</a>} />
+            <FontAwesomeSelect />
           </Form.Item>
         </Form>
       </DragModal>

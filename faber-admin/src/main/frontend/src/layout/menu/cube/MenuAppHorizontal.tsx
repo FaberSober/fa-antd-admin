@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import {Menu} from "antd";
 import FaEnums from "@/props/base/FaEnums";
 import MenuLayoutContext from "@/layout/menu/context/MenuLayoutContext";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
 /**
@@ -16,7 +17,7 @@ export default function MenuAppHorizontal() {
   const items = blocks.map((i) => ({
     key: i.id,
     label: i.name,
-    icon: i.sourceData.icon ? <div className="fa-flex-column-center" style={{ width: 20, display: 'inline-block' }}><i className={i.sourceData.icon} /></div> : null,
+    icon: i.sourceData.icon ? <div className="fa-flex-column-center" style={{ width: 20, display: 'inline-block' }}><FontAwesomeIcon icon={i.sourceData.icon} /></div> : null,
   }))
   return (
     <Menu

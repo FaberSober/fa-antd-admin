@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {Drawer, Input} from 'antd';
+import {Drawer, Input, Space} from 'antd';
 import {each, trim} from 'lodash'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as fas from '@fortawesome/free-solid-svg-icons'
 import styles from './FontAwesomeSelect.module.less'
 import {FaFlexRestLayout} from "@/components/base-layout";
+import {CloseCircleFilled} from "@ant-design/icons";
 
 const iconSet = new Set();
 each(fas, (i:any) => {
@@ -19,7 +20,7 @@ const ICON_LIST:any[] = Array.from(iconSet)
 
 export interface FontAwesomeSelectProps {
   value?: string,
-  onChange?: (v: string) => void,
+  onChange?: (v: string|undefined) => void,
 }
 
 /**
@@ -29,7 +30,7 @@ export default function FontAwesomeSelect({ value, onChange }: FontAwesomeSelect
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState<string>();
 
-  function handleClick(v: string) {
+  function handleClick(v: string|undefined) {
     if (onChange) onChange(v)
     setOpen(false)
   }
@@ -40,9 +41,14 @@ export default function FontAwesomeSelect({ value, onChange }: FontAwesomeSelect
   })
   return (
     <span>
-      <span onClick={() => setOpen(true)}>
+      <span>
         <div style={{ margin: 0, cursor: 'pointer' }}>
-          {value ? <FontAwesomeIcon icon={value} size="lg" /> : <a style={{ fontSize: '12px' }}>选择</a>}
+          {value ? (
+            <Space>
+              <FontAwesomeIcon icon={value} size="lg" onClick={() => setOpen(true)} />
+              <CloseCircleFilled style={{ color: '#ccc' }} onClick={() => handleClick(undefined)} />
+            </Space>
+          ) : <a style={{ fontSize: '12px' }} onClick={() => setOpen(true)}>选择图标</a>}
         </div>
       </span>
       <Drawer
