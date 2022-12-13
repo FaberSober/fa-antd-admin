@@ -55,6 +55,7 @@
 | react-use | React Hooks — 👍 | https://github.com/streamich/react-use |
 | ahooks | ahooks.js | https://ahooks.js.org/ |
 | tinymce | 富文本编辑器 | https://github.com/tinymce/tinymce |
+| fontawesome | 图标库 | https://fontawesome.com/ |
 
 ## Docker部署环境文件
 1. redis: `docker/redis/docker-compose.yml`
@@ -126,7 +127,7 @@
 - [X] 使用dnd-kit替换现有的拖动排序
 - [X] 使用react-contexify替换现有的右键菜单
 - [ ] 国际化
-- [ ] 图标ℹ️技术整理
+- [X] 图标ℹ️技术整理
 - [ ] 图表📈技术整理
 - [ ] 通用导入方法
 - [ ] 多租户

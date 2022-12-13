@@ -1,47 +1,68 @@
 import React, {useState} from 'react';
-import {Drawer} from 'antd';
-import {FONT_AWESOME_LIST} from './fontUtils'
+import {Drawer, Input} from 'antd';
+import {each, trim} from 'lodash'
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import * as fas from '@fortawesome/free-solid-svg-icons'
 import styles from './FontAwesomeSelect.module.less'
+import {FaFlexRestLayout} from "@/components/base-layout";
 
+const iconSet = new Set();
+each(fas, (i:any) => {
+  if (i.iconName === 'angles-down') {
+    console.log(i)
+  }
+  if (i.iconName) {
+    iconSet.add(i.iconName)
+  }
+})
+const ICON_LIST:any[] = Array.from(iconSet)
 
 export interface FontAwesomeSelectProps {
   value?: string,
-  onChange?: (v: string|undefined) => void,
+  onChange?: (v: string) => void,
 }
 
 /**
- * BASE-权限表实体新增、编辑弹框
+ * 图标选择
  */
 export default function FontAwesomeSelect({ value, onChange }: FontAwesomeSelectProps) {
   const [open, setOpen] = useState(false);
-  const [innerValue, setInnerValue] = useState(value)
+  const [search, setSearch] = useState<string>();
 
-  function handleClick(v: string|undefined) {
-    setInnerValue(v)
+  function handleClick(v: string) {
     if (onChange) onChange(v)
+    setOpen(false)
   }
 
-  console.log('innerValue', innerValue)
+  const showList = ICON_LIST.filter((i:string) => {
+    if (trim(search) === '') return true;
+    return i.indexOf(trim(search)) > -1
+  })
   return (
     <span>
       <span onClick={() => setOpen(true)}>
-        <div className={styles.item} style={{ margin: 0 }}>
-          {innerValue ? <i className={`${innerValue}`} /> : <span style={{ fontSize: '12px' }}>选择</span>}
+        <div style={{ margin: 0, cursor: 'pointer' }}>
+          {value ? <FontAwesomeIcon icon={value} size="lg" /> : <a style={{ fontSize: '12px' }}>选择</a>}
         </div>
       </span>
       <Drawer
         title="选择图标"
         open={open}
         onClose={() => setOpen(false)}
-        width={700}
+        width={940}
+        bodyStyle={{ display: 'flex', flexDirection: 'column' }}
       >
-        <div className="fa-flex-row" style={{ flexWrap: "wrap" }}>
-          {FONT_AWESOME_LIST.map(i => (
-            <div key={i} onClick={() => handleClick(i)} className={styles.item}>
-              <i className={`${i}`} />
-            </div>
-          ))}
-        </div>
+        <Input value={search} placeholder="搜索图标" onChange={(e) => setSearch(e.target.value)} />
+        <FaFlexRestLayout>
+          <div className="fa-flex-row" style={{ flexWrap: "wrap" }}>
+            {showList.map(i => (
+              <div key={i} onClick={() => handleClick(i)} className={styles.item}>
+                <FontAwesomeIcon icon={`${i}`} size="2x" style={{ marginTop: 24 }} />
+                <span style={{textAlign: 'center', marginTop: 6}}>{i}</span>
+              </div>
+            ))}
+          </div>
+        </FaFlexRestLayout>
       </Drawer>
     </span>
   )
