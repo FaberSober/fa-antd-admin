@@ -6,11 +6,12 @@ import {ModalProps} from 'antd/es/modal';
 import {FaberTable} from '@/components/base-table';
 import * as BaseTableUtils from '@/components/base-table/utils';
 import Admin from '@/props/admin';
-import configColApi from '@/services/admin/configCol';
+import configApi from '@/services/admin/config';
 import {FaFlexRestLayout} from "@/components/base-layout";
 import {FaSortList} from "@/components/base-drag";
 import styles from './TableColConfigModal.module.less';
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
+import FaEnums from "@/props/base/FaEnums";
 
 
 const colWidthCache: { [key: string]: number } = {};
@@ -28,16 +29,16 @@ interface IProps<T> extends ModalProps {
  */
 function TableColConfigModal<T>({ columns = [], biz, onConfigChange, children, ...restProps }: IProps<T>) {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
-  const [config, setConfig] = useState<Admin.ConfigCol>();
+  const [config, setConfig] = useState<Admin.ConfigCol<FaberTable.ColumnsProp<any>[]>>();
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<FaberTable.ColumnsProp<T>[]>(columns);
 
   /**
    * 解析columns与远端配置，并排序
    */
-  function parseItemsSorted(columnsArgs: FaberTable.ColumnsProp<T>[], configColumns: FaberTable.ColumnsProp<T>[]): FaberTable.ColumnsProp<T>[] {
+  function parseItemsSorted(columnsArgs: FaberTable.ColumnsProp<T>[], configumns: FaberTable.ColumnsProp<T>[]): FaberTable.ColumnsProp<T>[] {
     const itemList = columnsArgs.map((item) => {
-      const remoteItem = find(configColumns, (col) => {
+      const remoteItem = find(configumns, (col) => {
         const dIndex = col.dataIndex instanceof Array ? col.dataIndex.join() : col.dataIndex;
         const cIndex = item.dataIndex instanceof Array ? item.dataIndex.join() : item.dataIndex;
         return dIndex === cIndex;
@@ -49,7 +50,7 @@ function TableColConfigModal<T>({ columns = [], biz, onConfigChange, children, .
 
   /** 获取服务端配置 */
   function fetchRemoteConfig() {
-    configColApi.page({ query: { biz }, pageSize: 1, sorter: 'id DESC' }).then((res) => {
+    configApi.getOne(biz, FaEnums.ConfigType.TABLE_COLUMNS).then((res) => {
       if (res.data.rows.length === 0) return;
       const config = res.data.rows[0];
       if (onConfigChange) {
@@ -90,13 +91,14 @@ function TableColConfigModal<T>({ columns = [], biz, onConfigChange, children, .
     // 新增or更新
     const params = {
       biz,
+      type: FaEnums.ConfigType.TABLE_COLUMNS,
       data: columnsMerge,
     };
 
     if (config === undefined) {
-      configColApi.save(params).then((res) => showResponse(res, '保存自定义表格配置'));
+      configApi.save(params).then((res) => showResponse(res, '保存自定义表格配置'));
     } else {
-      configColApi.update(config.id, { id: config.id, ...params }).then((res) => showResponse(res, '更新自定义表格配置'));
+      configApi.update(config.id, { id: config.id, ...params }).then((res) => showResponse(res, '更新自定义表格配置'));
     }
 
     setOpen(false);
@@ -120,7 +122,7 @@ function TableColConfigModal<T>({ columns = [], biz, onConfigChange, children, .
     colWidthCache[BaseTableUtils.dataIndexToString(item.dataIndex)] = value;
   }
 
-  const loading = loadingEffect[configColApi.getUrl('save')] || loadingEffect[configColApi.getUrl('update')]
+  const loading = loadingEffect[configApi.getUrl('save')] || loadingEffect[configApi.getUrl('update')]
   return (
     <span>
       <span onClick={showModelHandler}>{children}</span>

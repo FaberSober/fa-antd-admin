@@ -28,15 +28,17 @@ namespace Admin {
 	}
 
   /**
-   * 配置-查询场景
+   * 配置-通用
    */
-  export interface ConfigCol extends Fa.BaseDelEntity {
+  export interface ConfigCol<T> extends Fa.BaseDelEntity {
     /** ID */
     id: number;
     /** 业务模块 */
     biz: string;
+    /** 配置类型 */
+    type: FaEnums.ConfigType;
     /** 配置JSON */
-    data: FaberTable.ColumnsProp<any>[];
+    data: T;
   }
 
   /**

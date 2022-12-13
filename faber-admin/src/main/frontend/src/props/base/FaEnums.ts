@@ -26,6 +26,10 @@ namespace FaEnums {
     [FaEnums.EntityLogActionEnum.DEL]: '删除',
   }
 
+  export enum ConfigType {
+    TABLE_COLUMNS = '1',
+  }
+
   // ------------------------------------ Admin ------------------------------------
   export enum AreaLevel {
     NATION = -1,

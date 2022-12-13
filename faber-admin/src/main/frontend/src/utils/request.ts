@@ -52,7 +52,7 @@ instance.interceptors.request.use(
 		// } else
 		if (config.method == 'get') {
 			// @ts-ignore
-			config.params = { _t: Date.parse(new Date()) / 1000, ...config.params };
+			config.params = { ...config.params, _t: Date.parse(new Date()) / 1000 };
 		}
 
 		// 通知全局api加载状态
