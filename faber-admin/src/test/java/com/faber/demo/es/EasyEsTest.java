@@ -5,7 +5,7 @@ import com.faber.AdminBootstrap;
 import com.faber.api.base.demo.es.Document;
 import com.faber.api.base.demo.esmapper.DocumentMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -27,7 +27,7 @@ public class EasyEsTest {
     DocumentMapper documentMapper;
 
     @Test
-    void testInsert() {
+    public void testInsert() {
         // 初始化-> 新增数据
         Document document = new Document();
         document.setTitle("springboot");
@@ -37,7 +37,7 @@ public class EasyEsTest {
     }
 
     @Test
-    void testSearchEq() {
+    public void testSearchEq() {
         // 查询出所有标题为老汉的文档列表
         LambdaEsQueryWrapper<Document> wrapper = new LambdaEsQueryWrapper<>();
         wrapper.eq(Document::getTitle, "springboot");
@@ -46,7 +46,7 @@ public class EasyEsTest {
     }
 
     @Test
-    void testSearchLike() {
+    public void testSearchLike() {
         // 查询出所有标题为老汉的文档列表
         LambdaEsQueryWrapper<Document> wrapper = new LambdaEsQueryWrapper<>();
         wrapper.like(Document::getTitle, "spring");
