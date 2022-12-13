@@ -36,6 +36,6 @@ public class ConfigCol extends BaseDelEntity {
 
     /** 配置JSON */
     @TableField(typeHandler = JacksonTypeHandler.class)
-    private Map<String, Object>[] data;
+    private Object data;
 
 }

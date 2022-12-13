@@ -22,7 +22,7 @@ import java.util.Set;
 @EnableTransactionManagement
 @ServletComponentScan
 @EnableMethodCache(basePackages = "com.faber")
-@EsMapperScan("com.faber.api.*.esmapper")
+@EsMapperScan("com.faber.api.**.esmapper")
 public class AdminBootstrap {
 
     public static void main(String[] args) {

@@ -30,8 +30,8 @@ public class EasyEsTest {
     void testInsert() {
         // 初始化-> 新增数据
         Document document = new Document();
-        document.setTitle("老汉");
-        document.setContent("推*技术过硬");
+        document.setTitle("springboot");
+        document.setContent("单体服务开发");
         Integer result = documentMapper.insert(document);
         log.info("result: {}", result);
     }
@@ -40,7 +40,7 @@ public class EasyEsTest {
     void testSearchEq() {
         // 查询出所有标题为老汉的文档列表
         LambdaEsQueryWrapper<Document> wrapper = new LambdaEsQueryWrapper<>();
-        wrapper.eq(Document::getTitle, "老汉");
+        wrapper.eq(Document::getTitle, "springboot");
         List<Document> list = documentMapper.selectList(wrapper);
         log.info("list: {}", list);
     }
@@ -49,7 +49,7 @@ public class EasyEsTest {
     void testSearchLike() {
         // 查询出所有标题为老汉的文档列表
         LambdaEsQueryWrapper<Document> wrapper = new LambdaEsQueryWrapper<>();
-        wrapper.like(Document::getTitle, "老汉");
+        wrapper.like(Document::getTitle, "spring");
         List<Document> list = documentMapper.selectList(wrapper);
         log.info("list: {}", list);
     }
