@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import Pages from 'vite-plugin-pages'
 // import VitePluginImp from "vite-plugin-imp";
+import { visualizer } from 'rollup-plugin-visualizer';
 import * as path from 'path';
 
 // https://vitejs.dev/config/
@@ -27,6 +28,11 @@ export default defineConfig(({ command, mode }) => {
       //       style: (name) => `antd/es/${name}/style/index.js`,
       //     },
       //   ],
+      // }),
+      // visualizer({
+      //   open:true,  //注意这里要设置为true，否则无效
+      //   gzipSize:true,
+      //   brotliSize:true
       // }),
     ],
     //* css模块化
