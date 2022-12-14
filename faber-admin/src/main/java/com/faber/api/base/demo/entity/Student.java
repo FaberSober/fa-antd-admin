@@ -59,6 +59,10 @@ public class Student extends BaseDelEntity {
     private Integer infoId;
 
     @SqlEquals
+    @ExcelProperty("企业ID")
+    private Integer corpId;
+
+    @SqlEquals
     @ExcelProperty("租户ID")
     private Integer tenantId;
 
