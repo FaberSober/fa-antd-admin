@@ -4,10 +4,10 @@ import {BaseApi} from '@/services/base';
 import Fa from "@/props/base/Fa";
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */
-class Api extends BaseApi<Admin.ConfigCol<any>, number> {
+class Api extends BaseApi<Admin.Config<any>, number> {
 
   /** 获取唯一配置 */
-  getOne = (biz: string, type: string): Promise<Fa.Ret<Admin.ConfigCol<any>>> => this.get('getOne', {biz, type});
+  getOne = (biz: string, type: string): Promise<Fa.Ret<Admin.Config<any>>> => this.get('getOne', {biz, type});
 
 }
 

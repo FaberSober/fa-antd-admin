@@ -30,7 +30,7 @@ namespace Admin {
   /**
    * 配置-通用
    */
-  export interface ConfigCol<T> extends Fa.BaseDelEntity {
+  export interface Config<T> extends Fa.BaseDelEntity {
     /** ID */
     id: number;
     /** 业务模块 */
@@ -48,10 +48,10 @@ namespace Admin {
     /** ID */
     id: number;
     /** 配置JSON */
-    data: Config;
+    data: ConfigSysConfig;
   }
 
-  export interface Config {
+  export interface ConfigSysConfig {
     title: string;
     subTitle: string;
     logo: string;

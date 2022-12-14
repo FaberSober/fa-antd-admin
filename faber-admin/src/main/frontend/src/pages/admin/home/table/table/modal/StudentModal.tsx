@@ -49,7 +49,7 @@ export default function StudentModal({ children, title, record, fetchFinish, add
     if (record) {
       invokeUpdateTask({ ...record, ...values });
     } else {
-      invokeInsertTask({ ...values });
+      invokeInsertTask({ ...values, tags: [], info: {info1:'',info2:''} });
     }
   }
 

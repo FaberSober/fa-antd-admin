@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapp
 import com.faber.AdminBootstrap;
 import com.faber.api.base.demo.entity.Student;
 import com.faber.api.base.demo.mapper.StudentMapper;
+import com.faber.core.context.BaseContextHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +26,20 @@ public class StudentTest {
 
     @Resource
     StudentMapper studentMapper;
+
+    @Test
+    public void testInsert() {
+        BaseContextHandler.setUserId("1");
+        BaseContextHandler.setName("Admin");
+        BaseContextHandler.setUsername("超级管理员");
+        BaseContextHandler.setLogin(true);
+
+        Student student = new Student();
+        student.setName("xx");
+        student.setAge(12);
+        student.setTenantId(1);
+        studentMapper.insert(student);
+    }
 
     @Test
     public void testGetById() {

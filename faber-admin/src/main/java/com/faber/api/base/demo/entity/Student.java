@@ -74,6 +74,7 @@ public class Student extends BaseDelEntity {
     @TableField(value = "tags -> '$[*].name'",
             insertStrategy = FieldStrategy.NEVER,
             updateStrategy = FieldStrategy.NEVER,
+            exist = false,
             select = false)
     private String tagNames;
 

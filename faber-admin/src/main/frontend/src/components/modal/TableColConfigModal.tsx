@@ -29,16 +29,16 @@ interface IProps<T> extends ModalProps {
  */
 function TableColConfigModal<T>({ columns = [], biz, onConfigChange, children, ...restProps }: IProps<T>) {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
-  const [config, setConfig] = useState<Admin.ConfigCol<FaberTable.ColumnsProp<any>[]>>();
+  const [config, setConfig] = useState<Admin.Config<FaberTable.ColumnsProp<any>[]>>();
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<FaberTable.ColumnsProp<T>[]>(columns);
 
   /**
    * 解析columns与远端配置，并排序
    */
-  function parseItemsSorted(columnsArgs: FaberTable.ColumnsProp<T>[], configumns: FaberTable.ColumnsProp<T>[]): FaberTable.ColumnsProp<T>[] {
+  function parseItemsSorted(columnsArgs: FaberTable.ColumnsProp<T>[], configColumns: FaberTable.ColumnsProp<T>[]): FaberTable.ColumnsProp<T>[] {
     const itemList = columnsArgs.map((item) => {
-      const remoteItem = find(configumns, (col) => {
+      const remoteItem = find(configColumns, (col) => {
         const dIndex = col.dataIndex instanceof Array ? col.dataIndex.join() : col.dataIndex;
         const cIndex = item.dataIndex instanceof Array ? item.dataIndex.join() : item.dataIndex;
         return dIndex === cIndex;
@@ -50,15 +50,14 @@ function TableColConfigModal<T>({ columns = [], biz, onConfigChange, children, .
 
   /** 获取服务端配置 */
   function fetchRemoteConfig() {
-    configApi.getOne(biz, FaEnums.ConfigType.TABLE_COLUMNS).then((res) => {
-      if (res.data.rows.length === 0) return;
-      const config = res.data.rows[0];
+    configApi.getOne(biz, FaEnums.ConfigType.TABLE_COLUMNS).then(res => {
+      if (res.data.length === 0) return;
+      const config = res.data;
       if (onConfigChange) {
         onConfigChange(config.data);
       }
       setConfig(config);
       const newItems = parseItemsSorted(columns, config.data);
-      // console.log('newItems', newItems)
       setItems(newItems);
     });
   }
