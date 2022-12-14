@@ -56,6 +56,7 @@
 | ahooks | ahooks.js | https://ahooks.js.org/ |
 | tinymce | 富文本编辑器 | https://github.com/tinymce/tinymce |
 | fontawesome | 图标库 | https://fontawesome.com/ |
+| dnd-kit | 拖动库 | https://dndkit.com/ |
 
 ## Docker部署环境文件
 1. redis: `docker/redis/docker-compose.yml`

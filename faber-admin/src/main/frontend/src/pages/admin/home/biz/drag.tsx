@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {Button, Card, Switch} from "antd";
-import {FaSortList} from "@/components/base-drag";
+import {FaSortGrid, FaSortList} from "@/components/base-drag";
 import FaDragItem from "@/components/base-drag/FaDragItem";
-import {PlusOutlined} from "@ant-design/icons";
+import {DragOutlined, PlusOutlined} from "@ant-design/icons";
 
 
 function genList(i: number): { id: number, name: string }[] {
@@ -17,6 +17,8 @@ function genList(i: number): { id: number, name: string }[] {
 export default function drag() {
   const [array, setArray] = useState(genList(5))
   const [array2, setArray2] = useState(genList(5))
+  const [array3, setArray3] = useState(genList(11))
+  const [array4, setArray4] = useState(genList(11))
   const [disabled, setDisabled] = useState(false)
 
   return (
@@ -52,6 +54,39 @@ export default function drag() {
         </div>
 
         <p>value: {JSON.stringify(array2.map(i => i.id))}</p>
+      </Card>
+
+      <Card title="拖动排序-网格" style={{marginBottom: 12}}>
+        <p>说明：1. 使用dnd-kit组件；2. 二次封装后使用更简单；</p>
+
+        <div style={{width: 400}}>
+          <FaSortGrid
+            list={array3}
+            renderItem={(i) => <div>{i.name}</div>}
+            itemStyle={{padding: 8, border: '1px solid #ccc', borderRadius: 4, height: 100, width: 100}}
+            onSortEnd={(l) => setArray3(l)}
+          />
+        </div>
+
+        <p>value: {JSON.stringify(array.map(i => i.id))}</p>
+      </Card>
+
+      <Card title="拖动排序-网格-带有拖动把手" style={{marginBottom: 12}}>
+        <p>说明：1. 使用dnd-kit组件；2. 二次封装后使用更简单；</p>
+
+        <div style={{width: 400}}>
+          <FaSortGrid
+            list={array4}
+            renderItem={(i) => <div>{i.name}</div>}
+            itemStyle={{padding: 8, border: '1px solid #ccc', borderRadius: 4, height: 100, width: 100}}
+            onSortEnd={(l) => setArray4(l)}
+            handle
+            handleStyle={{ position: 'absolute', top: 0, right: 0 }}
+            handleNode={<DragOutlined />}
+          />
+        </div>
+
+        <p>value: {JSON.stringify(array.map(i => i.id))}</p>
       </Card>
 
       <Card title="拖动元素" style={{marginBottom: 12}}>

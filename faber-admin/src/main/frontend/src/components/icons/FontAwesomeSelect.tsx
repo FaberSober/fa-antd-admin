@@ -46,7 +46,7 @@ export default function FontAwesomeSelect({ value, onChange }: FontAwesomeSelect
           {value ? (
             <Space>
               <FontAwesomeIcon icon={value} size="lg" onClick={() => setOpen(true)} />
-              <CloseCircleFilled style={{ color: '#ccc' }} onClick={() => handleClick(undefined)} />
+              <CloseCircleFilled style={{ color: '#ccc' }} onClick={() => handleClick('')} />
             </Space>
           ) : <a style={{ fontSize: '12px' }} onClick={() => setOpen(true)}>选择图标</a>}
         </div>
