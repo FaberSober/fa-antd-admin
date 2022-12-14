@@ -37,13 +37,22 @@ public class StudentTest {
         Student student = new Student();
         student.setName("xx");
         student.setAge(12);
-        student.setTenantId(1);
+        student.setValid(true);
+
+        // update json array
+        student.setTags(new Student.Tag[] {
+                new Student.Tag("新生"),
+                new Student.Tag("一年级")
+        });
+        // update json object
+        student.setInfo(new Student.Info("hello", "world"));
+
         studentMapper.insert(student);
     }
 
     @Test
     public void testGetById() {
-        Student student = studentMapper.selectById(1);
+        Student student = studentMapper.selectById(31);
         log.info(student.getTags()[0].getName());
         log.info(student.getInfo().getInfo1());
         log.info("student: {}", student);
@@ -52,7 +61,7 @@ public class StudentTest {
     @Test
     public void testUpdateById() {
         {
-            Student student = studentMapper.selectById(1);
+            Student student = studentMapper.selectById(31);
             // update json array
             student.setTags(new Student.Tag[] {
                     new Student.Tag("新生"),
@@ -65,7 +74,7 @@ public class StudentTest {
         }
         
         {
-            Student student = studentMapper.selectById(2);
+            Student student = studentMapper.selectById(31);
             // update json array
             student.setTags(new Student.Tag[] {
                     new Student.Tag("新生"),
@@ -96,18 +105,19 @@ public class StudentTest {
             log.info("list: {}", list);
         }
 
-        // json array equal query
-        {
-            List<Student> list = new LambdaQueryChainWrapper<>(studentMapper)
-                    .apply("JSON_CONTAINS(tags, JSON_OBJECT('name', {0}))", "新生")
-                    .list();
-            log.info("list: {}", list);
-        }
-
         // json object equal query
         {
             List<Student> list = new LambdaQueryChainWrapper<>(studentMapper)
                     .apply("info -> '$.info1' = {0}", "hello")
+                    .list();
+            log.info("list: {}", list);
+        }
+
+        // FIXME: 下面代码会报错，需要升级jsqlparser 4.5就不会报错了。但是目前jsqlparser 4.5版本和mybatisplus同时使用有bug，所以只能使用4.4。放弃下面的查询方法。
+        // json array equal query
+        {
+            List<Student> list = new LambdaQueryChainWrapper<>(studentMapper)
+                    .apply("JSON_CONTAINS(tags, JSON_OBJECT('name', {0}))", "新生")
                     .list();
             log.info("list: {}", list);
         }

@@ -61,6 +61,8 @@ SELECT * FROM demo_student WHERE info->'$.info1' = 'hello';
 ## 报错
 JsonArray查询，如果和多租户插件一起用，查询会报错。
 
+下面代码会报错，需要升级jsqlparser 4.5就不会报错了。但是目前jsqlparser 4.5版本和mybatisplus同时使用有bug，所以只能使用4.4。放弃下面的查询方法。
+
 git issue上也有类似问题：
 - https://github.com/baomidou/mybatis-plus/issues/4966
 - https://github.com/JSQLParser/JSqlParser/issues/1504

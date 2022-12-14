@@ -54,20 +54,20 @@ public class MybatisPlusConfig {
         MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();
 
         // 如果用了分页插件注意先 add TenantLineInnerInterceptor 再 add PaginationInnerInterceptor
-//        mybatisPlusInterceptor.addInnerInterceptor(new TenantLineInnerInterceptor(new TenantLineHandler() {
-//            @Override
-//            public Expression getTenantId() {
-//                // TO-DO 这里获取上下文的租户ID
-//                System.out.println("getTenantId=1");
-//                return new LongValue(1);
-//            }
-//
-//            // 这是 default 方法,默认返回 false 表示所有表都需要拼多租户条件
-//            @Override
-//            public boolean ignoreTable(String tableName) {
-//                return !TENANT_TABLES.contains(tableName);
-//            }
-//        }));
+        mybatisPlusInterceptor.addInnerInterceptor(new TenantLineInnerInterceptor(new TenantLineHandler() {
+            @Override
+            public Expression getTenantId() {
+                // TO-DO 这里获取上下文的租户ID
+                System.out.println("getTenantId=1");
+                return new LongValue(1);
+            }
+
+            // 这是 default 方法,默认返回 false 表示所有表都需要拼多租户条件
+            @Override
+            public boolean ignoreTable(String tableName) {
+                return !TENANT_TABLES.contains(tableName);
+            }
+        }));
 
         mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         mybatisPlusInterceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());

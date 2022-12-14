@@ -101,12 +101,14 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
+
+        <!-- 目前jsqlparser 4.5版本和mybatisplus同时使用有bug，需要使用4.4 -->
         <!-- https://mvnrepository.com/artifact/com.github.jsqlparser/jsqlparser -->
-        <dependency>
-            <groupId>com.github.jsqlparser</groupId>
-            <artifactId>jsqlparser</artifactId>
-            <version>4.5</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.github.jsqlparser</groupId>-->
+<!--            <artifactId>jsqlparser</artifactId>-->
+<!--            <version>4.5</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.security</groupId>
