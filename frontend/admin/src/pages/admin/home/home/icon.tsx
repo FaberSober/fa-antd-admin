@@ -12,7 +12,7 @@ export default function icon() {
 
   return (
     <div className="fa-full-content fa-bg-white fa-p12" style={{ fontSize: '30px' }}>
-      <Card title="使用<FontAwesomeIcon />" style={{ marginBottom: 12 }}>
+      <Card title="使用<FontAwesomeIcon />" className="fa-mb12">
         <Space>
           <FontAwesomeIcon icon="fa-solid fa-check-square" size="2xl" />
           <FontAwesomeIcon icon="fa-solid fa-check-square" size="2xl" />
@@ -21,7 +21,7 @@ export default function icon() {
         </Space>
       </Card>
 
-      <Card title="选择图标" style={{ marginBottom: 12 }}>
+      <Card title="选择图标" className="fa-mb12">
         <FontAwesomeSelect value={value} onChange={setValue} />
       </Card>
     </div>

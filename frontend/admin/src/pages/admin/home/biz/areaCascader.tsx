@@ -18,7 +18,7 @@ export default function areaCascader() {
 
   return (
     <div className="fa-full-content fa-p12">
-      <Card title="只获取最后选中的地区ID" style={{ marginBottom: 12 }}>
+      <Card title="只获取最后选中的地区ID" className="fa-mb12">
         <div>选中值：{value1}</div>
         <div>选中值(完整属性)：{value1Area && JSON.stringify(value1Area)}</div>
         <AreaCascader
@@ -31,7 +31,7 @@ export default function areaCascader() {
         />
       </Card>
 
-      <Card title="获取完整的地区ID数组" style={{ marginBottom: 12 }}>
+      <Card title="获取完整的地区ID数组" className="fa-mb12">
         <div>选中值：{JSON.stringify(value2)}</div>
         <AreaCascader
           style={{ minWidth: 200, width: 'auto' }}
@@ -41,7 +41,7 @@ export default function areaCascader() {
         />
       </Card>
 
-      <Card title="只选择省市区前三级" style={{ marginBottom: 12 }}>
+      <Card title="只选择省市区前三级" className="fa-mb12">
         <div>选中值：{value3}</div>
         <AreaCascader
           style={{ minWidth: 200, width: 'auto' }}
@@ -51,7 +51,7 @@ export default function areaCascader() {
         />
       </Card>
 
-      <Card title="只选择省市前两级" style={{ marginBottom: 12 }}>
+      <Card title="只选择省市前两级" className="fa-mb12">
         <div>选中值：{value4}</div>
         <AreaCascader
           style={{ minWidth: 200, width: 'auto' }}

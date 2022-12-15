@@ -28,7 +28,7 @@ export default function AuthTest() {
   return (
     <div className="fa-full-content fa-bg-white fa-p12">
 
-      <Card title="按钮权限控制" style={{ marginBottom: 12 }}>
+      <Card title="按钮权限控制" className="fa-mb12">
         <div>在后台接口中进行权限按钮限制</div>
         <Space>
           <Button onClick={test1} loading={loading1}>有权限</Button>

@@ -13,7 +13,7 @@ export default function FileUploader() {
 
   return (
     <div className="fa-full-content fa-p12">
-      <Card title="单文件上传" style={{ marginBottom: 12 }}>
+      <Card title="单文件上传" className="fa-mb12">
         <p>说明：1. onChange返回文件ID；</p>
         <UploadFileLocal
           value={fileId}
@@ -25,7 +25,7 @@ export default function FileUploader() {
         <p>返回值展示：{fileId}</p>
       </Card>
 
-      <Card title="多文件上传" style={{ marginBottom: 12 }}>
+      <Card title="多文件上传" className="fa-mb12">
         <p>说明：1. 打开文件夹支持多选文件；2. 可设置最大选择文件数（这里设置为3）；3. onChange返回文件ID数组；</p>
         <UploadFileLocalMultiple
           value={array}

@@ -112,7 +112,7 @@ export default function drag() {
       <Card title="拖动元素-固定位置" style={{marginBottom: 12}}>
         <p>说明：1. 使用dnd-kit组件；2. 拖动后固定在新位置；</p>
 
-        <Switch checkedChildren="启用拖动" unCheckedChildren="禁用拖动" checked={!disabled} onChange={(e) => setDisabled(!e)} style={{ marginBottom: 12 }} />
+        <Switch checkedChildren="启用拖动" unCheckedChildren="禁用拖动" checked={!disabled} onChange={(e) => setDisabled(!e)} className="fa-mb12" />
         <div style={{width: 400, height: 300, position: 'relative'}}>
           <FaDragItem disabled={disabled} hold>
             <Button>Drag me</Button>

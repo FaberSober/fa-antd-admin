@@ -23,11 +23,11 @@ export default function tinymce() {
 
   return (
     <div className="fa-full-content fa-p12">
-      <Card title="直接使用" style={{ marginBottom: 12 }}>
+      <Card title="直接使用" className="fa-mb12">
         <BaseTinyMCE style={{ width: 800, height: 500 }} />
       </Card>
 
-      <Card title="在From表单中使用" style={{ marginBottom: 12 }}>
+      <Card title="在From表单中使用" className="fa-mb12">
         <Form form={form} onFinish={handleFinish}>
           <Form.Item name="title" label="文章标题">
             <Input placeholder="请输入文章标题" />

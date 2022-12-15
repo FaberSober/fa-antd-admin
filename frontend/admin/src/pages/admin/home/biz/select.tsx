@@ -16,7 +16,7 @@ export default function select() {
 
   return (
     <div>
-      <Card title="远程数据选择-一次加载全部数据" style={{ marginBottom: 12 }}>
+      <Card title="远程数据选择-一次加载全部数据" className="fa-mb12">
         <p>说明：1. 从接口获取数据；2. Select组件；3. 只要继承了BaseController的api接口都可以使用；</p>
 
         <BaseSelect serviceApi={studentApi} value={value1} onChange={(v) => setValue1(v)} />
@@ -24,7 +24,7 @@ export default function select() {
         <p>value: {value1}</p>
       </Card>
 
-      <Card title="远程数据选择-搜索加载前20条数据" style={{ marginBottom: 12 }}>
+      <Card title="远程数据选择-搜索加载前20条数据" className="fa-mb12">
         <p>说明：1. 从接口获取数据；2. Select组件(支持搜索过滤)；3. 加入防抖500ms；4. 参考用户搜索选择；</p>
 
         <StudentSearchSelect value={value2} onChange={(v) => setValue2(v)} />

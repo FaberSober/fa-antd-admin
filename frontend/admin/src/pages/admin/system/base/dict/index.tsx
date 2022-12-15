@@ -111,7 +111,7 @@ export default function DictManage() {
         <div className="fa-flex-column fa-full">
           {viewRecord ? (
             <div className="fa-flex-column fa-full">
-              <FaLabel title={`${viewRecord?.name}/${viewRecord?.code}/${viewRecord?.description || ''}`} style={{ marginBottom: 12 }} />
+              <FaLabel title={`${viewRecord?.name}/${viewRecord?.code}/${viewRecord?.description || ''}`} className="fa-mb12" />
 
               <FaFlexRestLayout className="fa-bg-white">
                 <div className="fa-flex-row-center fa-bg-grey">

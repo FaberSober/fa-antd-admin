@@ -148,6 +148,8 @@ export function setTreeDisabled(treeList: Fa.TreeNode[]|undefined, disabledIds?:
   treeList.map(i => {
     if (disabledIds.indexOf(i.id) > -1) {
       i.disabled = true
+    } else {
+      i.disabled = undefined
     }
     setTreeDisabled(i.children, disabledIds)
   })
