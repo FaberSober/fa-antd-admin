@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Controller
@@ -36,8 +37,8 @@ public class DictController extends BaseTreeController<DictBiz, Dict, Integer> {
      */
     @RequestMapping(value = "listEnum", method = RequestMethod.GET)
     @ResponseBody
-    public Ret<List<DictOption>> listEnum(String enumName) {
-        List<DictOption> list = baseBiz.listEnum(enumName);
+    public Ret<List<DictOption<Serializable>>> listEnum(String enumName) {
+        List<DictOption<Serializable>> list = baseBiz.listEnum(enumName);
         return ok(list);
     }
 

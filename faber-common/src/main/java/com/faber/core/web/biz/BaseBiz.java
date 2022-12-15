@@ -133,7 +133,7 @@ public abstract class BaseBiz<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     public void addDictOptions(TableRet<?> table, Class<?> clazz) {
         Field[] fields = ReflectUtil.getFields(clazz, field -> IEnum.class.isAssignableFrom(field.getType()));
         for (Field field : fields) {
-            table.getData().addDict(field.getName(), FaEnumUtils.toOptions((Class<? extends IEnum>) field.getType()));
+            table.getData().addDict(field.getName(), FaEnumUtils.toOptions((Class<? extends IEnum<Serializable>>) field.getType()));
         }
     }
 

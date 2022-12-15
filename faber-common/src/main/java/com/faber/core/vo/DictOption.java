@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DictOption {
-    private String value;
+public class DictOption<T> {
+    private T value;
     // TODO 统一命名为label
     private String text;
     private String color;
     private int sort;
 
-    public DictOption(String value, String text) {
+    public DictOption(T value, String text) {
         this.value = value;
         this.text = text;
     }

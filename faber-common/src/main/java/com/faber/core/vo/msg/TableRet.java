@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.faber.core.vo.DictOption;
 import com.github.pagehelper.PageInfo;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +55,7 @@ public class TableRet<T> extends BaseRet {
         this.data = data;
     }
 
-    public TableRet<T> addDict(String column, List<DictOption> dictOptions) {
+    public TableRet<T> addDict(String column, List<DictOption<Serializable>> dictOptions) {
         this.getData().addDict(column, dictOptions);
         return this;
     }
@@ -63,7 +64,7 @@ public class TableRet<T> extends BaseRet {
         Pagination pagination;
         long total;
         List<T> rows;
-        Map<String, List<DictOption>> dicts = new HashMap<>();
+        Map<String, List<DictOption<Serializable>>> dicts = new HashMap<>();
 
         @Deprecated
         public TableData(long total, List<T> rows) {
@@ -100,7 +101,7 @@ public class TableRet<T> extends BaseRet {
         public TableData() {
         }
 
-        public TableData<T> addDict(String column, List<DictOption> dictOptions) {
+        public TableData<T> addDict(String column, List<DictOption<Serializable>> dictOptions) {
             if (dicts == null) dicts = new HashMap<>();
             dicts.put(column, dictOptions);
             return this;
@@ -122,11 +123,11 @@ public class TableRet<T> extends BaseRet {
             this.rows = rows;
         }
 
-        public Map<String, List<DictOption>> getDicts() {
+        public Map<String, List<DictOption<Serializable>>> getDicts() {
             return dicts;
         }
 
-        public void setDicts(Map<String, List<DictOption>> dicts) {
+        public void setDicts(Map<String, List<DictOption<Serializable>>> dicts) {
             this.dicts = dicts;
         }
 

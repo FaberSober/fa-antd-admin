@@ -65,11 +65,11 @@ public class DictBiz extends BaseTreeBiz<DictMapper, Dict> {
         return lambdaQuery().eq(Dict::getCode, code).one();
     }
 
-    public List<DictOption> listEnum(String enumName) {
-        Class<? extends IEnum> clazz = null;
+    public <T extends Serializable> List<DictOption<T>> listEnum(String enumName) {
+        Class<? extends IEnum<T>> clazz = null;
 
         if (enumClassCache.containsKey(enumName)) {
-            clazz = (Class<? extends IEnum>) enumClassCache.get(enumName);
+            clazz = (Class<? extends IEnum<T>>) enumClassCache.get(enumName);
             return FaEnumUtils.toOptions(clazz);
         }
 
@@ -80,7 +80,7 @@ public class DictBiz extends BaseTreeBiz<DictMapper, Dict> {
         if (set.size() >  1) throw new BuzzException("找到多个同名的枚举【" + enumName + "】，请联系管理员");
 
         if (set.iterator().hasNext()) {
-            clazz = (Class<? extends IEnum>) set.iterator().next();
+            clazz = (Class<? extends IEnum<T>>) set.iterator().next();
             enumClassCache.put(enumName, clazz);
             return FaEnumUtils.toOptions(clazz);
         }

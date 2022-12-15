@@ -11,7 +11,7 @@ public class FaEnumUtilsTest {
 
     @Test
     public void testEnumToOptions() {
-        List<DictOption> options = FaEnumUtils.toOptions(FileSaveDriveEnum.class);
+        List<DictOption<Integer>> options = FaEnumUtils.toOptions(FileSaveDriveEnum.class);
         System.out.println(options.toString());
     }
 
