@@ -13,7 +13,7 @@ export interface MenuLayoutContextProps {
   setMenuSelMenuId: (key: string | undefined) => void, // 设置选中的菜单ID
   setMenuSelPath: (key: string, keyPath: string[]) => void, //  // 设置选中的菜单ID路径数组
   setMenuSelAppId: (id: string) => void,
-  collapse: boolean,
+  collapse: boolean | undefined,
   setCollapse: (v: boolean) => void,
   openSideMenuKeys: string[],
   setOpenSideMenuKeys: (v: string[]) => void,

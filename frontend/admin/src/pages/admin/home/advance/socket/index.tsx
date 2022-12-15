@@ -58,8 +58,8 @@ export default function index() {
       </Space>
 
       <FaFlexRestLayout>
-        {msgList.map(m => (
-          <div key={m.time} className="fa-flex-row-center">
+        {msgList.map((m, i) => (
+          <div key={`${m}-${i}`} className="fa-flex-row-center">
             <div style={{ color: '#F90', width: 90 }}>{m.time}</div>
             <div>{m.msg}</div>
           </div>

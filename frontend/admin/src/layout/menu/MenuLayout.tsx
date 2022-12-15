@@ -19,6 +19,7 @@ import UserAvatar from "./cube/UserAvatar";
 import OpenTabs from "./cube/OpenTabs";
 import styles from "./MenuLayout.module.less";
 import {SITE_INFO} from "@/configs/server.config";
+import {useLocalStorage} from "react-use";
 
 
 /**
@@ -39,7 +40,7 @@ export default function MenuLayout({children}: Fa.BaseChildProps) {
   const [menuSelAppId, setMenuSelAppId] = useState<string>(); // 当前选中顶部模块blockId
   const [menuSelMenuId, setMenuSelMenuId] = useState<string>(); // 当前选中的左侧菜单menu id
   const [menuSelPath, setMenuSelPath] = useState<string[]>([]); // 当前选中的菜单ID数组（不包含顶部block菜单）
-  const [collapse, setCollapse] = useState<boolean>(false); // 是否折叠左侧菜单
+  const [collapse, setCollapse] = useLocalStorage<boolean>('MenuLayout.collapse', false); // 是否折叠左侧菜单
   const [openSideMenuKeys, setOpenSideMenuKeys] = useState<string[]>([]); // 受控-左侧菜单打开的menu id数组
   const [openTabs, setOpenTabs] = useState<Rbac.RbacMenu[]>([]); // 受控-打开的标签页数组
 
@@ -57,6 +58,10 @@ export default function MenuLayout({children}: Fa.BaseChildProps) {
       syncOpenMenuById(menu.id, res.data)
     })
   }, [])
+
+  useEffect(() => {
+    syncOpenMenuById(menuSelMenuId, menuFullTree)
+  }, [collapse]);
 
   /**
    * 同步打开的菜单到页面布局
@@ -87,8 +92,9 @@ export default function MenuLayout({children}: Fa.BaseChildProps) {
     }
 
     // sider同步打开位置
-    setMenuSelPath(restIds.map(i => i.id))
-    setOpenSideMenuKeys(restIds.map(i => i.id))
+    const menuIds = restIds.map(i => i.id);
+    setMenuSelPath(menuIds)
+    setOpenSideMenuKeys(collapse ? [] : menuIds)
 
     // 加入已经打开的tabs
     const tab = find(openTabs, (i) => i.id === menu.id)
@@ -115,7 +121,7 @@ export default function MenuLayout({children}: Fa.BaseChildProps) {
       setMenuSelPath([])
     },
     collapse,
-    setCollapse,
+    setCollapse: setCollapse,
     openSideMenuKeys,
     setOpenSideMenuKeys,
     openTabs,
