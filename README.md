@@ -140,6 +140,8 @@
 - [ ] 系统配置-邮件配置
 - [ ] 系统配置-短信配置
 - [ ] TabBar Extra Tools
+- [ ] Dashboard
+- [ ] Code Generator
 
 
 # [CHANGELOG](./CHANGELOG.md)
