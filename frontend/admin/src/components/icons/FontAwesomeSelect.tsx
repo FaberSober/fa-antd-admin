@@ -9,9 +9,6 @@ import {CloseCircleFilled} from "@ant-design/icons";
 
 const iconSet = new Set();
 each(fas, (i:any) => {
-  if (i.iconName === 'angles-down') {
-    console.log(i)
-  }
   if (i.iconName) {
     iconSet.add(i.iconName)
   }

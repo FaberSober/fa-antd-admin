@@ -88,7 +88,11 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
       >
         <Form form={form} onFinish={onFinish}>
           <Form.Item name="parentId" label="上级菜单" rules={[{ required: true }]} {...formItemFullLayout}>
-            <RbacMenuCascader showRoot onChangeWithItem={(key, raw) => setParentItem(raw)} />
+            <RbacMenuCascader
+              showRoot
+              onChangeWithItem={(key, raw) => setParentItem(raw)}
+              disabledIds={record ? [record.id] : undefined}
+            />
           </Form.Item>
           <Form.Item name="name" label="名称" rules={[{ required: true }]} {...formItemFullLayout}>
             <Input />

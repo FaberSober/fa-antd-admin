@@ -140,3 +140,15 @@ export function dropItem(tree: Fa.TreeNode[], dragKey: any, dropKey: any, dropPo
 
   return data;
 }
+
+export function setTreeDisabled(treeList: Fa.TreeNode[]|undefined, disabledIds?: any[]) {
+  if (isNil(disabledIds) || disabledIds.length === 0) return;
+
+  if (isNil(treeList) || treeList.length === 0) return;
+  treeList.map(i => {
+    if (disabledIds.indexOf(i.id) > -1) {
+      i.disabled = true
+    }
+    setTreeDisabled(i.children, disabledIds)
+  })
+}

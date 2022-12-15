@@ -193,6 +193,7 @@ namespace Fa {
 		hasChildren: boolean;
 		children: TreeNode<T, KeyType>[] | undefined;
 		sourceData: T;
+    disabled?: boolean | undefined;
 	}
 
 	export interface TreePathVo<T = any, KeyType = number> {

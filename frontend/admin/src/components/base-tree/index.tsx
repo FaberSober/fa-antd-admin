@@ -2,7 +2,6 @@ import React, {createContext, CSSProperties, ReactNode, useContext, useEffect, u
 import {each, find, get} from 'lodash';
 import {Modal, Space, Spin, Tree} from 'antd';
 import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
-import {RES_CODE} from '@/configs/server.config';
 import {showResponse} from '@/utils/utils';
 import BaseTreeProps from './interface';
 import * as TreeUtils from './utils';

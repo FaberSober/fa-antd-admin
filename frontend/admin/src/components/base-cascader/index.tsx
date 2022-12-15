@@ -4,8 +4,9 @@ import Fa from '@/props/base/Fa';
 import {CascaderProps} from 'antd/es/cascader';
 import {Cascader} from 'antd';
 import * as BaseTreeUtils from '@/components/base-tree/utils';
-import BaseTreeProps from '../base-tree/interface';
-import {RES_CODE} from '@/configs/server.config';
+import {setTreeDisabled} from "@/components/base-tree/utils";
+
+
 
 export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderProps<T>, 'options'|'onChange'> {
   showRoot?: boolean;
@@ -22,6 +23,7 @@ export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderPro
   rootId?: KeyType;
   rootName?: string;
   extraParams?: any; // 补充副作用参数，变更会触发cascader重新拉取api tree数据
+  disabledIds?: any[]; // 禁止选择的选项IDs
 }
 
 /**
@@ -39,6 +41,7 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
   rootId = Fa.Constant.TREE_SUPER_ROOT_ID,
   rootName = Fa.Constant.TREE_SUPER_ROOT_LABEL,
   extraParams,
+  disabledIds,
   ...props
 }: BaseCascaderProps<RecordType, KeyType>) {
   const [innerValue, setInnerValue] = useState<any[]>([]);
@@ -58,6 +61,7 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
       if (showRoot) {
         treeArr = [{ ...Fa.ROOT_DEFAULT, id: rootId, name: rootName, children: res.data } as any];
       }
+      setTreeDisabled(treeArr, disabledIds)
       setOptions(treeArr)
     });
   }

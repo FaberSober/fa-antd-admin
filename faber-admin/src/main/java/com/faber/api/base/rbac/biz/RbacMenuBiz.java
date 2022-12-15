@@ -9,6 +9,8 @@ import com.faber.core.web.biz.BaseTreeBiz;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * BASE-权限表
@@ -34,6 +36,13 @@ public class RbacMenuBiz extends BaseTreeBiz<RbacMenuMapper, RbacMenu> {
     public boolean updateById(RbacMenu entity) {
         if (ObjectUtil.equal(entity.getParentId(), entity.getId())) {
             throw new BuzzException("父节点不能是自身");
+        }
+
+        // 不能选择本节点的子节点
+        List<RbacMenu> subMenus = this.getAllChildrenFromNode(entity.getId());
+        Optional<RbacMenu> optional = subMenus.stream().filter(i -> ObjectUtil.equal(i.getId(), entity.getParentId())).findFirst();
+        if (optional.isPresent()) {
+            throw new BuzzException("父节点不能选择本节点的子节点");
         }
 
         long count = lambdaQuery().eq(RbacMenu::getLinkUrl, entity.getLinkUrl()).ne(RbacMenu::getId, entity.getId()).count();
