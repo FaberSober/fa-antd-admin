@@ -81,15 +81,13 @@ export default function index() {
         draggable
       />
 
-      {open && edit && (
-        <RbacMenuModal
-          title="编辑菜单"
-          record={edit?.sourceData}
-          fetchFinish={refreshData}
-          open={open}
-          onCancel={() => setOpen(false)}
-        />
-      )}
+      <RbacMenuModal
+        title="编辑菜单"
+        record={edit?.sourceData}
+        fetchFinish={refreshData}
+        open={open}
+        onCancel={() => setOpen(false)}
+      />
     </div>
   )
 }

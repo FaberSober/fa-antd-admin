@@ -53,12 +53,7 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
 
   useEffect(() => {
     fetchTreeData();
-  }, [extraParams]);
-
-  useEffect(() => {
-    setTreeDisabled(options, disabledIds)
-    setOptions(options)
-  }, [disabledIds]);
+  }, [extraParams, disabledIds]);
 
   function fetchTreeData() {
     serviceApi.allTree({}).then((res) => {
