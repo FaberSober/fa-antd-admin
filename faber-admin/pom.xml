@@ -15,8 +15,8 @@
         <!-- 前端打包 -->
         <node.version>v16.18.1</node.version>
         <npm.version>8.19.3</npm.version>
-        <yarn.version>v1.22.19</yarn.version>
-        <frontend-maven-plugin.version>1.7.5</frontend-maven-plugin.version>
+        <pnpm.version>v7.18.2</pnpm.version>
+        <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
         <frontend-src-dir>../frontend/admin</frontend-src-dir>
     </properties>
 
@@ -85,21 +85,21 @@
                     <execution>
                         <id>install-frontend-tools-for-admin</id>
                         <goals>
-                            <goal>install-node-and-yarn</goal>
+                            <goal>install-node-and-pnpm</goal>
                         </goals>
 
                         <configuration>
                             <nodeVersion>${node.version}</nodeVersion>
-                            <yarnVersion>${yarn.version}</yarnVersion>
+                            <pnpmVersion>${pnpm.version}</pnpmVersion>
                             <workingDirectory>${frontend-src-dir}</workingDirectory>
                             <installDirectory>${project.build.directory}</installDirectory>
                         </configuration>
                     </execution>
 
                     <execution>
-                        <id>yarn-install-for-Admin</id>
+                        <id>pnpm-install-for-Admin</id>
                         <goals>
-                            <goal>yarn</goal>
+                            <goal>pnpm</goal>
                         </goals>
                         <configuration>
                             <arguments>install</arguments>
@@ -113,7 +113,7 @@
                     <execution>
                         <id>build-frontend-for-admin</id>
                         <goals>
-                            <goal>yarn</goal>
+                            <goal>pnpm</goal>
                         </goals>
                         <phase>prepare-package</phase>
                         <configuration>
