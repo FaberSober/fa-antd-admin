@@ -75,10 +75,10 @@ namespace Fa {
   }
 
   export interface Dict {
-    sort?: number;
-    text: string;
-    value: string;
+    value: any;
+    label: string;
     color?: string;
+    sort?: number;
   }
 
   export interface PageDict {

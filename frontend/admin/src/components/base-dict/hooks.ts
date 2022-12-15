@@ -37,7 +37,7 @@ export function useEnum(enumName: string, transValue?: (v: any) => any): {
 
   const options = list.map((v) => ({
     value: transValue ? transValue(v.value) : v.value,
-    label: v.text,
+    label: v.label,
   }));
 
   return { options }

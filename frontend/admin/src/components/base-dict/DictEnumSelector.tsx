@@ -15,7 +15,7 @@ export default function DictEnumSelector({ dicts, value, ...props }: IProps) {
 
   const options = dicts.map((v) => ({
     value: v.value,
-    label: v.text,
+    label: v.label,
   }));
 
   return (

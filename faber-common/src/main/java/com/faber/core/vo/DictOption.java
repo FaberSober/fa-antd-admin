@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DictOption<T> {
     private T value;
-    // TODO 统一命名为label
-    private String text;
+    // TO-DO 统一命名为label
+    private String label;
     private String color;
     private int sort;
 
     public DictOption(T value, String text) {
         this.value = value;
-        this.text = text;
+        this.label = text;
     }
 }
