@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {get} from 'lodash';
 import {Form, Input, Select} from 'antd';
 import DragModal from '@/components/modal/DragModal';
@@ -72,6 +72,10 @@ export default function RbacMenuModal({ children, title, record, fetchFinish, ..
     setOpen(true)
     form.setFieldsValue(getInitialValues())
   }
+
+  useEffect(() => {
+    form.setFieldsValue(getInitialValues())
+  }, [record]);
 
   const loading = loadingEffect[modelService.getUrl('save')] || loadingEffect[modelService.getUrl('update')];
   return (

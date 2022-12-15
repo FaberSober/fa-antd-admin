@@ -5,6 +5,7 @@ import com.faber.api.base.rbac.mapper.RbacMenuMapper;
 import com.faber.api.base.rbac.entity.RbacMenu;
 import com.faber.core.config.redis.annotation.FaCacheClear;
 import com.faber.core.exception.BuzzException;
+import com.faber.core.vo.tree.TreePosChangeVo;
 import com.faber.core.web.biz.BaseTreeBiz;
 import org.springframework.stereotype.Service;
 
@@ -61,6 +62,12 @@ public class RbacMenuBiz extends BaseTreeBiz<RbacMenuMapper, RbacMenu> {
     @Override
     public void moveDown(Serializable id) {
         super.moveDown(id);
+    }
+
+    @FaCacheClear(pre = "rbac:")
+    @Override
+    public void changePos(List<TreePosChangeVo> list) {
+        super.changePos(list);
     }
 
     @FaCacheClear(pre = "rbac:")

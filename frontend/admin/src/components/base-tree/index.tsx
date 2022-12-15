@@ -11,6 +11,7 @@ import {FaHref} from "@/components/decorator";
 import styles from './index.module.less';
 import {Item, ItemParams, Menu, useContextMenu} from "react-contexify";
 import 'react-contexify/ReactContexify.css';
+import useBus from "use-bus";
 
 
 export interface BaseTreeContextProps {
@@ -93,6 +94,14 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
   useEffect(() => {
     fetchCourtTree();
   }, [renderCount, extraEffectArgs]);
+
+  useBus(
+    ['@@api/BASE_TREE_REFRESH'],
+    ({ type, payload }) => {
+      fetchCourtTree();
+    },
+    [extraEffectArgs],
+  )
 
   // ------------------------------------------ context menu ------------------------------------------
   const { show } = useContextMenu({

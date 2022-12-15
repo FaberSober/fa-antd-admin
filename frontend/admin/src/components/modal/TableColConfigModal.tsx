@@ -1,5 +1,5 @@
 import React, {ReactNode, useContext, useEffect, useState} from 'react';
-import {find, sortBy} from 'lodash';
+import {find, isNil, sortBy} from 'lodash';
 import {Button, Checkbox, Drawer, Input} from 'antd';
 import {showResponse} from '@/utils/utils';
 import {ModalProps} from 'antd/es/modal';
@@ -51,7 +51,7 @@ function TableColConfigModal<T>({ columns = [], biz, onConfigChange, children, .
   /** 获取服务端配置 */
   function fetchRemoteConfig() {
     configApi.getOne(biz, FaEnums.ConfigType.TABLE_COLUMNS).then(res => {
-      if (res.data.length === 0) return;
+      if (isNil(res.data) || res.data.length === 0) return;
       const config = res.data;
       if (onConfigChange) {
         onConfigChange(config.data);
