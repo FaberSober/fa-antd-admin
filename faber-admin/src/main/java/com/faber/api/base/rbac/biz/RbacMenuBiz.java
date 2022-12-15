@@ -1,10 +1,12 @@
 package com.faber.api.base.rbac.biz;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.alicp.jetcache.anno.Cached;
 import com.faber.api.base.rbac.mapper.RbacMenuMapper;
 import com.faber.api.base.rbac.entity.RbacMenu;
 import com.faber.core.config.redis.annotation.FaCacheClear;
 import com.faber.core.exception.BuzzException;
+import com.faber.core.vo.tree.TreeNode;
 import com.faber.core.vo.tree.TreePosChangeVo;
 import com.faber.core.web.biz.BaseTreeBiz;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,12 @@ import java.util.Optional;
  */
 @Service
 public class RbacMenuBiz extends BaseTreeBiz<RbacMenuMapper, RbacMenu> {
+
+    @Cached(name="rbac:allMenuTree", key="new String('')", expire = 3600)
+    @Override
+    public List<TreeNode<RbacMenu>> allTree() {
+        return super.allTree();
+    }
 
     @FaCacheClear(pre = "rbac:")
     @Override
