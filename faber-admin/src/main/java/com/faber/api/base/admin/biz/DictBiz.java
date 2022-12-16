@@ -8,7 +8,7 @@ import com.faber.api.base.admin.mapper.DictMapper;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.exception.NoDataException;
 import com.faber.core.utils.FaEnumUtils;
-import com.faber.core.vo.DictOption;
+import com.faber.core.vo.utils.DictOption;
 import com.faber.core.web.biz.BaseTreeBiz;
 import org.springframework.stereotype.Service;
 

@@ -2,9 +2,7 @@ package com.faber.core.service;
 
 import com.alicp.jetcache.anno.Cached;
 import com.dtflys.forest.annotation.Get;
-import com.faber.core.vo.IpAddr;
-
-import java.util.Map;
+import com.faber.core.vo.utils.IpAddr;
 
 /**
  * @author xupengfei

@@ -1,4 +1,4 @@
-package com.faber.core.vo;
+package com.faber.core.vo.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DictOption<T> {
     private T value;
-    // TO-DO 统一命名为label
     private String label;
     private String color;
     private int sort;

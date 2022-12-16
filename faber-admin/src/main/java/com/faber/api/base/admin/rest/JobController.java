@@ -4,7 +4,7 @@ import cn.hutool.core.map.MapUtil;
 import com.faber.api.base.admin.biz.JobBiz;
 import com.faber.api.base.admin.entity.Job;
 import com.faber.core.config.annotation.IgnoreUserToken;
-import com.faber.core.vo.Option;
+import com.faber.core.vo.utils.DictOption;
 import com.faber.core.vo.msg.Ret;
 import com.faber.core.web.rest.BaseController;
 import org.springframework.stereotype.Controller;
@@ -69,8 +69,8 @@ public class JobController extends BaseController<JobBiz, Job, Integer> {
      */
     @GetMapping("/getAllJobs")
     @ResponseBody
-    public Ret<List<Option>> getAllJobs() {
-        List<Option> list = baseBiz.getAllJobs();
+    public Ret<List<DictOption<String>>> getAllJobs() {
+        List<DictOption<String>> list = baseBiz.getAllJobs();
         return ok(list);
     }
 

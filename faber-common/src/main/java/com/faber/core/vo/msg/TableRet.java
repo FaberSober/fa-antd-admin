@@ -1,7 +1,7 @@
 package com.faber.core.vo.msg;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.faber.core.vo.DictOption;
+import com.faber.core.vo.utils.DictOption;
 import com.github.pagehelper.PageInfo;
 
 import java.io.Serializable;

@@ -2,7 +2,7 @@ package com.faber.api.base.admin.rest;
 
 import com.faber.api.base.admin.biz.DictBiz;
 import com.faber.api.base.admin.entity.Dict;
-import com.faber.core.vo.DictOption;
+import com.faber.core.vo.utils.DictOption;
 import com.faber.core.vo.msg.Ret;
 import com.faber.core.web.rest.BaseTreeController;
 import org.springframework.stereotype.Controller;

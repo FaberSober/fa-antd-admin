@@ -3,7 +3,7 @@ package com.faber.core.utils;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.faber.core.service.IpService;
-import com.faber.core.vo.IpAddr;
+import com.faber.core.vo.utils.IpAddr;
 import lombok.extern.java.Log;
 
 import javax.servlet.http.HttpServletRequest;

@@ -12,7 +12,7 @@ import com.faber.api.base.rbac.vo.query.RbacUserRoleQueryVo;
 import com.faber.core.config.redis.annotation.FaCacheClear;
 import com.faber.core.constant.CommonConstants;
 import com.faber.core.exception.BuzzException;
-import com.faber.core.vo.BasePageQuery;
+import com.faber.core.vo.query.BasePageQuery;
 import com.faber.core.vo.msg.TableRet;
 import com.faber.core.vo.tree.TreeNode;
 import com.faber.core.web.biz.BaseBiz;

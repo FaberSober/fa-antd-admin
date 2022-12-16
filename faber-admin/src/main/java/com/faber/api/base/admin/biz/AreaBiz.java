@@ -7,7 +7,7 @@ import com.faber.api.base.admin.vo.ret.AreaPathVo;
 import com.faber.api.base.admin.vo.ret.AreaTree;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.utils.IpUtils;
-import com.faber.core.vo.IpAddr;
+import com.faber.core.vo.utils.IpAddr;
 import com.faber.core.web.biz.BaseBiz;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;

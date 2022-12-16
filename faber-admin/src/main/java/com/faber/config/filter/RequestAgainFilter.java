@@ -8,7 +8,7 @@ import com.faber.core.config.filter.wrapper.BodyHttpServletRequestWrapper;
 import com.faber.core.config.filter.wrapper.BodyHttpServletResponseWrapper;
 import com.faber.core.context.BaseContextHandler;
 import com.faber.core.utils.IpUtils;
-import com.faber.core.vo.IpAddr;
+import com.faber.core.vo.utils.IpAddr;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;

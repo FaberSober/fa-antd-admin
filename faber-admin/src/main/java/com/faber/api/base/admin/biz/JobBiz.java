@@ -8,7 +8,7 @@ import com.faber.config.quartz.JobTask;
 import com.faber.core.annotation.FaJob;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.exception.NoDataException;
-import com.faber.core.vo.Option;
+import com.faber.core.vo.utils.DictOption;
 import com.faber.core.web.biz.BaseBiz;
 import org.quartz.CronExpression;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,10 +83,10 @@ public class JobBiz extends BaseBiz<JobMapper, Job> {
         return lambdaQuery().eq(Job::getStatus, true).list();
     }
 
-    public List<Option> getAllJobs() {
+    public List<DictOption<String>> getAllJobs() {
         return ClassUtil.scanPackageByAnnotation("com.faber", FaJob.class)
                 .stream()
-                .map(clazz -> new Option(clazz.getName(), clazz.getAnnotation(FaJob.class).value() + "_" + clazz.getName()))
+                .map(clazz -> new DictOption<String>(clazz.getName(), clazz.getAnnotation(FaJob.class).value() + "_" + clazz.getName()))
                 .collect(Collectors.toList());
     }
 

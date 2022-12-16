@@ -8,7 +8,7 @@ import com.faber.core.annotation.SqlEquals;
 import com.faber.core.annotation.SqlSearch;
 import com.faber.core.utils.FaMapUtils;
 import com.faber.core.utils.SqlUtils;
-import com.faber.core.vo.Sorter;
+import com.faber.core.vo.query.Sorter;
 import com.faber.core.vo.query.Condition;
 import com.faber.core.vo.query.ConditionGroup;
 import com.faber.core.vo.query.QueryParams;

@@ -10,7 +10,7 @@ import com.faber.config.utils.user.JwtTokenUtil;
 import com.faber.core.context.BaseContextHandler;
 import com.faber.core.utils.IpUtils;
 import com.faber.core.utils.RequestUtils;
-import com.faber.core.vo.IpAddr;
+import com.faber.core.vo.utils.IpAddr;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

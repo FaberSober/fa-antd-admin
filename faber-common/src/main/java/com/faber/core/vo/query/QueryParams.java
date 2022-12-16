@@ -1,7 +1,6 @@
 package com.faber.core.vo.query;
 
 import cn.hutool.core.util.StrUtil;
-import com.faber.core.vo.Sorter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

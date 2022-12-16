@@ -2,7 +2,7 @@ package com.faber.core.utils;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.annotation.IEnum;
-import com.faber.core.vo.DictOption;
+import com.faber.core.vo.utils.DictOption;
 
 import java.io.Serializable;
 import java.util.Arrays;

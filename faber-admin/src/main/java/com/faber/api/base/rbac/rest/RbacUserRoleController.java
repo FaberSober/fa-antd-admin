@@ -4,7 +4,7 @@ import com.faber.api.base.rbac.biz.RbacUserRoleBiz;
 import com.faber.api.base.rbac.vo.query.RbacUserRoleQueryVo;
 import com.faber.api.base.rbac.entity.RbacUserRole;
 import com.faber.core.annotation.LogNoRet;
-import com.faber.core.vo.BasePageQuery;
+import com.faber.core.vo.query.BasePageQuery;
 import com.faber.core.vo.msg.Ret;
 import com.faber.core.vo.msg.TableRet;
 import com.faber.core.web.rest.BaseController;
