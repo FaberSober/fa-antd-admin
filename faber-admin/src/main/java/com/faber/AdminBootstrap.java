@@ -2,13 +2,13 @@ package com.faber;
 
 import cn.easyes.starter.register.EsMapperScan;
 import com.alicp.jetcache.anno.config.EnableMethodCache;
+import com.dtflys.forest.springboot.annotation.ForestScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.ServletComponentScan;
-import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -23,6 +23,7 @@ import java.util.Set;
 @ServletComponentScan
 @EnableMethodCache(basePackages = "com.faber")
 @EsMapperScan("com.faber.api.**.esmapper")
+@ForestScan("com.faber")
 public class AdminBootstrap {
 
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package com.faber.common.util;
+package com.faber.core.util;
 
 import com.faber.core.utils.IpUtils;
 import org.junit.jupiter.api.Test;

@@ -183,6 +183,13 @@
             <version>5.6.1</version>
         </dependency>
 
+        <!-- 声明式HTTP客户端框架: https://forest.dtflyx.com/ -->
+        <dependency>
+            <groupId>com.dtflys.forest</groupId>
+            <artifactId>forest-spring-boot-starter</artifactId>
+            <version>1.5.28</version>
+        </dependency>
+
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>

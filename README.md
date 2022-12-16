@@ -41,6 +41,7 @@
 | [jetcache](https://github.com/alibaba/jetcache/blob/master/introduce_CN.md) | 通用缓存访问框架 | https://github.com/alibaba/jetcache/ |
 | ~~Redis Manager~~ | Redis在线管理 | https://github.com/ngbdf/redis-manager/ |
 | phpRedisAdmin | Redis在线管理 | https://github.com/erikdubbelboer/phpRedisAdmin/ |
+| Forest | 声明式HTTP客户端框架 | https://forest.dtflyx.com/ |
 
 ## 前端
 | 插件 | 说明 | 官网 |
@@ -142,6 +143,7 @@
 - [ ] TabBar Extra Tools
 - [ ] Dashboard
 - [ ] Code Generator
+- [ ] Http Utils
 
 
 # [CHANGELOG](./CHANGELOG.md)

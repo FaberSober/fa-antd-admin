@@ -130,6 +130,11 @@ management:
       exposure:
         include: '*'
 
+# 声明式HTTP客户端框架
+forest:
+  backend: okhttp3 # 配置后端HTTP API为 okhttp3
+#  variables:
+#    api: https://xxx.com/api      # pconline ip地址查询
 
 # 一些默认配置
 fa:

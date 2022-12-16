@@ -1,4 +1,4 @@
-package com.faber.common.redis;
+package com.faber.core.redis;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.faber.common.util;
+package com.faber.core.util;
 
 import com.faber.core.enums.FileSaveDriveEnum;
 import com.faber.core.utils.FaEnumUtils;

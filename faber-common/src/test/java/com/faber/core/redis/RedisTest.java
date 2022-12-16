@@ -1,4 +1,4 @@
-package com.faber.common.redis;
+package com.faber.core.redis;
 
 import cn.hutool.core.thread.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
