@@ -4,6 +4,7 @@ import com.faber.api.base.admin.biz.AreaBiz;
 import com.faber.api.base.admin.entity.Area;
 import com.faber.api.base.admin.vo.ret.AreaPathVo;
 import com.faber.core.utils.IpUtils;
+import com.faber.core.vo.IpAddr;
 import com.faber.core.vo.msg.Ret;
 import com.faber.core.web.rest.BaseController;
 import org.springframework.stereotype.Controller;
@@ -48,8 +49,8 @@ public class AreaController extends BaseController<AreaBiz, Area, Integer> {
      */
     @RequestMapping(value = "/locIp", method = RequestMethod.GET)
     @ResponseBody
-    public Ret<IpUtils.IpAddr> locIp() {
-        IpUtils.IpAddr data = baseBiz.locIp();
+    public Ret<IpAddr> locIp() {
+        IpAddr data = baseBiz.locIp();
         return ok(data);
     }
 

@@ -10,6 +10,7 @@ import com.faber.config.utils.user.JwtTokenUtil;
 import com.faber.core.context.BaseContextHandler;
 import com.faber.core.utils.IpUtils;
 import com.faber.core.utils.RequestUtils;
+import com.faber.core.vo.IpAddr;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -54,7 +55,7 @@ public class AuthBiz {
         logLogin.setMobile(ua.isMobile());
 
         // 获取IP地址
-        IpUtils.IpAddr ipAddr = IpUtils.getIpAddrByApi(BaseContextHandler.getIp());
+        IpAddr ipAddr = IpUtils.getIpAddrByApi(BaseContextHandler.getIp());
         logLogin.setPro(ipAddr.getPro());
         logLogin.setCity(ipAddr.getCity());
         logLogin.setAddr(ipAddr.getAddr());

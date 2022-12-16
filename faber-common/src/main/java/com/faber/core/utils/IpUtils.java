@@ -1,23 +1,14 @@
 package com.faber.core.utils;
 
 
-import cn.hutool.cache.CacheUtil;
-import cn.hutool.cache.impl.TimedCache;
-import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import cn.hutool.extra.spring.SpringUtil;
+import com.faber.core.service.IpService;
+import com.faber.core.vo.IpAddr;
 import lombok.extern.java.Log;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.List;
 
 /**
  * Ip帮助类
@@ -26,11 +17,6 @@ import java.util.List;
  */
 @Log
 public class IpUtils {
-
-    private static final List<String> LOCAL_IP = ListUtil.toList("127.0.0.1", "localhost");
-    private static final String API_IP_ADDR = "https://whois.pconline.com.cn/ipJson.jsp?ip=%1$s&json=true";
-
-    private static final TimedCache<String, IpAddr> IP_ADDR_CACHE = CacheUtil.newTimedCache(24 * 60 * 60 * 1000);
 
     /**
      * 获取HttpServletRequest访问ip
@@ -83,35 +69,8 @@ public class IpUtils {
      * @return
      */
     public static IpAddr getIpAddrByApi(String ip) {
-        if (StrUtil.isEmpty(ip)) {
-            return new IpAddr(ip, "", "", "");
-        }
-        if (LOCAL_IP.contains(ip)) {
-            return new IpAddr(ip, "本地", "本地", "本地");
-        }
-
-        if (IP_ADDR_CACHE.get(ip) != null) {
-            return IP_ADDR_CACHE.get(ip);
-        }
-
-        // api get ip addr
-        String ret = HttpUtil.get(String.format(API_IP_ADDR, ip));
-        JSONObject retJson = JSONUtil.parseObj(ret);
-        IpAddr ipAddr = new IpAddr(ip, retJson.getStr("pro"), retJson.getStr("city"), retJson.getStr("addr"));
-
-        IP_ADDR_CACHE.put(ip, ipAddr);
-        return ipAddr;
-    }
-
-    @Data
-    @ToString
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class IpAddr {
-        private String ip;
-        private String pro;
-        private String city;
-        private String addr;
+        IpService ipService = SpringUtil.getBean(IpService.class);
+        return ipService.ipJson(ip);
     }
 
 }

@@ -7,6 +7,7 @@ import com.faber.api.base.admin.vo.ret.AreaPathVo;
 import com.faber.api.base.admin.vo.ret.AreaTree;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.utils.IpUtils;
+import com.faber.core.vo.IpAddr;
 import com.faber.core.web.biz.BaseBiz;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -198,7 +199,7 @@ public class AreaBiz extends BaseBiz<AreaMapper, Area> {
         return list.get(0);
     }
 
-    public IpUtils.IpAddr locIp() {
+    public IpAddr locIp() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String ip = IpUtils.getRequestIp(request);
         return IpUtils.getIpAddrByApi(ip);

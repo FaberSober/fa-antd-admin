@@ -3,11 +3,12 @@ package com.faber.config.filter;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.faber.api.base.admin.biz.LogApiBiz;
+import com.faber.api.base.admin.entity.LogApi;
 import com.faber.core.config.filter.wrapper.BodyHttpServletRequestWrapper;
 import com.faber.core.config.filter.wrapper.BodyHttpServletResponseWrapper;
-import com.faber.api.base.admin.entity.LogApi;
 import com.faber.core.context.BaseContextHandler;
 import com.faber.core.utils.IpUtils;
+import com.faber.core.vo.IpAddr;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +90,7 @@ public class RequestAgainFilter implements Filter {
             log.setRetStatus(responseWrapper.getStatus());
 
             // 获取IP地址
-            IpUtils.IpAddr ipAddr = IpUtils.getIpAddrByApi(log.getCrtHost());
+            IpAddr ipAddr = IpUtils.getIpAddrByApi(log.getCrtHost());
             log.setPro(ipAddr.getPro());
             log.setCity(ipAddr.getCity());
             log.setAddr(ipAddr.getAddr());
