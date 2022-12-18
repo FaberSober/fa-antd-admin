@@ -1,4 +1,4 @@
-declare module 'FaEnums' {
+declare namespace FaEnums {
 
   // ------------------------------------ BASE ------------------------------------
   export enum SexEnum {

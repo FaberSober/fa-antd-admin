@@ -4,7 +4,7 @@ import {message} from 'antd';
 import {TOKEN_KEY} from '@/configs/server.config';
 import {getToken} from './cache';
 import {dispatch} from 'use-bus'
-import * as Fa from "@/props/base/Fa";
+import * as Fa from "@/../../types/base/Fa";
 
 // Set config defaults when creating the instance
 const instance = axios.create({

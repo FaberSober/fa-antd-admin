@@ -5,7 +5,7 @@ import {Checkbox, Divider, Input, message} from 'antd';
 import DragModal from '@/components/modal/DragModal';
 import ConditionQuery from '@/components/condition-query/interface';
 import configService from '@/services/admin/configScene';
-import * as Admin from '@/props/admin';
+import * as Admin from '../../../types/admin';
 import {showResponse} from '@/utils/utils';
 import {FaberTable} from '@/components/base-table';
 import CondGroupShow from "@/components/condition-query/CondGroupShow";

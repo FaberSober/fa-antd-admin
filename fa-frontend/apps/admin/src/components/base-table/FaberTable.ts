@@ -1,7 +1,7 @@
 import {ReactNode} from 'react';
 import ConditionQuery from '@/components/condition-query/interface';
 import {ColumnProps, TableProps} from "antd/es/table";
-import * as Fa from '@/props/base/Fa';
+import * as Fa from '@/../../../types/base/Fa';
 
 /**
  * 通用业务表格配置

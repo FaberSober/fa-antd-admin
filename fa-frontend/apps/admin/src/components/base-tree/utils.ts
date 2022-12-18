@@ -1,5 +1,5 @@
 import {cloneDeep, get, isNil, trim} from 'lodash';
-import * as Fa from '@/props/base/Fa';
+import * as Fa from '@/../../../types/base/Fa';
 import BaseTreeProps from './interface';
 
 export function parseNode<T = any>(nodeList: Fa.TreeNode<T, any>[] | undefined): BaseTreeProps.TreeNode<T>[] | undefined {

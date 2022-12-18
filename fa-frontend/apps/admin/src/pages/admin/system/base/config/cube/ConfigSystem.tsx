@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import {Button, Col, Form, Input, Row, Space} from "antd";
 import {UploadImgLocal} from "@/components/base-uploader";
-import * as Admin from "@/props/admin";
+import * as Admin from "../../../../../../../types/admin";
 import configSysApi from '@/services/admin/configSys'
 import {SaveOutlined} from "@ant-design/icons";
 import {showResponse} from "@/utils/utils";

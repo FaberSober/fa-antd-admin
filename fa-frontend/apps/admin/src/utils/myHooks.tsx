@@ -7,7 +7,7 @@ import ConditionQuery from "@/components/condition-query/interface";
 import {showResponse} from '@/utils/utils';
 import {useIntl} from 'react-intl';
 import queryString from 'querystring';
-import * as Fa from "@/props/base/Fa";
+import * as Fa from "@/../../types/base/Fa";
 
 
 export function useClientRect() {

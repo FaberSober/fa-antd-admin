@@ -1,13 +1,13 @@
 import React, {CSSProperties, useContext, useEffect, useState} from 'react';
 import msgService from '@/services/admin/msg';
-import * as Admin from '@/props/admin';
+import * as Admin from '../../../../types/admin';
 import {RES_CODE} from '@/configs/server.config';
 import {Avatar, Badge, List, Popover} from 'antd';
 import {get} from 'lodash';
 import {BellOutlined} from '@ant-design/icons';
 import {Link} from "react-router-dom";
 import {UserLayoutContext} from "@/layout/UserLayout";
-import * as FaEnums from "@/props/base/FaEnums";
+import * as FaEnums from "@/../../../../types/base/FaEnums";
 
 function MsgList() {
   const { unreadCount, refreshUnreadCount } = useContext(UserLayoutContext);

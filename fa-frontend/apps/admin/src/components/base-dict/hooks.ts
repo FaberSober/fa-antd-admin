@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
-import * as Admin from "@/props/admin";
+import * as Admin from "../../../types/admin";
 import dictApi from "@/services/admin/dict";
-import * as Fa from "@/props/base/Fa";
+import * as Fa from "@/../../../types/base/Fa";
 import dictApi from "@/services/admin/dict";
 
 

@@ -3,7 +3,7 @@ import {DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined} from '@ant
 import {Button, Card, Form, Image, Input, Space} from 'antd';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import modelService from '@/services/admin/notice';
-import * as Admin from '@/props/admin';
+import * as Admin from '../../../../../../types/admin';
 import NoticeModal from './modal/NoticeModal';
 import {DictDataSelector} from '@/components/base-dict';
 import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';

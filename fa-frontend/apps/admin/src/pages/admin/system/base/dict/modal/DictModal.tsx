@@ -4,7 +4,7 @@ import {Form, Input} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
 import {showResponse, formItemFullLayout} from '@/utils/utils';
 import modelService from '@/services/admin/dict';
-import * as Admin from '@/props/admin';
+import * as Admin from '../../../../../../../types/admin';
 import DictCascade from "../helper/DictCascade";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 

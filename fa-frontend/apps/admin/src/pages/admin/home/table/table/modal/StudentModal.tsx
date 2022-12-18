@@ -8,8 +8,8 @@ import BaseBoolRadio from "@/components/base-dict/BaseBoolRadio";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import { getDateStr000, getInitialKeyTimeValue, showResponse, formItemFullLayout } from '@/utils/utils';
 import api from '@/services/demo/student';
-import * as Fa from '@/props/base/Fa';
-import * as Demo from '@/props/demo';
+import * as Fa from '@/../../../../../../../types/base/Fa';
+import * as Demo from '../../../../../../../types/demo';
 import {DictEnumApiSelector} from "@/components/base-dict";
 
 

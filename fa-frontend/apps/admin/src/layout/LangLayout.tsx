@@ -10,7 +10,7 @@ import {IntlProvider} from 'react-intl';
 import zhCNMessage from '@/lang/zh_CN';
 import enCNMessage from '@/lang/en_US';
 import {SmileOutlined} from '@ant-design/icons';
-import * as Fa from "@/props/base/Fa";
+import * as Fa from "@/../../types/base/Fa";
 
 function handleAntdMessages(lang: string) {
   switch (lang) {

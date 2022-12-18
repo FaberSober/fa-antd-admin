@@ -1,9 +1,9 @@
-import * as Fa from '@/props/base/Fa';
-import * as FaEnums from "@/props/base/FaEnums";
+// import * as Fa from './base/Fa';
+// import * as FaEnums from "./base/FaEnums";
 import * as ConditionQuery from "@/components/condition-query/interface";
 
 
-declare module 'Admin' {
+declare namespace Admin {
 	// -------------------------------------------- 系统-配置表 --------------------------------------------
 	/**
 	 * 配置-查询场景

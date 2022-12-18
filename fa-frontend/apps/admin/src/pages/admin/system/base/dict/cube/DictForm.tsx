@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import * as Admin from "@/props/admin";
+import * as Admin from "../../../../../../../types/admin";
 import {Button, Form, Input, Popconfirm} from "antd";
 import {FaHref} from "@/components/decorator";
 

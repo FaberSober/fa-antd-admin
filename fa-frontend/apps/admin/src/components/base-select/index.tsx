@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {get} from 'lodash';
 import {Select, SelectProps} from 'antd';
 import {RES_CODE} from '@/configs/server.config';
-import * as Fa from "@/props/base/Fa";
+import * as Fa from "@/../../../types/base/Fa";
 
 export interface BaseSelectProps<T> extends SelectProps<T> {
   labelKey?: string | ((data: T) => any);

@@ -1,7 +1,7 @@
 import React from 'react';
 import BaseCascader, {BaseCascaderProps} from '@/components/base-cascader';
 import api from '@/services/rbac/rbacMenu';
-import * as Rbac from '@/props/rbac';
+import * as Rbac from '../../../../../../../types/rbac';
 
 export interface RbacMenuCascaderProps extends Omit<BaseCascaderProps<Rbac.RbacMenu, string>, 'serviceApi'> {}
 

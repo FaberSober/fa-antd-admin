@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Alert} from 'antd';
 import noticeService from '@/services/admin/notice';
-import * as Admin from '@/props/admin';
+import * as Admin from '../../../types/admin';
 import {RES_CODE} from '@/configs/server.config';
-import * as FaEnums from "@/props/base/FaEnums";
+import * as FaEnums from "@/../../../types/base/FaEnums";
 
 /**
  * 全局公告-强提醒-顶部固定展示

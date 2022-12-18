@@ -2,7 +2,7 @@ import React, {useContext, useEffect} from 'react';
 import {CheckOutlined, SearchOutlined} from '@ant-design/icons';
 import {Badge, Button, Form, Input, Space} from 'antd';
 import modelService from '@/services/admin/msg';
-import * as Admin from '@/props/admin';
+import * as Admin from '../../../../../../types/admin';
 import {clearForm, useTableQueryParams} from '@/utils/myHooks';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import {UserLayoutContext} from "@/layout/UserLayout";

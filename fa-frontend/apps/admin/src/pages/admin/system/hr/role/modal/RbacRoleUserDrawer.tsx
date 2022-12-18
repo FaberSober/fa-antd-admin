@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Drawer} from 'antd';
-import * as Rbac from '@/props/rbac';
+import * as Rbac from '../../../../../../../types/rbac';
 import {DragModalProps} from "@/components/modal/DragModal";
 import {FaFlexRestLayout} from "@/components/base-layout";
 import RbacUserRoleList from "../list/RbacUserRoleList";

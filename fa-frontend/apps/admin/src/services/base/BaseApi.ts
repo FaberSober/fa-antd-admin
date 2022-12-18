@@ -1,4 +1,4 @@
-import * as Fa from '@/props/base/Fa';
+import * as Fa from '@/../../../types/base/Fa';
 import BaseZeroApi from './BaseZeroApi';
 import {trimObj} from "@/utils/utils";
 

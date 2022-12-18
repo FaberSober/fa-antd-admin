@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {isNil} from 'lodash';
-import * as Fa from '@/props/base/Fa';
+import * as Fa from '@/../../../types/base/Fa';
 import {CascaderProps} from 'antd/es/cascader';
 import {Cascader} from 'antd';
 import * as BaseTreeUtils from '@/components/base-tree/utils';

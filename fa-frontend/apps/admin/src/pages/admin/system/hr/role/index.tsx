@@ -11,7 +11,7 @@ import {Button, Card, Form, Input, Space} from 'antd';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
 import modelService from '@/services/rbac/rbacRole';
-import * as Rbac from '@/props/rbac';
+import * as Rbac from '../../../../../../types/rbac';
 import RbacRoleModal from './modal/RbacRoleModal';
 import {AuthDelBtn, FaHref} from "@/components/decorator";
 import RbacRoleMenuDrawer from "./modal/RbacRoleMenuDrawer";

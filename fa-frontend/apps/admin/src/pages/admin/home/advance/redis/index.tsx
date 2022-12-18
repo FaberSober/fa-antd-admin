@@ -6,7 +6,7 @@ import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import {formItemFullLayout} from "@/utils/utils";
 import {FaFlexRestLayout} from "@/components/base-layout";
 import {UserLayoutContext} from "@/layout/UserLayout";
-import * as Demo from "@/props/demo";
+import * as Demo from "../../../../../../types/demo";
 
 
 /**

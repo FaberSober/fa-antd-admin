@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Button, Card, Form, Input} from 'antd';
-import * as Admin from '@/props/admin';
+import * as Admin from '../../../../../../types/admin';
 import userService from '@/services/admin/user';
 import {PageLoading} from '@/components/antd-pro';
 import {showResponse} from '@/utils/utils';

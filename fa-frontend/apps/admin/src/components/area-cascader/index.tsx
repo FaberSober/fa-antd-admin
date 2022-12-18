@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {cloneDeep, isNil, remove} from 'lodash';
 import {Cascader, message} from 'antd';
-import * as Fa from '@/props/base/Fa';
-import * as Admin from '@/props/admin';
+import * as Fa from '@/../../../types/base/Fa';
+import * as Admin from '../../../types/admin';
 import areaService from '@/services/admin/area';
 import {RES_CODE} from '@/configs/server.config';
 import {BaseCascaderProps} from '@/components/base-cascader';

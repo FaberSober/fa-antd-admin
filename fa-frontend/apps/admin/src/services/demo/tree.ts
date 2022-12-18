@@ -1,6 +1,6 @@
 import {GATE_APP} from '@/configs/server.config';
 import {BaseTreeApi} from '@/services/base';
-import * as Demo from "@/props/demo";
+import * as Demo from "../../../types/demo";
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */
 const serviceModule = 'tree';

@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "ncu": "ncu -u",
-    "dev": "concurrently \"tsup src/index.tsx --format esm,cjs --dts --external react --watch\" \"tailwindcss -i ./src/styles.css -o ./dist/styles.css --watch\"",
+    "dev": "concurrently \"tsup src/index.ts --format esm,cjs --dts --external react --watch\" \"tailwindcss -i ./src/styles.css -o ./dist/styles.css --watch\"",
     "lint": "eslint \"**/*.{ts,tsx}\""
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 import {createContext} from 'react';
-import * as Fa from "@/props/base/Fa";
-import * as Rbac from "@/props/rbac";
+import * as Fa from "@/../../../../types/base/Fa";
+import * as Rbac from "../../../../types/rbac";
 
 
 export interface MenuLayoutContextProps {

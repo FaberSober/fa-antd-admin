@@ -1,17 +1,17 @@
 import React, {useContext, useEffect, useState} from 'react';
-import * as Fa from "@/props/base/Fa";
+import * as Fa from "@/../../../../../../types/base/Fa";
 import {Button, Modal, Space, Table} from "antd";
 import {ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {ColumnsType} from "antd/es/table";
 import {FaFlexRestLayout} from "@/components/base-layout";
-import * as FaEnums from "@/props/base/FaEnums";
+import * as FaEnums from "@/../../../../../../types/base/FaEnums";
 import {useDelete} from "@/utils/myHooks";
 import {showResponse} from "@/utils/utils";
 import {AuthDelBtn, FaHref} from '@/components/decorator'
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import RbacMenuModal from "./modal/RbacMenuModal";
 import rbacMenuApi from '@/services/rbac/rbacMenu'
-import * as Rbac from '@/props/rbac';
+import * as Rbac from '../../../../../../types/rbac';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 

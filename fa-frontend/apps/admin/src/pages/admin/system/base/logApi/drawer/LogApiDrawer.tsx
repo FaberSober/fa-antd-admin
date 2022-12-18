@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Descriptions, Drawer} from 'antd';
 import {DragModalProps} from '@/components/modal/DragModal';
-import * as Admin from '@/props/admin';
+import * as Admin from '../../../../../../../types/admin';
 import ReactJson from 'react-json-view'
 import {isJson} from "@/utils/utils";
 

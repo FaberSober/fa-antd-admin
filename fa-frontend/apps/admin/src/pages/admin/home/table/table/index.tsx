@@ -5,7 +5,7 @@ import {AuthDelBtn} from "@/components/decorator";
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
 import api from '@/services/demo/student';
-import * as Demo from '@/props/demo';
+import * as Demo from '../../../../../../types/demo';
 import StudentModal from './modal/StudentModal';
 
 const serviceName = '学生表-表格查询示例';

@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Button, Card, Col, Descriptions, Row, Space} from "antd";
 import {filesize} from "filesize";
-import * as Admin from "@/props/admin";
+import * as Admin from "../../../../../types/admin";
 import systemApi from "@/services/admin/system"
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import {ReloadOutlined} from "@ant-design/icons";

@@ -12,7 +12,7 @@ import {Badge, Button, Form, Input, Popconfirm, Space} from 'antd';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import {showResponse} from '@/utils/utils';
 import modelService from '@/services/admin/job';
-import * as Admin from '@/props/admin';
+import * as Admin from '../../../../../../types/admin';
 import JobModal from './modal/JobModal';
 import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
 import JobLogDrawer from "./jobLog/JobLogDrawer";

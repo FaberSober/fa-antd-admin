@@ -4,7 +4,7 @@ import {Form, Input} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
 import {showResponse, formItemFullLayout} from '@/utils/utils';
 import modelService from '@/services/admin/department';
-import * as Admin from '@/props/admin';
+import * as Admin from '../../../../../../../types/admin';
 import DepartmentCascade from "../helper/DepartmentCascade";
 import UserSearchSelect from "../helper/UserSearchSelect";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";

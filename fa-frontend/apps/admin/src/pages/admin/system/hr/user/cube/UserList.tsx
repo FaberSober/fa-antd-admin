@@ -4,7 +4,7 @@ import {DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined} from '@ant
 import {Button, Form, Input, Space} from 'antd';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import modelService from '@/services/admin/user';
-import * as Admin from '@/props/admin';
+import * as Admin from '../../../../../../../types/admin';
 import UserModal from '../modal/UserModal';
 import DepartmentCascade from "../helper/DepartmentCascade";
 import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
