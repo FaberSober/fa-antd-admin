@@ -1,0 +1,55 @@
+.logo {
+  height: 46px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  min-width: 200px;
+}
+
+.logoImg {
+  width: 24px;
+  height: 24px;
+}
+
+.logoTitle {
+  color: #fff;
+  margin-left: 12px;
+  font-size: 20px;
+}
+
+.header {
+  z-index: 2;
+  height: 46px !important;
+  line-height: 46px !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  :global {
+    .ant-menu-item {
+      display: flex;
+      align-items: center;
+      border-radius: 0 !important;
+    }
+
+    // FIXME 这里应该是antd v5的一个bug，horizontal的menu选中效果不对
+    .ant-menu-item-selected {
+      background-color: #1677ff !important;
+      border-radius: 0 !important;
+      color: #FFF !important;
+    }
+  }
+}
+
+.openTabs {
+  :global {
+    .ant-tabs-tab {
+      padding: 6px 10px !important;
+    }
+
+    .ant-tabs-nav {
+      margin: 0 !important;
+    }
+  }
+}
