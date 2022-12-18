@@ -4,7 +4,7 @@ import configService from '@/services/admin/configScene';
 import {showResponse} from '@/utils/utils';
 import {EditOutlined} from '@ant-design/icons';
 import {Checkbox, Space} from 'antd';
-import Admin from '@/props/admin';
+import * as Admin from '@/props/admin';
 import ConditionQueryModal from '@/components/condition-query/ConditionQueryModal';
 import {FaberTable} from '@/components/base-table';
 import styles from './SceneManageModal.module.less';

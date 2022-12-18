@@ -1,4 +1,4 @@
-namespace ConditionQuery {
+declare module 'ConditionQuery' {
 	/** 自定义筛选条件-类型 */
 	export enum CondOpr {
 		equal = 'eq', // '等于',
@@ -54,4 +54,3 @@ namespace ConditionQuery {
 	};
 }
 
-export default ConditionQuery;

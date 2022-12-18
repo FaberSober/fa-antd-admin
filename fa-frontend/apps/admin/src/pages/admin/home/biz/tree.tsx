@@ -3,7 +3,7 @@ import {Card, message} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
 import treeApi from "@/services/demo/tree";
 import BaseTree from "@/components/base-tree";
-import Demo from "@/props/demo";
+import * as Demo from "@/props/demo";
 import TreeModal from '@/pages/admin/demo/tree/modal/TreeModal'
 
 

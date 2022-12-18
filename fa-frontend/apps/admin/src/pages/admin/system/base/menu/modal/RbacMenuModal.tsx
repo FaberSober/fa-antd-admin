@@ -4,12 +4,12 @@ import {Form, Input, Select} from 'antd';
 import DragModal from '@/components/modal/DragModal';
 import {showResponse, formItemFullLayout} from '@/utils/utils';
 import modelService from '@/services/rbac/rbacMenu';
-import Rbac from '@/props/rbac';
-import FaEnums from "@/props/base/FaEnums";
+import * as Rbac from '@/props/rbac';
+import * as FaEnums from "@/props/base/FaEnums";
 import {BaseBoolRadio, DictEnumApiRadio} from "@/components/base-dict";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import RbacMenuCascader from "../helper/RbacMenuCascader";
-import Fa from "@/props/base/Fa";
+import * as Fa from "@/props/base/Fa";
 import FontAwesomeSelect from "@/components/icons/FontAwesomeSelect";
 
 const serviceName = '菜单';

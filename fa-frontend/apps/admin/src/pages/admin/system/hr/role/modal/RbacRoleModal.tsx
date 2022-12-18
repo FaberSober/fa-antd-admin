@@ -4,10 +4,10 @@ import {Form, Input} from 'antd';
 import DragModal from '@/components/modal/DragModal';
 import {formItemFullLayout, showResponse} from '@/utils/utils';
 import modelService from '@/services/rbac/rbacRole';
-import Rbac from '@/props/rbac';
+import * as Rbac from '@/props/rbac';
 import {BaseBoolRadio} from "@/components/base-dict";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import Fa from "@/props/base/Fa";
+import * as Fa from "@/props/base/Fa";
 
 
 const serviceName = '角色';

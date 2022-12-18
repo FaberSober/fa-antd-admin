@@ -9,7 +9,7 @@ import {SITE_INFO} from '@/configs/server.config';
 import {Captcha} from "@/components/base-field";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
 import styles from './login.module.less'
-import Admin from "@/props/admin";
+import * as Admin from "@/props/admin";
 import configSysApi from "@/services/admin/configSys";
 
 

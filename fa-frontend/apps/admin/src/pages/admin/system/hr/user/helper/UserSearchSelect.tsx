@@ -1,7 +1,7 @@
 import React from 'react';
 import BaseSearchSelect, {BaseSearchSelectProps} from '@/components/base-search-select';
 import modalService from '@/services/admin/user';
-import Admin from '@/props/admin';
+import * as Admin from '@/props/admin';
 
 export interface UserSearchSelectProps extends Omit<BaseSearchSelectProps<Admin.User, string>, 'serviceApi'> {}
 

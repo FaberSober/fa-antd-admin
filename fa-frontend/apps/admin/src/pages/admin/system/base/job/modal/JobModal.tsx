@@ -4,10 +4,10 @@ import {Form, Input, Select} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
 import {formItemFullLayout, showResponse} from '@/utils/utils';
 import modelService from '@/services/admin/job';
-import Admin from '@/props/admin';
+import * as Admin from '@/props/admin';
 import {CronModal} from "@/components/base-field";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import Fa from "@/props/base/Fa";
+import * as Fa from "@/props/base/Fa";
 
 
 const serviceName = '系统定时任务';

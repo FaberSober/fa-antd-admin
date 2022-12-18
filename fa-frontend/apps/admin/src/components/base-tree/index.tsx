@@ -5,7 +5,7 @@ import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {showResponse} from '@/utils/utils';
 import BaseTreeProps from './interface';
 import * as TreeUtils from './utils';
-import Fa from '@/props/base/Fa';
+import * as Fa from '@/props/base/Fa';
 import {TreeProps} from 'antd/es/tree';
 import {FaHref} from "@/components/decorator";
 import styles from './index.module.less';

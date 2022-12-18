@@ -13,7 +13,7 @@ import {
 import {FaberTable} from '@/components/base-table/index';
 import {BaseBoolSelector, DictDataSelector, DictEnumSelector} from "@/components/base-dict";
 import {SortOrder} from "antd/es/table/interface";
-import Fa from "@/props/base/Fa";
+import * as Fa from "@/props/base/Fa";
 import UserSearchSelect from "@/pages/admin/system/hr/user/helper/UserSearchSelect";
 import {useSize} from "ahooks";
 

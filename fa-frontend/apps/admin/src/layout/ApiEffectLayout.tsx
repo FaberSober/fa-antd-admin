@@ -1,6 +1,6 @@
 import React, {createContext, useState} from 'react';
 import useBus from "use-bus";
-import Fa from "@/props/base/Fa";
+import * as Fa from "@/props/base/Fa";
 
 export interface ApiEffectLayoutContextProps {
   loadingEffect: any, // 全局api请求加载

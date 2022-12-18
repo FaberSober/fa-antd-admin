@@ -1,7 +1,7 @@
-import Fa from '@/props/base/Fa';
-import FaEnums from '@/props/base/FaEnums';
+import * as Fa from '@/props/base/Fa';
+import * as FaEnums from '@/props/base/FaEnums';
 
-namespace Rbac {
+declare module 'Rbac' {
 	/** BASE-权限表 */
 	export interface RbacMenu extends Fa.BaseDelEntity {
 		/** ID */
@@ -78,4 +78,3 @@ namespace Rbac {
 	}
 }
 
-export default Rbac;

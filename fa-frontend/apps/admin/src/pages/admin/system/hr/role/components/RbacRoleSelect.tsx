@@ -1,7 +1,7 @@
 import React from 'react';
 import BaseSelect, {BaseSelectProps} from '@/components/base-select';
 import api from '@/services/rbac/rbacRole';
-import Rbac from "@/props/rbac";
+import * as Rbac from "@/props/rbac";
 
 /**
  * @author xu.pengfei

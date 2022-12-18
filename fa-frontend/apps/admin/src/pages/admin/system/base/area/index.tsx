@@ -3,7 +3,7 @@ import {DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined} from '@ant
 import {Button, Form, Input, Space} from 'antd';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import modelService from '@/services/admin/area';
-import Admin from '@/props/admin';
+import * as Admin from '@/props/admin';
 import AreaModal from './modal/AreaModal';
 import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
 import {AuthDelBtn, FaHref} from "@/components/decorator";

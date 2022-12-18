@@ -7,7 +7,7 @@ import ConditionQuery from "@/components/condition-query/interface";
 import {showResponse} from '@/utils/utils';
 import {useIntl} from 'react-intl';
 import queryString from 'querystring';
-import Fa from "@/props/base/Fa";
+import * as Fa from "@/props/base/Fa";
 
 
 export function useClientRect() {
@@ -205,7 +205,7 @@ export function useTableQueryParams<T>(
  * @param refreshList
  * @param serviceName
  */
-export function useDelete<T>(deleteApi: (id: T) => Promise<Fa.Ret>, refreshList: () => void, serviceName: string = ''): [(id: T) => void] {
+export function useDelete<T>(deleteApi: (id: T) => Promise<Fa.Ret>, refreshList: () => void, serviceName = ''): [(id: T) => void] {
   function handleDelete(id: T) {
     deleteApi(id).then((res) => {
       showResponse(res, `删除${serviceName}信息`);
@@ -237,9 +237,7 @@ export function useExport(exportApi: (params: any) => Promise<undefined>, queryP
       },
     };
     exportApi(params)
-      .then((res) => {
-        setExporting(false);
-      })
+      .then(() => setExporting(false))
       .catch(() => setExporting(false));
   }
 

@@ -1,8 +1,8 @@
 import React, {useContext, useState} from 'react';
 import {Button, Drawer, Space, Tree} from 'antd';
-import Rbac from '@/props/rbac';
+import * as Rbac from '@/props/rbac';
 import {DragModalProps} from "@/components/modal/DragModal";
-import Fa from "@/props/base/Fa";
+import * as Fa from "@/props/base/Fa";
 import rbacMenuApi from "@/services/rbac/rbacMenu";
 import rbacRoleMenuApi from "@/services/rbac/rbacRoleMenu";
 import {FaFlexRestLayout} from "@/components/base-layout";

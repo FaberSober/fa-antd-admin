@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import AreaCascader from "@/components/area-cascader";
-import Admin from "@/props/admin";
+import * as Admin from "@/props/admin";
 import {Card} from "antd";
 
 /**

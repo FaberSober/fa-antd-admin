@@ -1,10 +1,10 @@
 import React, {useContext} from 'react';
 import {Menu} from "antd";
 import {isNil} from "lodash"
-import Fa from "@/props/base/Fa";
-import Rbac from "@/props/rbac";
+import * as Fa from "@/props/base/Fa";
+import * as Rbac from "@/props/rbac";
 import MenuLayoutContext from "@/layout/menu/context/MenuLayoutContext";
-import FaEnums from "@/props/base/FaEnums";
+import * as FaEnums from "@/props/base/FaEnums";
 import {SiderLayout} from "@/components/antd-pro";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 

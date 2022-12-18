@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import Admin from "@/props/admin";
+import * as Admin from "@/props/admin";
 import entityLogApi from '@/services/admin/entityLog'
 import {Timeline} from "antd";
-import FaEnums from "@/props/base/FaEnums";
+import * as FaEnums from "@/props/base/FaEnums";
 import UpdateLogTable from "@/components/base-entity-log/UpdateLogTable";
 import useBus from "use-bus";
 

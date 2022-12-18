@@ -1,8 +1,8 @@
 import {ReactNode} from "react";
 import {DragModalProps} from '@/components/modal/DragModal';
-import ConditionQuery from '@/components/condition-query/interface';
+import * as ConditionQuery from '@/components/condition-query/interface';
 
-namespace Fa {
+declare module 'Fa' {
   // ------------------------------------- Constant -------------------------------------
   export const Constant = {
     /** 约定：tree结构数据，根结点的ID默认为0 */
@@ -228,5 +228,3 @@ namespace Fa {
   }
 
 }
-
-export default Fa;

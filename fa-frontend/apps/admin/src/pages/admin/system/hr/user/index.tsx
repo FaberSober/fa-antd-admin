@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import SplitPane from 'react-split-pane';
 import BaseTree from '@/components/base-tree';
-import Admin from '@/props/admin';
+import * as Admin from '@/props/admin';
 import departmentService from '@/services/admin/department';
 import {useLocalStorage} from 'react-use';
 import DepartmentModal from "./modal/DepartmentModal";

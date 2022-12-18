@@ -1,6 +1,6 @@
-import Fa from '@/props/base/Fa';
+import * as Fa from '@/props/base/Fa';
 
-namespace Demo {
+declare module 'Demo' {
 
   /** Demo-学生表-标签 */
   export interface StudentTag {
@@ -52,5 +52,3 @@ namespace Demo {
   }
 
 }
-
-export default Demo;

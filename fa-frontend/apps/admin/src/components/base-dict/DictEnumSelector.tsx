@@ -1,7 +1,7 @@
 import React from 'react';
 import {Select} from 'antd';
 import {SelectProps} from 'antd/es/select';
-import Fa from "@/props/base/Fa";
+import * as Fa from "@/props/base/Fa";
 
 interface IProps extends SelectProps<any> {
   dicts: Fa.Dict[]; // 字典分组编码

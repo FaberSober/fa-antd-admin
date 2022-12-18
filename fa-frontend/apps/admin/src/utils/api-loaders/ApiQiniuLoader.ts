@@ -16,7 +16,6 @@ export default class ApiQiniuLoader {
 	}
 
 	getPromise() {
-		// @ts-ignore
 		if (window.qiniu) {
 			return Promise.resolve();
 		}
@@ -39,7 +38,6 @@ export default class ApiQiniuLoader {
 		mainPromise = this.getPromise();
 		return new Promise<void>((resolve) => {
 			mainPromise.then(() => {
-				// @ts-ignore
 				if (window.qiniu) {
 					// console.log('qiniu', window.qiniu);
 				}

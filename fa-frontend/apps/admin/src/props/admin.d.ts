@@ -1,9 +1,9 @@
-import Fa from '@/props/base/Fa';
-import FaEnums from "@/props/base/FaEnums";
-import {FaberTable} from "@/components/base-table";
-import ConditionQuery from "@/components/condition-query/interface";
+import * as Fa from '@/props/base/Fa';
+import * as FaEnums from "@/props/base/FaEnums";
+import * as ConditionQuery from "@/components/condition-query/interface";
 
-namespace Admin {
+
+declare module 'Admin' {
 	// -------------------------------------------- 系统-配置表 --------------------------------------------
 	/**
 	 * 配置-查询场景
@@ -400,4 +400,3 @@ namespace Admin {
 
 }
 
-export default Admin;

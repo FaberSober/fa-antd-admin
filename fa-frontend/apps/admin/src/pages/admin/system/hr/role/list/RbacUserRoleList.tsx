@@ -4,7 +4,7 @@ import {Button, Form, Input, Space} from 'antd';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import {clearForm, useDelete, useTableQueryParams} from "@/utils/myHooks";
 import modelService from '@/services/rbac/rbacUserRole';
-import Rbac from '@/props/rbac';
+import * as Rbac from '@/props/rbac';
 import {AuthDelBtn} from "@/components/decorator";
 
 const serviceName = '角色用户';

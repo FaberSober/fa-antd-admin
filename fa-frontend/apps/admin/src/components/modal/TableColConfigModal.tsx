@@ -5,13 +5,13 @@ import {showResponse} from '@/utils/utils';
 import {ModalProps} from 'antd/es/modal';
 import {FaberTable} from '@/components/base-table';
 import * as BaseTableUtils from '@/components/base-table/utils';
-import Admin from '@/props/admin';
+import * as Admin from '@/props/admin';
 import configApi from '@/services/admin/config';
 import {FaFlexRestLayout} from "@/components/base-layout";
 import {FaSortList} from "@/components/base-drag";
 import styles from './TableColConfigModal.module.less';
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import FaEnums from "@/props/base/FaEnums";
+import * as FaEnums from "@/props/base/FaEnums";
 
 
 const colWidthCache: { [key: string]: number } = {};

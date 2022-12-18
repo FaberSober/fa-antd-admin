@@ -1,4 +1,4 @@
-import Fa from '@/props/base/Fa';
+import * as Fa from '@/props/base/Fa';
 import {requestPost} from '@/utils/request';
 
 /**

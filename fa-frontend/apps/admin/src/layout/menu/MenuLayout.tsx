@@ -4,10 +4,10 @@ import {find, isNil} from 'lodash';
 import {FormattedMessage} from "react-intl";
 import {useLocation, useNavigate} from "react-router-dom";
 import {FaFlexRestLayout} from "@/components/base-layout";
-import FaEnums from "@/props/base/FaEnums";
-import Rbac from "@/props/rbac";
+import * as FaEnums from "@/props/base/FaEnums";
+import * as Rbac from "@/props/rbac";
 import {findTreePath, flatTreeList} from "@/utils/treeUtils";
-import Fa from "@/props/base/Fa";
+import * as Fa from "@/props/base/Fa";
 import rbacUserRoleApi from "@/services/rbac/rbacUserRole";
 import MenuLayoutContext, {MenuLayoutContextProps} from './context/MenuLayoutContext'
 import Logo from "./cube/Logo";

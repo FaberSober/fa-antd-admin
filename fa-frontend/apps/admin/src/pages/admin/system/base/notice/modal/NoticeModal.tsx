@@ -4,7 +4,7 @@ import {Form, Input} from 'antd';
 import DragModal, {DragModalProps} from '@/components/modal/DragModal';
 import {formItemFullLayout, showResponse} from '@/utils/utils';
 import modelService from '@/services/admin/notice';
-import Admin from '@/props/admin';
+import * as Admin from '@/props/admin';
 import {BaseBoolRadio} from '@/components/base-dict';
 import {UploadImgLocal} from "@/components/base-uploader";
 import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";

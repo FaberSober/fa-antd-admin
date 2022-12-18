@@ -4,7 +4,7 @@ import {Button, Form, Input, Space} from 'antd';
 import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
 import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
 import modelService from '@/services/admin/jobLog';
-import Admin from '@/props/admin';
+import * as Admin from '@/props/admin';
 import {AuthDelBtn} from "@/components/decorator";
 
 const serviceName = '系统定时任务-执行日志';

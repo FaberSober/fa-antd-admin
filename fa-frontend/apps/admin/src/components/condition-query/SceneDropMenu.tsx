@@ -3,7 +3,7 @@ import {find} from 'lodash';
 import {Dropdown} from 'antd';
 import {DownOutlined, SettingOutlined} from '@ant-design/icons';
 import SceneManageModal from '@/components/condition-query/SceneManageModal';
-import Admin from '@/props/admin';
+import * as Admin from '@/props/admin';
 import {FaberTable} from '@/components/base-table';
 import configService from '@/services/admin/configScene';
 import {RES_CODE} from '@/configs/server.config';

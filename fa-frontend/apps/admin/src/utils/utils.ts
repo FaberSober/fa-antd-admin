@@ -2,10 +2,9 @@ import {findIndex, get, isNil, isUndefined, map, trim} from 'lodash';
 import {RES_CODE} from '@/configs/server.config';
 import {message} from 'antd';
 import dayjs from 'dayjs';
-import Fa from '@/props/base/Fa';
-import {RangeValue} from 'rc-picker/lib/interface';
+import * as Fa from '@/props/base/Fa';
 import {parse} from 'querystring';
-import Rbac from "@/props/rbac";
+import * as Rbac from "@/props/rbac";
 
 export const REGEX_TEL_NO = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/;
 
@@ -109,7 +108,7 @@ export function getInitialTimeValue(date: string | any | null | undefined, defau
  * @param {*} index
  * @param {*} suffix
  */
-export function parseRangeDateSuffix(rangeDate: RangeValue<any>, index: number, suffix: string) {
+export function parseRangeDateSuffix(rangeDate: any, index: number, suffix: string) {
 	if (rangeDate && rangeDate[index] !== null && rangeDate[index] !== undefined) {
 		const date = rangeDate[index];
 		if (date !== null) {
@@ -119,7 +118,7 @@ export function parseRangeDateSuffix(rangeDate: RangeValue<any>, index: number, 
 	return '';
 }
 
-export function parseRangeDateFull(rangeDate: RangeValue<any>, index: number, suffix: string) {
+export function parseRangeDateFull(rangeDate: any, index: number, suffix: string) {
 	if (rangeDate && rangeDate[index] !== null && rangeDate[index] !== undefined) {
 		const date = rangeDate[index];
 		if (date !== null) {
@@ -129,7 +128,7 @@ export function parseRangeDateFull(rangeDate: RangeValue<any>, index: number, su
 	return '';
 }
 
-export function getInitialKeyValue(record: any, key: string, defaultValue: string = ''): string {
+export function getInitialKeyValue(record: any, key: string, defaultValue = ''): string {
 	return record && trim(record[key]) ? `${record[key]}` : defaultValue; // eslint-disable-line
 }
 
@@ -143,7 +142,7 @@ export function getInitialKeyTimeValue(record: any, key: string, defaultValue: a
  * @param width 预览图片宽
  * @param height 预览图片高
  */
-export function previewImage(url: string, width: number = 200, height?: number) {
+export function previewImage(url: string, width = 200, height?: number) {
 	let previewUrl = `${url}?imageView2/3/w/${width}`;
 	if (height) {
 		previewUrl += `/h/${height}`;
@@ -268,8 +267,8 @@ export function canvasResizeToFile(canvas: any, quality: any, fn: any) {
  * @param val
  * @param maxLength
  */
-export function ellipsis(val: string | undefined, maxLength: number = 55): string {
-	if (val == null) return '';
+export function ellipsis(val: string | undefined, maxLength = 55): string {
+	if (isNil(val)) return '';
 	if (val.length > maxLength) {
 		return `${val.substr(0, maxLength)}...`;
 	}
@@ -295,7 +294,7 @@ export const FileAccept = {
 /**
  * 复制文本到剪贴板
  */
-export function handleClipboard(text: string, successMsg: string = '') {
+export function handleClipboard(text: string, successMsg = '') {
 	if (trim(text) === '') {
 		return;
 	}

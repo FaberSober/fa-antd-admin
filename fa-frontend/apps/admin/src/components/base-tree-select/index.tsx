@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {TreeSelect} from 'antd';
-import Fa from '@/props/base/Fa';
+import * as Fa from '@/props/base/Fa';
 import {TreeSelectProps} from 'antd/es/tree-select';
 import BaseTreeProps from '@/components/base-tree/interface';
 import {RES_CODE} from '@/configs/server.config';

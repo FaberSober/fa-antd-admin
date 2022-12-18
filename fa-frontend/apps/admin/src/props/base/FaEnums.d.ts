@@ -1,4 +1,4 @@
-namespace FaEnums {
+declare module 'FaEnums' {
 
   // ------------------------------------ BASE ------------------------------------
   export enum SexEnum {
@@ -66,4 +66,3 @@ namespace FaEnums {
 
 }
 
-export default FaEnums;

@@ -4,7 +4,7 @@ import {message} from 'antd';
 import {TOKEN_KEY} from '@/configs/server.config';
 import {getToken} from './cache';
 import {dispatch} from 'use-bus'
-import Fa from "@/props/base/Fa";
+import * as Fa from "@/props/base/Fa";
 
 // Set config defaults when creating the instance
 const instance = axios.create({
@@ -35,11 +35,10 @@ const codeMessage = {
 
 // 添加请求拦截器
 instance.interceptors.request.use(
-	(config) => {
+	(config:any) => {
 		// 在发送请求之前做些什么
 		const token = getToken();
 		if (token) {
-			// @ts-ignore
       config.headers[TOKEN_KEY] = token;
 		}
 
@@ -51,8 +50,7 @@ instance.interceptors.request.use(
 		// 	}
 		// } else
 		if (config.method == 'get') {
-			// @ts-ignore
-			config.params = { ...config.params, _t: Date.parse(new Date()) / 1000 };
+			config.params = { ...config.params, _t: Date.parse(`${new Date()}`) / 1000 };
 		}
 
 		// 通知全局api加载状态
@@ -90,11 +88,10 @@ instance.interceptors.response.use(
 			});
 			// console.log('blob', blob);
 			//将Blob 对象转换成字符串
-			var reader = new FileReader();
+			const reader:any = new FileReader();
 			reader.readAsText(blob, 'utf-8');
-			reader.onload = function (e) {
+			reader.onload = function () {
 				console.info('reader.result', reader.result);
-				// @ts-ignore
 				const json = JSON.parse(reader.result);
         if (error.config.headers.hideErrorMsg !== '1') {
           message.error(json.message);

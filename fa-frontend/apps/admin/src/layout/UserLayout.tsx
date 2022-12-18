@@ -1,10 +1,10 @@
 import React, {createContext, useEffect, useState} from 'react';
-import Fa from "@/props/base/Fa";
+import * as Fa from "@/props/base/Fa";
 import {PageLoading} from "@/components/antd-pro";
-import Admin from "@/props/admin";
+import * as Admin from "@/props/admin";
 import userApi from '@/services/admin/user'
 import rbacUserRoleApi from '@/services/rbac/rbacUserRole'
-import Rbac from "@/props/rbac";
+import * as Rbac from "@/props/rbac";
 import {clearToken} from "@/utils/cache";
 import {useNavigate} from "react-router-dom";
 import configSysApi from "@/services/admin/configSys";

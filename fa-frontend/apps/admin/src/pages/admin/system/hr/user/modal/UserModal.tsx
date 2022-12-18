@@ -5,7 +5,7 @@ import DragModal, {DragModalProps} from '@/components/modal/DragModal';
 import {formItemFullLayout, showResponse} from '@/utils/utils';
 import modelService from '@/services/admin/user';
 import rbacUserRoleApi from '@/services/rbac/rbacUserRole';
-import Admin from '@/props/admin';
+import * as Admin from '@/props/admin';
 import {DictEnumApiRadio} from '@/components/base-dict';
 import DepartmentCascade from "../helper/DepartmentCascade";
 import {UploadImgLocal} from "@/components/base-uploader";

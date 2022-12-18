@@ -1,6 +1,6 @@
 import {requestDelete, requestDownload, requestGet, requestPost, requestPut} from '@/utils/request';
 import {AxiosRequestConfig} from 'axios';
-import queryString from "querystring";
+
 
 export default class BaseZeroApi {
 	public apiPrefix: string;

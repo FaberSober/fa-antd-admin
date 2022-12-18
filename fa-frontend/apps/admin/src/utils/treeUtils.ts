@@ -1,5 +1,5 @@
 import {isNil, trim} from 'lodash';
-import Fa from '@/props/base/Fa';
+import * as Fa from '@/props/base/Fa';
 
 export function parseNode<T = any>(nodeList: Fa.TreeNode<T, any>[] | undefined): Fa.BaseTreeNode<T>[] | undefined {
   if (isNil(nodeList) || nodeList.length === 0) return undefined;
@@ -13,13 +13,13 @@ export function parseNode<T = any>(nodeList: Fa.TreeNode<T, any>[] | undefined):
     isLeaf: !d.hasChildren,
     children: parseNode<T>(d.children),
     sourceData: d.sourceData,
-  }));
+  })) as Fa.BaseTreeNode<T>[];
 }
 
 /** 平铺Tree型结构 */
 export function flatTreeList<T>(tree: Fa.TreeNode<T>[] = []): T[] {
   const list: T[] = [];
-  tree.forEach((item, index) => {
+  tree.forEach((item) => {
     const { children, sourceData } = item;
     if (children && children[0]) {
       list.push(...flatTreeList(children));

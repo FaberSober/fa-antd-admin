@@ -1,4 +1,4 @@
-import Fa from '@/props/base/Fa';
+import * as Fa from '@/props/base/Fa';
 import BaseApi from '@/services/base/BaseApi';
 
 export default class BaseTreeApi<T, KeyType, PageT = T> extends BaseApi<T, KeyType, PageT> {

@@ -1,7 +1,7 @@
 import {GATE_APP} from '@/configs/server.config';
 import {BaseZeroApi} from '@/services/base';
-import Fa from "@/props/base/Fa";
-import Admin from "@/props/admin";
+import * as Fa from "@/props/base/Fa";
+import * as Admin from "@/props/admin";
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */
 class SystemApi extends BaseZeroApi {
