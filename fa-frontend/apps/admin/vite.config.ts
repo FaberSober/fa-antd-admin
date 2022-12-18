@@ -5,12 +5,13 @@ import * as path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
-  console.log('loadEnv(mode, process.cwd())', loadEnv(mode, process.cwd()));
+  const env = loadEnv(mode, process.cwd())
+  console.log('loadEnv(mode, process.cwd())', env)
   return {
     plugins: [
       react(),
       Pages({
-        exclude: ['**/components/*.tsx', '**/modal/*.tsx'],
+        exclude: ['**/components/*.tsx', '**/modal/*.tsx', '**/cube/*.tsx', '**/drawer/*.tsx', '**/helper/*.tsx'],
       }),
     ],
     //* css模块化
@@ -37,14 +38,14 @@ export default defineConfig(({ command, mode }) => {
         // fix less import by: @import ~
       ],
     },
-    // server: {
-    //   open: true,
-    //   proxy: {
-    //     '/api': {
-    //       target: loadEnv(mode, process.cwd()).VITE_APP_BASE_URL,
-    //       changeOrigin: true,
-    //     },
-    //   },
-    // },
+    server: {
+      open: true,
+      proxy: {
+        '/api': {
+          target: env.VITE_APP_BASE_URL,
+          changeOrigin: true,
+        },
+      },
+    },
   };
 });
