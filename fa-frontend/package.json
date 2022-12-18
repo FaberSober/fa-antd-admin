@@ -2,7 +2,6 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "postinstall": "husky install",
     "ncu": "turbo run ncu",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",

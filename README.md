@@ -144,6 +144,7 @@
 - [ ] Dashboard
 - [ ] Code Generator
 - [ ] Http Utils
+- [ ] Frontend use pnpm workspace.
 
 
 # [CHANGELOG](./CHANGELOG.md)
