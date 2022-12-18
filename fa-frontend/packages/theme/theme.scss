@@ -1,0 +1,38 @@
+// 所有主题样式
+$bg-color: (
+  light: #fff,
+  dark: #091a28,
+);
+
+$title-color: (
+  light: #363636,
+  dark: #fff,
+);
+
+$subtitle-color: (
+  light: #4a4a4a,
+  dark: cyan,
+);
+
+@mixin themify($key, $valueMap) {
+  // theme list
+  $themes: light, dark;
+
+  @each $theme in $themes {
+    [data-theme='#{$theme}'] & {
+      #{$key}: map-get($valueMap, $theme);
+    }
+  }
+}
+
+.app {
+  @include themify('background-color', $bg-color);
+}
+
+.title {
+  @include themify('color', $title-color);
+}
+
+.subtitle {
+  @include themify('color', $subtitle-color);
+}
