@@ -6,7 +6,7 @@ import modelService from '@/services/admin/area';
 import { Admin } from '@/types';
 import AreaModal from './modal/AreaModal';
 import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
-import { AuthDelBtn, FaHref } from '@/components/decorator';
+import { AuthDelBtn, FaHref } from '@fa/ui';
 
 const serviceName = '中国行政地区表';
 const biz = 'base_area';

@@ -5,7 +5,7 @@ import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-tabl
 import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
 import modelService from '@/services/admin/logLogin';
 import { Admin } from '@/types';
-import { AuthDelBtn } from '@/components/decorator';
+import { AuthDelBtn } from '@fa/ui';
 
 const serviceName = '登录日志';
 const biz = 'base_log_login_v1';

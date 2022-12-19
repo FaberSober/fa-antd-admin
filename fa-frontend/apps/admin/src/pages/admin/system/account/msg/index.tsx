@@ -6,7 +6,7 @@ import { Admin } from '@/types';
 import { clearForm, useTableQueryParams } from '@/utils/myHooks';
 import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import { UserLayoutContext } from '@/layout/UserLayout';
-import { FaHref } from '@/components/decorator';
+import { FaHref } from '@fa/ui';
 import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
 import { BaseBoolSelector } from '@/components/base-dict';
 

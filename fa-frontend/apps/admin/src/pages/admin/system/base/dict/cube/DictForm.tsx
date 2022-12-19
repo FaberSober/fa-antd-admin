@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Admin } from '@/types';
 import { Button, Form, Input, Popconfirm } from 'antd';
-import { FaHref } from '@/components/decorator';
+import { FaHref } from '@fa/ui';
 
 export interface DictFormProps {
   dict?: Admin.Option;

@@ -8,7 +8,7 @@ import NoticeModal from './modal/NoticeModal';
 import { DictDataSelector } from '@/components/base-dict';
 import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
 import { previewImage } from '@/utils/utils';
-import { AuthDelBtn, FaHref } from '@/components/decorator';
+import { AuthDelBtn, FaHref } from '@fa/ui';
 
 const serviceName = '通知与公告';
 const biz = 'base_notice';

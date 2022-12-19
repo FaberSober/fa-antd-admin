@@ -11,13 +11,11 @@ interface IProps {
  * Shiro Permission 包装容器，主要做一下鉴权。
  * 传入需要鉴定的权限字符串，如果用户有该权限，则会展示children组件，如果没有该权限，则不会展示children。
  */
-const ShiroPermissionContainer = ({ children, permission }: IProps) => {
+export default function ShiroPermissionContainer({ children, permission }: IProps) {
   const { permissions } = useContext(FaUiContext);
 
   if (hasPermission(permissions, permission)) {
     return <>{children}</>;
   }
   return null;
-};
-
-export default ShiroPermissionContainer;
+}

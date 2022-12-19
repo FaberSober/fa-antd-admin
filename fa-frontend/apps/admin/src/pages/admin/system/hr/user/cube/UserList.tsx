@@ -8,7 +8,7 @@ import { Admin } from '@/types';
 import UserModal from '../modal/UserModal';
 import DepartmentCascade from '../helper/DepartmentCascade';
 import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
-import { AuthDelBtn, FaHref } from '@/components/decorator';
+import { AuthDelBtn, FaHref } from '@fa/ui';
 
 const serviceName = '用户';
 const biz = 'UserList-v2';

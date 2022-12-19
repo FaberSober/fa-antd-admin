@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import rbacMenuApi from '@/services/rbac/rbacMenu';
-// import BaseTree from '@/components/base-tree';
 import RbacMenuModal from '@/pages/admin/system/base/menu/modal/RbacMenuModal';
 import { Fa, FaEnums, Rbac } from '@/types';
 import styles from './index.module.scss';

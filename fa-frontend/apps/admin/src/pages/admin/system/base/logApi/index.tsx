@@ -6,7 +6,7 @@ import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/my
 import modelService from '@/services/admin/logApi';
 import { Admin } from '@/types';
 import LogApiDrawer from './drawer/LogApiDrawer';
-import { AuthDelBtn } from '@/components/decorator';
+import { AuthDelBtn } from '@fa/ui';
 
 const serviceName = 'URL请求日志';
 const biz = 'base_log_api';

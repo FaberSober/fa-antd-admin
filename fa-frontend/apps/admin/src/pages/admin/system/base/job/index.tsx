@@ -16,7 +16,7 @@ import { Admin } from '@/types';
 import JobModal from './modal/JobModal';
 import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
 import JobLogDrawer from './jobLog/JobLogDrawer';
-import { AuthDelBtn, FaHref } from '@/components/decorator';
+import { AuthDelBtn, FaHref } from '@fa/ui';
 
 const serviceName = '系统定时任务';
 const biz = 'base_job';

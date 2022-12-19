@@ -6,7 +6,7 @@ import { ColumnsType } from 'antd/es/table';
 import { FaFlexRestLayout } from '@fa/ui';
 import { useDelete } from '@/utils/myHooks';
 import { showResponse } from '@/utils/utils';
-import { AuthDelBtn, FaHref } from '@/components/decorator';
+import { AuthDelBtn, FaHref } from '@fa/ui';
 import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
 import RbacMenuModal from './modal/RbacMenuModal';
 import rbacMenuApi from '@/services/rbac/rbacMenu';

@@ -5,7 +5,7 @@ import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-tabl
 import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
 import modelService from '@/services/admin/jobLog';
 import { Admin, FaEnums } from '@/types';
-import { AuthDelBtn } from '@/components/decorator';
+import { AuthDelBtn } from '@fa/ui';
 
 const serviceName = '系统定时任务-执行日志';
 const biz = 'base_job_log';

@@ -10,7 +10,7 @@ import { FaFlexRestLayout } from '@fa/ui';
 import { FaSortList } from '@/components/base-drag';
 import DictForm from '@/pages/admin/system/base/dict/cube/DictForm';
 import { showResponse } from '@/utils/utils';
-import { FaLabel } from '@/components/decorator';
+import { FaLabel } from '@fa/ui';
 
 /**
  * 字典管理

@@ -1,7 +1,7 @@
 import React from 'react';
 import { DownloadOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Space, Tag } from 'antd';
-import { AuthDelBtn } from '@/components/decorator';
+import { AuthDelBtn } from '@fa/ui';
 import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
 import api from '@/services/demo/student';

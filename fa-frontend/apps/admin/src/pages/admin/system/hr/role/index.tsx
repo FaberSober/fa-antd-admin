@@ -13,7 +13,7 @@ import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/my
 import modelService from '@/services/rbac/rbacRole';
 import { Rbac } from '@/types';
 import RbacRoleModal from './modal/RbacRoleModal';
-import { AuthDelBtn, FaHref } from '@/components/decorator';
+import { AuthDelBtn, FaHref } from '@fa/ui';
 import RbacRoleMenuDrawer from './modal/RbacRoleMenuDrawer';
 import RbacRoleUserDrawer from './modal/RbacRoleUserDrawer';
 

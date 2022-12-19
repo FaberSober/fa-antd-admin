@@ -7,7 +7,7 @@ import BaseTreeProps from './interface';
 import * as TreeUtils from './utils';
 import { Fa } from '@/types';
 import { TreeProps } from 'antd/es/tree';
-import { FaHref } from '@/components/decorator';
+import { FaHref } from '@fa/ui';
 import styles from './index.module.scss';
 import { Item, ItemParams, Menu, useContextMenu } from 'react-contexify';
 import 'react-contexify/ReactContexify.css';

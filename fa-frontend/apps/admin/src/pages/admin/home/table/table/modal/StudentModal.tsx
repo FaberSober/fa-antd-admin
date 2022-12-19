@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { get } from 'lodash';
 import { Form, Input, DatePicker, Button } from 'antd';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { FaHref } from '@/components/decorator';
+import { FaHref } from '@fa/ui';
 import DragModal from '@/components/modal/DragModal';
 import BaseBoolRadio from '@/components/base-dict/BaseBoolRadio';
 import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';

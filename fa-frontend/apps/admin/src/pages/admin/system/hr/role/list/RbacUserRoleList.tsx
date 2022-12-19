@@ -5,7 +5,7 @@ import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-tabl
 import { clearForm, useDelete, useTableQueryParams } from '@/utils/myHooks';
 import modelService from '@/services/rbac/rbacUserRole';
 import { Rbac } from '@/types';
-import { AuthDelBtn } from '@/components/decorator';
+import { AuthDelBtn } from '@fa/ui';
 
 const serviceName = '角色用户';
 const biz = 'RbacUserRoleList';
