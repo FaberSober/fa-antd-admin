@@ -5,6 +5,9 @@ namespace Fa {
   // ------------------------------------- Constant -------------------------------------
   export type KeyType = string | number;
 
+  export const RES_CODE = {
+    OK: 200,
+  };
   export const Constant = {
     /** 约定：tree结构数据，根结点的ID默认为0 */
     TREE_SUPER_ROOT_ID: 0,

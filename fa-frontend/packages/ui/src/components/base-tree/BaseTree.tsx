@@ -3,15 +3,15 @@ import { each, find, get } from 'lodash';
 import { Modal, Space, Spin, Tree } from 'antd';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { showResponse } from '@/utils/utils';
-import BaseTreeProps from './interface';
+import BaseTreeProps from '@/types/BaseTreeProps';
 import * as TreeUtils from './utils';
-import { Fa } from '@/types';
+import { Fa } from '@fa/types';
 import { TreeProps } from 'antd/es/tree';
 import { FaHref } from '@/components/decorator';
-import styles from './index.module.scss';
 import { Item, ItemParams, Menu, useContextMenu } from 'react-contexify';
 import 'react-contexify/ReactContexify.css';
 import useBus from 'use-bus';
+import './BaseTree.css';
 
 export interface BaseTreeContextProps {
   renderCount: number;
@@ -272,7 +272,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
       )}
 
       {/* main tree */}
-      <div className={styles.treeDiv} style={{ flex: 1, overflowY: 'auto' }}>
+      <div className="fa-base-tree-div" style={{ flex: 1, overflowY: 'auto' }}>
         <div style={{ padding: '0 12px', ...treeStyle }}>
           <Spin spinning={loading}>
             <Tree
@@ -285,7 +285,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
               onExpand={(eks) => setExpandedKeys(eks)}
               fieldNames={{ key: 'id', title: 'name' }}
               titleRender={(item: any) => (
-                <div className={styles.treeTitleDiv} onContextMenu={(e) => handleContextMenu(e, item)}>
+                <div className="fa-base-tree-title-div" onContextMenu={(e) => handleContextMenu(e, item)}>
                   {item.name}
                 </div>
               )}
@@ -313,7 +313,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
       </div>
 
       {/* context menu */}
-      <Menu id={MENU_ID} className={styles.contextMenu}>
+      <Menu id={MENU_ID} className="contextMenu">
         {showOprBtnAdd && (
           <Item id="add" onClick={handleItemClick}>
             <PlusOutlined style={{ width: 20 }} /> 新增
@@ -325,7 +325,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
           </Item>
         )}
         {extraContextMenus?.map((em) => (
-          <Item id={em.key} key={em.key} onClick={(e) => handleExtraItemClick(e, em)}>
+          <Item id={em.key} key={em.key} onClick={(e: any) => handleExtraItemClick(e, em)}>
             <span style={{ width: 20 }}>{em.icon && em.icon}</span>
             {em.title}
           </Item>

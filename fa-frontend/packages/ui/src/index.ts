@@ -1,11 +1,10 @@
-export type { default as FaUi } from '@/types';
+export type { default as FaUi } from '@/types/FaUi';
+export type { default as BaseTreeProps } from '@/types/BaseTreeProps';
 
-// export { default as PageLoading } from '@/components/antd-pro/PageLoading';
-// export { default as SiderLayout } from '@/components/antd-pro/PageLoading';
-// export { default as FaFlexRestLayout } from '@/components/base-layout/FaFlexRestLayout';
-// export { default as FaLazyContainer } from '@/components/base-layout/FaLazyContainer';
 export * from '@/components/antd-pro';
 export * from '@/components/base-cascader';
 export * from '@/components/base-layout';
+export * from '@/components/base-tree';
+export * from '@/components/decorator';
 
 export { default as Button } from '@/components/Button';

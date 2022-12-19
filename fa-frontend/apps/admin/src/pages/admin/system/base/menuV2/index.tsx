@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import rbacMenuApi from '@/services/rbac/rbacMenu';
-import BaseTree from '@/components/base-tree';
+// import BaseTree from '@/components/base-tree';
 import RbacMenuModal from '@/pages/admin/system/base/menu/modal/RbacMenuModal';
 import { Fa, FaEnums, Rbac } from '@/types';
 import styles from './index.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { AuthDelBtn, FaHref } from '@/components/decorator';
+import { AuthDelBtn, BaseTree, FaHref } from '@fa/ui';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import { useDelete } from '@/utils/myHooks';

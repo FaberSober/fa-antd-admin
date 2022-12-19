@@ -1,5 +1,5 @@
 import * as React from 'react';
-import FaUi from '@/types';
+import FaUi from '@/types/FaUi';
 
 const classA: FaUi.ClassA = { name: 'foo' };
 console.log('Button', 'classA', classA);
