@@ -50,7 +50,7 @@ export default function Login() {
     });
   }
 
-  function validateCaptcha(rules: any, value: any) {
+  function validateCaptcha(_: any, value: any) {
     if (value === undefined) {
       return Promise.resolve();
     }

@@ -13,8 +13,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 
 library.add(fas);
 
-// eslint-disable-next-line no-console
-// console.log(routes)
+console.log(routes);
 
 function App() {
   return <Suspense fallback={<PageLoading />}>{useRoutes(routes)}</Suspense>;
