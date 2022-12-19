@@ -5,7 +5,7 @@ import { BrowserRouter as Router, useRoutes } from 'react-router-dom';
 import './globals.scss';
 
 import routes from '~react-pages';
-import { PageLoading } from '@/components/antd-pro';
+import { PageLoading } from '@fa/ui';
 
 // fontawesome icon
 import { library } from '@fortawesome/fontawesome-svg-core';

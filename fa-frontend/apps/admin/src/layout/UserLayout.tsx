@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { Admin, Fa, Rbac } from '@/types';
-import { PageLoading } from '@/components/antd-pro';
+import { PageLoading } from '@fa/ui';
 import userApi from '@/services/admin/user';
 import rbacUserRoleApi from '@/services/rbac/rbacUserRole';
 import { clearToken } from '@/utils/cache';

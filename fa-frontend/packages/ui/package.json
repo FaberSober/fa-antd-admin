@@ -14,10 +14,12 @@
     "lint": "eslint \"**/*.{ts,tsx}\""
   },
   "devDependencies": {
+    "@ant-design/icons": "4.8.0",
     "@fa/eslint-config-custom": "workspace:*",
     "@fa/tailwind-config": "workspace:*",
     "@fa/tsconfig": "workspace:*",
     "@types/react": "18.0.26",
+    "antd": "5.0.7",
     "autoprefixer": "10.4.13",
     "concurrently": "7.6.0",
     "eslint": "8.30.0",

@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons';
 import { FaFlexRestLayout } from '@/components/base-layout';
-import './SiderLayout.scss';
+import './SiderLayout.css';
 
 interface IProps {
   collapse?: boolean; // 是否折叠

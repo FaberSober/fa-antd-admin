@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Button, Card, Form, Input } from 'antd';
 import { Admin } from '@/types';
 import userService from '@/services/admin/user';
-import { PageLoading } from '@/components/antd-pro';
+import { PageLoading } from '@fa/ui';
 import { showResponse } from '@/utils/utils';
 import { UploadImgLocal } from '@/components/base-uploader';
 import { UserLayoutContext } from '@/layout/UserLayout';

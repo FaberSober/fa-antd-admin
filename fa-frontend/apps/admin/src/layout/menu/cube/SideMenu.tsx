@@ -3,7 +3,7 @@ import { Menu } from 'antd';
 import { isNil } from 'lodash';
 import { Fa, FaEnums, Rbac } from '@/types';
 import MenuLayoutContext from '@/layout/menu/context/MenuLayoutContext';
-import { SiderLayout } from '@/components/antd-pro';
+import { SiderLayout } from '@fa/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 /**
@@ -24,7 +24,7 @@ export default function SideMenu() {
       children: loop(i.children),
       icon: i.sourceData.icon ? (
         <div className="fa-flex-column-center" style={{ width: 14, display: 'inline-block' }}>
-          <FontAwesomeIcon icon={i.sourceData.icon} />
+          <FontAwesomeIcon icon={i.sourceData.icon as any} />
         </div>
       ) : null,
     }));
