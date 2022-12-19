@@ -1,16 +1,16 @@
-import React, {CSSProperties, useEffect, useState} from 'react';
-import {message, Upload, UploadProps} from 'antd';
-import {LoadingOutlined, PlusOutlined} from '@ant-design/icons';
+import React, { CSSProperties, useEffect, useState } from 'react';
+import { message, Upload, UploadProps } from 'antd';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import fileApi from '@/services/admin/fileSave';
-import {getToken} from '@/utils/cache';
-import {RES_CODE, TOKEN_KEY} from '@/configs/server.config';
-import {RcFile} from 'antd/es/upload';
-import {UploadChangeParam} from 'antd/lib/upload/interface';
-import {UploadFile} from 'antd/es/upload/interface';
+import { getToken } from '@/utils/cache';
+import { RES_CODE, TOKEN_KEY } from '@/configs/server.config';
+import { RcFile } from 'antd/es/upload';
+import { UploadChangeParam } from 'antd/lib/upload/interface';
+import { UploadFile } from 'antd/es/upload/interface';
 
 interface IProps extends Omit<UploadProps, 'onChange'> {
   value?: string;
-  onChange?: (fileId: string) => void;
+  onChange?: (fileId: string | undefined) => void;
   style?: CSSProperties;
 }
 
@@ -26,13 +26,18 @@ export default function UploadImgQiniu({ value, onChange, style, ...props }: IPr
     if (value === undefined || value == null) return;
 
     setLoading(true);
-    fileApi.getById(value).then((res) => {
-      setLoading(false);
-      if (res && res.status === RES_CODE.OK) {
-        const fileData = res.data;
-        setArray([{ uid: fileData.id, size: fileData.size, name: fileData.name, url: fileApi.genLocalGetFile(fileData.id) }]);
-      }
-    }).catch(() => setLoading(false));
+    fileApi
+      .getById(value)
+      .then((res) => {
+        setLoading(false);
+        if (res && res.status === RES_CODE.OK) {
+          const fileData = res.data;
+          setArray([
+            { uid: fileData.id, size: fileData.size, name: fileData.name, url: fileApi.genLocalGetFile(fileData.id) },
+          ]);
+        }
+      })
+      .catch(() => setLoading(false));
   }, [value]);
 
   function beforeUpload(file: RcFile) {
@@ -78,9 +83,8 @@ export default function UploadImgQiniu({ value, onChange, style, ...props }: IPr
   }
 
   function handleRemove(file: UploadFile) {
-    // console.log('handleRemove', file)
+    console.log('handleRemove', file);
     if (onChange) {
-      // @ts-ignore
       onChange(undefined);
     }
   }

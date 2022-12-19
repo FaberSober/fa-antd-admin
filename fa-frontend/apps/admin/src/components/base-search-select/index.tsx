@@ -1,8 +1,8 @@
-import React, {ReactNode, useEffect, useState} from 'react';
-import {get, remove, trim} from 'lodash';
-import {Select, SelectProps} from 'antd';
-import {useDebounce} from 'react-use';
-import * as Fa from '@/../../../types/base/Fa';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { get, remove, trim } from 'lodash';
+import { Select, SelectProps } from 'antd';
+import { useDebounce } from 'react-use';
+import { Fa } from '@/types';
 
 export interface BaseSearchSelectProps<T, KeyType = number> extends SelectProps<T> {
   labelKey?: string | ((record: T) => string | ReactNode);
@@ -18,7 +18,7 @@ export interface BaseSearchSelectProps<T, KeyType = number> extends SelectProps<
   };
   value?: any;
   onChange?: (v: any, option?: any) => void;
-  onItemChange?: (v: T) => void;
+  // onItemChange?: (v: T) => void;
   extraParams?: any;
 }
 
@@ -34,7 +34,6 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
   value,
   extraParams,
   onChange,
-  onItemChange,
   ...props
 }: BaseSearchSelectProps<RecordType, KeyType>) {
   const [loading, setLoading] = useState(false);
@@ -70,15 +69,18 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
           }));
 
           // 追加搜索
-          serviceApi?.search(search).then((res1) => {
-            const newListAdd = res1.data.rows.map((c) => ({
-              label: parseLabel(c),
-              value: parseValue(c),
-            }));
-            const newListValues = newList.map((v1) => v1.value);
-            remove(newListAdd, (v) => newListValues.indexOf(v.value) > -1);
-            setArray([...newList, ...newListAdd]);
-          }).catch(() => setArray(newList));
+          serviceApi
+            ?.search(search)
+            .then((res1) => {
+              const newListAdd = res1.data.rows.map((c) => ({
+                label: parseLabel(c),
+                value: parseValue(c),
+              }));
+              const newListValues = newList.map((v1) => v1.value);
+              remove(newListAdd, (v) => newListValues.indexOf(v.value) > -1);
+              setArray([...newList, ...newListAdd]);
+            })
+            .catch(() => setArray(newList));
         });
       }
     } else {
@@ -105,22 +107,25 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
 
   function searchNow() {
     setLoading(true);
-    serviceApi?.search(search).then((res) => {
-      const newList = res.data.rows.map((c) => ({
-        label: parseLabel(c),
-        value: parseValue(c),
-      }));
-      setArray(newList);
-      setLoading(false);
-    }).catch(() => setLoading(false));
+    serviceApi
+      ?.search(search)
+      .then((res) => {
+        const newList = res.data.rows.map((c) => ({
+          label: parseLabel(c),
+          value: parseValue(c),
+        }));
+        setArray(newList);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }
 
   const [, cancel] = useDebounce(
     () => {
-      searchNow()
+      searchNow();
     },
     500,
-    [search]
+    [search],
   );
 
   function handleValueChange(v: any, item: any) {
@@ -131,7 +136,6 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
   }
 
   return (
-    // @ts-ignore
     <Select
       showSearch
       allowClear
@@ -141,8 +145,8 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
       filterOption={false}
       searchValue={search}
       onSearch={(v) => {
-        setLoading(true)
-        setSearch(v)
+        setLoading(true);
+        setSearch(v);
       }}
       notFoundContent={null}
       placeholder="搜索..."

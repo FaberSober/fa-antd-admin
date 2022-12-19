@@ -1,14 +1,14 @@
-import React, {useEffect, useImperativeHandle, useRef} from 'react';
-import {get} from 'lodash';
-import {DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
-import {Button, Form, Input, Space} from 'antd';
-import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
+import React, { useEffect } from 'react';
+import { get } from 'lodash';
+import { DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Space } from 'antd';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import modelService from '@/services/admin/user';
-import * as Admin from '../../../../../../../types/admin';
+import { Admin } from '@/types';
 import UserModal from '../modal/UserModal';
-import DepartmentCascade from "../helper/DepartmentCascade";
-import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
-import {AuthDelBtn, FaHref} from "@/components/decorator";
+import DepartmentCascade from '../helper/DepartmentCascade';
+import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
+import { AuthDelBtn, FaHref } from '@/components/decorator';
 
 const serviceName = '用户';
 const biz = 'UserList-v2';
@@ -20,14 +20,28 @@ interface IProps {
 export default function UserList({ departmentId }: IProps) {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setExtraParams, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } =
-    useTableQueryParams<Admin.UserWeb>(
-      modelService.page,
-      { extraParams: { departmentIdSuper: departmentId }, sorter: { field: 'crtTime', order: 'descend' } },
-      serviceName
-    );
+  const {
+    queryParams,
+    setFormValues,
+    handleTableChange,
+    setExtraParams,
+    setSceneId,
+    setConditionList,
+    fetchPageList,
+    loading,
+    list,
+    dicts,
+    paginationProps,
+  } = useTableQueryParams<Admin.UserWeb>(
+    modelService.page,
+    { extraParams: { departmentIdSuper: departmentId }, sorter: { field: 'crtTime', order: 'descend' } },
+    serviceName,
+  );
 
-  const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, { ...queryParams, extraParams: { departmentIdSuper: departmentId } });
+  const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, {
+    ...queryParams,
+    extraParams: { departmentIdSuper: departmentId },
+  });
   const [handleDelete] = useDelete<string>(modelService.remove, fetchPageList, serviceName);
 
   useEffect(() => setExtraParams({ departmentIdSuper: departmentId }), [departmentId]);
@@ -45,7 +59,11 @@ export default function UserList({ departmentId }: IProps) {
         ...BaseTableUtils.genSimpleSorterColumn('部门', 'departmentId', 200, sorter),
         render: (val: any, record: any) => record.departmentName,
         tcCondComponent: ({ index, value, callback, ...props }: FaberTable.TcCondProp) => (
-          <DepartmentCascade value={value} onChangeWithItem={(v: any, item: any) => callback(v, index, get(item, 'name'))} {...props} />
+          <DepartmentCascade
+            value={value}
+            onChangeWithItem={(v: any, item: any) => callback(v, index, get(item, 'name'))}
+            {...props}
+          />
         ),
       },
       BaseTableUtils.genBoolSorterColumn('账户有效', 'status', 100, sorter),
@@ -89,12 +107,20 @@ export default function UserList({ departmentId }: IProps) {
           </Form>
 
           <Space>
-            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
-            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
+              查询
+            </Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>
+              重置
+            </Button>
             <UserModal title={`新增${serviceName}信息`} fetchFinish={fetchPageList}>
-              <Button icon={<PlusOutlined />} type="primary">新增</Button>
+              <Button icon={<PlusOutlined />} type="primary">
+                新增
+              </Button>
             </UserModal>
-            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>
+              导出
+            </Button>
           </Space>
         </div>
       </div>

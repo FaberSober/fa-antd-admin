@@ -19,6 +19,9 @@ library.add(fas);
 const tag: Demo.StudentTag = { name: 'foo' };
 console.log('Admin', 'Demo.Student', tag);
 
+const tag1 = { name: 'foo' } as Admin.ConfigScene;
+console.log('Admin', 'Admin.ConfigScene', tag1);
+
 function App() {
   return <Suspense fallback={<PageLoading />}>{useRoutes(routes)}</Suspense>;
 }

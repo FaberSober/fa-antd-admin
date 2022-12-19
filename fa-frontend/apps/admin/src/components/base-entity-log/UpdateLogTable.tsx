@@ -1,7 +1,6 @@
 import React from 'react';
-import {Table} from "antd";
-import {ArrowRightOutlined} from "@ant-design/icons";
-
+import { Table } from 'antd';
+import { ArrowRightOutlined } from '@ant-design/icons';
 
 export interface UpdateLogTableProps {
   content: string;
@@ -12,18 +11,18 @@ export interface UpdateLogTableProps {
  * @date 2022/10/13
  */
 export default function UpdateLogTable({ content }: UpdateLogTableProps) {
-
   let array = [];
   try {
-    array = JSON.parse(content)
+    array = JSON.parse(content);
   } catch (e) {
+    console.error(e);
   }
 
-  function renderVal(value:any, rich:any) {
+  function renderVal(value: any, rich: any) {
     if (rich) {
-      return <div style={{ minWidth: 100 }} dangerouslySetInnerHTML={{ __html: value }} />
+      return <div style={{ minWidth: 100 }} dangerouslySetInnerHTML={{ __html: value }} />;
     }
-    return <span>{value}</span>
+    return <span>{value}</span>;
   }
 
   return (
@@ -41,5 +40,5 @@ export default function UpdateLogTable({ content }: UpdateLogTableProps) {
       size="small"
       pagination={false}
     />
-  )
+  );
 }

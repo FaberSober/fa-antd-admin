@@ -1,4 +1,4 @@
-declare module 'ConditionQuery' {
+declare namespace ConditionQuery {
   /** 自定义筛选条件-类型 */
   export enum CondOpr {
     equal = 'eq', // '等于',
@@ -53,3 +53,5 @@ declare module 'ConditionQuery' {
     [ConditionQuery.CondOpr.between]: '介于',
   };
 }
+
+export default ConditionQuery;

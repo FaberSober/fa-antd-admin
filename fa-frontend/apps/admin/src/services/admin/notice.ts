@@ -1,6 +1,6 @@
 import { GATE_APP } from '@/configs/server.config';
-import * as Admin from '../../../types/admin';
 import { BaseApi } from '@/services/base';
+import { Admin } from '@/types';
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */
 const serviceModule = 'notice';

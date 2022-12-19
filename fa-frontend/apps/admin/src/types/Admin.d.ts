@@ -1,6 +1,5 @@
-// import * as Fa from './base/Fa';
-// import * as FaEnums from "./base/FaEnums";
-import * as ConditionQuery from '@/components/condition-query/interface';
+import { Fa, FaEnums } from './index';
+import ConditionQuery from '@/components/condition-query/interface';
 
 declare namespace Admin {
   // -------------------------------------------- 系统-配置表 --------------------------------------------
@@ -395,3 +394,5 @@ declare namespace Admin {
     };
   }
 }
+
+export default Admin;

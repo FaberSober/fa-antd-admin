@@ -50,3 +50,5 @@ declare namespace Demo {
     sort: number;
   }
 }
+
+export default Demo;

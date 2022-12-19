@@ -1,18 +1,16 @@
-import React, {ReactNode, useContext, useEffect, useState} from 'react';
-import {find, isNil, sortBy} from 'lodash';
-import {Button, Checkbox, Drawer, Input} from 'antd';
-import {showResponse} from '@/utils/utils';
-import {ModalProps} from 'antd/es/modal';
-import {FaberTable} from '@/components/base-table';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import { find, isNil, sortBy } from 'lodash';
+import { Button, Checkbox, Drawer, Input } from 'antd';
+import { showResponse } from '@/utils/utils';
+import { ModalProps } from 'antd/es/modal';
+import { FaberTable } from '@/components/base-table';
 import * as BaseTableUtils from '@/components/base-table/utils';
-import * as Admin from '../../../types/admin';
+import { Admin, FaEnums } from '@/types';
 import configApi from '@/services/admin/config';
-import {FaFlexRestLayout} from "@/components/base-layout";
-import {FaSortList} from "@/components/base-drag";
+import { FaFlexRestLayout } from '@/components/base-layout';
+import { FaSortList } from '@/components/base-drag';
 import styles from './TableColConfigModal.module.less';
-import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import * as FaEnums from "@/../../../types/base/FaEnums";
-
+import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
 
 const colWidthCache: { [key: string]: number } = {};
 
@@ -28,7 +26,7 @@ interface IProps<T> extends ModalProps {
  * 1. 操作一栏不进行排序，默认放在最后一排
  */
 function TableColConfigModal<T>({ columns = [], biz, onConfigChange, children, ...restProps }: IProps<T>) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
+  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [config, setConfig] = useState<Admin.Config<FaberTable.ColumnsProp<any>[]>>();
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<FaberTable.ColumnsProp<T>[]>(columns);
@@ -36,7 +34,10 @@ function TableColConfigModal<T>({ columns = [], biz, onConfigChange, children, .
   /**
    * 解析columns与远端配置，并排序
    */
-  function parseItemsSorted(columnsArgs: FaberTable.ColumnsProp<T>[], configColumns: FaberTable.ColumnsProp<T>[]): FaberTable.ColumnsProp<T>[] {
+  function parseItemsSorted(
+    columnsArgs: FaberTable.ColumnsProp<T>[],
+    configColumns: FaberTable.ColumnsProp<T>[],
+  ): FaberTable.ColumnsProp<T>[] {
     const itemList = columnsArgs.map((item) => {
       const remoteItem = find(configColumns, (col) => {
         const dIndex = col.dataIndex instanceof Array ? col.dataIndex.join() : col.dataIndex;
@@ -50,7 +51,7 @@ function TableColConfigModal<T>({ columns = [], biz, onConfigChange, children, .
 
   /** 获取服务端配置 */
   function fetchRemoteConfig() {
-    configApi.getOne(biz, FaEnums.ConfigType.TABLE_COLUMNS).then(res => {
+    configApi.getOne(biz, FaEnums.ConfigType.TABLE_COLUMNS).then((res) => {
       if (isNil(res.data) || res.data.length === 0) return;
       const config = res.data;
       if (onConfigChange) {
@@ -82,7 +83,13 @@ function TableColConfigModal<T>({ columns = [], biz, onConfigChange, children, .
     const columnsMerge: FaberTable.ColumnsProp<T>[] = items.map((item, index) => {
       const { dataIndex, tcRequired, tcChecked, width } = item;
       if (BaseTableUtils.dataIndexToString(dataIndex) in colWidthCache) {
-        return { dataIndex, tcRequired, tcChecked, width: colWidthCache[BaseTableUtils.dataIndexToString(dataIndex)], sort: index };
+        return {
+          dataIndex,
+          tcRequired,
+          tcChecked,
+          width: colWidthCache[BaseTableUtils.dataIndexToString(dataIndex)],
+          sort: index,
+        };
       }
       return { dataIndex, tcRequired, tcChecked, width, sort: index };
     }) as FaberTable.ColumnsProp<T>[];
@@ -121,7 +128,7 @@ function TableColConfigModal<T>({ columns = [], biz, onConfigChange, children, .
     colWidthCache[BaseTableUtils.dataIndexToString(item.dataIndex)] = value;
   }
 
-  const loading = loadingEffect[configApi.getUrl('save')] || loadingEffect[configApi.getUrl('update')]
+  const loading = loadingEffect[configApi.getUrl('save')] || loadingEffect[configApi.getUrl('update')];
   return (
     <span>
       <span onClick={showModelHandler}>{children}</span>
@@ -133,23 +140,38 @@ function TableColConfigModal<T>({ columns = [], biz, onConfigChange, children, .
         onClose={() => setOpen(false)}
         width={500}
         destroyOnClose
-        extra={<Button size="small" type="primary" onClick={handleSave} loading={loading}>更新</Button>}
+        extra={
+          <Button size="small" type="primary" onClick={handleSave} loading={loading}>
+            更新
+          </Button>
+        }
         {...restProps}
       >
         <div className="fa-full-content-p12 fa-flex-column">
           <div className="fa-flex-row-center" style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
-            <div className={styles.tableColTheadItem} style={{ flex: 1, borderRight: '1px solid #ccc' }}>字段</div>
-            <div className={styles.tableColTheadItem} style={{ width: 100 }}>宽度(px)</div>
+            <div className={styles.tableColTheadItem} style={{ flex: 1, borderRight: '1px solid #ccc' }}>
+              字段
+            </div>
+            <div className={styles.tableColTheadItem} style={{ width: 100 }}>
+              宽度(px)
+            </div>
             <div className={styles.tableColTheadItem} style={{ width: 31 }} />
           </div>
           <FaFlexRestLayout>
             <FaSortList
-              list={items.filter(i => i.tcType !== 'menu')}
+              list={items.filter((i) => i.tcType !== 'menu')}
               rowKey="dataIndex"
               renderItem={(item) => (
                 <div className={styles.itemContainer}>
-                  <Checkbox disabled={item.tcRequired} checked={item.tcRequired || item.tcChecked} onChange={(e) => handleItemCheck(item, e.target.checked)} />
-                  <div style={{ flex: 1, paddingLeft: 8, fontSize: '14px' }} onClick={() => handleItemCheck(item, !item.tcChecked)}>
+                  <Checkbox
+                    disabled={item.tcRequired}
+                    checked={item.tcRequired || item.tcChecked}
+                    onChange={(e) => handleItemCheck(item, e.target.checked)}
+                  />
+                  <div
+                    style={{ flex: 1, paddingLeft: 8, fontSize: '14px' }}
+                    onClick={() => handleItemCheck(item, !item.tcChecked)}
+                  >
                     <span>{item.title}</span>
                   </div>
                   {item.tcRequired ? <span style={{ color: '#666', marginRight: 16 }}>（必选）</span> : null}
@@ -165,15 +187,14 @@ function TableColConfigModal<T>({ columns = [], biz, onConfigChange, children, .
                   </div>
                 </div>
               )}
-              itemStyle={{borderBottom: '1px solid #ccc'}}
+              itemStyle={{ borderBottom: '1px solid #ccc' }}
               onSortEnd={(l) => {
-                setItems([ ...l, ...items.filter(i => i.tcType === 'menu') ])
+                setItems([...l, ...items.filter((i) => i.tcType === 'menu')]);
               }}
               vertical
               handle
             />
           </FaFlexRestLayout>
-
         </div>
       </Drawer>
     </span>

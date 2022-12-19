@@ -1,12 +1,12 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
-import {get} from 'lodash';
-import {Form, Input} from 'antd';
-import DragModal, {DragModalProps} from '@/components/modal/DragModal';
-import {showResponse, formItemFullLayout} from '@/utils/utils';
+import React, { useContext, useEffect, useState } from 'react';
+import { get } from 'lodash';
+import { Form, Input } from 'antd';
+import DragModal, { DragModalProps } from '@/components/modal/DragModal';
+import { showResponse, formItemFullLayout } from '@/utils/utils';
 import modelService from '@/services/admin/dict';
-import * as Admin from '../../../../../../../types/admin';
-import DictCascade from "../helper/DictCascade";
-import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
+import { Admin } from '@/types';
+import DictCascade from '../helper/DictCascade';
+import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
 
 const serviceName = '字典分类';
 
@@ -20,7 +20,7 @@ interface IProps extends DragModalProps {
  * 字典分类实体新增、编辑弹框
  */
 export default function DictModal({ children, parentId, title, record, ...props }: IProps) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
+  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -30,9 +30,8 @@ export default function DictModal({ children, parentId, title, record, ...props 
     modelService.save(params).then((res) => {
       showResponse(res, `新增${serviceName}`);
       setOpen(false);
-      // @ts-ignore
-      if (props.onCancel) props.onCancel();
-    })
+      if (props.onCancel) props.onCancel(params);
+    });
   }
 
   /** 更新Item */
@@ -40,9 +39,8 @@ export default function DictModal({ children, parentId, title, record, ...props 
     modelService.update(params.id, params).then((res) => {
       showResponse(res, `更新${serviceName}`);
       setOpen(false);
-      // @ts-ignore
-      if (props.onCancel) props.onCancel();
-    })
+      if (props.onCancel) props.onCancel(params);
+    });
   }
 
   /** 提交表单 */
@@ -63,17 +61,17 @@ export default function DictModal({ children, parentId, title, record, ...props 
       name: get(record, 'name'),
       parentId: get(record, 'parentId', parentId),
       description: get(record, 'description'),
-    }
+    };
   }
 
   function showModal() {
-    setOpen(true)
-    form.setFieldsValue(getInitialValues())
+    setOpen(true);
+    form.setFieldsValue(getInitialValues());
   }
 
   useEffect(() => {
-    form.setFieldsValue(getInitialValues())
-  }, [props.open])
+    form.setFieldsValue(getInitialValues());
+  }, [props.open]);
 
   const loading = loadingEffect[modelService.getUrl('save')] || loadingEffect[modelService.getUrl('update')];
   return (

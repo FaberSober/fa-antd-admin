@@ -1,16 +1,16 @@
-import React, {createContext, useState} from 'react';
-import useBus from "use-bus";
-import * as Fa from "@/../../types/base/Fa";
+import React, { createContext, useState } from 'react';
+import useBus from 'use-bus';
+import { Fa } from '@/types';
 
 export interface ApiEffectLayoutContextProps {
-  loadingEffect: any, // 全局api请求加载
+  loadingEffect: any; // 全局api请求加载
 }
 
 export const ApiEffectLayoutContext = createContext<ApiEffectLayoutContextProps>({
   loadingEffect: {},
 });
 
-let loadingEffectOrigin:any = {};
+const loadingEffectOrigin: any = {};
 
 /**
  * @author xu.pengfei
@@ -21,26 +21,22 @@ export default function ApiEffectLayout({ children }: Fa.BaseChildProps) {
 
   useBus(
     ['@@api/CHANGE_URL_LOADING'],
-    ({ type, payload }) => {
-      const { url, loading: urlLoading } = payload
+    ({ payload }) => {
+      const { url, loading: urlLoading } = payload;
       // console.log('@@api/CHANGE_URL_LOADING', url, urlLoading)
       if (urlLoading) {
         loadingEffectOrigin[url] = true;
       } else {
-        delete loadingEffectOrigin[url]
+        delete loadingEffectOrigin[url];
       }
-      setLoadingEffect({ ...loadingEffectOrigin })
+      setLoadingEffect({ ...loadingEffectOrigin });
     },
     [],
-  )
+  );
 
   const contextValue: ApiEffectLayoutContextProps = {
     loadingEffect,
   };
 
-  return (
-    <ApiEffectLayoutContext.Provider value={contextValue}>
-      {children}
-    </ApiEffectLayoutContext.Provider>
-  )
+  return <ApiEffectLayoutContext.Provider value={contextValue}>{children}</ApiEffectLayoutContext.Provider>;
 }

@@ -1,4 +1,4 @@
-import * as Fa from '@/../../../types/base/Fa';
+import { Fa } from '@/types';
 import BaseApi from '@/services/base/BaseApi';
 
 export default class BaseTreeApi<T, KeyType, PageT = T> extends BaseApi<T, KeyType, PageT> {

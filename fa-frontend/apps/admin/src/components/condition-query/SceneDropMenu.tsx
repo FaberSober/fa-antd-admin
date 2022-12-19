@@ -1,12 +1,12 @@
-import React, {useEffect, useImperativeHandle, useMemo, useRef, useState} from 'react';
-import {find} from 'lodash';
-import {Dropdown} from 'antd';
-import {DownOutlined, SettingOutlined} from '@ant-design/icons';
+import React, { useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { find } from 'lodash';
+import { Dropdown } from 'antd';
+import { DownOutlined, SettingOutlined } from '@ant-design/icons';
 import SceneManageModal from '@/components/condition-query/SceneManageModal';
-import * as Admin from '../../../types/admin';
-import {FaberTable} from '@/components/base-table';
+import { Admin } from '@/types';
+import { FaberTable } from '@/components/base-table';
 import configService from '@/services/admin/configScene';
-import {RES_CODE} from '@/configs/server.config';
+import { RES_CODE } from '@/configs/server.config';
 
 const allSceneLabel = '全部数据';
 
@@ -69,14 +69,12 @@ function SceneDropMenu<T>({ biz, columns, onChange }: IProps<T>, ref: any) {
   }
 
   const items = useMemo(() => {
-    const items:any[] = [{ key: '0', label: allSceneLabel }];
-    items.push(...configList
-      .filter((n) => !n.hide)
-      .map((i) => ({ label: i.name, key: i.id  })))
-    items.push({ type: 'divider' })
-    items.push({ key: 'setting', label: '管理', icon: <SettingOutlined /> })
+    const items: any[] = [{ key: '0', label: allSceneLabel }];
+    items.push(...configList.filter((n) => !n.hide).map((i) => ({ label: i.name, key: i.id })));
+    items.push({ type: 'divider' });
+    items.push({ key: 'setting', label: '管理', icon: <SettingOutlined /> });
     return items;
-  }, [configList])
+  }, [configList]);
 
   return (
     <div>
@@ -88,8 +86,7 @@ function SceneDropMenu<T>({ biz, columns, onChange }: IProps<T>, ref: any) {
       <SceneManageModal
         ref={manageModalRef}
         biz={biz}
-        // @ts-ignore
-        columns={columns}
+        columns={columns as any[]}
         open={manageModalVisible}
         onOk={() => {
           refreshConfigList();

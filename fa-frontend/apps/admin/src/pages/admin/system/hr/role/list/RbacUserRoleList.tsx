@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
-import {PlusOutlined, SearchOutlined} from '@ant-design/icons';
-import {Button, Form, Input, Space} from 'antd';
-import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
-import {clearForm, useDelete, useTableQueryParams} from "@/utils/myHooks";
+import React, { useEffect } from 'react';
+import { SearchOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Space } from 'antd';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
+import { clearForm, useDelete, useTableQueryParams } from '@/utils/myHooks';
 import modelService from '@/services/rbac/rbacUserRole';
-import * as Rbac from '../../../../../../../types/rbac';
-import {AuthDelBtn} from "@/components/decorator";
+import { Rbac } from '@/types';
+import { AuthDelBtn } from '@/components/decorator';
 
 const serviceName = '角色用户';
 const biz = 'RbacUserRoleList';
@@ -17,14 +17,26 @@ export interface RbacUserRoleListProps {
 export default function RbacUserRoleList({ rbacRole }: RbacUserRoleListProps) {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, setExtraParams, handleTableChange, fetchPageList, loading, list, paginationProps } =
-    useTableQueryParams<Rbac.RbacUserRoleRetVo>(modelService.pageVo, { extraParams: { roleId: rbacRole.id }, sorter: { field: 'crtTime', order: "descend" } }, serviceName)
+  const {
+    queryParams,
+    setFormValues,
+    setExtraParams,
+    handleTableChange,
+    fetchPageList,
+    loading,
+    list,
+    paginationProps,
+  } = useTableQueryParams<Rbac.RbacUserRoleRetVo>(
+    modelService.pageVo,
+    { extraParams: { roleId: rbacRole.id }, sorter: { field: 'crtTime', order: 'descend' } },
+    serviceName,
+  );
 
   useEffect(() => {
-    setExtraParams({ roleId: rbacRole.id })
-  }, [rbacRole])
+    setExtraParams({ roleId: rbacRole.id });
+  }, [rbacRole]);
 
-  const [handleDelete] = useDelete<string>(modelService.remove, fetchPageList, serviceName)
+  const [handleDelete] = useDelete<string>(modelService.remove, fetchPageList, serviceName);
 
   /** 生成表格字段List */
   function genColumns() {
@@ -61,8 +73,12 @@ export default function RbacUserRoleList({ rbacRole }: RbacUserRoleListProps) {
           </Form>
 
           <Space>
-            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
-            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
+              查询
+            </Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>
+              重置
+            </Button>
             {/*<Button icon={<PlusOutlined />} type="primary">新增</Button>*/}
           </Space>
         </div>

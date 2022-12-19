@@ -1,8 +1,7 @@
-import * as Admin from '../../../types/admin';
 import { GATE_APP } from '@/configs/server.config';
 import { BaseApi } from '@/services/base';
 import { trim } from 'lodash';
-import * as Fa from '@/../../../types/base/Fa';
+import { Admin, Fa } from '@/types';
 
 interface UploadToken {
   token: string;

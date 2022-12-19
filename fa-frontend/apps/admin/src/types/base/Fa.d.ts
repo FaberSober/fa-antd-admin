@@ -1,9 +1,11 @@
 import { ReactNode } from 'react';
 import { DragModalProps } from '@/components/modal/DragModal';
-import * as ConditionQuery from '@/components/condition-query/interface';
+import ConditionQuery from '@/components/condition-query/interface';
 
 declare namespace Fa {
   // ------------------------------------- Constant -------------------------------------
+  export type KeyType = string | number;
+
   export const Constant = {
     /** 约定：tree结构数据，根结点的ID默认为0 */
     TREE_SUPER_ROOT_ID: 0,
@@ -117,7 +119,7 @@ declare namespace Fa {
   }
 
   export interface BaseQueryParams {
-    query: any;
+    query?: any;
     [key: string]: any;
   }
 
@@ -227,3 +229,5 @@ declare namespace Fa {
     children?: ReactNode;
   }
 }
+
+export default Fa;

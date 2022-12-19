@@ -5,17 +5,17 @@ import {
   PlusOutlined,
   SearchOutlined,
   UnorderedListOutlined,
-  UsergroupAddOutlined
+  UsergroupAddOutlined,
 } from '@ant-design/icons';
-import {Button, Card, Form, Input, Space} from 'antd';
-import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
-import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
+import { Button, Form, Input, Space } from 'antd';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
+import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
 import modelService from '@/services/rbac/rbacRole';
-import * as Rbac from '../../../../../../types/rbac';
+import { Rbac } from '@/types';
 import RbacRoleModal from './modal/RbacRoleModal';
-import {AuthDelBtn, FaHref} from "@/components/decorator";
-import RbacRoleMenuDrawer from "./modal/RbacRoleMenuDrawer";
-import RbacRoleUserDrawer from "./modal/RbacRoleUserDrawer";
+import { AuthDelBtn, FaHref } from '@/components/decorator';
+import RbacRoleMenuDrawer from './modal/RbacRoleMenuDrawer';
+import RbacRoleUserDrawer from './modal/RbacRoleUserDrawer';
 
 const serviceName = '角色';
 const biz = 'base_rbac_role';
@@ -23,11 +23,24 @@ const biz = 'base_rbac_role';
 export default function RbacRoleList() {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, paginationProps } =
-    useTableQueryParams<Rbac.RbacRole>(modelService.page, { sorter: { field: 'crtTime', order: "descend" } }, serviceName)
+  const {
+    queryParams,
+    setFormValues,
+    handleTableChange,
+    setSceneId,
+    setConditionList,
+    fetchPageList,
+    loading,
+    list,
+    paginationProps,
+  } = useTableQueryParams<Rbac.RbacRole>(
+    modelService.page,
+    { sorter: { field: 'crtTime', order: 'descend' } },
+    serviceName,
+  );
 
-  const [handleDelete] = useDelete<string>(modelService.remove, fetchPageList, serviceName)
-  const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams)
+  const [handleDelete] = useDelete<string>(modelService.remove, fetchPageList, serviceName);
+  const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams);
 
   /** 生成表格字段List */
   function genColumns() {
@@ -75,12 +88,20 @@ export default function RbacRoleList() {
           </Form>
 
           <Space>
-            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
-            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
+              查询
+            </Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>
+              重置
+            </Button>
             <RbacRoleModal title={`新增${serviceName}信息`} fetchFinish={fetchPageList}>
-              <Button icon={<PlusOutlined />} type="primary">新增</Button>
+              <Button icon={<PlusOutlined />} type="primary">
+                新增
+              </Button>
             </RbacRoleModal>
-            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>
+              导出
+            </Button>
           </Space>
         </div>
       </div>

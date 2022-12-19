@@ -1,5 +1,5 @@
 import { cloneDeep, get, isNil, trim } from 'lodash';
-import * as Fa from '@/../../../types/base/Fa';
+import { Fa } from '@/types';
 import BaseTreeProps from './interface';
 
 export function parseNode<T = any>(
@@ -126,7 +126,7 @@ export function dropItem(
   dropNodeExpand: boolean,
 ): Fa.TreeNode[] {
   const data = cloneDeep(tree);
-  const { node: dropNode } = findTreeItem(tree, dropKey)!;
+  // const { node: dropNode } = findTreeItem(tree, dropKey)!;
 
   // Find dragObject
   const dragInfo = findTreeItem(data, dragKey)!;

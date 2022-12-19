@@ -2,9 +2,8 @@ import { findIndex, get, isNil, isUndefined, map, trim } from 'lodash';
 import { RES_CODE } from '@/configs/server.config';
 import { message } from 'antd';
 import dayjs from 'dayjs';
-import * as Fa from '@/../../types/base/Fa';
+import { Fa, Rbac } from '@/types';
 import { parse } from 'querystring';
-import * as Rbac from '../../types/rbac';
 
 export const REGEX_TEL_NO = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/;
 

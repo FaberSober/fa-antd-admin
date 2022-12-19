@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
-import {Descriptions, Drawer} from 'antd';
-import {DragModalProps} from '@/components/modal/DragModal';
-import * as Admin from '../../../../../../../types/admin';
-import ReactJson from 'react-json-view'
-import {isJson} from "@/utils/utils";
-
+import React, { useState } from 'react';
+import { Descriptions, Drawer } from 'antd';
+import { DragModalProps } from '@/components/modal/DragModal';
+import { Admin } from '@/types';
+import ReactJson from 'react-json-view';
+import { isJson } from '@/utils/utils';
 
 export interface GateLogDrawerProps extends DragModalProps {
   record: Admin.LogApi;
@@ -20,13 +19,7 @@ export default function LogApiDrawer({ children, record, ...props }: GateLogDraw
   return (
     <span>
       <span onClick={() => setOpen(true)}>{children}</span>
-      <Drawer
-        title="查看请求详情"
-        open={open}
-        onClose={() => setOpen(false)}
-        width={700}
-        {...props}
-      >
+      <Drawer title="查看请求详情" open={open} onClose={() => setOpen(false)} width={700} {...props}>
         <Descriptions bordered column={1} labelStyle={{ width: 120 }}>
           <Descriptions.Item label="URL">{record.url}</Descriptions.Item>
           <Descriptions.Item label="Method">{record.method}</Descriptions.Item>
@@ -45,7 +38,9 @@ export default function LogApiDrawer({ children, record, ...props }: GateLogDraw
                 style={{ fontSize: '10px', maxHeight: '90vh', overflow: 'auto' }}
                 // theme="monokai"
               />
-            ) : record.request}
+            ) : (
+              record.request
+            )}
           </Descriptions.Item>
           <Descriptions.Item label="返回码">{record.retStatus}</Descriptions.Item>
           <Descriptions.Item label="返回内容">
@@ -57,10 +52,12 @@ export default function LogApiDrawer({ children, record, ...props }: GateLogDraw
                 style={{ fontSize: '10px', maxHeight: '90vh', overflow: 'auto' }}
                 // theme="monokai"
               />
-            ) : record.response}
+            ) : (
+              record.response
+            )}
           </Descriptions.Item>
         </Descriptions>
       </Drawer>
     </span>
-  )
+  );
 }

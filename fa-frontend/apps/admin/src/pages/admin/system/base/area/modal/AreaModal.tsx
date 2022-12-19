@@ -1,12 +1,12 @@
-import React, {useContext, useState} from 'react';
-import {get} from 'lodash';
-import {Form, Input} from 'antd';
-import DragModal, {DragModalProps} from '@/components/modal/DragModal';
-import {showResponse, formItemFullLayout} from '@/utils/utils';
+import React, { useContext, useState } from 'react';
+import { get } from 'lodash';
+import { Form, Input } from 'antd';
+import DragModal, { DragModalProps } from '@/components/modal/DragModal';
+import { showResponse, formItemFullLayout } from '@/utils/utils';
 import modelService from '@/services/admin/area';
-import * as Admin from '../../../../../../../types/admin';
-import {DictDataSelector, DictEnumApiSelector} from '@/components/base-dict';
-import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
+import { Admin } from '@/types';
+import { DictEnumApiSelector } from '@/components/base-dict';
+import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
 
 const serviceName = '中国行政地区表';
 
@@ -20,7 +20,7 @@ interface IProps extends DragModalProps {
  * 中国行政地区表实体新增、编辑弹框
  */
 export default function AreaModal({ children, title, record, fetchFinish, ...props }: IProps) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
+  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -31,7 +31,7 @@ export default function AreaModal({ children, title, record, fetchFinish, ...pro
       showResponse(res, `新增${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
-    })
+    });
   }
 
   /** 更新Item */
@@ -40,7 +40,7 @@ export default function AreaModal({ children, title, record, fetchFinish, ...pro
       showResponse(res, `更新${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
-    })
+    });
   }
 
   /** 提交表单 */
@@ -65,12 +65,12 @@ export default function AreaModal({ children, title, record, fetchFinish, ...pro
       pinyin: get(record, 'pinyin'),
       lng: get(record, 'lng'),
       lat: get(record, 'lat'),
-    }
+    };
   }
 
   function showModal() {
-    setOpen(true)
-    form.setFieldsValue(getInitialValues())
+    setOpen(true);
+    form.setFieldsValue(getInitialValues());
   }
 
   const loading = loadingEffect[modelService.getUrl('save')] || loadingEffect[modelService.getUrl('update')];

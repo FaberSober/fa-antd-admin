@@ -1,4 +1,4 @@
-import * as Fa from '@/../../../types/base/Fa';
+import { Fa } from '@/types';
 import { requestPost } from '@/utils/request';
 
 /**

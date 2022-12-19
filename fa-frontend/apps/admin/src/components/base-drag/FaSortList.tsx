@@ -1,9 +1,13 @@
-import React, {CSSProperties, ReactNode, useEffect, useState} from 'react';
-import {closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
-import {SortableContext, arrayMove, sortableKeyboardCoordinates, verticalListSortingStrategy} from "@dnd-kit/sortable";
-import {findIndex, get} from 'lodash';
-import FaSortItem from "./FaSortItem";
-
+import React, { CSSProperties, ReactNode } from 'react';
+import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import {
+  SortableContext,
+  arrayMove,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { findIndex, get } from 'lodash';
+import FaSortItem from './FaSortItem';
 
 export interface FaSortListProps<T> {
   list: T[];
@@ -22,42 +26,53 @@ export interface FaSortListProps<T> {
  * @author xu.pengfei
  * @date 2022/12/3 9:57
  */
-export default function FaSortList<T>({ list, rowKey = 'id', renderItem, onSortEnd, handle, handleNode, itemStyle, handleStyle, vertical }: FaSortListProps<T>) {
+export default function FaSortList<T>({
+  list,
+  rowKey = 'id',
+  renderItem,
+  onSortEnd,
+  handle,
+  handleNode,
+  itemStyle,
+  handleStyle,
+  vertical,
+}: FaSortListProps<T>) {
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
-  function handleDragEnd(event:any) {
-    const {active, over} = event;
+  function handleDragEnd(event: any) {
+    const { active, over } = event;
 
     if (active.id !== over.id) {
       const oldIndex = findIndex(list, (i) => getRowKey(i) === active.id);
       const newIndex = findIndex(list, (i) => getRowKey(i) === over.id);
 
       const newList = arrayMove(list, oldIndex, newIndex);
-      if (onSortEnd) onSortEnd(newList)
+      if (onSortEnd) onSortEnd(newList);
     }
   }
 
   function getRowKey(item: T) {
-    return get(item, rowKey!)
+    return get(item, rowKey!);
   }
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-    >
-      <SortableContext
-        items={list.map(i => getRowKey(i))}
-        strategy={verticalListSortingStrategy}
-      >
-        {list.map(i => (
-          <FaSortItem key={getRowKey(i)} id={getRowKey(i)} handle={handle} handleNode={handleNode} vertical={vertical} style={itemStyle} handleStyle={handleStyle}>
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <SortableContext items={list.map((i) => getRowKey(i))} strategy={verticalListSortingStrategy}>
+        {list.map((i) => (
+          <FaSortItem
+            key={getRowKey(i)}
+            id={getRowKey(i)}
+            handle={handle}
+            handleNode={handleNode}
+            vertical={vertical}
+            style={itemStyle}
+            handleStyle={handleStyle}
+          >
             {renderItem(i)}
           </FaSortItem>
         ))}

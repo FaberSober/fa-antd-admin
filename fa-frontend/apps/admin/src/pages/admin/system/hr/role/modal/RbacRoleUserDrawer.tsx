@@ -1,10 +1,8 @@
-import React, {useState} from 'react';
-import {Drawer} from 'antd';
-import * as Rbac from '../../../../../../../types/rbac';
-import {DragModalProps} from "@/components/modal/DragModal";
-import {FaFlexRestLayout} from "@/components/base-layout";
-import RbacUserRoleList from "../list/RbacUserRoleList";
-
+import React, { useState } from 'react';
+import { Drawer } from 'antd';
+import { Rbac } from '@/types';
+import { DragModalProps } from '@/components/modal/DragModal';
+import RbacUserRoleList from '../list/RbacUserRoleList';
 
 export interface RbacRoleUserDrawerProps extends DragModalProps {
   record: Rbac.RbacRole;
@@ -14,21 +12,15 @@ export interface RbacRoleUserDrawerProps extends DragModalProps {
 /**
  * BASE-角色表实体新增、编辑弹框
  */
-export default function RbacRoleUserDrawer({ children, title, record, success, ...props }: RbacRoleUserDrawerProps) {
+export default function RbacRoleUserDrawer({ children, record, ...props }: RbacRoleUserDrawerProps) {
   const [open, setOpen] = useState(false);
 
   return (
     <span>
       <span onClick={() => setOpen(true)}>{children}</span>
-      <Drawer
-        title="角色用户列表"
-        open={open}
-        onClose={() => setOpen(false)}
-        width={700}
-        {...props}
-      >
+      <Drawer title="角色用户列表" open={open} onClose={() => setOpen(false)} width={700} {...props}>
         <RbacUserRoleList rbacRole={record} />
       </Drawer>
     </span>
-  )
+  );
 }

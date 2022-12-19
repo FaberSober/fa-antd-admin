@@ -1,13 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {cloneDeep, isNil, remove} from 'lodash';
-import {Cascader, message} from 'antd';
-import * as Fa from '@/../../../types/base/Fa';
-import * as Admin from '../../../types/admin';
+import React, { useEffect, useState } from 'react';
+import { cloneDeep, isNil, remove } from 'lodash';
+import { Cascader, message } from 'antd';
+import { Fa, Admin } from '@/types';
 import areaService from '@/services/admin/area';
-import {RES_CODE} from '@/configs/server.config';
-import {BaseCascaderProps} from '@/components/base-cascader';
-import {DefaultOptionType} from "rc-cascader/lib/Cascader";
-
+import { RES_CODE } from '@/configs/server.config';
+import { BaseCascaderProps } from '@/components/base-cascader';
+import { DefaultOptionType } from 'rc-cascader/lib/Cascader';
 
 function getLastValue(values: number[]) {
   if (isNil(values)) return undefined;
@@ -33,7 +31,15 @@ export interface IProps<T> extends Omit<BaseCascaderProps<Admin.Area>, 'serviceA
  * @author xu.pengfei
  * @date 2020/12/28
  */
-export default function AreaCascader({ showRoot, leafLevel = 4, leafPath, value, onChange, onChangeWithItem, ...props }: IProps<Admin.Area>) {
+export default function AreaCascader({
+  showRoot,
+  leafLevel = 4,
+  leafPath,
+  value,
+  onChange,
+  onChangeWithItem,
+  ...props
+}: IProps<Admin.Area>) {
   const [array, setArray] = useState<any[] | undefined>([]);
   const [innerValue, setInnerValue] = useState<any[]>();
 
@@ -110,7 +116,7 @@ export default function AreaCascader({ showRoot, leafLevel = 4, leafPath, value,
         }));
         if (res.data.length === 0) {
           targetOption.isLeaf = true;
-          message.info("无下级区域")
+          message.info('无下级区域');
         }
         setArray(cloneDeep(array));
       }
@@ -126,8 +132,8 @@ export default function AreaCascader({ showRoot, leafLevel = 4, leafPath, value,
     }
 
     if (areaCodeList && areaCodeList[0]) {
-      const lastValue = areaCodeList[areaCodeList.length - 1]
-      const lastItem = areaList[areaList.length - 1]
+      const lastValue = areaCodeList[areaCodeList.length - 1];
+      const lastItem = areaList[areaList.length - 1];
       if (onChange) onChange(lastValue, lastItem);
       if (onChangeWithItem) onChangeWithItem(lastValue, lastItem);
     } else {
@@ -142,10 +148,8 @@ export default function AreaCascader({ showRoot, leafLevel = 4, leafPath, value,
       {...props}
       value={innerValue}
       options={array}
-      // @ts-ignore
       loadData={loadData}
-      // @ts-ignore
-      onChange={handleChange}
+      onChange={(v: any, os: any) => handleChange(v, os)}
       changeOnSelect
     />
   );

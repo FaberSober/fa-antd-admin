@@ -6,18 +6,17 @@ import {
   PlayCircleOutlined,
   PlusOutlined,
   SearchOutlined,
-  ThunderboltOutlined
+  ThunderboltOutlined,
 } from '@ant-design/icons';
-import {Badge, Button, Form, Input, Popconfirm, Space} from 'antd';
-import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
-import {showResponse} from '@/utils/utils';
+import { Badge, Button, Form, Input, Popconfirm, Space } from 'antd';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
+import { showResponse } from '@/utils/utils';
 import modelService from '@/services/admin/job';
-import * as Admin from '../../../../../../types/admin';
+import { Admin } from '@/types';
 import JobModal from './modal/JobModal';
-import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
-import JobLogDrawer from "./jobLog/JobLogDrawer";
-import {AuthDelBtn, FaHref} from "@/components/decorator";
-
+import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
+import JobLogDrawer from './jobLog/JobLogDrawer';
+import { AuthDelBtn, FaHref } from '@/components/decorator';
 
 const serviceName = '系统定时任务';
 const biz = 'base_job';
@@ -25,8 +24,17 @@ const biz = 'base_job';
 export default function JobList() {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, paginationProps } =
-    useTableQueryParams<Admin.Job>(modelService.page, { sorter: { field: 'id', order: 'descend' } }, serviceName);
+  const {
+    queryParams,
+    setFormValues,
+    handleTableChange,
+    setSceneId,
+    setConditionList,
+    fetchPageList,
+    loading,
+    list,
+    paginationProps,
+  } = useTableQueryParams<Admin.Job>(modelService.page, { sorter: { field: 'id', order: 'descend' } }, serviceName);
 
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams);
   const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName);
@@ -62,7 +70,7 @@ export default function JobList() {
           <JobLogDrawer jobId={record.id}>
             <a>{val}</a>
           </JobLogDrawer>
-        )
+        ),
       },
       BaseTableUtils.genSimpleSorterColumn('cron表达式', 'cron', 120, sorter),
       {
@@ -78,10 +86,18 @@ export default function JobList() {
         dataIndex: 'opr',
         render: (text: string, record: Admin.Job) => (
           <Space>
-            <Popconfirm title="确定立即执行一次该任务" onConfirm={() => handleRunOneTime(record.id)} getPopupContainer={() => document.body}>
+            <Popconfirm
+              title="确定立即执行一次该任务"
+              onConfirm={() => handleRunOneTime(record.id)}
+              getPopupContainer={() => document.body}
+            >
               <FaHref icon={<ThunderboltOutlined />} text="执行" />
             </Popconfirm>
-            <Popconfirm title={!record.status ? '确定启动任务?' : '确定停止任务?'} onConfirm={() => handleJobStatus(record)} getPopupContainer={() => document.body}>
+            <Popconfirm
+              title={!record.status ? '确定启动任务?' : '确定停止任务?'}
+              onConfirm={() => handleJobStatus(record)}
+              getPopupContainer={() => document.body}
+            >
               {!record.status ? (
                 <FaHref icon={<PlayCircleOutlined />} text="启动" />
               ) : (
@@ -116,12 +132,20 @@ export default function JobList() {
           </Form>
 
           <Space>
-            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
-            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
+              查询
+            </Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>
+              重置
+            </Button>
             <JobModal title={`新增${serviceName}信息`} fetchFinish={fetchPageList}>
-              <Button icon={<PlusOutlined />} type="primary">新增</Button>
+              <Button icon={<PlusOutlined />} type="primary">
+                新增
+              </Button>
             </JobModal>
-            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>
+              导出
+            </Button>
           </Space>
         </div>
       </div>

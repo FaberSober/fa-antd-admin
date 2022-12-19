@@ -1,13 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Button, Card, Form, Input} from 'antd';
-import * as Admin from '../../../../../../types/admin';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, Card, Form, Input } from 'antd';
+import { Admin } from '@/types';
 import userService from '@/services/admin/user';
-import {PageLoading} from '@/components/antd-pro';
-import {showResponse} from '@/utils/utils';
-import {UploadImgLocal} from "@/components/base-uploader";
-import {UserLayoutContext} from "@/layout/UserLayout";
-import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import {DictEnumApiSelector} from "@/components/base-dict";
+import { PageLoading } from '@/components/antd-pro';
+import { showResponse } from '@/utils/utils';
+import { UploadImgLocal } from '@/components/base-uploader';
+import { UserLayoutContext } from '@/layout/UserLayout';
+import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
+import { DictEnumApiSelector } from '@/components/base-dict';
 
 const formItemFullLayout = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
 const tailLayout = { wrapperCol: { offset: 8, span: 16 } };
@@ -26,7 +26,7 @@ export default function AccountBase() {
   useEffect(() => {
     userService.getLoginUser().then((res) => {
       const user = res.data;
-      setUserDetail(user)
+      setUserDetail(user);
       form.setFieldsValue({
         img: user.img,
         username: user.username,
@@ -36,7 +36,7 @@ export default function AccountBase() {
         email: user.email,
         address: user.address,
         description: user.description,
-      })
+      });
     });
   }, []);
 
@@ -44,12 +44,12 @@ export default function AccountBase() {
     userService.updateMine(fieldValues).then((res) => {
       showResponse(res, '更新账户基本信息');
       refreshUser();
-    })
+    });
   }
 
   if (userDetail === undefined) return <PageLoading />;
 
-  const loading = loadingEffect[userService.getUrl('updateMine')]
+  const loading = loadingEffect[userService.getUrl('updateMine')];
   return (
     <Card title="基本信息">
       <div>

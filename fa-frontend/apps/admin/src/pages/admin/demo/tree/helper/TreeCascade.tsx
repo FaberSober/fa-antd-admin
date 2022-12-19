@@ -1,7 +1,7 @@
 import React from 'react';
-import modelService from "@/services/demo/tree";
-import BaseCascader, {BaseCascaderProps} from '@/components/base-cascader';
-import * as Demo from "../../../../../../types/demo";
+import modelService from '@/services/demo/tree';
+import BaseCascader, { BaseCascaderProps } from '@/components/base-cascader';
+import { Demo } from '@/types';
 
 export interface TreeCascadeProps extends Omit<BaseCascaderProps<Demo.Tree>, 'serviceApi'> {}
 

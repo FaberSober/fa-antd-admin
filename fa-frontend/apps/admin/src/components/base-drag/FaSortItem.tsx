@@ -1,13 +1,10 @@
-import React, {CSSProperties, ReactNode} from 'react';
-import {useSortable} from '@dnd-kit/sortable';
-import {CSS} from '@dnd-kit/utilities';
-import {Button} from "antd";
-import styles from "@/components/base-drag/index.module.less";
-import {MenuOutlined} from "@ant-design/icons";
-
+import React, { CSSProperties, ReactNode } from 'react';
+import { useSortable } from '@dnd-kit/sortable';
+import styles from '@/components/base-drag/index.module.less';
+import { MenuOutlined } from '@ant-design/icons';
 
 export interface FaSortItemProps {
-  id: any,
+  id: any;
   handle?: boolean;
   handleNode?: ReactNode;
   style?: CSSProperties;
@@ -21,14 +18,17 @@ export interface FaSortItemProps {
  * @author xu.pengfei
  * @date 2022/12/3 9:54
  */
-export default function FaSortItem({ id, style, handle, handleNode, handleStyle, children, vertical, dragging }:FaSortItemProps) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-  } = useSortable({id: id});
+export default function FaSortItem({
+  id,
+  style,
+  handle,
+  handleNode,
+  handleStyle,
+  children,
+  vertical,
+  dragging,
+}: FaSortItemProps) {
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: id });
 
   const styleTrans: CSSProperties = {
     // transform: CSS.Transform.toString(transform),
@@ -44,7 +44,9 @@ export default function FaSortItem({ id, style, handle, handleNode, handleStyle,
     position: 'relative',
   };
   if (vertical) {
-    styleTrans.transform = transform ? `translate3d(${vertical ? 0 : transform.x}px, ${vertical ? transform.y : 0}px, 0)` : '';
+    styleTrans.transform = transform
+      ? `translate3d(${vertical ? 0 : transform.x}px, ${vertical ? transform.y : 0}px, 0)`
+      : '';
   }
 
   return (

@@ -1,5 +1,5 @@
-import React, {CSSProperties, ReactNode, useState} from 'react';
-import {findIndex, get} from "lodash";
+import React, { CSSProperties, ReactNode, useState } from 'react';
+import { findIndex, get } from 'lodash';
 import {
   closestCenter,
   DndContext,
@@ -7,12 +7,11 @@ import {
   PointerSensor,
   UniqueIdentifier,
   useSensor,
-  useSensors
-} from "@dnd-kit/core";
-import {arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy} from "@dnd-kit/sortable";
-import FaSortItem from "@/components/base-drag/FaSortItem";
-import {GridContainer} from "@/components/base-drag/GridContainer/GridContainer";
-
+  useSensors,
+} from '@dnd-kit/core';
+import { arrayMove, SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import FaSortItem from '@/components/base-drag/FaSortItem';
+import { GridContainer } from '@/components/base-drag/GridContainer/GridContainer';
 
 export interface FaSortGridProps<T> {
   list: T[];
@@ -32,53 +31,72 @@ export interface FaSortGridProps<T> {
  * @author xu.pengfei
  * @date 2022/12/14 21:52
  */
-export default function FaSortGrid<T>({ list, rowKey = 'id', renderItem, onSortEnd, handle, handleNode, itemStyle, handleStyle, gridStyle, columns }: FaSortGridProps<T>) {
+export default function FaSortGrid<T>({
+  list,
+  rowKey = 'id',
+  renderItem,
+  onSortEnd,
+  handle,
+  handleNode,
+  itemStyle,
+  handleStyle,
+  gridStyle,
+  columns,
+}: FaSortGridProps<T>) {
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
-  function handleDragEnd(event:any) {
+  function handleDragEnd(event: any) {
     setActiveId(null);
-    const {active, over} = event;
+    const { active, over } = event;
 
     if (active.id !== over.id) {
       const oldIndex = findIndex(list, (i) => getRowKey(i) === active.id);
       const newIndex = findIndex(list, (i) => getRowKey(i) === over.id);
 
       const newList = arrayMove(list, oldIndex, newIndex);
-      if (onSortEnd) onSortEnd(newList)
+      if (onSortEnd) onSortEnd(newList);
     }
   }
 
   function getRowKey(item: T) {
-    return get(item, rowKey!)
+    return get(item, rowKey!);
   }
 
   return (
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
-      onDragStart={({active}) => {
+      onDragStart={({ active }) => {
         if (!active) return;
         setActiveId(active.id);
       }}
       onDragCancel={() => setActiveId(null)}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext items={list.map(i => getRowKey(i))}>
+      <SortableContext items={list.map((i) => getRowKey(i))}>
         <GridContainer style={gridStyle} columns={columns || 5}>
-          {list.map(i => (
-            <FaSortItem key={getRowKey(i)} id={getRowKey(i)} style={itemStyle} handle={handle} handleNode={handleNode} handleStyle={handleStyle} dragging={activeId === getRowKey(i)}>
+          {list.map((i) => (
+            <FaSortItem
+              key={getRowKey(i)}
+              id={getRowKey(i)}
+              style={itemStyle}
+              handle={handle}
+              handleNode={handleNode}
+              handleStyle={handleStyle}
+              dragging={activeId === getRowKey(i)}
+            >
               {renderItem(i)}
             </FaSortItem>
           ))}
         </GridContainer>
       </SortableContext>
     </DndContext>
-  )
+  );
 }

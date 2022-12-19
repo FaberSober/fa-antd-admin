@@ -4,7 +4,7 @@ import FaUi from '@/types';
 const classA: FaUi.ClassA = { name: 'foo' };
 console.log('Button', 'classA', classA);
 
-export const Button = (props: FaUi.Button) => {
+export default function Button(props: FaUi.Button) {
   console.log('Hello Button from @fa/ui', props);
   return (
     <div className="rounded-md ">
@@ -18,4 +18,4 @@ export const Button = (props: FaUi.Button) => {
       </a>
     </div>
   );
-};
+}

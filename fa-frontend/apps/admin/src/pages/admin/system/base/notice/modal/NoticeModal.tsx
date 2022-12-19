@@ -1,13 +1,13 @@
-import React, {useContext, useState} from 'react';
-import {get} from 'lodash';
-import {Form, Input} from 'antd';
-import DragModal, {DragModalProps} from '@/components/modal/DragModal';
-import {formItemFullLayout, showResponse} from '@/utils/utils';
+import React, { useContext, useState } from 'react';
+import { get } from 'lodash';
+import { Form, Input } from 'antd';
+import DragModal, { DragModalProps } from '@/components/modal/DragModal';
+import { formItemFullLayout, showResponse } from '@/utils/utils';
 import modelService from '@/services/admin/notice';
-import * as Admin from '../../../../../../../types/admin';
-import {BaseBoolRadio} from '@/components/base-dict';
-import {UploadImgLocal} from "@/components/base-uploader";
-import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
+import { Admin } from '@/types';
+import { BaseBoolRadio } from '@/components/base-dict';
+import { UploadImgLocal } from '@/components/base-uploader';
+import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
 
 const serviceName = '通知与公告';
 
@@ -21,7 +21,7 @@ interface IProps extends DragModalProps {
  * BASE-通知与公告实体新增、编辑弹框
  */
 export default function NoticeModal({ children, title, record, fetchFinish, ...props }: IProps) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
+  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -32,7 +32,7 @@ export default function NoticeModal({ children, title, record, fetchFinish, ...p
       showResponse(res, `新增${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
-    })
+    });
   }
 
   /** 更新Item */
@@ -41,7 +41,7 @@ export default function NoticeModal({ children, title, record, fetchFinish, ...p
       showResponse(res, `更新${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
-    })
+    });
   }
 
   /** 提交表单 */
@@ -57,7 +57,7 @@ export default function NoticeModal({ children, title, record, fetchFinish, ...p
     }
   }
 
-  const loading = loadingEffect[modelService.getUrl('save')] || loadingEffect[modelService.getUrl('update')]
+  const loading = loadingEffect[modelService.getUrl('save')] || loadingEffect[modelService.getUrl('update')];
   return (
     <span>
       <span onClick={() => setOpen(true)}>{children}</span>

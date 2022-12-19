@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {Tabs} from "antd";
-import ConfigSystem from "@/pages/admin/system/base/config/cube/ConfigSystem";
+import React from 'react';
+import { Tabs } from 'antd';
+import ConfigSystem from '@/pages/admin/system/base/config/cube/ConfigSystem';
 
 /**
  * 系统配置
@@ -8,8 +8,6 @@ import ConfigSystem from "@/pages/admin/system/base/config/cube/ConfigSystem";
  * @date 2022/12/11 22:42
  */
 export default function index() {
-  const [tab, setTab] = useState('1')
-
   return (
     <div className="fa-full-content-p12">
       <Tabs
@@ -25,5 +23,5 @@ export default function index() {
         destroyInactiveTabPane
       />
     </div>
-  )
+  );
 }

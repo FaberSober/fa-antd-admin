@@ -1,11 +1,10 @@
 import React from 'react';
-import ConditionQuery from "@/components/condition-query/interface";
-import {Button, Input, Radio, Select, Space} from "antd";
-import {each, find, remove} from "lodash";
-import {CloseCircleFilled, DeleteOutlined, PlusOutlined} from "@ant-design/icons";
-import {BaseTableUtils, FaberTable} from '@/components/base-table';
-import {v1 as uuidv1} from "uuid";
-
+import ConditionQuery from '@/components/condition-query/interface';
+import { Button, Input, Radio, Select, Space } from 'antd';
+import { each, find, remove } from 'lodash';
+import { CloseCircleFilled, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { BaseTableUtils, FaberTable } from '@/components/base-table';
+import { v1 as uuidv1 } from 'uuid';
 
 export interface CondGroupEditProps<T> {
   condGroup: ConditionQuery.CondGroup;
@@ -20,10 +19,9 @@ export interface CondGroupEditProps<T> {
  * @date 2022/7/15
  */
 export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelete }: CondGroupEditProps<T>) {
-
   /** 筛选字段变更 */
   function handleChangeKey(v: string, index: number) {
-    const col:any = find(columns, (n) => BaseTableUtils.dataIndexToString(n.dataIndex) === v);
+    const col: any = find(columns, (n) => BaseTableUtils.dataIndexToString(n.dataIndex) === v);
     if (col === undefined) return;
     const changeItem = {
       key: v,
@@ -51,7 +49,9 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
 
   /** 筛选值[起始, 结束]变更 */
   function handleChangeBetweenValue(beginValue: string, endValue: string, index: number, name?: string) {
-    const newCondList = condGroup.condList.map((cond, i) => (index === i ? { ...cond, begin: beginValue, end: endValue } : cond));
+    const newCondList = condGroup.condList.map((cond, i) =>
+      index === i ? { ...cond, begin: beginValue, end: endValue } : cond,
+    );
     setConditionList(newCondList);
   }
 
@@ -73,7 +73,7 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
   }
 
   function setConditionList(condList: ConditionQuery.Cond[]) {
-    onChange({ ...condGroup, condList })
+    onChange({ ...condGroup, condList });
   }
 
   /** 删除筛选项 */
@@ -81,7 +81,7 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
     const condList = [...condGroup.condList];
     remove(condList, (cond) => cond.id === id);
     if (onChange) {
-      onChange({ ...condGroup, condList }, triggerSave)
+      onChange({ ...condGroup, condList }, triggerSave);
     }
   }
 
@@ -100,17 +100,17 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
     if (onDelete) onDelete();
   }
 
-  function handleTypeChange(type:ConditionQuery.Type) {
+  function handleTypeChange(type: ConditionQuery.Type) {
     // console.log('handleTypeChange', type)
     if (onChange) {
-      onChange({ ...condGroup, type })
+      onChange({ ...condGroup, type });
     }
   }
 
-  const options = [];
+  const options: any[] = [];
   each(ConditionQuery.OPR_MAP, (v, k) => {
-    options.push({ value: k, label: v })
-  })
+    options.push({ value: k, label: v });
+  });
 
   return (
     <div style={{ borderBottom: '1px dashed #ccc', marginBottom: 12 }}>
@@ -137,17 +137,30 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
           return (
             <div key={id} style={{ marginBottom: 12, display: 'flex', flexDirection: 'row' }}>
               {/* 筛选字段 */}
-              <Select style={{ width: 150, marginRight: 12 }} value={key} onChange={(v) => handleChangeKey(v, index)} placeholder="请选择筛选字段">
+              <Select
+                style={{ width: 150, marginRight: 12 }}
+                value={key}
+                onChange={(v) => handleChangeKey(v, index)}
+                placeholder="请选择筛选字段"
+              >
                 {columns
                   .filter((n) => n.tcType !== 'menu' && !n.tcConditionHide)
                   .map((col) => (
-                    <Select.Option key={BaseTableUtils.dataIndexToString(col.dataIndex)} value={BaseTableUtils.dataIndexToString(col.dataIndex)}>
+                    <Select.Option
+                      key={BaseTableUtils.dataIndexToString(col.dataIndex)}
+                      value={BaseTableUtils.dataIndexToString(col.dataIndex)}
+                    >
                       {parseColLabel(col)}
                     </Select.Option>
                   ))}
               </Select>
               {/* 筛选操作符 */}
-              <Select options={options} style={{ width: 100, marginRight: 12 }} value={opr} onChange={(v) => handleChangeOpt(v, index)} />
+              <Select
+                options={options}
+                style={{ width: 100, marginRight: 12 }}
+                value={opr}
+                onChange={(v) => handleChangeOpt(v, index)}
+              />
               {/* 筛选值 */}
               {/* 单值输入 */}
               {opr !== ConditionQuery.CondOpr.between ? (
@@ -185,7 +198,12 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
                     })
                   ) : (
                     <>
-                      <Input style={{ width: 175 }} value={begin} onChange={(e) => handleChangeBeginValue(e.target.value, index)} placeholder="起始值" />
+                      <Input
+                        style={{ width: 175 }}
+                        value={begin}
+                        onChange={(e) => handleChangeBeginValue(e.target.value, index)}
+                        placeholder="起始值"
+                      />
                       <span style={{ display: 'inline-block', width: 50, textAlign: 'center' }}>~</span>
                       <Input
                         style={{ width: 175, marginRight: 12 }}
@@ -198,7 +216,12 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
                 </>
               ) : null}
               {/* 删除按钮 */}
-              <Button onClick={() => handleRemoveCond(cond.id)} icon={<CloseCircleFilled />} type="link" style={{ color: '#999' }} />
+              <Button
+                onClick={() => handleRemoveCond(cond.id)}
+                icon={<CloseCircleFilled />}
+                type="link"
+                style={{ color: '#999' }}
+              />
             </div>
           );
         })}
@@ -209,9 +232,10 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
           <PlusOutlined /> 添加筛选条件
         </a>
         <a onClick={handleDelete} style={{ color: '#F50' }}>
-          <DeleteOutlined />删除分组
+          <DeleteOutlined />
+          删除分组
         </a>
       </Space>
     </div>
-  )
+  );
 }

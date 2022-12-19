@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {get} from 'lodash';
-import {Select, SelectProps} from 'antd';
-import {RES_CODE} from '@/configs/server.config';
-import * as Fa from "@/../../../types/base/Fa";
+import React, { useEffect, useState } from 'react';
+import { get } from 'lodash';
+import { Select, SelectProps } from 'antd';
+import { RES_CODE } from '@/configs/server.config';
+import { Fa } from '@/types';
 
 export interface BaseSelectProps<T> extends SelectProps<T> {
   labelKey?: string | ((data: T) => any);
@@ -40,20 +40,25 @@ export default function BaseSelect<RecordType extends object = any>({
   useEffect(() => {
     function fetchList() {
       setLoading(true);
-      serviceApi.list({}).then((res) => {
+      serviceApi
+        .list({})
+        .then((res) => {
           if (res && res.status === RES_CODE.OK) {
             const newList = [];
             if (showAll) {
               newList.push({ label: '全部', value: '' });
             }
-            newList.push(...res.data.map((c) => ({
-              label: parseLabel(c),
-              value: parseValue(c),
-            })))
+            newList.push(
+              ...res.data.map((c) => ({
+                label: parseLabel(c),
+                value: parseValue(c),
+              })),
+            );
             setArray(newList);
           }
           setLoading(false);
-        }).catch(() => setLoading(false));
+        })
+        .catch(() => setLoading(false));
     }
 
     fetchList();
@@ -74,7 +79,6 @@ export default function BaseSelect<RecordType extends object = any>({
   }
 
   return (
-    // @ts-ignore
     <Select
       allowClear
       defaultActiveFirstOption={false}

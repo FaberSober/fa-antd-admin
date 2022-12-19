@@ -1,5 +1,4 @@
-// import * as Fa from './base/Fa';
-// import * as FaEnums from './base/FaEnums';
+import { Fa, FaEnums } from '@/types/index';
 
 declare namespace Rbac {
   /** BASE-权限表 */
@@ -77,3 +76,5 @@ declare namespace Rbac {
     username?: string;
   }
 }
+
+export default Rbac;

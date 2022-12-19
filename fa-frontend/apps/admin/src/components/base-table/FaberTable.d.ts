@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
 import ConditionQuery from '@/components/condition-query/interface';
 import { ColumnProps, TableProps } from 'antd/es/table';
-import * as Fa from '@/../../../types/base/Fa';
+import { Fa } from '@/types';
 
 /**
  * 通用业务表格配置
  */
-namespace FaberTable {
+declare namespace FaberTable {
   /** 单值回掉 */
   export interface TcCondProp {
     index: number;
@@ -14,6 +14,7 @@ namespace FaberTable {
     callback: (value: string, index: number, name?: string) => void;
     style: { width: 400; marginRight: 12 };
     placeholder: '请输入筛选条件的值';
+    mode: string | undefined;
   }
 
   /** 双值回掉 */

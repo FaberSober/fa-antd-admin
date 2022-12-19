@@ -1,18 +1,17 @@
-import React, {useContext, useState} from 'react';
-import {get} from 'lodash';
-import {Form, Input, Switch} from 'antd';
-import DragModal, {DragModalProps} from '@/components/modal/DragModal';
-import {formItemFullLayout, showResponse} from '@/utils/utils';
+import React, { useContext, useState } from 'react';
+import { get } from 'lodash';
+import { Form, Input, Switch } from 'antd';
+import DragModal, { DragModalProps } from '@/components/modal/DragModal';
+import { formItemFullLayout, showResponse } from '@/utils/utils';
 import modelService from '@/services/admin/user';
 import rbacUserRoleApi from '@/services/rbac/rbacUserRole';
-import * as Admin from '../../../../../../../types/admin';
-import {DictEnumApiRadio} from '@/components/base-dict';
-import DepartmentCascade from "../helper/DepartmentCascade";
-import {UploadImgLocal} from "@/components/base-uploader";
-import RbacRoleSelect from "@/pages/admin/system/hr/role/components/RbacRoleSelect";
-import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import useBus from "use-bus";
-
+import { DictEnumApiRadio } from '@/components/base-dict';
+import DepartmentCascade from '../helper/DepartmentCascade';
+import { UploadImgLocal } from '@/components/base-uploader';
+import RbacRoleSelect from '@/pages/admin/system/hr/role/components/RbacRoleSelect';
+import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
+import useBus from 'use-bus';
+import { Admin } from '@/types';
 
 const serviceName = '用户';
 
@@ -26,20 +25,20 @@ interface IProps extends DragModalProps {
  * 用户实体新增、编辑弹框
  */
 export default function UserModal({ children, title, record, fetchFinish, ...props }: IProps) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
+  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
 
   useBus(
     ['@@UserModal/SHOW_ADD'],
-    ({ type, payload }) => {
+    ({ payload }) => {
       if (record === undefined) {
-        form.setFieldsValue({ departmentId: payload.departmentId})
-        setOpen(true)
+        form.setFieldsValue({ departmentId: payload.departmentId });
+        setOpen(true);
       }
     },
     [record],
-  )
+  );
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
@@ -47,7 +46,7 @@ export default function UserModal({ children, title, record, fetchFinish, ...pro
       showResponse(res, `新增${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
-    })
+    });
   }
 
   /** 更新Item */
@@ -56,7 +55,7 @@ export default function UserModal({ children, title, record, fetchFinish, ...pro
       showResponse(res, `更新${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
-    })
+    });
   }
 
   /** 提交表单 */
@@ -85,21 +84,21 @@ export default function UserModal({ children, title, record, fetchFinish, ...pro
       post: get(record, 'post'),
       img: get(record, 'img'),
       roleIds: [],
-    }
+    };
   }
 
   function showModal() {
-    setOpen(true)
+    setOpen(true);
 
-    form.setFieldsValue(getInitialValues())
+    form.setFieldsValue(getInitialValues());
     if (record !== undefined) {
       rbacUserRoleApi.getUserRoles(record.id).then((res) => {
-        form.setFieldsValue({ roleIds: res.data.map((i) => i.id) })
-      })
+        form.setFieldsValue({ roleIds: res.data.map((i) => i.id) });
+      });
     }
   }
 
-  const loading = loadingEffect[modelService.getUrl('save')] || loadingEffect[modelService.getUrl('update')]
+  const loading = loadingEffect[modelService.getUrl('save')] || loadingEffect[modelService.getUrl('update')];
   return (
     <span>
       <span onClick={() => showModal()}>{children}</span>
@@ -133,7 +132,13 @@ export default function UserModal({ children, title, record, fetchFinish, ...pro
           <Form.Item name="roleIds" label="角色" rules={[{ required: true }]} {...formItemFullLayout}>
             <RbacRoleSelect mode="multiple" />
           </Form.Item>
-          <Form.Item name="status" label="账户有效" rules={[{ required: true }]} {...formItemFullLayout} valuePropName="checked">
+          <Form.Item
+            name="status"
+            label="账户有效"
+            rules={[{ required: true }]}
+            {...formItemFullLayout}
+            valuePropName="checked"
+          >
             <Switch />
           </Form.Item>
           <Form.Item name="email" label="邮箱" {...formItemFullLayout}>

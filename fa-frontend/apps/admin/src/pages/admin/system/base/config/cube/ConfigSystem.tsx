@@ -1,50 +1,48 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import {Button, Col, Form, Input, Row, Space} from "antd";
-import {UploadImgLocal} from "@/components/base-uploader";
-import * as Admin from "../../../../../../../types/admin";
-import configSysApi from '@/services/admin/configSys'
-import {SaveOutlined} from "@ant-design/icons";
-import {showResponse} from "@/utils/utils";
-import modelService from "@/services/admin/user";
-
+import React, { useContext, useEffect, useState } from 'react';
+import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
+import { Button, Col, Form, Input, Row, Space } from 'antd';
+import { UploadImgLocal } from '@/components/base-uploader';
+import { Admin } from '@/types';
+import configSysApi from '@/services/admin/configSys';
+import { SaveOutlined } from '@ant-design/icons';
+import { showResponse } from '@/utils/utils';
 
 /**
  * @author xu.pengfei
  * @date 2022/12/11 22:48
  */
 export default function ConfigSystem() {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
+  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
-  const [configSys, setConfigSys] = useState<Admin.ConfigSys>()
+  const [configSys, setConfigSys] = useState<Admin.ConfigSys>();
 
   useEffect(() => {
-    configSysApi.getOne().then(res => {
+    configSysApi.getOne().then((res) => {
       setConfigSys(res.data);
       form.setFieldsValue({
-        ...res.data.data
-      })
-    })
+        ...res.data.data,
+      });
+    });
   }, []);
 
-  function onFinish(v:any) {
+  function onFinish(v: any) {
     if (configSys === undefined) return;
 
     const params = {
       id: configSys.id,
       data: { ...configSys.data, ...v },
-    }
-    configSysApi.update(configSys.id, params).then(res => showResponse(res, '更新配置'))
+    };
+    configSysApi.update(configSys.id, params).then((res) => showResponse(res, '更新配置'));
   }
 
   function handleReset() {
     if (configSys === undefined) return;
     form.setFieldsValue({
-      ...configSys.data
-    })
+      ...configSys.data,
+    });
   }
 
-  const loading = loadingEffect[configSysApi.getUrl('update')]
+  const loading = loadingEffect[configSysApi.getUrl('update')];
   return (
     <div className="fa-p12">
       <Form form={form} onFinish={onFinish} layout="vertical">
@@ -79,10 +77,12 @@ export default function ConfigSystem() {
         </Row>
 
         <Space>
-          <Button htmlType="submit" icon={<SaveOutlined />} type="primary" loading={loading}>保存</Button>
+          <Button htmlType="submit" icon={<SaveOutlined />} type="primary" loading={loading}>
+            保存
+          </Button>
           <Button onClick={handleReset}>重置</Button>
         </Space>
       </Form>
     </div>
-  )
+  );
 }

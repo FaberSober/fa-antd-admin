@@ -1,8 +1,7 @@
-import React, {useEffect} from 'react';
-import * as Admin from "../../../../../../../types/admin";
-import {Button, Form, Input, Popconfirm} from "antd";
-import {FaHref} from "@/components/decorator";
-
+import React, { useEffect } from 'react';
+import { Admin } from '@/types';
+import { Button, Form, Input, Popconfirm } from 'antd';
+import { FaHref } from '@/components/decorator';
 
 export interface DictFormProps {
   dict?: Admin.Option;
@@ -14,23 +13,23 @@ export interface DictFormProps {
  * @author xu.pengfei
  * @date 2022/12/10 10:24
  */
-export default function DictForm({dict, onChange, onDelete}: DictFormProps) {
+export default function DictForm({ dict, onChange, onDelete }: DictFormProps) {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    form.setFieldsValue(dict)
-  }, [dict])
+    form.setFieldsValue(dict);
+  }, [dict]);
 
-  function onFinish(v:any) {
+  function onFinish(v: any) {
     // judge dict not change
     if (v.label === dict?.label && v.value === dict?.value) {
       return;
     }
     if (onChange) {
-      onChange({ ...dict, ...v })
+      onChange({ ...dict, ...v });
     }
     if (dict === undefined) {
-      form.resetFields()
+      form.resetFields();
     }
   }
 
@@ -47,7 +46,11 @@ export default function DictForm({dict, onChange, onDelete}: DictFormProps) {
         </Form.Item>
       </div>
       <div className="fa-p12" style={{ width: 80 }}>
-        {dict === undefined && <Button size="small" type="primary" htmlType="submit">新增</Button>}
+        {dict === undefined && (
+          <Button size="small" type="primary" htmlType="submit">
+            新增
+          </Button>
+        )}
         {dict !== undefined && (
           <Popconfirm title="确认删除?" onConfirm={() => onDelete && onDelete(dict)} placement="topRight">
             <FaHref text="删除" style={{ color: '#F00' }} />
@@ -55,5 +58,5 @@ export default function DictForm({dict, onChange, onDelete}: DictFormProps) {
         )}
       </div>
     </Form>
-  )
+  );
 }

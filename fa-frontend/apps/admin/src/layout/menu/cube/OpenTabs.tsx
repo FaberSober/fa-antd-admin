@@ -1,14 +1,13 @@
-import React, {useContext} from 'react';
-import MenuLayoutContext from "@/layout/menu/context/MenuLayoutContext";
-import {Tabs} from "antd";
-import {SITE_INFO} from "@/configs/server.config";
+import React, { useContext } from 'react';
+import MenuLayoutContext from '@/layout/menu/context/MenuLayoutContext';
+import { Tabs } from 'antd';
 
 /**
  * @author xu.pengfei
  * @date 2022/9/23
  */
 export default function OpenTabs() {
-  const { openTabs, setOpenTabs, menuSelMenuId, setMenuSelMenuId } = useContext(MenuLayoutContext)
+  const { openTabs, setOpenTabs, menuSelMenuId, setMenuSelMenuId } = useContext(MenuLayoutContext);
 
   const remove = (targetKey: string) => {
     let newActiveKey = menuSelMenuId;
@@ -18,7 +17,7 @@ export default function OpenTabs() {
         lastIndex = i - 1;
       }
     });
-    const newPanes = openTabs.filter(item => item.id !== targetKey);
+    const newPanes = openTabs.filter((item) => item.id !== targetKey);
     if (newPanes.length && newActiveKey === targetKey) {
       if (lastIndex >= 0) {
         newActiveKey = newPanes[lastIndex].id;
@@ -33,15 +32,15 @@ export default function OpenTabs() {
   const items = openTabs.map((i) => ({
     key: i.id,
     label: i.name,
-  }))
+  }));
   return (
     <Tabs
       hideAdd
       type="editable-card"
       activeKey={menuSelMenuId}
       onChange={(e) => setMenuSelMenuId(e)}
-      onEdit={(targetKey, action) => remove(targetKey)}
+      onEdit={(targetKey) => remove(targetKey)}
       items={items}
     />
-  )
+  );
 }

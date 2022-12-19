@@ -1,11 +1,11 @@
 import React from 'react';
-import {DownloadOutlined, SearchOutlined} from '@ant-design/icons';
-import {Button, Form, Input, Space, Tag} from 'antd';
-import {AuthDelBtn} from "@/components/decorator";
-import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
-import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
+import { DownloadOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Space, Tag } from 'antd';
+import { AuthDelBtn } from '@/components/decorator';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
+import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
 import api from '@/services/demo/student';
-import * as Demo from '../../../../../../types/demo';
+import { Demo } from '@/types';
 import StudentModal from './modal/StudentModal';
 
 const serviceName = '学生表-表格查询示例';
@@ -17,11 +17,21 @@ const biz = 'demo_student';
 export default function StudentList() {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } =
-    useTableQueryParams<Demo.Student>(api.page, {}, serviceName)
+  const {
+    queryParams,
+    setFormValues,
+    handleTableChange,
+    setSceneId,
+    setConditionList,
+    fetchPageList,
+    loading,
+    list,
+    dicts,
+    paginationProps,
+  } = useTableQueryParams<Demo.Student>(api.page, {}, serviceName);
 
-  const [handleDelete] = useDelete<number>(api.remove, fetchPageList, serviceName)
-  const [exporting, fetchExportExcel] = useExport(api.exportExcel, queryParams)
+  const [handleDelete] = useDelete<number>(api.remove, fetchPageList, serviceName);
+  const [exporting, fetchExportExcel] = useExport(api.exportExcel, queryParams);
 
   /** 生成表格字段List */
   function genColumns() {
@@ -37,7 +47,7 @@ export default function StudentList() {
       {
         ...BaseTableUtils.genSimpleSorterColumn('标签', 'tags', undefined, sorter),
         render: (v, r) => {
-          return (r.tags || []).map(t => <Tag key={t.name}>{t.name}</Tag>)
+          return (r.tags || []).map((t) => <Tag key={t.name}>{t.name}</Tag>);
         },
       },
       ...BaseTableUtils.genCtrColumns(sorter),
@@ -71,10 +81,16 @@ export default function StudentList() {
           </Form>
 
           <Space>
-            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
-            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
+              查询
+            </Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>
+              重置
+            </Button>
             <StudentModal addBtn title={`新增${serviceName}信息`} fetchFinish={fetchPageList} />
-            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>
+              导出
+            </Button>
           </Space>
         </div>
       </div>
@@ -92,13 +108,12 @@ export default function StudentList() {
         onSceneChange={(v) => setSceneId(v)}
         onConditionChange={(cL) => setConditionList(cL)}
         expandable={{
-          expandedRowRender: (record:Demo.Student) => (
+          expandedRowRender: (record: Demo.Student) => (
             <p style={{ margin: 0 }}>
-              info1: {record.info.info1};
-              info2: {record.info.info2};
+              info1: {record.info.info1}; info2: {record.info.info2};
             </p>
           ),
-          rowExpandable: (record:Demo.Student) => record.info,
+          rowExpandable: (record: Demo.Student) => record.info,
         }}
       />
     </div>

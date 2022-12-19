@@ -1,7 +1,6 @@
-import React, {useContext} from 'react';
-import {UserLayoutContext} from "@/layout/UserLayout";
-import {Button} from "antd";
-
+import React, { useContext } from 'react';
+import { UserLayoutContext } from '@/layout/UserLayout';
+import { Button } from 'antd';
 
 /**
  * phpRedisAdmin
@@ -9,18 +8,24 @@ import {Button} from "antd";
  * @date 2022/11/29
  */
 export default function redis() {
-  const {systemConfig} = useContext(UserLayoutContext)
+  const { systemConfig } = useContext(UserLayoutContext);
 
   function refreshIframe() {
-    // @ts-ignore
-    document.getElementById('phpRedisAdmin').contentWindow.location = systemConfig.phpRedisAdmin
+    (document.getElementById('phpRedisAdmin') as any).contentWindow.location = systemConfig.phpRedisAdmin;
   }
 
   return (
     <div className="fa-full-content">
-      <iframe id="phpRedisAdmin" src={systemConfig.phpRedisAdmin} className="fa-full-content" style={{ width: '100%', height: '100%', border: 'none', margin: 0 }} />
+      <iframe
+        id="phpRedisAdmin"
+        src={systemConfig.phpRedisAdmin}
+        className="fa-full-content"
+        style={{ width: '100%', height: '100%', border: 'none', margin: 0 }}
+      />
 
-      <Button onClick={refreshIframe} style={{ position: 'relative', top: 10, left: 180 }}>刷新</Button>
+      <Button onClick={refreshIframe} style={{ position: 'relative', top: 10, left: 180 }}>
+        刷新
+      </Button>
     </div>
-  )
+  );
 }

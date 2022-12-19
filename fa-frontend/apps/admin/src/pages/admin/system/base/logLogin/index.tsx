@@ -1,11 +1,11 @@
 import React from 'react';
-import {DownloadOutlined, SearchOutlined} from '@ant-design/icons';
-import {Button, Form, Input, Space} from 'antd';
-import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
-import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
+import { DownloadOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Space } from 'antd';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
+import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
 import modelService from '@/services/admin/logLogin';
-import * as Admin from '../../../../../../types/admin';
-import {AuthDelBtn} from "@/components/decorator";
+import { Admin } from '@/types';
+import { AuthDelBtn } from '@/components/decorator';
 
 const serviceName = '登录日志';
 const biz = 'base_log_login_v1';
@@ -13,11 +13,21 @@ const biz = 'base_log_login_v1';
 export default function LogLoginList() {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } =
-    useTableQueryParams<Admin.LogLogin>(modelService.page, {}, serviceName)
+  const {
+    queryParams,
+    setFormValues,
+    handleTableChange,
+    setSceneId,
+    setConditionList,
+    fetchPageList,
+    loading,
+    list,
+    dicts,
+    paginationProps,
+  } = useTableQueryParams<Admin.LogLogin>(modelService.page, {}, serviceName);
 
-  const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName)
-  const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams)
+  const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName);
+  const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams);
 
   /** 生成表格字段List */
   function genColumns() {
@@ -62,9 +72,15 @@ export default function LogLoginList() {
           </Form>
 
           <Space>
-            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
-            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
-            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
+              查询
+            </Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>
+              重置
+            </Button>
+            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>
+              导出
+            </Button>
           </Space>
         </div>
       </div>

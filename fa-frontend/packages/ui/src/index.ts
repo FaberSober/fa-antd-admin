@@ -1,4 +1,2 @@
-import FaUi from '@/types';
-
-export type { FaUi };
-export * from './components/Button';
+export type { default as FaUi } from '@/types';
+export { default as Button } from './components/Button';

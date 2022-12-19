@@ -1,14 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {get} from 'lodash';
-import {Form, Input} from 'antd';
-import DragModal, {DragModalProps} from '@/components/modal/DragModal';
-import {showResponse, formItemFullLayout} from '@/utils/utils';
+import React, { useContext, useEffect, useState } from 'react';
+import { get } from 'lodash';
+import { Form, Input } from 'antd';
+import DragModal, { DragModalProps } from '@/components/modal/DragModal';
+import { showResponse, formItemFullLayout } from '@/utils/utils';
 import modelService from '@/services/admin/department';
-import * as Admin from '../../../../../../../types/admin';
-import DepartmentCascade from "../helper/DepartmentCascade";
-import UserSearchSelect from "../helper/UserSearchSelect";
-import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-
+import { Admin } from '@/types';
+import DepartmentCascade from '../helper/DepartmentCascade';
+import UserSearchSelect from '../helper/UserSearchSelect';
+import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
 
 const serviceName = '部门';
 
@@ -23,7 +22,7 @@ interface IProps extends DragModalProps {
  * 部门实体新增、编辑弹框
  */
 export default function DepartmentModal({ children, parentId, title, record, fetchFinish, ...props }: IProps) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
+  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -33,10 +32,9 @@ export default function DepartmentModal({ children, parentId, title, record, fet
     modelService.save(params).then((res) => {
       showResponse(res, `新增${serviceName}`);
       setOpen(false);
-      // @ts-ignore
-      if (props.onCancel) props.onCancel();
+      if (props.onCancel) props.onCancel(params);
       if (fetchFinish) fetchFinish();
-    })
+    });
   }
 
   /** 更新Item */
@@ -44,10 +42,9 @@ export default function DepartmentModal({ children, parentId, title, record, fet
     modelService.update(params.id, params).then((res) => {
       showResponse(res, `更新${serviceName}`);
       setOpen(false);
-      // @ts-ignore
-      if (props.onCancel) props.onCancel();
+      if (props.onCancel) props.onCancel(params);
       if (fetchFinish) fetchFinish();
-    })
+    });
   }
 
   /** 提交表单 */
@@ -69,17 +66,17 @@ export default function DepartmentModal({ children, parentId, title, record, fet
       type: get(record, 'type'),
       managerId: get(record, 'managerId'),
       description: get(record, 'description'),
-    }
+    };
   }
 
   function showModal() {
-    setOpen(true)
-    form.setFieldsValue(getInitialValues())
+    setOpen(true);
+    form.setFieldsValue(getInitialValues());
   }
 
   useEffect(() => {
-    form.setFieldsValue(getInitialValues())
-  }, [props.open])
+    form.setFieldsValue(getInitialValues());
+  }, [props.open]);
 
   const loading = loadingEffect[modelService.getUrl('save')] || loadingEffect[modelService.getUrl('update')];
   return (

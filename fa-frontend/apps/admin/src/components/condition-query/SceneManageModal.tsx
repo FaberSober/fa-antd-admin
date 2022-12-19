@@ -1,16 +1,15 @@
-import React, {useImperativeHandle, useState} from 'react';
-import DragModal, {DragModalProps} from '@/components/modal/DragModal';
+import React, { useImperativeHandle, useState } from 'react';
+import DragModal, { DragModalProps } from '@/components/modal/DragModal';
 import configService from '@/services/admin/configScene';
-import {showResponse} from '@/utils/utils';
-import {EditOutlined} from '@ant-design/icons';
-import {Checkbox, Space} from 'antd';
-import * as Admin from '../../../types/admin';
+import { showResponse } from '@/utils/utils';
+import { EditOutlined } from '@ant-design/icons';
+import { Checkbox, Space } from 'antd';
+import { Admin } from '@/types';
 import ConditionQueryModal from '@/components/condition-query/ConditionQueryModal';
-import {FaberTable} from '@/components/base-table';
+import { FaberTable } from '@/components/base-table';
 import styles from './SceneManageModal.module.less';
-import {FaSortList} from "@/components/base-drag";
-import {AuthDelBtn} from "@/components/decorator";
-
+import { FaSortList } from '@/components/base-drag';
+import { AuthDelBtn } from '@/components/decorator';
 
 interface IProps<T> extends DragModalProps {
   biz: string;
@@ -96,7 +95,13 @@ function SceneManageModal<T>({ biz, columns, onOk, ...restProps }: IProps<T>, re
               <div>
                 {item.system ? null : (
                   <Space>
-                    <ConditionQueryModal record={item} biz={biz} columns={columns} onConditionChange={fetchRemoteConfig} showSuffix={false}>
+                    <ConditionQueryModal
+                      record={item}
+                      biz={biz}
+                      columns={columns}
+                      onConditionChange={fetchRemoteConfig}
+                      showSuffix={false}
+                    >
                       <a>
                         <EditOutlined /> 编辑
                       </a>
@@ -107,7 +112,7 @@ function SceneManageModal<T>({ biz, columns, onOk, ...restProps }: IProps<T>, re
               </div>
             </div>
           )}
-          itemStyle={{ borderBottom: '1px solid #ccc'}}
+          itemStyle={{ borderBottom: '1px solid #ccc' }}
           onSortEnd={(l) => setConfigList(l)}
           vertical
           handle

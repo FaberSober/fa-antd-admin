@@ -1,12 +1,12 @@
 import React from 'react';
-import {DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
-import {Button, Form, Input, Space} from 'antd';
-import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
+import { DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Space } from 'antd';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import modelService from '@/services/admin/area';
-import * as Admin from '../../../../../../types/admin';
+import { Admin } from '@/types';
 import AreaModal from './modal/AreaModal';
-import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
-import {AuthDelBtn, FaHref} from "@/components/decorator";
+import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
+import { AuthDelBtn, FaHref } from '@/components/decorator';
 
 const serviceName = '中国行政地区表';
 const biz = 'base_area';
@@ -14,8 +14,22 @@ const biz = 'base_area';
 export default function AreaList() {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } =
-    useTableQueryParams<Admin.Area>(modelService.page, { sorter: { field: 'areaCode', order: 'ascend' } }, serviceName);
+  const {
+    queryParams,
+    setFormValues,
+    handleTableChange,
+    setSceneId,
+    setConditionList,
+    fetchPageList,
+    loading,
+    list,
+    dicts,
+    paginationProps,
+  } = useTableQueryParams<Admin.Area>(
+    modelService.page,
+    { sorter: { field: 'areaCode', order: 'ascend' } },
+    serviceName,
+  );
 
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams);
   const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName);
@@ -67,12 +81,20 @@ export default function AreaList() {
           </Form>
 
           <Space>
-            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
-            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
+              查询
+            </Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>
+              重置
+            </Button>
             <AreaModal title={`新增${serviceName}信息`} fetchFinish={fetchPageList}>
-              <Button icon={<PlusOutlined />} type="primary">新增</Button>
+              <Button icon={<PlusOutlined />} type="primary">
+                新增
+              </Button>
             </AreaModal>
-            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>
+              导出
+            </Button>
           </Space>
         </div>
       </div>

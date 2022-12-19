@@ -1,22 +1,27 @@
-import React, {useContext, useState} from 'react';
-import {get} from 'lodash';
-import {Form, Input} from 'antd';
+import React, { useContext, useState } from 'react';
+import { get } from 'lodash';
+import { Form, Input } from 'antd';
 import DragModal from '@/components/modal/DragModal';
-import {formItemFullLayout, showResponse} from '@/utils/utils';
+import { formItemFullLayout, showResponse } from '@/utils/utils';
 import modelService from '@/services/rbac/rbacRole';
-import * as Rbac from '../../../../../../../types/rbac';
-import {BaseBoolRadio} from "@/components/base-dict";
-import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import * as Fa from "@/../../../../../../../types/base/Fa";
-
+import { Rbac } from '@/types';
+import { BaseBoolRadio } from '@/components/base-dict';
+import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
+import { Fa } from '@/types';
 
 const serviceName = '角色';
 
 /**
  * BASE-角色表实体新增、编辑弹框
  */
-export default function RbacRoleModal({ children, title, record, fetchFinish, ...props }: Fa.CommonModalProps<Rbac.RbacRole>) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
+export default function RbacRoleModal({
+  children,
+  title,
+  record,
+  fetchFinish,
+  ...props
+}: Fa.CommonModalProps<Rbac.RbacRole>) {
+  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -27,7 +32,7 @@ export default function RbacRoleModal({ children, title, record, fetchFinish, ..
       showResponse(res, `新增${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
-    })
+    });
   }
 
   /** 更新Item */
@@ -36,7 +41,7 @@ export default function RbacRoleModal({ children, title, record, fetchFinish, ..
       showResponse(res, `更新${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
-    })
+    });
   }
 
   /** 提交表单 */
@@ -57,12 +62,12 @@ export default function RbacRoleModal({ children, title, record, fetchFinish, ..
       name: get(record, 'name'),
       remarks: get(record, 'remarks'),
       status: get(record, 'status', true),
-    }
+    };
   }
 
   function showModal() {
-    setOpen(true)
-    form.setFieldsValue(getInitialValues())
+    setOpen(true);
+    form.setFieldsValue(getInitialValues());
   }
 
   const loading = loadingEffect[modelService.getUrl('save')] || loadingEffect[modelService.getUrl('update')];
@@ -91,5 +96,5 @@ export default function RbacRoleModal({ children, title, record, fetchFinish, ..
         </Form>
       </DragModal>
     </span>
-  )
+  );
 }

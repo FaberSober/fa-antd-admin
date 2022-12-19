@@ -1,14 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {isNil} from 'lodash';
-import * as Fa from '@/../../../types/base/Fa';
-import {CascaderProps} from 'antd/es/cascader';
-import {Cascader} from 'antd';
+import React, { useEffect, useState } from 'react';
+import { isNil } from 'lodash';
+import { Fa } from '@/types';
+import { CascaderProps } from 'antd/es/cascader';
+import { Cascader } from 'antd';
 import * as BaseTreeUtils from '@/components/base-tree/utils';
-import {setTreeDisabled} from "@/components/base-tree/utils";
+import { setTreeDisabled } from '@/components/base-tree/utils';
 
-
-
-export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderProps<T>, 'options'|'onChange'> {
+export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderProps<T>, 'options' | 'onChange'> {
   showRoot?: boolean;
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
@@ -18,8 +16,13 @@ export interface BaseCascaderProps<T, KeyType = number> extends Omit<CascaderPro
     getById: (id: KeyType) => Promise<Fa.Ret<T>>;
   };
   value?: any;
-  onChange?: (v: KeyType|undefined, lastItem: T|undefined, vList: KeyType[], itemList: T[]) => void;
-  onChangeWithItem?: (key: KeyType|undefined, data: T|undefined) => void;
+  onChange?: (
+    v: KeyType | undefined,
+    lastItem: Fa.TreeNode<T, KeyType> | undefined,
+    vList: KeyType[],
+    itemList: T[],
+  ) => void;
+  onChangeWithItem?: (key: KeyType | undefined, data: T | undefined) => void;
   rootId?: KeyType;
   rootName?: string;
   extraParams?: any; // 补充副作用参数，变更会触发cascader重新拉取api tree数据
@@ -37,8 +40,7 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
   value,
   onChange,
   onChangeWithItem,
-  // @ts-ignore
-  rootId = Fa.Constant.TREE_SUPER_ROOT_ID,
+  rootId = Fa.Constant.TREE_SUPER_ROOT_ID as any,
   rootName = Fa.Constant.TREE_SUPER_ROOT_LABEL,
   extraParams,
   disabledIds,
@@ -58,18 +60,18 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
   useEffect(() => {
     if (isNil(options) || options.length === 0) return;
 
-    setTreeDisabled(options, disabledIds)
-    setOptions(options)
-  }, [disabledIds])
+    setTreeDisabled(options, disabledIds);
+    setOptions(options);
+  }, [disabledIds]);
 
   function fetchTreeData() {
     serviceApi.allTree({}).then((res) => {
-      let treeArr = res.data
+      let treeArr = res.data;
       if (showRoot) {
         treeArr = [{ ...Fa.ROOT_DEFAULT, id: rootId, name: rootName, children: res.data } as any];
       }
-      setTreeDisabled(treeArr, disabledIds)
-      setOptions(treeArr)
+      setTreeDisabled(treeArr, disabledIds);
+      setOptions(treeArr);
     });
   }
 
@@ -83,8 +85,14 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
   function handleChange(newValue: KeyType[], selectedOptions: Fa.TreeNode<RecordType, KeyType>[]) {
     setInnerValue(newValue);
     const lastValue = newValue[newValue.length - 1];
-    const lastItem = selectedOptions[selectedOptions.length - 1];
-    if (onChange) onChange(lastValue, lastItem, newValue, selectedOptions.map(i => i.sourceData));
+    const lastItem = selectedOptions[selectedOptions.length - 1] as Fa.TreeNode<RecordType, KeyType>;
+    if (onChange)
+      onChange(
+        lastValue,
+        lastItem,
+        newValue,
+        selectedOptions.map((i) => i.sourceData),
+      );
     if (onChangeWithItem) onChangeWithItem(lastValue, lastItem.sourceData);
   }
 
@@ -95,7 +103,7 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
       {...props}
       value={innerValue}
       options={options}
-      onChange={handleChange}
+      onChange={(v: any, s: any) => handleChange(v, s)}
       changeOnSelect
     />
   );

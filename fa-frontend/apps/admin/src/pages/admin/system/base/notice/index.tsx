@@ -1,14 +1,14 @@
 import React from 'react';
-import {DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
-import {Button, Card, Form, Image, Input, Space} from 'antd';
-import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
+import { DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Form, Image, Input, Space } from 'antd';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import modelService from '@/services/admin/notice';
-import * as Admin from '../../../../../../types/admin';
+import { Admin } from '@/types';
 import NoticeModal from './modal/NoticeModal';
-import {DictDataSelector} from '@/components/base-dict';
-import {clearForm, useDelete, useExport, useTableQueryParams} from '@/utils/myHooks';
-import {previewImage} from '@/utils/utils';
-import {AuthDelBtn, FaHref} from "@/components/decorator";
+import { DictDataSelector } from '@/components/base-dict';
+import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
+import { previewImage } from '@/utils/utils';
+import { AuthDelBtn, FaHref } from '@/components/decorator';
 
 const serviceName = '通知与公告';
 const biz = 'base_notice';
@@ -16,8 +16,21 @@ const biz = 'base_notice';
 export default function NoticeList() {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } =
-    useTableQueryParams<Admin.Notice>(modelService.page, { sorter: { field: 'crtTime', order: 'descend' } }, serviceName);
+  const {
+    queryParams,
+    setFormValues,
+    handleTableChange,
+    setSceneId,
+    setConditionList,
+    fetchPageList,
+    loading,
+    list,
+    paginationProps,
+  } = useTableQueryParams<Admin.Notice>(
+    modelService.page,
+    { sorter: { field: 'crtTime', order: 'descend' } },
+    serviceName,
+  );
 
   const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams);
   const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName);
@@ -32,7 +45,8 @@ export default function NoticeList() {
       {
         ...BaseTableUtils.genSimpleSorterColumn('图片', 'url', 100, sorter),
         sorter: false,
-        render: (val) => (val ? <Image src={previewImage(val, 200, 200)} width={70} height={70} preview={{ src: val }} /> : null),
+        render: (val) =>
+          val ? <Image src={previewImage(val, 200, 200)} width={70} height={70} preview={{ src: val }} /> : null,
       },
       BaseTableUtils.genBoolSorterColumn('有效', 'status', 70, sorter),
       BaseTableUtils.genBoolSorterColumn('强提醒', 'strongNotice', 90, sorter),
@@ -41,7 +55,7 @@ export default function NoticeList() {
       {
         title: '操作',
         dataIndex: 'opr',
-        render: (text: string, record: Admin.Notice) => (
+        render: (_, record: Admin.Notice) => (
           <Space>
             <NoticeModal title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList}>
               <FaHref icon={<EditOutlined />} text="编辑" />
@@ -72,12 +86,20 @@ export default function NoticeList() {
           </Form>
 
           <Space>
-            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
-            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
+              查询
+            </Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>
+              重置
+            </Button>
             <NoticeModal title={`新增${serviceName}信息`} fetchFinish={fetchPageList}>
-              <Button icon={<PlusOutlined />} type="primary">新增</Button>
+              <Button icon={<PlusOutlined />} type="primary">
+                新增
+              </Button>
             </NoticeModal>
-            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>
+              导出
+            </Button>
           </Space>
         </div>
       </div>

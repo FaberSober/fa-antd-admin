@@ -1,14 +1,13 @@
-import React, {useContext, useState} from 'react';
-import {get} from 'lodash';
-import {Form, Input, Select} from 'antd';
-import DragModal, {DragModalProps} from '@/components/modal/DragModal';
-import {formItemFullLayout, showResponse} from '@/utils/utils';
+import React, { useContext, useState } from 'react';
+import { get } from 'lodash';
+import { Form, Input, Select } from 'antd';
+import DragModal, { DragModalProps } from '@/components/modal/DragModal';
+import { formItemFullLayout, showResponse } from '@/utils/utils';
 import modelService from '@/services/admin/job';
-import * as Admin from '../../../../../../../types/admin';
-import {CronModal} from "@/components/base-field";
-import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import * as Fa from "@/../../../../../../../types/base/Fa";
-
+import { Admin } from '@/types';
+import { CronModal } from '@/components/base-field';
+import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
+import { Fa } from '@/types';
 
 const serviceName = '系统定时任务';
 
@@ -22,11 +21,11 @@ interface IProps extends DragModalProps {
  * 系统定时任务实体新增、编辑弹框
  */
 export default function JobModal({ children, title, record, fetchFinish, ...props }: IProps) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
+  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
-  const [jobs, setJobs] = useState<Fa.Option[]>([])
+  const [jobs, setJobs] = useState<Fa.Option[]>([]);
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
@@ -34,7 +33,7 @@ export default function JobModal({ children, title, record, fetchFinish, ...prop
       showResponse(res, `新增${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
-    })
+    });
   }
 
   /** 更新Item */
@@ -43,7 +42,7 @@ export default function JobModal({ children, title, record, fetchFinish, ...prop
       showResponse(res, `更新${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
-    })
+    });
   }
 
   /** 提交表单 */
@@ -64,16 +63,16 @@ export default function JobModal({ children, title, record, fetchFinish, ...prop
       cron: get(record, 'cron', '0 * * * * ?'),
       clazzPath: get(record, 'clazzPath'),
       jobDesc: get(record, 'jobDesc'),
-    }
+    };
   }
 
   function showModal() {
-    setOpen(true)
-    modelService.getAllJobs().then(res => setJobs(res.data))
-    form.setFieldsValue(getInitialValues())
+    setOpen(true);
+    modelService.getAllJobs().then((res) => setJobs(res.data));
+    form.setFieldsValue(getInitialValues());
   }
 
-  const loading = loadingEffect[modelService.getUrl('save')] || loadingEffect[modelService.getUrl('update')]
+  const loading = loadingEffect[modelService.getUrl('save')] || loadingEffect[modelService.getUrl('update')];
   return (
     <span>
       <span onClick={showModal}>{children}</span>
@@ -91,7 +90,11 @@ export default function JobModal({ children, title, record, fetchFinish, ...prop
             <Input />
           </Form.Item>
           <Form.Item name="cron" label="cron表达式" rules={[{ required: true }]} {...formItemFullLayout}>
-            <Input addonAfter={<CronModal initialValue={get(record, 'cron')} onChange={(v) => form.setFieldValue('cron', v)} />} />
+            <Input
+              addonAfter={
+                <CronModal initialValue={get(record, 'cron')} onChange={(v) => form.setFieldValue('cron', v)} />
+              }
+            />
           </Form.Item>
           <Form.Item name="clazzPath" label="任务执行方法" rules={[{ required: true }]} {...formItemFullLayout}>
             <Select options={jobs} />

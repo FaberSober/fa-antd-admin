@@ -1,18 +1,17 @@
-import React, {useCallback, useEffect, useState} from 'react'
-import {RES_CODE} from "@/configs/server.config";
-import * as BaseTableUtils from "@/components/base-table/utils";
-import {TablePaginationConfig} from "antd";
-import {get, hasIn, isEqual} from 'lodash';
-import ConditionQuery from "@/components/condition-query/interface";
-import {showResponse} from '@/utils/utils';
-import {useIntl} from 'react-intl';
+import React, { useCallback, useEffect, useState } from 'react';
+import { RES_CODE } from '@/configs/server.config';
+import * as BaseTableUtils from '@/components/base-table/utils';
+import { TablePaginationConfig } from 'antd';
+import { get, hasIn, isEqual } from 'lodash';
+import ConditionQuery from '@/components/condition-query/interface';
+import { showResponse } from '@/utils/utils';
+import { useIntl } from 'react-intl';
 import queryString from 'querystring';
-import * as Fa from "@/../../types/base/Fa";
-
+import { Fa } from '@/types';
 
 export function useClientRect() {
   const [rect, setRect] = useState(null);
-  const ref = useCallback((node:any) => {
+  const ref = useCallback((node: any) => {
     if (node !== null) {
       setRect(node.getBoundingClientRect());
     }
@@ -53,7 +52,7 @@ export interface UseTableQueryParamsResProps<T> {
 export function useTableQueryParams<T>(
   api: (params: any) => Promise<Fa.Ret<Fa.Page<T>>>,
   initParams: Fa.InitQueryParams = {},
-  serviceName: string
+  serviceName: string,
 ): UseTableQueryParamsResProps<T> {
   const [loading, setLoading] = useState(false);
 
@@ -66,14 +65,14 @@ export function useTableQueryParams<T>(
     ...initParams, // 自定义字段覆盖
   });
 
-  const [ret, setRet] = useState<{ list: T[], dicts: Fa.PageDict, showPagination: Fa.Pagination }>({
+  const [ret, setRet] = useState<{ list: T[]; dicts: Fa.PageDict; showPagination: Fa.Pagination }>({
     list: [], // 表格List
     dicts: {}, // 字典
-    showPagination: { current: 1, pageSize: 10, total: 0, ...initParams?.pagination }
-  })
+    showPagination: { current: 1, pageSize: 10, total: 0, ...initParams?.pagination },
+  });
 
   useEffect(() => {
-    fetchPageList()
+    fetchPageList();
   }, [queryParams]);
 
   // ------------------------------------------ 表格查询参数更新 ------------------------------------------
@@ -154,8 +153,12 @@ export function useTableQueryParams<T>(
         setLoading(false);
         if (res && res.status === RES_CODE.OK) {
           const { pagination: page } = res.data;
-          const pagination: Fa.Pagination = { current: Number(page.current), pageSize: Number(page.pageSize), total: Number(page.total) }
-          setRet({ list: res.data.rows, dicts: res.data.dicts, showPagination: pagination })
+          const pagination: Fa.Pagination = {
+            current: Number(page.current),
+            pageSize: Number(page.pageSize),
+            total: Number(page.total),
+          };
+          setRet({ list: res.data.rows, dicts: res.data.dicts, showPagination: pagination });
         }
       })
       .catch(() => setLoading(false));
@@ -194,10 +197,8 @@ export function useTableQueryParams<T>(
     dicts: ret.dicts,
     showPagination: ret.showPagination,
     paginationProps,
-  }
+  };
 }
-
-
 
 /**
  * 删除单个Item
@@ -205,7 +206,11 @@ export function useTableQueryParams<T>(
  * @param refreshList
  * @param serviceName
  */
-export function useDelete<T>(deleteApi: (id: T) => Promise<Fa.Ret>, refreshList: () => void, serviceName = ''): [(id: T) => void] {
+export function useDelete<T>(
+  deleteApi: (id: T) => Promise<Fa.Ret>,
+  refreshList: () => void,
+  serviceName = '',
+): [(id: T) => void] {
   function handleDelete(id: T) {
     deleteApi(id).then((res) => {
       showResponse(res, `删除${serviceName}信息`);
@@ -220,7 +225,10 @@ export function useDelete<T>(deleteApi: (id: T) => Promise<Fa.Ret>, refreshList:
  * @param exportApi 导出API
  * @param queryParams 表格查询参数
  */
-export function useExport(exportApi: (params: any) => Promise<undefined>, queryParams: Fa.QueryParams): [exporting: boolean, fetchExportExcel: () => void] {
+export function useExport(
+  exportApi: (params: any) => Promise<undefined>,
+  queryParams: Fa.QueryParams,
+): [exporting: boolean, fetchExportExcel: () => void] {
   const [exporting, setExporting] = useState(false);
 
   /** 导出Excel文件 */

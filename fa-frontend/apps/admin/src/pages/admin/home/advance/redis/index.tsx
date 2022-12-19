@@ -1,43 +1,44 @@
-import React, {useContext, useState} from 'react';
-import {Alert, Button, Card, Form, Input} from "antd";
-import redisTestApi from '@/services/demo/redisTest'
-import studentApi from '@/services/demo/student'
-import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import {formItemFullLayout} from "@/utils/utils";
-import {FaFlexRestLayout} from "@/components/base-layout";
-import {UserLayoutContext} from "@/layout/UserLayout";
-import * as Demo from "../../../../../../types/demo";
-
+import React, { useContext, useState } from 'react';
+import { Alert, Button, Card, Form, Input } from 'antd';
+import redisTestApi from '@/services/demo/redisTest';
+import studentApi from '@/services/demo/student';
+import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
+import { formItemFullLayout } from '@/utils/utils';
+import { FaFlexRestLayout } from '@/components/base-layout';
+import { UserLayoutContext } from '@/layout/UserLayout';
+import { Demo } from '@/types';
 
 /**
  * @author xu.pengfei
  * @date 2022/12/7 22:10
  */
 export default function index() {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
-  const {systemConfig} = useContext(UserLayoutContext)
+  const { loadingEffect } = useContext(ApiEffectLayoutContext);
+  const { systemConfig } = useContext(UserLayoutContext);
   const [form] = Form.useForm();
   const [form1] = Form.useForm();
   const [form2] = Form.useForm();
 
-  const [data, setData] = useState<string>()
-  const [student, setStudent] = useState<Demo.Student>()
+  const [data, setData] = useState<string>();
+  const [student, setStudent] = useState<Demo.Student>();
 
-  function onFinish({key, value}: any) {
-    redisTestApi.addCache(key, value).then(refreshIframe)
+  function onFinish({ key, value }: any) {
+    redisTestApi.addCache(key, value).then(refreshIframe);
   }
 
-  function onFinish1({key}: any) {
-    redisTestApi.getCache(key).then(res => setData(res.data))
+  function onFinish1({ key }: any) {
+    redisTestApi.getCache(key).then((res) => setData(res.data));
   }
 
-  function onFinish2({id}: any) {
-    studentApi.getById(id).then(res => setStudent(res.data)).then(refreshIframe)
+  function onFinish2({ id }: any) {
+    studentApi
+      .getById(id)
+      .then((res) => setStudent(res.data))
+      .then(refreshIframe);
   }
 
   function refreshIframe() {
-    // @ts-ignore
-    document.getElementById('phpRedisAdmin').contentWindow.location = systemConfig.phpRedisAdmin
+    (document.getElementById('phpRedisAdmin') as any).contentWindow.location = systemConfig.phpRedisAdmin;
   }
 
   const loading = loadingEffect[redisTestApi.getUrl('addCache')];
@@ -54,7 +55,9 @@ export default function index() {
               <Input />
             </Form.Item>
 
-            <Button loading={loading} htmlType="submit">添加缓存</Button>
+            <Button loading={loading} htmlType="submit">
+              添加缓存
+            </Button>
           </Form>
         </Card>
 
@@ -64,7 +67,9 @@ export default function index() {
               <Input />
             </Form.Item>
 
-            <Button loading={loading2} htmlType="submit">获取缓存</Button>
+            <Button loading={loading2} htmlType="submit">
+              获取缓存
+            </Button>
 
             <p>获取缓存：{data}</p>
           </Form>
@@ -78,19 +83,29 @@ export default function index() {
               <Input />
             </Form.Item>
 
-            <Button loading={loading2} htmlType="submit">获取Student</Button>
+            <Button loading={loading2} htmlType="submit">
+              获取Student
+            </Button>
 
-            <p>获取缓存：{student?.id} {student?.name}</p>
+            <p>
+              获取缓存：{student?.id} {student?.name}
+            </p>
           </Form>
         </Card>
-
       </div>
 
       <FaFlexRestLayout>
-        <iframe id="phpRedisAdmin" src={systemConfig.phpRedisAdmin} className="fa-full-content" style={{ width: '100%', height: '100%', border: 'none', margin: 0 }} />
+        <iframe
+          id="phpRedisAdmin"
+          src={systemConfig.phpRedisAdmin}
+          className="fa-full-content"
+          style={{ width: '100%', height: '100%', border: 'none', margin: 0 }}
+        />
 
-        <Button onClick={refreshIframe} style={{ position: 'relative', top: 10, left: 180 }}>刷新</Button>
+        <Button onClick={refreshIframe} style={{ position: 'relative', top: 10, left: 180 }}>
+          刷新
+        </Button>
       </FaFlexRestLayout>
     </div>
-  )
+  );
 }

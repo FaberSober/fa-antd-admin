@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
-import {Card, message} from "antd";
-import {PlusOutlined} from "@ant-design/icons";
-import treeApi from "@/services/demo/tree";
-import BaseTree from "@/components/base-tree";
-import * as Demo from "../../../../../types/demo";
-import TreeModal from '@/pages/admin/demo/tree/modal/TreeModal'
-
+import React, { useState } from 'react';
+import { Card, message } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import treeApi from '@/services/demo/tree';
+import BaseTree from '@/components/base-tree';
+import { Demo } from '@/types';
+import TreeModal from '@/pages/admin/demo/tree/modal/TreeModal';
 
 /**
  * 远程数据Tree
@@ -13,11 +12,10 @@ import TreeModal from '@/pages/admin/demo/tree/modal/TreeModal'
  * @date 2022/11/30
  */
 export default function tree() {
-
   const [sel, setSel] = useState<Demo.Tree>();
 
   /** 点击选中tree节点的事件，这里可以获取点击节点的属性 */
-  function onTreeSelect(keys: any[], event: any) {
+  function onTreeSelect(keys: any[]) {
     if (keys && keys[0]) {
       treeApi.getById(keys[0]).then((res) => setSel(res.data));
     }
@@ -59,12 +57,14 @@ export default function tree() {
               key: 'extra-menu1',
               icon: <PlusOutlined />,
               title: '补充菜单1',
-              onMenuClick: (e, item) => { message.info('点击补充菜单1' + JSON.stringify(item)) },
+              onMenuClick: (e, item) => {
+                message.info('点击补充菜单1' + JSON.stringify(item));
+              },
             },
           ]}
           bodyStyle={{ width: 400, height: 300 }}
         />
       </Card>
     </div>
-  )
+  );
 }

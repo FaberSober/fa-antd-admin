@@ -1,36 +1,46 @@
-import React, {useContext, useEffect} from 'react';
-import {CheckOutlined, SearchOutlined} from '@ant-design/icons';
-import {Badge, Button, Form, Input, Space} from 'antd';
+import React, { useContext, useEffect } from 'react';
+import { CheckOutlined, SearchOutlined } from '@ant-design/icons';
+import { Badge, Button, Form, Input, Space } from 'antd';
 import modelService from '@/services/admin/msg';
-import * as Admin from '../../../../../../types/admin';
-import {clearForm, useTableQueryParams} from '@/utils/myHooks';
-import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
-import {UserLayoutContext} from "@/layout/UserLayout";
-import {FaHref} from "@/components/decorator";
-import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import {BaseBoolSelector} from "@/components/base-dict";
+import { Admin } from '@/types';
+import { clearForm, useTableQueryParams } from '@/utils/myHooks';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
+import { UserLayoutContext } from '@/layout/UserLayout';
+import { FaHref } from '@/components/decorator';
+import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
+import { BaseBoolSelector } from '@/components/base-dict';
 
 const serviceName = '消息';
 const biz = 'base_msg';
 
 export default function MsgList() {
   const { loadingEffect } = useContext(ApiEffectLayoutContext);
-  const {user} = useContext(UserLayoutContext)
+  const { user } = useContext(UserLayoutContext);
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, setExtraParams, fetchPageList, loading, list, paginationProps } =
-    useTableQueryParams<Admin.Msg>(
-      modelService.page,
-      { extraParams: { toUserId: user.id }, sorter: { field: 'crtTime', order: 'descend' } },
-      serviceName
-    );
+  const {
+    queryParams,
+    setFormValues,
+    handleTableChange,
+    setSceneId,
+    setConditionList,
+    setExtraParams,
+    fetchPageList,
+    loading,
+    list,
+    paginationProps,
+  } = useTableQueryParams<Admin.Msg>(
+    modelService.page,
+    { extraParams: { toUserId: user.id }, sorter: { field: 'crtTime', order: 'descend' } },
+    serviceName,
+  );
 
   useEffect(() => {
     setExtraParams({ toUserId: user.id });
   }, [user.id]);
 
   function handleBatchRead(ids: string[]) {
-    modelService.batchRead(ids).then((res) => {
+    modelService.batchRead(ids).then(() => {
       fetchPageList();
       // TODO 全局消息数量刷新
       // refreshUnreadCount();
@@ -39,7 +49,7 @@ export default function MsgList() {
 
   /** 消息已读 */
   function handleReadOne(id: string) {
-    modelService.batchRead([id]).then((res) => {
+    modelService.batchRead([id]).then(() => {
       fetchPageList();
       // TODO 全局消息数量刷新
       // refreshUnreadCount();
@@ -68,9 +78,7 @@ export default function MsgList() {
         dataIndex: 'opr',
         render: (text: string, record: Admin.Msg) => (
           <Space>
-            {!record.isRead && (
-              <FaHref onClick={() => handleReadOne(record.id)} icon={<CheckOutlined />} text="已读" />
-            )}
+            {!record.isRead && <FaHref onClick={() => handleReadOne(record.id)} icon={<CheckOutlined />} text="已读" />}
           </Space>
         ),
         width: 70,
@@ -81,7 +89,7 @@ export default function MsgList() {
     ] as FaberTable.ColumnsProp<Admin.Msg>[];
   }
 
-  const batchReading = loadingEffect[modelService.getUrl('batchRead')]
+  const batchReading = loadingEffect[modelService.getUrl('batchRead')];
   return (
     <div className="fa-full-content fa-flex-column">
       <div className="fa-flex-row-center fa-p8">
@@ -97,8 +105,12 @@ export default function MsgList() {
           </Form>
 
           <Space>
-            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
-            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
+              查询
+            </Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>
+              重置
+            </Button>
           </Space>
         </div>
       </div>

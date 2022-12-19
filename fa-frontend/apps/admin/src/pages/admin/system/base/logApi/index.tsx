@@ -1,12 +1,12 @@
 import React from 'react';
-import {DownloadOutlined, EyeOutlined, SearchOutlined} from '@ant-design/icons';
-import {Button, Card, Form, Input, Space} from 'antd';
-import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
-import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
+import { DownloadOutlined, EyeOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Space } from 'antd';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
+import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
 import modelService from '@/services/admin/logApi';
-import * as Admin from '../../../../../../types/admin';
+import { Admin } from '@/types';
 import LogApiDrawer from './drawer/LogApiDrawer';
-import {AuthDelBtn} from "@/components/decorator";
+import { AuthDelBtn } from '@/components/decorator';
 
 const serviceName = 'URL请求日志';
 const biz = 'base_log_api';
@@ -14,11 +14,21 @@ const biz = 'base_log_api';
 export default function LogApiList() {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } =
-    useTableQueryParams<Admin.LogApi>(modelService.page, {}, serviceName)
+  const {
+    queryParams,
+    setFormValues,
+    handleTableChange,
+    setSceneId,
+    setConditionList,
+    fetchPageList,
+    loading,
+    list,
+    dicts,
+    paginationProps,
+  } = useTableQueryParams<Admin.LogApi>(modelService.page, {}, serviceName);
 
-  const [handleDelete] = useDelete<string>(modelService.remove, fetchPageList, serviceName)
-  const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams)
+  const [handleDelete] = useDelete<string>(modelService.remove, fetchPageList, serviceName);
+  const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams);
 
   /** 生成表格字段List */
   function genColumns() {
@@ -46,7 +56,10 @@ export default function LogApiList() {
         render: (_, record) => (
           <Space>
             <LogApiDrawer record={record}>
-              <a><EyeOutlined />查看</a>
+              <a>
+                <EyeOutlined />
+                查看
+              </a>
             </LogApiDrawer>
             <AuthDelBtn handleDelete={() => handleDelete(record.id)} />
           </Space>
@@ -71,9 +84,15 @@ export default function LogApiList() {
           </Form>
 
           <Space>
-            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
-            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
-            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
+              查询
+            </Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>
+              重置
+            </Button>
+            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>
+              导出
+            </Button>
           </Space>
         </div>
       </div>

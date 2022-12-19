@@ -1,39 +1,37 @@
-import React, {useContext, useEffect, useState} from 'react';
-import * as Fa from "@/../../../../../../types/base/Fa";
-import {Button, Modal, Space, Table} from "antd";
-import {ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
-import {ColumnsType} from "antd/es/table";
-import {FaFlexRestLayout} from "@/components/base-layout";
-import * as FaEnums from "@/../../../../../../types/base/FaEnums";
-import {useDelete} from "@/utils/myHooks";
-import {showResponse} from "@/utils/utils";
-import {AuthDelBtn, FaHref} from '@/components/decorator'
-import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
-import RbacMenuModal from "./modal/RbacMenuModal";
-import rbacMenuApi from '@/services/rbac/rbacMenu'
-import * as Rbac from '../../../../../../types/rbac';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-
+import React, { useContext, useEffect, useState } from 'react';
+import { Fa, FaEnums } from '@/types';
+import { Button, Modal, Space, Table } from 'antd';
+import { ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { ColumnsType } from 'antd/es/table';
+import { FaFlexRestLayout } from '@/components/base-layout';
+import { useDelete } from '@/utils/myHooks';
+import { showResponse } from '@/utils/utils';
+import { AuthDelBtn, FaHref } from '@/components/decorator';
+import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
+import RbacMenuModal from './modal/RbacMenuModal';
+import rbacMenuApi from '@/services/rbac/rbacMenu';
+import { Rbac } from '@/types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 /**
  * @author xu.pengfei
  * @date 2022/9/19
  */
 export default function RbacMenuTreeList() {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
-  const [tree, setTree] = useState<Fa.TreeNode<Rbac.RbacMenu>[]>([])
-  const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
+  const { loadingEffect } = useContext(ApiEffectLayoutContext);
+  const [tree, setTree] = useState<Fa.TreeNode<Rbac.RbacMenu>[]>([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
 
   const [handleDelete] = useDelete<string>(rbacMenuApi.remove, refreshData, '菜单');
 
   useEffect(() => {
-    refreshData()
-  }, [])
+    refreshData();
+  }, []);
 
   function refreshData() {
     rbacMenuApi.allTree().then((res) => {
-      setTree(res.data)
-    })
+      setTree(res.data);
+    });
   }
 
   function handleBatchDelete() {
@@ -41,35 +39,35 @@ export default function RbacMenuTreeList() {
       title: '批量删除',
       content: '确认删除勾选的数据？',
       onOk: () => {
-        return rbacMenuApi.removeBatchByIds(selectedRowKeys).then(res => {
-          showResponse(res, "批量删除")
-          refreshData()
-          setSelectedRowKeys([])
-        })
+        return rbacMenuApi.removeBatchByIds(selectedRowKeys).then((res) => {
+          showResponse(res, '批量删除');
+          refreshData();
+          setSelectedRowKeys([]);
+        });
       },
-    })
+    });
   }
 
-  function moveUp(id:string) {
-    rbacMenuApi.moveUp(id).then(refreshData)
+  function moveUp(id: string) {
+    rbacMenuApi.moveUp(id).then(refreshData);
   }
 
-  function moveDown(id:string) {
-    rbacMenuApi.moveDown(id).then(refreshData)
+  function moveDown(id: string) {
+    rbacMenuApi.moveDown(id).then(refreshData);
   }
 
   const columns = [
-    { title: '名称', dataIndex: 'name', width: 200, },
+    { title: '名称', dataIndex: 'name', width: 200 },
     {
       title: '图标',
       dataIndex: ['sourceData', 'icon'],
-      render: (val:string|undefined) => val ? <FontAwesomeIcon icon={val} /> : null,
+      render: (val: string | undefined) => (val ? <FontAwesomeIcon icon={val} /> : null),
       width: 100,
     },
     {
       title: '菜单等级',
       dataIndex: ['sourceData', 'level'],
-      render: (val:FaEnums.RbacMenuLevelEnum) => FaEnums.RbacMenuLevelEnumMap[val],
+      render: (val: FaEnums.RbacMenuLevelEnum) => FaEnums.RbacMenuLevelEnumMap[val],
       width: 120,
     },
     { title: '链接', dataIndex: ['sourceData', 'linkUrl'] },
@@ -94,11 +92,23 @@ export default function RbacMenuTreeList() {
   return (
     <div className="fa-full-content fa-flex-column">
       <Space style={{ margin: 12 }}>
-        <Button onClick={refreshData} loading={loadingTree}>刷新</Button>
+        <Button onClick={refreshData} loading={loadingTree}>
+          刷新
+        </Button>
         <RbacMenuModal title="新增菜单" fetchFinish={refreshData}>
-          <Button type="primary" icon={<PlusOutlined />} loading={loadingTree}>新增菜单</Button>
+          <Button type="primary" icon={<PlusOutlined />} loading={loadingTree}>
+            新增菜单
+          </Button>
         </RbacMenuModal>
-        <Button danger onClick={handleBatchDelete} loading={loadingTree} disabled={selectedRowKeys.length === 0} icon={<DeleteOutlined />}>删除</Button>
+        <Button
+          danger
+          onClick={handleBatchDelete}
+          loading={loadingTree}
+          disabled={selectedRowKeys.length === 0}
+          icon={<DeleteOutlined />}
+        >
+          删除
+        </Button>
       </Space>
 
       <FaFlexRestLayout>
@@ -109,7 +119,7 @@ export default function RbacMenuTreeList() {
           rowSelection={{
             selectedRowKeys,
             onChange: (selectedRowKeys, selectedRows) => {
-              setSelectedRowKeys(selectedRows.map(i => i.id))
+              setSelectedRowKeys(selectedRows.map((i) => i.id));
             },
             checkStrictly: false,
           }}
@@ -120,5 +130,5 @@ export default function RbacMenuTreeList() {
         />
       </FaFlexRestLayout>
     </div>
-  )
+  );
 }

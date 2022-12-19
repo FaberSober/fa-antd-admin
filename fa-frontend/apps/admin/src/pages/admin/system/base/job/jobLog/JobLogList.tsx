@@ -1,15 +1,14 @@
-import React, {useEffect} from 'react';
-import {DownloadOutlined, SearchOutlined} from '@ant-design/icons';
-import {Button, Form, Input, Space} from 'antd';
-import BaseBizTable, {BaseTableUtils, FaberTable} from '@/components/base-table';
-import {clearForm, useDelete, useExport, useTableQueryParams} from "@/utils/myHooks";
+import React, { useEffect } from 'react';
+import { DownloadOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Space } from 'antd';
+import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
+import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
 import modelService from '@/services/admin/jobLog';
-import * as Admin from '../../../../../../../types/admin';
-import {AuthDelBtn} from "@/components/decorator";
+import { Admin } from '@/types';
+import { AuthDelBtn } from '@/components/decorator';
 
 const serviceName = '系统定时任务-执行日志';
 const biz = 'base_job_log';
-
 
 export interface JobLogListProps {
   jobId: number;
@@ -18,15 +17,25 @@ export interface JobLogListProps {
 export default function JobLogList({ jobId }: JobLogListProps) {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, setExtraParams, fetchPageList, loading, list, dicts, paginationProps } =
-    useTableQueryParams<Admin.JobLog>(modelService.page, { extraParams: { jobId } }, serviceName)
+  const {
+    queryParams,
+    setFormValues,
+    handleTableChange,
+    setSceneId,
+    setConditionList,
+    setExtraParams,
+    fetchPageList,
+    loading,
+    list,
+    paginationProps,
+  } = useTableQueryParams<Admin.JobLog>(modelService.page, { extraParams: { jobId } }, serviceName);
 
-  const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName)
-  const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams)
+  const [handleDelete] = useDelete<number>(modelService.remove, fetchPageList, serviceName);
+  const [exporting, fetchExportExcel] = useExport(modelService.exportExcel, queryParams);
 
   useEffect(() => {
-    setExtraParams({ jobId })
-  }, [jobId])
+    setExtraParams({ jobId });
+  }, [jobId]);
 
   /** 生成表格字段List */
   function genColumns() {
@@ -38,7 +47,7 @@ export default function JobLogList({ jobId }: JobLogListProps) {
       BaseTableUtils.genTimeSorterColumn('结束时间', 'endTime', 180, sorter),
       {
         ...BaseTableUtils.genSimpleSorterColumn('执行结果', 'status', 100, sorter),
-        render: (val, record) => <span>{Admin.JOB_LOG_STATUS_MAP[record.status]}</span>
+        render: (val, record) => <span>{Admin.JOB_LOG_STATUS_MAP[record.status]}</span>,
       },
       BaseTableUtils.genSimpleSorterColumn('错误日志', 'errMsg', undefined, sorter),
       {
@@ -69,9 +78,15 @@ export default function JobLogList({ jobId }: JobLogListProps) {
           </Form>
 
           <Space>
-            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>查询</Button>
-            <Button onClick={() => clearForm(form)} loading={loading}>重置</Button>
-            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+            <Button onClick={() => form.submit()} loading={loading} icon={<SearchOutlined />}>
+              查询
+            </Button>
+            <Button onClick={() => clearForm(form)} loading={loading}>
+              重置
+            </Button>
+            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>
+              导出
+            </Button>
           </Space>
         </div>
       </div>

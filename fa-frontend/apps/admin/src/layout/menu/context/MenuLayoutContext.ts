@@ -1,6 +1,5 @@
 import { createContext } from 'react';
-import * as Fa from '@/../../../../types/base/Fa';
-import * as Rbac from '../../../../types/rbac';
+import { Fa, Rbac } from '@/types';
 
 export interface MenuLayoutContextProps {
   menuList: Rbac.RbacMenu[]; // 当前展示的菜单树

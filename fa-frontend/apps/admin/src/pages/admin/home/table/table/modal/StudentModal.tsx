@@ -1,23 +1,29 @@
 import React, { useContext, useState } from 'react';
 import { get } from 'lodash';
-import {Form, Input, DatePicker, Button} from 'antd';
-import {EditOutlined, PlusOutlined} from "@ant-design/icons";
-import {FaHref} from "@/components/decorator";
+import { Form, Input, DatePicker, Button } from 'antd';
+import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { FaHref } from '@/components/decorator';
 import DragModal from '@/components/modal/DragModal';
-import BaseBoolRadio from "@/components/base-dict/BaseBoolRadio";
-import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
+import BaseBoolRadio from '@/components/base-dict/BaseBoolRadio';
+import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
 import { getDateStr000, getInitialKeyTimeValue, showResponse, formItemFullLayout } from '@/utils/utils';
 import api from '@/services/demo/student';
-import * as Fa from '@/../../../../../../../types/base/Fa';
-import * as Demo from '../../../../../../../types/demo';
-import {DictEnumApiSelector} from "@/components/base-dict";
-
+import { Demo, Fa } from '@/types';
+import { DictEnumApiSelector } from '@/components/base-dict';
 
 /**
  * Demo-学生表实体新增、编辑弹框
  */
-export default function StudentModal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: Fa.CommonModalProps<Demo.Student>) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
+export default function StudentModal({
+  children,
+  title,
+  record,
+  fetchFinish,
+  addBtn,
+  editBtn,
+  ...props
+}: Fa.CommonModalProps<Demo.Student>) {
+  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -28,7 +34,7 @@ export default function StudentModal({ children, title, record, fetchFinish, add
       showResponse(res, '新增学生');
       setOpen(false);
       if (fetchFinish) fetchFinish();
-    })
+    });
   }
 
   /** 更新Item */
@@ -37,7 +43,7 @@ export default function StudentModal({ children, title, record, fetchFinish, add
       showResponse(res, '更新学生');
       setOpen(false);
       if (fetchFinish) fetchFinish();
-    })
+    });
   }
 
   /** 提交表单 */
@@ -49,7 +55,7 @@ export default function StudentModal({ children, title, record, fetchFinish, add
     if (record) {
       invokeUpdateTask({ ...record, ...values });
     } else {
-      invokeInsertTask({ ...values, tags: [], info: {info1:'',info2:''} });
+      invokeInsertTask({ ...values, tags: [], info: { info1: '', info2: '' } });
     }
   }
 
@@ -61,12 +67,12 @@ export default function StudentModal({ children, title, record, fetchFinish, add
       email: get(record, 'email'),
       birthday: getInitialKeyTimeValue(record, 'birthday'),
       valid: get(record, 'valid'),
-    }
+    };
   }
 
   function showModal() {
-    setOpen(true)
-    form.setFieldsValue(getInitialValues())
+    setOpen(true);
+    form.setFieldsValue(getInitialValues());
   }
 
   const loading = loadingEffect[api.getUrl('save')] || loadingEffect[api.getUrl('update')];
@@ -74,7 +80,11 @@ export default function StudentModal({ children, title, record, fetchFinish, add
     <span>
       <span onClick={showModal}>
         {children}
-        {addBtn && <Button icon={<PlusOutlined />} type="primary">新增</Button>}
+        {addBtn && (
+          <Button icon={<PlusOutlined />} type="primary">
+            新增
+          </Button>
+        )}
         {editBtn && <FaHref icon={<EditOutlined />} text="编辑" />}
       </span>
       <DragModal
@@ -108,5 +118,5 @@ export default function StudentModal({ children, title, record, fetchFinish, add
         </Form>
       </DragModal>
     </span>
-  )
+  );
 }

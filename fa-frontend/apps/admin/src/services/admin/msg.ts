@@ -1,6 +1,5 @@
 import { GATE_APP } from '@/configs/server.config';
-import * as Fa from '@/../../../types/base/Fa';
-import * as Admin from '../../../types/admin';
+import { Admin, Fa } from '@/types';
 import { BaseApi } from '@/services/base';
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */

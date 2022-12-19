@@ -1,14 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import SplitPane from 'react-split-pane';
 import BaseTree from '@/components/base-tree';
-import * as Admin from '../../../../../../types/admin';
+import { Admin } from '@/types';
 import departmentService from '@/services/admin/department';
-import {useLocalStorage} from 'react-use';
-import DepartmentModal from "./modal/DepartmentModal";
-import UserList from "./cube/UserList";
-import {dispatch} from 'use-bus'
-import {PlusOutlined} from "@ant-design/icons";
-
+import { useLocalStorage } from 'react-use';
+import DepartmentModal from './modal/DepartmentModal';
+import UserList from './cube/UserList';
+import { dispatch } from 'use-bus';
+import { PlusOutlined } from '@ant-design/icons';
 
 /**
  * 用户部门管理
@@ -20,7 +19,7 @@ export default function UserDepartmentManage() {
   const [viewRecord, setViewRecord] = useState<Admin.Department>();
 
   function onTreeSelect(keys: any[], event: any) {
-    setViewRecord(keys.length > 0 ? event.node.sourceData : undefined)
+    setViewRecord(keys.length > 0 ? event.node.sourceData : undefined);
   }
 
   function onAfterDelItem() {
@@ -28,12 +27,18 @@ export default function UserDepartmentManage() {
   }
 
   function handleAddUser(e: any) {
-    dispatch({ type: '@@UserModal/SHOW_ADD', payload: { departmentId: e.props.sourceData.id } })
+    dispatch({ type: '@@UserModal/SHOW_ADD', payload: { departmentId: e.props.sourceData.id } });
   }
 
   return (
     <div className="fa-full-content">
-      <SplitPane split="vertical" minSize={200} maxSize={350} defaultSize={splitPos} onChange={(size) => setSplitPos(size)}>
+      <SplitPane
+        split="vertical"
+        minSize={200}
+        maxSize={350}
+        defaultSize={splitPos}
+        onChange={(size) => setSplitPos(size)}
+      >
         {/* 左侧面板 */}
         <BaseTree
           // showRoot

@@ -1,6 +1,6 @@
 import { GATE_APP } from '@/configs/server.config';
 import { BaseZeroApi } from '@/services/base';
-import * as Fa from '@/../../../types/base/Fa';
+import { Fa } from '@/types';
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */
 class Api extends BaseZeroApi {

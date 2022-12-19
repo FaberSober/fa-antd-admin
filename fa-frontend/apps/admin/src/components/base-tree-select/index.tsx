@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {TreeSelect} from 'antd';
-import * as Fa from '@/../../../types/base/Fa';
-import {TreeSelectProps} from 'antd/es/tree-select';
+import React, { useEffect, useState } from 'react';
+import { TreeSelect } from 'antd';
+import { Fa } from '@/types';
+import { TreeSelectProps } from 'antd/es/tree-select';
 import BaseTreeProps from '@/components/base-tree/interface';
-import {RES_CODE} from '@/configs/server.config';
+import { RES_CODE } from '@/configs/server.config';
 import * as BaseTreeUtils from '@/components/base-tree/utils';
 
 export interface BaseTreeSelectProps<T, KeyType = number> extends Omit<TreeSelectProps<T>, 'options'> {

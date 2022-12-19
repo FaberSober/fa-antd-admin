@@ -1,17 +1,16 @@
-import React, {ReactNode, useState} from 'react';
-import {trim} from 'lodash';
-import {v1 as uuidv1} from 'uuid';
-import {Checkbox, Divider, Input, message} from 'antd';
+import React, { ReactNode, useState } from 'react';
+import { trim } from 'lodash';
+import { v1 as uuidv1 } from 'uuid';
+import { Checkbox, Divider, Input, message } from 'antd';
 import DragModal from '@/components/modal/DragModal';
 import ConditionQuery from '@/components/condition-query/interface';
 import configService from '@/services/admin/configScene';
-import * as Admin from '../../../types/admin';
-import {showResponse} from '@/utils/utils';
-import {FaberTable} from '@/components/base-table';
-import CondGroupShow from "@/components/condition-query/CondGroupShow";
-import CondGroupEdit from "@/components/condition-query/CondGroupEdit";
-import {PlusOutlined} from "@ant-design/icons";
-
+import { Admin } from '@/types';
+import { showResponse } from '@/utils/utils';
+import { FaberTable } from '@/components/base-table';
+import CondGroupShow from '@/components/condition-query/CondGroupShow';
+import CondGroupEdit from '@/components/condition-query/CondGroupEdit';
+import { PlusOutlined } from '@ant-design/icons';
 
 export interface ConditionQueryModalProps<T> {
   showSuffix?: boolean;
@@ -23,7 +22,11 @@ export interface ConditionQueryModalProps<T> {
 }
 
 function genOneEmptyCondGroup(): ConditionQuery.CondGroup {
-  return { id: uuidv1(), type: ConditionQuery.Type.AND, condList: [{ id: uuidv1(), opr: ConditionQuery.CondOpr.equal }] };
+  return {
+    id: uuidv1(),
+    type: ConditionQuery.Type.AND,
+    condList: [{ id: uuidv1(), opr: ConditionQuery.CondOpr.equal }],
+  };
 }
 
 /**
@@ -41,18 +44,27 @@ function genOneEmptyCondGroup(): ConditionQuery.CondGroup {
         width: 180,
       },
  */
-export default function ConditionQueryModal<T>({ showSuffix, biz, record, onConditionChange, columns, children }: ConditionQueryModalProps<T>) {
-  const [condGroupList, setCondGroupList] = useState<ConditionQuery.CondGroup[]>(record ? record.data : [genOneEmptyCondGroup()]);
+export default function ConditionQueryModal<T>({
+  showSuffix,
+  biz,
+  record,
+  onConditionChange,
+  columns,
+  children,
+}: ConditionQueryModalProps<T>) {
+  const [condGroupList, setCondGroupList] = useState<ConditionQuery.CondGroup[]>(
+    record ? record.data : [genOneEmptyCondGroup()],
+  );
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saveAsScene, setSaveAsScene] = useState(record !== undefined);
   const [defaultScene, setDefaultScene] = useState(false); // 是否设置为默认场景
-  const [sceneName, setSceneName] = useState<string|undefined>(record?.name);
+  const [sceneName, setSceneName] = useState<string | undefined>(record?.name);
 
   /** 处理-增加item */
   async function handleSave() {
     // 校验筛选条件
-    for (let j = 0; j < condGroupList.length; j+=1) {
+    for (let j = 0; j < condGroupList.length; j += 1) {
       const { condList } = condGroupList[j];
 
       for (let i = 0; i < condList.length; i += 1) {
@@ -117,11 +129,11 @@ export default function ConditionQueryModal<T>({ showSuffix, biz, record, onCond
   }
 
   function handleCondGroupChange(condGroup: ConditionQuery.CondGroup, triggerSave?: boolean) {
-    const newList = condGroupList.map(c => {
+    const newList = condGroupList.map((c) => {
       if (c.id === condGroup.id) return condGroup;
       return c;
     });
-    setCondGroupList(newList)
+    setCondGroupList(newList);
     if (triggerSave) {
       if (onConditionChange) {
         onConditionChange(newList, false);
@@ -130,11 +142,11 @@ export default function ConditionQueryModal<T>({ showSuffix, biz, record, onCond
   }
 
   function handleAddCondGroup() {
-    setCondGroupList([ ...condGroupList, genOneEmptyCondGroup() ])
+    setCondGroupList([...condGroupList, genOneEmptyCondGroup()]);
   }
 
   function handleDeleteCondGroup(condGroup: ConditionQuery.CondGroup) {
-    setCondGroupList(condGroupList.filter(c => c.id !== condGroup.id))
+    setCondGroupList(condGroupList.filter((c) => c.id !== condGroup.id));
   }
 
   const inEdit = record !== undefined;
@@ -164,8 +176,16 @@ export default function ConditionQueryModal<T>({ showSuffix, biz, record, onCond
         destroyOnClose
       >
         <div>
-          {condGroupList.map((condGroup, index) => {
-            return <CondGroupEdit key={condGroup.id} condGroup={condGroup} columns={columns} onChange={handleCondGroupChange} onDelete={() => handleDeleteCondGroup(condGroup)} />
+          {condGroupList.map((condGroup) => {
+            return (
+              <CondGroupEdit
+                key={condGroup.id}
+                condGroup={condGroup}
+                columns={columns}
+                onChange={handleCondGroupChange}
+                onDelete={() => handleDeleteCondGroup(condGroup)}
+              />
+            );
           })}
 
           <div style={{ marginBottom: 12 }}>
@@ -178,12 +198,22 @@ export default function ConditionQueryModal<T>({ showSuffix, biz, record, onCond
           {/* 保存为场景 */}
           <div style={{ display: 'flex', alignItems: 'center', height: 40, marginTop: 12 }}>
             {!inEdit && (
-              <Checkbox disabled={record !== undefined} checked={saveAsScene} onChange={(e) => setSaveAsScene(e.target.checked)}>
+              <Checkbox
+                disabled={record !== undefined}
+                checked={saveAsScene}
+                onChange={(e) => setSaveAsScene(e.target.checked)}
+              >
                 保存为场景
               </Checkbox>
             )}
-            {(saveAsScene || inEdit) ? (
-              <Input value={sceneName} onChange={(e) => setSceneName(e.target.value)} style={{ width: 200 }} placeholder="请输入场景名称" maxLength={30} />
+            {saveAsScene || inEdit ? (
+              <Input
+                value={sceneName}
+                onChange={(e) => setSceneName(e.target.value)}
+                style={{ width: 200 }}
+                placeholder="请输入场景名称"
+                maxLength={30}
+              />
             ) : null}
           </div>
           {/*{(saveAsScene || inEdit) ? (*/}

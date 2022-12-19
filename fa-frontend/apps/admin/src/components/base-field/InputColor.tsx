@@ -1,9 +1,9 @@
 import React from 'react';
-import {Input, Popover} from 'antd';
-import {tryHexToRgba} from '@/utils/utils';
-import {BgColorsOutlined} from '@ant-design/icons';
-import {SketchPicker} from 'react-color';
-import {DefaultFieldProps} from './interface';
+import { Input, Popover } from 'antd';
+import { tryHexToRgba } from '@/utils/utils';
+import { BgColorsOutlined } from '@ant-design/icons';
+import { SketchPicker } from 'react-color';
+import { DefaultFieldProps } from './interface';
 
 /**
  * 配置面板输入组件-颜色选择
@@ -26,10 +26,10 @@ export default function ColorInput({ value, onChange }: DefaultFieldProps<string
           <div style={{ margin: '-12px -16px' }}>
             <SketchPicker
               color={color}
-              onChange={({ hex, rgb }: { hex: any; rgb: any }) => {
+              onChange={({ rgb }: { hex: any; rgb: any }) => {
                 if (onChange) onChange(`rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${rgb.a})`);
               }}
-              onChangeComplete={({ hex, rgb }: { hex: any; rgb: any }) => {
+              onChangeComplete={({ rgb }: { hex: any; rgb: any }) => {
                 if (onChange) onChange(`rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${rgb.a})`);
               }}
             />

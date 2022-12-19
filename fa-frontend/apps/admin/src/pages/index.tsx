@@ -1,19 +1,16 @@
-import React, {useEffect} from "react";
-import {useNavigate} from 'react-router-dom'
-import {PageLoading} from "@/components/antd-pro";
-import userApi from '@/services/admin/user'
-
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { PageLoading } from '@/components/antd-pro';
+import userApi from '@/services/admin/user';
 
 export default function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    userApi.getLoginUser().then((res) => {
-      navigate('/admin')
-    })
-  }, [])
+    userApi.getLoginUser().then(() => {
+      navigate('/admin');
+    });
+  }, []);
 
-  return (
-    <PageLoading />
-  )
+  return <PageLoading />;
 }

@@ -63,3 +63,5 @@ declare namespace FaEnums {
     OUT = 2,
   }
 }
+
+export default FaEnums;
