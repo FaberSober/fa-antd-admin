@@ -15,5 +15,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off', // 不可使用any类型
     '@typescript-eslint/no-empty-interface': 'off', // 空属性interface
     '@typescript-eslint/no-empty-function': 'off', // 空方法体{}
+    '@typescript-eslint/no-unused-vars': 'off', // 未使用的变量
   },
 };
