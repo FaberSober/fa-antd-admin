@@ -16,12 +16,6 @@ library.add(fas);
 // eslint-disable-next-line no-console
 // console.log(routes)
 
-const tag: Demo.StudentTag = { name: 'foo' };
-console.log('Admin', 'Demo.Student', tag);
-
-const tag1 = { name: 'foo' } as Admin.ConfigScene;
-console.log('Admin', 'Admin.ConfigScene', tag1);
-
 function App() {
   return <Suspense fallback={<PageLoading />}>{useRoutes(routes)}</Suspense>;
 }
