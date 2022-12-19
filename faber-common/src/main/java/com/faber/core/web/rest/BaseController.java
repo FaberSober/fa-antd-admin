@@ -28,6 +28,8 @@ import java.util.List;
  *         <tr><td>{@link BaseController#getByIds}</td>             <td>ids集合查询</td></tr>
  *         <tr><td>{@link BaseController#update}</td>               <td>更新</td></tr>
  *         <tr><td>{@link BaseController#updateBatch}</td>          <td>批量更新</td></tr>
+ *         <tr><td>{@link BaseController#saveOrUpdate}</td>         <td>新增or更新</td></tr>
+ *         <tr><td>{@link BaseController#saveOrUpdateBatch}</td>    <td>批量新增or更新</td></tr>
  *         <tr><td>{@link BaseController#remove}</td>               <td>id删除</td></tr>
  *         <tr><td>{@link BaseController#removeBatchByIds}</td>     <td>ids批量删除</td></tr>
  *         <tr><td>{@link BaseController#all}</td>                  <td>获取所有List</td></tr>
@@ -88,6 +90,20 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
     @ResponseBody
     public Ret<Boolean> updateBatch(@Validated(value = Vg.Crud.U.class) @RequestBody List<Entity> entityList) {
         baseBiz.updateBatchById(entityList);
+        return ok();
+    }
+
+    @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<Entity> saveOrUpdate(@RequestBody Entity entity) {
+        baseBiz.saveOrUpdate(entity);
+        return ok();
+    }
+
+    @RequestMapping(value = "/saveOrUpdateBatch", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<Entity> saveOrUpdateBatch(@RequestBody List<Entity> entityList) {
+        baseBiz.saveOrUpdateBatch(entityList);
         return ok();
     }
 

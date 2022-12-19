@@ -18,6 +18,12 @@ export default class BaseApi<T, KeyType, PageT = T> extends BaseZeroApi {
   /** 更新实体 */
   update = (id: KeyType, params: any): Promise<Fa.Ret> => this.post('update', { id, ...trimObj(params) });
 
+  /** 新增or更新 */
+  saveOrUpdate = (params: any): Promise<Fa.Ret> => this.post('saveOrUpdate', params);
+
+  /** 批量新增or更新 */
+  saveOrUpdateBatch = (params: any[]): Promise<Fa.Ret<T>> => this.post('saveOrUpdateBatch', params);
+
   /** 更新实体 */
   updateBatch = (entityList: T[]): Promise<Fa.Ret> => this.post('updateBatch', trimObj(entityList));
 
