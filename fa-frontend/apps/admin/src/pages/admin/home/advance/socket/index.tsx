@@ -38,8 +38,8 @@ export default function index() {
   useEffect(() => {
     if (!ready) return;
 
-    socketInstance.on('connected', (data) => addMsg(data));
-    socketInstance.on('chatevent', (data) => addMsg(data.userName + ': ' + data.message));
+    socketInstance.on('connected', (data: any) => addMsg(data));
+    socketInstance.on('chatevent', (data: any) => addMsg(data.userName + ': ' + data.message));
   }, [ready]);
 
   function handleSend() {

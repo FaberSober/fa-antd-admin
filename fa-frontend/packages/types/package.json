@@ -1,34 +1,25 @@
 {
-  "name": "@fa/ui",
+  "name": "@fa/types",
   "version": "0.0.1",
+  "description": "",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./dist",
-    "./styles.css": "./dist/styles.css"
+    ".": "./dist"
   },
   "license": "MIT",
   "scripts": {
     "ncu": "ncu -u",
-    "dev": "concurrently \"tsup\" \"tailwindcss -i ./src/styles.css -o ./dist/styles.css --watch\"",
+    "dev": "concurrently \"tsup src/index.ts --format esm,cjs --dts --external react --watch\"",
     "lint": "eslint \"**/*.{ts,tsx}\""
   },
   "devDependencies": {
-    "@ant-design/icons": "4.8.0",
     "@fa/eslint-config-custom": "workspace:*",
-    "@fa/tailwind-config": "workspace:*",
     "@fa/tsconfig": "workspace:*",
-    "@fa/types": "workspace:*",
-    "@types/lodash": "4.14.191",
     "@types/react": "18.0.26",
-    "antd": "5.0.7",
-    "autoprefixer": "10.4.13",
     "concurrently": "7.6.0",
     "eslint": "8.30.0",
-    "lodash": "4.17.21",
-    "postcss": "8.4.20",
     "react": "18.2.0",
-    "tailwindcss": "3.2.4",
     "tsup": "6.5.0",
     "typescript": "4.9.4"
   }

@@ -36,6 +36,7 @@ importers:
       '@fa/tailwind-config': workspace:*
       '@fa/theme': workspace:*
       '@fa/tsconfig': workspace:*
+      '@fa/types': workspace:*
       '@fa/ui': workspace:*
       '@fortawesome/fontawesome-svg-core': 6.2.1
       '@fortawesome/free-regular-svg-icons': 6.2.1
@@ -83,6 +84,7 @@ importers:
       '@dnd-kit/core': registry.npmmirror.com/@dnd-kit/core/6.0.6_biqbaboplfbrettd7655fr4n2y
       '@dnd-kit/sortable': registry.npmmirror.com/@dnd-kit/sortable/7.0.1_ighjjj6vulsdnb2lagbd2egmxy
       '@dnd-kit/utilities': registry.npmmirror.com/@dnd-kit/utilities/3.2.1_react@18.2.0
+      '@fa/types': link:../../packages/types
       '@fa/ui': link:../../packages/ui
       '@fortawesome/fontawesome-svg-core': registry.npmmirror.com/@fortawesome/fontawesome-svg-core/6.2.1
       '@fortawesome/free-regular-svg-icons': registry.npmmirror.com/@fortawesome/free-regular-svg-icons/6.2.1
@@ -153,17 +155,40 @@ importers:
   packages/tsconfig:
     specifiers: {}
 
+  packages/types:
+    specifiers:
+      '@fa/eslint-config-custom': workspace:*
+      '@fa/tsconfig': workspace:*
+      '@types/react': 18.0.26
+      concurrently: 7.6.0
+      eslint: 8.30.0
+      react: 18.2.0
+      tsup: 6.5.0
+      typescript: 4.9.4
+    devDependencies:
+      '@fa/eslint-config-custom': link:../eslint-config-custom
+      '@fa/tsconfig': link:../tsconfig
+      '@types/react': registry.npmmirror.com/@types/react/18.0.26
+      concurrently: registry.npmmirror.com/concurrently/7.6.0
+      eslint: registry.npmmirror.com/eslint/8.30.0
+      react: registry.npmmirror.com/react/18.2.0
+      tsup: registry.npmmirror.com/tsup/6.5.0_typescript@4.9.4
+      typescript: registry.npmmirror.com/typescript/4.9.4
+
   packages/ui:
     specifiers:
       '@ant-design/icons': 4.8.0
       '@fa/eslint-config-custom': workspace:*
       '@fa/tailwind-config': workspace:*
       '@fa/tsconfig': workspace:*
+      '@fa/types': workspace:*
+      '@types/lodash': 4.14.191
       '@types/react': 18.0.26
       antd: 5.0.7
       autoprefixer: 10.4.13
       concurrently: 7.6.0
       eslint: 8.30.0
+      lodash: 4.17.21
       postcss: 8.4.20
       react: 18.2.0
       tailwindcss: 3.2.4
@@ -174,11 +199,14 @@ importers:
       '@fa/eslint-config-custom': link:../eslint-config-custom
       '@fa/tailwind-config': link:../tailwind-config
       '@fa/tsconfig': link:../tsconfig
+      '@fa/types': link:../types
+      '@types/lodash': registry.npmmirror.com/@types/lodash/4.14.191
       '@types/react': registry.npmmirror.com/@types/react/18.0.26
       antd: registry.npmmirror.com/antd/5.0.7_biqbaboplfbrettd7655fr4n2y
       autoprefixer: registry.npmmirror.com/autoprefixer/10.4.13_postcss@8.4.20
       concurrently: registry.npmmirror.com/concurrently/7.6.0
       eslint: registry.npmmirror.com/eslint/8.30.0
+      lodash: registry.npmmirror.com/lodash/4.17.21
       postcss: registry.npmmirror.com/postcss/8.4.20
       react: registry.npmmirror.com/react/18.2.0
       tailwindcss: registry.npmmirror.com/tailwindcss/3.2.4_postcss@8.4.20
@@ -5016,6 +5044,24 @@ packages:
       postcss: registry.npmmirror.com/postcss/8.4.20
     dev: true
 
+  registry.npmmirror.com/postcss-load-config/3.1.4:
+    resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/postcss-load-config/-/postcss-load-config-3.1.4.tgz}
+    name: postcss-load-config
+    version: 3.1.4
+    engines: {node: '>= 10'}
+    peerDependencies:
+      postcss: '>=8.0.9'
+      ts-node: '>=9.0.0'
+    peerDependenciesMeta:
+      postcss:
+        optional: true
+      ts-node:
+        optional: true
+    dependencies:
+      lilconfig: registry.npmmirror.com/lilconfig/2.0.6
+      yaml: registry.npmmirror.com/yaml/1.10.2
+    dev: true
+
   registry.npmmirror.com/postcss-load-config/3.1.4_postcss@8.4.20:
     resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/postcss-load-config/-/postcss-load-config-3.1.4.tgz}
     id: registry.npmmirror.com/postcss-load-config/3.1.4
@@ -6908,6 +6954,45 @@ packages:
       joycon: registry.npmmirror.com/joycon/3.1.1
       postcss: registry.npmmirror.com/postcss/8.4.20
       postcss-load-config: registry.npmmirror.com/postcss-load-config/3.1.4_postcss@8.4.20
+      resolve-from: registry.npmmirror.com/resolve-from/5.0.0
+      rollup: registry.npmmirror.com/rollup/3.7.5
+      source-map: registry.npmmirror.com/source-map/0.8.0-beta.0
+      sucrase: registry.npmmirror.com/sucrase/3.29.0
+      tree-kill: registry.npmmirror.com/tree-kill/1.2.2
+      typescript: registry.npmmirror.com/typescript/4.9.4
+    transitivePeerDependencies:
+      - supports-color
+      - ts-node
+    dev: true
+
+  registry.npmmirror.com/tsup/6.5.0_typescript@4.9.4:
+    resolution: {integrity: sha512-36u82r7rYqRHFkD15R20Cd4ercPkbYmuvRkz3Q1LCm5BsiFNUgpo36zbjVhCOgvjyxNBWNKHsaD5Rl8SykfzNA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/tsup/-/tsup-6.5.0.tgz}
+    id: registry.npmmirror.com/tsup/6.5.0
+    name: tsup
+    version: 6.5.0
+    engines: {node: '>=14'}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': ^1
+      postcss: ^8.4.12
+      typescript: ^4.1.0
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      postcss:
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      bundle-require: registry.npmmirror.com/bundle-require/3.1.2_esbuild@0.15.18
+      cac: registry.npmmirror.com/cac/6.7.14
+      chokidar: registry.npmmirror.com/chokidar/3.5.3
+      debug: registry.npmmirror.com/debug/4.3.4
+      esbuild: registry.npmmirror.com/esbuild/0.15.18
+      execa: registry.npmmirror.com/execa/5.1.1
+      globby: registry.npmmirror.com/globby/11.1.0
+      joycon: registry.npmmirror.com/joycon/3.1.1
+      postcss-load-config: registry.npmmirror.com/postcss-load-config/3.1.4
       resolve-from: registry.npmmirror.com/resolve-from/5.0.0
       rollup: registry.npmmirror.com/rollup/3.7.5
       source-map: registry.npmmirror.com/source-map/0.8.0-beta.0

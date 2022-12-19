@@ -3,7 +3,7 @@ import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons';
 import { FaFlexRestLayout } from '@/components/base-layout';
 import './SiderLayout.css';
 
-interface IProps {
+export interface SiderLayoutProps {
   collapse?: boolean; // 是否折叠
   onCollapse?: (collapse: boolean) => void;
   width?: number; // 展开宽度
@@ -17,7 +17,7 @@ export default function SiderLayout({
   collapseWidth = 44,
   onCollapse,
   children,
-}: IProps) {
+}: SiderLayoutProps) {
   return (
     <div
       style={{

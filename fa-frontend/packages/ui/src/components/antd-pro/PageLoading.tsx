@@ -1,11 +1,11 @@
 import React, { CSSProperties } from 'react';
 import { Spin } from 'antd';
 
-export interface IProps {
+export interface PageLoadingProps {
   style?: CSSProperties;
 }
 
-export default function PageLoading({ style = {} }: IProps) {
+export default function PageLoading({ style = {} }: PageLoadingProps) {
   return (
     <Spin
       style={{
