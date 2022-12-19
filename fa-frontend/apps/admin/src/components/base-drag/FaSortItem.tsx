@@ -1,6 +1,6 @@
 import React, { CSSProperties, ReactNode } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
-import styles from '@/components/base-drag/index.module.less';
+import styles from '@/components/base-drag/index.module.scss';
 import { MenuOutlined } from '@ant-design/icons';
 
 export interface FaSortItemProps {

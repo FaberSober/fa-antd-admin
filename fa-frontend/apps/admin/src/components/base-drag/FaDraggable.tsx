@@ -1,7 +1,6 @@
-import React, {CSSProperties, ReactNode} from 'react';
-import {useDraggable} from "@dnd-kit/core";
-import styles from "@/components/base-drag/index.module.less";
-
+import React, { CSSProperties, ReactNode } from 'react';
+import { useDraggable } from '@dnd-kit/core';
+import styles from '@/components/base-drag/index.module.scss';
 
 export interface FaDraggableProps {
   disabled?: boolean; // 是否禁用拖动
@@ -16,18 +15,20 @@ export interface FaDraggableProps {
  * @author xu.pengfei
  * @date 2022/12/3 9:44
  */
-export default function FaDraggable({ disabled, handle, handleNode, children, style, handleStyle }:FaDraggableProps) {
-  const {attributes, listeners, setNodeRef, transform} = useDraggable({
+export default function FaDraggable({ disabled, handle, handleNode, children, style, handleStyle }: FaDraggableProps) {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: 'draggable',
   });
-  const styleTrans = transform ? {
-    // display: 'inline-block',
-    transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-  } : {};
+  const styleTrans = transform
+    ? {
+        // display: 'inline-block',
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+      }
+    : {};
 
   let rootListeners = listeners;
   if (disabled || handle) {
-    rootListeners = {}
+    rootListeners = {};
   }
 
   return (

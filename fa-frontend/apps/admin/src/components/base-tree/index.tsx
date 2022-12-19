@@ -8,7 +8,7 @@ import * as TreeUtils from './utils';
 import { Fa } from '@/types';
 import { TreeProps } from 'antd/es/tree';
 import { FaHref } from '@/components/decorator';
-import styles from './index.module.less';
+import styles from './index.module.scss';
 import { Item, ItemParams, Menu, useContextMenu } from 'react-contexify';
 import 'react-contexify/ReactContexify.css';
 import useBus from 'use-bus';

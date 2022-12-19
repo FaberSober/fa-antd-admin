@@ -3,7 +3,7 @@ import rbacMenuApi from '@/services/rbac/rbacMenu';
 import BaseTree from '@/components/base-tree';
 import RbacMenuModal from '@/pages/admin/system/base/menu/modal/RbacMenuModal';
 import { Fa, FaEnums, Rbac } from '@/types';
-import styles from './index.module.less';
+import styles from './index.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { AuthDelBtn, FaHref } from '@/components/decorator';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';

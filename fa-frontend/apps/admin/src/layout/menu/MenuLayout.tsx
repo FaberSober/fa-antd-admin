@@ -15,7 +15,7 @@ import LangToggle from './cube/LangToggle';
 import HelpCube from './cube/HelpCube';
 import UserAvatar from './cube/UserAvatar';
 import OpenTabs from './cube/OpenTabs';
-import styles from './MenuLayout.module.less';
+import styles from './MenuLayout.module.scss';
 import { useLocalStorage } from 'react-use';
 
 /**

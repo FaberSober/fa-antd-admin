@@ -7,7 +7,7 @@ import { Checkbox, Space } from 'antd';
 import { Admin } from '@/types';
 import ConditionQueryModal from '@/components/condition-query/ConditionQueryModal';
 import { FaberTable } from '@/components/base-table';
-import styles from './SceneManageModal.module.less';
+import styles from './SceneManageModal.module.scss';
 import { FaSortList } from '@/components/base-drag';
 import { AuthDelBtn } from '@/components/decorator';
 

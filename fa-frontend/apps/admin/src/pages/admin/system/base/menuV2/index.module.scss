@@ -1,4 +1,4 @@
-@import '~@/utils/utils.less';
+@import '~@/utils/utils.scss';
 
 .menuDiv {
   :global {
@@ -11,7 +11,7 @@
     .ant-tree-treenode {
       display: flex;
       align-items: center;
-      border-bottom: 1px solid @fa-border-color;
+      border-bottom: 1px solid $fa-border-color;
       padding: 0;
     }
   }

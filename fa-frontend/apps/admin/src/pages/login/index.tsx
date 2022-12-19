@@ -8,7 +8,7 @@ import { setToken } from '@/utils/cache';
 import { SITE_INFO } from '@/configs/server.config';
 import { Captcha } from '@/components/base-field';
 import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
-import styles from './login.module.less';
+import styles from './login.module.scss';
 import { Admin } from '@/types';
 import configSysApi from '@/services/admin/configSys';
 

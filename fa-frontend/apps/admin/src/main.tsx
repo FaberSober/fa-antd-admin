@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, useRoutes } from 'react-router-dom';
 
-import './index.less';
+import './globals.scss';
 
 import routes from '~react-pages';
 import { PageLoading } from '@/components/antd-pro';

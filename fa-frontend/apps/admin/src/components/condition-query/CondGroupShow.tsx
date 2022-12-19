@@ -1,9 +1,8 @@
 import React from 'react';
-import ConditionQuery from "@/components/condition-query/interface";
-import {Tag} from "antd";
-import {remove} from "lodash";
-import styles from './SceneManageModal.module.less';
-
+import ConditionQuery from '@/components/condition-query/interface';
+import { Tag } from 'antd';
+import { remove } from 'lodash';
+import styles from './SceneManageModal.module.scss';
 
 export interface CondGroupShowProps {
   condGroup: ConditionQuery.CondGroup;
@@ -16,13 +15,12 @@ export interface CondGroupShowProps {
  * @date 2022/7/15
  */
 export default function CondGroupShow({ condGroup, onChange }: CondGroupShowProps) {
-
   /** 删除筛选项 */
   function handleRemoveCond(id: string, triggerSave?: boolean) {
     const condList = [...condGroup.condList];
     remove(condList, (cond) => cond.id === id);
     if (onChange) {
-      onChange({ ...condGroup, condList }, triggerSave)
+      onChange({ ...condGroup, condList }, triggerSave);
     }
   }
 
@@ -49,10 +47,10 @@ export default function CondGroupShow({ condGroup, onChange }: CondGroupShowProp
             <Tag key={id} closable onClose={() => handleRemoveCond(cond.id, true)}>
               {cond.title} {ConditionQuery.OPR_MAP[opr]} {condStr}
             </Tag>
-            {index < condGroup.condList.length - 1 && (<span style={{ margin: '0 6px' }}>{condGroup.type}</span>)}
+            {index < condGroup.condList.length - 1 && <span style={{ margin: '0 6px' }}>{condGroup.type}</span>}
           </div>
         );
       })}
     </div>
-  )
+  );
 }

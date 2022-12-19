@@ -5,11 +5,11 @@ import { showResponse } from '@/utils/utils';
 import { ModalProps } from 'antd/es/modal';
 import { FaberTable } from '@/components/base-table';
 import * as BaseTableUtils from '@/components/base-table/utils';
-import { Admin, FaEnums } from '@/types';
+import { Admin, Fa, FaEnums } from '@/types';
 import configApi from '@/services/admin/config';
 import { FaFlexRestLayout } from '@/components/base-layout';
 import { FaSortList } from '@/components/base-drag';
-import styles from './TableColConfigModal.module.less';
+import styles from './TableColConfigModal.module.scss';
 import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
 
 const colWidthCache: { [key: string]: number } = {};
@@ -51,16 +51,18 @@ function TableColConfigModal<T>({ columns = [], biz, onConfigChange, children, .
 
   /** 获取服务端配置 */
   function fetchRemoteConfig() {
-    configApi.getOne(biz, FaEnums.ConfigType.TABLE_COLUMNS).then((res) => {
-      if (isNil(res.data) || res.data.length === 0) return;
-      const config = res.data;
-      if (onConfigChange) {
-        onConfigChange(config.data);
-      }
-      setConfig(config);
-      const newItems = parseItemsSorted(columns, config.data);
-      setItems(newItems);
-    });
+    configApi
+      .getOne(biz, FaEnums.ConfigType.TABLE_COLUMNS)
+      .then((res: Fa.Ret<Admin.Config<FaberTable.ColumnsProp<T>[]>>) => {
+        if (isNil(res.data) || res.data.data.length === 0) return;
+        const config = res.data;
+        if (onConfigChange) {
+          onConfigChange(config.data);
+        }
+        setConfig(config);
+        const newItems = parseItemsSorted(columns, config.data);
+        setItems(newItems);
+      });
   }
 
   // 初始化加载表格配置

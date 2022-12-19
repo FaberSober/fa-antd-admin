@@ -1,0 +1,9 @@
+@import '~@/utils/utils.scss';
+
+.fa-link {
+  color: #333;
+}
+
+.fa-link:hover {
+  color: $primary-color;
+}

@@ -2,6 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
+@import '~@/utils/utils.scss';
+
+.ant-modal-content {
+  padding: 12px !important;
+}
+
+.ant-card-body {
+  padding: 12px !important;
+}
+
+.ant-modal-close {
+  top: 12px !important;
+  right: 12px !important;
+}
+
+.ant-form-item {
+  .ant-picker {
+    width: 100%;
+  }
+}
+
+.ant-drawer-close {
+  padding: 0;
+}
+
+.ant-drawer-title {
+  font-weight: 600;
+}
+
+.ant-drawer-header {
+  padding: 12px !important;
+}
+
+.ant-drawer-body {
+  padding: 12px !important;
+  position: relative;
+}
+
+.ant-pagination {
+  margin: 8px !important;
+}
+
+.ant-descriptions-item-label,
+.ant-descriptions-item-content {
+  padding: 6px !important;
+}
+
 #app,
 body {
   width: 100%;
@@ -10,26 +57,181 @@ body {
   padding: 0;
 }
 
-// light主题色
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  text-align: center;
-  color: #2c3e50;
+ul {
+  margin: 0;
 }
 
-a,
-button {
-  color: #4fc08d;
+// ----------------------------------------- 全局通用自定义样式 -----------------------------------------
+.fa-full-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
-button {
-  background: none;
-  border: solid 1px;
-  border-radius: 2em;
-  font: inherit;
-  padding: 0.75em 2em;
+.fa-full-content-p12 {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
 }
 
-.theme-switch {
-  cursor: pointer;
+.fa-flex-1 {
+  flex: 1;
+  position: relative;
 }
+
+.fa-bg-white {
+  background-color: #ffffff;
+}
+
+.fa-bg-grey {
+  background-color: $fa-bg-grey;
+}
+
+.fa-card {
+  padding: 12px;
+  background-color: #ffffff;
+  border-radius: $fa-border-radius;
+  border: 1px solid $fa-border-color;
+}
+
+.fa-p12 {
+  padding: 12px;
+}
+
+.fa-p8 {
+  padding: 8px;
+}
+
+.fa-mb12 {
+  margin-bottom: 12px;
+}
+
+.fa-full-w {
+  width: 100%;
+}
+
+.fa-full {
+  width: 100%;
+  height: 100%;
+}
+
+.fa-flex-row {
+  display: flex;
+  flex-direction: row;
+  //align-items: center;
+}
+
+.fa-flex-row-center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.fa-flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.fa-flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fa-main {
+  padding: 8px;
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+  height: 100%;
+}
+
+.fa-border-r {
+  border-right: 1px solid $fa-border-color;
+}
+
+.fa-border-b {
+  border-bottom: 1px solid $fa-border-color;
+}
+
+.fa-form-underline {
+  input {
+    border: none !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid $fa-border-color !important;
+  }
+}
+
+// ----------------------------------------- react-split-pane -----------------------------------------
+// https://github.com/tomkp/react-split-pane
+.Resizer {
+  // background: #000;
+  opacity: 0.2;
+  z-index: 1;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+}
+
+.Resizer::before {
+  content: 'I';
+  font-weight: bold;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  margin-left: -2px;
+}
+
+.Resizer:hover {
+  -webkit-transition: all 2s ease;
+  transition: all 2s ease;
+}
+
+.Resizer.horizontal {
+  height: 11px;
+  margin: -5px 0;
+  border-top: 5px solid rgba(255, 255, 255, 0);
+  border-bottom: 5px solid rgba(255, 255, 255, 0);
+  cursor: row-resize;
+  width: 100%;
+}
+
+.Resizer.horizontal:hover {
+  border-top: 5px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 5px solid rgba(0, 0, 0, 0.5);
+}
+
+.Resizer.vertical {
+  width: 11px;
+  // margin: 0 -5px;
+  border-left: 5px solid rgba(255, 255, 255, 0);
+  border-right: 5px solid rgba(255, 255, 255, 0);
+  cursor: col-resize;
+}
+
+.Resizer.vertical:hover {
+  border-left: 5px solid rgba(0, 0, 0, 0.5);
+  border-right: 5px solid rgba(0, 0, 0, 0.5);
+}
+.Resizer.disabled {
+  cursor: not-allowed;
+}
+.Resizer.disabled:hover {
+  border-color: transparent;
+}
+
+.fa-resizer-full {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  overflow-y: auto;
+}
+// ----------------------------------------- react-split-pane -----------------------------------------
