@@ -3,7 +3,7 @@ import { Fa, FaEnums, Rbac } from '@/types';
 import { Button, Modal, Space, Table } from 'antd';
 import { ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
-import { FaFlexRestLayout } from '@/components/base-layout';
+import { FaFlexRestLayout } from '@fa/ui';
 import { useDelete } from '@/utils/myHooks';
 import { showResponse } from '@/utils/utils';
 import { AuthDelBtn, FaHref } from '@/components/decorator';

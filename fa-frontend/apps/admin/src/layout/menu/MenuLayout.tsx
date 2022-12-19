@@ -3,7 +3,7 @@ import { Empty, Layout } from 'antd';
 import { find, isNil } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FaFlexRestLayout } from '@/components/base-layout';
+import { FaFlexRestLayout } from '@fa/ui';
 import { Fa, FaEnums, Rbac } from '@/types';
 import { findTreePath, flatTreeList } from '@/utils/treeUtils';
 import rbacUserRoleApi from '@/services/rbac/rbacUserRole';

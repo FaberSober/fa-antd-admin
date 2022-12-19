@@ -4,7 +4,7 @@ import { each, trim } from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as fas from '@fortawesome/free-solid-svg-icons';
 import styles from './FontAwesomeSelect.module.scss';
-import { FaFlexRestLayout } from '@/components/base-layout';
+import { FaFlexRestLayout } from '@fa/ui';
 import { CloseCircleFilled } from '@ant-design/icons';
 
 const iconSet = new Set();

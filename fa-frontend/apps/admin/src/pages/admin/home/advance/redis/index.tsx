@@ -4,7 +4,7 @@ import redisTestApi from '@/services/demo/redisTest';
 import studentApi from '@/services/demo/student';
 import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
 import { formItemFullLayout } from '@/utils/utils';
-import { FaFlexRestLayout } from '@/components/base-layout';
+import { FaFlexRestLayout } from '@fa/ui';
 import { UserLayoutContext } from '@/layout/UserLayout';
 import { Demo } from '@/types';
 

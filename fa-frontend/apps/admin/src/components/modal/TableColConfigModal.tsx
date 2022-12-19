@@ -7,7 +7,7 @@ import { FaberTable } from '@/components/base-table';
 import * as BaseTableUtils from '@/components/base-table/utils';
 import { Admin, Fa, FaEnums } from '@/types';
 import configApi from '@/services/admin/config';
-import { FaFlexRestLayout } from '@/components/base-layout';
+import { FaFlexRestLayout } from '@fa/ui';
 import { FaSortList } from '@/components/base-drag';
 import styles from './TableColConfigModal.module.scss';
 import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';

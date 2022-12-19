@@ -6,7 +6,7 @@ import { Admin } from '@/types';
 import dictApi from '@/services/admin/dict';
 import { useLocalStorage } from 'react-use';
 import DictModal from './modal/DictModal';
-import { FaFlexRestLayout } from '@/components/base-layout';
+import { FaFlexRestLayout } from '@fa/ui';
 import { FaSortList } from '@/components/base-drag';
 import DictForm from '@/pages/admin/system/base/dict/cube/DictForm';
 import { showResponse } from '@/utils/utils';
