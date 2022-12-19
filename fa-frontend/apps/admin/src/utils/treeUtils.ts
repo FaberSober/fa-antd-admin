@@ -1,4 +1,4 @@
-import {isNil, trim} from 'lodash';
+import { isNil, trim } from 'lodash';
 import * as Fa from '@/../../types/base/Fa';
 
 export function parseNode<T = any>(nodeList: Fa.TreeNode<T, any>[] | undefined): Fa.BaseTreeNode<T>[] | undefined {
@@ -34,7 +34,10 @@ export function flatTreeList<T>(tree: Fa.TreeNode<T>[] = []): T[] {
  * @param tree
  * @param checkFun
  */
-export function findTreePath<T>(tree: Fa.TreeNode<T>[]|undefined, checkFun: (item: Fa.TreeNode<T>) => boolean): Fa.TreeNode<T>[] {
+export function findTreePath<T>(
+  tree: Fa.TreeNode<T>[] | undefined,
+  checkFun: (item: Fa.TreeNode<T>) => boolean,
+): Fa.TreeNode<T>[] {
   if (isNil(tree) || tree.length === 0) return [];
   const findPath = [];
   for (let i = 0; i < tree.length; i += 1) {
@@ -44,7 +47,7 @@ export function findTreePath<T>(tree: Fa.TreeNode<T>[]|undefined, checkFun: (ite
     }
     const childFound = findTreePath(item.children, checkFun);
     if (childFound && childFound.length > 0) {
-      findPath.push(item, ...childFound)
+      findPath.push(item, ...childFound);
     }
   }
   return findPath;

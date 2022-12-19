@@ -1,5 +1,5 @@
-import {GATE_APP} from '@/configs/server.config';
-import {BaseApi} from '@/services/base';
+import { GATE_APP } from '@/configs/server.config';
+import { BaseApi } from '@/services/base';
 import * as Rbac from '../../../types/rbac';
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */

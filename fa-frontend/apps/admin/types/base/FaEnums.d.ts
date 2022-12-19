@@ -1,5 +1,4 @@
 declare namespace FaEnums {
-
   // ------------------------------------ BASE ------------------------------------
   export enum SexEnum {
     FEMALE = 0,
@@ -24,7 +23,7 @@ declare namespace FaEnums {
     [FaEnums.EntityLogActionEnum.ADD]: '新增',
     [FaEnums.EntityLogActionEnum.UPDATE]: '更新',
     [FaEnums.EntityLogActionEnum.DEL]: '删除',
-  }
+  };
 
   export enum ConfigType {
     TABLE_COLUMNS = '1',
@@ -57,12 +56,10 @@ declare namespace FaEnums {
     [RbacMenuLevelEnum.APP]: '模块',
     [RbacMenuLevelEnum.MENU]: '菜单',
     [RbacMenuLevelEnum.BUTTON]: '按钮',
-  }
+  };
 
   export enum RbacLinkTypeEnum {
     INNER = 1,
     OUT = 2,
   }
-
 }
-

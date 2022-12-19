@@ -1,5 +1,5 @@
-import {ReactNode} from "react";
-import {DragModalProps} from '@/components/modal/DragModal';
+import { ReactNode } from 'react';
+import { DragModalProps } from '@/components/modal/DragModal';
 import * as ConditionQuery from '@/components/condition-query/interface';
 
 declare namespace Fa {
@@ -8,7 +8,7 @@ declare namespace Fa {
     /** 约定：tree结构数据，根结点的ID默认为0 */
     TREE_SUPER_ROOT_ID: 0,
     TREE_SUPER_ROOT_LABEL: '根节点',
-  }
+  };
 
   export const ROOT_DEFAULT = {
     id: Fa.Constant.TREE_SUPER_ROOT_ID,
@@ -19,43 +19,43 @@ declare namespace Fa {
     value: Fa.Constant.TREE_SUPER_ROOT_ID, // TODO remove this
     label: Fa.Constant.TREE_SUPER_ROOT_LABEL, // TODO remove this
     isLeaf: false,
-    hasChildren: true
-  }
+    hasChildren: true,
+  };
 
   // ------------------------------------- ENTITY -------------------------------------
-	export interface BaseCrtEntity {
-		/** 创建时间 */
-		crtTime?: string;
-		/** 创建人ID */
-		crtUser?: string;
-		/** 创建人 */
-		crtName?: string;
-		/** 创建IP */
-		crtHost?: string;
-	}
+  export interface BaseCrtEntity {
+    /** 创建时间 */
+    crtTime?: string;
+    /** 创建人ID */
+    crtUser?: string;
+    /** 创建人 */
+    crtName?: string;
+    /** 创建IP */
+    crtHost?: string;
+  }
 
-	export interface BaseOprEntity extends BaseCrtEntity {
-		/** 更新时间 */
-		updTime?: string;
-		/** 更新人ID */
-		updUser?: string;
-		/** 更新人 */
-		updName?: string;
-		/** 更新IP */
-		updHost?: string;
-	}
+  export interface BaseOprEntity extends BaseCrtEntity {
+    /** 更新时间 */
+    updTime?: string;
+    /** 更新人ID */
+    updUser?: string;
+    /** 更新人 */
+    updName?: string;
+    /** 更新IP */
+    updHost?: string;
+  }
 
-	export interface BaseDelEntity extends BaseOprEntity {
-		/** 删除状态 */
+  export interface BaseDelEntity extends BaseOprEntity {
+    /** 删除状态 */
     deleted?: boolean;
-	}
+  }
 
   export interface Option {
     value: string;
     label: string;
   }
 
-	// ------------------------------------- Http Request -------------------------------------
+  // ------------------------------------- Http Request -------------------------------------
   /**
    * 服务返回数据定义
    */
@@ -102,7 +102,7 @@ declare namespace Fa {
    */
   export interface Sorter {
     field: string;
-    order: 'ascend' | 'descend' | null ;
+    order: 'ascend' | 'descend' | null;
   }
 
   /**
@@ -117,8 +117,8 @@ declare namespace Fa {
   }
 
   export interface BaseQueryParams {
-    query: any,
-    [key:string]: any,
+    query: any;
+    [key: string]: any;
   }
 
   /**
@@ -157,49 +157,49 @@ declare namespace Fa {
     conditionList?: ConditionQuery.CondGroup[];
   }
 
-	/**
-	 * 分页参数
-	 */
-	export interface BasePageProps {
-		sorter?: string; // 排序
-		current?: number;
-		pageSize?: number;
-    query?: any,
-		/**
-		 * 允许用户扩充 Item 字段
-		 */
-		[key: string]: any;
-	}
+  /**
+   * 分页参数
+   */
+  export interface BasePageProps {
+    sorter?: string; // 排序
+    current?: number;
+    pageSize?: number;
+    query?: any;
+    /**
+     * 允许用户扩充 Item 字段
+     */
+    [key: string]: any;
+  }
 
   // ------------------------------------- Tree -------------------------------------
-	/**
-	 * 树节点位置变更[排序、父节点]
-	 */
-	export interface TreePosChangeVo {
-		key: string | number;
-		index: number;
-		pid: string | number;
-	}
+  /**
+   * 树节点位置变更[排序、父节点]
+   */
+  export interface TreePosChangeVo {
+    key: string | number;
+    index: number;
+    pid: string | number;
+  }
 
-	// ------------------------------------- 通用返回的Tree节点 -------------------------------------
-	/**
-	 * 通用返回的Tree节点
-	 */
-	export interface TreeNode<T = any, KeyType = any> {
-		id: KeyType;
-		parentId: KeyType;
-		name: string;
-		sort: number;
-		hasChildren: boolean;
-		children: TreeNode<T, KeyType>[] | undefined;
-		sourceData: T;
+  // ------------------------------------- 通用返回的Tree节点 -------------------------------------
+  /**
+   * 通用返回的Tree节点
+   */
+  export interface TreeNode<T = any, KeyType = any> {
+    id: KeyType;
+    parentId: KeyType;
+    name: string;
+    sort: number;
+    hasChildren: boolean;
+    children: TreeNode<T, KeyType>[] | undefined;
+    sourceData: T;
     disabled?: boolean | undefined;
-	}
+  }
 
-	export interface TreePathVo<T = any, KeyType = number> {
-		list: TreeNode<T, KeyType>[];
-		tree: TreeNode<T, KeyType>[];
-	}
+  export interface TreePathVo<T = any, KeyType = number> {
+    list: TreeNode<T, KeyType>[];
+    tree: TreeNode<T, KeyType>[];
+  }
 
   /**
    * 运用于BaseTree的node节点
@@ -226,5 +226,4 @@ declare namespace Fa {
   export interface BaseChildProps {
     children?: ReactNode;
   }
-
 }

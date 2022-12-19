@@ -1,5 +1,5 @@
-import {useEffect, useState} from 'react';
-import {useSize} from "ahooks";
+import { useEffect, useState } from 'react';
+import { useSize } from 'ahooks';
 
 /**
  * 获取ref的高
@@ -8,14 +8,14 @@ import {useSize} from "ahooks";
  */
 export default function useHeight(ref: any) {
   const size = useSize(ref);
-  const [height, setHeight] = useState<number>()
+  const [height, setHeight] = useState<number>();
 
   useEffect(() => {
     if (height !== undefined) return;
     if (size && size.height) {
-      setHeight(size.height)
+      setHeight(size.height);
     }
-  }, [size])
+  }, [size]);
 
-  return height
+  return height;
 }

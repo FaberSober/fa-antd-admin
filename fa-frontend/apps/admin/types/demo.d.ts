@@ -1,7 +1,6 @@
 // import * as Fa from './base/Fa';
 
 declare namespace Demo {
-
   /** Demo-学生表-标签 */
   export interface StudentTag {
     name: string;
@@ -50,5 +49,4 @@ declare namespace Demo {
     /** 排序ID */
     sort: number;
   }
-
 }
