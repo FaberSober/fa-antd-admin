@@ -80,7 +80,7 @@ export default function UploadFileLocal({ children, description, onChange, value
     setArray(fileList);
   }
 
-  function handleRemove(file: UploadFile) {
+  function handleRemove() {
     // console.log('handleRemove', file)
     if (onChange) {
       onChange(undefined);

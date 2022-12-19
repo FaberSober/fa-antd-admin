@@ -20,9 +20,9 @@ export async function fetchUploadImgQiniu(
   file: any,
   prefix: string,
   fileName: string,
-  onFinish = (path: string, res: any) => {},
-  onProgress = (res: any) => {},
-  onError = (res: any) => {},
+  onFinish?: (path: string, res: any) => void,
+  onProgress?: (res: any) => void,
+  onError?: (res: any) => void,
 ) {
   await new ApiQiniuLoader().load();
   const response = await fileService.getQiniuUploadToken();
@@ -52,11 +52,11 @@ export async function fetchUploadImgQiniu(
   observable.subscribe(
     (res: any) => {
       // console.log('next', res);
-      onProgress(res);
+      if (onProgress) onProgress(res);
     },
     (res: any) => {
       // console.log('error', res);
-      onError(res);
+      if (onError) onError(res);
     },
     (res: any) => {
       // console.log('complete', res);

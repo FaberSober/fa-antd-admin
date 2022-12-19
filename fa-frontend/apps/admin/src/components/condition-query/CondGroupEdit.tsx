@@ -48,7 +48,8 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
   }
 
   /** 筛选值[起始, 结束]变更 */
-  function handleChangeBetweenValue(beginValue: string, endValue: string, index: number, name?: string) {
+  function handleChangeBetweenValue(beginValue: string, endValue: string, index: number, name?: any) {
+    console.log(name);
     const newCondList = condGroup.condList.map((cond, i) =>
       index === i ? { ...cond, begin: beginValue, end: endValue } : cond,
     );
@@ -192,7 +193,7 @@ export default function CondGroupEdit<T>({ condGroup, columns, onChange, onDelet
                       index,
                       value: [begin, end],
                       callback: (v, i, name) => {
-                        handleChangeBetweenValue(v[0], v[1], i);
+                        handleChangeBetweenValue(v[0], v[1], i, name);
                       },
                       style: { width: 400, marginRight: 12 },
                     })

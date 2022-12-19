@@ -116,7 +116,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
 
   // I'm using a single event handler for all items
   // but you don't have too :)
-  const handleItemClick = ({ id, event, props }: ItemParams) => {
+  const handleItemClick = ({ id, props }: ItemParams) => {
     const item = props as BaseTreeProps.TreeNode<RecordType, KeyType>;
     switch (id) {
       case 'add':
@@ -234,7 +234,7 @@ export default function BaseTree<RecordType extends object = any, KeyType = numb
     });
 
     // api update
-    serviceApi.changePos(changeItems).then((res) => {
+    serviceApi.changePos(changeItems).then(() => {
       fetchCourtTree();
     });
   }

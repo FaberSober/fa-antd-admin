@@ -5,7 +5,7 @@ import { Fa, Admin } from '@/types';
 import areaService from '@/services/admin/area';
 import { RES_CODE } from '@/configs/server.config';
 import { BaseCascaderProps } from '@/components/base-cascader';
-import { DefaultOptionType } from 'rc-cascader/lib/Cascader';
+// import { DefaultOptionType } from 'rc-cascader/lib/Cascader';
 
 function getLastValue(values: number[]) {
   if (isNil(values)) return undefined;
@@ -16,14 +16,14 @@ function getLastValue(values: number[]) {
 const CHINA_AD_CODE = 100000000000;
 const ROOT_CHINA = { label: '中国', value: CHINA_AD_CODE, isLeaf: false, children: undefined };
 
-export interface IProps<T> extends Omit<BaseCascaderProps<Admin.Area>, 'serviceApi'> {
+export interface IProps<T> extends Omit<BaseCascaderProps<T>, 'serviceApi'> {
   showRoot?: boolean; // 是否展示根节点-中国
   leafLevel?: number;
   leafPath?: boolean; // 是否返回完整的路径
   /** [外部定义]Tree节点标准API接口 */
   value?: any;
   onChange?: (v: any, item?: any) => void;
-  onChangeWithItem?: (key: number | undefined, data: Admin.Area | undefined) => void;
+  onChangeWithItem?: (key: number | undefined, data: T | undefined) => void;
 }
 
 /**
@@ -95,11 +95,11 @@ export default function AreaCascader({
     }
   }
 
-  function loadData(selectedOptions: DefaultOptionType[]) {
+  function loadData(selectedOptions: any[]) {
     loadChildren(selectedOptions);
   }
 
-  function loadChildren(selectedOptions: DefaultOptionType[]) {
+  function loadChildren(selectedOptions: any[]) {
     // console.log('selectedOptions', selectedOptions);
     const targetOption = selectedOptions[selectedOptions.length - 1];
     if (targetOption.children && targetOption.children[0]) return;

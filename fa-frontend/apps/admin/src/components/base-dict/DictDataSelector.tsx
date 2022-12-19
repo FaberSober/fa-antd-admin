@@ -1,7 +1,7 @@
 import React from 'react';
-import {Select} from 'antd';
-import {SelectProps} from 'antd/es/select';
-import {useDict} from "@/components/base-dict/hooks";
+import { Select } from 'antd';
+import { SelectProps } from 'antd/es/select';
+import { useDict } from '@/components/base-dict/hooks';
 
 interface IProps extends SelectProps<any> {
   dictLabel: string; // 字典分组编码
@@ -13,15 +13,7 @@ interface IProps extends SelectProps<any> {
  * @author xu.pengfei
  * @date 2020/12/25
  */
-export default function DictDataSelector({ dictLabel, onFetchData, transValue, ...props }: IProps) {
-  const {options} = useDict(dictLabel, transValue)
-  return (
-    <Select
-      style={{ minWidth: 170 }}
-      allowClear
-      placeholder="请选择"
-      options={options}
-      {...props}
-    />
-  );
+export default function DictDataSelector({ dictLabel, transValue, ...props }: IProps) {
+  const { options } = useDict(dictLabel, transValue);
+  return <Select style={{ minWidth: 170 }} allowClear placeholder="请选择" options={options} {...props} />;
 }

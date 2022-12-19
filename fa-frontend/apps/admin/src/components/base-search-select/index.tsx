@@ -120,7 +120,7 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
       .catch(() => setLoading(false));
   }
 
-  const [, cancel] = useDebounce(
+  const [,] = useDebounce(
     () => {
       searchNow();
     },

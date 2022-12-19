@@ -24,7 +24,7 @@ export default function BaseBizTable<RecordType extends object = any>({
   refreshList,
   batchDelete,
   renderQuerySuffix = () => null,
-  renderCheckBtns = (rowKeys: any[]) => null,
+  renderCheckBtns = () => null,
   onSceneChange = () => {},
   onConditionChange = () => {},
   rowSelection,

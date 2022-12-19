@@ -95,7 +95,7 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
            */
           // images_upload_url: SITE_INFO.TINYMCE_FILE_UPLOAD_API,
           images_upload_handler: (blobInfo, progress) =>
-            new Promise((resolve, reject) => {
+            new Promise((resolve) => {
               const formData = new FormData();
               formData.append('file', blobInfo.blob(), blobInfo.filename());
               fileSaveApi
@@ -116,7 +116,7 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
           file_picker_types: 'image',
           relative_urls: false,
           /* and here's our custom image picker*/
-          file_picker_callback: (cb, value, meta) => {
+          file_picker_callback: (cb) => {
             const input = document.createElement('input');
             input.setAttribute('type', 'file');
             input.setAttribute('accept', 'image/*');
@@ -158,7 +158,7 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
         // onBeforeSetContent={(e) => console.log('onBeforeSetContent', e)}
         // onNodeChange={(e) => console.log('onNodeChange', e)}
         // onSelectionChange={(e) => console.log('onSelectionChange', e)}
-        onFocus={(e) => {
+        onFocus={() => {
           // console.log('onFocus', editorRef.current.getContent())
         }}
         // onBlur={(e) => {
@@ -167,7 +167,7 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
         //     onChange(editorRef.current.getContent())
         //   }
         // }}
-        onChange={(e) => {
+        onChange={() => {
           // console.log('onChange', e, editorRef.current.getContent())
           setInnerValue(editorRef.current.getContent());
           if (onChange) {

@@ -14,7 +14,7 @@ declare namespace FaberTable {
     callback: (value: string, index: number, name?: string) => void;
     style: { width: 400; marginRight: 12 };
     placeholder: '请输入筛选条件的值';
-    mode: string | undefined;
+    mode?: string | undefined;
   }
 
   /** 双值回掉 */

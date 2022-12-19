@@ -58,7 +58,7 @@ export default function ConditionQueryModal<T>({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saveAsScene, setSaveAsScene] = useState(record !== undefined);
-  const [defaultScene, setDefaultScene] = useState(false); // 是否设置为默认场景
+  const [defaultScene] = useState(false); // 是否设置为默认场景
   const [sceneName, setSceneName] = useState<string | undefined>(record?.name);
 
   /** 处理-增加item */

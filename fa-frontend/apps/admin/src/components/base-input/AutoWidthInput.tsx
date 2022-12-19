@@ -13,7 +13,7 @@ export interface AutoWidthInput extends InputProps {
  */
 export default function AutoWidthInput({ defaultWidth = 200, maxWidth = 500, onChange, ...props }: AutoWidthInput) {
   const inputRef = useRef<any | null>();
-  const [width, setWidth] = useState<number>(() => {
+  const [width] = useState<number>(() => {
     return calWidth(props.value || props.defaultValue);
   });
 
