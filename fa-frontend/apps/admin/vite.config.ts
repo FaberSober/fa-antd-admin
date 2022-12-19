@@ -4,7 +4,7 @@ import Pages from 'vite-plugin-pages';
 import * as path from 'path';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
   console.log('loadEnv(mode, process.cwd())', env);
   return {
@@ -19,9 +19,9 @@ export default defineConfig(({ command, mode }) => {
       modules: {
         // css模块化 文件以.module.[css|less|scss]结尾
         // 回调必须返回 `local`，`global`，或者 `pure`
-        mode: (resourcePath) => {
+        mode: (resourcePath: string) => {
           // 形如xx.module.less的样式，会使用local模块化编译。其他的则返回全局样式
-          if (/\.module\.(css|less|scss)$/i.test(resourcePath)) {
+          if (/\.module\.(css|scss)$/i.test(resourcePath)) {
             return 'local';
           }
           return 'global';
