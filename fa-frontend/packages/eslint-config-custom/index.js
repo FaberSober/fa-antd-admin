@@ -16,5 +16,7 @@ module.exports = {
     '@typescript-eslint/no-empty-interface': 'off', // 空属性interface
     '@typescript-eslint/no-empty-function': 'off', // 空方法体{}
     '@typescript-eslint/no-unused-vars': 'off', // 未使用的变量
+    '@typescript-eslint/no-namespace': 'off', // 不可使用namespace
+    '@typescript-eslint/ban-ts-comment': 'off', // 不可使用@ts-ignore
   },
 };

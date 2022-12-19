@@ -13,7 +13,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 
 library.add(fas);
 
-console.log(routes);
+// console.log(routes);
 
 function App() {
   return <Suspense fallback={<PageLoading />}>{useRoutes(routes)}</Suspense>;

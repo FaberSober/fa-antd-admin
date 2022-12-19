@@ -1,7 +1,7 @@
 import { Fa, FaEnums } from './index';
 import ConditionQuery from '@/components/condition-query/interface';
 
-declare namespace Admin {
+namespace Admin {
   // -------------------------------------------- 系统-配置表 --------------------------------------------
   /**
    * 配置-查询场景
@@ -227,18 +227,6 @@ declare namespace Admin {
     jobDesc: string;
   }
 
-  export enum JOB_LOG_STATUS {
-    DOING = '1', // 执行中
-    DONE = '2', // 成功
-    ERROR = '9', // 失败
-  }
-
-  export const JOB_LOG_STATUS_MAP = {
-    [JOB_LOG_STATUS.DOING]: '执行中',
-    [JOB_LOG_STATUS.DONE]: '成功',
-    [JOB_LOG_STATUS.ERROR]: '失败',
-  };
-
   /** BASE-系统定时任务-执行日志 */
   export interface JobLog {
     /** ID */
@@ -246,7 +234,7 @@ declare namespace Admin {
     /** 任务ID */
     jobId: string;
     /** 执行结果：1-执行中/2-成功/9-失败 */
-    status: JOB_LOG_STATUS;
+    status: FaEnums.JobLogStatusEnum;
     /** 执行花费时间 */
     duration: number;
     /** 错误日志 */

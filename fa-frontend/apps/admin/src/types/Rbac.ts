@@ -1,6 +1,6 @@
 import { Fa, FaEnums } from '@/types/index';
 
-declare namespace Rbac {
+namespace Rbac {
   /** BASE-权限表 */
   export interface RbacMenu extends Fa.BaseDelEntity {
     /** ID */

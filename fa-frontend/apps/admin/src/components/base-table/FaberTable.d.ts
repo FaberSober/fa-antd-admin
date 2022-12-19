@@ -6,7 +6,7 @@ import { Fa } from '@/types';
 /**
  * 通用业务表格配置
  */
-declare namespace FaberTable {
+namespace FaberTable {
   /** 单值回掉 */
   export interface TcCondProp {
     index: number;

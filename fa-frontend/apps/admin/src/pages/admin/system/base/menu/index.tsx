@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Fa, FaEnums } from '@/types';
+import { Fa, FaEnums, Rbac } from '@/types';
 import { Button, Modal, Space, Table } from 'antd';
 import { ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
@@ -10,7 +10,6 @@ import { AuthDelBtn, FaHref } from '@/components/decorator';
 import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
 import RbacMenuModal from './modal/RbacMenuModal';
 import rbacMenuApi from '@/services/rbac/rbacMenu';
-import { Rbac } from '@/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 /**
@@ -61,7 +60,7 @@ export default function RbacMenuTreeList() {
     {
       title: '图标',
       dataIndex: ['sourceData', 'icon'],
-      render: (val: string | undefined) => (val ? <FontAwesomeIcon icon={val} /> : null),
+      render: (val: any) => (val ? <FontAwesomeIcon icon={val} /> : null),
       width: 100,
     },
     {
@@ -118,7 +117,7 @@ export default function RbacMenuTreeList() {
           columns={columns}
           rowSelection={{
             selectedRowKeys,
-            onChange: (selectedRowKeys, selectedRows) => {
+            onChange: (_, selectedRows) => {
               setSelectedRowKeys(selectedRows.map((i) => i.id));
             },
             checkStrictly: false,

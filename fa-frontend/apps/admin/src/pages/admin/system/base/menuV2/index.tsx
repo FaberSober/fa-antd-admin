@@ -60,6 +60,7 @@ export default function index() {
         bodyStyle={{ width: '100%', height: '100%' }}
         showTips={false}
         showTopBtn={false}
+        // @ts-ignore
         titleRender={(item: Fa.TreeNode<Rbac.RbacMenu, string>) => (
           <div className={styles.item}>
             <div style={{ flex: 1 }}>{item.name}</div>

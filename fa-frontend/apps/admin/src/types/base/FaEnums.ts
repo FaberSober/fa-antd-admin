@@ -1,4 +1,4 @@
-declare namespace FaEnums {
+namespace FaEnums {
   // ------------------------------------ BASE ------------------------------------
   export enum SexEnum {
     FEMALE = 0,
@@ -62,6 +62,18 @@ declare namespace FaEnums {
     INNER = 1,
     OUT = 2,
   }
+
+  export enum JobLogStatusEnum {
+    DOING = 1, // 执行中
+    DONE = 2, // 成功
+    ERROR = 9, // 失败
+  }
+
+  export const JOB_LOG_STATUS_MAP = {
+    [JobLogStatusEnum.DOING]: '执行中',
+    [JobLogStatusEnum.DONE]: '成功',
+    [JobLogStatusEnum.ERROR]: '失败',
+  };
 }
 
 export default FaEnums;

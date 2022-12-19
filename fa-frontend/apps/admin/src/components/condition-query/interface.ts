@@ -1,4 +1,4 @@
-declare namespace ConditionQuery {
+namespace ConditionQuery {
   /** 自定义筛选条件-类型 */
   export enum CondOpr {
     equal = 'eq', // '等于',

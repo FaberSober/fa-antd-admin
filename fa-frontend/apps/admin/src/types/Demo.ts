@@ -1,6 +1,6 @@
 // import * as Fa from './base/Fa';
 
-declare namespace Demo {
+namespace Demo {
   /** Demo-学生表-标签 */
   export interface StudentTag {
     name: string;

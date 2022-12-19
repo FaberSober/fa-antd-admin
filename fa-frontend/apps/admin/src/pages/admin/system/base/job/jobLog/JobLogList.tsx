@@ -4,7 +4,7 @@ import { Button, Form, Input, Space } from 'antd';
 import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/myHooks';
 import modelService from '@/services/admin/jobLog';
-import { Admin } from '@/types';
+import { Admin, FaEnums } from '@/types';
 import { AuthDelBtn } from '@/components/decorator';
 
 const serviceName = '系统定时任务-执行日志';
@@ -47,7 +47,7 @@ export default function JobLogList({ jobId }: JobLogListProps) {
       BaseTableUtils.genTimeSorterColumn('结束时间', 'endTime', 180, sorter),
       {
         ...BaseTableUtils.genSimpleSorterColumn('执行结果', 'status', 100, sorter),
-        render: (val, record) => <span>{Admin.JOB_LOG_STATUS_MAP[record.status]}</span>,
+        render: (_, record) => <span>{FaEnums.JOB_LOG_STATUS_MAP[record.status]}</span>,
       },
       BaseTableUtils.genSimpleSorterColumn('错误日志', 'errMsg', undefined, sorter),
       {

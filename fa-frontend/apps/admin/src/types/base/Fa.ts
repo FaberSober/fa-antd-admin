@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { DragModalProps } from '@/components/modal/DragModal';
 import ConditionQuery from '@/components/condition-query/interface';
 
-declare namespace Fa {
+namespace Fa {
   // ------------------------------------- Constant -------------------------------------
   export type KeyType = string | number;
 
@@ -219,11 +219,6 @@ declare namespace Fa {
   }
 
   // ------------------------------------- Layout -------------------------------------
-  export enum ThemeStyle {
-    light = 'light',
-    dark = 'dark',
-  }
-
   /** BaseChildProps */
   export interface BaseChildProps {
     children?: ReactNode;
