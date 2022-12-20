@@ -6,7 +6,7 @@ export default defineConfig({
   sourcemap: true,
   // clean: true,
   dts: true,
-  watch: true,
+  watch: false,
   format: ['esm', 'cjs'],
   external: ['@fa/types', 'react', 'antd', '@ant-design/icons', 'react-contexify', 'use-bus'],
 });
