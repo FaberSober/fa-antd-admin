@@ -5,7 +5,8 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": "./dist",
-    "./styles.css": "./dist/styles.css"
+    "./styles.css": "./dist/styles.css",
+    "./index.css": "./dist/index.css"
   },
   "license": "MIT",
   "scripts": {
@@ -15,6 +16,9 @@
   },
   "devDependencies": {
     "@ant-design/icons": "4.8.0",
+    "@dnd-kit/core": "6.0.6",
+    "@dnd-kit/sortable": "7.0.1",
+    "@dnd-kit/utilities": "3.2.1",
     "@fa/eslint-config-custom": "workspace:*",
     "@fa/tailwind-config": "workspace:*",
     "@fa/tsconfig": "workspace:*",

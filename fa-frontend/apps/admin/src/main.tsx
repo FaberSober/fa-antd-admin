@@ -3,6 +3,9 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, useRoutes } from 'react-router-dom';
 
 import './globals.scss';
+import '@fa/theme/theme.scss';
+import '@fa/ui/index.css';
+import '@fa/ui/styles.css';
 
 import routes from '~react-pages';
 import { PageLoading } from '@fa/ui';
