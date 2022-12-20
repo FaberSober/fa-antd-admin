@@ -293,6 +293,10 @@ namespace Admin {
   export interface LogApi extends Fa.BaseCrtEntity {
     /** 序号 */
     id: string;
+    /** 模块 */
+    biz: string;
+    /** 操作 */
+    opr: string;
     /** 请求URL */
     url: string;
     /** 请求类型 */

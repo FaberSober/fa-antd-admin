@@ -1,5 +1,6 @@
 package com.faber.config.interceptor;
 
+import com.faber.core.annotation.FaLogOpr;
 import com.faber.core.config.annotation.ApiToken;
 import com.faber.core.config.annotation.IgnoreUserToken;
 import com.faber.core.config.annotation.Permission;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.annotation.Annotation;
 
 public abstract class AbstractInterceptor implements HandlerInterceptor {
 
@@ -67,6 +69,18 @@ public abstract class AbstractInterceptor implements HandlerInterceptor {
         LogNoRet annotation = handlerMethod.getBeanType().getAnnotation(LogNoRet.class);
         if (annotation == null) {
             annotation = handlerMethod.getMethodAnnotation(LogNoRet.class);
+        }
+        return annotation;
+    }
+
+    protected <A extends Annotation> A getMethodAnno(Object handler, Class<A> annoClazz) {
+        if (!(handler instanceof HandlerMethod)) {
+            return null;
+        }
+        HandlerMethod handlerMethod = (HandlerMethod) handler;
+        A annotation = handlerMethod.getBeanType().getAnnotation(annoClazz);
+        if (annotation == null) {
+            annotation = handlerMethod.getMethodAnnotation(annoClazz);
         }
         return annotation;
     }

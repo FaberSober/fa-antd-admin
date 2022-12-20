@@ -1,5 +1,6 @@
 package com.faber.config.filter;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.faber.api.base.admin.biz.LogApiBiz;
@@ -66,6 +67,9 @@ public class RequestAgainFilter implements Filter {
         if (!NO_LOG_APIS.contains(requestWrapper.getRequestURI())) {
             String logNoRet = responseWrapper.getHeader("LogNoRet");
             LogApi log = new LogApi();
+
+            log.setBiz(StrUtil.toString(requestWrapper.getAttribute("FaLogBiz")));
+            log.setOpr(StrUtil.toString(requestWrapper.getAttribute("FaLogOpr")));
 
             // request basic information
             log.setUrl(requestWrapper.getRequestURI());

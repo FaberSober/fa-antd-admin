@@ -1,5 +1,6 @@
 package com.faber.core.web.rest;
 
+import com.faber.core.annotation.FaLogOpr;
 import com.faber.core.annotation.LogNoRet;
 import com.faber.core.web.biz.BaseBiz;
 import com.faber.core.vo.msg.Ret;
@@ -51,6 +52,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
     @Autowired
     protected Biz baseBiz;
 
+    @FaLogOpr("新增")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public Ret<Entity> save(@Validated(value = Vg.Crud.C.class) @RequestBody Entity entity) {
@@ -58,6 +60,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok(entity);
     }
 
+    @FaLogOpr("批量新增")
     @RequestMapping(value = "/saveBatch", method = RequestMethod.POST)
     @ResponseBody
     public Ret<List<Entity>> saveBatch(@Validated(value = Vg.Crud.C.class) @RequestBody List<Entity> entityList) {
@@ -65,6 +68,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok(entityList);
     }
 
+    @FaLogOpr("查询")
     @RequestMapping(value = "/getById/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Ret<Entity> getById(@PathVariable Key id) {
@@ -72,6 +76,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok(o);
     }
 
+    @FaLogOpr("批量查询")
     @RequestMapping(value = "/getByIds", method = RequestMethod.POST)
     @ResponseBody
     public Ret<List<Entity>> getByIds(@RequestBody List<Key> ids) {
@@ -79,6 +84,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok(o);
     }
 
+    @FaLogOpr("更新")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     public Ret<Entity> update(@Validated(value = Vg.Crud.U.class) @RequestBody Entity entity) {
@@ -86,6 +92,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok();
     }
 
+    @FaLogOpr("批量更新")
     @RequestMapping(value = "/updateBatch", method = RequestMethod.POST)
     @ResponseBody
     public Ret<Boolean> updateBatch(@Validated(value = Vg.Crud.U.class) @RequestBody List<Entity> entityList) {
@@ -93,6 +100,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok();
     }
 
+    @FaLogOpr("保存")
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
     @ResponseBody
     public Ret<Entity> saveOrUpdate(@RequestBody Entity entity) {
@@ -100,6 +108,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok();
     }
 
+    @FaLogOpr("批量保存")
     @RequestMapping(value = "/saveOrUpdateBatch", method = RequestMethod.POST)
     @ResponseBody
     public Ret<Entity> saveOrUpdateBatch(@RequestBody List<Entity> entityList) {
@@ -107,6 +116,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok();
     }
 
+    @FaLogOpr("删除")
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public Ret<Entity> remove(@PathVariable Key id) {
@@ -114,6 +124,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok();
     }
 
+    @FaLogOpr("批量删除")
     @RequestMapping(value = "/removeBatchByIds", method = RequestMethod.POST)
     @ResponseBody
     public Ret<Boolean> removeBatchByIds(@RequestBody List<Key> ids) {
@@ -121,6 +132,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok();
     }
 
+    @FaLogOpr("全部获取")
     @LogNoRet
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ResponseBody
@@ -129,6 +141,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok(list);
     }
 
+    @FaLogOpr("列表获取")
     @LogNoRet
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
@@ -137,6 +150,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok(list);
     }
 
+    @FaLogOpr("个人列表")
     @LogNoRet
     @RequestMapping(value = "/mineList", method = RequestMethod.POST)
     @ResponseBody
@@ -145,6 +159,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok(list);
     }
 
+    @FaLogOpr("计数")
     @RequestMapping(value = "/count", method = RequestMethod.POST)
     @ResponseBody
     public Ret<Long> count(@RequestBody QueryParams query) {
@@ -152,9 +167,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return ok(count);
     }
 
-    /**
-     * 分页查询
-     */
+    @FaLogOpr("分页查询")
     @LogNoRet
     @RequestMapping(value = "/page", method = RequestMethod.POST)
     @ResponseBody
@@ -162,9 +175,7 @@ public class BaseController<Biz extends BaseBiz, Entity, Key extends Serializabl
         return baseBiz.selectPageByQuery(query);
     }
 
-    /**
-     * 导出Excel[分页查询]
-     */
+    @FaLogOpr("导出Excel")
     @LogNoRet
     @RequestMapping(value = "/exportExcel", method = RequestMethod.POST)
     @ResponseBody

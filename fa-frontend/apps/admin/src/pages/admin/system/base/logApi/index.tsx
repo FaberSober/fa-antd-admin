@@ -35,8 +35,10 @@ export default function LogApiList() {
     const { sorter } = queryParams;
     return [
       BaseTableUtils.genIdColumn('序号', 'id', 70, sorter),
+      BaseTableUtils.genSimpleSorterColumn('模块', 'biz', 100, sorter),
+      BaseTableUtils.genSimpleSorterColumn('操作', 'opr', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('请求URL', 'url', undefined, sorter),
-      BaseTableUtils.genSimpleSorterColumn('请求类型', 'method', 90, sorter),
+      BaseTableUtils.genSimpleSorterColumn('请求', 'method', 70, sorter),
       BaseTableUtils.genSimpleSorterColumn('客户端', 'agent', 100, sorter, false),
       BaseTableUtils.genSimpleSorterColumn('操作系统', 'os', 100, sorter, false),
       BaseTableUtils.genSimpleSorterColumn('浏览器', 'browser', 100, sorter),
@@ -52,7 +54,7 @@ export default function LogApiList() {
       ...BaseTableUtils.genCtrColumns(sorter),
       {
         title: '操作',
-        dataIndex: 'opr',
+        dataIndex: 'menu',
         render: (_, record) => (
           <Space>
             <LogApiDrawer record={record}>
