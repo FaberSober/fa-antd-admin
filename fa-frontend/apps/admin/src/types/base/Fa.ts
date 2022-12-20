@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { DragModalProps } from '@/components/modal/DragModal';
+import { DragModalProps } from '@fa/ui';
 import ConditionQuery from '@/components/condition-query/interface';
 
 namespace Fa {

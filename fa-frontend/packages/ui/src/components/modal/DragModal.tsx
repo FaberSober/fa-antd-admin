@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal } from 'antd';
 import { ModalProps } from 'antd/es/modal';
-import { FaDragItem } from '@fa/ui';
+import FaDragItem from '@/components/base-drag/FaDragItem';
 
 export interface DragModalProps extends ModalProps {
   children?: JSX.Element;
@@ -12,7 +12,7 @@ export interface DragModalProps extends ModalProps {
  * 1. 本例修改基于dnd-kit实现。减少包的引入
  * 2. 官网基于react-draggable实现。
  */
-function DragModal(props: DragModalProps) {
+export default function DragModal(props: DragModalProps) {
   const [disabled, setDisabled] = useState(true);
   const { title, ...restProps } = props;
   if (!props.open) return null;
@@ -46,5 +46,3 @@ function DragModal(props: DragModalProps) {
     />
   );
 }
-
-export default DragModal;

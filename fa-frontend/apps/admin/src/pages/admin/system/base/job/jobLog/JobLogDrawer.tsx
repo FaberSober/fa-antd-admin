@@ -1,10 +1,8 @@
-import React, {useState} from 'react';
-import {Drawer} from 'antd';
-import {DragModalProps} from "@/components/modal/DragModal";
-import JobLogList from "./JobLogList";
+import React, { useState } from 'react';
+import { Drawer, DrawerProps } from 'antd';
+import JobLogList from './JobLogList';
 
-
-export interface JobLogDrawerProps extends DragModalProps {
+export interface JobLogDrawerProps extends DrawerProps {
   jobId: number;
 }
 
@@ -15,21 +13,15 @@ export default function JobLogDrawer({ children, jobId, ...props }: JobLogDrawer
   const [open, setOpen] = useState(false);
 
   function showModal() {
-    setOpen(true)
+    setOpen(true);
   }
 
   return (
     <span>
       <span onClick={showModal}>{children}</span>
-      <Drawer
-        title="定时任务日志查看"
-        open={open}
-        onClose={() => setOpen(false)}
-        width={1200}
-        {...props}
-      >
+      <Drawer title="定时任务日志查看" open={open} onClose={() => setOpen(false)} width={1200} {...props}>
         <JobLogList jobId={jobId} />
       </Drawer>
     </span>
-  )
+  );
 }

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { get } from 'lodash';
 import { Form, Input, Select } from 'antd';
-import DragModal from '@/components/modal/DragModal';
+import { DragModal } from '@fa/ui';
 import { showResponse, formItemFullLayout } from '@/utils/utils';
 import modelService from '@/services/rbac/rbacMenu';
 import { Rbac } from '@/types';
@@ -99,7 +99,7 @@ export default function RbacMenuModal({
           <Form.Item name="parentId" label="上级菜单" rules={[{ required: true }]} {...formItemFullLayout}>
             <RbacMenuCascader
               showRoot
-              onChangeWithItem={(key, raw) => setParentItem(raw)}
+              onChangeWithItem={(_: any, raw: any) => setParentItem(raw)}
               disabledIds={record ? [record.id] : undefined}
             />
           </Form.Item>

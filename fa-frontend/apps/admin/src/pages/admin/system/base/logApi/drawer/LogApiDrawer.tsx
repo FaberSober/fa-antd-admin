@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Descriptions, Drawer } from 'antd';
-import { DragModalProps } from '@/components/modal/DragModal';
+import { Descriptions, Drawer, DrawerProps } from 'antd';
 import { Admin } from '@/types';
 import ReactJson from 'react-json-view';
 import { isJson } from '@/utils/utils';
 
-export interface GateLogDrawerProps extends DragModalProps {
+export interface GateLogDrawerProps extends DrawerProps {
   record: Admin.LogApi;
 }
 

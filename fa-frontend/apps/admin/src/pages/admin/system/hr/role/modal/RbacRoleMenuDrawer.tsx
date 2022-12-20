@@ -1,14 +1,13 @@
 import React, { useContext, useState } from 'react';
-import { Button, Drawer, Tree } from 'antd';
+import { Button, Drawer, DrawerProps, Tree } from 'antd';
 import { Rbac } from '@/types';
-import { DragModalProps } from '@/components/modal/DragModal';
 import { Fa } from '@/types';
 import rbacMenuApi from '@/services/rbac/rbacMenu';
 import rbacRoleMenuApi from '@/services/rbac/rbacRoleMenu';
 import { showResponse } from '@/utils/utils';
 import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
 
-export interface RbacRoleMenuDrawerProps extends DragModalProps {
+export interface RbacRoleMenuDrawerProps extends DrawerProps {
   record: Rbac.RbacRole;
   success?: () => void;
 }

@@ -1,8 +1,8 @@
-import React, {CSSProperties, ReactNode, useState} from 'react';
-import {v4 as uuidv4} from 'uuid';
-import {useInterval} from 'react-use';
-import {Tooltip} from 'antd';
-import {FullscreenExitOutlined, FullscreenOutlined} from '@ant-design/icons';
+import React, { CSSProperties, ReactNode, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { useInterval } from 'react-use';
+import { Tooltip } from 'antd';
+import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons';
 
 export interface ScaleContainerProps {
   width: number; // 宽-1920
@@ -89,7 +89,9 @@ export default function ScaleContainer({
   if (state.ratioX !== 1 || state.ratioY !== 1) {
     scaleStyles = {
       ...scaleStyles,
-      transform: equalRatio ? `scaleX(${state.ratioX}) scaleY(${state.ratioX})` : `scaleX(${state.ratioX}) scaleY(${state.ratioY})`,
+      transform: equalRatio
+        ? `scaleX(${state.ratioX}) scaleY(${state.ratioX})`
+        : `scaleX(${state.ratioX}) scaleY(${state.ratioY})`,
       transformOrigin: 'left top',
     };
   }

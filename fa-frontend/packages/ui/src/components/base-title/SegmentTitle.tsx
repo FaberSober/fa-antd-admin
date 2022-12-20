@@ -1,5 +1,4 @@
-import React, {CSSProperties, ReactNode} from 'react';
-import {SITE_INFO} from '@/configs/server.config';
+import React, { CSSProperties, ReactNode } from 'react';
 
 export interface SegmentTitleProps {
   title: string;
@@ -12,7 +11,7 @@ export interface SegmentTitleProps {
  * @author xu.pengfei
  * @date 2021/4/21
  */
-export default function SegmentTitle({ title, style, extra, ribbonColor = SITE_INFO.PRIMARY_COLOR, ...props }: SegmentTitleProps) {
+export default function SegmentTitle({ title, style, extra, ribbonColor = '#1890FF', ...props }: SegmentTitleProps) {
   return (
     <div
       style={{

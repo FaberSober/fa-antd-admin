@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import DragModal, {DragModalProps} from '@/components/modal/DragModal';
-import {trim} from 'lodash';
-import {CronEditor} from "fa-cron-react-editor";
-import jobApi from "@/services/admin/job";
-import {RES_CODE} from "@/configs/server.config";
-import 'fa-cron-react-editor/dist/index.css'
-
+import React, { useEffect, useState } from 'react';
+import { DragModal, DragModalProps } from '@fa/ui';
+import { trim } from 'lodash';
+import { CronEditor } from 'fa-cron-react-editor';
+import jobApi from '@/services/admin/job';
+import { RES_CODE } from '@/configs/server.config';
+import 'fa-cron-react-editor/dist/index.css';
 
 interface IProps extends DragModalProps {
   initialValue?: string;
-  onChange?: (v:string|undefined) => void;
+  onChange?: (v: string | undefined) => void;
 }
 
 /**
@@ -17,28 +16,31 @@ interface IProps extends DragModalProps {
  */
 export default function CronModal({ children, initialValue, onChange, ...props }: IProps) {
   const [cron, setCron] = useState<string>(initialValue || '* * * * * ?');
-  const [times, setTimes] = useState<string[]>([])
-  const [errorMsg, setErrorMsg] = useState<string|undefined>(undefined);
+  const [times, setTimes] = useState<string[]>([]);
+  const [errorMsg, setErrorMsg] = useState<string | undefined>(undefined);
 
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    jobApi.quartzLatest(cron, 5).then((res) => {
-      if (res && res.status === RES_CODE.OK) {
-        setTimes(res.data)
-        setErrorMsg(undefined)
-      }
-    }).catch((e) => {
-      setErrorMsg(e.response.data.message)
-      setTimes([])
-    })
-  }, [cron])
+    jobApi
+      .quartzLatest(cron, 5)
+      .then((res) => {
+        if (res && res.status === RES_CODE.OK) {
+          setTimes(res.data);
+          setErrorMsg(undefined);
+        }
+      })
+      .catch((e) => {
+        setErrorMsg(e.response.data.message);
+        setTimes([]);
+      });
+  }, [cron]);
 
   function onFinish() {
     if (onChange) {
-      onChange(trim(cron))
+      onChange(trim(cron));
     }
-    setOpen(false)
+    setOpen(false);
   }
 
   return (
@@ -58,7 +60,9 @@ export default function CronModal({ children, initialValue, onChange, ...props }
 
           <div>最近5次运行时间</div>
           <div>
-            {times.map((i) => <div key={i}>{i}</div>)}
+            {times.map((i) => (
+              <div key={i}>{i}</div>
+            ))}
           </div>
           {errorMsg && <div>{errorMsg}</div>}
         </div>

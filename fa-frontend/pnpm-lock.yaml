@@ -187,6 +187,7 @@ importers:
       '@fortawesome/react-fontawesome': 0.2.0
       '@types/lodash': 4.14.191
       '@types/react': 18.0.26
+      '@types/uuid': 9.0.0
       antd: 5.0.7
       autoprefixer: 10.4.13
       concurrently: 7.6.0
@@ -200,10 +201,12 @@ importers:
       tsup: 6.5.0
       typescript: 4.9.4
       use-bus: 2.5.2
+      uuid: 9.0.0
     dependencies:
       '@dnd-kit/core': registry.npmmirror.com/@dnd-kit/core/6.0.6_biqbaboplfbrettd7655fr4n2y
       '@dnd-kit/sortable': registry.npmmirror.com/@dnd-kit/sortable/7.0.1_ighjjj6vulsdnb2lagbd2egmxy
       '@dnd-kit/utilities': registry.npmmirror.com/@dnd-kit/utilities/3.2.1_react@18.2.0
+      uuid: registry.npmmirror.com/uuid/9.0.0
     devDependencies:
       '@ant-design/icons': registry.npmmirror.com/@ant-design/icons/4.8.0_biqbaboplfbrettd7655fr4n2y
       '@fa/eslint-config-custom': link:../eslint-config-custom
@@ -216,6 +219,7 @@ importers:
       '@fortawesome/react-fontawesome': registry.npmmirror.com/@fortawesome/react-fontawesome/0.2.0_z27bm67dtmuyyvss23ckjdrcuy
       '@types/lodash': registry.npmmirror.com/@types/lodash/4.14.191
       '@types/react': registry.npmmirror.com/@types/react/18.0.26
+      '@types/uuid': registry.npmmirror.com/@types/uuid/9.0.0
       antd: registry.npmmirror.com/antd/5.0.7_biqbaboplfbrettd7655fr4n2y
       autoprefixer: registry.npmmirror.com/autoprefixer/10.4.13_postcss@8.4.20
       concurrently: registry.npmmirror.com/concurrently/7.6.0

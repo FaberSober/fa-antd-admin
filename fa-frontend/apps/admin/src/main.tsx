@@ -10,12 +10,6 @@ import '@fa/ui/styles.css';
 import routes from '~react-pages';
 import { PageLoading } from '@fa/ui';
 
-// fontawesome icon
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-
-library.add(fas);
-
 // console.log(routes);
 
 function App() {

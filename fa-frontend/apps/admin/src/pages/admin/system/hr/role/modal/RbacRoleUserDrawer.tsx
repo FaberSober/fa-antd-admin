@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Drawer } from 'antd';
+import { Drawer, DrawerProps } from 'antd';
 import { Rbac } from '@/types';
-import { DragModalProps } from '@/components/modal/DragModal';
 import RbacUserRoleList from '../list/RbacUserRoleList';
 
-export interface RbacRoleUserDrawerProps extends DragModalProps {
+export interface RbacRoleUserDrawerProps extends DrawerProps {
   record: Rbac.RbacRole;
   success?: () => void;
 }

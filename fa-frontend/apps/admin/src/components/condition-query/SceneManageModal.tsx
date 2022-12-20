@@ -1,5 +1,5 @@
 import React, { useImperativeHandle, useState } from 'react';
-import DragModal, { DragModalProps } from '@/components/modal/DragModal';
+import { DragModal, DragModalProps } from '@fa/ui';
 import configService from '@/services/admin/configScene';
 import { showResponse } from '@/utils/utils';
 import { EditOutlined } from '@ant-design/icons';

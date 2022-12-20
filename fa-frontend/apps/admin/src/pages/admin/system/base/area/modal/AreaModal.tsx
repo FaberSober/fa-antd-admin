@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { get } from 'lodash';
 import { Form, Input } from 'antd';
-import DragModal, { DragModalProps } from '@/components/modal/DragModal';
+import { DragModal, DragModalProps } from '@fa/ui';
 import { showResponse, formItemFullLayout } from '@/utils/utils';
 import modelService from '@/services/admin/area';
 import { Admin } from '@/types';

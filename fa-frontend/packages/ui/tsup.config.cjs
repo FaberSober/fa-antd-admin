@@ -11,7 +11,9 @@ export default defineConfig({
   external: [
     '@fa/types',
     'react',
+    'uuid',
     'antd',
+    'lodash',
     '@ant-design/icons',
     'react-contexify',
     'use-bus',
