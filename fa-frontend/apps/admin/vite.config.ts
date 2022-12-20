@@ -81,11 +81,11 @@ export default defineConfig(({ mode }) => {
           //       .toString();
           //   }
           // },
-          chunkFileNames: (chunkInfo) => {
-            const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/') : [];
-            const fileName = facadeModuleId[facadeModuleId.length - 2] || '[name]';
-            return `js/${fileName}/[name].[hash].js`;
-          },
+          // chunkFileNames: (chunkInfo) => {
+          //   const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/') : [];
+          //   const fileName = facadeModuleId[facadeModuleId.length - 2] || '[name]';
+          //   return `js/${fileName}/[name].[hash].js`;
+          // },
         },
       },
     },
