@@ -27,35 +27,25 @@ export default function StudentModal({
 
   const [open, setOpen] = useState(false);
 
-  /** 新增Item */
-  function invokeInsertTask(params: any) {
-    api.save(params).then((res) => {
-      showResponse(res, '新增学生');
-      setOpen(false);
-      if (fetchFinish) fetchFinish();
-    });
-  }
-
-  /** 更新Item */
-  function invokeUpdateTask(params: any) {
-    api.update(params.id, params).then((res) => {
-      showResponse(res, '更新学生');
-      setOpen(false);
-      if (fetchFinish) fetchFinish();
-    });
-  }
-
   /** 提交表单 */
   function onFinish(fieldsValue: any) {
-    const values = {
+    let values = {
+      ...record,
       ...fieldsValue,
       birthday: getDateStr000(fieldsValue.birthday),
     };
-    if (record) {
-      invokeUpdateTask({ ...record, ...values });
-    } else {
-      invokeInsertTask({ ...values, tags: [], info: { info1: '', info2: '' } });
+    if (!record) {
+      values = {
+        ...values,
+        tags: [],
+        info: { info1: '', info2: '' },
+      };
     }
+    api.saveOrUpdate(values).then((res) => {
+      showResponse(res, '保存学生信息');
+      setOpen(false);
+      if (fetchFinish) fetchFinish();
+    });
   }
 
   function getInitialValues() {

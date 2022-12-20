@@ -7,6 +7,7 @@ import { clearForm, useDelete, useExport, useTableQueryParams } from '@/utils/my
 import api from '@/services/demo/student';
 import { Demo } from '@/types';
 import StudentModal from './modal/StudentModal';
+import { isNil } from 'lodash';
 
 const serviceName = '学生表-表格查询示例';
 const biz = 'demo_student';
@@ -46,7 +47,7 @@ export default function StudentList() {
       BaseTableUtils.genBoolSorterColumn('账户有效', 'valid', 100, sorter),
       {
         ...BaseTableUtils.genSimpleSorterColumn('标签', 'tags', undefined, sorter),
-        render: (v, r) => {
+        render: (_, r) => {
           return (r.tags || []).map((t) => <Tag key={t.name}>{t.name}</Tag>);
         },
       },
@@ -113,7 +114,7 @@ export default function StudentList() {
               info1: {record.info.info1}; info2: {record.info.info2};
             </p>
           ),
-          rowExpandable: (record: Demo.Student) => record.info,
+          rowExpandable: (record: Demo.Student) => !isNil(record.info),
         }}
       />
     </div>
