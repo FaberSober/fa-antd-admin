@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
-import {Modal} from 'antd';
-import {ModalProps} from 'antd/es/modal';
-import FaDragItem from "@/components/base-drag/FaDragItem";
-
+import React, { useState } from 'react';
+import { Modal } from 'antd';
+import { ModalProps } from 'antd/es/modal';
+import { FaDragItem } from '@fa/ui';
 
 export interface DragModalProps extends ModalProps {
   children?: JSX.Element;
@@ -36,7 +35,11 @@ function DragModal(props: DragModalProps) {
           {title}
         </div>
       }
-      modalRender={(modal) => <FaDragItem disabled={disabled} hold>{modal}</FaDragItem>}
+      modalRender={(modal) => (
+        <FaDragItem disabled={disabled} hold>
+          {modal}
+        </FaDragItem>
+      )}
       destroyOnClose
       maskClosable={false}
       {...restProps}

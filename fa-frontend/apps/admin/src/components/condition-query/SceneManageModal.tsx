@@ -8,8 +8,7 @@ import { Admin } from '@/types';
 import ConditionQueryModal from '@/components/condition-query/ConditionQueryModal';
 import { FaberTable } from '@/components/base-table';
 import styles from './SceneManageModal.module.scss';
-import { FaSortList } from '@/components/base-drag';
-import { AuthDelBtn } from '@fa/ui';
+import { AuthDelBtn, FaSortList } from '@fa/ui';
 
 interface IProps<T> extends DragModalProps {
   biz: string;
