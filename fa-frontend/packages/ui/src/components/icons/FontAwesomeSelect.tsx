@@ -3,9 +3,9 @@ import { Drawer, Input, Space } from 'antd';
 import { each, trim } from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as fas from '@fortawesome/free-solid-svg-icons';
-import styles from './FontAwesomeSelect.module.scss';
-import { FaFlexRestLayout } from '@fa/ui';
 import { CloseCircleFilled } from '@ant-design/icons';
+import { FaFlexRestLayout } from '../base-layout';
+import './FontAwesomeSelect.css';
 
 const iconSet = new Set();
 each(fas, (i: any) => {
@@ -16,7 +16,7 @@ each(fas, (i: any) => {
 const ICON_LIST: any[] = Array.from(iconSet);
 
 export interface FontAwesomeSelectProps {
-  value?: string;
+  value?: any;
   onChange?: (v: string | undefined) => void;
 }
 
@@ -63,8 +63,8 @@ export default function FontAwesomeSelect({ value, onChange }: FontAwesomeSelect
         <FaFlexRestLayout>
           <div className="fa-flex-row" style={{ flexWrap: 'wrap' }}>
             {showList.map((i) => (
-              <div key={i} onClick={() => handleClick(i)} className={styles.item}>
-                <FontAwesomeIcon icon={`${i}`} size="2x" style={{ marginTop: 24 }} />
+              <div key={i} onClick={() => handleClick(i)} className="fa-ui-icon-item">
+                <FontAwesomeIcon icon={`${i}` as any} size="2x" style={{ marginTop: 24 }} />
                 <span style={{ textAlign: 'center', marginTop: 6 }}>{i}</span>
               </div>
             ))}

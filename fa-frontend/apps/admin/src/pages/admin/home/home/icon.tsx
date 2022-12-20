@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import FontAwesomeSelect from "@/components/icons/FontAwesomeSelect";
-import {Card, Space} from "antd";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import React, { useState } from 'react';
+import { FontAwesomeSelect } from '@fa/ui';
+import { Card, Space } from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 /**
  * @author xu.pengfei
@@ -25,5 +25,5 @@ export default function icon() {
         <FontAwesomeSelect value={value} onChange={setValue} />
       </Card>
     </div>
-  )
+  );
 }

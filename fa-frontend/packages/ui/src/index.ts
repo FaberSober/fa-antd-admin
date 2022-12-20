@@ -10,5 +10,6 @@ export * from '@/components/base-search-select';
 export * from '@/components/base-select';
 export * from '@/components/base-tree';
 export * from '@/components/decorator';
+export * from '@/components/icons';
 
 export { default as Button } from '@/components/Button';

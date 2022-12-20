@@ -181,6 +181,10 @@ importers:
       '@fa/tailwind-config': workspace:*
       '@fa/tsconfig': workspace:*
       '@fa/types': workspace:*
+      '@fortawesome/fontawesome-svg-core': 6.2.1
+      '@fortawesome/free-regular-svg-icons': 6.2.1
+      '@fortawesome/free-solid-svg-icons': 6.2.1
+      '@fortawesome/react-fontawesome': 0.2.0
       '@types/lodash': 4.14.191
       '@types/react': 18.0.26
       antd: 5.0.7
@@ -206,6 +210,10 @@ importers:
       '@fa/tailwind-config': link:../tailwind-config
       '@fa/tsconfig': link:../tsconfig
       '@fa/types': link:../types
+      '@fortawesome/fontawesome-svg-core': registry.npmmirror.com/@fortawesome/fontawesome-svg-core/6.2.1
+      '@fortawesome/free-regular-svg-icons': registry.npmmirror.com/@fortawesome/free-regular-svg-icons/6.2.1
+      '@fortawesome/free-solid-svg-icons': registry.npmmirror.com/@fortawesome/free-solid-svg-icons/6.2.1
+      '@fortawesome/react-fontawesome': registry.npmmirror.com/@fortawesome/react-fontawesome/0.2.0_z27bm67dtmuyyvss23ckjdrcuy
       '@types/lodash': registry.npmmirror.com/@types/lodash/4.14.191
       '@types/react': registry.npmmirror.com/@types/react/18.0.26
       antd: registry.npmmirror.com/antd/5.0.7_biqbaboplfbrettd7655fr4n2y
@@ -1274,7 +1282,6 @@ packages:
     version: 6.2.1
     engines: {node: '>=6'}
     requiresBuild: true
-    dev: false
 
   registry.npmmirror.com/@fortawesome/fontawesome-svg-core/6.2.1:
     resolution: {integrity: sha512-HELwwbCz6C1XEcjzyT1Jugmz2NNklMrSPjZOWMlc+ZsHIVk+XOvOXLGGQtFBwSyqfJDNgRq4xBCwWOaZ/d9DEA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-6.2.1.tgz}
@@ -1284,7 +1291,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@fortawesome/fontawesome-common-types': registry.npmmirror.com/@fortawesome/fontawesome-common-types/6.2.1
-    dev: false
 
   registry.npmmirror.com/@fortawesome/free-regular-svg-icons/6.2.1:
     resolution: {integrity: sha512-wiqcNDNom75x+pe88FclpKz7aOSqS2lOivZeicMV5KRwOAeypxEYWAK/0v+7r+LrEY30+qzh8r2XDaEHvoLsMA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@fortawesome/free-regular-svg-icons/-/free-regular-svg-icons-6.2.1.tgz}
@@ -1294,7 +1300,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@fortawesome/fontawesome-common-types': registry.npmmirror.com/@fortawesome/fontawesome-common-types/6.2.1
-    dev: false
 
   registry.npmmirror.com/@fortawesome/free-solid-svg-icons/6.2.1:
     resolution: {integrity: sha512-oKuqrP5jbfEPJWTij4sM+/RvgX+RMFwx3QZCZcK9PrBDgxC35zuc7AOFsyMjMd/PIFPeB2JxyqDr5zs/DZFPPw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-6.2.1.tgz}
@@ -1304,7 +1309,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@fortawesome/fontawesome-common-types': registry.npmmirror.com/@fortawesome/fontawesome-common-types/6.2.1
-    dev: false
 
   registry.npmmirror.com/@fortawesome/react-fontawesome/0.2.0_z27bm67dtmuyyvss23ckjdrcuy:
     resolution: {integrity: sha512-uHg75Rb/XORTtVt7OS9WoK8uM276Ufi7gCzshVWkUJbHhh3svsUUeqXerrM96Wm7fRiDzfKRwSoahhMIkGAYHw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@fortawesome/react-fontawesome/-/react-fontawesome-0.2.0.tgz}
@@ -1318,7 +1322,6 @@ packages:
       '@fortawesome/fontawesome-svg-core': registry.npmmirror.com/@fortawesome/fontawesome-svg-core/6.2.1
       prop-types: registry.npmmirror.com/prop-types/15.8.1
       react: registry.npmmirror.com/react/18.2.0
-    dev: false
 
   registry.npmmirror.com/@humanwhocodes/config-array/0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@humanwhocodes/config-array/-/config-array-0.11.8.tgz}
@@ -5224,7 +5227,6 @@ packages:
       loose-envify: registry.npmmirror.com/loose-envify/1.4.0
       object-assign: registry.npmmirror.com/object-assign/4.1.1
       react-is: registry.npmmirror.com/react-is/16.13.1
-    dev: false
 
   registry.npmmirror.com/proxy-from-env/1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz}

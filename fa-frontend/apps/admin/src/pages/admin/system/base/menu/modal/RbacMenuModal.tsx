@@ -9,7 +9,7 @@ import { BaseBoolRadio, DictEnumApiRadio } from '@/components/base-dict';
 import { ApiEffectLayoutContext } from '@/layout/ApiEffectLayout';
 import RbacMenuCascader from '../helper/RbacMenuCascader';
 import { Fa, FaEnums } from '@/types';
-import FontAwesomeSelect from '@/components/icons/FontAwesomeSelect';
+import { FontAwesomeSelect } from '@fa/ui';
 
 const serviceName = '菜单';
 

@@ -10,6 +10,7 @@ namespace Fa {
     /** 约定：tree结构数据，根结点的ID默认为0 */
     TREE_SUPER_ROOT_ID: 0,
     TREE_SUPER_ROOT_LABEL: '根节点',
+    TOKEN_KEY: 'Authorization',
   };
 
   export const ROOT_DEFAULT = {
