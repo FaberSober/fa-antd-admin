@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import SplitPane from 'react-split-pane';
-import BaseTree from '@/components/base-tree';
 import { Empty } from 'antd';
 import { Admin } from '@/types';
 import dictApi from '@/services/admin/dict';
@@ -9,7 +8,7 @@ import DictModal from './modal/DictModal';
 import { FaFlexRestLayout, FaSortList } from '@fa/ui';
 import DictForm from '@/pages/admin/system/base/dict/cube/DictForm';
 import { showResponse } from '@/utils/utils';
-import { FaLabel } from '@fa/ui';
+import { BaseTree, FaLabel } from '@fa/ui';
 
 /**
  * 字典管理

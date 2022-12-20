@@ -14,6 +14,7 @@ export * from '@/components/base-search-select';
 export * from '@/components/base-select';
 export * from '@/components/base-title';
 export * from '@/components/base-tree';
+export * from '@/components/base-tree-select';
 export * from '@/components/container';
 export * from '@/components/decorator';
 export * from '@/components/icons';

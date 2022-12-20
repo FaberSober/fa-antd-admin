@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { TreeSelect } from 'antd';
-import { Fa } from '@/types';
+import { Fa } from '@fa/types';
 import { TreeSelectProps } from 'antd/es/tree-select';
-import BaseTreeProps from '@/components/base-tree/interface';
-import { RES_CODE } from '@/configs/server.config';
 import * as BaseTreeUtils from '@/components/base-tree/utils';
+import BaseTreeProps from '@/types/BaseTreeProps';
 
 export interface BaseTreeSelectProps<T, KeyType = number> extends Omit<TreeSelectProps<T>, 'options'> {
   value?: any;
@@ -34,13 +33,11 @@ export default function BaseTreeSelect<RecordType extends object = any, KeyType 
 
   useEffect(() => {
     serviceApi.allTree({}).then((res) => {
-      if (res && res.status === RES_CODE.OK) {
-        let treeArr = BaseTreeUtils.parseNode(res.data);
-        if (showRoot) {
-          treeArr = [{ ...{ ...Fa.ROOT_DEFAULT, label: rootName }, children: treeArr }];
-        }
-        setOptions(treeArr);
+      let treeArr = BaseTreeUtils.parseNode(res.data);
+      if (showRoot) {
+        treeArr = [{ ...{ ...Fa.ROOT_DEFAULT, label: rootName }, children: treeArr }];
       }
+      setOptions(treeArr);
     });
   }, []);
 

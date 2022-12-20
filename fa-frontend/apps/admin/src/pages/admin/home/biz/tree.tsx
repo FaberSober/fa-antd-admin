@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import treeApi from '@/services/demo/tree';
-import BaseTree from '@/components/base-tree';
+import { BaseTree } from '@fa/ui';
 import { Demo } from '@/types';
 import TreeModal from '@/pages/admin/demo/tree/modal/TreeModal';
 

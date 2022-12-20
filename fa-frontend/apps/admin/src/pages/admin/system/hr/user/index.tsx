@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SplitPane from 'react-split-pane';
-import BaseTree from '@/components/base-tree';
+import { BaseTree } from '@fa/ui';
 import { Admin } from '@/types';
 import departmentService from '@/services/admin/department';
 import { useLocalStorage } from 'react-use';
