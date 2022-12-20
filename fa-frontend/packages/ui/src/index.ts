@@ -16,6 +16,7 @@ export * from '@/components/base-title';
 export * from '@/components/base-tree';
 export * from '@/components/base-tree-select';
 export * from '@/components/container';
+export * from '@/components/context';
 export * from '@/components/decorator';
 export * from '@/components/icons';
 export * from '@/components/modal';

@@ -3,7 +3,7 @@ import { Empty, Layout } from 'antd';
 import { find, isNil } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FaFlexRestLayout } from '@fa/ui';
+import { FaFlexRestLayout, FaUiContext, FaUiContextProps } from '@fa/ui';
 import { Fa, FaEnums, Rbac } from '@/types';
 import { findTreePath, flatTreeList } from '@/utils/treeUtils';
 import rbacUserRoleApi from '@/services/rbac/rbacUserRole';
@@ -124,38 +124,44 @@ export default function MenuLayout({ children }: Fa.BaseChildProps) {
     setOpenTabs,
   };
 
+  const faUiContextValue: FaUiContextProps = {
+    permissions: menuList.map((m) => m.linkUrl),
+  };
+
   const hasRoutePermission = true; // TODO 判断是否有路由权限
   const width = collapse ? 'calc(100% - 44px)' : 'calc(100% - 200px)';
   return (
     <MenuLayoutContext.Provider value={contextValue}>
-      <Layout style={{ height: '100vh', width: '100vw' }}>
-        <Layout.Header className={styles.header}>
-          <Logo />
-          <MenuAppHorizontal />
-          <LangToggle />
-          <HelpCube />
-          <UserAvatar />
-        </Layout.Header>
+      <FaUiContext.Provider value={faUiContextValue}>
+        <Layout style={{ height: '100vh', width: '100vw' }}>
+          <Layout.Header className={styles.header}>
+            <Logo />
+            <MenuAppHorizontal />
+            <LangToggle />
+            <HelpCube />
+            <UserAvatar />
+          </Layout.Header>
 
-        <Layout style={{ flexDirection: 'row' }}>
-          <SideMenu />
+          <Layout style={{ flexDirection: 'row' }}>
+            <SideMenu />
 
-          <Layout style={{ width }}>
-            {hasRoutePermission ? (
-              <div className="fa-full fa-flex-column">
-                <div className={styles.openTabs}>
-                  <OpenTabs />
+            <Layout style={{ width }}>
+              {hasRoutePermission ? (
+                <div className="fa-full fa-flex-column">
+                  <div className={styles.openTabs}>
+                    <OpenTabs />
+                  </div>
+                  <FaFlexRestLayout>
+                    <div className="fa-main">{children}</div>
+                  </FaFlexRestLayout>
                 </div>
-                <FaFlexRestLayout>
-                  <div className="fa-main">{children}</div>
-                </FaFlexRestLayout>
-              </div>
-            ) : (
-              <Empty description={<FormattedMessage id="app.exception.description.403" />} />
-            )}
+              ) : (
+                <Empty description={<FormattedMessage id="app.exception.description.403" />} />
+              )}
+            </Layout>
           </Layout>
         </Layout>
-      </Layout>
+      </FaUiContext.Provider>
     </MenuLayoutContext.Provider>
   );
 }
