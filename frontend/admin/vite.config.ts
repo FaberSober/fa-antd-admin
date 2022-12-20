@@ -1,19 +1,25 @@
-import { defineConfig, loadEnv } from 'vite'
-import react from '@vitejs/plugin-react'
-import Pages from 'vite-plugin-pages'
+import { defineConfig, loadEnv } from "vite";
+import react from "@vitejs/plugin-react";
+import Pages from "vite-plugin-pages";
 // import VitePluginImp from "vite-plugin-imp";
-import { visualizer } from 'rollup-plugin-visualizer';
-import * as path from 'path';
+import { visualizer } from "rollup-plugin-visualizer";
+import * as path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
-  const env = loadEnv(mode, process.cwd())
-  console.log('loadEnv(mode, process.cwd())', env)
+  const env = loadEnv(mode, process.cwd());
+  console.log("loadEnv(mode, process.cwd())", env);
   return {
     plugins: [
       react(),
       Pages({
-        exclude: ['**/components/*.tsx', '**/modal/*.tsx', '**/cube/*.tsx', '**/drawer/*.tsx', '**/helper/*.tsx'],
+        exclude: [
+          "**/components/*.tsx",
+          "**/modal/*.tsx",
+          "**/cube/*.tsx",
+          "**/drawer/*.tsx",
+          "**/helper/*.tsx",
+        ],
         // importMode: 'sync',
       }),
       // 按需导入
@@ -29,15 +35,16 @@ export default defineConfig(({ command, mode }) => {
       //     },
       //   ],
       // }),
-      // visualizer({
-      //   open:true,  //注意这里要设置为true，否则无效
-      //   gzipSize:true,
-      //   brotliSize:true
-      // }),
+      visualizer({
+        open: true, //注意这里要设置为true，否则无效
+        gzipSize: true,
+        brotliSize: true,
+      }),
     ],
     //* css模块化
     css: {
-      modules: { // css模块化 文件以.module.[css|less|scss]结尾
+      modules: {
+        // css模块化 文件以.module.[css|less|scss]结尾
         // 回调必须返回 `local`，`global`，或者 `pure`
         mode: (resourcePath) => {
           // 形如xx.module.less的样式，会使用local模块化编译。其他的则返回全局样式
@@ -46,8 +53,8 @@ export default defineConfig(({ command, mode }) => {
           }
           return "global";
         },
-        generateScopedName: '[name]__[local]___[hash:base64:5]',
-        hashPrefix: 'prefix',
+        generateScopedName: "[name]__[local]___[hash:base64:5]",
+        hashPrefix: "prefix",
       },
       // preprocessorOptions: {
       //   less: {
@@ -64,9 +71,9 @@ export default defineConfig(({ command, mode }) => {
     },
     resolve: {
       alias: [
-        { find: /^~@/, replacement: path.resolve(__dirname, 'src') },
+        { find: /^~@/, replacement: path.resolve(__dirname, "src") },
         // { find: /^~/, replacement: '' },
-        { find: '@', replacement: path.resolve(__dirname, 'src') },
+        { find: "@", replacement: path.resolve(__dirname, "src") },
         // fix less import by: @import ~
         // less import no support webpack alias '~' · Issue #2185 · vitejs/vite
         // { find: /^~antd/, replacement: "antd" },
@@ -75,11 +82,11 @@ export default defineConfig(({ command, mode }) => {
     server: {
       open: true,
       proxy: {
-        '/api': {
+        "/api": {
           target: env.VITE_APP_BASE_URL,
           changeOrigin: true,
         },
       },
     },
-  }
-})
+  };
+});
