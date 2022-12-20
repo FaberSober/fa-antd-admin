@@ -3,6 +3,8 @@ package com.faber.api.base.rbac.rest;
 import com.faber.api.base.rbac.biz.RbacUserRoleBiz;
 import com.faber.api.base.rbac.vo.query.RbacUserRoleQueryVo;
 import com.faber.api.base.rbac.entity.RbacUserRole;
+import com.faber.core.annotation.FaLogBiz;
+import com.faber.core.annotation.FaLogOpr;
 import com.faber.core.annotation.LogNoRet;
 import com.faber.core.vo.query.BasePageQuery;
 import com.faber.core.vo.msg.Ret;
@@ -23,14 +25,12 @@ import java.util.List;
  * @email faberxu@gmail.com
  * @date 2022-09-19 11:40:40
  */
+@FaLogBiz("用户角色")
 @RestController
 @RequestMapping("/api/base/rbac/rbacUserRole")
 public class RbacUserRoleController extends BaseController<RbacUserRoleBiz, RbacUserRole, Long> {
 
-    /**
-     * 获取账户的角色列表
-     * @return
-     */
+    @FaLogOpr("获取账户角色")
     @RequestMapping(value = "/getUserRoles/{userId}", method = RequestMethod.GET)
     @ResponseBody
     public Ret<List<RbacRole>> getUserRoles(@PathVariable String userId) {
@@ -38,10 +38,7 @@ public class RbacUserRoleController extends BaseController<RbacUserRoleBiz, Rbac
         return ok(o);
     }
 
-    /**
-     * 获取登录账户的角色列表
-     * @return
-     */
+    @FaLogOpr("登录账户角色")
     @RequestMapping(value = "/getMyRoles", method = RequestMethod.GET)
     @ResponseBody
     public Ret<List<RbacRole>> getMyRoles() {
@@ -50,9 +47,10 @@ public class RbacUserRoleController extends BaseController<RbacUserRoleBiz, Rbac
     }
 
     /**
-     * 获取登录账户的权限列表
+     * 获取登录账户的菜单列表
      * @return
      */
+    @FaLogOpr("登录账户菜单")
     @RequestMapping(value = "/getMyMenus", method = RequestMethod.GET)
     @ResponseBody
     public Ret<List<RbacMenu>> getMyMenus() {
@@ -60,10 +58,7 @@ public class RbacUserRoleController extends BaseController<RbacUserRoleBiz, Rbac
         return ok(o);
     }
 
-    /**
-     * 获取登录账户的权限列表Tree
-     * @return
-     */
+    @FaLogOpr("登录账户菜单树")
     @RequestMapping(value = "/getMyMenusTree", method = RequestMethod.GET)
     @ResponseBody
     @LogNoRet
@@ -72,9 +67,7 @@ public class RbacUserRoleController extends BaseController<RbacUserRoleBiz, Rbac
         return ok(o);
     }
 
-    /**
-     * 分页查询
-     */
+    @FaLogOpr("分页查询")
     @RequestMapping(value = "/pageVo", method = RequestMethod.POST)
     @ResponseBody
     @LogNoRet

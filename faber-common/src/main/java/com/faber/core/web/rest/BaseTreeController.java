@@ -1,5 +1,6 @@
 package com.faber.core.web.rest;
 
+import com.faber.core.annotation.FaLogOpr;
 import com.faber.core.annotation.LogNoRet;
 import com.faber.core.web.biz.BaseTreeBiz;
 import com.faber.core.vo.msg.Ret;
@@ -41,6 +42,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      * @param id 选中的节点ID
      * @return
      */
+    @FaLogOpr("ID向上查找")
     @LogNoRet
     @RequestMapping(value = "/treePathLine/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -55,6 +57,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      * @param parentId 选中的节点parentId
      * @return
      */
+    @FaLogOpr("当前层级")
     @LogNoRet
     @RequestMapping(value = "/treeListLayer/{parentId}", method = RequestMethod.GET)
     @ResponseBody
@@ -69,6 +72,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      * @param id 选中的节点ID
      * @return
      */
+    @FaLogOpr("ID向上查找all")
     @LogNoRet
     @RequestMapping(value = "/treeFindPath/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -81,6 +85,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      * 获取所有节点Tree
      * @return
      */
+    @FaLogOpr("全部树")
     @LogNoRet
     @RequestMapping(value = "/allTree", method = RequestMethod.GET)
     @ResponseBody
@@ -93,6 +98,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      * 获取所有节点Tree
      * @return
      */
+    @FaLogOpr("查询树")
     @LogNoRet
     @RequestMapping(value = "/getTree", method = RequestMethod.POST)
     @ResponseBody
@@ -106,6 +112,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      * @param id 指定节点ID
      * @return
      */
+    @FaLogOpr("ID向下树")
     @LogNoRet
     @RequestMapping(value = "/allTreeFromNode/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -119,6 +126,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      * @param list
      * @return
      */
+    @FaLogOpr("节点排序")
     @RequestMapping(value = "/changePos", method = RequestMethod.POST)
     @ResponseBody
     public Ret<Boolean> changePos(@Valid @RequestBody List<TreePosChangeVo> list) {
@@ -131,6 +139,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      * @param id
      * @return
      */
+    @FaLogOpr("节点上移")
     @RequestMapping(value = "/moveUp/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Ret<Boolean> moveUp(@PathVariable Key id) {
@@ -143,6 +152,7 @@ public abstract class BaseTreeController<Biz extends BaseTreeBiz, Entity, Key ex
      * @param id
      * @return
      */
+    @FaLogOpr("节点下移")
     @RequestMapping(value = "/moveDown/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Ret<Boolean> moveDown(@PathVariable Key id) {

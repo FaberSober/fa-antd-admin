@@ -2,6 +2,8 @@ package com.faber.api.base.admin.rest;
 
 import com.faber.api.base.admin.biz.ConfigSceneBiz;
 import com.faber.api.base.admin.entity.ConfigScene;
+import com.faber.core.annotation.FaLogBiz;
+import com.faber.core.annotation.FaLogOpr;
 import com.faber.core.vo.msg.Ret;
 import com.faber.core.web.rest.BaseController;
 import org.springframework.web.bind.annotation.*;
@@ -9,13 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+@FaLogBiz("场景配置")
 @RestController
 @RequestMapping("/api/base/admin/configScene")
 public class ConfigSceneController extends BaseController<ConfigSceneBiz, ConfigScene, Integer> {
 
-    /**
-     * 查找所有场景配置
-     */
+    @FaLogOpr("获取所有")
     @RequestMapping(value = "/findAllScene", method = RequestMethod.GET)
     @ResponseBody
     public Ret<List<ConfigScene>> findAllScene(@RequestParam("biz") String biz) {
@@ -23,9 +24,7 @@ public class ConfigSceneController extends BaseController<ConfigSceneBiz, Config
         return new Ret<List<ConfigScene>>().data(list);
     }
 
-    /**
-     * 查找场景配置
-     */
+    @FaLogOpr("查询")
     @RequestMapping(value = "/findByScene", method = RequestMethod.GET)
     @ResponseBody
     public Ret<ConfigScene> findByScene(@RequestParam("biz") String biz) {
@@ -33,12 +32,7 @@ public class ConfigSceneController extends BaseController<ConfigSceneBiz, Config
         return new Ret<ConfigScene>().data(configScene);
     }
 
-    /**
-     * 批量更新场景配置-更新排序
-     *
-     * @param configSceneList
-     * @return
-     */
+    @FaLogOpr("批量更新")
     @RequestMapping(value = "/batchUpdate", method = RequestMethod.POST)
     @ResponseBody
     public Ret<Boolean> batchUpdate(@RequestBody List<ConfigScene> configSceneList) {

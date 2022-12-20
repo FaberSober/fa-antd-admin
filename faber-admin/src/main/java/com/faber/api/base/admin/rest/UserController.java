@@ -3,6 +3,8 @@ package com.faber.api.base.admin.rest;
 import com.faber.api.base.admin.biz.UserBiz;
 import com.faber.api.base.admin.entity.User;
 import com.faber.api.base.admin.vo.query.UserAccountVo;
+import com.faber.core.annotation.FaLogBiz;
+import com.faber.core.annotation.FaLogOpr;
 import com.faber.core.vo.msg.Ret;
 import com.faber.core.web.rest.BaseController;
 import org.springframework.web.bind.annotation.*;
@@ -10,16 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Map;
 
-/**
- * ${DESCRIPTION}
- */
+@FaLogBiz("用户")
 @RestController
 @RequestMapping("/api/base/admin/user")
 public class UserController extends BaseController<UserBiz, User, String> {
 
-    /**
-     * 获取登录账户信息
-     */
+    @FaLogOpr("登录账户信息")
     @RequestMapping(value = "/getLoginUser", method = RequestMethod.GET)
     @ResponseBody
     public Ret<User> getLoginUser() {
@@ -27,6 +25,7 @@ public class UserController extends BaseController<UserBiz, User, String> {
         return ok(o);
     }
 
+    @FaLogOpr("重置密码")
     @RequestMapping(value = "/resetPwd", method = RequestMethod.POST)
     @ResponseBody
     public Ret<Boolean> resetPwd(@RequestBody Map<String, Object> params) {
@@ -34,9 +33,7 @@ public class UserController extends BaseController<UserBiz, User, String> {
         return ok();
     }
 
-    /**
-     * 更新个人账户基本信息
-     */
+    @FaLogOpr("更新个人信息")
     @RequestMapping(value = "/updateMine", method = RequestMethod.POST)
     @ResponseBody
     public Ret<Boolean> updateMine(@Valid @RequestBody UserAccountVo vo) {
@@ -44,9 +41,7 @@ public class UserController extends BaseController<UserBiz, User, String> {
         return ok();
     }
 
-    /**
-     * 更新个人账户密码
-     */
+    @FaLogOpr("更新个人密码")
     @RequestMapping(value = "/updateMyPwd", method = RequestMethod.POST)
     @ResponseBody
     public Ret<Boolean> updateMyPwd(@RequestBody Map<String, Object> params) {
@@ -54,9 +49,7 @@ public class UserController extends BaseController<UserBiz, User, String> {
         return ok();
     }
 
-    /**
-     * 更新账户ApiToken
-     */
+    @FaLogOpr("更新个人ApiToken")
     @RequestMapping(value = "/updateMyApiToken", method = RequestMethod.POST)
     @ResponseBody
     public Ret<Boolean> updateMyApiToken() {
@@ -64,9 +57,7 @@ public class UserController extends BaseController<UserBiz, User, String> {
         return ok();
     }
 
-    /**
-     * 管理员批量更新账户密码
-     */
+    @FaLogOpr("批量更新密码")
     @RequestMapping(value = "/accountAdminUpdatePwd", method = RequestMethod.POST)
     @ResponseBody
     public Ret<Boolean> accountAdminUpdatePwd(@RequestBody Map<String, Object> params) {
@@ -74,9 +65,7 @@ public class UserController extends BaseController<UserBiz, User, String> {
         return ok();
     }
 
-    /**
-     * 管理员批量删除账户
-     */
+    @FaLogOpr("批量删除账户")
     @RequestMapping(value = "/accountAdminDelete", method = RequestMethod.POST)
     @ResponseBody
     public Ret<Boolean> accountAdminDelete(@RequestBody Map<String, Object> params) {

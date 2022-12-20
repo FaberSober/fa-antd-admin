@@ -3,6 +3,8 @@ package com.faber.api.base.admin.rest;
 import cn.hutool.core.map.MapUtil;
 import com.faber.api.base.admin.biz.JobBiz;
 import com.faber.api.base.admin.entity.Job;
+import com.faber.core.annotation.FaLogBiz;
+import com.faber.core.annotation.FaLogOpr;
 import com.faber.core.config.annotation.IgnoreUserToken;
 import com.faber.core.vo.utils.DictOption;
 import com.faber.core.vo.msg.Ret;
@@ -14,15 +16,12 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
+@FaLogBiz("定时任务")
 @Controller
 @RequestMapping("/api/base/admin/job")
 public class JobController extends BaseController<JobBiz, Job, Integer> {
 
-    /**
-     * 立即执行一次定时任务
-     * @param id
-     * @return
-     */
+    @FaLogOpr("立即执行")
     @GetMapping("/runOneTime/{id}")
     @ResponseBody
     public Ret<Boolean> runOneTime(@PathVariable long id) {
@@ -30,9 +29,7 @@ public class JobController extends BaseController<JobBiz, Job, Integer> {
         return ok();
     }
 
-    /**
-     * 启动定时任务
-     */
+    @FaLogOpr("启动")
     @RequestMapping(value = "/startJob/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Ret<Boolean> startJob(@PathVariable int id) {
@@ -40,9 +37,7 @@ public class JobController extends BaseController<JobBiz, Job, Integer> {
         return ok();
     }
 
-    /**
-     * 停止定时任务
-     */
+    @FaLogOpr("停止")
     @RequestMapping(value = "/endJob/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Ret<Boolean> endJob(@PathVariable int id) {
@@ -50,9 +45,7 @@ public class JobController extends BaseController<JobBiz, Job, Integer> {
         return ok();
     }
 
-    /**
-     * 获取cron最近5次运行时间
-     */
+    @FaLogOpr("获取cron最近5次运行时间")
     @RequestMapping(value = "/quartz/latest", method = RequestMethod.POST)
     @ResponseBody
     @IgnoreUserToken
@@ -63,10 +56,7 @@ public class JobController extends BaseController<JobBiz, Job, Integer> {
         return ok(list);
     }
 
-    /**
-     * Get All Quartz Job Class List.
-     * @return
-     */
+    @FaLogOpr("全部任务")
     @GetMapping("/getAllJobs")
     @ResponseBody
     public Ret<List<DictOption<String>>> getAllJobs() {

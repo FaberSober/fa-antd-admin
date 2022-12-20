@@ -3,6 +3,8 @@ package com.faber.api.base.admin.rest;
 import com.faber.api.base.admin.biz.ConfigSysBiz;
 import com.faber.api.base.admin.entity.ConfigSys;
 import com.faber.api.base.admin.vo.ret.SystemConfigPo;
+import com.faber.core.annotation.FaLogBiz;
+import com.faber.core.annotation.FaLogOpr;
 import com.faber.core.config.annotation.IgnoreUserToken;
 import com.faber.core.vo.msg.Ret;
 import com.faber.core.web.rest.BaseController;
@@ -15,13 +17,12 @@ import org.springframework.web.bind.annotation.*;
  * @email faberxu@gmail.com
  * @date 2022/12/12 10:11
  */
+@FaLogBiz("系统配置")
 @RestController
 @RequestMapping("/api/base/admin/configSys")
 public class ConfigSysController extends BaseController<ConfigSysBiz, ConfigSys, Integer> {
 
-    /**
-     * 获取系统配置
-     */
+    @FaLogOpr("获取完整配置")
     @RequestMapping(value = "/getOne", method = RequestMethod.GET)
     @ResponseBody
     public Ret<ConfigSys> getOne() {
@@ -29,9 +30,7 @@ public class ConfigSysController extends BaseController<ConfigSysBiz, ConfigSys,
         return ok(o);
     }
 
-    /**
-     * 获取系统配置参数
-     */
+    @FaLogOpr("获取前端配置")
     @RequestMapping(value = "getSystemConfig", method = RequestMethod.GET)
     @ResponseBody
     @IgnoreUserToken
