@@ -55,8 +55,8 @@ export default defineConfig(({ mode }) => {
       //   }
       // },
       rollupOptions: {
+        // external: [],
         output: {
-          external: [],
           manualChunks: {
             lodash: ['lodash'],
             'react-dom': ['react-dom'],
