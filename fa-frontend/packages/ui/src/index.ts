@@ -6,6 +6,8 @@ export * from '@/components/auth';
 export * from '@/components/base-cascader';
 export * from '@/components/base-drag';
 export * from '@/components/base-layout';
+export * from '@/components/base-search-select';
+export * from '@/components/base-select';
 export * from '@/components/base-tree';
 export * from '@/components/decorator';
 

@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
-import {Card} from "antd";
-import BaseSelect from "@/components/base-select";
+import React, { useState } from 'react';
+import { Card } from 'antd';
+import { BaseSelect } from '@fa/ui';
 import studentApi from '@/services/demo/student';
-import StudentSearchSelect from "@/pages/admin/demo/student/helper/StudentSearchSelect";
-
+import StudentSearchSelect from '@/pages/admin/demo/student/helper/StudentSearchSelect';
 
 /**
  * 远程数据选择
@@ -11,8 +10,8 @@ import StudentSearchSelect from "@/pages/admin/demo/student/helper/StudentSearch
  * @date 2022/11/30
  */
 export default function select() {
-  const [value1, setValue1] = useState()
-  const [value2, setValue2] = useState()
+  const [value1, setValue1] = useState();
+  const [value2, setValue2] = useState();
 
   return (
     <div>
@@ -32,6 +31,5 @@ export default function select() {
         <p>value: {value2}</p>
       </Card>
     </div>
-  )
+  );
 }
-

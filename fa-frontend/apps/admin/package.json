@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
+    "postinstall": "rimraf /s/d node_modules/.vite",
     "ncu": "ncu -u",
     "dev": "vite",
     "build": "vite build",

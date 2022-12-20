@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Alert } from 'antd';
 import noticeService from '@/services/admin/notice';
 import { Admin } from '@/types';
-import { RES_CODE } from '@/configs/server.config';
 
 /**
  * 全局公告-强提醒-顶部固定展示
@@ -14,9 +13,7 @@ export default function BaseNotice() {
 
   useEffect(() => {
     noticeService.list({ status: true, strongNotice: true }).then((res) => {
-      if (res && res.status === RES_CODE.OK) {
-        setArray(res.data);
-      }
+      setArray(res.data);
     });
   }, []);
 

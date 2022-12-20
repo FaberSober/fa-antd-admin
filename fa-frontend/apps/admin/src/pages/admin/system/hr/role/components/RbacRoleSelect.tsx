@@ -1,5 +1,5 @@
 import React from 'react';
-import BaseSelect, { BaseSelectProps } from '@/components/base-select';
+import { BaseSelect, BaseSelectProps } from '@fa/ui';
 import api from '@/services/rbac/rbacRole';
 import { Rbac } from '@/types';
 

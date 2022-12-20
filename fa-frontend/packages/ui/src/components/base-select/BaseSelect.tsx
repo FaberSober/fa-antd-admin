@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { get } from 'lodash';
 import { Select, SelectProps } from 'antd';
-import { Fa } from '@/types';
+import { get } from 'lodash';
+import { Fa } from '@fa/types';
 
 export interface BaseSelectProps<T> extends SelectProps<T> {
   labelKey?: string | ((data: T) => any);

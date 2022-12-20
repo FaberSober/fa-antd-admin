@@ -126,7 +126,7 @@ function BaseTinyMCE({ value, onChange, style, editorInit, editorProps }: BaseHt
 
               const reader = new FileReader();
               reader.addEventListener('load', () => {
-                // 走自己服务器上传，节省自己服务器带宽
+                // 走自己服务器上传，会占据自己服务器带宽
                 fileSaveApi.uploadFile(file).then((res) => {
                   cb(res.data.localUrl, { title: file.name });
                 });

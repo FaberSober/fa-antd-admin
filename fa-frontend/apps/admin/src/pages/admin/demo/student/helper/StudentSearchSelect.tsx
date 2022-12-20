@@ -1,5 +1,5 @@
 import React from 'react';
-import BaseSearchSelect, { BaseSearchSelectProps } from '@/components/base-search-select';
+import { BaseSearchSelect, BaseSearchSelectProps } from '@fa/ui';
 import api from '@/services/demo/student';
 import { Demo } from '@/types';
 
