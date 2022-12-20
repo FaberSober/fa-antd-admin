@@ -44,6 +44,51 @@ export default defineConfig(({ mode }) => {
         // fix less import by: @import ~
       ],
     },
+    build: {
+      sourcemap: true,
+      minify: 'esbuild',
+      chunkSizeWarningLimit: 1500,
+      // terserOptions: {
+      //   compress: {
+      //     drop_console: true,
+      //     drop_debugger: true
+      //   }
+      // },
+      rollupOptions: {
+        output: {
+          external: [],
+          manualChunks: {
+            lodash: ['lodash'],
+            'react-dom': ['react-dom'],
+            fortawesome: [
+              '@fortawesome/fontawesome-svg-core',
+              '@fortawesome/free-solid-svg-icons',
+              '@fortawesome/free-regular-svg-icons',
+            ],
+          },
+          // manualChunks(id) {
+          //   if (id.includes('node_modules')) {
+          //     return id
+          //       .toString()
+          //       .split('node_modules/')[1]
+          //       .split('/')[0]
+          //       .toString();
+          //   } else if (id.includes('.pnpm')) {
+          //     return id
+          //       .toString()
+          //       .split('node_modules/')[1]
+          //       .split('/')[0]
+          //       .toString();
+          //   }
+          // },
+          chunkFileNames: (chunkInfo) => {
+            const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/') : [];
+            const fileName = facadeModuleId[facadeModuleId.length - 2] || '[name]';
+            return `js/${fileName}/[name].[hash].js`;
+          },
+        },
+      },
+    },
     server: {
       open: true,
       proxy: {
