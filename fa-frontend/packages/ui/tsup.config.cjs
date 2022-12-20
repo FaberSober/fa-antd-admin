@@ -8,15 +8,5 @@ export default defineConfig({
   dts: true,
   watch: true,
   format: ['esm', 'cjs'],
-  external: [
-    '@fa/types',
-    'react',
-    'antd',
-    '@ant-design/icons',
-    'react-contexify',
-    'use-bus',
-    '@dnd-kit/core',
-    '@dnd-kit/sortable',
-    '@dnd-kit/utilities',
-  ],
+  external: ['@fa/types', 'react', 'antd', '@ant-design/icons', 'react-contexify', 'use-bus'],
 });

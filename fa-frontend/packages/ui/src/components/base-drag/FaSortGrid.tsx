@@ -23,7 +23,7 @@ export interface FaSortGridProps<T> {
   itemStyle?: CSSProperties;
   handleStyle?: CSSProperties;
   gridStyle?: CSSProperties;
-  columns?: null; // grid columns
+  columns?: number; // grid columns
 }
 
 /**

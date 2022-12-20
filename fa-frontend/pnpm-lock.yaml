@@ -29,9 +29,6 @@ importers:
   apps/admin:
     specifiers:
       '@ant-design/icons': 4.8.0
-      '@dnd-kit/core': 6.0.6
-      '@dnd-kit/sortable': 7.0.1
-      '@dnd-kit/utilities': 3.2.1
       '@fa/eslint-config-custom': workspace:*
       '@fa/tailwind-config': workspace:*
       '@fa/theme': workspace:*
@@ -81,9 +78,6 @@ importers:
       vite-plugin-pages: 0.28.0
     dependencies:
       '@ant-design/icons': registry.npmmirror.com/@ant-design/icons/4.8.0_biqbaboplfbrettd7655fr4n2y
-      '@dnd-kit/core': registry.npmmirror.com/@dnd-kit/core/6.0.6_biqbaboplfbrettd7655fr4n2y
-      '@dnd-kit/sortable': registry.npmmirror.com/@dnd-kit/sortable/7.0.1_ighjjj6vulsdnb2lagbd2egmxy
-      '@dnd-kit/utilities': registry.npmmirror.com/@dnd-kit/utilities/3.2.1_react@18.2.0
       '@fa/types': link:../../packages/types
       '@fa/ui': link:../../packages/ui
       '@fortawesome/fontawesome-svg-core': registry.npmmirror.com/@fortawesome/fontawesome-svg-core/6.2.1
@@ -199,11 +193,12 @@ importers:
       tsup: 6.5.0
       typescript: 4.9.4
       use-bus: 2.5.2
-    devDependencies:
-      '@ant-design/icons': registry.npmmirror.com/@ant-design/icons/4.8.0_biqbaboplfbrettd7655fr4n2y
+    dependencies:
       '@dnd-kit/core': registry.npmmirror.com/@dnd-kit/core/6.0.6_biqbaboplfbrettd7655fr4n2y
       '@dnd-kit/sortable': registry.npmmirror.com/@dnd-kit/sortable/7.0.1_ighjjj6vulsdnb2lagbd2egmxy
       '@dnd-kit/utilities': registry.npmmirror.com/@dnd-kit/utilities/3.2.1_react@18.2.0
+    devDependencies:
+      '@ant-design/icons': registry.npmmirror.com/@ant-design/icons/4.8.0_biqbaboplfbrettd7655fr4n2y
       '@fa/eslint-config-custom': link:../eslint-config-custom
       '@fa/tailwind-config': link:../tailwind-config
       '@fa/tsconfig': link:../tsconfig
@@ -827,6 +822,7 @@ packages:
     dependencies:
       react: registry.npmmirror.com/react/18.2.0
       tslib: registry.npmmirror.com/tslib/2.4.1
+    dev: false
 
   registry.npmmirror.com/@dnd-kit/core/6.0.6_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-kHcD80IsYV+NpNl68zX4BEj5ZeReIq2OhjFXlg8MDqQP0tHot1GFwITke1W33pNoXOf55WMRt/O3UzNtwILU8Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@dnd-kit/core/-/core-6.0.6.tgz}
@@ -842,6 +838,7 @@ packages:
       react: registry.npmmirror.com/react/18.2.0
       react-dom: registry.npmmirror.com/react-dom/18.2.0_react@18.2.0
       tslib: registry.npmmirror.com/tslib/2.4.1
+    dev: false
 
   registry.npmmirror.com/@dnd-kit/sortable/7.0.1_ighjjj6vulsdnb2lagbd2egmxy:
     resolution: {integrity: sha512-n77qAzJQtMMywu25sJzhz3gsHnDOUlEjTtnRl8A87rWIhnu32zuP+7zmFjwGgvqfXmRufqiHOSlH7JPC/tnJ8Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@dnd-kit/sortable/-/sortable-7.0.1.tgz}
@@ -856,6 +853,7 @@ packages:
       '@dnd-kit/utilities': registry.npmmirror.com/@dnd-kit/utilities/3.2.1_react@18.2.0
       react: registry.npmmirror.com/react/18.2.0
       tslib: registry.npmmirror.com/tslib/2.4.1
+    dev: false
 
   registry.npmmirror.com/@dnd-kit/utilities/3.2.1_react@18.2.0:
     resolution: {integrity: sha512-OOXqISfvBw/1REtkSK2N3Fi2EQiLMlWUlqnOK/UpOISqBZPWpE6TqL+jcPtMOkE8TqYGiURvRdPSI9hltNUjEA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@dnd-kit/utilities/-/utilities-3.2.1.tgz}
@@ -867,6 +865,7 @@ packages:
     dependencies:
       react: registry.npmmirror.com/react/18.2.0
       tslib: registry.npmmirror.com/tslib/2.4.1
+    dev: false
 
   registry.npmmirror.com/@emotion/hash/0.8.0:
     resolution: {integrity: sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@emotion/hash/-/hash-0.8.0.tgz}

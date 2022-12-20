@@ -81,6 +81,7 @@ export default function drag() {
             handle
             handleStyle={{ position: 'absolute', top: 0, right: 0 }}
             handleNode={<DragOutlined />}
+            columns={4}
           />
         </div>
 
