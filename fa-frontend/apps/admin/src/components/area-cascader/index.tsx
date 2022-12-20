@@ -4,7 +4,7 @@ import { Cascader, message } from 'antd';
 import { Fa, Admin } from '@/types';
 import areaService from '@/services/admin/area';
 import { RES_CODE } from '@/configs/server.config';
-import { BaseCascaderProps } from '@/components/base-cascader';
+import { BaseCascaderProps } from '@fa/ui';
 // import { DefaultOptionType } from 'rc-cascader/lib/Cascader';
 
 function getLastValue(values: number[]) {

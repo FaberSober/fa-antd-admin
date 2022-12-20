@@ -1,5 +1,5 @@
 import React from 'react';
-import BaseCascader, { BaseCascaderProps } from '@/components/base-cascader';
+import { BaseCascader, BaseCascaderProps } from '@fa/ui';
 import api from '@/services/rbac/rbacMenu';
 import { Rbac } from '@/types';
 
