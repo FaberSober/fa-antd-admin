@@ -1,0 +1,100 @@
+import React, { useContext, useState } from 'react';
+import { get } from 'lodash';
+import { Form, Input } from 'antd';
+import {EditOutlined, PlusOutlined} from "@ant-design/icons";
+import {FaHref} from "@/components/decorator";
+import DragModal from '@/components/modal/DragModal';
+import {ApiEffectLayoutContext} from "@/layout/ApiEffectLayout";
+import { showResponse, formItemFullLayout } from '@/utils/utils';
+import api from '@/services/${moduleName}/${secondModuleName}';
+import Fa from '@/props/base/Fa';
+import ${moduleNameUpperCaseFirstOne} from '@/props/${moduleName}';
+
+
+/**
+ * ${comments}实体新增、编辑弹框
+ */
+export default function ${className}Modal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: Fa.CommonModalProps<${moduleNameUpperCaseFirstOne}.${className}>) {
+  const {loadingEffect} = useContext(ApiEffectLayoutContext)
+  const [form] = Form.useForm();
+
+  const [open, setOpen] = useState(false);
+  
+  /** 新增Item */
+  function invokeInsertTask(params: any) {
+    api.add(params).then((res) => {
+      showResponse(res, '新增${comments}');
+      setOpen(false);
+      if (fetchFinish) fetchFinish();
+    })
+  }
+
+  /** 更新Item */
+  function invokeUpdateTask(params: any) {
+    api.update(params.id, params).then((res) => {
+      showResponse(res, 更新${comments});
+      setOpen(false);
+      if (fetchFinish) fetchFinish();
+    })
+  }
+
+  /** 提交表单 */
+  function onFinish(fieldsValue: any) {
+    const values = {
+      ...fieldsValue,
+      // birthday: getDateStr000(fieldsValue.birthday),
+    };
+    if (record) {
+      invokeUpdateTask({ ...record, ...values });
+    } else {
+      invokeInsertTask({ ...values });
+    }
+  }
+
+  function getInitialValues() {
+    return {
+#foreach($column in $columns)
+  #if($column.columnName == $pk.columnName)
+  #elseif ($column.attrname != 'crtTime' and $column.attrname != 'crtUser' and $column.attrname != 'crtName' and $column.attrname != 'crtHost' and $column.attrname != 'updTime' and $column.attrname != 'updUser' and $column.attrname != 'updName' and $column.attrname != 'updHost' and $column.attrname != 'delState' and $column.attrname != 'delTime' and $column.attrname != 'delUser' and $column.attrname != 'delName' and $column.attrname != 'delHost')
+      ${column.attrname}: get(record, '${column.attrname}'),
+  #end
+#end
+    }
+  }
+
+  function showModal() {
+    setOpen(true)
+    form.setFieldsValue(getInitialValues())
+  }
+
+  const loading = loadingEffect[api.getUrl('add')] || loadingEffect[api.getUrl('update')];
+  return (
+    <span>
+      <span onClick={showModal}>
+        {children}
+        {addBtn && <Button icon={<PlusOutlined />} type="primary">新增</Button>}
+        {editBtn && <FaHref icon={<EditOutlined />} text="编辑" />}
+      </span>
+      <DragModal
+        title={title}
+        open={open}
+        onOk={() => form.submit()}
+        confirmLoading={loading}
+        onCancel={() => setOpen(false)}
+        width={700}
+        {...props}
+      >
+        <Form form={form} onFinish={onFinish}>
+#foreach($column in $columns)
+#if($column.columnName == $pk.columnName)
+#elseif ($column.attrname != 'crtTime' and $column.attrname != 'crtUser' and $column.attrname != 'crtName' and $column.attrname != 'crtHost' and $column.attrname != 'updTime' and $column.attrname != 'updUser' and $column.attrname != 'updName' and $column.attrname != 'updHost' and $column.attrname != 'delState' and $column.attrname != 'delTime' and $column.attrname != 'delUser' and $column.attrname != 'delName' and $column.attrname != 'delHost')
+          <Form.Item name="${column.attrname}" label="${column.comments}" rules={[{ required: true }]} {...formItemFullLayout}>
+            <Input />
+          </Form.Item>
+#end
+#end
+        </Form>
+      </DragModal>
+    </span>
+  )
+}
