@@ -27,10 +27,10 @@
         <springboot.admin.version>2.3.1</springboot.admin.version>
     </properties>
     <modules>
-        <module>faber-core</module>
-        <module>faber-admin</module>
-        <module>faber-admin-server</module>
-        <module>faber-generator</module>
+        <module>fa-core</module>
+        <module>fa-admin</module>
+        <module>fa-admin-server</module>
+        <module>fa-generator</module>
     </modules>
     <packaging>pom</packaging>
     <developers>
