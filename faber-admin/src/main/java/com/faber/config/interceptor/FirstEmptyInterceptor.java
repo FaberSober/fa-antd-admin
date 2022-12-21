@@ -1,5 +1,7 @@
 package com.faber.config.interceptor;
 
+import com.faber.core.annotation.FaLogBiz;
+import com.faber.core.annotation.FaLogOpr;
 import com.faber.core.context.BaseContextHandler;
 import com.faber.core.utils.IpUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,13 @@ public class FirstEmptyInterceptor extends AbstractInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // mark log info
+        FaLogBiz faLogBiz = super.getMethodAnno(handler, FaLogBiz.class);
+        FaLogOpr faLogOpr = super.getMethodAnno(handler, FaLogOpr.class);
+
+        request.setAttribute("FaLogBiz", faLogBiz != null ? faLogBiz.value() : "");
+        request.setAttribute("FaLogOpr", faLogOpr != null ? faLogOpr.value() : "");
+
         // 记录request ip
         BaseContextHandler.setUserIp(IpUtils.getRequestIp(request));
 

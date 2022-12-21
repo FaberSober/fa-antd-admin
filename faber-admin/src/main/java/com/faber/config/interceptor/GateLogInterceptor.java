@@ -18,12 +18,6 @@ public class GateLogInterceptor extends AbstractInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        FaLogBiz faLogBiz = super.getMethodAnno(handler, FaLogBiz.class);
-        FaLogOpr faLogOpr = super.getMethodAnno(handler, FaLogOpr.class);
-
-        request.setAttribute("FaLogBiz", faLogBiz != null ? faLogBiz.value() : "");
-        request.setAttribute("FaLogOpr", faLogOpr != null ? faLogOpr.value() : "");
-
         return super.preHandle(request, response, handler);
     }
 
