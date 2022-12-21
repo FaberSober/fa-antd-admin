@@ -18,7 +18,7 @@
 
 1. 导入数据库文件(使用最新版本的)：`doc/sql/admin/V1.0.x.sql`
    1. (可选)导入中国行政地区数据：`doc/sql/base_area.sql.zip`
-2. 启动后端服务：`faber-admin/src/main/java/com/faber/AdminBootstrap.java`
+2. 启动后端服务：`fa-admin/src/main/java/com/faber/AdminBootstrap.java`
 3. 启动前端服务，
    1. 进入前端项目地址：`cd fa-frontend`
    2. 安装依赖：`pnpm i`
@@ -27,8 +27,8 @@
 ## 打包部署
 
 1. 在项目根目录下执行：`mvn clean package -Dmaven.test.skip=true`
-2. 服务 jar 包为：`faber-admin/target/faber-admin.jar`
-3. 启动 jar 包：`java -jar faber-admin/target/faber-admin.jar`
+2. 服务 jar 包为：`fa-admin/target/fa-admin.jar`
+3. 启动 jar 包：`java -jar fa-admin/target/fa-admin.jar`
 4. 访问地址：http://127.0.0.1
 
 # [目录说明](./doc/server/dir.md)
