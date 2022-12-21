@@ -31,6 +31,19 @@
 3. 启动 jar 包：`java -jar faber-admin/target/faber-admin.jar`
 4. 访问地址：http://127.0.0.1
 
+# [目录说明](./doc/server/dir.md)
+
+```
+├─doc                   # 文档
+├─docker                # docker环境部署文件
+├─fa-frontend           # pnpm monorepo结构前端代码
+├─faber-admin           # java服务端
+├─faber-admin-server    # springbootadmin监控服务
+├─faber-core            # java core核心公用代码包
+├─faber-generator       # 代码生成
+├─frontend              # 单体结构的前端代码（以后不更新了）
+```
+
 # 使用插件
 
 ## 后端
@@ -66,6 +79,7 @@
 | tinymce              | 富文本编辑器     | https://github.com/tinymce/tinymce                  |
 | fontawesome          | 图标库           | https://fontawesome.com/                            |
 | dnd-kit              | 拖动库           | https://dndkit.com/                                 |
+| tree-node-cli        | list dir as tree | https://github.com/yangshun/tree-node-cli           |
 
 ## Docker 部署环境文件
 
@@ -91,6 +105,7 @@
 
 ## 后台
 
+1. [详细目录说明](./doc/server/dir.md)
 1. [后台约定的一些规则](./doc/server/common.md)
 1. [API 路径定义](./doc/server/api.md)
 1. [枚举](./doc/server/enum.md)
