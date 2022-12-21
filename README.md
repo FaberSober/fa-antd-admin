@@ -37,10 +37,10 @@
 ├─doc                   # 文档
 ├─docker                # docker环境部署文件
 ├─fa-frontend           # pnpm monorepo结构前端代码
-├─faber-admin           # java服务端
-├─faber-admin-server    # springbootadmin监控服务
-├─faber-core            # java core核心公用代码包
-├─faber-generator       # 代码生成
+├─fa-admin              # java服务端
+├─fa-admin-server       # springbootadmin监控服务
+├─fa-core               # java core核心公用代码包
+├─fa-generator          # 代码生成
 ├─frontend              # 单体结构的前端代码（以后不更新了）
 ```
 

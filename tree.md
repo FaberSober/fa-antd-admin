@@ -30,7 +30,7 @@
 │ ├─tsconfig
 │ ├─types
 │ └─ui
-├─faber-admin
+├─fa-admin
 │ ├─src
 │ │ ├─main
 │ │ │ ├─docker
@@ -57,8 +57,8 @@
 │ │ │ ├─disk
 │ │ │ ├─msg
 │ │ │ └─rbac
-├─faber-admin-server
-├─faber-core
+├─fa-admin-server
+├─fa-core
 │ ├─src
 │ │ ├─main
 │ │ │ ├─java
@@ -67,7 +67,7 @@
 │ │ │ │ └─core
 │ │ │ └─resources
 │ │ │ └─config
-├─faber-generator
+├─fa-generator
 ├─frontend
 │ └─admin
 │ ├─public
