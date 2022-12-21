@@ -10,7 +10,7 @@ log/
 .factorypath
 **/rebel.xml
 ./tmp*
-faber-admin/src/test/resources/application-dev.yml
-faber-admin/src/main/resources/application-dev.yml
-faber-admin/src/main/resources/application-prod.yml
-faber-generator/src/main/resources/application-dev.yml
+fa-admin/src/test/resources/application-dev.yml
+fa-admin/src/main/resources/application-dev.yml
+fa-admin/src/main/resources/application-prod.yml
+fa-generator/src/main/resources/application-dev.yml
