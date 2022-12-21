@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>faber-admin-web</artifactId>
+        <artifactId>fa-admin-web</artifactId>
         <groupId>com.faber</groupId>
         <version>3.0-SNAPSHOT</version>
     </parent>
@@ -62,7 +62,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>faber-admin</finalName>
+        <finalName>fa-admin</finalName>
         <plugins>
             <!-- 清空前端文件 -->
             <plugin>
