@@ -27,7 +27,7 @@
         <springboot.admin.version>2.3.1</springboot.admin.version>
     </properties>
     <modules>
-        <module>faber-common</module>
+        <module>faber-core</module>
         <module>faber-admin</module>
         <module>faber-admin-server</module>
         <module>faber-generator</module>
