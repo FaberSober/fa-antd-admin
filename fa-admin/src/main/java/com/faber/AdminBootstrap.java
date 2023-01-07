@@ -3,6 +3,7 @@ package com.faber;
 import cn.easyes.starter.register.EsMapperScan;
 import com.alicp.jetcache.anno.config.EnableMethodCache;
 import com.dtflys.forest.springboot.annotation.ForestScan;
+import com.yomahub.tlog.core.enhance.bytes.AspectLogEnhance;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
@@ -25,6 +26,8 @@ import java.util.Set;
 @EsMapperScan("com.faber.api.**.esmapper")
 @ForestScan("com.faber")
 public class AdminBootstrap {
+
+    static { AspectLogEnhance.enhance(); }//进行日志增强，自动判断日志框架
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(AdminBootstrap.class).run(args);

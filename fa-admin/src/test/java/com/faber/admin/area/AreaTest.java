@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -26,6 +27,12 @@ public class AreaTest {
         for (Area area : list) {
             System.out.println(area);
         }
+    }
+
+    @Test
+    public void testFindAreaByLoc() {
+        Area area = areaBiz.findAreaByLoc(new BigDecimal("0"), new BigDecimal("0"));
+        System.out.println(area);
     }
 
 }

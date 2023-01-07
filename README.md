@@ -96,25 +96,25 @@
 
 ## 前台
 
-1. [升级 npm 依赖](./doc/frontend/ncu.md)
-1. [env 环境变量](./doc/frontend/env.md)
-1. [登录页面](./doc/frontend/login.md)
-1. [bus 事件总线](./doc/frontend/bus.md)
-1. [socketio](./doc/frontend/socket.md)
-1. [拖动排序](./doc/frontend/dnd.md)
+1. [升级 npm 依赖](frontend/fa-ui/doc/frontend/ncu.md)
+1. [env 环境变量](frontend/fa-ui/doc/frontend/env.md)
+1. [登录页面](frontend/fa-ui/doc/frontend/login.md)
+1. [bus 事件总线](frontend/fa-ui/doc/frontend/bus.md)
+1. [socketio](frontend/fa-ui/doc/frontend/socket.md)
+1. [拖动排序](frontend/fa-ui/doc/frontend/dnd.md)
+1. [CSS](frontend/fa-ui/doc/frontend/css.md)
 
 ## 后台
 
-1. [详细目录说明](./doc/server/dir.md)
-1. [后台约定的一些规则](./doc/server/common.md)
-1. [API 路径定义](./doc/server/api.md)
-1. [枚举](./doc/server/enum.md)
-1. [注解](./doc/server/annotation.md)
-1. [代码生成器](./doc/server/genetator.md)
-1. [socketio](./doc/server/socket.md)
-1. [nginx 部署](./doc/server/nginx.md)
-1. [mybatisplus](./doc/server/mybatisplus.md)
-1. [参考资料](./doc/server/ref.md)
+1. [后台约定的一些规则](fa-core/doc/server/common.md)
+1. [API 路径定义](fa-core/doc/server/api.md)
+1. [枚举](fa-core/doc/server/enum.md)
+1. [注解](fa-core/doc/server/annotation.md)
+1. [代码生成器](fa-core/doc/server/genetator.md)
+1. [socketio](fa-core/doc/server/socket.md)
+1. [nginx 部署](fa-core/doc/server/nginx.md)
+1. [mybatisplus](fa-core/doc/server/mybatisplus.md)
+1. [参考资料](fa-core/doc/server/ref.md)
 
 # RoadMap
 
@@ -175,3 +175,9 @@
 - [x] Frontend use pnpm workspace.
 
 # [CHANGELOG](./CHANGELOG.md)
+
+# mvn 更新命令
+
+1. `mvn versions:display-dependency-updates` scans a project's dependencies and produces a report of those dependencies which have newer versions available.
+2. `mvn versions:display-plugin-updates` scans a project's plugins and produces a report of those plugins which have newer versions available.
+3. `mvn versions:display-property-updates` scans a project and produces a report of those properties which are used to control artifact versions and which properies have newer versions available.

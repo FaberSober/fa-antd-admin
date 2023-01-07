@@ -1,0 +1,1 @@
+export * from '@features/fa-admin-pages/hooks'

@@ -1,15 +1,15 @@
 import React from 'react';
-import { DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { DownloadOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Space } from 'antd';
-import {AuthDelBtn} from "@/components/decorator";
+import { AuthDelBtn } from '@fa/ui';
 import BaseBizTable, { BaseTableUtils, FaberTable } from '@/components/base-table';
 import { useExport, useTableQueryParams, clearForm, useDelete } from "@/utils/myHooks";
 import api from '@/services/${moduleName}/${secondModuleName}';
-import ${moduleNameUpperCaseFirstOne} from '@/props/${moduleName}';
+import { ${moduleNameUpperCaseFirstOne} } from '@/types';
 import ${className}Modal from './modal/${className}Modal';
 
 const serviceName = '${comments}';
-const buzzModal = '${tableName}';
+const biz = '${tableName}';
 
 /**
  * ${comments}表格查询
@@ -30,7 +30,7 @@ export default function ${className}List() {
 #foreach ($column in $columns)
 #if($column.columnName == $pk.columnName)
       BaseTableUtils.genIdColumn('${column.comments}', '${column.attrname}', 70, sorter),
-#elseif ($column.attrname != 'crtTime' and $column.attrname != 'crtUser' and $column.attrname != 'crtName' and $column.attrname != 'crtHost' and $column.attrname != 'updTime' and $column.attrname != 'updUser' and $column.attrname != 'updName' and $column.attrname != 'updHost' and $column.attrname != 'delState' and $column.attrname != 'delTime' and $column.attrname != 'delUser' and $column.attrname != 'delName' and $column.attrname != 'delHost')
+#elseif ($column.attrname != 'crtTime' and $column.attrname != 'crtUser' and $column.attrname != 'crtName' and $column.attrname != 'crtHost' and $column.attrname != 'updTime' and $column.attrname != 'updUser' and $column.attrname != 'updName' and $column.attrname != 'updHost' and $column.attrname != 'deleted')
       BaseTableUtils.genSimpleSorterColumn('${column.comments}', '${column.attrname}', 100, sorter),
 #end
 #end
@@ -38,7 +38,7 @@ export default function ${className}List() {
       ...BaseTableUtils.genUpdateColumns(sorter),
       {
         title: '操作',
-        dataIndex: 'opr',
+        dataIndex: 'menu',
         render: (_, r) => (
           <Space>
             <${className}Modal editBtn title={`编辑${serviceName}信息`} record={r} fetchFinish={fetchPageList} />
@@ -54,7 +54,7 @@ export default function ${className}List() {
   }
 
   return (
-    <div className="fa-full-content">
+    <div className="fa-full-content fa-flex-column fa-bg-white">
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
         <strong style={{ fontSize: '18px' }}>{serviceName}</strong>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
@@ -75,7 +75,7 @@ export default function ${className}List() {
 
       <BaseBizTable
         rowKey="id"
-        buzzModal={buzzModal}
+        biz={biz}
         columns={genColumns()}
         pagination={paginationProps}
         loading={loading}

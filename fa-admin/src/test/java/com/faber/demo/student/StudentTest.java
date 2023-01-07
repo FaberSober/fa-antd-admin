@@ -61,7 +61,7 @@ public class StudentTest {
     @Test
     public void testUpdateById() {
         {
-            Student student = studentMapper.selectById(31);
+            Student student = studentMapper.selectById(30);
             // update json array
             student.setTags(new Student.Tag[] {
                     new Student.Tag("新生"),

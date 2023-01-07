@@ -11,7 +11,8 @@ public abstract class FileSaveTestBase {
     protected abstract FileHelperImpl getFileHelper();
 
     public String upload() throws IOException {
-        File file = new File("/Users/xupengfei/Downloads/tmp/logo.png");
+//        File file = new File("/Users/xupengfei/Downloads/tmp/logo.png");
+        File file = new File("C:\\Users\\Farando\\Pictures\\poi\\n10.png");
         String url = getFileHelper().upload(new FileInputStream(file), "file/test", file.getName());
         System.out.println(url);
         return url;

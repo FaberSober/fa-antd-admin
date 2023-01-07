@@ -53,14 +53,14 @@ spring:
         login-password: admin@1234
 
   # spring boot admin client
-  #  boot:
-  #    admin:
-  #      client:
-  #        url: http://localhost:8001
-  #        username: admin
-  #        password: 103Tiger
-  #        instance:
-  #          service-base-url: http://localhost
+  boot:
+    admin:
+      client:
+        url: http://localhost:8001
+        username: admin
+        password: 103Tiger
+        instance:
+          service-base-url: http://localhost
 
   #redis-cache 相关，这里是springboot2.x的redis配置，与下面ace-cache的配置重复，但是都不能删除，后续要改进
   redis:
@@ -69,7 +69,7 @@ spring:
     database: 0
     timeout: 2000
     password: ~
-    sysName: faber-admin #默认key前缀
+    sysName: fa-web #默认key前缀
     enable: true #是否启用ace-cache
     userkey: #用户会话的标志，存放于cookie或request header
     lettuce:
@@ -79,7 +79,8 @@ spring:
         max-wait: 1000
   servlet:
     multipart:
-      max-file-size: 50MB
+      max-file-size: 10MB
+      max-request-size: 10MB
 #      location: /tmp
 
 # Mybatis-Plus，在MybatisPlusConfig中代码配置
@@ -113,7 +114,7 @@ easy-es:
 swagger:
   enabled: true
   base-package: com.faber
-  title: kgcesi-admin
+  title: fa-web
   version: 1.0.0.SNAPSHOTProcessDiagramGenerator
   description: 管理后端服务
   contact:
@@ -127,6 +128,7 @@ management:
       external-file: ./log/springboot.admin.log
   endpoints:
     web:
+      base-path: /apij/actuator
       exposure:
         include: "*"
 

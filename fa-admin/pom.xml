@@ -13,17 +13,29 @@
 
     <properties>
         <!-- 前端打包 -->
-        <node.version>v16.18.1</node.version>
+        <node.version>v18.12.1</node.version>
         <npm.version>8.19.3</npm.version>
-        <pnpm.version>7.18.2</pnpm.version>
+        <pnpm.version>7.22.0</pnpm.version>
         <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
-        <frontend-src-dir>../fa-frontend</frontend-src-dir>
+        <frontend-src-dir>../frontend</frontend-src-dir>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.faber</groupId>
-            <artifactId>fa-core</artifactId>
+            <artifactId>fa-base</artifactId>
+            <version>3.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.faber</groupId>
+            <artifactId>fa-demo</artifactId>
+            <version>3.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.faber</groupId>
+            <artifactId>fa-disk</artifactId>
             <version>3.0-SNAPSHOT</version>
         </dependency>
 
@@ -32,25 +44,10 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- 流程引擎 camunda -->
-<!--        <dependency>-->
-<!--            <groupId>org.camunda.bpm.springboot</groupId>-->
-<!--            <artifactId>camunda-bpm-spring-boot-starter</artifactId>-->
-<!--            <version>3.3.3</version>-->
-<!--        </dependency>-->
-
-        <!-- SpringBoot admin 客户端 -->
-<!--        <dependency>-->
-<!--            <groupId>de.codecentric</groupId>-->
-<!--            <artifactId>spring-boot-admin-starter-client</artifactId>-->
-<!--            <version>${springboot.admin.version}</version>-->
-<!--        </dependency>-->
-
-        <!-- 阿里云短信 -->
         <dependency>
-            <groupId>com.aliyun</groupId>
-            <artifactId>aliyun-java-sdk-core</artifactId>
-            <version>4.5.3</version>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>${springboot.admin.version}</version>
         </dependency>
 
         <!-- socket.io客户端 -->

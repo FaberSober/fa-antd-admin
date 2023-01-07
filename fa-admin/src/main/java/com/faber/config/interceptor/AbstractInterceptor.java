@@ -1,6 +1,5 @@
 package com.faber.config.interceptor;
 
-import com.faber.core.annotation.FaLogOpr;
 import com.faber.core.config.annotation.ApiToken;
 import com.faber.core.config.annotation.IgnoreUserToken;
 import com.faber.core.config.annotation.Permission;

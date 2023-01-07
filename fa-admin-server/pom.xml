@@ -39,7 +39,7 @@
     </dependencies>
 
     <build>
-        <finalName>faber-admin-server</finalName>
+        <finalName>fa-admin-server</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

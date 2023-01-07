@@ -8,6 +8,7 @@ import com.faber.api.base.admin.entity.LogApi;
 import com.faber.core.config.filter.wrapper.BodyHttpServletRequestWrapper;
 import com.faber.core.config.filter.wrapper.BodyHttpServletResponseWrapper;
 import com.faber.core.context.BaseContextHandler;
+import com.faber.core.enums.LogCrudEnum;
 import com.faber.core.utils.IpUtils;
 import com.faber.core.vo.utils.IpAddr;
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +71,7 @@ public class RequestAgainFilter implements Filter {
 
             log.setBiz(StrUtil.toString(requestWrapper.getAttribute("FaLogBiz")));
             log.setOpr(StrUtil.toString(requestWrapper.getAttribute("FaLogOpr")));
+            log.setCrud((LogCrudEnum) requestWrapper.getAttribute("FaLogCrud"));
 
             // request basic information
             log.setUrl(requestWrapper.getRequestURI());
@@ -87,11 +89,17 @@ public class RequestAgainFilter implements Filter {
             log.setRequest(requestWrapper.getBody());
             log.setReqSize(log.getRequest().length());
 
-            log.setResponse("1".equals(logNoRet) ? "" : responseData);
+            log.setRetStatus(responseWrapper.getStatus());
+
+            if ("1".equals(logNoRet) && !"200".equals(log.getRetStatus())) {
+                log.setResponse("");
+            } else {
+                log.setResponse(responseData);
+            }
+
             log.setRetSize(responseData.length());
 
             log.setDuration(System.currentTimeMillis() - startTime);
-            log.setRetStatus(responseWrapper.getStatus());
 
             // 获取IP地址
             IpAddr ipAddr = IpUtils.getIpAddrByApi(log.getCrtHost());
