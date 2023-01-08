@@ -13,7 +13,7 @@
 
     <properties>
         <!-- 前端打包 -->
-        <node.version>v16.19.0</node.version>
+        <node.version>v18.12.1</node.version>
         <npm.version>8.19.3</npm.version>
         <pnpm.version>7.22.0</pnpm.version>
         <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
