@@ -3,8 +3,8 @@
 演示地址：http://fa.dward.cn/login
 演示账户：admin/888888
 
-- Github: https://github.com/FaberSober/vite-react-antd-admin
-- Gitee: https://gitee.com/faberxu/vite-react-antd-admin
+- Github: https://github.com/FaberSober/fa-admin
+- Gitee: https://gitee.com/faberxu/fa-admin
 
 ## 项目说明
 
@@ -31,7 +31,7 @@
 3. 启动 jar 包：`java -jar fa-admin/target/fa-admin.jar`
 4. 访问地址：http://127.0.0.1
 
-# [目录说明](./doc/server/dir.md)
+# [目录说明](./fa-core/doc/server/dir.md)
 
 ```
 ├─doc                   # 文档
