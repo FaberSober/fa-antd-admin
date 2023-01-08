@@ -65,21 +65,22 @@
 
 ## 前端
 
-| 插件                 | 说明             | 官网                                                |
-| :------------------- | :--------------- | :-------------------------------------------------- |
-| vite                 | vitejs 构建      | https://www.vitejs.net/                             |
-| vite-plugin-pages    | 目录路由生成     | https://github.com/hannoeru/vite-plugin-pages       |
-| react-router v6      | 路由             | https://github.com/hannoeru/vite-plugin-pages       |
-| antd                 | antd 前端组件    | https://ant-design.gitee.io/components/overview-cn/ |
-| fa-cron-react-editor | cron 编辑器      | https://github.com/xrutayisire/react-js-cron        |
-| use-bus              | bus 事件通知     | https://github.com/fabienjuif/use-bus               |
-| tailwindcss          | tailwindcss      | https://tailwindcss.com                             |
-| react-use            | React Hooks — 👍 | https://github.com/streamich/react-use              |
-| ahooks               | ahooks.js        | https://ahooks.js.org/                              |
-| tinymce              | 富文本编辑器     | https://github.com/tinymce/tinymce                  |
-| fontawesome          | 图标库           | https://fontawesome.com/                            |
-| dnd-kit              | 拖动库           | https://dndkit.com/                                 |
-| tree-node-cli        | list dir as tree | https://github.com/yangshun/tree-node-cli           |
+| 插件                 | 说明             | 官网                                                   |
+| :------------------- | :--------------- | :----------------------------------------------------- |
+| vite                 | vitejs 构建      | https://www.vitejs.net/                                |
+| vite-plugin-pages    | 目录路由生成     | https://github.com/hannoeru/vite-plugin-pages          |
+| react-router v6      | 路由             | https://github.com/hannoeru/vite-plugin-pages          |
+| antd                 | antd 前端组件    | https://ant-design.gitee.io/components/overview-cn/    |
+| fa-cron-react-editor | cron 编辑器      | https://github.com/xrutayisire/react-js-cron           |
+| use-bus              | bus 事件通知     | https://github.com/fabienjuif/use-bus                  |
+| tailwindcss          | tailwindcss      | https://tailwindcss.com                                |
+| react-use            | React Hooks — 👍 | https://github.com/streamich/react-use                 |
+| ahooks               | ahooks.js        | https://ahooks.js.org/                                 |
+| tinymce              | 富文本编辑器     | https://github.com/tinymce/tinymce                     |
+| fontawesome          | 图标库           | https://fontawesome.com/                               |
+| dnd-kit              | 拖动库           | https://dndkit.com/                                    |
+| tree-node-cli        | list dir as tree | https://github.com/yangshun/tree-node-cli              |
+| react-grid-layout    | 网格布局         | https://github.com/react-grid-layout/react-grid-layout |
 
 ## Docker 部署环境文件
 

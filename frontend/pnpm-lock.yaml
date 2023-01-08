@@ -40,6 +40,7 @@ importers:
       '@types/react': 18.0.26
       '@types/react-color': 3.0.6
       '@types/react-dom': 18.0.10
+      '@types/react-grid-layout': ^1.3.2
       '@types/react-router-dom': 5.3.3
       '@types/uuid': 9.0.0
       '@vitejs/plugin-react': 3.0.1
@@ -59,6 +60,7 @@ importers:
       react-color: 2.19.3
       react-contexify: 6.0.0
       react-dom: 18.2.0
+      react-grid-layout: ^1.3.4
       react-helmet-async: 1.3.0
       react-intl: 6.2.5
       react-json-view: 1.21.3
@@ -90,6 +92,7 @@ importers:
       react-color: registry.npmmirror.com/react-color/2.19.3_react@18.2.0
       react-contexify: registry.npmmirror.com/react-contexify/6.0.0_biqbaboplfbrettd7655fr4n2y
       react-dom: registry.npmmirror.com/react-dom/18.2.0_react@18.2.0
+      react-grid-layout: registry.npmmirror.com/react-grid-layout/1.3.4_biqbaboplfbrettd7655fr4n2y
       react-helmet-async: registry.npmmirror.com/react-helmet-async/1.3.0_biqbaboplfbrettd7655fr4n2y
       react-intl: registry.npmmirror.com/react-intl/6.2.5_o77wnou4wwnegu5woljtklrzru
       react-json-view: registry.npmmirror.com/react-json-view/1.21.3_ib3m5ricvtkl2cll7qpr2f6lvq
@@ -106,6 +109,7 @@ importers:
       '@types/react': registry.npmmirror.com/@types/react/18.0.26
       '@types/react-color': registry.npmmirror.com/@types/react-color/3.0.6
       '@types/react-dom': 18.0.10
+      '@types/react-grid-layout': registry.npmmirror.com/@types/react-grid-layout/1.3.2
       '@types/react-router-dom': registry.npmmirror.com/@types/react-router-dom/5.3.3
       '@types/uuid': registry.npmmirror.com/@types/uuid/9.0.0
       '@vitejs/plugin-react': registry.npmmirror.com/@vitejs/plugin-react/3.0.1_vite@4.0.4
@@ -353,6 +357,7 @@ packages:
 
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
+    dev: true
 
   /@types/react-dom/18.0.10:
     resolution: {integrity: sha512-E42GW/JA4Qv15wQdqJq8DL4JhNpB3prJgjgapN3qJT9K2zO5IIAQh4VXvCEDupoqAwnz0cY4RlXeC/ajX5SFHg==}
@@ -366,9 +371,11 @@ packages:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
       csstype: 3.1.1
+    dev: true
 
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
+    dev: true
 
   /@types/uuid/9.0.0:
     resolution: {integrity: sha512-kr90f+ERiQtKWMz5rP32ltJ/BtULDI5RVO0uavn1HQUOwjx0R1h0rnDYNL0CepF1zL5bSY6FISAfd9tOdDhU5Q==}
@@ -597,6 +604,7 @@ packages:
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
+    dev: true
 
   /date-fns/2.29.3:
     resolution: {integrity: sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==}
@@ -2857,7 +2865,7 @@ packages:
     name: '@types/hoist-non-react-statics'
     version: 3.3.1
     dependencies:
-      '@types/react': 18.0.26
+      '@types/react': registry.npmmirror.com/@types/react/18.0.26
       hoist-non-react-statics: registry.npmmirror.com/hoist-non-react-statics/3.3.2
     dev: false
 
@@ -2934,6 +2942,14 @@ packages:
     dependencies:
       '@types/react': registry.npmmirror.com/@types/react/18.0.26
       '@types/reactcss': registry.npmmirror.com/@types/reactcss/1.2.6
+    dev: true
+
+  registry.npmmirror.com/@types/react-grid-layout/1.3.2:
+    resolution: {integrity: sha512-ZzpBEOC1JTQ7MGe1h1cPKSLP4jSWuxc+yvT4TsAlEW9+EFPzAf8nxQfFd7ea9gL17Em7PbwJZAsiwfQQBUklZQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/react-grid-layout/-/react-grid-layout-1.3.2.tgz}
+    name: '@types/react-grid-layout'
+    version: 1.3.2
+    dependencies:
+      '@types/react': registry.npmmirror.com/@types/react/18.0.26
     dev: true
 
   registry.npmmirror.com/@types/react-router-dom/5.3.3:
@@ -5701,6 +5717,12 @@ packages:
     version: 3.5.0
     dev: false
 
+  registry.npmmirror.com/lodash.isequal/4.5.0:
+    resolution: {integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz}
+    name: lodash.isequal
+    version: 4.5.0
+    dev: false
+
   registry.npmmirror.com/lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lodash.merge/-/lodash.merge-4.6.2.tgz}
     name: lodash.merge
@@ -7159,10 +7181,43 @@ packages:
       react: registry.npmmirror.com/react/18.2.0
       scheduler: registry.npmmirror.com/scheduler/0.23.0
 
+  registry.npmmirror.com/react-draggable/4.4.5_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-OMHzJdyJbYTZo4uQE393fHcqqPYsEtkjfMgvCHr6rejT+Ezn4OZbNyGH50vv+SunC1RMvwOTSWkEODQLzw1M9g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-draggable/-/react-draggable-4.4.5.tgz}
+    id: registry.npmmirror.com/react-draggable/4.4.5
+    name: react-draggable
+    version: 4.4.5
+    peerDependencies:
+      react: '>= 16.3.0'
+      react-dom: '>= 16.3.0'
+    dependencies:
+      clsx: registry.npmmirror.com/clsx/1.2.1
+      prop-types: registry.npmmirror.com/prop-types/15.8.1
+      react: registry.npmmirror.com/react/18.2.0
+      react-dom: registry.npmmirror.com/react-dom/18.2.0_react@18.2.0
+    dev: false
+
   registry.npmmirror.com/react-fast-compare/3.2.0:
     resolution: {integrity: sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz}
     name: react-fast-compare
     version: 3.2.0
+    dev: false
+
+  registry.npmmirror.com/react-grid-layout/1.3.4_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-sB3rNhorW77HUdOjB4JkelZTdJGQKuXLl3gNg+BI8gJkTScspL1myfZzW/EM0dLEn+1eH+xW+wNqk0oIM9o7cw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-grid-layout/-/react-grid-layout-1.3.4.tgz}
+    id: registry.npmmirror.com/react-grid-layout/1.3.4
+    name: react-grid-layout
+    version: 1.3.4
+    peerDependencies:
+      react: '>= 16.3.0'
+      react-dom: '>= 16.3.0'
+    dependencies:
+      clsx: registry.npmmirror.com/clsx/1.2.1
+      lodash.isequal: registry.npmmirror.com/lodash.isequal/4.5.0
+      prop-types: registry.npmmirror.com/prop-types/15.8.1
+      react: registry.npmmirror.com/react/18.2.0
+      react-dom: registry.npmmirror.com/react-dom/18.2.0_react@18.2.0
+      react-draggable: registry.npmmirror.com/react-draggable/4.4.5_biqbaboplfbrettd7655fr4n2y
+      react-resizable: registry.npmmirror.com/react-resizable/3.0.4_biqbaboplfbrettd7655fr4n2y
     dev: false
 
   registry.npmmirror.com/react-helmet-async/1.3.0_biqbaboplfbrettd7655fr4n2y:
@@ -7246,6 +7301,21 @@ packages:
     version: 0.14.0
     engines: {node: '>=0.10.0'}
     dev: true
+
+  registry.npmmirror.com/react-resizable/3.0.4_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-StnwmiESiamNzdRHbSSvA65b0ZQJ7eVQpPusrSmcpyGKzC0gojhtO62xxH6YOBmepk9dQTBi9yxidL3W4s3EBA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-resizable/-/react-resizable-3.0.4.tgz}
+    id: registry.npmmirror.com/react-resizable/3.0.4
+    name: react-resizable
+    version: 3.0.4
+    peerDependencies:
+      react: '>= 16.3'
+    dependencies:
+      prop-types: registry.npmmirror.com/prop-types/15.8.1
+      react: registry.npmmirror.com/react/18.2.0
+      react-draggable: registry.npmmirror.com/react-draggable/4.4.5_biqbaboplfbrettd7655fr4n2y
+    transitivePeerDependencies:
+      - react-dom
+    dev: false
 
   registry.npmmirror.com/react-textarea-autosize/8.4.0_kzbn2opkn2327fwg5yzwzya5o4:
     resolution: {integrity: sha512-YrTFaEHLgJsi8sJVYHBzYn+mkP3prGkmP2DKb/tm0t7CLJY5t1Rxix8070LAKb0wby7bl/lf2EeHkuMihMZMwQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-textarea-autosize/-/react-textarea-autosize-8.4.0.tgz}
