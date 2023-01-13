@@ -1,6 +1,7 @@
 package com.faber;
 
 import cn.easyes.starter.register.EsMapperScan;
+import cn.xuyanwu.spring.file.storage.EnableFileStorage;
 import com.alicp.jetcache.anno.config.EnableMethodCache;
 import com.dtflys.forest.springboot.annotation.ForestScan;
 import com.yomahub.tlog.core.enhance.bytes.AspectLogEnhance;
@@ -25,6 +26,7 @@ import java.util.Set;
 @EnableMethodCache(basePackages = "com.faber")
 @EsMapperScan("com.faber.api.**.esmapper")
 @ForestScan("com.faber")
+@EnableFileStorage // https://spring-file-storage.xuyanwu.cn
 public class AdminBootstrap {
 
     static { AspectLogEnhance.enhance(); }//进行日志增强，自动判断日志框架
