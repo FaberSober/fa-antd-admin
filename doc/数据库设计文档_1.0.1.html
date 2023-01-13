@@ -1,0 +1,5441 @@
+﻿<html lang="zh">
+  <head>
+    <title>数据库设计文档</title>
+    <style type="text/css">
+      body {
+        padding-bottom: 50px;
+      }
+      body,
+      td {
+        font-family: verdana, fantasy;
+        font-size: 12px;
+        line-height: 150%;
+      }
+      table {
+        width: 100%;
+        background-color: #ccc;
+        margin: 5px 0;
+      }
+      td {
+        background-color: #fff;
+        padding: 3px 3px 3px 10px;
+      }
+      thead td {
+        text-align: center;
+        font-weight: bold;
+        background-color: #eee;
+      }
+      a:link,
+      a:visited,
+      a:active {
+        color: #015fb6;
+        text-decoration: none;
+      }
+      a:hover {
+        color: #e33e06;
+      }
+    </style>
+  </head>
+  <body style="text-align: center">
+    <div style="width: 800px; margin: 20px auto; text-align: left">
+      <a name="index"></a>
+      <h2 style="text-align: center; line-height: 50px">数据库设计文档</h2>
+      <div>
+        <b>数据库名：faber_admin</b><br /><b>文档版本：1.0.1</b><br /><b
+          >文档描述：数据库设计文档生成</b
+        ><br />
+      </div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>表名</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td><a href="#base_area">base_area</a></td>
+          <td>中国行政地区表</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td><a href="#base_config">base_config</a></td>
+          <td>BASE-配置-通用</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td><a href="#base_config_scene">base_config_scene</a></td>
+          <td>BASE-配置-查询场景</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td><a href="#base_config_sys">base_config_sys</a></td>
+          <td>BASE-配置-系统配置</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td><a href="#base_department">base_department</a></td>
+          <td>BASE-部门</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td><a href="#base_dict">base_dict</a></td>
+          <td>BASE-字典分类</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td><a href="#base_entity_log">base_entity_log</a></td>
+          <td>BASE-实体变更日志</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td><a href="#base_file_save">base_file_save</a></td>
+          <td>BASE-用户文件表</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td><a href="#base_job">base_job</a></td>
+          <td>BASE-系统定时任务</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td><a href="#base_job_log">base_job_log</a></td>
+          <td>BASE-定时任务日志</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td><a href="#base_log_api">base_log_api</a></td>
+          <td>BASE-URL请求日志</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td><a href="#base_log_login">base_log_login</a></td>
+          <td>BASE-登录日志</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td><a href="#base_msg">base_msg</a></td>
+          <td>BASE-消息</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">14</td>
+          <td><a href="#base_notice">base_notice</a></td>
+          <td>BASE-通知与公告</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">15</td>
+          <td><a href="#base_rbac_menu">base_rbac_menu</a></td>
+          <td>BASE-菜单表</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">16</td>
+          <td><a href="#base_rbac_role">base_rbac_role</a></td>
+          <td>BASE-角色表</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">17</td>
+          <td><a href="#base_rbac_role_menu">base_rbac_role_menu</a></td>
+          <td>BASE-角色权限对应表</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">18</td>
+          <td><a href="#base_rbac_user_role">base_rbac_user_role</a></td>
+          <td>BASE-用户角色关联表</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">19</td>
+          <td><a href="#base_sms_code">base_sms_code</a></td>
+          <td>BASE-短信验证码</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">20</td>
+          <td><a href="#base_system_update_log">base_system_update_log</a></td>
+          <td>BASE-系统版本更新日志表</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">21</td>
+          <td><a href="#base_user">base_user</a></td>
+          <td>BASE-用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">22</td>
+          <td><a href="#demo_student">demo_student</a></td>
+          <td>DEMO-学生表</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">23</td>
+          <td><a href="#demo_student_info">demo_student_info</a></td>
+          <td>DEMO-学生表-扩充信息表</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">24</td>
+          <td><a href="#demo_tree">demo_tree</a></td>
+          <td>DEMO-Tree结构数据</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">25</td>
+          <td><a href="#disk_store_bucket">disk_store_bucket</a></td>
+          <td>STORE-库</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">26</td>
+          <td><a href="#disk_store_bucket_user">disk_store_bucket_user</a></td>
+          <td>STORE-库-人员关联</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">27</td>
+          <td><a href="#disk_store_file">disk_store_file</a></td>
+          <td>STORE-文件夹</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">28</td>
+          <td><a href="#disk_store_file_tag">disk_store_file_tag</a></td>
+          <td>STORE-文件-标签</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">29</td>
+          <td><a href="#disk_store_tag">disk_store_tag</a></td>
+          <td>STORE-标签</td>
+        </tr>
+      </table>
+      <a name="base_area"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_area</b>
+      </div>
+      <div>说明：中国行政地区表</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">mediumint</td>
+          <td align="center">8</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>level</td>
+          <td align="center">tinyint</td>
+          <td align="center">3</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">层级</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>parent_code</td>
+          <td align="center">bigint</td>
+          <td align="center">20</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">父级行政代码</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>area_code</td>
+          <td align="center">bigint</td>
+          <td align="center">20</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">行政代码</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>zip_code</td>
+          <td align="center">mediumint</td>
+          <td align="center">8</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">000000</td>
+          <td align="center">邮政编码</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>city_code</td>
+          <td align="center">char</td>
+          <td align="center">6</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">区号</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>name</td>
+          <td align="center">varchar</td>
+          <td align="center">50</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">名称</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>short_name</td>
+          <td align="center">varchar</td>
+          <td align="center">50</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">简称</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>merger_name</td>
+          <td align="center">varchar</td>
+          <td align="center">50</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">组合名</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>pinyin</td>
+          <td align="center">varchar</td>
+          <td align="center">30</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">拼音</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>lng</td>
+          <td align="center">decimal</td>
+          <td align="center">11</td>
+          <td align="center">6</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0.000000</td>
+          <td align="center">经度</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>lat</td>
+          <td align="center">decimal</td>
+          <td align="center">11</td>
+          <td align="center">6</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0.000000</td>
+          <td align="center">纬度</td>
+        </tr>
+      </table>
+      <a name="base_config"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_config</b>
+      </div>
+      <div>说明：BASE-配置-通用</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>biz</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">业务模块</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>type</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">配置类型</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>data</td>
+          <td align="center">json</td>
+          <td align="center">1073741824</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">配置JSON</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="base_config_scene"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_config_scene</b>
+      </div>
+      <div>说明：BASE-配置-查询场景</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>biz</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">业务模块</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">场景名称</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>data</td>
+          <td align="center">json</td>
+          <td align="center">1073741824</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">配置JSON</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>system</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否系统</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>default_scene</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否默认</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>hide</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否隐藏</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>sort</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">排序ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">14</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">15</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">16</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">17</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="base_config_sys"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_config_sys</b>
+      </div>
+      <div>说明：BASE-配置-系统配置</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>data</td>
+          <td align="center">json</td>
+          <td align="center">1073741824</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">配置JSON</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="base_department"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_department</b>
+      </div>
+      <div>说明：BASE-部门</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">部门名称</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>description</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">备注</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>parent_id</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">父部门ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>sort</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">1</td>
+          <td align="center">排序</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>type</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">类型</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>manager_id</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">负责人ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">14</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">15</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">16</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="base_dict"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_dict</b>
+      </div>
+      <div>说明：BASE-字典分类</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>code</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">编码</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">名称</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>parent_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">上级节点</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>sort_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">排序ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>description</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">描述</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>options</td>
+          <td align="center">json</td>
+          <td align="center">1073741824</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">字典数组{value:1,label:名称,deleted:是否删除}</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">14</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">15</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">16</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="base_entity_log"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_entity_log</b>
+      </div>
+      <div>说明：BASE-实体变更日志</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>biz_type</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">业务类型</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>biz_id</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">业务ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>action</td>
+          <td align="center">tinyint</td>
+          <td align="center">4</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">动作1新增/2更新/3删除</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>content</td>
+          <td align="center">text</td>
+          <td align="center">65535</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">动作内容</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+      </table>
+      <a name="base_file_save"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_file_save</b>
+      </div>
+      <div>说明：BASE-用户文件表</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>url</td>
+          <td align="center">varchar</td>
+          <td align="center">512</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">文件访问地址</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>size</td>
+          <td align="center">bigint</td>
+          <td align="center">20</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">文件大小，单位字节</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>filename</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">文件名</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>original_filename</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">原始文件名</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>base_path</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">基础存储路径</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>path</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">存储路径</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>ext</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">文件扩展名</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>content_type</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">MIME类型</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>platform</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">存储平台</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>th_url</td>
+          <td align="center">varchar</td>
+          <td align="center">512</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">缩略图访问路径</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>th_filename</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">缩略图名称</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>th_size</td>
+          <td align="center">bigint</td>
+          <td align="center">20</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">缩略图大小，单位字节</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">14</td>
+          <td>th_content_type</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">缩略图MIME类型</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">15</td>
+          <td>object_id</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">文件所属对象id</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">16</td>
+          <td>object_type</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">文件所属对象类型，例如用户头像，评价图片</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">17</td>
+          <td>attr</td>
+          <td align="center">text</td>
+          <td align="center">65535</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">附加属性</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">18</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">19</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">20</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">21</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">22</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">23</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">24</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">25</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">26</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="base_job"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_job</b>
+      </div>
+      <div>说明：BASE-系统定时任务</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>job_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">任务名称</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>cron</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">cron表达式</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>status</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">状态:0未启动false/1启动true</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>clazz_path</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">任务执行方法</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>job_desc</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">任务描述</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">14</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">15</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="base_job_log"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_job_log</b>
+      </div>
+      <div>说明：BASE-定时任务日志</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>job_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">任务ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>begin_time</td>
+          <td align="center">datetime</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>end_time</td>
+          <td align="center">datetime</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">结束时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>status</td>
+          <td align="center">tinyint</td>
+          <td align="center">4</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">执行结果：1-执行中/2-成功/9-失败</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>duration</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">执行花费时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>err_msg</td>
+          <td align="center">text</td>
+          <td align="center">65535</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">错误日志</td>
+        </tr>
+      </table>
+      <a name="base_log_api"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_log_api</b>
+      </div>
+      <div>说明：BASE-URL请求日志</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>biz</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">模块</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>opr</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">操作</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>crud</td>
+          <td align="center">char</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">CRUD类型</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>url</td>
+          <td align="center">text</td>
+          <td align="center">65535</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">请求URL</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>method</td>
+          <td align="center">varchar</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">请求类型</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>agent</td>
+          <td align="center">text</td>
+          <td align="center">65535</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">访问客户端</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>os</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">操作系统</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>browser</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">浏览器</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>version</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">浏览器版本</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>mobile</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">是否为移动终端</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>duration</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">请求花费时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>pro</td>
+          <td align="center">varchar</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">省</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">14</td>
+          <td>city</td>
+          <td align="center">varchar</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">市</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">15</td>
+          <td>addr</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">地址</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">16</td>
+          <td>request</td>
+          <td align="center">longtext</td>
+          <td align="center">2147483647</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">请求内容</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">17</td>
+          <td>req_size</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">请求体大小</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">18</td>
+          <td>response</td>
+          <td align="center">longtext</td>
+          <td align="center">2147483647</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">返回内容</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">19</td>
+          <td>ret_size</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">返回内容大小</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">20</td>
+          <td>ret_status</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">返回码</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">21</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">22</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">23</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">24</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+      </table>
+      <a name="base_log_login"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_log_login</b>
+      </div>
+      <div>说明：BASE-登录日志</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>agent</td>
+          <td align="center">text</td>
+          <td align="center">65535</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">访问客户端</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>os</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">操作系统</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>browser</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">浏览器</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>version</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">浏览器版本</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>mobile</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">是否为移动终端</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>pro</td>
+          <td align="center">varchar</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">省</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>city</td>
+          <td align="center">varchar</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">市</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>addr</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">地址</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">14</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">15</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">16</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">17</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">18</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="base_msg"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_msg</b>
+      </div>
+      <div>说明：BASE-消息</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>from_user_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">来源用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>from_user_id</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">来源用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>to_user_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">接收用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>to_user_id</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">接收用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>content</td>
+          <td align="center">longtext</td>
+          <td align="center">2147483647</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">消息内容</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>is_read</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否已读</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>read_time</td>
+          <td align="center">datetime</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">已读时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>buzz_type</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">业务类型</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>buzz_id</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">业务ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">14</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">15</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">16</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">17</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">18</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">19</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="base_notice"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_notice</b>
+      </div>
+      <div>说明：BASE-通知与公告</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>title</td>
+          <td align="center">varchar</td>
+          <td align="center">50</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">标题</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>content</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">内容</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>status</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">1</td>
+          <td align="center">是否有效</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>strong_notice</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否强提醒</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">14</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="base_rbac_menu"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_rbac_menu</b>
+      </div>
+      <div>说明：BASE-菜单表</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>parent_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">父级ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">名称</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>sort</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">排序</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>level</td>
+          <td align="center">tinyint</td>
+          <td align="center">4</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">菜单等级：0-模块/1-菜单/9-按钮</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>icon</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">图标标识</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>status</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">是否启用0-禁用/1-启用</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>link_type</td>
+          <td align="center">tinyint</td>
+          <td align="center">4</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">链接类型【1-内部链接(默认)2-外部链接】</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>link_url</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">链接地址【pathinfo#method】</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">14</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">15</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">16</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">17</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">18</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="base_rbac_role"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_rbac_role</b>
+      </div>
+      <div>说明：BASE-角色表</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">角色名称</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>remarks</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">角色描述</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>status</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">是否启用</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="base_rbac_role_menu"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_rbac_role_menu</b>
+      </div>
+      <div>说明：BASE-角色权限对应表</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>role_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">角色ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>menu_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">权限ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>half_checked</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">是否半勾选</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="base_rbac_user_role"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_rbac_user_role</b>
+      </div>
+      <div>说明：BASE-用户角色关联表</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>user_id</td>
+          <td align="center">varchar</td>
+          <td align="center">64</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>role_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">角色ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="base_sms_code"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_sms_code</b>
+      </div>
+      <div>说明：BASE-短信验证码</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>phone</td>
+          <td align="center">varchar</td>
+          <td align="center">15</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">手机号</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>code</td>
+          <td align="center">varchar</td>
+          <td align="center">6</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">短信验证码</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+      </table>
+      <a name="base_system_update_log"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_system_update_log</b>
+      </div>
+      <div>说明：BASE-系统版本更新日志表</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>ver</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">版本号</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>ver_no</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">版本编码</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>remark</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">备注信息</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+      </table>
+      <a name="base_user"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：base_user</b>
+      </div>
+      <div>说明：BASE-用户</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>department_id</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">部门ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>username</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">账户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>password</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">密码</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">姓名</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>tel</td>
+          <td align="center">varchar</td>
+          <td align="center">20</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">手机号</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>birthday</td>
+          <td align="center">date</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">生日</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>sex</td>
+          <td align="center">tinyint</td>
+          <td align="center">4</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">性别0-女1-男2-未知</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>address</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">地址</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>email</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">邮箱</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>status</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">状态：1-有效/0-锁定</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>role_names</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">角色名称</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>description</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">描述</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">14</td>
+          <td>img</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">头像URL</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">15</td>
+          <td>api_token</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">api token</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">16</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">17</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">18</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">19</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">20</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">21</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">22</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">23</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">24</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="demo_student"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：demo_student</b>
+      </div>
+      <div>说明：DEMO-学生表</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">学生名</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>age</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">年龄</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>sex</td>
+          <td align="center">tinyint</td>
+          <td align="center">4</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">性别</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>email</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">邮箱</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>birthday</td>
+          <td align="center">date</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">生日</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>valid</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">1</td>
+          <td align="center">账户是否有效</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>tags</td>
+          <td align="center">json</td>
+          <td align="center">1073741824</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">标签数组</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>info</td>
+          <td align="center">json</td>
+          <td align="center">1073741824</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">详细信息</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>info_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">补充信息ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>corp_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">企业ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>tenant_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">租户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">14</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">15</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">16</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">17</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">18</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">19</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">20</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">21</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="demo_student_info"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：demo_student_info</b>
+      </div>
+      <div>说明：DEMO-学生表-扩充信息表</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>info1</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">补充信息1</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>info2</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">补充信息2</td>
+        </tr>
+      </table>
+      <a name="demo_tree"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：demo_tree</b>
+      </div>
+      <div>说明：DEMO-Tree结构数据</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>parent_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">上级节点</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">名称</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>sort</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">排序ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="disk_store_bucket"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：disk_store_bucket</b>
+      </div>
+      <div>说明：STORE-库</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">库名称</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>size</td>
+          <td align="center">bigint</td>
+          <td align="center">20</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">总文件大小</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>dir_count</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">目录数量</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>file_count</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">文件数量</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">14</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="disk_store_bucket_user"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：disk_store_bucket_user</b>
+      </div>
+      <div>说明：STORE-库-人员关联</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>bucket_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">库ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>user_id</td>
+          <td align="center">varchar</td>
+          <td align="center">64</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>type</td>
+          <td align="center">tinyint</td>
+          <td align="center">4</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">类型1-创建者/2-操作者</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="disk_store_file"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：disk_store_file</b>
+      </div>
+      <div>说明：STORE-文件夹</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>bucket_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">库ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">文件夹名称</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>parent_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">父级节点</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>sort</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">排序ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>dir</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">是否文件夹</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>size</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">文件大小(目录下文件数量/KB)</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>type</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">文件类型</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>file_id</td>
+          <td align="center">varchar</td>
+          <td align="center">64</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">文件ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>full_path</td>
+          <td align="center">varchar</td>
+          <td align="center">1000</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">完整路径#dir#,#dir#</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>tags</td>
+          <td align="center">json</td>
+          <td align="center">1073741824</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">标签</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>delete_action</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">是否有删除动作</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">14</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">15</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">16</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">17</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">18</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">19</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">20</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">21</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="disk_store_file_tag"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：disk_store_file_tag</b>
+      </div>
+      <div>说明：STORE-文件-标签</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>file_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">文件ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>tag_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">标签ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+      <a name="disk_store_tag"></a>
+      <div style="margin-top: 30px">
+        <a href="#index" style="float: right; margin-top: 6px">返回目录</a
+        ><b>表名：disk_store_tag</b>
+      </div>
+      <div>说明：STORE-标签</div>
+      <div>数据列：</div>
+      <table cellspacing="1">
+        <thead>
+          <tr>
+            <td style="width: 40px">序号</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td>长度</td>
+            <td>小数位</td>
+            <td>允许空值</td>
+            <td>主键</td>
+            <td>默认值</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tr>
+          <td style="text-align: center">1</td>
+          <td>id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">Y</td>
+          <td align="center"></td>
+          <td align="center">ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">2</td>
+          <td>bucket_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">库ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">3</td>
+          <td>parent_id</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">父ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">4</td>
+          <td>name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">名称</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">5</td>
+          <td>sort</td>
+          <td align="center">int</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">排序ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">6</td>
+          <td>color</td>
+          <td align="center">varchar</td>
+          <td align="center">10</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">颜色</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">7</td>
+          <td>crt_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">创建时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">8</td>
+          <td>crt_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">9</td>
+          <td>crt_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">10</td>
+          <td>crt_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">创建IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">11</td>
+          <td>upd_time</td>
+          <td align="center">timestamp</td>
+          <td align="center">19</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center">CURRENT_TIMESTAMP</td>
+          <td align="center">更新时间</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">12</td>
+          <td>upd_user</td>
+          <td align="center">varchar</td>
+          <td align="center">32</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户ID</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">13</td>
+          <td>upd_name</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新用户</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">14</td>
+          <td>upd_host</td>
+          <td align="center">varchar</td>
+          <td align="center">255</td>
+          <td align="center">0</td>
+          <td align="center">Y</td>
+          <td align="center">N</td>
+          <td align="center"></td>
+          <td align="center">更新IP</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">15</td>
+          <td>deleted</td>
+          <td align="center">bit</td>
+          <td align="center">1</td>
+          <td align="center">0</td>
+          <td align="center">N</td>
+          <td align="center">N</td>
+          <td align="center">0</td>
+          <td align="center">是否删除</td>
+        </tr>
+      </table>
+    </div>
+    <footer></footer>
+  </body>
+</html>
