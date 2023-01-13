@@ -26,31 +26,12 @@ import java.util.TimeZone;
  * @description
  * @date ${DATE} ${TIME}
  */
-@Configuration("admimWebConfig")
 @Primary
-public class WebConfiguration extends WebMvcConfigurationSupport {
-
-    @Value("${spring.jackson.date-format}")
-    private String dateFormatPattern;
-
-    @Value("${spring.jackson.time-zone}")
-    private String timeZone;
+@Configuration("adminWebConfig")
+public class WebConfiguration extends BaseWebConfiguration {
 
     private static final List<String> API_URLS = ListUtil.toList("/api/**");
     private static final List<String> OUTAPI_URLS = ListUtil.toList("/outapi/**");
-
-    @Bean
-    GlobalExceptionHandler getGlobalExceptionHandler() {
-        return new GlobalExceptionHandler();
-    }
-
-    @Override
-    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        //默认的资源映射需要填写，不然不能正常访问
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
-        //调用基类的方法
-        super.addResourceHandlers(registry);
-    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -59,65 +40,12 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
         // 系统内部/api接口权限校验
         registry.addInterceptor(getUserAuthRestInterceptor()).addPathPatterns(API_URLS);
         registry.addInterceptor(getPermissionInterceptor()).addPathPatterns(API_URLS);
-//        registry.addInterceptor(getCrosInterceptor()).addPathPatterns(getIncludePathPatterns());
 
         // 请求URL日志拦截
         registry.addInterceptor(getGateLogInterceptor()).addPathPatterns("/api/**");
 
         // 对外提供的api接口权限校验
         registry.addInterceptor(getApiTokenInterceptor()).addPathPatterns(OUTAPI_URLS);
-    }
-
-    @Bean
-    UserAuthRestInterceptor getUserAuthRestInterceptor() {
-        return new UserAuthRestInterceptor();
-    }
-
-    @Bean
-    PermissionInterceptor getPermissionInterceptor() {
-        return new PermissionInterceptor();
-    }
-
-    @Bean
-    ApiTokenInterceptor getApiTokenInterceptor() {
-        return new ApiTokenInterceptor();
-    }
-
-    @Bean
-    GateLogInterceptor getGateLogInterceptor() {
-        return new GateLogInterceptor();
-    }
-
-    @Bean
-    FirstEmptyInterceptor getFirstEmptyInterceptor() {
-        return new FirstEmptyInterceptor();
-    }
-
-    /**
-     * SpringBoot2 版本中spring.jackson.date-format设置以后不生效的速效解决方法
-     * https://blog.csdn.net/u012581020/article/details/105955060
-     *
-     * @param converters
-     */
-    @Override
-    protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        ObjectMapper objectMapper = converter.getObjectMapper();
-        // 生成JSON时,将所有Long转换成String
-        // 因为js中得数字类型不能包含所有的java long值
-        SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
-        simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
-        objectMapper.registerModule(simpleModule);
-        // 时间格式化
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        //这个可以引用spring boot yml 里的格式化配置和时区配置
-        objectMapper.setDateFormat(new SimpleDateFormat(dateFormatPattern));
-        objectMapper.setTimeZone(TimeZone.getTimeZone(timeZone));
-        // 设置格式化内容
-        converter.setObjectMapper(objectMapper);
-        converters.add(0, converter);
-        super.extendMessageConverters(converters);
     }
 
 }
