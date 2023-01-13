@@ -62,6 +62,7 @@
 | ~~Redis Manager~~                                                           | Redis 在线管理           | https://github.com/ngbdf/redis-manager/                                                                        |
 | phpRedisAdmin                                                               | Redis 在线管理           | https://github.com/erikdubbelboer/phpRedisAdmin/                                                               |
 | Forest                                                                      | 声明式 HTTP 客户端框架   | https://forest.dtflyx.com/                                                                                     |
+| spring-file-storage                                                         | 文件存储框架             | https://spring-file-storage.xuyanwu.cn/                                                                        |
 
 ## 前端
 
