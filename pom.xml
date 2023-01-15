@@ -31,6 +31,7 @@
         <module>fa-base</module>
         <module>fa-demo</module>
         <module>fa-disk</module>
+        <module>fa-app</module>
         <module>fa-admin</module>
         <module>fa-admin-server</module>
         <module>fa-generator</module>

@@ -30,3 +30,7 @@
 	path = frontend/apps/admin/features/fa-disk-pages
 	url = git@github.com:FaberSober/fa-disk-pages.git
 	branch = main
+[submodule "fa-app"]
+	path = fa-app
+	url = git@github.com:FaberSober/fa-app.git
+	branch = main
