@@ -9,6 +9,7 @@
 [submodule "fa-demo"]
 	path = fa-demo
 	url = git@github.com:FaberSober/fa-demo.git
+	branch = main
 [submodule "fa-disk"]
 	path = fa-disk
 	url = git@github.com:FaberSober/fa-disk.git
