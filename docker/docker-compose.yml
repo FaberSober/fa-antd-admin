@@ -1,0 +1,15 @@
+# docker-compose.yml文件的版本
+version: "3"
+# 管理的服务
+services:
+  fa-tenant-web:
+    # 指定镜像
+    image: farando/fa-tenant-web:1.0.3
+    container_name: fa-tenant-web
+    # restart: always
+    ports:
+      # 端口映射
+      - "80:80"
+    volumes:
+      - ./file:/opt/fa-admin/file
+      - ./log:/opt/fa-admin/log

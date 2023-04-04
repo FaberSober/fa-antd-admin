@@ -34,7 +34,6 @@
         <module>fa-app</module>
         <module>fa-admin</module>
         <module>fa-admin-server</module>
-        <module>fa-generator</module>
     </modules>
     <packaging>pom</packaging>
     <developers>
@@ -68,9 +67,9 @@
                 <version>2.0.22</version>
             </dependency>
             <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.31</version>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
+                <version>8.0.32</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

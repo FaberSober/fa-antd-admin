@@ -85,7 +85,7 @@ spring:
 
   file-storage: #文件存储配置
     default-platform: local-plus-1 #默认使用的存储平台
-    thumbnail-suffix: ".min.jpg" #缩略图后缀，例如【.min.jpg】【.png】
+    thumbnail-suffix: ".min.png" #缩略图后缀，例如【.min.jpg】【.png】
     local-plus: # 本地存储升级版，不使用的情况下可以不写
       - platform: local-plus-1 # 存储平台标识
         enable-storage: true #启用存储
@@ -159,6 +159,9 @@ fa:
       # token失效时间(单位秒)，24小时
       expire: 86400
       secret: 2022#8m3n@faber-admin-web
+    # API配置
+    api:
+      tokenApiHeader: FaApiToken
     file:
       # 系统文件存储方式: local-本地存储/qiniu-七牛云
       saveType: local
@@ -177,9 +180,30 @@ fa:
     aes:
       key: 2345ASDC89ABCSEQ
       salt: DYgaREIsYrj24QxN
+    # 系统设置
+    config:
+      # 系统启动时执行数据库初始化脚本
+      startDbInitOnBoot: true
+      # 系统启动时扫描任务class并启动
+      startJobsOnBoot: true
     url:
       phpRedisAdmin: http://127.0.0.1:8182
       socketUrl: 127.0.0.1:8081
+    # onlyoffice在线编辑office文件支持
+    onlyoffice:
+      # ONLYOFFICE_SERVER，返回给前端获取api
+      onlyofficeServer: http://127.0.0.1:1234/
+      # 本服务提供给onlyoffice回调的服务器地址
+      callbackServer: http://127.0.0.1/
+      # docservice中配置jwt secret
+      docserviceSecret: faberJWT1256
+      # docservice中配置token的Header Key
+      docserviceHeader: Authorization
+      fileFillformsDocs: .oform|.docx
+      fileViewedDocs: .pdf|.djvu|.xps|.oxps
+      fileEditedDocs: .docx|.xlsx|.csv|.pptx|.txt|.docxf
+      fileConvertDocs: .docm|.dotx|.dotm|.dot|.doc|.odt|.fodt|.ott|.xlsm|.xlsb|.xltx|.xltm|.xlt|.xls|.ods|.fods|.ots|.pptm|.ppt|.ppsx|.ppsm|.pps|.potx|.potm|.pot|.odp|.fodp|.otp|.rtf|.mht|.html|.htm|.xml|.epub|.fb2
+
 
 #============================================================================
 # netty socket io setting

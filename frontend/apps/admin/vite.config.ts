@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv } from 'vite';
-import react from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react-swc';
 import Pages from 'vite-plugin-pages';
-import { visualizer } from 'rollup-plugin-visualizer';
+// import { visualizer } from 'rollup-plugin-visualizer';
 import * as path from 'path';
 
 // https://vitejs.dev/config/
@@ -18,11 +18,11 @@ export default defineConfig(({ mode }) => {
         ],
         exclude: ['**/components/*.tsx', '**/modal/*.tsx', '**/cube/*.tsx', '**/drawer/*.tsx', '**/helper/*.tsx'],
       }),
-      visualizer({
-        open: true, //注意这里要设置为true，否则无效
-        gzipSize: true,
-        brotliSize: true,
-      }),
+      // visualizer({
+      //   open: true, //注意这里要设置为true，否则无效
+      //   gzipSize: true,
+      //   brotliSize: true,
+      // }),
     ],
     //* css模块化
     css: {

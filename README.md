@@ -6,6 +6,14 @@
 - Github: https://github.com/FaberSober/fa-admin
 - Gitee: https://gitee.com/faberxu/fa-admin
 
+## [Git Submodule](./fa-core/doc/server/git.md)
+
+项目将多个子模块进行了拆分，使用 git submodule 来管理多个 repo。
+
+```
+git clone --recurse-submodules ssh://git@git.dward.cn:2222/core-v4/fa-tenant-web.git
+```
+
 ## 项目说明
 
 一个前后端分离的 springboot 项目，未使用微服务，部署简单。maven 一键打包前后端代码，只需部署一个最终的 jar 来启动服务。适合小型项目。
@@ -16,13 +24,12 @@
 
 ## 开发说明
 
-1. 导入数据库文件(使用最新版本的)：`doc/sql/admin/V1.0.x.sql`
-   1. (可选)导入中国行政地区数据：`doc/sql/base_area.sql.zip`
-2. 启动后端服务：`fa-admin/src/main/java/com/faber/AdminBootstrap.java`
-3. 启动前端服务，
+1. 启动后端服务：`fa-admin/src/main/java/com/faber/AdminBootstrap.java`。启动服务后，会自动执行建表 sql，初始化数据库。
+2. 启动前端服务，
    1. 进入前端项目地址：`cd fa-frontend`
-   2. 安装依赖：`pnpm i`
-   3. 启动项目：`pnpm dev`
+   2. 安装依赖：`pnpm i` (如果没有按照`pnpm`，需要先安装：`npm install -g pnpm`)
+   3. 如果遇到`canvas: Running install script...`执行很久的情况，可以使用安装命令：`pn i --ignore-scripts`
+   4. 启动项目：`pnpm dev`
 
 ## 打包部署
 
@@ -66,22 +73,24 @@
 
 ## 前端
 
-| 插件                 | 说明             | 官网                                                   |
-| :------------------- | :--------------- | :----------------------------------------------------- |
-| vite                 | vitejs 构建      | https://www.vitejs.net/                                |
-| vite-plugin-pages    | 目录路由生成     | https://github.com/hannoeru/vite-plugin-pages          |
-| react-router v6      | 路由             | https://github.com/hannoeru/vite-plugin-pages          |
-| antd                 | antd 前端组件    | https://ant-design.gitee.io/components/overview-cn/    |
-| fa-cron-react-editor | cron 编辑器      | https://github.com/xrutayisire/react-js-cron           |
-| use-bus              | bus 事件通知     | https://github.com/fabienjuif/use-bus                  |
-| tailwindcss          | tailwindcss      | https://tailwindcss.com                                |
-| react-use            | React Hooks — 👍 | https://github.com/streamich/react-use                 |
-| ahooks               | ahooks.js        | https://ahooks.js.org/                                 |
-| tinymce              | 富文本编辑器     | https://github.com/tinymce/tinymce                     |
-| fontawesome          | 图标库           | https://fontawesome.com/                               |
-| dnd-kit              | 拖动库           | https://dndkit.com/                                    |
-| tree-node-cli        | list dir as tree | https://github.com/yangshun/tree-node-cli              |
-| react-grid-layout    | 网格布局         | https://github.com/react-grid-layout/react-grid-layout |
+| 插件                              | 说明                | 官网                                                   |
+| :-------------------------------- | :------------------ | :----------------------------------------------------- |
+| vite                              | vitejs 构建         | https://www.vitejs.net/                                |
+| vite-plugin-pages                 | 目录路由生成        | https://github.com/hannoeru/vite-plugin-pages          |
+| react-router v6                   | 路由                | https://github.com/hannoeru/vite-plugin-pages          |
+| antd                              | antd 前端组件       | https://ant-design.gitee.io/components/overview-cn/    |
+| fa-cron-react-editor              | cron 编辑器         | https://github.com/xrutayisire/react-js-cron           |
+| use-bus                           | bus 事件通知        | https://github.com/fabienjuif/use-bus                  |
+| tailwindcss                       | tailwindcss         | https://tailwindcss.com                                |
+| react-use                         | React Hooks — �    | https://github.com/streamich/react-use                 |
+| ahooks                            | ahooks.js           | https://ahooks.js.org/                                 |
+| tinymce                           | 富文本编辑器        | https://github.com/tinymce/tinymce                     |
+| fontawesome                       | 图标库              | https://fontawesome.com/                               |
+| dnd-kit                           | 拖动库              | https://dndkit.com/                                    |
+| tree-node-cli                     | list dir as tree    | https://github.com/yangshun/tree-node-cli              |
+| react-grid-layout                 | 网格布局            | https://github.com/react-grid-layout/react-grid-layout |
+| @react-pdf-viewer                 | pdf 查看            | https://github.com/react-grid-layout/react-grid-layout |
+| @onlyoffice/document-editor-react | office 文件在线编辑 | https://api.onlyoffice.com/                            |
 
 ## Docker 部署环境文件
 
@@ -108,6 +117,7 @@
 
 ## 后台
 
+1. [数据库初始化](fa-core/doc/server/dbinit.md)
 1. [后台约定的一些规则](fa-core/doc/server/common.md)
 1. [API 路径定义](fa-core/doc/server/api.md)
 1. [枚举](fa-core/doc/server/enum.md)
@@ -129,21 +139,21 @@
 - [ ] 个人登录历史
 - [ ] 单点登录控制
 - [x] 请求 URL 日志记录
-- [ ] 请求 URL 增加注解，拦截时获取注解说明
+- [x] 请求 URL 增加注解，拦截时获取注解说明
 - [x] 权限使用注解拦截校验
 - [x] 定时任务执行日志
 - [x] 定时任务 corn 图形化选择
 - [ ] 七牛云 demo 示例
 - [ ] 阿里云 demo 示例
 - [x] tinymce 编辑器集成
-- [ ] pdf 阅读器集成
+- [x] pdf 阅读器集成
 - [x] 切换 MyBatis-Plus，delState 类型变更为 int
 - [ ] SpringDoc：https://blog.csdn.net/wdj_yyds/article/details/125174042
 - [x] 前端 tree 结构的根结点 ID 切换为 0，并使用统一的枚举值
 - [x] 导出 Excel 需要适配 Enum 类型属性的转换
 - [x] 剔除多余的 hooks 使用
 - [x] socket 整理
-- [ ] socket 连接加入 auth
+- [x] socket 连接加入 auth
 - [x] 集成 Spring Validation
 - [x] 集成 redis 缓存方案
 - [x] 集成 redis 在线管理工具
@@ -167,14 +177,18 @@
 - [ ] 流程引擎
 - [ ] 报表功能
 - [x] 系统配置-基础配置
-- [ ] 系统配置-文件配置
+- [x] 系统配置-文件配置
 - [ ] 系统配置-邮件配置
 - [ ] 系统配置-短信配置
-- [ ] TabBar Extra Tools
-- [ ] Dashboard
+- [x] TabBar Extra Tools
+- [x] Dashboard
 - [ ] Code Generator
-- [ ] Http Utils
+- [x] Http Utils
 - [x] Frontend use pnpm workspace.
+- [x] APK 打包上传接口（用于 CI）.
+- [ ] APK 增加记录下载次数
+- [ ] Office 文件在线编辑
+- [ ] 数据库升级模块优化
 
 # [CHANGELOG](./CHANGELOG.md)
 

@@ -18,6 +18,10 @@
         <pnpm.version>7.22.0</pnpm.version>
         <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
         <frontend-src-dir>../frontend</frontend-src-dir>
+        <!-- docker -->
+        <docker.user>farando</docker.user>
+        <docker.imageName>fa-admin-web</docker.imageName>
+        <docker.tag>1.0.0</docker.tag>
     </properties>
 
     <dependencies>
@@ -40,6 +44,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.faber</groupId>
+            <artifactId>fa-app</artifactId>
+            <version>3.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
@@ -50,11 +60,10 @@
             <version>${springboot.admin.version}</version>
         </dependency>
 
-        <!-- socket.io客户端 -->
         <dependency>
-            <groupId>io.socket</groupId>
-            <artifactId>socket.io-client</artifactId>
-            <version>1.0.2</version>
+            <groupId>com.dorkbox</groupId>
+            <artifactId>Notify</artifactId>
+            <version>3.7</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -163,6 +172,62 @@
                 </configuration>
             </plugin>
 
+            <!-- 打包docker镜像服务 -->
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.42.0</version>
+
+                <executions>
+                    <execution>
+                        <id>build-docker-image</id>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>save</goal>
+<!--                            <goal>push</goal>-->
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <skip>false</skip>
+                    <images>
+                        <image>
+                            <name>${docker.user}/${docker.imageName}</name>
+                            <build>
+<!--                                <from>fabric8/java-centos-openjdk8-jdk:1.5.6</from>-->
+                                <from>amazoncorretto:8</from>
+                                <maintainer>faberxu@gmail.com</maintainer>
+                                <assembly>
+                                    <mode>dir</mode>
+                                    <targetDir>/opt/fa-admin</targetDir>
+                                    <descriptorRef>artifact</descriptorRef>
+                                </assembly>
+                                <cmd>
+                                    <shell>java -jar /opt/fa-admin/${project.build.finalName}.jar</shell>
+                                </cmd>
+                                <ports>
+                                    <port>80</port>
+                                </ports>
+                                <volumes>
+                                    <volume>/opt/fa-admin/log</volume>
+                                    <volume>/opt/fa-admin/file</volume>
+                                </volumes>
+                                <tags>
+                                    <tag>${docker.tag}</tag>
+                                </tags>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+
+<!--            <plugin>-->
+<!--                <groupId>com.faber</groupId>-->
+<!--                <artifactId>fa-demo</artifactId>-->
+<!--                <version>fa-deploy-maven-plugin</version>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 </project>

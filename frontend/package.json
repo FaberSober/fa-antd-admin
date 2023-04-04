@@ -3,7 +3,8 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "postinstall": "cd .. && husky install frontend/.husky",
-    "ncu": "turbo run ncu",
+    "ncu:all": "turbo run ncu",
+    "ncu": "ncu -u --timeout 120000",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
     "build": "turbo run build",
@@ -17,15 +18,16 @@
     "release:only": "changeset publish --registry=https://registry.npmjs.com/"
   },
   "devDependencies": {
-    "@changesets/cli": "2.25.2",
+    "@changesets/cli": "2.26.0",
     "@fa/eslint-config-custom": "workspace:*",
-    "@types/node": "18.11.16",
-    "eslint": "8.30.0",
-    "husky": "8.0.2",
-    "prettier": "2.8.1",
-    "prettier-plugin-tailwindcss": "0.2.1",
+    "@types/node": "18.15.3",
+    "eslint": "8.36.0",
+    "husky": "8.0.3",
+    "npm-check-updates": "16.7.12",
+    "prettier": "2.8.4",
+    "prettier-plugin-tailwindcss": "0.2.4",
     "pretty-quick": "3.1.3",
-    "rimraf": "3.0.2",
+    "rimraf": "4.4.0",
     "turbo": "latest"
   },
   "packageManager": "pnpm@7.18.2"
