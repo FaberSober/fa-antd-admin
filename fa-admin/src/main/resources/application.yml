@@ -6,7 +6,7 @@ server:
     mime-types: application/json,application/xml,text/html,text/plain,text/css,application/x-javascript
 spring:
   application:
-    name: faber-admin-dev
+    name: fa-admin-dev
   profiles:
     active: dev
   web:
@@ -21,7 +21,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
-      name: faber-admin
+      name: fa-admin
       url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DBNAME:faber_admin}?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&useSSL=false
       username: ${MYSQL_USERNAME:root}
       password: ${MYSQL_PASSWORD:123456}
@@ -158,7 +158,7 @@ fa:
       tokenHeader: Authorization
       # token失效时间(单位秒)，24小时
       expire: 86400
-      secret: 2022#8m3n@faber-admin-web
+      secret: 2022#8m3n@fa-admin-web
     # API配置
     api:
       tokenApiHeader: FaApiToken
