@@ -187,8 +187,9 @@ git clone --recurse-submodules ssh://git@git.dward.cn:2222/core-v4/fa-tenant-web
 - [x] Frontend use pnpm workspace.
 - [x] APK 打包上传接口（用于 CI）.
 - [ ] APK 增加记录下载次数
-- [ ] Office 文件在线编辑
-- [ ] 数据库升级模块优化
+- [X] Office 文件在线编辑
+- [X] 数据库升级模块优化
+- [ ] 队列DEMO
 
 # [CHANGELOG](./CHANGELOG.md)
 
