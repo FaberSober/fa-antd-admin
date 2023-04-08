@@ -182,8 +182,8 @@
                     <execution>
                         <id>build-docker-image</id>
                         <goals>
-                            <goal>build</goal>
-                            <goal>save</goal>
+<!--                            <goal>build</goal>-->
+<!--                            <goal>save</goal>-->
 <!--                            <goal>push</goal>-->
                         </goals>
                         <phase>package</phase>
