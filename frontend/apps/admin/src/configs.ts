@@ -8,7 +8,6 @@ import { merge } from 'lodash';
 interface SITE_INFO_TYPES {
   [key: string]: any;
   HELP_DOCS: { name: string; url: string }[];
-  ONLYOFFICE_SERVER: string; // onlyoffice server
 }
 
 /** -------------------------------- 网站配置 -------------------------------- */
@@ -32,7 +31,7 @@ const SITE_INFO: SITE_INFO_TYPES = {
   ],
 };
 
-const fullConfig:any = merge(configAdmin, configDemo, configDisk, configApp)
+const fullConfig: any = merge(configAdmin, configDemo, configDisk, configApp);
 // console.log('fullConfig', fullConfig)
 
 /** -------------------------------- 网关配置 -------------------------------- */

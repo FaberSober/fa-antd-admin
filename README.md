@@ -82,7 +82,7 @@ git clone --recurse-submodules git@github.com:FaberSober/fa-antd-admin.git
 | fa-cron-react-editor              | cron 编辑器         | https://github.com/xrutayisire/react-js-cron           |
 | use-bus                           | bus 事件通知        | https://github.com/fabienjuif/use-bus                  |
 | tailwindcss                       | tailwindcss         | https://tailwindcss.com                                |
-| react-use                         | React Hooks — �    | https://github.com/streamich/react-use                 |
+| react-use                         | React Hooks — �     | https://github.com/streamich/react-use                 |
 | ahooks                            | ahooks.js           | https://ahooks.js.org/                                 |
 | tinymce                           | 富文本编辑器        | https://github.com/tinymce/tinymce                     |
 | fontawesome                       | 图标库              | https://fontawesome.com/                               |
@@ -91,6 +91,7 @@ git clone --recurse-submodules git@github.com:FaberSober/fa-antd-admin.git
 | react-grid-layout                 | 网格布局            | https://github.com/react-grid-layout/react-grid-layout |
 | @react-pdf-viewer                 | pdf 查看            | https://github.com/react-grid-layout/react-grid-layout |
 | @onlyoffice/document-editor-react | office 文件在线编辑 | https://api.onlyoffice.com/                            |
+| @uiw/react-amap 高德地图          | 高德地图            | https://uiwjs.github.io/react-amap/                    |
 
 ## Docker 部署环境文件
 
@@ -187,9 +188,9 @@ git clone --recurse-submodules git@github.com:FaberSober/fa-antd-admin.git
 - [x] Frontend use pnpm workspace.
 - [x] APK 打包上传接口（用于 CI）.
 - [ ] APK 增加记录下载次数
-- [X] Office 文件在线编辑
-- [X] 数据库升级模块优化
-- [ ] 队列DEMO
+- [x] Office 文件在线编辑
+- [x] 数据库升级模块优化
+- [ ] 队列 DEMO
 
 # [CHANGELOG](./CHANGELOG.md)
 

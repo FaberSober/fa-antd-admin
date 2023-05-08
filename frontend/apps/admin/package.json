@@ -21,6 +21,7 @@
     "@react-pdf-viewer/default-layout": "3.11.0",
     "@react-pdf-viewer/highlight": "3.11.0",
     "@tinymce/tinymce-react": "4.3.0",
+    "@uiw/react-amap": "^5.0.0",
     "ahooks": "3.7.5",
     "allotment": "1.18.1",
     "antd": "5.3.1",
