@@ -2,13 +2,13 @@
 	path = fa-core
 	url = git@github.com:FaberSober/fa-core.git
 	branch = main
-[submodule "frontend/fa-ui"]
-	path = frontend/fa-ui
-	url = git@github.com:FaberSober/fa-ui.git
-	branch = main
 [submodule "fa-base"]
 	path = fa-base
 	url = git@github.com:FaberSober/fa-base.git
+	branch = main
+[submodule "frontend/fa-ui"]
+	path = frontend/fa-ui
+	url = git@github.com:FaberSober/fa-ui.git
 	branch = main
 [submodule "frontend/apps/admin/features/fa-admin-pages"]
 	path = frontend/apps/admin/features/fa-admin-pages

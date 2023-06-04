@@ -70,8 +70,6 @@ spring:
     timeout: 2000
     password: ~
     sysName: fa-web #默认key前缀
-    enable: true #是否启用ace-cache
-    userkey: #用户会话的标志，存放于cookie或request header
     lettuce:
       pool:
         max-active: 300
@@ -158,7 +156,7 @@ fa:
       tokenHeader: Authorization
       # token失效时间(单位秒)，24小时
       expire: 86400
-      secret: 2022#8m3n@fa-admin-web
+      secret: 2022#8m3n2@fa-admin-web
     # API配置
     api:
       tokenApiHeader: FaApiToken

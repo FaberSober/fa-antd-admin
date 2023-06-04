@@ -35,7 +35,7 @@ public class FaDeployTest {
         Notify.create()
                 .title("部署完成")
                 .text("部署完成!")
-                .showWarning();
+                .showInformation();
 
         Thread.sleep(3000);
     }
