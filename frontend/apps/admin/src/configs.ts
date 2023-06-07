@@ -7,6 +7,9 @@ import { merge } from 'lodash';
 
 interface SITE_INFO_TYPES {
   [key: string]: any;
+  PRIMARY_COLOR: string, // 主题色
+  THEME: 'light' | 'dark', // 主题
+  HOME_LINK: string;
   HELP_DOCS: { name: string; url: string }[];
 }
 
@@ -21,6 +24,7 @@ const SITE_INFO: SITE_INFO_TYPES = {
   // AMAP_VERSION: '1.4.15', // 高德地图JS版本
   // 样式相关
   PRIMARY_COLOR: '#1890FF',
+  THEME: 'dark',
   ICON_FONT_SCRIPTS: [
     '//at.alicdn.com/t/font_2473438_1jgmoopagcl.js', // icon-area, icon-china, icon-Quartzguanli, icon-job, icon-usermanagement, icon-role
   ],

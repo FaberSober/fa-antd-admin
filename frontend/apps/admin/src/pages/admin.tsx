@@ -13,5 +13,5 @@ export default function admin() {
     <APILoader version="2.0.5" akey={VITE_APP_AMAP_KEY}>
       <MenuContainer />
     </APILoader>
-  );
+  )
 }
