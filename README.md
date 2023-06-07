@@ -3,8 +3,8 @@
 演示地址：http://fa.dward.cn/login
 演示账户：admin/888888
 
-- Github: https://github.com/FaberSober/fa-admin
-- Gitee: https://gitee.com/faberxu/fa-admin
+- Github: https://github.com/FaberSober/fa-antd-admin
+- Gitee: https://gitee.com/faberxu/fa-antd-admin
 
 ## [Git Submodule](./fa-core/doc/server/git.md)
 
@@ -13,6 +13,13 @@
 ```
 git clone --recurse-submodules git@github.com:FaberSober/fa-antd-admin.git
 ```
+
+## 预览
+light
+![dashboard-light.png](./doc/image/screenshot/dashboard-light.png)
+
+dark
+![dashboard-dark.png](./doc/image/screenshot/dashboard-dark.png)
 
 ## 项目说明
 
