@@ -188,6 +188,7 @@ dark
 - [x] 系统配置-文件配置
 - [ ] 系统配置-邮件配置
 - [ ] 系统配置-短信配置
+- [ ] 短信验证码逻辑
 - [x] TabBar Extra Tools
 - [x] Dashboard
 - [x] Code Generator
