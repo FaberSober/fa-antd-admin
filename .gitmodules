@@ -1,7 +1,4 @@
-[submodule "fa-core"]
-	path = fa-core
-	url = git@github.com:FaberSober/fa-core.git
-	branch = main
+
 [submodule "fa-base"]
 	path = fa-base
 	url = git@github.com:FaberSober/fa-base.git

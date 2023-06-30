@@ -11,6 +11,7 @@ interface SITE_INFO_TYPES {
   THEME: 'light' | 'dark', // 主题
   HOME_LINK: string;
   HELP_DOCS: { name: string; url: string }[];
+  ADMIN_DEFAULT_LAYOUT: any[];
 }
 
 /** -------------------------------- 网站配置 -------------------------------- */
@@ -32,6 +33,15 @@ const SITE_INFO: SITE_INFO_TYPES = {
   HOME_LINK: '/admin/home/desktop', // 首页跳转链接
   HELP_DOCS: [
     // {name: '帮助文档', url: '/help/doc1'}
+  ],
+  ADMIN_DEFAULT_LAYOUT: [
+    {"h": 3, "i": "HelloBanner", "w": 16, "x": 0, "y": 0, "moved": false, "static": false},
+    {"h": 12, "i": "LoginArea", "w": 4, "x": 0, "y": 3, "moved": false, "static": false},
+    {"h": 12, "i": "LoginLine", "w": 12, "x": 4, "y": 3, "moved": false, "static": false},
+    {"h": 12, "i": "SystemCpu", "w": 4, "x": 4, "y": 15, "moved": false, "static": false},
+    {"h": 12, "i": "SystemDisk", "w": 4, "x": 12, "y": 15, "moved": false, "static": false},
+    {"h": 12, "i": "SystemMemory", "w": 4, "x": 8, "y": 15, "moved": false, "static": false},
+    {"h": 12, "i": "ApiCount", "w": 4, "x": 0, "y": 15, "moved": false, "static": false},
   ],
 };
 
