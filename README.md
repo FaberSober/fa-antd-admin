@@ -1,6 +1,6 @@
 # Get Start
 
-演示地址：http://fa.dward.cn/login
+演示地址：http://47.105.146.245:8580/login
 演示账户：admin/888888
 
 - Github: https://github.com/FaberSober/fa-antd-admin
