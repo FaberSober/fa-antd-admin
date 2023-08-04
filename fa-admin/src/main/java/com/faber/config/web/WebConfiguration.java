@@ -8,9 +8,9 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import java.util.List;
 
 /**
- * @author ${USER}
+ * @author xu.pengfei
  * @description
- * @date ${DATE} ${TIME}
+ * @date 2023-03-12 09:50:00
  */
 @Primary
 @Configuration("adminWebConfig")

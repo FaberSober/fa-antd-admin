@@ -108,7 +108,7 @@
                             <goal>pnpm</goal>
                         </goals>
                         <configuration>
-                            <arguments>install</arguments>
+                            <arguments>install --ignore-scripts</arguments>
                             <!-- <nodeVersion>${node.version}</nodeVersion>-->
                             <!-- <yarnVersion>${yarn.version}</yarnVersion>-->
                             <workingDirectory>${frontend-src-dir}</workingDirectory>
@@ -182,6 +182,7 @@
                     <execution>
                         <id>build-docker-image</id>
                         <goals>
+                            <!-- 发布docker放开下面build、save、push的注释 -->
 <!--                            <goal>build</goal>-->
 <!--                            <goal>save</goal>-->
 <!--                            <goal>push</goal>-->
@@ -205,10 +206,11 @@
                                     <descriptorRef>artifact</descriptorRef>
                                 </assembly>
                                 <cmd>
-                                    <shell>java -jar /opt/fa-admin/${project.build.finalName}.jar</shell>
+                                    <shell>java -jar /opt/fa-admin/${project.build.finalName}.jar --spring.profiles.active=docker</shell>
                                 </cmd>
                                 <ports>
                                     <port>80</port>
+                                    <port>18081</port>
                                 </ports>
                                 <volumes>
                                     <volume>/opt/fa-admin/log</volume>

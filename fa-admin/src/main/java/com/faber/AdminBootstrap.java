@@ -24,8 +24,8 @@ import java.util.Set;
 @EnableTransactionManagement
 @ServletComponentScan
 @EnableMethodCache(basePackages = "com.faber")
-@EsMapperScan("com.faber.api.**.esmapper")
 @ForestScan("com.faber")
+@EsMapperScan("com.faber.api.**.esmapper") // 不使用ES屏蔽此行代码
 @EnableFileStorage // https://spring-file-storage.xuyanwu.cn
 public class AdminBootstrap {
 

@@ -1,0 +1,53 @@
+# ------------------------------- 开发环境 -------------------------------
+spring:
+  application:
+    name: fa-admin-dev
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    druid:
+      url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DBNAME:faber_admin}?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&useSSL=false
+      username: ${MYSQL_USERNAME:root}
+      password: ${MYSQL_PASSWORD:123456}
+
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    password: 123456
+    sysName: fa-admin-dev #默认key前缀
+    lettuce:
+      pool:
+        max-active: 8
+        min-idle: 0
+        max-wait: 60000
+
+jetcache:
+  remote:
+    default:
+      broadcastChannel: fa-doc-dev
+      keyPrefix: "fa-doc-dev:"
+
+# elasticsearch
+easy-es:
+  address: 127.0.0.1:9002
+
+server:
+  port: 80
+
+socketio:
+  host: 127.0.0.1
+  port: 18081
+
+fa:
+  setting:
+    url:
+      phpRedisAdmin: http://127.0.0.1:8081
+      socketUrl: 127.0.0.1:18081
+    # onlyoffice在线编辑office文件支持
+    onlyoffice:
+      # ONLYOFFICE_SERVER
+      onlyofficeServer: http://127.0.0.1:18907/
+      # 本服务提供给onlyoffice回调的服务器地址
+      callbackServer: http://127.0.0.1:80/

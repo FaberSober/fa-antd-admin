@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 // import ReactDOM from "react-dom";
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, useRoutes } from 'react-router-dom';
-import { HelmetProvider } from "react-helmet-async";
+import { HelmetProvider } from 'react-helmet-async';
 // import { AliveScope } from 'react-activation'
 
 import '@fa/ui/index.css';

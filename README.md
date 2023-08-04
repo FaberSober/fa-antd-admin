@@ -50,38 +50,38 @@ dark
 ```
 ├─doc                   # 文档
 ├─docker                # docker环境部署文件
-├─fa-frontend           # pnpm monorepo结构前端代码
 ├─fa-admin              # java服务端
-├─fa-admin-server       # springbootadmin监控服务
 ├─fa-core               # java core核心公用代码包
-├─fa-generator          # 代码生成
-├─frontend              # 单体结构的前端代码（以后不更新了）
+├─fa-base               # java base基础通用业务 代码包
+├─fa-admin-server       # springbootadmin监控服务
+├─frontend              # pnpm monorepo结构前端代码
 ```
 
 # 使用插件
 
 ## 后端
 
-| 插件                                                                        | 说明                     | 官网                                                                                                           |
-| :-------------------------------------------------------------------------- | :----------------------- | :------------------------------------------------------------------------------------------------------------- |
-| MyBatis-Plus                                                                | 数据库操作增强           | https://baomidou.com/                                                                                          |
-| easyexcel                                                                   | excel 操作               | https://easyexcel.opensource.alibaba.com/                                                                      |
+| 插件                                                                          | 说明                   | 官网                                                                                                             |
+|:----------------------------------------------------------------------------|:---------------------|:---------------------------------------------------------------------------------------------------------------|
+| MyBatis-Plus                                                                | 数据库操作增强              | https://baomidou.com/                                                                                          |
+| easyexcel                                                                   | excel 操作             | https://easyexcel.opensource.alibaba.com/                                                                      |
 | Spring Validation                                                           | 参数校验                 | http://www.45fan.com/article.php?aid=1D2CNY5HBM62RmJc/                                                         |
-| guava                                                                       | google 工具包            | https://github.com/google/guava/                                                                               |
-| hutool                                                                      | 常用工具包               | https://hutool.cn/docs/                                                                                        |
+| guava                                                                       | google 工具包           | https://github.com/google/guava/                                                                               |
+| hutool                                                                      | 常用工具包                | https://hutool.cn/docs/                                                                                        |
 | hutool-crypto                                                               | 对称加密-SymmetricCrypto | https://www.hutool.cn/docs/#/crypto/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-SymmetricCrypto?id=%e4%bb%8b%e7%bb%8d |
-| UserAgentUtil                                                               | HTTP 接口客户端参数解析  | https://hutool.cn/docs/#/http/UA%E5%B7%A5%E5%85%B7%E7%B1%BB-UserAgentUtil/                                     |
-| [redisson](https://github.com/redisson/redisson/wiki)                       | redis 缓存               | https://github.com/redisson/redisson/                                                                          |
-| [jetcache](https://github.com/alibaba/jetcache/blob/master/introduce_CN.md) | 通用缓存访问框架         | https://github.com/alibaba/jetcache/                                                                           |
+| UserAgentUtil                                                               | HTTP 接口客户端参数解析       | https://hutool.cn/docs/#/http/UA%E5%B7%A5%E5%85%B7%E7%B1%BB-UserAgentUtil/                                     |
+| [redisson](https://github.com/redisson/redisson/wiki)                       | redis 缓存             | https://github.com/redisson/redisson/                                                                          |
+| [jetcache](https://github.com/alibaba/jetcache/blob/master/introduce_CN.md) | 通用缓存访问框架             | https://github.com/alibaba/jetcache/                                                                           |
 | ~~Redis Manager~~                                                           | Redis 在线管理           | https://github.com/ngbdf/redis-manager/                                                                        |
 | phpRedisAdmin                                                               | Redis 在线管理           | https://github.com/erikdubbelboer/phpRedisAdmin/                                                               |
-| Forest                                                                      | 声明式 HTTP 客户端框架   | https://forest.dtflyx.com/                                                                                     |
-| spring-file-storage                                                         | 文件存储框架             | https://spring-file-storage.xuyanwu.cn/                                                                        |
+| Forest                                                                      | 声明式 HTTP 客户端框架       | https://forest.dtflyx.com/                                                                                     |
+| spring-file-storage                                                         | 文件存储框架               | https://spring-file-storage.xuyanwu.cn/                                                                        |
+| easy-es                                                                     | ES工具包                | https://www.easy-es.cn/                                                                                        |
 
 ## 前端
 
-| 插件                              | 说明               | 官网                                                   |
-| :-------------------------------- |:-----------------| :----------------------------------------------------- |
+| 插件                                | 说明               | 官网                                                     |
+|:----------------------------------|:-----------------|:-------------------------------------------------------|
 | vite                              | vitejs 构建        | https://www.vitejs.net/                                |
 | vite-plugin-pages                 | 目录路由生成           | https://github.com/hannoeru/vite-plugin-pages          |
 | react-router v6                   | 路由               | https://github.com/hannoeru/vite-plugin-pages          |
@@ -98,7 +98,9 @@ dark
 | react-grid-layout                 | 网格布局             | https://github.com/react-grid-layout/react-grid-layout |
 | @react-pdf-viewer                 | pdf 查看           | https://github.com/react-grid-layout/react-grid-layout |
 | @onlyoffice/document-editor-react | office 文件在线编辑    | https://api.onlyoffice.com/                            |
-| @uiw/react-amap 高德地图 | 高德地图             | https://uiwjs.github.io/react-amap/                            |
+| @uiw/react-amap 高德地图              | 高德地图             | https://uiwjs.github.io/react-amap/                    |
+| react-device-detect               | 浏览器判断            | https://github.com/duskload/react-device-detect/       |
+| prismjs                           | 代码样式             | http://prismjs.com/                                       |
 
 ## Docker 部署环境文件
 
@@ -144,7 +146,8 @@ dark
 - [x] 优化权限菜单操作、展示效果
 - [x] 删掉无用的 Bean 属性
 - [x] 登录设备日志记录
-- [ ] 个人登录历史
+- [x] 个人登录历史
+- [ ] 在线账户管理
 - [ ] 单点登录控制
 - [x] 请求 URL 日志记录
 - [x] 请求 URL 增加注解，拦截时获取注解说明
@@ -178,8 +181,8 @@ dark
 - [x] 使用 react-contexify 替换现有的右键菜单
 - [ ] 国际化
 - [x] 图标 ℹ️ 技术整理
-- [ ] 图表 📈 技术整理
-- [ ] 通用导入方法
+- [x] 图表 � 技术整理
+- [x] 通用导入方法
 - [ ] 多租户
 - [ ] ES
 - [ ] 流程引擎
@@ -189,20 +192,23 @@ dark
 - [ ] 系统配置-邮件配置
 - [ ] 系统配置-短信配置
 - [ ] 短信验证码逻辑
+- [ ] 短信发送历史记录
 - [x] TabBar Extra Tools
 - [x] Dashboard
 - [x] Code Generator
 - [x] Http Utils
 - [x] Frontend use pnpm workspace.
 - [x] APK 打包上传接口（用于 CI）.
-- [ ] APK 增加记录下载次数
+- [x] APK 增加记录下载次数
 - [x] Office 文件在线编辑
 - [x] 数据库升级模块优化
-- [ ] 队列DEMO
+- [ ] 队列DEMO-kafka
 - [x] 亮色、暗色模式切换
 - [x] 亮色、暗色模式各组件展示
 - [ ] mybatis-plus动态指定表名DEMO
 - [ ] 菜单布局适配手机
+- [x] DOC-增加文档查看次数统计
+- [x] DOC-编辑文档网页权限校验
 
 # [CHANGELOG](./CHANGELOG.md)
 

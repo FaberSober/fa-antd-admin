@@ -36,12 +36,6 @@ const SITE_INFO: SITE_INFO_TYPES = {
   ],
   ADMIN_DEFAULT_LAYOUT: [
     {"h": 3, "i": "HelloBanner", "w": 16, "x": 0, "y": 0, "moved": false, "static": false},
-    {"h": 12, "i": "LoginArea", "w": 4, "x": 0, "y": 3, "moved": false, "static": false},
-    {"h": 12, "i": "LoginLine", "w": 12, "x": 4, "y": 3, "moved": false, "static": false},
-    {"h": 12, "i": "SystemCpu", "w": 4, "x": 4, "y": 15, "moved": false, "static": false},
-    {"h": 12, "i": "SystemDisk", "w": 4, "x": 12, "y": 15, "moved": false, "static": false},
-    {"h": 12, "i": "SystemMemory", "w": 4, "x": 8, "y": 15, "moved": false, "static": false},
-    {"h": 12, "i": "ApiCount", "w": 4, "x": 0, "y": 15, "moved": false, "static": false},
   ],
 };
 
