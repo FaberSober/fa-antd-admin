@@ -35,7 +35,7 @@ dark
 2. 启动前端服务，
    1. 进入前端项目地址：`cd fa-frontend`
    2. 安装依赖：`pnpm i` (如果没有按照`pnpm`，需要先安装：`npm install -g pnpm`)
-   3. 如果遇到`canvas: Running install script...`执行很久的情况，可以使用安装命令：`pn i --ignore-scripts`
+   3. 如果遇到`canvas: Running install script...`执行很久的情况，可以使用安装命令：`pnpm i --ignore-scripts`
    4. 启动项目：`pnpm dev`
 
 ## 打包部署
