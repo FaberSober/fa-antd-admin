@@ -11,7 +11,7 @@
 项目将多个子模块进行了拆分，使用 git submodule 来管理多个 repo。
 
 ```
-git clone --recurse-submodules git@github.com:FaberSober/fa-antd-admin.git
+git clone --recurse-submodules https://github.com/FaberSober/fa-antd-admin.git
 ```
 
 ## 预览
