@@ -1,0 +1,43 @@
+# ------------------------------- docker环境 -------------------------------
+spring:
+  application:
+    name: fa-admin-docker
+  config:
+    activate:
+      on-profile: docker
+
+  datasource:
+    druid:
+      url: jdbc:mysql://${MYSQL_HOST:fa-admin-mysql5}:${MYSQL_PORT:3306}/${MYSQL_DBNAME:fa_admin}?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&useSSL=false
+      username: ${MYSQL_USERNAME:root}
+      password: ${MYSQL_PASSWORD:123456}
+
+  redis:
+    host: ${REDIS_HOST:fa-admin-redis7}
+    port: ${REDIS_PORT:6379}
+    password: fa@redis#1276
+
+
+server:
+  port: 80
+
+socketio:
+  host: 0.0.0.0
+  port: 18081
+
+fa:
+  setting:
+    url:
+      phpRedisAdmin: http://127.0.0.1:8182
+      socketUrl: 127.0.0.1:18081
+    # onlyoffice在线编辑office文件支持
+    onlyoffice:
+      # ONLYOFFICE_SERVER
+      onlyofficeServer: http://8.142.130.28:18907/
+      # 本服务提供给onlyoffice回调的服务器地址
+      callbackServer: http://8.142.130.28:18738/
+    # 系统设置
+    config:
+      # 系统是否在离线内网环境下运行
+      offline: false
+

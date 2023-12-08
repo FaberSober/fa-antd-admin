@@ -1,6 +1,7 @@
 # Get Start
 
-演示地址：http://47.105.146.245:8580/login
+演示地址：http://fa.dward.cn/login
+演示地址（备用）：http://47.105.146.245:8580/login
 演示账户：admin/888888
 
 - Github: https://github.com/FaberSober/fa-antd-admin
@@ -31,8 +32,9 @@ dark
 
 ## 开发说明
 
-1. 启动后端服务：`fa-admin/src/main/java/com/faber/AdminBootstrap.java`。启动服务后，会自动执行建表 sql，初始化数据库。
-2. 启动前端服务，
+1. 复制配置文件`application-dev.yml.sample`为`application-dev.yml`，修改数据库、redis等配置为本机配置环境。
+2. 启动后端服务：`fa-admin/src/main/java/com/faber/AdminBootstrap.java`。启动服务后，会自动执行建表 sql，初始化数据库。
+3. 启动前端服务，
    1. 进入前端项目地址：`cd fa-frontend`
    2. 安装依赖：`pnpm i` (如果没有按照`pnpm`，需要先安装：`npm install -g pnpm`)
    3. 如果遇到`canvas: Running install script...`执行很久的情况，可以使用安装命令：`pnpm i --ignore-scripts`

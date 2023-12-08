@@ -1,7 +1,7 @@
 package com.faber;
 
 import cn.easyes.starter.register.EsMapperScan;
-import cn.xuyanwu.spring.file.storage.EnableFileStorage;
+import cn.xuyanwu.spring.file.storage.spring.EnableFileStorage;
 import com.alicp.jetcache.anno.config.EnableMethodCache;
 import com.dtflys.forest.springboot.annotation.ForestScan;
 import com.yomahub.tlog.core.enhance.bytes.AspectLogEnhance;

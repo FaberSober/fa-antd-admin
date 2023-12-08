@@ -8,7 +8,7 @@ import {useNavigate} from "react-router-dom";
  * @author xu.pengfei
  * @date 2022/9/22 20:45
  */
-export default function index() {
+export default function AdminIndex() {
   const { user } = useContext(UserLayoutContext);
   const navigate = useNavigate();
 

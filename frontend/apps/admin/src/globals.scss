@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ant-select-disabled .ant-select-selection-item {
+  color: #f11717;
+}

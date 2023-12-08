@@ -7,11 +7,14 @@ const VITE_APP_AMAP_KEY = import.meta.env.VITE_APP_AMAP_KEY;
 /**
  * 使用admin的公共厂字形布局。这里还可以修改为：用户选择不同的布局，在这里返回不同的布局。
  */
-export default function admin() {
+export default function AdminLayout() {
   return (
     // @ts-ignore
     <APILoader version="2.0.5" akey={VITE_APP_AMAP_KEY}>
       <MenuContainer />
     </APILoader>
   )
+  // return (
+  //   <MenuContainer />
+  // )
 }
