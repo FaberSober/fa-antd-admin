@@ -57,7 +57,7 @@ importers:
       '@types/react-router-dom': 5.3.3
       '@types/three': 0.159.0
       '@types/uuid': 9.0.7
-      '@uiw/react-amap': 5.0.18
+      '@uiw/react-amap': 6.0.1
       '@vitejs/plugin-react': 4.2.0
       '@vitejs/plugin-react-swc': 3.5.0
       ahooks: 3.7.8
@@ -113,7 +113,7 @@ importers:
       '@react-three/drei': 9.89.3_l4ohbs2vtst2hnyktmd7qykivy
       '@react-three/fiber': 8.15.12_q74htjk4ezsk5why5gqgrn5uxu
       '@tinymce/tinymce-react': 4.3.2_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap': 6.0.1_biqbaboplfbrettd7655fr4n2y
       ahooks: 3.7.8_react@18.2.0
       allotment: 1.19.3_biqbaboplfbrettd7655fr4n2y
       antd: 5.11.2_biqbaboplfbrettd7655fr4n2y
@@ -3041,357 +3041,357 @@ packages:
       eslint-visitor-keys: 3.4.3
     dev: false
 
-  /@uiw/react-amap-api-loader/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-KKWHUhhugInjnZtFOkM7TrOScjP65/2AAZ7OuwUzEXbMZxz2v6cfUg6d+a0cNdiulGzJz1vQIaOqP7vHImTf1g==}
+  /@uiw/react-amap-api-loader/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-LoZUjMEfSksNl6luvbBuwrvW9nEV67VLIMGFXPkJY/qX2cidPyzioz16wYouwDovLGVEGYNF+ciXr+v+2YAwaA==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
       '@amap/amap-jsapi-loader': 1.0.1
-      '@uiw/react-amap-require-script': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-types': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-require-script': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-types': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-auto-complete/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-b7wl8Tc2dAEQKqS0+tvmYnSqEu+m2TnOOYF/Tavlp+3mDVO2WX9qRiHeUW4HRlZgw/rgiSOz0JyiQKVrDzGprA==}
+  /@uiw/react-amap-auto-complete/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-KxAOJRRJr4Zgt4OLdL5LBVG67IjoARud4bY65RlrmADykLFIRtH+ret1Si31/5bT/xPXAQ62THsUbe3392VEkA==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-types': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-types': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-bezier-curve/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-7WuVQIcwKM2+1Fg2CpYA8Zi3nVJlWWqw+THOzl6tsUKYR35Qr35qQtOUADxe+9xNnjcYJhOT4diNqXpIOjIdTA==}
+  /@uiw/react-amap-bezier-curve/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-oh+bjCzDy+T8aMEIK0FJMLeP6qHv7S0hKWPCd7N390srXuAXjC4f5nXle8rDhZ4zczj20GyyJZj+gGG6U9uvZA==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-types': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-types': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-circle-marker/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-WKjr5J5LTrzl/w+xUpwpy+OfR7U24kB6DltQe7xz26Q6At4l2xBOK0gcPkx7OQ0UlHQgKyxGgYNHeyie7o9mIw==}
+  /@uiw/react-amap-circle-marker/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-mN6LNh4/FzMe3g6D6CPjFOxNV2fhB2HaXmHja//sgoenEJAIkcgiaY6DYXwmvIDyTQ198mD17X2L0YXdCeZczg==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-types': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-types': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-circle/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-R3u/WgEle7ADKpwhEXN+yHYKBSZlYtt0u/O4fVZNadeSWfe4AUZpfQDHCr2V+3h6u9voU/QxKOPPbZGjp2PEKA==}
+  /@uiw/react-amap-circle/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-GSU//sBh8piSlH2k4JyvE2oPRiPTCksvg9MKZMnfYZ+dZz/h1cy1goEEKL6nWc0n8/NG1Q7kQCR1uO4f3zl0Lg==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-types': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-types': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-context-menu/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-79NEQ2KutqE84w7Hx65AKE/lAuK83khiDKFyPq48zqC/XEeXpDLHRX2D49wNsHwZfyd5Ghl+C7iBMeex34CCjQ==}
+  /@uiw/react-amap-context-menu/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-aWDW479SwDdsF9WXEKt3y9ndWGgLyAY83Niz48nUjmsaQl33VWLwt7FKYr8qeiJVFB3vu8midXSydNYsEursxA==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-types': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-types': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-control-bar-control/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-dMtBpSw6fQCmpjNdMBTaYGJKocchQ+xEEl0akHtZK03BwPuhJWLuvPgjRj32bZ9Hyck9yTa7Sj+J92Fxd/yh/g==}
+  /@uiw/react-amap-control-bar-control/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-tvJTHFKi8VtFzl91FljK8FN0k+OJMjOITGo5jvjRkbqYPvev/8Op2rwt76dCC3nQVSSu3nCoIPV+H4tyzpeyLg==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-types': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-types': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-ellipse/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-ZN2agowLl9lL/TIsEFA3ohmfQfkol7pBLbtKKQfCyLm6H4EDFbz03RkY06yfubRx/PakBiJ2jFJhIoCCXedKng==}
+  /@uiw/react-amap-ellipse/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-xoAQwqH5A9VsvMzpiwhA3zdDteWCnCyIs3G4pfE0xANMsZ20fNYbyt1gNLshmLjW3UeUoju1OKb7A6fOWVqlDg==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-types': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-types': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-geolocation/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-EhbK85ohIaE2E/gwXmXg54EI4ewfZSIkDLTDzJdfmLVCzY4Af3BhmPmzUTFQNCyRiCau3BiW5l9IJlc1cUFOcw==}
+  /@uiw/react-amap-geolocation/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-9yvoy7k3rXVte5Xm1GHrsGmLlwvZpoQ2V1yociOmNxhDVCSxlgv8b42nIgBqkJDl+swnYvWJf6wwHsgmbpmRFA==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-hawk-eye-control/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-u4xWLrN5VqeM4fKUSK2SwXHmcdS7jsSQG7BW3bs9DDRIwdZuVk5qUM1fDfxVUPB8X1YJVHKK1V1wDAseavHMcg==}
+  /@uiw/react-amap-hawk-eye-control/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-NFs+SoyMn7VdSHENfxFSsTkmjvyIQCV5QDZzGGJd7MSgqhSH9HJ3s5S/Mhh3ByjAEZcLxvJjt3OAwUMsMnv/mg==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-info-window/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-hfMDM08VKfnHQb+0QLpgE5Esymk9HAINs9gdB6ttGCFdOXvMfQBJWthh6KEdlcKxmMT62B0sxvj4II468oDY4Q==}
+  /@uiw/react-amap-info-window/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-Wjoz2lUOePrGlY3Q5jJlPjQ3l+5apHTELd7xcp0412HgMWTibdSnVfM7PxTco7M0FhykHbM5f5dGkgmwq4Qtdg==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-label-marker/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-Cr37rNdzYKCAPqCJxtoDvtPPSxqV/1le47RmKTkfzlV0vBZ2Bo2ijKvSwYWcNjlwMcR6gAkNU/w0d0awr80reQ==}
+  /@uiw/react-amap-label-marker/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-EAmM5Xa42fxe2g/xr9PpZGeWfF7RiRtGfVUbnoUD9jQWi6izyLOPmQkGTHCpa7T2e4oAA24I+L4GKPcQWiEYdg==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-map-type-control/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-vC/Yf/xYbMeVQYKlldNX9wVCEyB9pWukCEcvnWyYQAANHFzLwKWDwO0g2OZMwtP2L1NWnj1twMnY5hc65DFhiQ==}
+  /@uiw/react-amap-map-type-control/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-67+gbjkVrjHnikOvRgZboardqWFu4YXInTDpAHkSWv38/7jB+RowB49qG92A3WblfyMxdXOkGY2c0CsbC9CuGA==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-map/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-CfCC+hHVkeXiQNp8kLBA/WvZ7IYc/sX3poao7dX2hjTyUmz80s3kl+6iMb5653TKs5UVxu/Nxt4zanlAHiD4iA==}
+  /@uiw/react-amap-map/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-pkD9t5O6w+KNo6ONodk74NTBJaI0ft8baKtTpB8JH+wLNJMyP1PEoX1Eu1+6uVurGCji0Q4xBR9lJ2HIyJ66Ng==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-types': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-types': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-marker/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-WNugkRKlRO2hCI6zGe4fxdnNsBGvfucShTm0sfTybrBkEm1Bjw9IeNf4LHxCykHSzoKhPrSei+0ZUulCU4IHgg==}
+  /@uiw/react-amap-marker/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-/WAG7W+Ek/82/QPG4NZVcvdq4lKRtX3wGfTdQkNUOT9FBMUvL1Vt4/kGkbjht6GQdg8wgTnX+1YTyBgg/KLDQg==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-mass-marks/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-5zi1d7Rje8hqWuW9PUdIO7dNORlQuCOmkOlbutP9O1KNSyyCfADnqrWmIU7efXFELXTB2EMmOV8LL/p4Rk7xNQ==}
+  /@uiw/react-amap-mass-marks/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-5A3IWzyH5FLjFiXNDWSN+Vz30gLtILpklvUpUGr5ZzCP+AhjLj8x+798kvMqx9m+RQYGjmQKgHaYYcxGoHjF2w==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-mouse-tool/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-pjoTE1yeoJdnKEv5ULiQ6dv/bLkOkVGOXQBus+jI2DTHJzomqhsLQ6sl6qlNIhEV7y+8yQp/3qg7N701aKoXEQ==}
+  /@uiw/react-amap-mouse-tool/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-hO8L1L2jTpSlRezbt7fmWhOMZC6Pef3t33DAW4Ws2iR7r5jNT/loLqeX3RkjBqQEsO7W6nJtWXoIhc/o9MBVmA==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-types': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-types': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-poly-editor/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-zBXad3nWUC0d+eybthKKPyyWOwMbJQBemh42mcAYE7CtEfx7L+CVg0LVNzpN8OhocAXJTOVehoAjpbug1NNQSg==}
+  /@uiw/react-amap-poly-editor/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-6As2fgRfMBBxC0XsbsiDfBTAwQ1C6moPUR0g6taAaSakNoS/8SeK3ocdB5EBivbV3ltt5qgh5hqUs6ahUR7Llg==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-polygon': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-polyline': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-types': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-polygon': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-polyline': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-types': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-polygon-editor/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-kOtCc5NVyLHIzz4i94wJgukpH/WVCk786ewuhyTSRdG4OvKH9cFn9pUK36Kw8TSWgVIgdjJFuDSvpqQb6+D4iA==}
+  /@uiw/react-amap-polygon-editor/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-LjBl6/utkPrvtqFk1ReTsHbqDAxd3ivDeFzVAgGtzO87nm/a+1SowkRCEIN/mDctPG2kfgnv4Lnqi9st24HhbA==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-polygon': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-types': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-polygon': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-types': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-polygon/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-TPKgAAkeVGMwJJ+qSZlzLYXQ86RxQC+D0vH12qqSUWL+1EUe17IY/n9zqPhtj3jyFpLS4Tvw9n+Hjxzf9ET/zg==}
+  /@uiw/react-amap-polygon/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-LNterv8DpoK168BJl+n8y9y9LZg8PmnyN42kdwYTOQVdQUZGdId22fz8UfT5ja1TzqmsyU2/nsHHJkJ4t9k+Xw==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-polyline-editor/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-8Gt7EVc5FUF93Ys5+UqfTT8sdybxs5LvA8368WTJlzgEn4YIKz4WaeMTNx13H4Pxo18cKp9uZ7gNvlP7lahpRw==}
+  /@uiw/react-amap-polyline-editor/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-L/cNBFzbLEQOs/u8Y4/vWfsxvKG8WuQrtGPp74KsvgUMdioHs3MvSv8LTug5lCrABBHJg4lCdJiTc45Ysjj57g==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-polyline': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-polyline': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-polyline/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-rKy2TpYLv/+03uAPiK6XhSc/LveAh0ufR49P8IOZKGw3b8bPmOJmTathN2fx7V7jd1+pW+/eVmf5BJ/FTMTt/w==}
+  /@uiw/react-amap-polyline/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-iAtuihXqPOh0wzell8Ee//TEcmS+rIhvrkgrBjwMohqMTCytlKquFDYd93O+O90mppub0qc199a1XbExhdf1gQ==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-rectangle/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-kn6L8YMnHlhHRB18JZAaeCptv4Tk0f3Sk8LPX+sNxYwytUXVdNWKXVLPLQVN2rtn8vIZ2ZY5uy7AnXvfgdV4QQ==}
+  /@uiw/react-amap-rectangle/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-ph+0NlUJjnjeaMabnwuOrTqp7MW4vkMfFZggDyX0xd8dVhoOqsRDF8ivGF6MS1x4bT1twGpNTPqOMpjCXf/AXw==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-require-script/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-K7gevbZIjq/g9De8IecFuixl08cr3kIgF1soLx7uy3XSTaZf0kZhj4pi7FlvdWWLTc1gVKYMvgyB6/bHNjrSIg==}
+  /@uiw/react-amap-require-script/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-itYAlMcf2fhwrK67bfOSqu6VNljFiTc+7jub5z8hpglIEBMITZQrRJrR2hvtgTAUN5LNVTb+Vrc1YFBCayRDGQ==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-types': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-types': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-scale-control/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-MBevPyB/O/JZHaeZ7dobKXVtAywi7YOciggLyctVP4F9MsWdegqh77ea20djl/gbC5OZzZ7TXOmIsjvUbACKZA==}
+  /@uiw/react-amap-scale-control/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-meAblKDzbXtkc4n7tF2nET1MKrE9/tEYvxpqf+mE2ad0rff9dOq0O91TLThpulSnyIa005K+lf9uMdaOwNa8ng==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-text/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-Aw+1jeHq8+Snf4sX7WDJJT/HnT8tGzKz2W5tOrRT75FFXbTrClDtu1A8H2AaAFcj0F8+FraLIE7e/5VMeARaqQ==}
+  /@uiw/react-amap-text/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-1jOLjcD4cJha1pFeR8xQhgX/TBTTIUfCSb2ifzj2epLPmFvrggLOzDmGxfnysvpMFDGf3llvTiDZuIcHURmvyw==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-tile-layer/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-f9hFNgaJBsvio8DgmuJA6pgpvkfk1vw+DoIKyHiMOFFBObjn/v9ELF0simXy1rhcFWeyhQqinT8IGQhWDHVuig==}
+  /@uiw/react-amap-tile-layer/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-hf8MPeWCVMA0JOTwHGPpvyfi8wZc/LV+0rRJN8d5YbMx0jgtKgNEGl1l1gNF+Www2gxnJl3Jn8zpEGTGNS03Sw==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-tool-bar-control/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-UOIMpIh7GC/CRKkw3dYIZVlXw9pjZD5B85PfLjO5d2gANEWc78uYebmkvlhKVFZsMfuZ4tlNuL2X7o3vAhGXug==}
+  /@uiw/react-amap-tool-bar-control/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-r32Oo3IxHus33OcKHTlGW6uywEOimS3XN0kzEWb0N6Ey/NQ7/jay6uzJSALAZr84GN+S1/qPt7WBG7nIYMfTAw==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-types/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-IIXBy29vgSENtVwUgKHVCjWg70Dpm7asGmzp77xZVFUm0ivxZIMFpLdE22hmF33U1o0vAAFf43+Lu2V+sUoyzQ==}
+  /@uiw/react-amap-types/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-SwM5oMm4mYFRGIVxQVOEELH03zhANCXprp+QQNVuAIna6dWzshn9mB7PyzChZJqJ/R7n+Sn7qqKyld54BPpjVQ==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
@@ -3400,66 +3400,66 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-utils/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-Fgy3Ulc1zUBoRsvP6kr18YLDlYnzOE2Z0R2CuZahsGE0eyzhhLzlxVyLcSc+c2VEz45UHvEsqtZgO+Mb6gbu0A==}
+  /@uiw/react-amap-utils/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-e4H1UAgf06N+n+5GXXNeWIYWnuRxAM9o3md43bQBMZAqGZWt6RaQQLyjV3IV/JUrdyAG5AJTuaMgMnTqzwgXZA==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-types': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-types': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap-weather/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-UKZ8LXrOCHeAGz16dwjDs82+dsKAizo5ei9EqoH34f7p07U8oUBMctq6Em+batkPQ5JdA5a/HwxjXzwh38UlEQ==}
+  /@uiw/react-amap-weather/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-cWz6H86P57HtOcEYDvfFARO/AR+t7MZJGUDmOool76odrHlgMBZgqthxvLQKw07QNPLEXL0YdY+C5tf8arP6rQ==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@uiw/react-amap/5.0.18_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-jgUOV8OMdnPxZSY82EX80C9FKjK0mAYq7aT+uXPTCG0FHJzrhosnXVyBm7MFGKwJdK4e95cnp90PM9g36ae7+w==}
+  /@uiw/react-amap/6.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-GP2Q8OUPPEU4nGW7tUIRwKq2twsO+vLcgSNOABcJSdMkV5S/4bSq6o3f/Bw1Y0UTdog+5iK62OY0SL7bA7FDQA==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@uiw/react-amap-api-loader': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-auto-complete': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-bezier-curve': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-circle': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-circle-marker': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-context-menu': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-control-bar-control': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-ellipse': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-geolocation': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-hawk-eye-control': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-info-window': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-label-marker': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-map': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-map-type-control': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-marker': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-mass-marks': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-mouse-tool': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-poly-editor': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-polygon': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-polygon-editor': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-polyline': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-polyline-editor': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-rectangle': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-require-script': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-scale-control': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-text': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-tile-layer': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-tool-bar-control': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-types': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-utils': 5.0.18_biqbaboplfbrettd7655fr4n2y
-      '@uiw/react-amap-weather': 5.0.18_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-api-loader': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-auto-complete': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-bezier-curve': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-circle': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-circle-marker': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-context-menu': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-control-bar-control': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-ellipse': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-geolocation': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-hawk-eye-control': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-info-window': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-label-marker': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-map-type-control': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-marker': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-mass-marks': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-mouse-tool': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-poly-editor': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-polygon': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-polygon-editor': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-polyline': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-polyline-editor': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-rectangle': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-require-script': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-scale-control': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-text': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-tile-layer': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-tool-bar-control': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-types': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-utils': 6.0.1_biqbaboplfbrettd7655fr4n2y
+      '@uiw/react-amap-weather': 6.0.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false

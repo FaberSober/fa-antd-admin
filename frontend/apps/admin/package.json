@@ -25,7 +25,7 @@
     "@react-three/drei": "9.89.3",
     "@react-three/fiber": "8.15.12",
     "@tinymce/tinymce-react": "4.3.2",
-    "@uiw/react-amap": "5.0.18",
+    "@uiw/react-amap": "6.0.1",
     "ahooks": "3.7.8",
     "allotment": "1.19.3",
     "antd": "5.11.2",
