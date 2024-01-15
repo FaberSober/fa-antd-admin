@@ -2,4 +2,4 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 cd frontend
-pnpm lint && pnpm pretty-quick --staged
+pnpm lint-staged

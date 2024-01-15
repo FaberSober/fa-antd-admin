@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { Suspense } from 'react';
 // import ReactDOM from "react-dom";
 import { createRoot } from 'react-dom/client';
