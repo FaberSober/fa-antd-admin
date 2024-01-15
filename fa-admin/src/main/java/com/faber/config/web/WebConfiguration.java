@@ -31,6 +31,7 @@ public class WebConfiguration extends BaseWebConfiguration {
         // ---------------------- Admin管理平台接口（适用于基础账户base_user登录） ----------------------
         registry.addInterceptor(getFirstEmptyInterceptor()).addPathPatterns(API_URLS); // 拦截获取request IP
         registry.addInterceptor(getUserAuthRestInterceptor()).addPathPatterns(API_URLS); // 拦截用户token
+        registry.addInterceptor(getUserDeviceInterceptor()).addPathPatterns(API_URLS); // 拦截APP用户设备信息
         registry.addInterceptor(getPermissionInterceptor()).addPathPatterns(API_URLS); // 拦截用户权限
         registry.addInterceptor(getGateLogInterceptor()).addPathPatterns(API_URLS); // 请求URL日志拦截
 
