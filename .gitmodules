@@ -1,40 +1,40 @@
 [submodule "fa-core"]
 	path = fa-core
-	url = https://github.com/FaberSober/fa-core.git
+	url = git@github.com:FaberSober/fa-core.git
 	branch = main
 [submodule "fa-base"]
 	path = fa-base
-	url = https://github.com/FaberSober/fa-base.git
+	url = git@github.com:FaberSober/fa-base.git
 	branch = main
 [submodule "frontend/fa-ui"]
 	path = frontend/fa-ui
-	url = https://github.com/FaberSober/fa-ui.git
+	url = git@github.com:FaberSober/fa-ui.git
 	branch = main
 [submodule "frontend/apps/admin/features/fa-admin-pages"]
 	path = frontend/apps/admin/features/fa-admin-pages
-	url = https://github.com/FaberSober/fa-admin-pages.git
+	url = git@github.com:FaberSober/fa-admin-pages.git
 	branch = main
 [submodule "fa-demo"]
 	path = fa-demo
-	url = https://github.com/FaberSober/fa-demo.git
+	url = git@github.com:FaberSober/fa-demo.git
 	branch = main
 [submodule "frontend/apps/admin/features/fa-admin-demo-pages"]
 	path = frontend/apps/admin/features/fa-admin-demo-pages
-	url = https://github.com/FaberSober/fa-admin-demo-pages.git
+	url = git@github.com:FaberSober/fa-admin-demo-pages.git
 	branch = main
 [submodule "fa-disk"]
 	path = fa-disk
-	url = https://github.com/FaberSober/fa-disk.git
+	url = git@github.com:FaberSober/fa-disk.git
 	branch = main
 [submodule "frontend/apps/admin/features/fa-disk-pages"]
 	path = frontend/apps/admin/features/fa-disk-pages
-	url = https://github.com/FaberSober/fa-disk-pages.git
+	url = git@github.com:FaberSober/fa-disk-pages.git
 	branch = main
 [submodule "fa-app"]
 	path = fa-app
-	url = https://github.com/FaberSober/fa-app.git
+	url = git@github.com:FaberSober/fa-app.git
 	branch = main
 [submodule "frontend/apps/admin/features/fa-app-pages"]
 	path = frontend/apps/admin/features/fa-app-pages
-	url = https://github.com/FaberSober/fa-app-pages.git
+	url = git@github.com:FaberSober/fa-app-pages.git
 	branch = main

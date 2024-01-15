@@ -39,7 +39,7 @@
     "keyboardjs": "2.7.0",
     "lodash": "4.17.21",
     "pdfjs-dist": "3.3.122",
-    "print-js": "^1.6.0",
+    "print-js": "1.6.0",
     "qs": "6.11.2",
     "react": "18.2.0",
     "react-activation": "0.12.4",
