@@ -5,7 +5,7 @@ import { userApi } from "@/services";
 import {SITE_INFO} from "@/configs";
 
 
-export default function App() {
+export default function AppPages() {
   const navigate = useNavigate();
 
   useEffect(() => {

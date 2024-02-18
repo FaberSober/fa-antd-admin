@@ -21,6 +21,8 @@ window.FaFrom = import.meta.env.VITE_APP_FA_FROM;
 window.FaVersionCode = import.meta.env.VITE_APP_FA_VERSION_CODE;
 window.FaVersionName = import.meta.env.VITE_APP_FA_VERSION_NAME;
 
+window.FaRoutes = routes;
+
 
 function App() {
   return <Suspense fallback={<PageLoading />}>{useRoutes(routes)}</Suspense>;
