@@ -103,6 +103,7 @@ dark
 | @uiw/react-amap 高德地图              | 高德地图             | https://uiwjs.github.io/react-amap/                    |
 | react-device-detect               | 浏览器判断            | https://github.com/duskload/react-device-detect/       |
 | prismjs                           | 代码样式             | http://prismjs.com/                                       |
+| katex                             | 公式               | https://katex.org/                                       |
 
 ## Docker 部署环境文件
 
@@ -183,7 +184,7 @@ dark
 - [x] 使用 react-contexify 替换现有的右键菜单
 - [ ] 国际化
 - [x] 图标 ℹ️ 技术整理
-- [x] 图表 � 技术整理
+- [x] 图表 📈 技术整理
 - [x] 通用导入方法
 - [ ] 多租户
 - [ ] ES

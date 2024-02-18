@@ -160,6 +160,10 @@ fa:
     # API配置
     api:
       tokenApiHeader: FaApiToken
+    # APP配置
+    app:
+      # 设备首次注册后是否允许访问
+      deviceDefaultAllow: true
     file:
       # 系统文件存储方式: local-本地存储/qiniu-七牛云
       saveType: local
