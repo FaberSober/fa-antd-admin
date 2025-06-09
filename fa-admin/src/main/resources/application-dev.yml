@@ -1,0 +1,62 @@
+# ------------------------------- 开发环境 -------------------------------
+server:
+  port: 80
+spring:
+  application:
+    name: fa-admin-dev
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DBNAME:fa_admin_dev}?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&useSSL=false&rewriteBatchedStatements=true
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:123456}
+
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      password: ~
+      prefix: fa-admin-dev #默认key前缀
+      lettuce:
+        pool:
+          # 连接池最大连接数
+          max-active: 8
+          # 连接池最大阻塞等待时间（使用负值表示没有限制）
+          max-wait: -1ms
+          # 连接池中的最大空闲连接
+          max-idle: 2
+          # 连接池中的最小空闲连接
+          min-idle: 0
+
+  elasticsearch:
+    uris: http://127.0.0.1:9200
+    username: elastic
+    password: 123456
+
+easy-es:
+  enable: true #默认为true,若为false则认为不启用本框架
+  address: 127.0.0.1:9200 # es的连接地址,必须含端口 若为集群,则可以用逗号隔开 例如:127.0.0.1:9200,127.0.0.2:9200
+  username: elastic #若无 则可省略此行配置
+  password: 123456 #若无 则可省略此行配置
+  global-config:
+    print-dsl: true
+    db-config:
+      index-prefix: fa-admin-dev-
+
+logging:
+  level:
+    tracer: trace
+
+fa:
+  setting:
+    url:
+      phpRedisAdmin: http://127.0.0.1:8090
+      kkFileView: http://127.0.0.1:8091
+    # onlyoffice在线编辑office文件支持
+    onlyoffice:
+      # ONLYOFFICE_SERVER
+      onlyofficeServer: http://127.0.0.1:8092/
+      # 本服务提供给onlyoffice回调的服务器地址
+      callbackServer: http://127.0.0.1:80/
