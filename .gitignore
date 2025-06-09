@@ -10,3 +10,5 @@ log/
 .factorypath
 **/rebel.xml
 ./tmp*
+rebel.xml
+.DS_Store

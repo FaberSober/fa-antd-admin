@@ -12,6 +12,7 @@ spring:
   web:
     resources:
       static-locations: classpath:public/,classpath:static/,file:static/,file:public/,classpath:/resources,classpath:/META-INF/resources/,classpath:/META-INF/resources/webjars/
+  # https://blog.csdn.net/weixin_71454352/article/details/140207880
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -20,11 +21,11 @@ spring:
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DBNAME:faber_admin}?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&useSSL=false&rewriteBatchedStatements=true
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:123456}
     druid:
       name: fa-admin-dev
-      url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DBNAME:faber_admin}?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&useSSL=false&rewriteBatchedStatements=true
-      username: ${MYSQL_USERNAME:root}
-      password: ${MYSQL_PASSWORD:123456}
       filters: stat
       max-active: 20
       initial-size: 1
@@ -63,27 +64,50 @@ spring:
           service-base-url: http://localhost
 
   #redis-cache 相关，这里是springboot2.x的redis配置，与下面ace-cache的配置重复，但是都不能删除，后续要改进
-  redis:
-    host: ${REDIS_HOST:localhost}
-    port: ${REDIS_PORT:6379}
-    database: 0
-    timeout: 2000
-    password: ~
-    sysName: fa-admin-dev #默认key前缀
-    lettuce:
-      pool:
-        max-active: 300
-        min-idle: 100
-        max-wait: 1000
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      database: 0
+      timeout: 2000
+      password: ~
+      prefix: fa-admin # 默认key前缀
+      lettuce:
+        pool:
+          # 连接池最大连接数
+          max-active: 200
+          # 连接池最大阻塞等待时间（使用负值表示没有限制）
+          max-wait: -1ms
+          # 连接池中的最大空闲连接
+          max-idle: 10
+          # 连接池中的最小空闲连接
+          min-idle: 0
+
   servlet:
     multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
+      max-file-size: 1000MB
+      max-request-size: 1000MB
   #      location: /tmp
 
-  file-storage: #文件存储配置
+  elasticsearch:
+    uris: http://localhost:9200
+    username: elastic
+    password: 123456
+easy-es:
+  enable: true #默认为true,若为false则认为不启用本框架
+  address : 127.0.0.1:9200 # es的连接地址,必须含端口 若为集群,则可以用逗号隔开 例如:127.0.0.1:9200,127.0.0.2:9200
+  username: elastic #若无 则可省略此行配置
+  password: 123456 #若无 则可省略此行配置
+  global-config:
+    print-dsl: true
+    db-config:
+      index-prefix: fa-ai-dev-
+
+dromara:
+  x-file-storage: #文件存储配置
     default-platform: local-plus-1 #默认使用的存储平台
     thumbnail-suffix: ".min.png" #缩略图后缀，例如【.min.jpg】【.png】
+    #对应平台的配置写在这里，注意缩进要对齐
     local-plus: # 本地存储升级版，不使用的情况下可以不写
       - platform: local-plus-1 # 存储平台标识
         enable-storage: true #启用存储
@@ -93,32 +117,27 @@ spring:
         path-patterns: /** # 访问路径
         storage-path: D:/Temp/file/ # 存储路径
 
+# sa-token 配置
+sa-token:
+  # token 名称 (同时也是 cookie 名称)
+  token-name: Authorization
+  # token 有效期（单位：秒） 默认30天，-1 代表永久有效
+  timeout: 2592000
+  # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
+  active-timeout: -1
+  # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）
+  is-share: true
+  # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: true
+
 # Mybatis-Plus，在MybatisPlusConfig中代码配置
 #mybatis-plus:
 #  # Maven 多模块项目的扫描路径需以 classpath*: 开头 （即加载多个 jar 包下的 XML 文件）
 #  mapper-locations: classpath*:/mapper/**/*.xml
-
-# jetcache
-jetcache:
-  statIntervalMinutes: 10
-  areaInCacheName: false
-  local:
-    default:
-      type: linkedhashmap
-      keyConvertor: fastjson2
-  remote:
-    default:
-      type: redisson
-      keyConvertor: fastjson2
-      broadcastChannel: fa-admin
-      keyPrefix: "fa-admin:"
-      valueEncoder: kryo5
-      valueDecoder: kryo5
-      defaultExpireInMillis: 5000000
-
-# elasticsearch
-easy-es:
-  address: 127.0.0.1:9200
 
 # 配置swagger
 swagger:
@@ -130,6 +149,7 @@ swagger:
   contact:
     name: admin
 
+# spring-boot-admin监控服务对接配置
 management:
   endpoint:
     health:
@@ -145,18 +165,28 @@ management:
 # 声明式HTTP客户端框架
 forest:
   backend: okhttp3 # 配置后端HTTP API为 okhttp3
+  connect-timeout: 10000
+  read-timeout: 100000
+  timeout: 60000
 #  variables:
 #    api: https://xxx.com/api      # pconline ip地址查询
 
 # 一些默认配置
 fa:
   setting:
-    # JWT配置
+    # TODO 删除JWT配置（使用sa-token替代）
     jwt:
       tokenHeader: Authorization
       # token失效时间(单位秒)，24小时
       expire: 86400
+      # secret的长度需要大于18
       secret: 2022#8m3n2@fa-admin
+    # 安全配置
+    safety:
+      # 是否校验URL、body的签名完整性
+      intact: false
+      # 和前端统一的签名密钥，前端配置地址为：frontend/apps/admin/.env.development (.env.production)
+      secret: 103103
     # API配置
     api:
       tokenApiHeader: FaApiToken
@@ -191,6 +221,7 @@ fa:
     url:
       phpRedisAdmin: http://127.0.0.1:8182
       socketUrl: 127.0.0.1:8081
+      kkFileView: http://127.0.0.1:8012
     # onlyoffice在线编辑office文件支持
     onlyoffice:
       # ONLYOFFICE_SERVER，返回给前端获取api
@@ -205,29 +236,14 @@ fa:
       fileViewedDocs: .pdf|.djvu|.xps|.oxps
       fileEditedDocs: .docx|.xlsx|.csv|.pptx|.txt|.docxf
       fileConvertDocs: .docm|.dotx|.dotm|.dot|.doc|.odt|.fodt|.ott|.xlsm|.xlsb|.xltx|.xltm|.xlt|.xls|.ods|.fods|.ots|.pptm|.ppt|.ppsx|.ppsm|.pps|.potx|.potm|.pot|.odp|.fodp|.otp|.rtf|.mht|.html|.htm|.xml|.epub|.fb2
-
-
-#============================================================================
-# netty socket io setting
-#============================================================================
-# host在本地测试可以设置为localhost或者本机IP，在Linux服务器跑可换成服务器IP
-socketio:
-  host: 127.0.0.1
-  port: 8081
-  # 设置最大每帧处理数据的长度，防止他人利用大数据来攻击服务器
-  maxFramePayloadLength: 1048576
-  # 设置http交互最大内容长度
-  maxHttpContentLength: 1048576
-  # socket连接数大小（如只监听一个端口boss线程组为1即可）
-  bossCount: 1
-  workCount: 100
-  allowCustomRequests: true
-  # 协议升级超时时间（毫秒），默认10秒。HTTP握手升级为ws协议超时时间
-  upgradeTimeout: 1000000
-  # Ping消息超时时间（毫秒），默认60秒，这个时间间隔内没有接收到心跳消息就会发送超时事件
-  pingTimeout: 6000000
-  # Ping消息间隔（毫秒），默认25秒。客户端向服务器发送一条心跳消息间隔
-  pingInterval: 25000
+    threadPoolConfig:
+      corePoolSize: 5
+      maxPoolSize: 20
+      queueCapacity: 20
+      keepAliveSeconds: 200
+      threadNamePrefix: my-fa-thread-
+      waitForJobsToCompleteOnShutdown: true
+      awaitTerminationSeconds: 60
 
 # --------------------------------------------- 短信模板-阿里云 ---------------------------------------------
 aliyun:

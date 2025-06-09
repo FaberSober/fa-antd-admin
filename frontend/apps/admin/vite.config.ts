@@ -5,12 +5,23 @@ import react from '@vitejs/plugin-react';
 import Pages from 'vite-plugin-pages';
 // import { visualizer } from 'rollup-plugin-visualizer';
 import * as path from 'path';
+import UnoCSS from 'unocss/vite'
+import { sentryVitePlugin } from "@sentry/vite-plugin";
+
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
   console.log('loadEnv(mode, process.cwd())', env);
   return {
+    define: {
+      // 注入全局变量
+      __FA_SECRET__: JSON.stringify(env.VITE_APP_FA_SECRET),
+      __ADMIN_SUPER_PWD__: JSON.stringify(env.VITE_APP_ADMIN_SUPER_PWD),
+      FaFrom: JSON.stringify(env.VITE_APP_FA_FROM),
+      FaVersionCode: JSON.stringify(env.VITE_APP_FA_VERSION_CODE),
+      FaVersionName: JSON.stringify(env.VITE_APP_FA_VERSION_NAME),
+    },
     plugins: [
       // importToCDN.default({
       //   modules: [
@@ -26,19 +37,26 @@ export default defineConfig(({ mode }) => {
       //   // 静态js、css文件的路径拼接规则
       //   prodUrl: '/plugins/{name}/{version}/{path}',
       // }),
+      UnoCSS(),
       react(),
       Pages({
         dirs: [
           { dir: 'src/pages', baseRoute: '' },
           { dir: 'features/*/pages', baseRoute: '' },
         ],
-        exclude: ['**/components/*.tsx', '**/modal/*.tsx', '**/cube/*.tsx', '**/drawer/*.tsx', '**/helper/*.tsx'],
+        exclude: ['**/components/*.tsx', '**/modal/*.tsx', '**/cube/*.tsx', '**/drawer/*.tsx', '**/helper/*.tsx', '**/context/*.tsx'],
       }),
       // visualizer({
       //   open: true, //注意这里要设置为true，否则无效
       //   // gzipSize: true,
       //   // brotliSize: true,
       // }),
+      // Put the Sentry vite plugin after all other plugins
+      sentryVitePlugin({
+        org: "faberstudio",
+        project: "fa-doc",
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+      }),
     ],
     //* css模块化
     css: {
@@ -71,7 +89,7 @@ export default defineConfig(({ mode }) => {
         // external: [],
         output: {
           manualChunks: {
-            'react': ['react'],
+            react: ['react'],
             'react-dom': ['react-dom'],
             'react-grid-layout': ['react-grid-layout'],
             lodash: ['lodash'],
@@ -79,14 +97,10 @@ export default defineConfig(({ mode }) => {
             // 'react-monaco-editor': ['react-monaco-editor'],
             'pdfjs-dist': ['pdfjs-dist'],
             'react-pdf-viewer': ['@react-pdf-viewer/core', '@react-pdf-viewer/default-layout', '@react-pdf-viewer/highlight'],
-            // fortawesome: [
-            //   '@fortawesome/fontawesome-svg-core',
-            //   '@fortawesome/free-solid-svg-icons',
-            //   '@fortawesome/free-regular-svg-icons',
-            // ],
             '@fa/ui': ['@fa/ui'],
             '@fa/icons': ['@fa/icons'],
-            antd: ['antd', '@ant-design/colors', '@ant-design/icons'],
+            // antd 最新版5.x 在vite中分包后报错: https://github.com/ant-design/ant-design/issues/52436
+            // antd: ['antd', '@ant-design/colors', '@ant-design/icons'],
             echarts: ['echarts'],
             three: ['three', 'three-stdlib', '@react-three/drei', '@react-three/fiber'],
           },
@@ -99,6 +113,7 @@ export default defineConfig(({ mode }) => {
         '/api': {
           target: env.VITE_APP_BASE_URL,
           changeOrigin: true,
+          ws: true,
         },
       },
     },

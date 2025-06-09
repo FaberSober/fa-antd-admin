@@ -13,3 +13,48 @@ services:
     volumes:
       - ./file:/opt/fa-admin/file
       - ./log:/opt/fa-admin/log
+
+  kkFileView:
+    container_name: kkFileView
+    image: keking/kkfileview:4.1.0
+    ports:
+      - 8012:8012
+    restart: always
+
+  ai-es01:
+    container_name: ai-es01
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
+    volumes:
+      - esdata01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    environment:
+      - node.name=es01
+      - ELASTIC_PASSWORD=infini_rag_flow
+      - bootstrap.memory_lock=false
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - TZ='Asia/Shanghai'
+    mem_limit: 8073741824
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: ["CMD-SHELL", "curl http://localhost:9200"]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+    networks:
+      - fa-ai
+    restart: always
+
+volumes:
+  esdata01:
+    driver: local
+
+networks:
+  fa-ai:
+    driver: bridge

@@ -1,8 +1,7 @@
-import React, {useContext, useEffect} from 'react';
-import {UserLayoutContext} from "@/layout";
-import {SITE_INFO} from "@/configs";
-import {useNavigate} from "react-router-dom";
-
+import React, { useContext, useEffect } from 'react';
+import { UserLayoutContext } from '@/layout';
+import { SITE_INFO } from '@/configs';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * @author xu.pengfei
@@ -22,7 +21,7 @@ export default function AdminIndex() {
     //   closeable: false, // 是否可以关闭/** 图标标识 */
     //   icon: <HomeOutlined />
     // })
-  }, [])
+  }, []);
 
   return <div>Hello, {user.name}!</div>;
 }

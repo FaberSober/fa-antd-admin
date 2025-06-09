@@ -32,11 +32,10 @@ dark
 
 ## 开发说明
 
-1. 复制配置文件`application-dev.yml.sample`为`application-dev.yml`，修改数据库、redis等配置为本机配置环境。
-2. 启动后端服务：`fa-admin/src/main/java/com/faber/AdminBootstrap.java`。启动服务后，会自动执行建表 sql，初始化数据库。
-3. 启动前端服务，
+1. 启动后端服务：`fa-admin/src/main/java/com/faber/AdminBootstrap.java`。启动服务后，会自动执行建表 sql，初始化数据库。
+2. 启动前端服务，
    1. 进入前端项目地址：`cd fa-frontend`
-   2. 安装依赖：`pnpm i` (如果没有按照`pnpm`，需要先安装：`npm install -g pnpm`)
+   2. 安装依赖：`pnpm i` (如果没有按照`pnpm`，需要先安装：`npm install -g pnpm@9.15.4`)
    3. 如果遇到`canvas: Running install script...`执行很久的情况，可以使用安装命令：`pnpm i --ignore-scripts`
    4. 启动项目：`pnpm dev`
 
@@ -77,33 +76,50 @@ dark
 | ~~Redis Manager~~                                                           | Redis 在线管理           | https://github.com/ngbdf/redis-manager/                                                                        |
 | phpRedisAdmin                                                               | Redis 在线管理           | https://github.com/erikdubbelboer/phpRedisAdmin/                                                               |
 | Forest                                                                      | 声明式 HTTP 客户端框架       | https://forest.dtflyx.com/                                                                                     |
-| spring-file-storage                                                         | 文件存储框架               | https://spring-file-storage.xuyanwu.cn/                                                                        |
+| x-file-storage                                                         | 文件存储框架               | https://x-file-storage.xuyanwu.cn/                                                                        |
 | easy-es                                                                     | ES工具包                | https://www.easy-es.cn/                                                                                        |
 
 ## 前端
 
-| 插件                                | 说明               | 官网                                                     |
-|:----------------------------------|:-----------------|:-------------------------------------------------------|
-| vite                              | vitejs 构建        | https://www.vitejs.net/                                |
-| vite-plugin-pages                 | 目录路由生成           | https://github.com/hannoeru/vite-plugin-pages          |
-| react-router v6                   | 路由               | https://github.com/hannoeru/vite-plugin-pages          |
-| antd                              | antd 前端组件        | https://ant-design.gitee.io/components/overview-cn/    |
-| fa-cron-react-editor              | cron 编辑器         | https://github.com/xrutayisire/react-js-cron           |
-| use-bus                           | bus 事件通知         | https://github.com/fabienjuif/use-bus                  |
-| tailwindcss                       | tailwindcss      | https://tailwindcss.com                                |
-| react-use                         | React Hooks — �  | https://github.com/streamich/react-use                 |
-| ahooks                            | ahooks.js        | https://ahooks.js.org/                                 |
-| tinymce                           | 富文本编辑器           | https://github.com/tinymce/tinymce                     |
-| fontawesome                       | 图标库              | https://fontawesome.com/                               |
-| dnd-kit                           | 拖动库              | https://dndkit.com/                                    |
-| tree-node-cli                     | list dir as tree | https://github.com/yangshun/tree-node-cli              |
-| react-grid-layout                 | 网格布局             | https://github.com/react-grid-layout/react-grid-layout |
-| @react-pdf-viewer                 | pdf 查看           | https://github.com/react-grid-layout/react-grid-layout |
-| @onlyoffice/document-editor-react | office 文件在线编辑    | https://api.onlyoffice.com/                            |
-| @uiw/react-amap 高德地图              | 高德地图             | https://uiwjs.github.io/react-amap/                    |
-| react-device-detect               | 浏览器判断            | https://github.com/duskload/react-device-detect/       |
-| prismjs                           | 代码样式             | http://prismjs.com/                                       |
-| katex                             | 公式               | https://katex.org/                                       |
+| 插件                                           | 说明                                   | 官网                                                     |
+|:---------------------------------------------|:-------------------------------------|:-------------------------------------------------------|
+| vite                                         | vitejs 构建                            | https://www.vitejs.net/                                |
+| vite-plugin-pages                            | 目录路由生成                               | https://github.com/hannoeru/vite-plugin-pages          |
+| react-router v6                              | 路由                                   | https://github.com/hannoeru/vite-plugin-pages          |
+| antd                                         | antd 前端组件                            | https://ant-design.gitee.io/components/overview-cn/    |
+| fa-cron-react-editor                         | cron 编辑器                             | https://github.com/xrutayisire/react-js-cron           |
+| use-bus                                      | bus 事件通知                             | https://github.com/fabienjuif/use-bus                  |
+| tailwindcss                                  | tailwindcss                          | https://tailwindcss.com                                |
+| react-use                                    | React Hooks — �                      | https://github.com/streamich/react-use                 |
+| ahooks                                       | ahooks.js                            | https://ahooks.js.org/                                 |
+| tinymce                                      | 富文本编辑器                               | https://github.com/tinymce/tinymce                     |
+| fontawesome                                  | 图标库                                  | https://fontawesome.com/                               |
+| dnd-kit                                      | 拖动库                                  | https://dndkit.com/                                    |
+| tree-node-cli                                | list dir as tree                     | https://github.com/yangshun/tree-node-cli              |
+| react-grid-layout                            | 网格布局                                 | https://github.com/react-grid-layout/react-grid-layout |
+| @react-pdf-viewer                            | pdf 查看                               | https://github.com/react-grid-layout/react-grid-layout |
+| @onlyoffice/document-editor-react            | office 文件在线编辑                        | https://api.onlyoffice.com/                            |
+| @uiw/react-amap 高德地图                         | 高德地图                                 | https://uiwjs.github.io/react-amap/                    |
+| react-device-detect                          | 浏览器判断                                | https://github.com/duskload/react-device-detect/       |
+| prismjs                                      | 代码样式                                 | http://prismjs.com/                                       |
+| katex                                        | 公式                                   | https://katex.org/                                       |
+| sse                                          | Server-Sent Events (SSE) streams流式请求 | https://github.com/mpetazzoni/sse.js                                       |
+| chroma-js                                    | 颜色计算                                 | https://gka.github.io/chroma.js                                       |
+| data-view-react                              | React的数据可视化组件库                       | http://datav-react.jiaminghi.com/                                       |
+| dompurify                                    | 将html dom内容过滤为XSS安全的内容               | https://github.com/cure53/DOMPurify                                       |
+| react-string-replace                         | 将字符串替换为React组件                       | https://github.com/cure53/DOMPurify                                       |
+| @xyflow/react                        | 流程节点组件                               | https://reactflow.dev/                                       |
+| @visactor/react-vtable                        | 多维数据分析表格                             | https://visactor.io/vtable                                       |
+
+### react-markdown插件
+
+| 插件                                | 说明        | 官网                                                     |
+|:----------------------------------|:----------|:-------------------------------------------------------|
+| remark-gfm                              | 支持 GFM（自动链接字面量、脚注、删除线、表格、任务列表）的 remark 插件 | https://github.com/remarkjs/remark-gfm                               |
+| react-syntax-highlighter                              | 语法高亮      | https://github.com/react-syntax-highlighter/react-syntax-highlighter                                |
+| remark-math                              | 用于支持数学的 remark 和 rehype 插件      | https://github.com/remarkjs/remark-math                                |
+| rehype-katex                              | 用于支持数学的 remark 和 rehype 插件      | https://www.npmjs.com/package/rehype-katex                                |
+
 
 ## Docker 部署环境文件
 

@@ -12,3 +12,6 @@ server/dist
 public/dist
 .idea
 stats.html
+
+# Sentry Config File
+.env.sentry-build-plugin

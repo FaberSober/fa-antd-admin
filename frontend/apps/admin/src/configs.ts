@@ -1,14 +1,16 @@
 import configAdmin from '@features/fa-admin-pages/configs';
 import configDemo from '@features/fa-admin-demo-pages/configs';
-import configDisk from '@features/fa-disk-pages/configs';
 import configApp from '@features/fa-app-pages/configs';
+import configDisk from '@features/fa-disk-pages/configs';
 
 import { merge } from 'lodash';
 
 interface SITE_INFO_TYPES {
   [key: string]: any;
-  PRIMARY_COLOR: string, // 主题色
-  THEME: 'light' | 'dark', // 主题
+  PRIMARY_COLOR: string; // 主题色
+  THEME: 'light' | 'dark'; // 主题
+  /** show page tabs */
+  SHOW_TABS: boolean;
   HOME_LINK: string;
   HELP_DOCS: { name: string; url: string }[];
   ADMIN_DEFAULT_LAYOUT: any[];
@@ -25,7 +27,7 @@ const SITE_INFO: SITE_INFO_TYPES = {
   // AMAP_VERSION: '1.4.15', // 高德地图JS版本
   // 样式相关
   PRIMARY_COLOR: '#1890FF',
-  THEME: 'dark',
+  THEME: 'light',
   ICON_FONT_SCRIPTS: [
     '//at.alicdn.com/t/font_2473438_1jgmoopagcl.js', // icon-area, icon-china, icon-Quartzguanli, icon-job, icon-usermanagement, icon-role
   ],
@@ -34,9 +36,8 @@ const SITE_INFO: SITE_INFO_TYPES = {
   HELP_DOCS: [
     // {name: '帮助文档', url: '/help/doc1'}
   ],
-  ADMIN_DEFAULT_LAYOUT: [
-    {"h": 3, "i": "HelloBanner", "w": 16, "x": 0, "y": 0, "moved": false, "static": false},
-  ],
+  SHOW_TABS: true,
+  ADMIN_DEFAULT_LAYOUT: [{ h: 3, i: 'HelloBanner', w: 16, x: 0, y: 0, moved: false, static: false }],
 };
 
 const fullConfig: any = merge(configAdmin, configDemo, configDisk, configApp);

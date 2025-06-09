@@ -1,0 +1,83 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"vcs": {
+		"enabled": false,
+		"clientKind": "git",
+		"useIgnoreFile": false
+	},
+	"files": {
+		"ignoreUnknown": false,
+		"ignore": ["src/typings/components.d.ts"],
+    "include": [
+      "src/",
+      "features/"
+    ]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 160,
+    "lineEnding": "lf"
+	},
+	"organizeImports": {
+		"enabled": false
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+      "complexity": {
+        "noForEach": "off",
+        "noBannedTypes": "off",
+        "noUselessFragments": "off",
+        "useOptionalChain": "off",
+        "noBannedTypes": "off",
+        "useLiteralKeys": "off"
+      },
+      "correctness": {
+        "noEmptyPattern": "off",
+        "useExhaustiveDependencies": "off",
+        "noChildrenProp": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off",
+        "noUnusedTemplateLiteral": "off",
+        "noParameterAssign": "off",
+        "noUselessElse": "off",
+        "useSelfClosingElements": "off",
+        "useTemplate": "off",
+        "useImportType": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noArrayIndexKey": "off",
+        "noShadowRestrictedNames": "off",
+        "noApproximativeNumericConstant": "off",
+        "noAssignInExpressions": "off",
+        "noImplicitAnyLet": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      },
+      "a11y": {
+        "useKeyWithClickEvents": "off",
+        "useValidAnchor": "off",
+        "useMediaCaption": "off",
+        "useIframeTitle": "off",
+        "useAltText": "off"
+      }
+    }
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "single",
+      "lineWidth": 160
+    }
+	},
+  "css": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  }
+}

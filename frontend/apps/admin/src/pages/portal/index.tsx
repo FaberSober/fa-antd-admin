@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
+import { SITE_INFO } from '@/configs';
 import { useNavigate } from 'react-router-dom';
 import { PageLoading } from '@fa/ui';
-import { userApi } from '@/services';
-import { SITE_INFO } from '@/configs';
 
-export default function AppPages() {
+/**
+ * @author xu.pengfei
+ * @date 2022/9/22 20:45
+ */
+export default function index() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    userApi.getLoginUser().then(() => {
-      navigate(SITE_INFO.HOME_LINK);
-    });
+    navigate(SITE_INFO.HOME_LINK);
   }, []);
 
   return <PageLoading />;
