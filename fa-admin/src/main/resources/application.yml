@@ -101,7 +101,7 @@ easy-es:
   global-config:
     print-dsl: true
     db-config:
-      index-prefix: fa-ai-dev-
+      index-prefix: fa-admin-dev-
 
 dromara:
   x-file-storage: #文件存储配置
