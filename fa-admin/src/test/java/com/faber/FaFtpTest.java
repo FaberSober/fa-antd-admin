@@ -5,7 +5,7 @@ import cn.hutool.extra.ftp.Ftp;
 import cn.hutool.extra.ftp.FtpMode;
 import com.faber.core.utils.FaFtpUtils;
 import org.apache.commons.net.ftp.FTPFile;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
