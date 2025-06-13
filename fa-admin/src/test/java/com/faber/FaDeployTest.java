@@ -7,7 +7,7 @@ import com.faber.core.utils.FaShell;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import dorkbox.notify.Notify;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;

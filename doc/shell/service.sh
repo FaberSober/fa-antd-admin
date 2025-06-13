@@ -1,5 +1,5 @@
 #替换这里jar包的路径，其它代码无需更改
-APP_NAME=/home/xpf/fa-app/fa-doc/fa-admin.jar
+APP_NAME=/home/xpf/fa-app/fa-biz/fa-admin.jar
 #使用说明，用来提示输入参数
 usage() {
     echo "Usage: sh item.sh [start|stop|restart|status]"
