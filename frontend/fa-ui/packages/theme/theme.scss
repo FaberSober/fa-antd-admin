@@ -1,0 +1,125 @@
+@use "sass:map";
+// 所有主题样式
+$bg-color: (
+  light: #fff,
+  dark: #091a28,
+);
+
+$title-color: (
+  light: #363636,
+  dark: #fff,
+);
+
+$subtitle-color: (
+  light: #4a4a4a,
+  dark: cyan,
+);
+
+$scrollbar-bg-color: (
+  light: #edece9,
+  dark: #282828,
+);
+
+$scrollbar-thumb-color: (
+  light: #d3d0cb,
+  dark: #474c50,
+);
+
+$scrollbar-thumb-hover-color: (
+  light: #aeaca6,
+  dark: #5f6060,
+);
+
+// 混合不同主题的配色
+@mixin themify($key, $valueMap) {
+  // theme list
+  $themes: light, dark;
+
+  @each $theme in $themes {
+    [data-theme='#{$theme}'] & {
+      #{$key}: map.get($valueMap, $theme);
+    }
+  }
+}
+
+.root {
+  @include themify('background-color', $bg-color);
+}
+
+.title {
+  @include themify('color', $title-color);
+}
+
+.subtitle {
+  @include themify('color', $subtitle-color);
+}
+
+
+/* 一般浏览器的不要太小，容易看不见 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  //border-radius: 5px;
+  //background: rgba(0,0,0,0.2);
+  transition: all ease-in-out 0.3s;
+  @include themify('background', $scrollbar-thumb-color);
+}
+::-webkit-scrollbar-thumb:hover {
+  @include themify('background', $scrollbar-thumb-hover-color);
+}
+::-webkit-scrollbar-track {
+  border-radius: 0;
+  //background: rgba(0,0,0,0.1);
+  @include themify('background', $scrollbar-bg-color);
+}
+
+::-webkit-scrollbar-corner {
+  width: 8px;
+  height: 8px;
+  @include themify('background', $scrollbar-bg-color);
+}
+
+
+[data-theme=dark] .root {
+  //color: #fff !important;
+  //background-color: #1B5E88 !important;
+}
+
+// ------------------------- 自定义修改antd样式，适配dark样式 -------------------------
+[data-theme=dark] .ant-tabs-tab-btn {
+  color: #FFF !important;
+}
+
+[data-theme=dark] .ant-menu-submenu-selected >.ant-menu-submenu-title {
+  color: #fff !important;
+}
+
+[data-theme=dark] .ant-menu-dark {
+  background: var(--fa-bg-color) !important;
+}
+
+[data-theme=dark] .ant-menu-item-selected {
+  color: #fff !important;
+  background-color: var(--fa-bg-selected) !important;
+}
+
+[data-theme=dark] .ant-dropdown-menu-item-selected {
+  color: #fff !important;
+  background-color: var(--fa-bg-selected) !important;
+}
+
+[data-theme=dark] .ant-popover-inner {
+  background-color: var(--fa-bg-color) !important;
+}
+
+[data-theme=dark] .ant-empty-description {
+  color: #fff !important;
+}
+
+[data-theme=dark] .ant-tree-node-selected {
+  color: #fff !important;
+  background-color: var(--fa-bg-selected) !important;
+}
+// ------------------------- 自定义修改antd样式，适配dark样式 -------------------------

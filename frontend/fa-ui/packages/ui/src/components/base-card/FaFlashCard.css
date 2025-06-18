@@ -1,0 +1,55 @@
+.fa-flash-card {
+    border-radius: var(--fa-border-radius);
+    border: 1px solid var(--fa-border-color);
+    background-color: var(--fa-bg-color);
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.fa-flash-card-title-div {
+    height: 34px;
+    background-color: var(--fa-bg-color);
+    padding-top: 2px;
+    display: flex;
+    position: relative;
+}
+
+.fa-flash-card-title {
+    height: 32px;
+    line-height: 32px;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0 8px;
+    color: var(--fa-text-color);
+    flex: 1;
+    z-index: 2;
+}
+
+.fa-flash-card-title-extra {
+    height: 32px;
+    line-height: 32px;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 0 12px;
+    color: var(--fa-subtitle-color);
+    z-index: 2;
+}
+
+.fa-flash-card-flash-bar {
+    position: absolute;
+    top: 21px;
+    left: 9px;
+    width: 184px;
+    height: 7px;
+    background: linear-gradient(45deg, var(--primary-color-light200) 0%, rgba(13,106,245,0) 100%);
+    z-index: 1;
+}
+
+.fa-flash-card-body {
+    background-color: var(--fa-bg-color);
+    /*padding: 12px;*/
+    flex: 1;
+    position: relative;
+}

@@ -1,0 +1,28 @@
+.main-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  //background-image: url('~@/assets/images/login/login_bg.jpg');
+  //background-repeat: no-repeat;
+  //background-size: 100% 100%;
+}
+
+.mainDiv {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main {
+}
+
+.main label {
+  color: var(--primary-color) !important;
+  font-size: 17px !important;
+  font-weight: 600 !important;
+}

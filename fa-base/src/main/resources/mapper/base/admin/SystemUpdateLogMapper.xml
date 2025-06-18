@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faber.api.base.admin.mapper.SystemUpdateLogMapper">
+
+    <select id="getCurVerId" resultType="int">
+        SELECT IFNULL(max(ver), 1) as max_ver FROM base_system_update_log
+    </select>
+
+    <select id="queryTableSchema" parameterType="map" resultType="map">
+        SELECT t.* FROM information_schema.`TABLES` t WHERE t.TABLE_SCHEMA = (select database())  AND t.TABLE_NAME = #{tableName} LIMIT 1
+    </select>
+
+    <select id="queryColSchema" parameterType="map" resultType="map">
+        SELECT t.* FROM information_schema.`COLUMNS` t WHERE t.TABLE_SCHEMA = (select database())  AND t.TABLE_NAME = #{tableName} AND t.COLUMN_NAME = #{colName} LIMIT 1
+    </select>
+
+</mapper>

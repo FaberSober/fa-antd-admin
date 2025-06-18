@@ -1,0 +1,18 @@
+#测试环境###########################################################################################################################################
+spring:
+  application:
+    name: fa-admin-dev
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:dwardserver1.dward.cn}:${MYSQL_PORT:18731}/${MYSQL_DBNAME:fa_ai_dev}?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&useSSL=false
+    username: ${MYSQL_USERNAME:fa_ai_dev}
+    password: ${MYSQL_PASSWORD:fa_ai_dev@xpf#1203}
+
+  data:
+    redis:
+      host: ${REDIS_HOST:dwardserver1.dward.cn}
+      port: ${REDIS_PORT:18732}
+      password: fa@redis#1276

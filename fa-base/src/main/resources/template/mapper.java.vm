@@ -1,0 +1,15 @@
+package ${package}.mapper;
+
+import com.faber.core.config.mybatis.base.FaBaseMapper;
+import ${package}.entity.${className};
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public interface ${className}Mapper extends FaBaseMapper<${className}> {
+	
+}

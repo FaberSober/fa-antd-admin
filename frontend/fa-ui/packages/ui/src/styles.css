@@ -1,0 +1,847 @@
+html {
+    /* 使用 tailwind-config/tailwind.config.js 中的theme配置 */
+    --primary-color: #3b82f6;
+    --primary-dark: #1e3a8a;
+    --fa-bg-color: #fff; /* 适配主题-背景色 */
+    --fa-bg-color-hover: #eee; /* 适配主题-背景色 */
+    --fa-bg-color2: #eee; /* 适配主题-背景色-2级 */
+    --fa-bg-color-highlight: #1c5e88; /* 适配主题-背景色-高亮 */
+    --fa-bg-color-highlight-hover: #1081c9; /* 适配主题-背景色-高亮-hover */
+    --fa-text-color: #353535; /* 适配主题-文字颜色 */
+    --fa-text-color2: #353535; /* 适配主题-文字颜色-2级 */
+    --fa-text-color-hover: #353535; /* 适配主题-文字颜色 */
+    --fa-text-color-highlight: #FFFFFF; /* 适配主题-文字颜色-高亮 */
+    --fa-text-color-light100: #999; /* 适配主题-文字颜色-已读类型 */
+    --fa-text-color-disable: rgba(0, 0, 0, 0.25); /* 适配主题-文字颜色 */
+    --fa-subtitle-color: #666; /* 适配主题-文字颜色-副标题 */
+    --fa-border-color: #ddd; /* 适配主题-边框颜色 */
+    --fa-border-dark-color: #66666666; /* 适配主题-边框颜色 */
+    --fa-border-darker-color: #333; /* 适配主题-边框颜色 */
+    --fa-bg-grey: #f7f7f7; /* 适配主题-背景色-灰色 */
+    --fa-bg-grey2: #e7e7e7; /* 适配主题-背景色-灰色 */
+    --fa-bg-selected: #ddd; /* 适配主题-背景色-灰色 */
+    --separator-border: #eee; /* 适配主题-allocate-分割面板的分割线颜色 */
+
+    --fa-bg-grey-darker: #e1e1e1;
+    --fa-hover-bg: #e1e1e1;
+    --fa-transition: all ease-in-out 0.3s;
+    --fa-border-radius: 2px;
+    --fa-box-shadow: 0px 3px 6px 4px var(--fa-bg-color-hover);
+    --fa-box-shadow-b: 0px 3px 6px 4px #eee;
+    --focus-border: var(--primary-color) !important;
+
+    --s-font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, SF Pro SC, SF Pro Display, SF Pro Icons, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#root {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /* 适配主题色 */
+    background-color: var(--fa-bg-color);
+    color: var(--fa-text-color);
+}
+
+a {
+    color: var(--primary-color);
+}
+
+ul {
+    margin: 0;
+}
+
+.ant-modal-content {
+    padding: 12px !important;
+}
+
+.ant-card-body {
+    padding: 12px !important;
+}
+
+.ant-modal-close {
+    top: 12px !important;
+    right: 12px !important;
+}
+
+.ant-form-item .ant-picker, .ant-input-number-in-form-item {
+    width: 100%;
+}
+
+.ant-input-number-group-wrapper {
+    width: 100%;
+}
+
+.ant-drawer-close {
+    padding: 0;
+}
+
+.ant-drawer-title {
+    font-weight: 600;
+}
+
+.ant-drawer-header {
+    padding: 11px 12px !important;
+}
+
+.ant-drawer-body {
+    padding: 12px !important;
+    position: relative;
+}
+
+.ant-pagination {
+    margin: 8px !important;
+}
+
+.ant-descriptions-item-label, .ant-descriptions-item-content {
+    padding: 6px !important;
+}
+
+.ant-popconfirm-buttons {
+    /*display: flex;*/
+}
+
+/*----------------------------------------- 全局通用自定义样式 -----------------------------------------*/
+.fa-full-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.fa-full-content-p12 {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+}
+
+.fa-flex-1 {
+    flex: 1;
+    position: relative;
+}
+
+.fa-relative {
+    position: relative;
+}
+
+.fa-absolute {
+    position: absolute;
+}
+
+.fa-absolute0 {
+  position: absolute;
+  inset: 0;
+}
+
+.fa-absolute12 {
+  position: absolute;
+  inset: 12px;
+}
+
+.fa-top {
+    top: 0;
+}
+
+.fa-left {
+    left: 0;
+}
+
+.fa-right {
+    right: 0;
+}
+
+.fa-bottom {
+    bottom: 0;
+}
+
+.fa-bg-primary {
+  background-color: var(--primary-color);
+}
+
+.fa-bg-white {
+    background-color: var(--fa-bg-color);
+}
+
+.fa-bg-blue {
+    background-color: #d6e4ff;
+}
+
+.fa-bg-grey {
+    background-color: var(--fa-bg-grey);
+}
+
+.fa-bg-grey2 {
+    background-color: var(--fa-bg-grey2);
+}
+
+.fa-bg-grey-darker {
+    background-color: var(--fa-bg-grey-darker);
+}
+
+.fa-bg-dark {
+    background-color: var(--fa-bg-color2);
+}
+
+.fa-card {
+    padding: 12px;
+    background-color: var(--fa-bg-color);
+    border-radius: var(--fa-border-radius);
+    border: 1px solid var(--fa-border-color);
+}
+
+.fa-radius {
+    border-radius: var(--fa-border-radius);
+    overflow: hidden;
+}
+
+.fa-text {
+    color: var(--fa-text-color);
+}
+
+.fa-text-b {
+    color: var(--fa-text-color);
+    font-weight: bold;
+}
+
+.fa-text-s-b {
+    color: var(--fa-text-color);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.fa-text-light100 {
+  color: var(--fa-text-color-light100);
+}
+
+.fa-text-center {
+    text-align: center;
+}
+
+.fa-text:hover {
+    color: var(--fa-text-color-hover);
+}
+
+.fa-text-link {
+    cursor: pointer;
+}
+.fa-text-link:hover {
+    color: var(--primary-color);
+}
+
+.fa-h1 {
+    color: var(--fa-text-color);
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.fa-h2 {
+    color: var(--fa-text-color);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.fa-h3 {
+    color: var(--fa-text-color);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.fa-h4 {
+    color: var(--fa-text-color);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.fa-normal {
+    color: var(--fa-text-color);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+.fa-p24 {
+    padding: 24px;
+}
+
+.fa-p12 {
+    padding: 12px;
+}
+
+.fa-p0 {
+    padding: 0;
+}
+
+.fa-pt12 {
+    padding-top: 12px;
+}
+
+.fa-pb12 {
+    padding-bottom: 12px;
+}
+
+.fa-pb0 {
+    padding-bottom: 0;
+}
+
+.fa-pl12 {
+    padding-left: 12px;
+}
+
+.fa-pr12 {
+    padding-right: 12px;
+}
+
+.fa-p4 {
+    padding: 4px;
+}
+
+.fa-p6 {
+    padding: 6px;
+}
+
+.fa-p8 {
+    padding: 8px;
+}
+
+.fa-m4 {
+    margin: 4px;
+}
+
+.fa-mt4 {
+    margin-top: 4px;
+}
+
+.fa-mt6 {
+    margin-top: 6px;
+}
+
+.fa-mt8 {
+    margin-top: 8px;
+}
+
+.fa-mt12 {
+    margin-top: 12px;
+}
+
+.fa-mtb12 {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.fa-mt24 {
+    margin-top: 24px;
+}
+
+.fa-mb4 {
+    margin-bottom: 4px;
+}
+
+.fa-mb6 {
+    margin-bottom: 6px;
+}
+
+.fa-mb8 {
+    margin-bottom: 8px;
+}
+
+.fa-mb12 {
+    margin-bottom: 12px;
+}
+
+.fa-mb24 {
+    margin-bottom: 24px;
+}
+
+.fa-m12 {
+    margin: 12px;
+}
+
+.fa-ml12 {
+    margin-left: 12px;
+}
+
+.fa-ml8 {
+    margin-left: 8px;
+}
+
+.fa-pl12 {
+    padding-left: 12px;
+}
+
+.fa-pr12 {
+    padding-right: 12px;
+}
+
+.fa-plr12 {
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.fa-plr6 {
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.fa-mr4 {
+    margin-right: 4px;
+}
+
+.fa-ml4 {
+    margin-left: 4px;
+}
+
+.fa-mr8 {
+    margin-right: 8px;
+}
+
+.fa-mr12 {
+    margin-right: 12px;
+}
+
+.fa-full-w {
+    width: 100%;
+}
+
+.fa-full-h {
+    height: 100%;
+}
+
+.fa-full {
+    width: 100%;
+    height: 100%;
+}
+
+.fa-full-a0 {
+  position: absolute;
+  inset: 0;
+}
+
+.fa-scroll-hidden {
+    overflow: hidden;
+}
+
+.fa-scroll {
+    overflow: auto;
+}
+
+.fa-scroll-auto-y {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.fa-scroll-auto-x {
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+.fa-flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.fa-flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fa-flex-row-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.fa-flex-row-end {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.fa-flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.fa-flex-column-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fa-flex-wrap {
+    flex-wrap: wrap;
+}
+
+.fa-main {
+    padding: 8px;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    height: 100%;
+}
+
+.fa-border {
+    border: 1px solid var(--fa-border-color);
+    border-radius: var(--fa-border-radius);
+}
+
+.fa-border-r {
+    border-right: 1px solid var(--fa-border-color);
+}
+
+.fa-border-l {
+    border-left: 1px solid var(--fa-border-color);
+}
+
+.fa-border-t {
+    border-top: 1px solid var(--fa-border-color);
+}
+
+.fa-border-b {
+    border-bottom: 1px solid var(--fa-border-color);
+}
+
+.fa-border-dark-b {
+    border-bottom: 1px solid var(--fa-border-dark-color);
+}
+
+.fa-form-underline > input {
+    border: none !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid var(--fa-border-color) !important;
+}
+
+.fa-input-underline {
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+.fa-input-underline:focus {
+    border-bottom: 1px solid var(--fa-border-color) !important;
+}
+
+.fa-table-subtitle {
+    line-height: 30px;
+    color: var(--fa-subtitle-color);
+    margin-left: 6px;
+    height: 25px;
+    display: flex;
+}
+
+.fa-subtitle {
+    color: var(--fa-subtitle-color);
+}
+
+.fa-base-btn-selected {
+    background: var(--fa-bg-selected);
+}
+
+.fa-base-btn {
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+}
+
+.fa-base-btn:hover {
+    background-color: var(--fa-bg-color-hover);
+}
+
+.fa-link-btn, .fa-link-btn-disabled {
+    border-radius: var(--fa-border-radius);
+    padding: 2px;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+}
+
+.fa-link-btn:hover {
+    color: var(--fa-text-color);
+    background-color: var(--fa-bg-color-hover);
+}
+
+.fa-link-btn-disabled {
+  cursor: not-allowed;
+  color: var(--fa-text-color-disable);
+}
+
+.fa-link-btn-disabled:hover {
+  color: var(--fa-text-color-disable);
+}
+
+.fa-btn {
+  border-radius: var(--fa-border-radius);
+  cursor: pointer;
+  transition: all ease-in-out 0.3s;
+  padding: 12px;
+  background: var(--fa-bg-color2);
+  border: 1px solid transparent;
+}
+
+.fa-btn:hover {
+  background-color: var(--fa-bg-color-hover);
+  color: var(--fa-text-color);
+  border: 1px solid var(--fa-border-color);
+}
+
+.fa-normal-btn {
+    border-radius: var(--fa-border-radius);
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+}
+
+.fa-normal-btn:hover {
+    background-color: var(--fa-bg-color-hover);
+    color: var(--fa-text-color);
+}
+
+.fa-cursor-pointer {
+    cursor: pointer;
+}
+
+.fa-transition {
+    transition: var(--fa-transition);
+}
+
+.fa-hover {
+    cursor: pointer;
+    transition: var(--fa-transition);
+}
+
+.fa-hover:hover {
+    box-shadow: var(--fa-box-shadow);
+}
+
+.fa-hover .fa-hover-show {
+  display: none;
+}
+
+.fa-hover:hover .fa-hover-show {
+  display: block;
+}
+
+.fa-disabled {
+    cursor: not-allowed;
+}
+
+.fa-link-grey {
+    cursor: pointer;
+    transition: var(--fa-transition);
+}
+
+.fa-link-grey:hover {
+    background-color: var(--fa-bg-color-hover);
+}
+
+.fa-box-shadow {
+    box-shadow: var(--fa-box-shadow);
+}
+
+.fa-box-shadow-b {
+    box-shadow: var(--fa-box-shadow-b);
+}
+
+.fa-rich-div img {
+    max-width: 800px;
+}
+
+.fa-rich-div-sm img {
+    max-width: 400px;
+}
+
+.fa-break-word {
+    word-break:break-all; /* 英文 */
+    white-space:pre-wrap; /* 中文 */
+}
+
+.fa-keep-word {
+    word-break: keep-all; /* 英文 */
+    white-space: nowrap; /* 中文 */
+}
+
+.fa-word-ellipse {
+  word-break: keep-all; /* 英文 */
+  white-space: nowrap; /* 中文 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fa-input-underline {
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-radius: 0;
+}
+
+.fa-input-amap-search {
+    line-height: 24px;
+    width: 200px;
+    border: 1px solid var(--fa-border-color);
+}
+
+.fa-tips {
+    color: #666;
+}
+
+.fa-upload-img-local .ant-upload-select {
+    margin: 0 !important;
+}
+
+.fa-pos-abs {
+    position: absolute;
+}
+
+.fa-pos-t {
+    top: 0;
+}
+
+.fa-pos-b {
+    bottom: 0;
+}
+
+.fa-pos-l {
+    left: 0;
+}
+
+.fa-pos-r {
+    right: 0;
+}
+
+.fa-cover {
+    background-color: rgba(238, 238, 238, 0.4);
+}
+
+/* 等宽字体 */
+.fa-text-same-width {
+  font-family: 'Consolas', 'Monaco', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; /* 优先使用系统内置等宽字体 */
+  text-align: justify;         /* 分散对齐 */
+  text-align-last: justify;    /* 最后一行也分散对齐 */
+  word-spacing: -0.25em;       /* 微调单词间距（西文适用） */
+}
+
+/*----------------------------------------- fa-form -----------------------------------------*/
+.fa-form-reverse .ant-form-item {
+  margin-inline-end: 0;
+  margin-inline-start: 12px;
+}
+
+/*----------------------------------------- fa-tabs -----------------------------------------*/
+.fa-tabs {
+
+}
+
+.fa-tabs .ant-tabs-tab-active {
+  border-color: #FFF !important;
+}
+
+.fa-tabs .ant-tabs {
+  height: 100%;
+  position: relative;
+}
+
+.fa-tabs .ant-tabs-nav {
+  margin: 0;
+}
+
+.fa-tabs .ant-tabs-content {
+  height: 100%;
+}
+
+.fa-tabs .ant-tabs-tabpane {
+  height: 100%;
+}
+
+/*----------------------------------------- fa-iframe -----------------------------------------*/
+.fa-iframe {
+  outline: hidden;
+  border: hidden;
+}
+
+/*----------------------------------------- fa-table -----------------------------------------*/
+.fa-table table {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.fa-table table, .fa-table tr, .fa-table td, .fa-table th {
+  border: 1px solid var(--fa-border-darker-color);
+}
+
+.fa-table td, .fa-table th {
+  padding: 2px;
+}
+
+.fa-table-p4 td, .fa-table th {
+  padding: 4px 6px;
+}
+
+.fa-table-hover td:hover, .fa-table-hover th:hover {
+  background: var(--fa-bg-color-hover);
+}
+
+/*----------------------------------------- fa-resize -----------------------------------------*/
+.fa-resize-indicator {
+  width: .25rem;
+  height: 1.5rem;
+  border-radius: .125rem;
+  background: #10182814;
+}
+
+[data-theme=dark] .fa-resize-indicator {
+  background: rgba(255, 255, 255, 0.30);
+}
+
+/*----------------------------------------- drag -----------------------------------------*/
+/* 拖动区域禁止文本选中事件 */
+.fa-drag-area-no-select {
+  -webkit-user-select: none; /* Safari/Chrome */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE10+ */
+  user-select: none;          /* Standard */
+}
+
+  /*----------------------------------------- fa-corn -----------------------------------------*/
+.fa-cron-react-editor-tab {
+    background-color: var(--fa-bg-grey) !important;
+}
+
+.fa-cron-react-editor-tab-item {
+    background-color: var(--fa-bg-color) !important;
+    color: var(--fa-text-color);
+}
+
+.fa-cron-react-editor-tab-item-active {
+    background-color: var(--fa-bg-color-highlight) !important;
+    color: var(--fa-text-color);
+}
+
+/*----------------------------------------- prism -----------------------------------------*/
+pre[class*=language-] {
+    background: var(--fa-bg-color2);
+}
+
+code[class*=language-], pre[class*=language-] {
+    color: var(--fa-text-color);
+    text-shadow: 0 1px var(--fa-bg-color2);
+}
+
+.token.operator {
+    background: var(--fa-bg-color2);
+}

@@ -1,0 +1,16 @@
+{
+  "logs": [
+    {
+      "ver": 1,
+      "verNo": "V1.0.0",
+      "remark": "初始化V1.0.0版本",
+      "sql": "V1.0.0.sql"
+    },
+    {
+      "ver": 2,
+      "verNo": "V1.0.1",
+      "remark": "测试V1.0.1版本",
+      "sql": "V1.0.1.update.sql"
+    }
+  ]
+}

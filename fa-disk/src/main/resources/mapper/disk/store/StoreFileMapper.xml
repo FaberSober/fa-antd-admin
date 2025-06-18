@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faber.api.disk.store.mapper.StoreFileMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.faber.api.disk.store.entity.StoreFile" id="storeFileMap">
+        <result property="id" column="id"/>
+        <result property="bucketId" column="bucket_id"/>
+        <result property="name" column="name"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="sort" column="sort"/>
+        <result property="dir" column="dir"/>
+        <result property="size" column="size"/>
+        <result property="type" column="type"/>
+        <result property="fileId" column="file_id"/>
+        <result property="fullPath" column="full_path"/>
+        <result property="tags" column="tags" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <result property="crtTime" column="crt_time"/>
+        <result property="crtUser" column="crt_user"/>
+        <result property="crtName" column="crt_name"/>
+        <result property="crtHost" column="crt_host"/>
+        <result property="updTime" column="upd_time"/>
+        <result property="updUser" column="upd_user"/>
+        <result property="updName" column="upd_name"/>
+        <result property="updHost" column="upd_host"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <select id="queryFile" parameterType="com.faber.api.disk.store.vo.req.StoreFileQueryVo" resultMap="storeFileMap">
+        SELECT t.*
+         FROM disk_store_file t
+        WHERE t.deleted = #{query.deleted}
+        <if test="query.bucketId != null">
+            AND t.bucket_id = #{query.bucketId}
+        </if>
+        <if test="query.dir != null">
+            AND t.dir = #{query.dir}
+        </if>
+        <if test="query.deleteAction != null">
+            AND t.delete_action = #{query.deleteAction}
+        </if>
+        <if test="query.parentId != null">
+            AND t.parent_id = #{query.parentId}
+        </if>
+        <if test="query.type != null and query.type != ''">
+            AND t.type = #{query.type}
+        </if>
+        <if test="query.name != null and query.name != ''">
+            AND t.name LIKE CONCAT('%', #{query.name}, '%')
+        </if>
+        <if test="query.fullPath != null and query.fullPath != ''">
+            AND t.full_path LIKE CONCAT(#{query.fullPath}, '%')
+        </if>
+        <if test="query.tagIds != null and query.tagIds.size != 0">
+            <if test="query.tagQueryType == 1">
+                AND
+                <foreach item="tagId" collection="query.tagIds" open="(" separator=" AND " close=")" index="">
+                    JSON_CONTAINS(t.tags, JSON_OBJECT('tagId', #{tagId}))
+                </foreach>
+            </if>
+            <if test="query.tagQueryType == 2">
+                AND
+                <foreach item="tagId" collection="query.tagIds" open="(" separator=" OR " close=")" index="">
+                    JSON_CONTAINS(t.tags, JSON_OBJECT('tagId', #{tagId}))
+                </foreach>
+            </if>
+        </if>
+        <if test="sorter != null and sorter != ''">
+            ORDER BY ${sorter}
+        </if>
+    </select>
+
+    <select id="queryChildren" parameterType="map" resultMap="storeFileMap">
+        select * from disk_store_file where parent_id = #{id}
+    </select>
+
+    <update id="putFileTo" parameterType="map">
+        update disk_store_file
+        set parent_id = #{toDirId}, deleted = false, delete_action = false
+        where id = #{id}
+    </update>
+
+    <select id="sumFileSizeByBucketId" parameterType="map" resultType="long">
+        select IFNULL(SUM(size),0) size from disk_store_file where deleted = false AND dir = false and bucket_id = #{bucketId}
+    </select>
+
+</mapper>

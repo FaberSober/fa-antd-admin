@@ -1,0 +1,100 @@
+import React from 'react';
+import { DownloadOutlined, EyeOutlined, SearchOutlined, UploadOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Space } from 'antd';
+import { AuthDelBtn, BaseBizTable, BaseDrawer, BaseTableUtils, clearForm, FaberTable, FaHref, useDelete, useDeleteByQuery, useExport, useTableQueryParams } from '@fa/ui';
+import { CommonExcelUploadModal } from "@/components";
+import { ${secondModuleName}Api as api } from '@/services';
+import { ${moduleNameUpperCaseFirstOne} } from '@/types';
+import ${className}Modal from './modal/${className}Modal';
+import ${className}View from './cube/${className}View';
+
+const serviceName = '${comments}';
+const biz = '${tableName}';
+
+/**
+ * ${comments}表格查询
+ */
+export default function ${className}List() {
+  const [form] = Form.useForm();
+
+  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, paginationProps } =
+          useTableQueryParams<${moduleNameUpperCaseFirstOne}.${className}>(api.page, {}, serviceName)
+
+  const [handleDelete] = useDelete<${pkColAttrTsType}>(api.remove, fetchPageList, serviceName)
+  const [exporting, fetchExportExcel] = useExport(api.exportExcel, queryParams)
+  const [_, deleteByQuery] = useDeleteByQuery(api.removeByQuery, queryParams, fetchPageList);
+
+  /** 生成表格字段List */
+  function genColumns() {
+    const { sorter } = queryParams;
+    return [
+#foreach ($column in $columns)
+#if($column.columnName == $pk.columnName)
+      BaseTableUtils.genIdColumn('${column.columnComment}', '${column.attrname}', 70, sorter),
+#elseif ($column.attrname != 'crtTime' and $column.attrname != 'crtUser' and $column.attrname != 'crtName' and $column.attrname != 'crtHost' and $column.attrname != 'updTime' and $column.attrname != 'updUser' and $column.attrname != 'updName' and $column.attrname != 'updHost' and $column.attrname != 'deleted')
+      BaseTableUtils.genSimpleSorterColumn('${column.columnComment}', '${column.attrname}', 100, sorter),
+#end
+#end
+      ...BaseTableUtils.genCtrColumns(sorter),
+      ...BaseTableUtils.genUpdateColumns(sorter),
+      {
+        title: '操作',
+        dataIndex: 'menu',
+        render: (_, r) => (
+          <Space>
+            <BaseDrawer triggerDom={<FaHref text="查看" icon={<EyeOutlined />} />}>
+              <${className}View item={r} />
+            </BaseDrawer>
+            <${className}Modal editBtn title={`编辑${serviceName}信息`} record={r} fetchFinish={fetchPageList} />
+            <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
+          </Space>
+        ),
+        width: 170,
+        fixed: 'right',
+        tcRequired: true,
+        tcType: 'menu',
+      },
+    ] as FaberTable.ColumnsProp<${moduleNameUpperCaseFirstOne}.${className}>[];
+  }
+
+  return (
+    <div className="fa-full-content fa-flex-column fa-bg-white">
+      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
+        <div className="fa-h3">{serviceName}</div>
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+          <Form form={form} layout="inline" onFinish={setFormValues}>
+            <Form.Item name="_search" label="搜索">
+              <Input placeholder="请输入搜索内容" allowClear />
+            </Form.Item>
+
+            <Space>
+              <Button htmlType="submit" loading={loading} icon={<SearchOutlined />}>查询</Button>
+              <Button onClick={() => clearForm(form)}>重置</Button>
+              <${className}Modal addBtn title={`新增${serviceName}信息`} fetchFinish={fetchPageList} />
+              <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+              <CommonExcelUploadModal fetchFinish={fetchPageList} apiDownloadTplExcel={api.exportTplExcel} apiImportExcel={api.importExcel}>
+                <Button icon={<UploadOutlined />}>上传</Button>
+              </CommonExcelUploadModal>
+            </Space>
+          </Form>
+        </div>
+      </div>
+
+      <BaseBizTable
+        rowKey="id"
+        biz={biz}
+        columns={genColumns()}
+        pagination={paginationProps}
+        loading={loading}
+        dataSource={list}
+        onChange={handleTableChange}
+        refreshList={() => fetchPageList()}
+        batchDelete={(ids) => api.removeBatchByIds(ids)}
+        onSceneChange={(v) => setSceneId(v)}
+        onConditionChange={(cL) => setConditionList(cL)}
+        showDeleteByQuery
+        onDeleteByQuery={deleteByQuery}
+      />
+    </div>
+  );
+}

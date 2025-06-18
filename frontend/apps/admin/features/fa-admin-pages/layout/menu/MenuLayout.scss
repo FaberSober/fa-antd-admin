@@ -1,0 +1,185 @@
+.fa-menu-logo {
+  height: 46px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  min-width: 200px;
+}
+
+.fa-menu-logo-img {
+  width: 24px;
+  height: 24px;
+}
+
+.fa-menu-logo-title {
+  color: var(--fa-text-color);
+  margin-left: 12px;
+  font-size: 20px;
+}
+
+.fa-menu-header {
+  z-index: 2;
+  height: 46px !important;
+  line-height: 46px !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: var(--fa-bg-color);
+
+  .ant-menu-horizontal {
+    border-bottom: none;
+  }
+}
+
+
+// ------------------------------- 样式一 -------------------------------
+//.fa-menu-header .ant-menu-item {
+//  display: flex;
+//  align-items: center;
+//  border-radius: 0 !important;
+//}
+//
+///*FIXME 这里应该是antd v5的一个bug，horizontal的menu选中效果不对*/
+//.fa-menu-header .ant-menu-item-selected {
+//  background-color: var(--primary-color) !important;
+//  border-radius: 0 !important;
+//  color: #fff !important;
+//}
+//
+///* 顶部菜单样式调整 */
+//.fa-menu-top {
+//  height: 100%;
+//  display: flex;
+//  align-items: center;
+//
+//  .ant-menu-item {
+//    height: 30px;
+//    margin: 0 10px;
+//    border-radius: 15px !important;
+//    color: #FFF;
+//  }
+//
+//  .ant-menu-item-active {
+//    border-radius: 15px !important;
+//    background-color: #1c5e88 !important;
+//  }
+//
+//  .ant-menu-item::after {
+//    border-bottom-width: 0 !important;
+//  }
+//}
+
+// ------------------------------- 样式二 -------------------------------
+.fa-menu-top {
+  .ant-menu-item {
+    color: var(--fa-text-color) !important;
+    padding-right: 18px;
+  }
+
+  .ant-menu-item-selected {
+    background-color: var(--primary-color) !important;
+    //border-radius: 0 !important;
+    color: #FFF !important;
+  }
+
+  .ant-menu-item:after {
+    inset-inline: 0 !important;
+  }
+
+  .ant-menu-item-selected:after {
+    inset-inline: 0 !important;
+  }
+
+  .ant-menu-title-content {
+    margin-inline-start: 6px !important;
+  }
+}
+
+
+.ant-layout-header {
+  background-color: var(--fa-bg-color) !important;
+}
+
+.fa-menu-help-cube {
+  color: var(--fa-text-color);
+  margin: 0 4px;
+}
+
+.fa-menu-normal-cube {
+  color: var(--fa-text-color);
+}
+
+// ------------------------------------- 顶部菜单条样式-color-begin -------------------------------------
+[fa-menu-theme=color] .fa-menu-top {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: #FFF;
+  background-color: var(--primary-color) !important;
+
+  .ant-menu-item-selected {
+    background-color: #fff;
+    //border-radius: 0 !important;
+    color: var(--primary-color) !important;
+  }
+
+  .ant-menu-item-selected::after {
+    display: none !important;
+  }
+
+  .ant-menu-item::after {
+    display: none !important;
+  }
+
+  .ant-menu-item-active {
+    color: #fff !important;
+  }
+
+  .ant-menu-item {
+    color: #FFF !important;
+  }
+
+  .ant-menu-item:after {
+    inset-inline: 0 !important;
+  }
+
+  .ant-menu-item:hover {
+    background: var(--primary-color-dark300) !important;
+  }
+
+  .ant-menu-item-selected {
+    color: var(--primary-color) !important;
+  }
+
+  .ant-menu-item-selected:after {
+    inset-inline: 0 !important;
+  }
+
+  .ant-menu-item-selected:hover {
+    color: #FFF !important;
+    background: var(--primary-color-light300) !important;
+  }
+}
+
+[fa-menu-theme=color] .ant-layout-header {
+  background-color: var(--primary-color) !important;
+}
+
+[fa-menu-theme=color] .fa-menu-header {
+  color: #FFF;
+  background-color: var(--primary-color) !important;
+}
+
+[fa-menu-theme=color] .fa-menu-logo-title {
+  color: #FFF;
+}
+
+[fa-menu-theme=color] .fa-menu-help-cube {
+  color: #FFF;
+}
+
+[fa-menu-theme=color] .fa-menu-normal-cube {
+  color: #FFF;
+}
+// ------------------------------------- 顶部菜单条样式-color-end -------------------------------------

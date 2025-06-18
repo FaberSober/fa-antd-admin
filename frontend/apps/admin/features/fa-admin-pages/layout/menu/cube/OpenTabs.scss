@@ -1,0 +1,58 @@
+.fa-menu-open-tabs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.fa-menu-open-tabs .ant-tabs {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.fa-menu-open-tabs .ant-tabs-tab {
+  padding: 0 !important;
+  border-radius: 0 !important;
+  position: relative;
+  border: none !important;
+  border-right: 1px solid var(--fa-border-color) !important;
+}
+
+.fa-menu-open-tabs .ant-tabs-tab-active {
+  background: #FFF !important;
+}
+
+[data-theme=dark] .fa-menu-open-tabs .ant-tabs-tab-active {
+  background: var(--fa-bg-selected) !important;
+}
+
+.fa-menu-open-tabs .ant-tabs-nav::before {
+  border: none !important;
+}
+
+.fa-menu-open-tabs .ant-tabs-nav {
+  margin: 0 !important;
+}
+
+.fa-menu-open-tabs .ant-tabs-tab-remove {
+  margin: 0 !important;
+  padding: 0 !important;
+  transition: all ease-in-out 0.3s;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  position: absolute;
+  top: 9px;
+  right: 4px;
+}
+
+.fa-menu-open-tabs .ant-tabs-tab-remove:hover {
+  background: #ccc;
+}
+
+.fa-open-tabs-item-title-div {
+  padding: 6px 28px 6px 12px;
+}

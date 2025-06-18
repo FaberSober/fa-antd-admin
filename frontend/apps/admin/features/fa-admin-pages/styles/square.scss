@@ -1,0 +1,44 @@
+// ------------------------------------- 顶部菜单条样式-color-begin -------------------------------------
+[fa-menu-theme=color] .fa-menu-header {
+  height: 56px !important;
+  border-bottom: 1px solid var(--fa-border-color) !important;
+}
+
+[fa-menu-theme=color] .fa-menu-top {
+
+  .ant-menu-item {
+    height: 56px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 0px !important;
+  }
+
+  .ant-menu-item-selected {
+    border-radius: 0px !important;
+    background: #FFF !important;
+  }
+
+}
+
+.fa-menu-header {
+  height: 56px !important;
+  border-bottom: 1px solid var(--fa-border-color) !important;
+}
+
+.fa-menu-top {
+
+  .ant-menu-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 0px !important;
+  }
+
+  .ant-menu-item-selected {
+    border-radius: 0px !important;
+  }
+
+}
+
+// ------------------------------------- 顶部菜单条样式-color-end -------------------------------------

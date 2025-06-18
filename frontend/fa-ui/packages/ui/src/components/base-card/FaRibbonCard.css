@@ -1,0 +1,28 @@
+.fa-ribbon-card {
+    border-radius: 2px;
+    border: 1px solid var(--fa-border-color);
+    background-color: var(--fa-bg-color);
+    overflow: hidden;
+    height: 100%;
+}
+
+.fa-ribbon-card-title-div {
+    height: 34px;
+    background-color: var(--fa-bg-color);
+    padding-top: 2px;
+}
+
+.fa-ribbon-card-title {
+    height: 32px;
+    line-height: 32px;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0 8px;
+    background-color: var(--fa-bg-color);
+    border-bottom: 1px solid var(--fa-border-color);
+}
+
+.fa-ribbon-card-body {
+    background-color: var(--fa-bg-color);
+    padding: 8px;
+}

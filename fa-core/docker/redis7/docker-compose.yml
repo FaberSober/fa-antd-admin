@@ -1,0 +1,32 @@
+version: '3.3'
+services:
+  redis7:
+    image: 'redis:7.0.5'
+    container_name: redis_7
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - './conf:/usr/local/etc/redis'
+      - './data:/data'
+    command: 'redis-server --requirepass fa@redis#1276'
+    networks:
+      - redis7
+
+  php-redis-admin:
+    image: 'erikdubbelboer/phpredisadmin:latest'
+    container_name: php-redis-admin
+    restart: always
+    ports:
+      - '8182:80'
+    environment:
+      - REDIS_1_HOST=redis7
+      - REDIS_1_PORT=6379
+      - REDIS_1_AUTH=fa@redis#1276
+      - REDIS_1_NAME=local
+    networks:
+      - redis7
+
+networks:
+  redis7:
+    driver: bridge

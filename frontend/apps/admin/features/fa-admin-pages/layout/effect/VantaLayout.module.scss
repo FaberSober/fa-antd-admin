@@ -1,0 +1,60 @@
+.main-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  //background-image: url('~@/assets/images/login/login_bg.jpg');
+  //background-repeat: no-repeat;
+  //background-size: 100% 100%;
+}
+
+.bannerDiv {
+  position: absolute;
+  left: 200px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+.bannerTitle {
+  font-size: 50px;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 24px;
+}
+
+.bannerSubTitle {
+  font-size: 20px;
+  color: #fff;
+}
+
+.mainDiv {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main {
+  width: 400px;
+  background-color: var(--fa-bg-color);
+}
+
+.footerDiv {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.footerMain {
+  font-size: 14px;
+  font-weight: 500;
+  color: #FFF;
+}

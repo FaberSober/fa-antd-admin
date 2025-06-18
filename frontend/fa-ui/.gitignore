@@ -1,0 +1,14 @@
+.DS_Store
+node_modules
+.turbo
+*.log
+dist
+dist-ssr
+dist.zip
+*.local
+.env
+.cache
+server/dist
+public/dist
+.idea
+stats.html

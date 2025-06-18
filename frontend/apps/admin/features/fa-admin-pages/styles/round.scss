@@ -1,0 +1,20 @@
+// ------------------------------------- 顶部菜单条样式-color-begin -------------------------------------
+[fa-menu-theme=color] .fa-menu-top {
+
+  .ant-menu-item {
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 15px !important;
+    margin-right: 12px;
+  }
+
+  .ant-menu-item-selected {
+    border-radius: 15px !important;
+    background: #FFF !important;
+  }
+
+}
+
+// ------------------------------------- 顶部菜单条样式-color-end -------------------------------------

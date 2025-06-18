@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faber.api.app.app.mapper.ApkVersionMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.faber.api.app.app.entity.ApkVersion" id="apkVersionMap">
+        <result property="id" column="id"/>
+        <result property="appId" column="app_id"/>
+        <result property="applicationId" column="application_id"/>
+        <result property="versionCode" column="version_code"/>
+        <result property="versionName" column="version_name"/>
+        <result property="iconId" column="icon_id"/>
+        <result property="fileId" column="file_id"/>
+        <result property="crtTime" column="crt_time"/>
+        <result property="crtUser" column="crt_user"/>
+        <result property="crtName" column="crt_name"/>
+        <result property="crtHost" column="crt_host"/>
+        <result property="updTime" column="upd_time"/>
+        <result property="updUser" column="upd_user"/>
+        <result property="updName" column="upd_name"/>
+        <result property="updHost" column="upd_host"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <update id="addDownloadNum" parameterType="map">
+        UPDATE app_apk_version SET download_num = download_num + 1 WHERE id = #{id}
+    </update>
+
+</mapper>

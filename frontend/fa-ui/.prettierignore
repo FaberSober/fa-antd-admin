@@ -1,0 +1,14 @@
+## General
+**/.cache
+**/public
+.history
+
+build
+dist
+**/dist.zip
+
+## PNPM
+pnpm-lock.yaml
+
+.eslintrc.js
+package.json

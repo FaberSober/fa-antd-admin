@@ -1,0 +1,63 @@
+# docker-compose.yml文件的版本
+version: "3.0"
+
+# 管理的服务
+services:
+  easy-es7:
+    # 指定镜像
+    # image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+    image: faber/easy-es:7.17.7
+    build: .
+    container_name: easy-es7
+    restart: always
+    ports:
+      # 端口映射
+      - 9200:9200
+      # - 9300:9300
+    # volumes:
+      # - $PWD/es/data:/usr/share/elasticsearch/data # 索引数据
+      # - $PWD/es/analysis:/usr/share/elasticsearch/config/analysis # 同义词外部定义
+      # - ./IKAnalyzer.cfg.xml:/usr/share/elasticsearch/config/analysis-ik/IKAnalyzer.cfg.xml # IKAnalyzer分词器
+    environment:
+      - node.name=es01
+      - discovery.type=single-node
+      # - cluster.name=es-docker-cluster
+      # - discovery.seed_hosts=es02,es03
+      # - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      # 本地开发空间不够了，设置如下。服务器注释下面部分 --- begin
+      - cluster.routing.allocation.disk.threshold_enabled=true # 是否启用功能
+      - cluster.routing.allocation.disk.watermark.flood_stage=5gb # 到达后节点数据无法写入
+      - cluster.routing.allocation.disk.watermark.low=15gb # 到达就停止创建新shards
+      - cluster.routing.allocation.disk.watermark.high=10gb # 到达后会迁移现有shards到其他节点
+      # 本地开发空间不够了，设置如下 --- end
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - elastic
+
+  # 图形管理界面
+  easy-es-kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.8
+    container_name: easy-es-kibana
+    ports:
+      - 5601:5601
+    # volumes:
+    #   - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+    environment:
+      - ELASTICSEARCH_HOSTS=http://easy-es7:9200 # connect the es-balance node
+      - I18N_LOCALE=zh-CN #汉化
+      - xpack.monitoring.ui.container.elasticsearch.enabled=false
+    networks:
+      - elastic
+
+volumes:
+  data:
+    driver: local
+
+networks:
+  elastic:
+    driver: bridge

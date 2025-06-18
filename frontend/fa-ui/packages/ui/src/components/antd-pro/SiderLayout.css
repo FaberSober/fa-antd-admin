@@ -1,0 +1,33 @@
+.fa-sider-div {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--fa-bg-color);
+  border-right: 1px solid var(--fa-border-color);
+}
+
+.sider-toggle-div-dark,
+.sider-toggle-div {
+  height: 44px;
+  background-color: var(--fa-bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all ease-in-out 0.1s;
+  border-top: 1px solid var(--fa-border-color);
+  color: var(--fa-text-color);
+}
+
+.sider-toggle-div-dark {
+  background-color: var(--fa-bg-color);
+  transition: all ease-in-out 0.3s;
+}
+
+.sider-toggle-div-dark:hover {
+  background-color: var(--fa-bg-color-hover);
+}
+
+.sider-toggle-div:hover {
+  background-color: #eee;
+}

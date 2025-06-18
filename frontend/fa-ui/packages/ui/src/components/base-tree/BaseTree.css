@@ -1,0 +1,9 @@
+.fa-base-tree-div > .ant-tree-title {
+  width: 100%;
+}
+
+.fa-base-tree-title-div {
+  position: relative;
+  width: 100%;
+  color: var(--fa-text-color);
+}

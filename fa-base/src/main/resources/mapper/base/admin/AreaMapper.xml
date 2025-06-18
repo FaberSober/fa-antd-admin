@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faber.api.base.admin.mapper.AreaMapper">
+
+    <select id="findClosetByLoc" parameterType="map" resultType="long">
+        select a.area_code
+          from (
+                 SELECT area_code, (ABS(lng - #{lng}) + ABS(lat - #{lat})) as distance
+                 FROM base_area
+             ) a
+        ORDER BY a.distance
+        LIMIT 1
+    </select>
+
+</mapper>

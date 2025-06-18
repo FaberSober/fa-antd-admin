@@ -1,0 +1,17 @@
+.fa-table-col-item {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  width: 100%;
+  cursor: pointer;
+  z-index: 1001;
+  color: var(--fa-text-color);
+}
+
+.fa-table-col-item:hover {
+  background-color: var(--fa-bg-color-hover);
+}
+
+.fa-table-col-thead-item {
+  padding: 0 8px;
+}

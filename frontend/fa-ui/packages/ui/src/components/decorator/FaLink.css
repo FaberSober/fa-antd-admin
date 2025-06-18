@@ -1,0 +1,8 @@
+.fa-link {
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.fa-link:hover {
+  color: var(--fa-text-color-hover);
+}

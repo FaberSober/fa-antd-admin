@@ -1,0 +1,21 @@
+# ------------------------------- 开发环境 -------------------------------
+server:
+  port: 80
+spring:
+  application:
+    name: fa-admin-dev
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DBNAME:faber_admin}?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&useSSL=false&rewriteBatchedStatements=true
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:123456}
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ~
+      prefix: fa-ai-dev #默认key前缀

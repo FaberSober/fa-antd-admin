@@ -1,0 +1,15 @@
+.fa-label {
+  position: relative;
+  padding-left: 12px;
+}
+
+.fa-label::before {
+  position: absolute;
+  left: 2px;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 80%;
+  content: "";
+  background: var(--primary-color);
+}

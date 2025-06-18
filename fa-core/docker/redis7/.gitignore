@@ -1,0 +1,6 @@
+.idea
+.DS_Store
+.env
+nohup.out
+logs/*
+data/

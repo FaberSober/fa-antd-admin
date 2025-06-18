@@ -1,0 +1,1 @@
+export {default as PageLoading} from './decorator/PageLoading'

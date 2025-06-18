@@ -1,0 +1,27 @@
+{
+  "name": "@fa/icons",
+  "version": "0.0.1",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "rimraf /s/d dist && rimraf /s/d .turbo",
+    "ncu": "ncu -u --timeout 120000 -x react -x react-dom -x @types/react -x @types/react-dom",
+    "clean": "rimraf /s/d node_modules dist .turbo"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "6.7.2",
+    "@fortawesome/free-regular-svg-icons": "6.7.2",
+    "@fortawesome/free-solid-svg-icons": "6.7.2",
+    "@fortawesome/react-fontawesome": "0.2.2"
+  },
+  "devDependencies": {
+    "@fa/tsconfig": "workspace:*",
+    "@types/lodash": "4.17.14",
+    "@types/react": "18.3.12",
+    "lodash": "4.17.21",
+    "react": "18.3.1",
+    "tsup": "8.3.5",
+    "typescript": "5.7.3"
+  }
+}

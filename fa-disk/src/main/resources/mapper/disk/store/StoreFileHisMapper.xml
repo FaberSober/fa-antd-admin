@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faber.api.disk.store.mapper.StoreFileHisMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.faber.api.disk.store.entity.StoreFileHis" id="StoreFileHisMap">
+        <result property="id" column="id"/>
+        <result property="storeFileId" column="store_file_id"/>
+        <result property="fileSaveId" column="file_save_id"/>
+        <result property="changeFileId" column="change_file_id"/>
+        <result property="fileName" column="file_name"/>
+        <result property="ver" column="ver"/>
+        <result property="remark" column="remark"/>
+        <result property="crtTime" column="crt_time"/>
+        <result property="crtUser" column="crt_user"/>
+        <result property="crtName" column="crt_name"/>
+        <result property="crtHost" column="crt_host"/>
+        <result property="updTime" column="upd_time"/>
+        <result property="updUser" column="upd_user"/>
+        <result property="updName" column="upd_name"/>
+        <result property="updHost" column="upd_host"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+</mapper>

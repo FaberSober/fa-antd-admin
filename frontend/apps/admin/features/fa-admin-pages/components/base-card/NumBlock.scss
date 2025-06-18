@@ -1,0 +1,28 @@
+.fa-num-block-div {
+  background-color: var(--fa-bg-color2);
+  border-radius: 2px;
+  cursor: pointer;
+  padding: 12px;
+  transition: var(--fa-transition);
+}
+
+.fa-num-block-div:hover {
+  background-color: var(--fa-bg-color-hover);
+}
+
+.fa-num-block-title {
+  font-size: 14px;
+  color: var(--fa-text-color2);
+}
+
+.fa-num-block-value-div {
+  font-family: HarmonyOS_Sans_SC_Medium, serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--fa-text-color2);
+  margin-top: 8px;
+}
+
+.fa-num-block-value {
+  margin-right: 4px;
+}

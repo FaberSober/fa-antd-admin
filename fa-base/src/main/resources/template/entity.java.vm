@@ -1,0 +1,58 @@
+package ${package}.entity;
+
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.faber.core.annotation.FaModalName;
+import com.faber.core.bean.BaseDelEntity;
+import lombok.Data;
+
+import java.util.Date;
+#if(${hasJSON})
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.util.Map;
+#end
+###if(${hasBigDecimal})
+import java.math.BigDecimal;
+###end
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@FaModalName(name = "${comments}")
+#if(${hasJSON})
+@TableName(value = "${tableName}", autoResultMap = true)
+#else
+@TableName("${tableName}")
+#end
+@Data
+public class ${className} extends BaseDelEntity {
+
+#foreach ($column in $columns)
+#if($column.columnName == $pk.columnName)
+    @ColumnWidth(8)
+    @ExcelProperty("$column.columnComment")
+#if($column.attrType == 'String')
+    @TableId(type = IdType.ASSIGN_UUID)
+#else
+    @TableId(type = IdType.AUTO)
+#end
+    private $column.attrType $column.attrname;
+
+#elseif ($column.attrname != 'crtTime' and $column.attrname != 'crtUser' and $column.attrname != 'crtName' and $column.attrname != 'crtHost' and $column.attrname != 'updTime' and $column.attrname != 'updUser' and $column.attrname != 'updName' and $column.attrname != 'updHost' and $column.attrname != 'deleted')
+    @ExcelProperty("$column.columnComment")
+#if($column.attrType == 'Map<String, Object>')
+    @TableField(typeHandler = JacksonTypeHandler.class)
+#end
+    private $column.attrType $column.attrname;
+
+#end
+#end
+}

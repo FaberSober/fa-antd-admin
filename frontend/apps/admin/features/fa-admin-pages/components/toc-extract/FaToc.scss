@@ -1,0 +1,35 @@
+.fa-toc {
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background-color: var(--fa-bg-color);
+  //padding: 12px;
+}
+
+.fa-toc-item, .fa-toc-item-sel {
+  padding: 3px 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: var(--fa-transition);
+  background-color: var(--fa-bg-color);
+  position: relative;
+  color: var(--fa-text-color);
+}
+
+.fa-toc-item-sel {
+  background-color: var(--fa-bg-color2);
+}
+
+.fa-toc-item:hover, .fa-toc-item-sel {
+  background-color: var(--fa-hover-bg);
+}
+
+.fa-toc-item-slider {
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  position: absolute;
+  background: var(--primary-color);
+  transition: var(--fa-transition);
+}

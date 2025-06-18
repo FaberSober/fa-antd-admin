@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faber.api.base.admin.mapper.ConfigSceneMapper">
+
+    <select id="findMaxSort" parameterType="map" resultType="int">
+        SELECT IFNULL(MAX(t.sort), 0)
+        FROM base_config_scene t
+        WHERE t.deleted = false
+          AND t.biz = #{biz}
+          AND t.crt_user = #{crtUser}
+    </select>
+
+
+    <select id="clearOtherDefaultScene" parameterType="map">
+        UPDATE base_config_scene
+           SET default_scene = false
+        WHERE biz = #{biz}
+          AND crt_user = #{crtUser}
+    </select>
+
+</mapper>

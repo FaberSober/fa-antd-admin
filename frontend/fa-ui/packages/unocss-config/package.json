@@ -1,0 +1,16 @@
+{
+  "name": "@fa/unocss-config",
+  "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "ncu": "ncu -u --timeout 120000",
+    "clean": "rimraf /s/d node_modules dist .turbo"
+  },
+  "devDependencies": {
+    "unocss": "65.4.3"
+  }
+}

@@ -1,0 +1,51 @@
+.fa-disk-grid-item {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: var(--fa-transition);
+  padding-top: 2px;
+}
+
+.fa-disk-grid-item:hover {
+  //background-color: $fa-hover-bg;
+}
+
+.fa-disk-grid-item-icon,
+.fa-disk-grid-item-icon-selected {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--fa-border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.fa-disk-grid-item-icon-selected {
+  background-color: var(--fa-hover-bg);
+}
+
+.fa-disk-grid-item-name,
+.fa-disk-grid-item-name-selected {
+  font-size: 12px;
+  border-radius: var(--fa-border-radius);
+  max-width: 100px;
+  overflow: hidden;
+}
+
+.fa-disk-grid-item-name-selected {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 0 4px;
+}
+
+.fa-disk-list-item-name {
+  cursor: pointer;
+  color: #333;
+}
+
+.fa-disk-list-item-name:hover {
+  color: var(--primary-color);
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faber.api.base.admin.mapper.LogLoginMapper">
+
+    <select id="countByDay" parameterType="map" resultType="com.faber.core.vo.chart.ChartSeriesVo">
+        SELECT DATE_FORMAT(crt_time,"%Y-%m-%d") name, count(*) value
+         FROM base_log_login
+        WHERE deleted = 0
+          AND crt_time &gt;= #{startDate}
+          AND crt_time &lt;= #{endDate}
+        group by name
+        ORDER BY name ASC
+    </select>
+
+    <select id="countByPro" parameterType="map" resultType="com.faber.core.vo.chart.ChartSeriesVo">
+        SELECT pro name, count(*) value
+         FROM base_log_login
+        WHERE deleted = 0
+          AND pro IS NOT NULL
+          AND pro &lt;&gt; ''
+          AND pro &lt;&gt; '本地'
+        GROUP BY pro
+        ORDER BY value DESC
+        LIMIT 10
+    </select>
+
+</mapper>

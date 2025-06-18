@@ -1,0 +1,60 @@
+{
+  "name": "@fa/ui",
+  "version": "0.0.1",
+  "main": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist",
+    "./styles.css": "./dist/styles.css",
+    "./index.css": "./dist/index.css"
+  },
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "rimraf /s/d dist && rimraf /s/d .turbo",
+    "ncu": "ncu -u --timeout 120000 -x react -x react-dom -x @types/react -x @types/react-dom",
+    "clean": "rimraf /s/d node_modules dist .turbo",
+    "dev": "concurrently \"tsup --watch\" \"postcss ./src/styles.css -o ./dist/styles.css --watch\"",
+    "build": "concurrently \"tsup\" \"postcss ./src/styles.css -o ./dist/styles.css\"",
+    "build:css": "postcss ./src/styles.css -o ./dist/styles.css",
+    "dev:tsup": "tsup --watch",
+    "build:tsup": "tsup"
+  },
+  "dependencies": {
+    "@dnd-kit/core": "6.3.1",
+    "@dnd-kit/sortable": "10.0.0",
+    "@dnd-kit/utilities": "3.2.2",
+    "chroma-js": "3.1.2",
+    "crypto-js": "4.2.0",
+    "qs": "6.14.0",
+    "uuid": "11.0.5"
+  },
+  "devDependencies": {
+    "@ant-design/icons": "5.6.0",
+    "@fa/tsconfig": "workspace:*",
+    "@tinymce/tinymce-react": "5.1.1",
+    "@types/chroma-js": "3.1.0",
+    "@types/crypto-js": "4.2.2",
+    "@types/lodash": "4.17.14",
+    "@types/qs": "6.9.18",
+    "@types/react": "18.3.12",
+    "@types/uuid": "10.0.0",
+    "ahooks": "3.8.4",
+    "antd": "5.24.9",
+    "autoprefixer": "10.4.20",
+    "axios": "1.7.9",
+    "concurrently": "9.1.2",
+    "dayjs": "1.11.13",
+    "fa-cron-react-editor": "0.0.13",
+    "filesize": "10.1.6",
+    "lodash": "4.17.21",
+    "postcss": "8.5.1",
+    "postcss-cli": "11.0.0",
+    "postcss-scss": "4.0.9",
+    "react": "18.3.1",
+    "react-contexify": "6.0.0",
+    "react-use": "17.6.0",
+    "tsup": "8.3.5",
+    "typescript": "5.7.3",
+    "use-bus": "2.5.2"
+  }
+}

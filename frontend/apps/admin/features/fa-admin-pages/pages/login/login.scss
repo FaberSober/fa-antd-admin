@@ -1,0 +1,47 @@
+.fa-login-cute-main {
+  width: 400px;
+  border-radius: 4px;
+  padding: 24px;
+  background: #FFF;
+}
+
+.fa-login-cute-main-top {
+  height: 80px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.fa-login-cute-main-form .submit {
+  width: 100%;
+}
+
+.fa-login-cute-main-form label {
+  color: var(--primary-color) !important;
+  font-size: 17px !important;
+  font-weight: 600 !important;
+}
+
+.fa-login-cute-main-btn {
+  display: flex;
+}
+
+.fa-login-cute-main-btn label {
+  color: #666 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+.fa-login-cute-main-bottom {
+  color: #666;
+  font-size: 12px;
+  margin-top: 5vh;
+}
+
+.fa-login-cute-member {
+  display: flex;
+  justify-content: space-between;
+}
+
+.fa-login-cute-remember {
+}

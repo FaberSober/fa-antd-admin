@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faber.api.base.admin.mapper.UserMapper">
+
+    <select id="listJoin" resultType="com.faber.api.base.admin.entity.User">
+        SELECT t.*, d.name as department_name
+        FROM base_user t
+        LEFT JOIN base_department d ON t.department_id = d.id
+        <where>
+            ${ew.sqlSegment}
+        </where>
+    </select>
+
+</mapper>

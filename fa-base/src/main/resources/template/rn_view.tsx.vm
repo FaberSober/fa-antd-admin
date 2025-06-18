@@ -1,0 +1,21 @@
+import React from 'react';
+import { ${moduleNameUpperCaseFirstOne} } from '@/types';
+import { Descriptions } from "antd";
+
+
+export interface ${className}ViewProps {
+  item: ${moduleNameUpperCaseFirstOne}.${className};
+}
+
+/**
+ * ${comments}实体详情查看
+ */
+export default function ${className}View({item}: ${className}ViewProps) {
+  return (
+    <Descriptions column={1} bordered>
+#foreach($column in $columns)
+      <Descriptions.Item label="${column.columnComment}">{item.${column.attrname}}</Descriptions.Item>
+#end
+    </Descriptions>
+  )
+}

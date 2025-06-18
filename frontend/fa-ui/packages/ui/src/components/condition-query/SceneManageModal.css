@@ -1,0 +1,29 @@
+.fa-scene-title {
+  display: flex;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: var(--fa-bg-color2);
+  padding: 8px;
+}
+
+.fa-scene-item {
+  display: flex;
+  padding: 4px 8px;
+  cursor: pointer;
+  z-index: 1001;
+  width: 100%;
+}
+
+.fa-scene-item:hover {
+  background-color: var(--fa-bg-color-hover);
+}
+
+.fa-cond-group-show {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.fa-cond-group-show .ant-tag {
+  margin-right: 0 !important;
+}

@@ -1,0 +1,46 @@
+.fa-disk-info-div {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: 400px;
+  border-radius: var(--fa-border-radius);
+  border: 1px solid var(--fa-border-color);
+  box-shadow: var(--fa-box-shadow);
+  background-color: #fff;
+}
+
+.fa-disk-title-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid var(--fa-border-color);
+}
+
+.fa-disk-title-close {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 4px;
+  transition: var(--fa-transition);
+  border-radius: var(--fa-border-radius);
+  width: 27px;
+  height: 27px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.fa-disk-title-close:hover {
+  background-color: var(--fa-hover-bg);
+}
+
+.fa-disk-bucket-item {
+  width: 200px;
+  background-color: #fff;
+  padding: 6px;
+  cursor: pointer;
+  color: #000;
+}
+.fa-disk-bucket-item:hover {
+  background-color: var(--fa-hover-bg);
+}

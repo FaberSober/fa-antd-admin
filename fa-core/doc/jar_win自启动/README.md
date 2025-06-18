@@ -1,0 +1,1 @@
+1. [点击下载xxx.exe到本目录中](http://file.qiniu.test.dward.cn/fa/fa-core/doc/autostart/xxx.exe)

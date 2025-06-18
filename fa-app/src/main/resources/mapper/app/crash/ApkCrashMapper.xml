@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faber.api.app.crash.mapper.ApkCrashMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.faber.api.app.crash.entity.ApkCrash" id="apkCrashMap">
+        <result property="id" column="id"/>
+        <result property="appId" column="app_id"/>
+        <result property="name" column="name"/>
+        <result property="applicationId" column="application_id"/>
+        <result property="versionCode" column="version_code"/>
+        <result property="versionName" column="version_name"/>
+        <result property="message" column="message"/>
+        <result property="detail" column="detail"/>
+        <result property="crtTime" column="crt_time"/>
+        <result property="crtUser" column="crt_user"/>
+        <result property="crtName" column="crt_name"/>
+        <result property="crtHost" column="crt_host"/>
+        <result property="updTime" column="upd_time"/>
+        <result property="updUser" column="upd_user"/>
+        <result property="updName" column="upd_name"/>
+        <result property="updHost" column="upd_host"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+</mapper>

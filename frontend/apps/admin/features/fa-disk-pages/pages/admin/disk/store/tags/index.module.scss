@@ -1,0 +1,23 @@
+.menuDiv {
+  :global {
+    .ant-tree-switcher {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ant-tree-treenode {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--fa-border-color);
+      padding: 0;
+    }
+  }
+}
+
+.item {
+  height: 38px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
