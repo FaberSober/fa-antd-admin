@@ -8,10 +8,13 @@
 
 ## [Git Submodule](./fa-core/doc/server/git.md)
 
-项目将多个子模块进行了拆分，使用 git submodule 来管理多个 repo。
+项目将多个子模块进行了拆分，使用 git submodule 来管理多个 repo，主要目的是在多个项目使用相同的模块时，方便公用模块（如`fa-core`）的代码同步。
+
+1. 需要先切换到`submodule`分支；
+2. 执行以下命令，拉取git子模块代码（需要在github账户配置ssh密钥，否则无法拉取子模块代码）；
 
 ```
-git clone --recurse-submodules git@github.com:FaberSober/fa-antd-admin.git
+git submodule update
 ```
 
 ## 预览
