@@ -70,7 +70,7 @@ spring:
       port: ${REDIS_PORT:6379}
       database: 0
       timeout: 2000
-      password: ~
+      password: ${REDIS_PASSWORD:~}
       prefix: fa-admin # 默认key前缀
       lettuce:
         pool:

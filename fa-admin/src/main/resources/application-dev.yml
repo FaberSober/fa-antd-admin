@@ -17,7 +17,7 @@ spring:
     redis:
       host: ${REDIS_HOST:127.0.0.1}
       port: ${REDIS_PORT:6379}
-      password: ~
+      password: ${REDIS_PASSWORD:~}
       prefix: fa-admin-dev #默认key前缀
       lettuce:
         pool:
