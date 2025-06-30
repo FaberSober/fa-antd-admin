@@ -248,6 +248,16 @@ export function getDateFullStr(date: string | any | null | undefined) {
 }
 
 /**
+ * 获取星期
+ * @param date
+ */
+export function getWeekStr(date: dayjs.Dayjs|string) {
+  const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+  const dayIndex = dayjs(date).day();
+  return `星期${weekdays[dayIndex]}`;
+}
+
+/**
  * 获取时间类型初始值
  * @param {*} date
  * @param {*} defaultValue

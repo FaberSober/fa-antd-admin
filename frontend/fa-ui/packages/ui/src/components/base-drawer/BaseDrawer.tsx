@@ -53,13 +53,17 @@ export default function BaseDrawer({children, hideResize = false, triggerDom, bo
             if (onClose) onClose(e)
           }}
           width={700}
-          styles={{ body: { position: 'relative', ...bodyStyle } }}
           id={id1}
+          className="fa-ant-drawer-body0"
           {...props}
         >
           {(open || props.forceRender) && (
             <>
-              {children}
+              <div className="fa-full">
+                <div className="fa-full-content fa-scroll fa-p12" style={{ ...bodyStyle }}>
+                  {children}
+                </div>
+              </div>
               {!hideResize && <FaResizeHorizontal domId={id} position="left" style={{left: 0}} minWidth={200} />}
             </>
           )}

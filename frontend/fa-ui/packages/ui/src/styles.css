@@ -52,6 +52,16 @@ html, body {
     color: var(--fa-text-color);
 }
 
+/* 在HTML开发中，为<div>元素设置box-sizing: border-box;普遍推荐 */
+html {
+  box-sizing: border-box;
+}
+
+/* 此写法兼容伪元素，且允许局部恢复`content-box`。 */
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 a {
     color: var(--primary-color);
 }
@@ -98,6 +108,11 @@ ul {
     position: relative;
 }
 
+.fa-ant-drawer-body0 .ant-drawer-body {
+  padding: 0 !important;
+  position: relative;
+}
+
 .ant-pagination {
     margin: 8px !important;
 }
@@ -125,6 +140,10 @@ ul {
     left: 12px;
     right: 12px;
     bottom: 12px;
+}
+
+.fa-div-box {
+  box-sizing: border-box;
 }
 
 .fa-flex-1 {
