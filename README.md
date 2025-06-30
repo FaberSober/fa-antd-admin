@@ -1,6 +1,6 @@
 # Get Start
 
-- 演示地址：https://fa.dward.cn/login
+- 演示地址：https://fa.faran.top
 - 演示账户：admin/888888
 
 - Github: https://github.com/FaberSober/fa-antd-admin
