@@ -17,7 +17,7 @@ import {
 import type { Admin } from '@/types';
 import { jobApi } from '@features/fa-admin-pages/services';
 import JobModal from './modal/JobModal';
-import JobLogList from "@features/fa-admin-pages/pages/admin/system/base/job/jobLog/JobLogList";
+import JobLogList from "./jobLog/JobLogList";
 
 const serviceName = '定时任务';
 const biz = 'base_job';

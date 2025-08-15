@@ -619,7 +619,11 @@ export function scrollToBottomById(domId: string, delay = 0) {
   setTimeout(() => {
     const dom = document.getElementById(domId);
     if (dom === undefined || dom === null) return;
-    dom.scrollTo(0, dom.scrollHeight)
+    dom.scrollTo({
+      left: 0,
+      top: dom.scrollHeight,
+      behavior: 'smooth',
+    })
   }, delay);
 }
 
@@ -737,3 +741,17 @@ export function downloadImage(url:string) {
       link.remove();
     });
 }
+
+/**
+ * check if image url is valid
+ * @param url
+ */
+export async function checkImageUrlValid(url: string) {
+  try {
+    const res = await fetch(url, { method: "HEAD" });
+    return res.ok; // true: 2xx 响应
+  } catch (err) {
+    return false;  // 网络错误或跨域失败
+  }
+}
+

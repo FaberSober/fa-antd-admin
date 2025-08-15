@@ -1,5 +1,6 @@
 # Tree
 
+## BaseTree
 ```typescript jsx
 import React from 'react';
 import { BaseCascader, BaseCascaderProps } from '@fa/ui';
@@ -13,5 +14,12 @@ import { Demo } from '@/types';
 export default function TreeCascade(props: Omit<BaseCascaderProps<Demo.Tree>, 'serviceApi'>) {
   return <BaseCascader showRoot={false} serviceApi={api} {...props} />;
 }
+```
 
+### inform
+通知BaseTree更新数据
+```typescript jsx
+import {dispatch} from 'use-bus'
+
+dispatch({ type: Fa.Constant.TREE_REFRESH_BUS_KEY })
 ```

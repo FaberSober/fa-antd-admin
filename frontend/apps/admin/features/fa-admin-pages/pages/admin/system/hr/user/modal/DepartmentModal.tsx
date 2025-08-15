@@ -26,7 +26,6 @@ export default function DepartmentModal({ children, parentId, title, record, fet
     departmentApi.save(params).then((res) => {
       FaUtils.showResponse(res, `新增${serviceName}`);
       setOpen(false);
-      if (props.onCancel) props.onCancel(params);
       if (fetchFinish) fetchFinish();
     });
   }
@@ -36,7 +35,6 @@ export default function DepartmentModal({ children, parentId, title, record, fet
     departmentApi.update(params.id, params).then((res) => {
       FaUtils.showResponse(res, `更新${serviceName}`);
       setOpen(false);
-      if (props.onCancel) props.onCancel(params);
       if (fetchFinish) fetchFinish();
     });
   }

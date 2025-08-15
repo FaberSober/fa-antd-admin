@@ -1,7 +1,8 @@
 package com.faber.api.base.admin.mapper;
 
-import com.faber.core.config.mybatis.base.FaBaseMapper;
 import com.faber.api.base.admin.entity.Alert;
+import com.faber.core.config.mybatis.base.FaBaseMapper;
+
 
 /**
  * BASE-告警信息
@@ -11,5 +12,6 @@ import com.faber.api.base.admin.entity.Alert;
  * @date 2023-12-16 11:40:20
  */
 public interface AlertMapper extends FaBaseMapper<Alert> {
+
 	
 }

@@ -16,8 +16,6 @@ import './index.scss';
  */
 export default function Menu() {
   const { loadingEffect } = useContext(ApiEffectLayoutContext);
-  const [edit, setEdit] = useState<Fa.TreeNode<Rbac.RbacMenu, string>>();
-  const [open, setOpen] = useState(false);
   const [current, { inc }] = useCounter(0);
   const [scope, setScope] = useState<FaEnums.RbacMenuScopeEnum>(FaEnums.RbacMenuScopeEnum.WEB);
 
@@ -26,21 +24,26 @@ export default function Menu() {
   }, [scope]);
 
   function refreshData() {
-    setOpen(false);
     inc();
   }
 
   const [handleDelete] = useDelete<string>(rbacMenuApi.remove, refreshData, '菜单');
 
-  function showEditModal(item: Fa.TreeNode<Rbac.RbacMenu, string>) {
-    setEdit(item);
-    setOpen(true);
-  }
-
   const loadingTree = loadingEffect[rbacMenuApi.getUrl('allTree')];
   return (
     <div className="fa-full-content fa-flex-column fa-menu-div">
-      <div className="fa-p12 fa-flex-column">
+      <div className="fa-m12 fa-flex-column" style={{marginBottom: 0}}>
+        <Space style={{ marginBottom: 12 }}>
+          <Button onClick={refreshData} loading={loadingTree}>
+            刷新
+          </Button>
+          <RbacMenuModal title="新增菜单" scope={scope} fetchFinish={refreshData}>
+            <Button type="primary" icon={<PlusOutlined />} loading={loadingTree}>
+              新增菜单
+            </Button>
+          </RbacMenuModal>
+        </Space>
+
         <div>
           <Segmented
             value={scope}
@@ -59,20 +62,9 @@ export default function Menu() {
             ]}
           />
         </div>
-
-        <Space style={{ marginTop: 12 }}>
-          <Button onClick={refreshData} loading={loadingTree}>
-            刷新
-          </Button>
-          <RbacMenuModal title="新增菜单" scope={scope} fetchFinish={refreshData}>
-            <Button type="primary" icon={<PlusOutlined />} loading={loadingTree}>
-              新增菜单
-            </Button>
-          </RbacMenuModal>
-        </Space>
       </div>
 
-      <FaFlexRestLayout>
+      <FaFlexRestLayout className="fa-full-content-p12 fa-card fa-p0">
         <BaseTree
           // showRoot
           showOprBtn
@@ -122,7 +114,9 @@ export default function Menu() {
                 <RbacMenuModal title="新增菜单" scope={scope} parentId={item.id} fetchFinish={refreshData}>
                   <FaHref icon={<SisternodeOutlined />} text="新增子节点" />
                 </RbacMenuModal>
-                <FaHref icon={<EditOutlined />} text="编辑" onClick={() => showEditModal(item)} />
+                <RbacMenuModal title="编辑菜单" record={item.sourceData} scope={scope} fetchFinish={refreshData}>
+                  <FaHref icon={<EditOutlined />} text="编辑" />
+                </RbacMenuModal>
                 <AuthDelBtn handleDelete={() => handleDelete(item.id)} />
               </Space>
             </div>
@@ -132,8 +126,6 @@ export default function Menu() {
           extraEffectArgs={[current]}
         />
       </FaFlexRestLayout>
-
-      <RbacMenuModal title="编辑菜单" record={edit?.sourceData} scope={scope} fetchFinish={refreshData} open={open} onCancel={() => setOpen(false)} />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React, { type CSSProperties, useContext, useEffect, useRef, useState } fr
 import { v4 as uuidv4 } from 'uuid';
 import * as echarts from 'echarts';
 import type { ECharts, BarSeriesOption, EChartsOption } from 'echarts';
-import { type Fa, ThemeLayoutContext } from '@fa/ui';
+import { type Fa, ThemeLayoutContext, FaUtils } from '@fa/ui';
 import { useSize } from 'ahooks';
 
 export interface EchartsBarProps {
@@ -15,13 +15,14 @@ export interface EchartsBarProps {
   style?: CSSProperties;
   barSeriesOption?: BarSeriesOption;
   options?: EChartsOption;
+  dark?: boolean; // 是否暗色主题
 }
 
 /**
  * @author xu.pengfei
  * @date 2023/2/2 09:52
  */
-export default function EchartsBar({ title, subTitle, data, dataTitle, unit, barWidth = 30, style, barSeriesOption, options }: EchartsBarProps) {
+export default function EchartsBar({ title, subTitle, data, dataTitle, unit, barWidth = 30, style, barSeriesOption, options, dark }: EchartsBarProps) {
   const { themeDark } = useContext(ThemeLayoutContext);
 
   const chartRef = useRef<ECharts>();
@@ -42,7 +43,10 @@ export default function EchartsBar({ title, subTitle, data, dataTitle, unit, bar
     if (chartRef.current) chartRef.current.dispose();
 
     // 基于准备好的dom，初始化echarts实例
-    const theme = themeDark ? 'dark' : 'light';
+    let theme = themeDark ? 'dark' : 'light';
+    if (dark) {
+      theme = 'dark';
+    }
     chartRef.current = echarts.init(document.getElementById(id), theme);
 
     chartRef.current.setOption({
@@ -67,7 +71,7 @@ export default function EchartsBar({ title, subTitle, data, dataTitle, unit, bar
       },
       legend: {
         orient: 'vertical',
-        left: 'left',
+        top: 24,
       },
       xAxis: {
         data: data.map((i) => i.name),
@@ -83,7 +87,7 @@ export default function EchartsBar({ title, subTitle, data, dataTitle, unit, bar
           barWidth,
           tooltip: {
             //鼠标移入图上数值显示格式
-            valueFormatter: (value: any) => value + (unit ? ` ${unit}` : ''),
+            valueFormatter: (value: any) => FaUtils.tryToFixedNum(value, 1) + (unit ? ` ${unit}` : ''),
           },
           ...barSeriesOption,
         },
@@ -98,7 +102,7 @@ export default function EchartsBar({ title, subTitle, data, dataTitle, unit, bar
       ...options,
     });
     setReady(true);
-  }, [themeDark]);
+  }, [themeDark, options]);
 
   useEffect(() => {
     if (!ready) return;

@@ -4,6 +4,7 @@ import { Fa } from '@ui/types';
 import { TreeSelectProps } from 'antd/es/tree-select';
 import * as BaseTreeUtils from '@ui/components/base-tree/utils';
 import BaseTreeProps from '@ui/types/core/BaseTreeProps';
+import { filterNode } from "@ui/components/base-tree/utils";
 
 export interface BaseTreeSelectProps<T, KeyType = number> extends Omit<TreeSelectProps<T>, 'options'> {
   value?: any;
@@ -16,6 +17,7 @@ export interface BaseTreeSelectProps<T, KeyType = number> extends Omit<TreeSelec
   showRoot?: boolean;
   rootName?: string;
   extraEffectArgs?: any[];
+  getValue?: (item: T) => any; // 自定义value取值
 }
 
 /**
@@ -29,6 +31,7 @@ export default function BaseTreeSelect<RecordType extends object = any, KeyType 
   showRoot,
   rootName = Fa.Constant.TREE_SUPER_ROOT_LABEL,
   extraEffectArgs = [],
+  getValue,
   ...props
 }: BaseTreeSelectProps<RecordType, KeyType>) {
   const [options, setOptions] = useState<BaseTreeProps.TreeNode[] | undefined>([]);
@@ -38,6 +41,12 @@ export default function BaseTreeSelect<RecordType extends object = any, KeyType 
       let treeArr = BaseTreeUtils.parseNode(res.data);
       if (showRoot) {
         treeArr = [{ ...{ ...Fa.ROOT_DEFAULT, label: rootName }, children: treeArr, level: 0 }];
+      }
+      // 自定义value转换
+      if (getValue) {
+        filterNode(treeArr as any, (d: any) => {
+          d.value = getValue(d.sourceData);
+        })
       }
       setOptions(treeArr);
     });

@@ -62,13 +62,13 @@ export default function DictOptionsEdit({ dict, onChange, onRefresh }: DictOptio
   return (
     <FaFlexRestLayout className="fa-bg-white">
       <div className="fa-flex-row-center fa-bg-grey">
-        <div className="fa-p12 fa-border-b fa-border-r" style={{ flex: 1 }}>
+        <div className="fa-dict-data-title fa-border-b fa-border-r" style={{ flex: 1 }}>
           字典名称
         </div>
-        <div className="fa-p12 fa-border-b fa-border-r" style={{ flex: 1 }}>
+        <div className="fa-dict-data-title fa-border-b fa-border-r" style={{ flex: 1 }}>
           字典值
         </div>
-        <div className="fa-p12 fa-border-b " style={{ width: 80 }}>
+        <div className="fa-dict-data-title fa-border-b " style={{ width: 80 }}>
           操作
         </div>
       </div>
@@ -79,7 +79,7 @@ export default function DictOptionsEdit({ dict, onChange, onRefresh }: DictOptio
         onSortEnd={(l) => handleChangeDicts(l)}
         vertical
         handle
-        handleStyle={{ position: 'absolute', right: 10, top: 14 }}
+        handleStyle={{ position: 'absolute', right: 10, top: 7 }}
       />
       <DictForm onChange={handleAddDict} />
     </FaFlexRestLayout>

@@ -72,7 +72,7 @@ export default function ${className}List() {
               <Button onClick={() => clearForm(form)}>重置</Button>
               <${className}Modal addBtn title={`新增${serviceName}信息`} fetchFinish={fetchPageList} />
               <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
-              <CommonExcelUploadModal fetchFinish={fetchPageList} apiDownloadTplExcel={api.exportTplExcel} apiImportExcel={api.importExcel}>
+              <CommonExcelUploadModal fetchFinish={fetchPageList} apiDownloadTplExcel={api.exportTplExcel} apiImportExcel={api.importExcel} type={biz}>
                 <Button icon={<UploadOutlined />}>上传</Button>
               </CommonExcelUploadModal>
             </Space>

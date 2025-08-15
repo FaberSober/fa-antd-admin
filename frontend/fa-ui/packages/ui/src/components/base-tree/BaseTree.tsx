@@ -59,6 +59,8 @@ export interface BaseTreeProp<T, KeyType = number> extends TreeProps {
   extraEffectArgs?: any[];
   maxLevel?: number; // 最大的层级，超过这个层级不展示新增按钮
   refreshBusKey?: string; // bus通知刷新key
+  onAfterAddItem?: (item: T) => void; // 修改节点后回调
+  onAfterEditItem?: (item: T) => void; // 修改节点后回调
 }
 
 let menuClickItem: any = undefined;
@@ -68,31 +70,33 @@ let menuClickItem: any = undefined;
  * @date 2020/12/25
  */
 const BaseTree = React.forwardRef<HTMLElement, BaseTreeProp<any, any>>(function BaseTree<RecordType extends object = any, KeyType = number>({
-   showRoot = false,
-   showTopBtn = true,
-   showTopAddBtn = true,
-   showTips = false,
-   showOprBtn = false,
-   showOprBtnAdd = true,
-   showOprBtnEdit = true,
-   serviceName = '',
-   className,
-   bodyStyle,
-   treeStyle,
-   topBarStyle,
-   ServiceModal = Modal,
-   extraContextMenus,
-   serviceApi,
-   onGetTree,
-   onAfterDelItem,
-   rootName = Fa.Constant.TREE_SUPER_ROOT_LABEL,
-   tips = '右键新增、编辑、删除节点',
-   renderTreeLabel,
-   extraEffectArgs = [],
-   maxLevel,
-   refreshBusKey = Fa.Constant.TREE_REFRESH_BUS_KEY,
-   ...props
- }: BaseTreeProp<RecordType, KeyType>, ref: any) {
+  showRoot = false,
+  showTopBtn = true,
+  showTopAddBtn = true,
+  showTips = false,
+  showOprBtn = false,
+  showOprBtnAdd = true,
+  showOprBtnEdit = true,
+  serviceName = '',
+  className,
+  bodyStyle,
+  treeStyle,
+  topBarStyle,
+  ServiceModal = Modal,
+  extraContextMenus,
+  serviceApi,
+  onGetTree,
+  onAfterDelItem,
+  rootName = Fa.Constant.TREE_SUPER_ROOT_LABEL,
+  tips = '右键新增、编辑、删除节点',
+  renderTreeLabel,
+  extraEffectArgs = [],
+  maxLevel,
+  refreshBusKey = Fa.Constant.TREE_REFRESH_BUS_KEY,
+  onAfterAddItem,
+  onAfterEditItem,
+  ...props
+}: BaseTreeProp<RecordType, KeyType>, ref: any) {
   const {renderCount} = useContext(BaseTreeContext);
 
   const [loading, setLoading] = useState(false);
@@ -237,11 +241,29 @@ const BaseTree = React.forwardRef<HTMLElement, BaseTreeProp<any, any>>(function 
     setExpandedKeys(newEks)
   }
 
-  function afterEditItem() {
-    setClickItem(undefined);
+  function afterAddItem(r?: any) {
+    // setClickItem(r);
     setAddItemModalVisible(false);
     setEditItemModalVisible(false);
     fetchTree();
+    if (onAfterAddItem) {
+      onAfterAddItem(r)
+    }
+  }
+
+  function afterEditItem(r?: any) {
+    // setClickItem(r);
+    setAddItemModalVisible(false);
+    setEditItemModalVisible(false);
+    fetchTree();
+    if (onAfterEditItem) {
+      onAfterEditItem(r)
+    }
+  }
+
+  function cancelAddOrEditItem() {
+    setAddItemModalVisible(false);
+    setEditItemModalVisible(false);
   }
 
   function onDrop(info: any) {
@@ -332,7 +354,7 @@ const BaseTree = React.forwardRef<HTMLElement, BaseTreeProp<any, any>>(function 
 
       {/* main tree */}
       <div className="fa-base-tree-div" style={{flex: 1, overflowY: 'auto'}}>
-        <div style={{paddingRight: 12, ...treeStyle}}>
+        <div style={{...treeStyle}}>
           <Spin spinning={loading}>
             <Tree
               blockNode
@@ -351,19 +373,21 @@ const BaseTree = React.forwardRef<HTMLElement, BaseTreeProp<any, any>>(function 
               {...props}
             />
 
+            {/* add modal */}
             <ServiceModal
               title={`新增${serviceName}`}
               parentId={clickItem && get(clickItem, 'value')}
               open={addItemModalVisible}
-              onCancel={afterEditItem}
-              fetchFinish={afterEditItem}
+              onCancel={cancelAddOrEditItem}
+              fetchFinish={afterAddItem}
             />
 
+            {/* edit modal */}
             <ServiceModal
               title={`编辑${serviceName}`}
               open={editItemModalVisible}
               record={clickItem ? clickItem.sourceData : undefined}
-              onCancel={afterEditItem}
+              onCancel={cancelAddOrEditItem}
               fetchFinish={afterEditItem}
               destroyOnClose
             />

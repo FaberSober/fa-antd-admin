@@ -18,6 +18,8 @@ export interface CommonExcelUploadModalProps extends DragModalProps {
   accept?: string;
   /** 导入业务类型，有值的话展示导入关联的导入历史记录 */
   type?: string;
+  /** 表格初始化数值 */
+  formInitValues?: any;
 }
 
 /**
@@ -39,6 +41,7 @@ export default function CommonExcelUploadModal({
   showMsg = true,
   accept,
   type,
+  formInitValues,
   ...props
 }: CommonExcelUploadModalProps) {
   const [form] = Form.useForm();
@@ -69,7 +72,7 @@ export default function CommonExcelUploadModal({
 
   function showModal() {
     setOpen(true);
-    form.setFieldsValue({ fileId: undefined });
+    form.setFieldsValue({ fileId: undefined, ...formInitValues });
   }
 
   return (

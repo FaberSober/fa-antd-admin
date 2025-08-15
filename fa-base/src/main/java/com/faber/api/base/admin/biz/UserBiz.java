@@ -208,6 +208,15 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
 //    @CacheInvalidate(name = "user:", key = "#entity.id")
     @FaCacheClear(pre = "rbac:userMenus:", key = "id")
     public boolean updateSimpleById(User entity) {
+        // 不可以将自己的账户状态修改为false
+        if (CommonConstants.SUPER_ADMIN_ID.equals(entity.getId())) {
+            throw new BuzzException("不能修改超级管理员账户状态");
+        }
+
+        if (getCurrentUserId().equals(entity.getId())) {
+            throw new BuzzException("不能修改自己的账户状态");
+        }
+
         // 可以更新的属性
         return lambdaUpdate()
                 .set(entity.getStatus() != null, User::getStatus, entity.getStatus())

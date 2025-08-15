@@ -41,6 +41,7 @@ export default function BaseBizTable<RecordType extends object = any>({
   batchDelBtn,
   showDeleteByQuery = false,
   onDeleteByQuery = () => {},
+  scrollY,
   ...props
 }: FaberTable.BaseTableProps<RecordType>) {
   const [id] = useState(v4());
@@ -220,7 +221,7 @@ export default function BaseBizTable<RecordType extends object = any>({
             id={id}
             columns={parseColumns}
             rowSelection={showCheckbox ? myRowSelection : undefined}
-            scroll={{x: scrollWidthX, y: innerScrollY}}
+            scroll={{x: scrollWidthX, y: innerScrollY || scrollY}}
             onRow={(record) => ({
               onClick: () => {
                 // 点击row选中功能实现

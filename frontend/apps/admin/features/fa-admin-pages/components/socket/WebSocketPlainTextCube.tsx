@@ -25,9 +25,9 @@ export default function WebSocketPlainTextCube({ style, className }: WebSocketPl
 
   if (array.length === 0) return null;
   return (
-    <div id="WebSocketPlainTextCube" style={{ maxHeight: 400, width: '100%', overflowY: 'auto', ...style }} className={className}>
+    <div id="WebSocketPlainTextCube" style={{ maxHeight: 400, width: '100%', overflowY: 'auto', fontSize: '12px', ...style }} className={className}>
       {array.map((item, i) => (
-        <div key={`${item.timestamp}-${i}`} className="fa-flex-row fa-mb4">
+        <div key={`${item.timestamp}-${i}`} className="fa-flex-row fa-mb4 fa-text-same-width-only">
           <div style={{width: 150}}>{FaUtils.getDateFullStr(item.timestamp)}</div>
           <div className="fa-flex-1 fa-flex-wrap">{item.data}</div>
         </div>

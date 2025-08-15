@@ -5,6 +5,7 @@ export { default as configSceneApi } from './configScene';
 export { default as configSysApi } from './configSys';
 export { default as departmentApi } from './department';
 export { default as dictApi } from './dict';
+export { default as dictDataApi } from './dictData';
 export { default as entityLogApi } from './entityLog';
 export { default as fileSaveApi } from './fileSave';
 export { default as jobApi } from './job';

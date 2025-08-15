@@ -34,18 +34,25 @@ export default function DictForm({ dict, onChange, onDelete }: DictFormProps) {
   }
 
   return (
-    <Form form={form} onFinish={onFinish} layout="inline" className="fa-flex-row-center fa-full-w fa-form-underline">
-      <div className="fa-p12" style={{ flex: 1 }}>
-        <Form.Item name="label" rules={[{ required: true }]}>
-          <Input onBlur={form.submit} />
+    <Form
+      form={form}
+      onFinish={onFinish}
+      variant="filled"
+      layout="inline"
+      className="fa-flex-row fa-full-w fa-form-m0 fa-item"
+      labelCol={{style: {display: 'none'}}}
+    >
+      <div className="fa-p6" style={{flex: 1}}>
+        <Form.Item name="label" label="字典名称" rules={[{required: true}]}>
+          <Input onBlur={form.submit}/>
         </Form.Item>
       </div>
-      <div className="fa-p12" style={{ flex: 1 }}>
-        <Form.Item name="value" rules={[{ required: true }]}>
-          <Input onBlur={form.submit} />
+      <div className="fa-p6" style={{flex: 1}}>
+        <Form.Item name="value" label="字典值" rules={[{required: true}]}>
+          <Input onBlur={form.submit}/>
         </Form.Item>
       </div>
-      <div className="fa-p12" style={{ width: 80 }}>
+      <div className="fa-p6 fa-flex-row-center" style={{width: 80, height: 44}}>
         {dict === undefined && (
           <Button size="small" type="primary" htmlType="submit">
             新增
@@ -53,7 +60,7 @@ export default function DictForm({ dict, onChange, onDelete }: DictFormProps) {
         )}
         {dict !== undefined && (
           <Popconfirm title="确认删除?" onConfirm={() => onDelete && onDelete(dict)} placement="topRight">
-            <FaHref text="删除" style={{ color: '#F00' }} />
+            <FaHref text="删除" style={{color: '#F00'}}/>
           </Popconfirm>
         )}
       </div>

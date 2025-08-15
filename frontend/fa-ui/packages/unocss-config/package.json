@@ -11,6 +11,6 @@
     "clean": "rimraf /s/d node_modules dist .turbo"
   },
   "devDependencies": {
-    "unocss": "65.4.3"
+    "unocss": "66.4.0"
   }
 }

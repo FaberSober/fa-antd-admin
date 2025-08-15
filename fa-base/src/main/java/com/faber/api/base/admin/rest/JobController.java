@@ -64,4 +64,12 @@ public class JobController extends BaseController<JobBiz, Job, Integer> {
         return ok(list);
     }
 
+    @FaLogOpr("获取闲置任务")
+    @GetMapping("/getIdleJobs")
+    @ResponseBody
+    public Ret<List<DictOption<String>>> getIdleJobs() {
+        List<DictOption<String>> list = baseBiz.getIdleJobs();
+        return ok(list);
+    }
+
 }

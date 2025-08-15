@@ -4,7 +4,7 @@ import { Fa } from '@ui/types';
 import { CascaderProps, BaseOptionType } from 'antd/es/cascader';
 import { Cascader } from 'antd';
 import * as BaseTreeUtils from '@ui/components/base-tree/utils';
-import { setTreeDisabled } from '@ui/components/base-tree/utils';
+import { filterNode, setTreeDisabled } from '@ui/components/base-tree/utils';
 
 export interface BaseCascaderProps<T extends BaseOptionType, KeyType = number> extends Omit<CascaderProps<Fa.TreeNode<T>>, 'options' | 'onChange'> {
   showRoot?: boolean;
@@ -28,6 +28,7 @@ export interface BaseCascaderProps<T extends BaseOptionType, KeyType = number> e
   extraParams?: any[]; // 补充副作用参数，变更会触发cascader重新拉取api tree数据
   disabledIds?: any[]; // 禁止选择的选项IDs
   maxLevel?: number; // 最大的展示层级，超过这个层级不展示
+  getValue?: (item: T) => any; // 自定义value取值
 }
 
 /**
@@ -46,6 +47,7 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
   extraParams=[],
   disabledIds,
   maxLevel,
+  getValue,
   ...props
 }: BaseCascaderProps<RecordType, KeyType>) {
   const [innerValue, setInnerValue] = useState<any[]>([]);
@@ -73,6 +75,12 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
         treeArr = [{ ...Fa.ROOT_DEFAULT, id: rootId, name: rootName, level: 0, children: res.data } as any];
       }
       setTreeDisabled(treeArr, disabledIds);
+      // 自定义value转换
+      if (getValue) {
+        filterNode(treeArr, (d: any) => {
+          d.id = getValue(d.sourceData);
+        })
+      }
       setOptions(treeArr);
     });
   }

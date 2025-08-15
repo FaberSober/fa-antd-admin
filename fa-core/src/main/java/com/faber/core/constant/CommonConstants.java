@@ -5,6 +5,12 @@ package com.faber.core.constant;
  */
 public class CommonConstants {
 
+    // ---------------- 超级管理员 ----------------
+    public static final String SUPER_ADMIN_ID = "1";
+    public static final String SUPER_ADMIN_NAME = "Admin";
+    public static final String SUPER_ADMIN_USER_NAME = "超级管理员";
+
+
     // ---------------- 用户token异常 ----------------
     public static final Integer EX_USER_INVALID_CODE = 40101;
     public static final Integer EX_USER_INVALID_DEVICE_CODE = 40102;

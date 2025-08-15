@@ -3,7 +3,7 @@ import './FaLabel.css'
 
 
 export interface FaLabelProps {
-  title: string;
+  title: string | React.ReactNode;
   barColor?: string;
   className?: string;
   style?: CSSProperties;

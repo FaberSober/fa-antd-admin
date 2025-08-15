@@ -1,0 +1,30 @@
+.fa-menu-div {
+  .ant-tree-switcher {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ant-tree-switcher::before {
+    top: 7px;
+  }
+
+  .ant-tree-treenode {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--fa-border-color);
+    padding: 0;
+    margin-bottom: 0;
+  }
+}
+
+.fa-menu-item {
+  height: 38px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.fa-dict-data-title {
+  padding: 8px 6px;
+}

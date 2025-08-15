@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.faber.api.base.admin.enums.DictTypeEnum;
 import com.faber.core.annotation.*;
 import com.faber.core.bean.BaseDelEntity;
 import com.faber.core.config.easyexcel.type.FaJsonObj;
@@ -54,10 +55,17 @@ public class Dict extends BaseDelEntity {
     @ExcelProperty("描述")
     private String description;
 
+    /** 1-选择列表，2-字符串，3-关联列表，4-关联树 */
+    @ExcelProperty("数值类型")
+    private DictTypeEnum type;
+
     @NotNull
     @ExcelProperty("字典列表")
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Option[] options;
+
+    @ExcelProperty("字典值")
+    private String value;
 
     @Data
     @NoArgsConstructor

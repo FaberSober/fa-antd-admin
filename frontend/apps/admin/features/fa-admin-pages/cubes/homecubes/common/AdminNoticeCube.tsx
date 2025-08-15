@@ -3,6 +3,7 @@ import type { Admin } from '@features/fa-admin-pages/types';
 import { noticeApi } from '@features/fa-admin-pages/services';
 import { BaseDrawer } from '@fa/ui';
 import FaRichHtmlView from '@features/fa-admin-pages/components/rich-html/FaRichHtmlView';
+import { TitleClickTab } from "@features/fa-admin-pages/components";
 
 export function AdminNoticeCube() {
   const [array, setArray] = useState<Admin.Notice[]>([]);
@@ -24,7 +25,7 @@ export function AdminNoticeCube() {
               <div className="fa-flex-row fa-link-grey fa-p8 fa-border-b">
                 <div style={{ width: 100 }}>{item.crtName}</div>
                 <div className="fa-flex-1">{item.title}</div>
-                <div style={{ width: 150 }}>{item.crtTime}</div>
+                <div className="fa-text-same-width-only" style={{ fontSize: '12px', width: 150 }}>{item.crtTime}</div>
               </div>
             }
           >
@@ -42,7 +43,8 @@ export function AdminNoticeCube() {
 }
 
 AdminNoticeCube.displayName = 'AdminNoticeCube'; // 必须与方法名称一致
-AdminNoticeCube.title = '公告';
+AdminNoticeCube.title = "公告";
+AdminNoticeCube.titleRender = () => <TitleClickTab title="公告" url="/admin/system/base/notice" />;
 AdminNoticeCube.description = '展示系统公告信息';
 AdminNoticeCube.showTitle = true; // 是否展示Card的Title
 AdminNoticeCube.permission = ''; // 需要的权限-对应RbacMenu.linkUrl

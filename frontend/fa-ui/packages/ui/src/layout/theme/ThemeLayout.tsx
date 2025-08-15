@@ -28,7 +28,7 @@ const ThemeConfig = {
     'fa-bg-color1': '#e1e1e1',
     'fa-bg-color2': '#eee',
     'fa-bg-selected': '#e3e3e3',
-    'fa-bg-color-hover': '#eee',
+    'fa-bg-color-hover': '#F0F0F0',
     'fa-bg-color-highlight': '#3c4c68',
     'fa-bg-grey': '#f7f7f7',
     'fa-bg-grey2': '#e7e7e7',
@@ -40,7 +40,7 @@ const ThemeConfig = {
     'fa-text-color-light100': '#999',
     'fa-text-color-disable': 'rgba(0, 0, 0, 0.25)',
     'fa-subtitle-color': '#666',
-    'fa-border-color': '#ddd',
+    'fa-border-color': '#F0F0F0',
     'separator-border': '#eee',
   },
   dark: {

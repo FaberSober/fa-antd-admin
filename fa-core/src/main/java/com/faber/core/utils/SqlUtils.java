@@ -1,6 +1,5 @@
 package com.faber.core.utils;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.jdbc.ScriptRunner;
 
 import java.io.StringReader;
@@ -12,7 +11,6 @@ import java.sql.SQLException;
  * @author xu.pengfei
  * @date 2022/11/28 14:33
  */
-@Slf4j
 public class SqlUtils {
 
     /**
@@ -29,25 +27,22 @@ public class SqlUtils {
         return s;
     }
 
-    public static void executeSql(Connection conn, String sql) throws SQLException {
-        // 执行SQL脚本
+    /**
+     * 执行sql脚本
+     *
+     * @param sql
+     * @throws SQLException
+     */
+    public static void executeSql(Connection conn, String sql) {
+        // 执行sql脚本
         ScriptRunner runner = new ScriptRunner(conn);
         runner.setFullLineDelimiter(false);
-        runner.setDelimiter(";");        // 语句结束符号设置
-        runner.setLogWriter(null);       // 日志数据输出，这样就不会输出过程
+        runner.setDelimiter(";");//语句结束符号设置
+        runner.setLogWriter(null);//日志数据输出，这样就不会输出过程
         runner.setSendFullScript(false);
         runner.setAutoCommit(true);
         runner.setStopOnError(true);
-        try {
-            runner.runScript(new StringReader(sql));
-        } finally {
-            // 确保连接始终关闭
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                // 记录关闭连接时的异常
-                log.error("关闭数据库连接时发生异常", e);
-            }
-        }
+        runner.runScript(new StringReader(sql));
     }
+
 }

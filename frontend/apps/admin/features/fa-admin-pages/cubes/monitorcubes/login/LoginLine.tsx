@@ -9,6 +9,7 @@ export type LoginLineProps = {};
 
 export function LoginLine() {
   const [array, setArray] = useState<Fa.ChartSeriesVo[]>([]);
+  const [options] = useState({ toolbox: { show: false } })
 
   useEffect(() => {
     logLoginApi
@@ -29,7 +30,8 @@ export function LoginLine() {
             data: array.map((i) => i.value),
           },
         ]}
-        restOption={{ toolbox: { show: false } }}
+        // restOption={{ toolbox: { show: false } }}
+        restOption={options}
       />
     </div>
   );

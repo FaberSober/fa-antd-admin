@@ -110,7 +110,7 @@ public class WsChatEndpoint {
      */
     @OnMessage
     public void onMessage(Session session, @PathParam("token") String token, String message) throws IOException {
-        log.info("接收到消息：{}", message);
+        log.debug("接收到消息：{}", message);
 
         WsClientInfoEntity entity = uavWebSocketInfoMap.get(token);
         // 如果是心跳包

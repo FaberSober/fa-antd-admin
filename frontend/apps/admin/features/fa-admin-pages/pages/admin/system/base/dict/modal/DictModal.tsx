@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { get } from 'lodash';
 import { Form, Input } from 'antd';
-import { ApiEffectLayoutContext, DragModal, type DragModalProps, FaUtils } from '@fa/ui';
-import type { Admin } from '@/types';
+import { ApiEffectLayoutContext, DictEnumApiSelector, DragModal, type DragModalProps, FaUtils } from '@fa/ui';
+import { type Admin, FaEnums } from '@/types';
 import { dictApi } from '@features/fa-admin-pages/services';
 import DictCascade from '../helper/DictCascade';
 
 const serviceName = '字典分类';
 
 interface IProps extends DragModalProps {
+  fetchFinish?: (r: Admin.Dict) => void;
   parentId?: number;
   title?: string;
   record?: Admin.Dict;
@@ -17,7 +18,7 @@ interface IProps extends DragModalProps {
 /**
  * 字典分类实体新增、编辑弹框
  */
-export default function DictModal({ children, parentId, title, record, ...props }: IProps) {
+export default function DictModal({ children, fetchFinish, parentId, title, record, ...props }: IProps) {
   const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
@@ -28,7 +29,7 @@ export default function DictModal({ children, parentId, title, record, ...props 
     dictApi.save(params).then((res) => {
       FaUtils.showResponse(res, `新增${serviceName}`);
       setOpen(false);
-      if (props.onCancel) props.onCancel(params);
+      if (fetchFinish) fetchFinish(res.data);
     });
   }
 
@@ -37,7 +38,7 @@ export default function DictModal({ children, parentId, title, record, ...props 
     dictApi.update(params.id, params).then((res) => {
       FaUtils.showResponse(res, `更新${serviceName}`);
       setOpen(false);
-      if (props.onCancel) props.onCancel(params);
+      if (fetchFinish) fetchFinish(res.data);
     });
   }
 
@@ -58,6 +59,7 @@ export default function DictModal({ children, parentId, title, record, ...props 
       code: get(record, 'code'),
       name: get(record, 'name'),
       parentId: get(record, 'parentId', parentId),
+      type: get(record, 'type', FaEnums.DictTypeEnum.LINK_OPTIONS),
       description: get(record, 'description'),
     };
   }
@@ -85,6 +87,9 @@ export default function DictModal({ children, parentId, title, record, ...props 
           </Form.Item>
           <Form.Item name="code" label="编码" rules={[{ required: true }]} {...FaUtils.formItemFullLayout}>
             <Input />
+          </Form.Item>
+          <Form.Item name="type" label="类型" rules={[{ required: true }]} {...FaUtils.formItemFullLayout}>
+            <DictEnumApiSelector enumName="DictTypeEnum" />
           </Form.Item>
           <Form.Item name="description" label="描述" {...FaUtils.formItemFullLayout}>
             <Input.TextArea />

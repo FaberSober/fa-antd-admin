@@ -93,11 +93,11 @@ export default function echartsDemo() {
       </Card>
 
       <Card title="ECharts 柱状图（叠加）" className="fa-mb12">
-        <EchartsSimpleDemo />
+        <EchartsBarStackDemo />
       </Card>
 
       <Card title="ECharts 折线图" className="fa-mb12">
-        <EchartsBarStackDemo />
+        <EchartsSimpleDemo />
       </Card>
 
       <Card title="ECharts 动态表格" className="fa-mb12">

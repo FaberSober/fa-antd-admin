@@ -39,7 +39,7 @@ export default function Desktop() {
             //   return <Component />
             // }
             return (
-              <FaFlashCard title={Component.title} hideTitle={!Component.showTitle}>
+              <FaFlashCard title={Component.title} titleRender={Component.titleRender} hideTitle={!Component.showTitle}>
                 <Component />
               </FaFlashCard>
             );
@@ -57,7 +57,7 @@ export default function Desktop() {
         {loading && <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />}
 
         <BaseDrawer title="添加组件" triggerDom={<Button shape="circle" icon={<PlusOutlined />} size="small" />} bodyStyle={{ padding: 0 }}>
-          <Space>
+          <Space className="fa-p12">
             <Button onClick={() => onLayoutChange([])}>清空</Button>
             <Button onClick={handleSaveCurAsDefault}>保存当前为默认</Button>
             <Button onClick={handleClearAllUserConfig} danger>

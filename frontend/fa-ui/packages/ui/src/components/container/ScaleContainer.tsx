@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useInterval } from 'react-use';
 import { Tooltip } from 'antd';
 import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons';
+import './index.css'
 
 export interface ScaleContainerProps {
   width: number; // 宽-1920
@@ -12,6 +13,7 @@ export interface ScaleContainerProps {
   showFullscreenBtn?: boolean; // 是否展示切换全屏的按钮-false
   equalRatio?: boolean; // 是否等比缩放-true
   children: ReactNode;
+  topStyle?: CSSProperties;
   containerStyle?: CSSProperties;
 }
 
@@ -29,10 +31,12 @@ export default function ScaleContainer({
   defaultFullscreen = false,
   showFullscreenBtn = false,
   equalRatio = true,
+  topStyle,
   containerStyle,
 }: ScaleContainerProps) {
   const [state, setState] = useState({
     fullscreen: defaultFullscreen,
+    topId: uuidv4(),
     topContainerId: uuidv4(),
     ratioX: 1, // 默认缩放比例:X
     ratioY: 1, // 默认缩放比例:Y
@@ -40,23 +44,40 @@ export default function ScaleContainer({
 
   /** 界面大小变化，重新计算缩放 */
   useInterval(() => {
-    const { ratioX, ratioY, topContainerId } = state;
-    const topContainerDom = document.getElementById(topContainerId);
-    if (topContainerDom) {
-      const rect = topContainerDom.getBoundingClientRect();
+    const { ratioX, ratioY, topId, topContainerId } = state;
+    const topDom = document.getElementById(topId);
+    if (topDom) {
+      const rect = topDom.getBoundingClientRect();
       if (rect && rect.width > 0) {
-        const newratioX = rect.width / width; // 以1920px为基础
-        if (newratioX !== ratioX) {
-          setState({ ...state, ratioX: newratioX });
+        const newRatioX = rect.width / width; // 以1920px为基础
+        if (newRatioX !== ratioX) {
+          setState({ ...state, ratioX: newRatioX });
         }
       }
       if (rect && rect.height > 0) {
-        const newratioY = rect.height / height; // 以1080px为基础
-        if (newratioY !== ratioY) {
-          setState({ ...state, ratioY: newratioY });
+        const newRatioY = rect.height / height; // 以1080px为基础
+        if (newRatioY !== ratioY) {
+          setState({ ...state, ratioY: newRatioY });
         }
       }
     }
+
+    // const topContainerDom = document.getElementById(topContainerId);
+    // if (topContainerDom) {
+    //   const rect = topContainerDom.getBoundingClientRect();
+    //   if (rect && rect.width > 0) {
+    //     const newRatioX = rect.width / width; // 以1920px为基础
+    //     if (newRatioX !== ratioX) {
+    //       setState({ ...state, ratioX: newRatioX });
+    //     }
+    //   }
+    //   if (rect && rect.height > 0) {
+    //     const newRatioY = rect.height / height; // 以1080px为基础
+    //     if (newRatioY !== ratioY) {
+    //       setState({ ...state, ratioY: newRatioY });
+    //     }
+    //   }
+    // }
   }, 250);
 
   function handleToggleFullscreen() {
@@ -64,13 +85,19 @@ export default function ScaleContainer({
   }
 
   // 切换全屏按钮
+  console.log('ratioX', state.ratioX, 'ratioY', state.ratioY)
   let topContainerStyles: CSSProperties = {
     width: '100%',
-    // height: '100%',
-    height: `${height * state.ratioX}px`,
+    height: '100%',
+    // height: `${height * state.ratioX}px`,
     backgroundColor: 'transparent',
     zIndex: 99,
   };
+  if (state.ratioX >= state.ratioY) {
+    topContainerStyles.width = `${width * state.ratioY}px`
+  } else {
+    topContainerStyles.height = `${height * state.ratioX}px`
+  }
   if (state.fullscreen) {
     topContainerStyles = {
       ...topContainerStyles,
@@ -90,11 +117,12 @@ export default function ScaleContainer({
     position: 'relative',
   };
   if (state.ratioX !== 1 || state.ratioY !== 1) {
+    const ratio = state.ratioX >= state.ratioY ? state.ratioY : state.ratioX;
     scaleStyles = {
       ...scaleStyles,
       transform: equalRatio
-        ? `scaleX(${state.ratioX}) scaleY(${state.ratioX})`
-        : `scaleX(${state.ratioX}) scaleY(${state.ratioY})`,
+        ? `scaleX(${ratio}) scaleY(${ratio})`
+        : `scaleX(${ratio}) scaleY(${ratio})`,
       transformOrigin: 'left top',
     };
   }
@@ -107,19 +135,21 @@ export default function ScaleContainer({
   };
 
   return (
-    <div style={{ ...topContainerStyles, ...containerStyle }} id={state.topContainerId}>
-      <div style={scaleStyles} {...bodyProps}>
-        {/* 切换全屏按钮 */}
-        {showFullscreenBtn ? (
-          <div style={fullscreenToggleBtnDivStyle}>
-            <Tooltip title={state.fullscreen ? '退出全屏' : '全屏'}>
-              <a onClick={handleToggleFullscreen} style={{ color: '#FFF' }}>
-                {state.fullscreen ? <FullscreenOutlined /> : <FullscreenExitOutlined />}
-              </a>
-            </Tooltip>
-          </div>
-        ) : null}
-        {children}
+    <div className="fa-ui-scale-container" style={{ ...topStyle }} id={state.topId}>
+      <div style={{...topContainerStyles, ...containerStyle}} id={state.topContainerId}>
+        <div style={scaleStyles} {...bodyProps}>
+          {/* 切换全屏按钮 */}
+          {showFullscreenBtn ? (
+            <div style={fullscreenToggleBtnDivStyle}>
+              <Tooltip title={state.fullscreen ? '退出全屏' : '全屏'}>
+                <a onClick={handleToggleFullscreen} style={{color: '#FFF'}}>
+                  {state.fullscreen ? <FullscreenOutlined/> : <FullscreenExitOutlined/>}
+                </a>
+              </Tooltip>
+            </div>
+          ) : null}
+          {children}
+        </div>
       </div>
     </div>
   );

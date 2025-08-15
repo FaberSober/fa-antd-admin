@@ -46,11 +46,8 @@ import java.util.stream.Collectors;
 @Service
 public class SystemUpdateLogBiz extends BaseBiz<SystemUpdateLogMapper, SystemUpdateLog> {
 
-    @Resource
-    DataSource dataSource;
-
-    @Resource
-    RbacRoleMenuBiz rbacRoleMenuBiz;
+    @Resource DataSource dataSource;
+    @Resource RbacRoleMenuBiz rbacRoleMenuBiz;
 
     public static final String SQL_SPLITTER = "-- ------------------------- info -------------------------";
 

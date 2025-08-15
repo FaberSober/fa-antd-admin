@@ -1,7 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { get } from 'lodash';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, DatePicker } from 'antd';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+// 引入 dayjs（Ant Design 内置依赖，无需额外安装）
+import dayjs from 'dayjs';
 import { ApiEffectLayoutContext, BaseBoolRadio, type CommonModalProps, DictDataSelector, DragModal, FaHref, FaUtils } from '@fa/ui';
 import { alertApi as api } from '@features/fa-admin-pages/services';
 import type { Admin } from '@/types';
@@ -35,9 +37,11 @@ export default function AlertModal({ children, title, record, fetchFinish, addBt
 
   /** 提交表单 */
   function onFinish(fieldsValue: any) {
+    // 处理日期时间格式：dayjs对象 -> "YYYY-MM-DD HH:mm:ss"字符串
     const values = {
       ...fieldsValue,
-      // birthday: FaUtils.getDateStr000(fieldsValue.birthday),
+      // 若选择了时间，转换为字符串；否则保持空
+      dealTime: fieldsValue.dealTime ? fieldsValue.dealTime.format('YYYY-MM-DD HH:mm:ss') : undefined,
     };
     if (record) {
       invokeUpdateTask({ ...record, ...values });
@@ -47,15 +51,16 @@ export default function AlertModal({ children, title, record, fetchFinish, addBt
   }
 
   function getInitialValues() {
+    // 回显时：字符串 -> dayjs对象（适配DatePicker要求）
+    const dealTimeStr = get(record, 'dealTime');
     return {
       content: get(record, 'content'),
       type: get(record, 'type'),
       deal: get(record, 'deal'),
       dutyStaff: get(record, 'dutyStaff'),
       dealStaff: get(record, 'dealStaff'),
-      dealTime: get(record, 'dealTime'),
+      dealTime: dealTimeStr ? dayjs(dealTimeStr) : null, // 使用dayjs转换
       dealDesc: get(record, 'dealDesc'),
-      // birthday: FaUtils.getInitialKeyTimeValue(record, 'birthday'),
     };
   }
 
@@ -76,7 +81,15 @@ export default function AlertModal({ children, title, record, fetchFinish, addBt
         )}
         {editBtn && <FaHref icon={<EditOutlined />} text="编辑" />}
       </span>
-      <DragModal title={title} open={open} onOk={() => form.submit()} confirmLoading={loading} onCancel={() => setOpen(false)} width={700} {...props}>
+      <DragModal
+        title={title}
+        open={open}
+        onOk={() => form.submit()}
+        confirmLoading={loading}
+        onCancel={() => setOpen(false)}
+        width={700}
+        {...props}
+      >
         <Form form={form} onFinish={onFinish}>
           <Form.Item name="type" label="告警类型" rules={[{ required: true }]} {...FaUtils.formItemFullLayout}>
             <DictDataSelector dictLabel="alert.type" placeholder="请输入告警类型" />
@@ -93,8 +106,16 @@ export default function AlertModal({ children, title, record, fetchFinish, addBt
           <Form.Item name="dealStaff" label="处理人" rules={[{ required: false }]} {...FaUtils.formItemFullLayout}>
             <Input placeholder="请输入处理人" />
           </Form.Item>
+          {/* 处理时间：支持年月日时分秒选择 */}
           <Form.Item name="dealTime" label="处理时间" rules={[{ required: false }]} {...FaUtils.formItemFullLayout}>
-            <Input placeholder="请输入处理时间" />
+            <DatePicker
+              showTime={{  // 启用时间选择
+                format: 'HH:mm:ss',
+              }}
+              format="YYYY-MM-DD HH:mm:ss"  // 显示格式
+              placeholder="请选择处理时间"
+              style={{ width: '100%' }}
+            />
           </Form.Item>
           <Form.Item name="dealDesc" label="处理描述" rules={[{ required: false }]} {...FaUtils.formItemFullLayout}>
             <Input placeholder="请输入处理描述" />

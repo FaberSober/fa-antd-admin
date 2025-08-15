@@ -28,7 +28,7 @@ public abstract class BaseJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        log.info("{}：启动任务=======================", this.getClass().getSimpleName());
+        log.debug("{}：启动任务=======================", this.getClass().getSimpleName());
         int jobId = context.getJobDetail().getJobDataMap().getIntValue("jobId");
         JobLog jobLog = this.createLog(jobId);
 
@@ -42,10 +42,10 @@ public abstract class BaseJob implements Job {
             jobLog.setDuration(DateUtil.between(jobLog.getEndTime(), jobLog.getBeginTime(), DateUnit.SECOND));
             jobLog.setStatus(JobLogStatusEnum.DONE);
             jobLogBiz.updateById(jobLog);
-            log.info("{}：执行完毕=======================", this.getClass().getSimpleName());
+            log.debug("{}：执行完毕=======================", this.getClass().getSimpleName());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            log.info("{}：执行异常XXXXXXXXXXXXXXXXXXXXXXX{}", this.getClass().getSimpleName(), e.getMessage());
+            log.error("{}：执行异常XXXXXXXXXXXXXXXXXXXXXXX{}", this.getClass().getSimpleName(), e.getMessage());
 
             // log error
             jobLog.setEndTime(new Date());
@@ -55,7 +55,7 @@ public abstract class BaseJob implements Job {
             jobLogBiz.updateById(jobLog);
         }
 
-        log.info(printNextFireTime(context));
+        log.debug(printNextFireTime(context));
     }
 
     protected abstract void run();

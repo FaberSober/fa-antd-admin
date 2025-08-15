@@ -7,6 +7,7 @@ export { default as configSceneApi } from './base/admin/configScene';
 export { default as configSysApi } from './base/admin/configSys';
 export { default as departmentApi } from './base/admin/department';
 export { default as dictApi } from './base/admin/dict';
+export { default as dictDataApi } from './base/admin/dictData';
 export { default as entityLogApi } from './base/admin/entityLog';
 export { default as fileSaveApi } from './base/admin/fileSave';
 export { default as fileBizApi } from './base/admin/fileBiz';

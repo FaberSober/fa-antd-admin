@@ -1,28 +1,44 @@
 import { useEffect, useState } from 'react';
-import { dictApi } from '@ui/services/base';
-import { Admin, Fa } from '@ui/types';
+import { dictApi, dictDataApi, } from '@ui/services/base';
+import { Admin, Fa, FaEnums } from '@ui/types';
 
 
 export function useDict(
   code: string,
   transValue?: (v: any) => any,
 ): {
+  dict?: Admin.Dict;
   options: Fa.Option[];
 } {
   const [dict, setDict] = useState<Admin.Dict>();
+  const [options, setOptions] = useState<Fa.Option[]>([]);
 
   useEffect(() => {
-    dictApi.getByCode(code).then((res) => setDict(res.data));
+    dictApi.getByCode(code).then((res) => {
+      const { data } = res;
+      setDict(data)
+      if (data.type === FaEnums.DictTypeEnum.OPTIONS) {
+        setOptions(
+          data.options
+            .filter(v => !v.deleted)
+            .map((v) => ({
+              value: transValue ? transValue(v.value) : v.value,
+              label: v.label,
+            }))
+        )
+      }
+      if (data.type === FaEnums.DictTypeEnum.LINK_OPTIONS) {
+        dictDataApi.list({ query: {dictId: data.id, valid: true}, sorter: 'sort_id ASC'}).then(res2 => {
+          setOptions(res2.data.map(v => ({
+            value: transValue ? transValue(v.value) : v.value,
+            label: v.label,
+          })))
+        })
+      }
+    });
   }, [code]);
 
-  const options = dict
-    ? dict.options.map((v) => ({
-        value: transValue ? transValue(v.value) : v.value,
-        label: v.label,
-      }))
-    : [];
-
-  return { options };
+  return { dict, options };
 }
 
 export function useEnum(

@@ -183,3 +183,11 @@ export function setTreeDisabled(treeList: Fa.TreeNode[] | undefined, disabledIds
     setTreeDisabled(i.children, disabledIds);
   });
 }
+
+export function filterNode<T = any>(nodeList: Fa.TreeNode<T, any>[] | undefined, filterFunc: (node: Fa.TreeNode<T, any>) => void): void {
+  if (isNil(nodeList) || nodeList.length === 0) return undefined;
+  nodeList.map((d) => {
+    filterFunc(d);
+    filterNode<T>(d.children, filterFunc);
+  });
+}

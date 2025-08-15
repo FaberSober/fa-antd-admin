@@ -9,6 +9,7 @@ import TreeCascade from '../helper/TreeCascade';
 const serviceName = 'Tree数据';
 
 interface IProps extends DragModalProps {
+  fetchFinish?: () => void;
   parentId?: number;
   title?: string;
   record?: Admin.Dict;
@@ -17,7 +18,7 @@ interface IProps extends DragModalProps {
 /**
  * Tree数据新增、编辑弹框
  */
-export default function TreeModal({ children, parentId, title, record, ...props }: IProps) {
+export default function TreeModal({ children, fetchFinish, parentId, title, record, ...props }: IProps) {
   const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
@@ -28,7 +29,7 @@ export default function TreeModal({ children, parentId, title, record, ...props 
     api.save(params).then((res) => {
       FaUtils.showResponse(res, `新增${serviceName}`);
       setOpen(false);
-      if (props.onCancel) props.onCancel(params);
+      if (fetchFinish) fetchFinish();
     });
   }
 
@@ -37,7 +38,7 @@ export default function TreeModal({ children, parentId, title, record, ...props 
     api.update(params.id, params).then((res) => {
       FaUtils.showResponse(res, `更新${serviceName}`);
       setOpen(false);
-      if (props.onCancel) props.onCancel(params);
+      if (fetchFinish) fetchFinish();
     });
   }
 

@@ -8,6 +8,6 @@
     "clean": "rimraf /s/d node_modules dist .turbo"
   },
   "devDependencies": {
-    "tailwindcss": "4.0.0"
+    "tailwindcss": "4.1.11"
   }
 }

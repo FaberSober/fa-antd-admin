@@ -106,7 +106,7 @@ export default function EchartsLine({ title, subTitle, dataX, dataY, unit, style
       ...restOption,
     });
     setReady(true);
-  }, [themeDark]);
+  }, [themeDark, restOption]);
 
   useEffect(() => {
     if (!ready) return;

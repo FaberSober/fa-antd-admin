@@ -2,6 +2,7 @@ package com.faber.api.base.admin.biz;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ClassUtil;
+import cn.hutool.core.util.ObjUtil;
 import com.faber.api.base.admin.entity.Job;
 import com.faber.api.base.admin.mapper.JobMapper;
 import com.faber.config.quartz.JobTask;
@@ -87,6 +88,16 @@ public class JobBiz extends BaseBiz<JobMapper, Job> {
     public List<DictOption<String>> getAllJobs() {
         return ClassUtil.scanPackageByAnnotation("com.faber", FaJob.class)
                 .stream()
+                .map(clazz -> new DictOption<String>(clazz.getName(), clazz.getAnnotation(FaJob.class).value()))
+                .sorted(Comparator.comparing(DictOption::getLabel))
+                .collect(Collectors.toList());
+    }
+
+    public List<DictOption<String>> getIdleJobs() {
+        List<Job> activeJobs = lambdaQuery().list();
+        return ClassUtil.scanPackageByAnnotation("com.faber", FaJob.class)
+                .stream()
+                .filter(i -> activeJobs.stream().noneMatch(j -> ObjUtil.equals(j.getClazzPath(), i.getName())))
                 .map(clazz -> new DictOption<String>(clazz.getName(), clazz.getAnnotation(FaJob.class).value()))
                 .sorted(Comparator.comparing(DictOption::getLabel))
                 .collect(Collectors.toList());

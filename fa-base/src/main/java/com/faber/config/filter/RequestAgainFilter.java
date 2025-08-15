@@ -90,6 +90,12 @@ public class RequestAgainFilter implements Filter {
             return;
         }
 
+        // HEAD类型不记录
+        if ("HEAD".equalsIgnoreCase(((HttpServletRequest) servletRequest).getMethod())) {
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
+
         BodyHttpServletRequestWrapper requestWrapper = new BodyHttpServletRequestWrapper((HttpServletRequest) servletRequest);
         BodyHttpServletResponseWrapper responseWrapper = new BodyHttpServletResponseWrapper((HttpServletResponse) servletResponse);
 

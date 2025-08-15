@@ -110,7 +110,7 @@ public abstract class BaseController<Biz extends BaseBiz, Entity, Key extends Se
     @ResponseBody
     public Ret<Entity> update(@Validated(value = Vg.Crud.U.class) @RequestBody Entity entity) {
         baseBiz.updateById(entity);
-        return ok();
+        return ok(entity);
     }
 
     @FaLogOpr(value = "批量更新", crud = LogCrudEnum.U)

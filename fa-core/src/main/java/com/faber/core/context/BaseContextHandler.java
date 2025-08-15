@@ -143,9 +143,9 @@ public class BaseContextHandler {
      * 代码设置-使用admin作为当前线程的用户-一般用于未登录的系统线程操作
      */
     public static void useAdmin() {
-        BaseContextHandler.setUserId("1");
-        BaseContextHandler.setName("Admin");
-        BaseContextHandler.setUsername("超级管理员");
+        BaseContextHandler.setUserId(CommonConstants.SUPER_ADMIN_ID);
+        BaseContextHandler.setName(CommonConstants.SUPER_ADMIN_NAME);
+        BaseContextHandler.setUsername(CommonConstants.SUPER_ADMIN_USER_NAME);
         BaseContextHandler.setLogin(true);
     }
 

@@ -32,7 +32,7 @@
     "react-intl": "6.3.0",
     "react-router-dom": "6.9.0",
     "react-use": "17.4.0",
-    "react-vant": "^3.2.4",
+    "react-vant": "3.2.4",
     "use-bus": "2.5.2",
     "uuid": "9.0.0"
   },

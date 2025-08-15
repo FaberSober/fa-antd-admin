@@ -166,12 +166,16 @@ namespace Admin {
     name: string;
     /** 上级节点 */
     parentId: number;
+    /** 数值类型 */
+    type: FaEnums.DictTypeEnum;
     /** 排序ID */
     sortId: number;
     /** 描述 */
     description: string;
     /** options */
     options: Option[];
+    /** 字典值 */
+    value: string;
   }
 
   export interface Option {
@@ -183,6 +187,31 @@ namespace Admin {
     label: string;
     /** 删除状态 */
     deleted?: boolean;
+  }
+
+  /** BASE-字典值 */
+  export interface DictData extends Fa.BaseDelEntity {
+    /** ID */
+    id: number;
+    /** 上级节点 */
+    parentId: number;
+    /** 字典分类ID */
+    dictId: number;
+    /** 排序ID */
+    sortId: number;
+    /** 字典键 */
+    label: string;
+    /** 字典值 */
+    value: string;
+    /** 是否默认值：0否 1是 */
+    isDefault: boolean;
+    /** 是否生效：0否 1是 */
+    valid: boolean;
+    /** 描述 */
+    description: string;
+    // ----------------- show cols -----------------
+    /** 字典分类 */
+    dictName: string;
   }
 
   // -------------------------------------------- 系统-告警信息 --------------------------------------------
