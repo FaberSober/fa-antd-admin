@@ -1,0 +1,23 @@
+import React from 'react';
+import { Flow, FlowEnums } from "@features/fa-flow-pages/types";
+import { Promoter } from "./nodes";
+
+
+export interface NodeWrapProps {
+  /** 流程配置节点Node JSON */
+  node: Flow.Node;
+}
+
+/**
+ * @author xu.pengfei
+ * @date 2025/8/19 20:12
+ */
+export default function NodeWrap({ node }: NodeWrapProps) {
+  return (
+    <div>
+      {node.type === FlowEnums.NodeType.major && <Promoter node={node} />}
+
+      {node.childNode && <NodeWrap node={node.childNode} />}
+    </div>
+  )
+}
