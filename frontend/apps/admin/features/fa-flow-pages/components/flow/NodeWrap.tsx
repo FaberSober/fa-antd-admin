@@ -1,6 +1,6 @@
 import React from 'react';
 import { Flow, FlowEnums } from "@features/fa-flow-pages/types";
-import { Approver, Promoter } from "./nodes";
+import { Approver, Branch, Promoter, Send } from "./nodes";
 
 
 export interface NodeWrapProps {
@@ -17,7 +17,8 @@ export default function NodeWrap({ node }: NodeWrapProps) {
     <div>
       {node.type === FlowEnums.NodeType.major && <Promoter node={node} />}
       {node.type === FlowEnums.NodeType.approval && <Approver node={node} />}
-      {node.type === FlowEnums.NodeType.approval && <Approver node={node} />}
+      {node.type === FlowEnums.NodeType.cc && <Send node={node} />}
+      {node.type === FlowEnums.NodeType.conditionBranch && <Branch node={node} />}
 
       {node.childNode && <NodeWrap node={node.childNode} />}
     </div>
