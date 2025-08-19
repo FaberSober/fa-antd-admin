@@ -49,9 +49,11 @@
         <module>fa-app</module>
         <module>fa-admin</module>
         <module>fa-admin-server</module>
+        <!-- flow -->
         <module>flowlong-core</module>
         <module>flowlong-mybatis-plus</module>
         <module>flowlong-spring-boot-starter</module>
+        <module>fa-flow</module>
     </modules>
     <packaging>pom</packaging>
     <developers>
