@@ -16,8 +16,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.aizuda</groupId>
+            <groupId>com.faber</groupId>
             <artifactId>flowlong-core</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>

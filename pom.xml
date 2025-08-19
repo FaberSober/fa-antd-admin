@@ -30,6 +30,16 @@
         <sa-token.version>1.38.0</sa-token.version>
         <java.version>17</java.version>
         <spring-ai.version>1.0.0-M2</spring-ai.version>
+
+        <mybatis.plus-version>3.5.8</mybatis.plus-version>
+        <mysql.version>8.0.32</mysql.version>
+        <solon.version>3.0.1</solon.version>
+        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <lombok.version>1.18.30</lombok.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
+        <skipTests>true</skipTests>
     </properties>
     <modules>
         <module>fa-core</module>
@@ -118,17 +128,60 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <!-- flowlong -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis.plus-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-core</artifactId>
+                <version>${mybatis.plus-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
+                <version>${mybatis.plus-version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <repositories>
+<!--        <repository>-->
+<!--            <id>spring-milestones</id>-->
+<!--            <name>Spring Milestones</name>-->
+<!--            <url>https://repo.spring.io/milestone</url>-->
+<!--            <snapshots>-->
+<!--                <enabled>false</enabled>-->
+<!--            </snapshots>-->
+<!--        </repository>-->
+
+<!--        <repository>-->
+<!--            <id>central</id>-->
+<!--            <url>https://maven.aliyun.com/repository/central</url>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>spring</id>-->
+<!--            <url>https://maven.aliyun.com/repository/spring</url>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>google</id>-->
+<!--            <url>https://maven.aliyun.com/repository/google</url>-->
+<!--        </repository>-->
         <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
+            <id>spring-release</id>
+            <url>https://repo.spring.io/release</url>
+        </repository>
+        <repository>
+            <id>spring-milestone</id>
             <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
         </repository>
     </repositories>
 
