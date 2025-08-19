@@ -13,6 +13,10 @@ namespace FlowEnums {
     approval = 1,
     /** 抄送 */
     cc = 2,
+    /** 条件审批 */
+    conditionNode = 3,
+    /** 条件分支 */
+    conditionBranch = 4,
   }
 
   export const NodeTypeMap = {
@@ -20,6 +24,8 @@ namespace FlowEnums {
     [NodeType.major]: '主办',
     [NodeType.approval]: '审批',
     [NodeType.cc]: '抄送',
+    [NodeType.conditionNode]: '条件审批',
+    [NodeType.conditionBranch]: '条件分支',
   }
 
 }

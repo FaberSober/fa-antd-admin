@@ -1,31 +1,21 @@
 import React from 'react';
 import { Flow } from "@features/fa-flow-pages/types";
-import { FaIcon } from '@fa/icons';
-import { BaseDrawer } from "@fa/ui";
-import AddNode from './AddNode';
+import { FaIcon } from "@fa/icons";
 import { Input } from "antd";
+import AddNode from "@features/fa-flow-pages/components/flow/nodes/AddNode";
+import { BaseDrawer } from '@fa/ui';
 
 
-export interface PromoterProps {
+export interface ApproverProps {
   /** 流程配置节点Node JSON */
   node: Flow.Node;
 }
 
 /**
  * @author xu.pengfei
- * @date 2025/8/19 20:22
+ * @date 2025/8/19 22:11
  */
-export default function Promoter({ node }: PromoterProps) {
-
-
-  function toText(nodeConfig: Flow.Node){
-    if(nodeConfig.nodeAssigneeList && nodeConfig.nodeAssigneeList.length > 0){
-      return nodeConfig.nodeAssigneeList.map(item=>item.name).join("、")
-    }else{
-      return "所有人"
-    }
-  }
-
+export default function Approver({ node }: ApproverProps) {
   return (
     <div className="node-wrap">
       <BaseDrawer
@@ -34,9 +24,6 @@ export default function Promoter({ node }: PromoterProps) {
             <div className="title" style={{ background: '#576a95' }}>
               <FaIcon icon="fa-solid fa-user-large" />
               <span>{node.nodeName}</span>
-            </div>
-            <div className="content">
-              <span>{toText(node)}</span>
             </div>
           </div>
         )}

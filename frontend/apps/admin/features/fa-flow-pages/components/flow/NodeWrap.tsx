@@ -1,6 +1,6 @@
 import React from 'react';
 import { Flow, FlowEnums } from "@features/fa-flow-pages/types";
-import { Promoter } from "./nodes";
+import { Approver, Promoter } from "./nodes";
 
 
 export interface NodeWrapProps {
@@ -16,6 +16,8 @@ export default function NodeWrap({ node }: NodeWrapProps) {
   return (
     <div>
       {node.type === FlowEnums.NodeType.major && <Promoter node={node} />}
+      {node.type === FlowEnums.NodeType.approval && <Approver node={node} />}
+      {node.type === FlowEnums.NodeType.approval && <Approver node={node} />}
 
       {node.childNode && <NodeWrap node={node.childNode} />}
     </div>

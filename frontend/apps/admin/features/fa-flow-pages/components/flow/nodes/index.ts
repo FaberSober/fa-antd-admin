@@ -1,2 +1,4 @@
 export { default as AddNode } from './AddNode'
+export { default as Approver } from './Approver'
+export { default as Branch } from './Branch'
 export { default as Promoter } from './Promoter'
