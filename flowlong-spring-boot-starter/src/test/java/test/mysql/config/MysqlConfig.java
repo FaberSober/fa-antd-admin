@@ -6,8 +6,10 @@ package test.mysql.config;
 
 import com.aizuda.bpm.engine.FlowLongEngine;
 import com.aizuda.bpm.spring.autoconfigure.FlowLongAutoConfiguration;
+import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+//import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -21,6 +23,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.support.JdbcTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -45,19 +48,27 @@ public class MysqlConfig extends FlowLongAutoConfiguration {
         /* 驼峰转下划线 */
         configuration.setMapUnderscoreToCamelCase(true);
         MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();
-        mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor());
+//        mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor());
+        mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
         sqlSessionFactory.setPlugins(mybatisPlusInterceptor);
         sqlSessionFactory.setConfiguration(configuration);
         return sqlSessionFactory.getObject();
     }
 
+//    @Bean
+//    @ConditionalOnMissingBean(TransactionManager.class)
+//    DataSourceTransactionManager transactionManager(Environment environment, DataSource dataSource,
+//                                                    ObjectProvider<TransactionManagerCustomizers> transactionManagerCustomizers) {
+//        DataSourceTransactionManager transactionManager = createTransactionManager(environment, dataSource);
+//        transactionManagerCustomizers.ifAvailable((customizers) -> customizers.customize(transactionManager));
+//        return transactionManager;
+//    }
+
     @Bean
-    @ConditionalOnMissingBean(TransactionManager.class)
-    DataSourceTransactionManager transactionManager(Environment environment, DataSource dataSource,
-                                                    ObjectProvider<TransactionManagerCustomizers> transactionManagerCustomizers) {
-        DataSourceTransactionManager transactionManager = createTransactionManager(environment, dataSource);
-        transactionManagerCustomizers.ifAvailable((customizers) -> customizers.customize(transactionManager));
-        return transactionManager;
+    public PlatformTransactionManager transactionManager(DataSource dataSource) {
+        DataSourceTransactionManager txManager = new DataSourceTransactionManager(dataSource);
+        txManager.setNestedTransactionAllowed(true); // 在这里定制
+        return txManager;
     }
 
     private DataSourceTransactionManager createTransactionManager(Environment environment, DataSource dataSource) {
