@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaWorkFlow } from "@features/fa-flow-pages/components";
 
 /**
  * demo flow base editor
@@ -9,6 +10,8 @@ export default function DemoFlowBase() {
   return (
     <div>
       <div>demo flow base editor</div>
+
+      <FaWorkFlow />
     </div>
   )
 }
