@@ -22,6 +22,7 @@
         <version>3.3.3</version>
     </parent>
     <properties>
+        <revision>1.0.0-SNAPSHOT</revision>
         <maven.compile.source>17</maven.compile.source>
         <maven.compile.target>17</maven.compile.target>
         <springboot.version>3.3.3</springboot.version>
@@ -38,6 +39,9 @@
         <module>fa-app</module>
         <module>fa-admin</module>
         <module>fa-admin-server</module>
+        <module>flowlong-core</module>
+        <module>flowlong-mybatis-plus</module>
+        <module>flowlong-spring-boot-starter</module>
     </modules>
     <packaging>pom</packaging>
     <developers>

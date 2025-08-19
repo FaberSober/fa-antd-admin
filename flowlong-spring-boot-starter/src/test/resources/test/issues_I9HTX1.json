@@ -1,0 +1,450 @@
+{
+  "key": "ggfybx",
+  "name": "公共费用报销",
+  "nodeConfig": {
+    "nodeName": "发起人",
+    "nodeKey": "k001",
+    "type": 0,
+    "nodeAssigneeList": [],
+    "childNode": {
+      "nodeName": "条件路由",
+      "nodeKey": "k002",
+      "type": 4,
+      "conditionNodes": [
+        {
+          "nodeName": "条件1",
+          "nodeKey": "k003",
+          "type": 3,
+          "priorityLevel": 1,
+          "conditionMode": 1,
+          "conditionList": [
+            [
+              {
+                "label": "员工",
+                "field": "yg",
+                "operator": "==",
+                "value": "1"
+              }
+            ]
+          ],
+          "childNode": {
+            "nodeName": "部门经理",
+            "nodeKey": "k004",
+            "type": 1,
+            "setType": 1,
+            "nodeAssigneeList": [
+              {
+                "id": "370000197405268159",
+                "name": "石勇"
+              }
+            ],
+            "examineLevel": 1,
+            "directorLevel": 1,
+            "selectMode": 1,
+            "termAuto": false,
+            "term": 0,
+            "termMode": 1,
+            "examineMode": 1,
+            "directorMode": 0,
+            "childNode": {
+              "nodeName": "条件路由",
+              "nodeKey": "k005",
+              "type": 4,
+              "conditionNodes": [
+                {
+                  "nodeName": "条件1",
+                  "nodeKey": "k006",
+                  "type": 3,
+                  "priorityLevel": 1,
+                  "conditionMode": 1,
+                  "conditionList": [
+                    [
+                      {
+                        "label": "金额",
+                        "field": "money",
+                        "operator": "<=",
+                        "value": "500"
+                      }
+                    ]
+                  ],
+                  "childNode": {
+                    "nodeName": "条件路由",
+                    "nodeKey": "k007",
+                    "type": 4,
+                    "conditionNodes": [
+                      {
+                        "nodeName": "条件1",
+                        "nodeKey": "k008",
+                        "type": 3,
+                        "priorityLevel": 1,
+                        "conditionMode": 1,
+                        "conditionList": [
+                          [
+                            {
+                              "label": "其他福利",
+                              "field": "fl",
+                              "operator": "==",
+                              "value": "1"
+                            }
+                          ]
+                        ],
+                        "childNode": {
+                          "nodeName": "人资部薪资专员",
+                          "nodeKey": "k009",
+                          "type": 1,
+                          "setType": 1,
+                          "nodeAssigneeList": [
+                            {
+                              "id": "410000199512025445",
+                              "name": "魏磊"
+                            }
+                          ],
+                          "examineLevel": 1,
+                          "directorLevel": 1,
+                          "selectMode": 1,
+                          "termAuto": false,
+                          "term": 0,
+                          "termMode": 1,
+                          "examineMode": 1,
+                          "directorMode": 0
+                        }
+                      },
+                      {
+                        "nodeName": "条件2",
+                        "nodeKey": "k010",
+                        "type": 3,
+                        "priorityLevel": 2,
+                        "conditionMode": 1,
+                        "conditionList": [
+                          [
+                            {
+                              "label": "团建福利",
+                              "field": "fl",
+                              "operator": "==",
+                              "value": "3"
+                            }
+                          ]
+                        ],
+                        "childNode": {
+                          "nodeName": "人资部经理",
+                          "nodeKey": "k011",
+                          "type": 1,
+                          "setType": 1,
+                          "nodeAssigneeList": [
+                            {
+                              "id": "520000198407304275",
+                              "name": "史平"
+                            }
+                          ],
+                          "examineLevel": 1,
+                          "directorLevel": 1,
+                          "selectMode": 1,
+                          "termAuto": false,
+                          "term": 0,
+                          "termMode": 1,
+                          "examineMode": 1,
+                          "directorMode": 0
+                        }
+                      },
+                      {
+                        "nodeName": "条件3",
+                        "nodeKey": "k012",
+                        "type": 3,
+                        "priorityLevel": 3,
+                        "conditionMode": 1,
+                        "conditionList": [
+                          [
+                            {
+                              "label": "其他",
+                              "field": "fl",
+                              "operator": "==",
+                              "value": "2"
+                            }
+                          ]
+                        ]
+                      }
+                    ],
+                    "childNode": {
+                      "nodeName": "条件路由",
+                      "nodeKey": "k014",
+                      "type": 4,
+                      "conditionNodes": [
+                        {
+                          "nodeName": "条件1",
+                          "nodeKey": "k015",
+                          "type": 3,
+                          "priorityLevel": 1,
+                          "conditionMode": 1,
+                          "conditionList": [
+                            [
+                              {
+                                "label": "费用类别",
+                                "field": "ftlb",
+                                "operator": "==",
+                                "value": "0"
+                              }
+                            ]
+                          ],
+                          "childNode": {
+                            "nodeName": "核算会计",
+                            "nodeKey": "k016",
+                            "type": 1,
+                            "setType": 1,
+                            "nodeAssigneeList": [
+                              {
+                                "id": "990000197205236780",
+                                "name": "田娟"
+                              }
+                            ],
+                            "examineLevel": 1,
+                            "directorLevel": 1,
+                            "selectMode": 1,
+                            "termAuto": false,
+                            "term": 0,
+                            "termMode": 1,
+                            "examineMode": 1,
+                            "directorMode": 0
+                          }
+                        },
+                        {
+                          "nodeName": "条件2",
+                          "nodeKey": "k017",
+                          "type": 3,
+                          "priorityLevel": 2,
+                          "conditionMode": 1,
+                          "conditionList": [
+                            [
+                              {
+                                "label": "费用类别",
+                                "field": "ftlb",
+                                "operator": "==",
+                                "value": "1"
+                              }
+                            ]
+                          ],
+                          "childNode": {
+                            "nodeName": "总裁办主任",
+                            "nodeKey": "k018",
+                            "type": 1,
+                            "setType": 1,
+                            "nodeAssigneeList": [
+                              {
+                                "id": "640000200911201176",
+                                "name": "邵涛"
+                              }
+                            ],
+                            "examineLevel": 1,
+                            "directorLevel": 1,
+                            "selectMode": 1,
+                            "termAuto": false,
+                            "term": 0,
+                            "termMode": 1,
+                            "examineMode": 1,
+                            "directorMode": 0
+                          }
+                        },
+                        {
+                          "nodeName": "条件3",
+                          "nodeKey": "k019",
+                          "type": 3,
+                          "priorityLevel": 3,
+                          "conditionMode": 1,
+                          "conditionList": [
+                            [
+                              {
+                                "label": "待定类别",
+                                "field": "ftlb",
+                                "operator": "==",
+                                "value": "2"
+                              }
+                            ]
+                          ],
+                          "childNode": {
+                            "nodeName": "条件路由",
+                            "nodeKey": "k020",
+                            "type": 4,
+                            "conditionNodes": [
+                              {
+                                "nodeName": "条件1",
+                                "nodeKey": "k021",
+                                "type": 3,
+                                "priorityLevel": 1,
+                                "conditionMode": 1,
+                                "conditionList": [
+                                  [
+                                    {
+                                      "label": "预算",
+                                      "field": "excess",
+                                      "operator": "==",
+                                      "value": "0"
+                                    }
+                                  ]
+                                ]
+                              },
+                              {
+                                "nodeName": "条件2",
+                                "nodeKey": "k022",
+                                "type": 3,
+                                "priorityLevel": 2,
+                                "conditionMode": 1,
+                                "conditionList": [
+                                  [
+                                    {
+                                      "label": "预算外",
+                                      "field": "excess",
+                                      "operator": "==",
+                                      "value": "1"
+                                    }
+                                  ],
+                                  [
+                                    {
+                                      "label": "预算外",
+                                      "field": "excess",
+                                      "operator": "==",
+                                      "value": "2"
+                                    }
+                                  ]
+                                ]
+                              }
+                            ],
+                            "childNode": {
+                              "nodeName": "事业部副总",
+                              "nodeKey": "k023",
+                              "type": 1,
+                              "setType": 1,
+                              "nodeAssigneeList": [
+                                {
+                                  "id": "500000199407048831",
+                                  "name": "傅刚"
+                                }
+                              ],
+                              "examineLevel": 1,
+                              "directorLevel": 1,
+                              "selectMode": 1,
+                              "termAuto": false,
+                              "term": 0,
+                              "termMode": 1,
+                              "examineMode": 1,
+                              "directorMode": 0,
+                              "childNode": {
+                                "nodeName": "总裁",
+                                "nodeKey": "k024",
+                                "type": 1,
+                                "setType": 1,
+                                "nodeAssigneeList": [
+                                  {
+                                    "id": "450000198307033289",
+                                    "name": "康伟"
+                                  }
+                                ],
+                                "examineLevel": 1,
+                                "directorLevel": 1,
+                                "selectMode": 1,
+                                "termAuto": false,
+                                "term": 0,
+                                "termMode": 1,
+                                "examineMode": 1,
+                                "directorMode": 0,
+                                "childNode": {
+                                  "nodeName": "条件路由",
+                                  "nodeKey": "k025",
+                                  "type": 4,
+                                  "conditionNodes": [
+                                    {
+                                      "nodeName": "条件1",
+                                      "nodeKey": "k026",
+                                      "type": 3,
+                                      "priorityLevel": 1,
+                                      "conditionMode": 1,
+                                      "conditionList": [
+                                        [
+                                          {
+                                            "label": "职工教育费",
+                                            "field": "eduLeagueType",
+                                            "operator": "==",
+                                            "value": "1"
+                                          }
+                                        ]
+                                      ],
+                                      "childNode": {
+                                        "nodeName": "抄送给人资培训专员",
+                                        "nodeKey": "k027",
+                                        "type": 2,
+                                        "userSelectFlag": true,
+                                        "nodeAssigneeList": [
+                                          {
+                                            "id": "220000200908305857",
+                                            "name": "何秀英"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "nodeName": "条件2",
+                                      "nodeKey": "k028",
+                                      "type": 3,
+                                      "priorityLevel": 2,
+                                      "conditionMode": 1,
+                                      "conditionList": [
+                                        [
+                                          {
+                                            "label": "职工教育费",
+                                            "field": "eduLeagueType",
+                                            "operator": "!=",
+                                            "value": "1"
+                                          }
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "nodeName": "条件2",
+                  "nodeKey": "k029",
+                  "type": 3,
+                  "priorityLevel": 2,
+                  "conditionMode": 1,
+                  "conditionList": [
+                    [
+                      {
+                        "label": "金额",
+                        "field": "money",
+                        "operator": ">",
+                        "value": "500"
+                      }
+                    ]
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "nodeName": "条件2",
+          "nodeKey": "k030",
+          "type": 3,
+          "priorityLevel": 2,
+          "conditionMode": 1,
+          "conditionList": [
+            [
+              {
+                "label": "员工",
+                "field": "yg",
+                "operator": "!=",
+                "value": "1"
+              }
+            ]
+          ]
+        }
+      ]
+    }
+  }
+}
