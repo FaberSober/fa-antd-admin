@@ -2,12 +2,11 @@ import React, { useContext, useMemo, useState } from 'react';
 import { Flow } from "@features/fa-flow-pages/types";
 import { FaIcon } from "@fa/icons";
 import { Button, Form, Input, Space } from "antd";
-import { BaseDrawer, FaFlexRestLayout, useOpen } from '@fa/ui';
+import { BaseDrawer, FaFlexRestLayout, useOpen, UserSearchSelect } from '@fa/ui';
 import { NodeCloseBtn } from '../cubes';
 import AddNode from './AddNode';
 import FaWorkFlowContext from "@features/fa-flow-pages/components/flow/context/FaWorkFlowContext";
 import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
-import { UserSearchSelect } from "@features/fa-admin-pages/components";
 import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
 import { userApi } from "@features/fa-admin-pages/services";
 
@@ -88,7 +87,7 @@ export default function Send({ node, parentNode }: SendProps) {
         open={open}
         onClose={() => hide()}
         title={(
-          <Input value={node.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)}/>
+          <Input value={nodeCopy.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)}/>
         )}
       >
         <Form form={form} layout="vertical" className="fa-flex-column fa-full" onFinish={onFinish}>
