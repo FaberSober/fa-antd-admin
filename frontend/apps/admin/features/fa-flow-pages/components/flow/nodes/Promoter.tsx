@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { Button, Form, Input, Space } from "antd";
 import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
 import { Flow } from "@features/fa-flow-pages/types";
@@ -8,6 +8,7 @@ import AddNode from './AddNode';
 import { useNode } from '../hooks';
 import { RbacRoleSelect } from "@features/fa-admin-pages/components";
 import FaWorkFlowContext from "@features/fa-flow-pages/components/flow/context/FaWorkFlowContext";
+import { rbacRoleApi } from "@features/fa-admin-pages/services";
 
 
 export interface PromoterProps {
@@ -22,19 +23,30 @@ export interface PromoterProps {
 export default function Promoter({node}: PromoterProps) {
   const [form] = Form.useForm();
   const [open, show, hide] = useOpen()
+  const [loading, setLoading] = useState(false)
 
   const {refreshNode} = useContext(FaWorkFlowContext)
   const {nodeCopy, setNodeCopy, updateNodeProps} = useNode(node)
 
-  function onFinish(fieldsValue: any) {
-    const nodeNew = {
-      ...nodeCopy,
-      nodeAssigneeList: fieldsValue.nodeAssigneeIds.map((id: string) => ({ id, name: 'xxx' }))
+  async function onFinish(fieldsValue: any) {
+    try {
+      setLoading(true)
+      const res = await rbacRoleApi.getByIds(fieldsValue.nodeAssigneeIds);
+      const nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
+      const nodeNew = {
+        ...nodeCopy,
+        nodeAssigneeList,
+      }
+      setNodeCopy(nodeNew)
+      // 这里node是使用根config传来的节点引用，修改node内容，但不修改引用
+      Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
+      refreshNode();
+      setLoading(false)
+      hide()
+    } catch (e) {
+      console.error(e)
+      setLoading(false)
     }
-    setNodeCopy(nodeNew)
-    Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
-    refreshNode();
-    hide()
   }
 
   const text = useMemo(() => {
@@ -79,7 +91,7 @@ export default function Promoter({node}: PromoterProps) {
           </FaFlexRestLayout>
 
           <Space>
-            <Button type="primary" icon={<SaveOutlined/>} htmlType="submit">保存</Button>
+            <Button type="primary" icon={<SaveOutlined/>} htmlType="submit" loading={loading}>保存</Button>
             <Button onClick={() => hide()} icon={<RollbackOutlined />}>取消</Button>
           </Space>
         </Form>
