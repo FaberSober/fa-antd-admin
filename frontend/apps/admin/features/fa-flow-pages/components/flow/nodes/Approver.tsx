@@ -1,13 +1,14 @@
 import React, { useContext, useMemo, useState } from 'react';
 import { Flow, FlowEnums } from "@features/fa-flow-pages/types";
 import { FaIcon } from "@fa/icons";
-import { Button, Form, Input, Space } from "antd";
+import { Button, Form, Input, InputNumber, Radio, Space } from "antd";
 import AddNode from "@features/fa-flow-pages/components/flow/nodes/AddNode";
 import { BaseDrawer, FaFlexRestLayout, useOpen, UserSearchSelect } from '@fa/ui';
 import { NodeCloseBtn, NodeSetTypeSelect } from "@features/fa-flow-pages/components/flow/cubes";
 import FaWorkFlowContext from "@features/fa-flow-pages/components/flow/context/FaWorkFlowContext";
 import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
 import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
+import { RbacRoleSelect } from "@features/fa-admin-pages/components";
 
 const {NodeSetType} = FlowEnums;
 
@@ -86,7 +87,8 @@ export default function Approver({node, parentNode}: ApproverProps) {
   function showDrawer() {
     show()
     form.setFieldsValue({
-      setType: nodeCopy.setType,
+      ...nodeCopy,
+      nodeAssigneeIds: nodeCopy.nodeAssigneeList ? nodeCopy.nodeAssigneeList.map(item => item.id) : [],
     })
   }
 
@@ -118,7 +120,12 @@ export default function Approver({node, parentNode}: ApproverProps) {
           onFinish={onFinish}
           onValuesChange={cv => {
             if (cv.setType) {
-              updateNodeProps('setType', cv.setType)
+              setNodeCopy(prev => ({
+                ...prev,
+                setType: cv.setType,
+                nodeAssigneeIds: [],
+              }))
+              form.setFieldsValue({ nodeAssigneeIds: [] })
             }
           }}
         >
@@ -128,7 +135,27 @@ export default function Approver({node, parentNode}: ApproverProps) {
             </Form.Item>
             {nodeCopy.setType === NodeSetType.specifyMembers && (
               <Form.Item name="nodeAssigneeIds" label="审批人员">
-                <UserSearchSelect mode="multiple"/>
+                <UserSearchSelect mode="multiple" />
+              </Form.Item>
+            )}
+            {nodeCopy.setType === NodeSetType.supervisor && (
+              <Form.Item name="examineLevel" label="指定主管" rules={[{ required: true }]}>
+                <InputNumber style={{width: 230}} addonBefore="发起人的第" addonAfter="级主管" min={1} max={99} changeOnWheel />
+              </Form.Item>
+            )}
+            {nodeCopy.setType === NodeSetType.role && (
+              <Form.Item name="nodeAssigneeIds" label="选择角色">
+                <RbacRoleSelect mode="multiple" />
+              </Form.Item>
+            )}
+            {nodeCopy.setType === NodeSetType.initiatorSelected && (
+              <Form.Item name="selectMode" label="发起人自选">
+                <Radio.Group
+                  options={[
+                    { label: '自选一个人', value: 1 },
+                    { label: '自选多个人', value: 2 },
+                  ]}
+                />
               </Form.Item>
             )}
           </FaFlexRestLayout>
