@@ -12,13 +12,14 @@ import { NodeCloseBtn } from '../cubes';
 export interface BranchProps {
   /** 流程配置节点Node JSON */
   node: Flow.Node;
+  parentNode?: Flow.Node;
 }
 
 /**
  * @author xu.pengfei
  * @date 2025/8/19 22:19
  */
-export default function Branch({node}: BranchProps) {
+export default function Branch({node, parentNode}: BranchProps) {
 
   function addTerm() {
   }
@@ -96,7 +97,7 @@ export default function Branch({node}: BranchProps) {
                 </div>
 
                 {/* condition node's child node */}
-                <NodeWrap node={cNode.childNode} />
+                <NodeWrap node={cNode.childNode} parentNode={cNode} />
 
                 {index === 0 && <div className="top-left-cover-line"/>}
                 {index === 0 && <div className="bottom-left-cover-line"/>}

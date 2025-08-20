@@ -7,22 +7,23 @@ import { isNil } from "lodash";
 export interface NodeWrapProps {
   /** 流程配置节点Node JSON */
   node?: Flow.Node;
+  parentNode?: Flow.Node;
 }
 
 /**
  * @author xu.pengfei
  * @date 2025/8/19 20:12
  */
-export default function NodeWrap({ node }: NodeWrapProps) {
+export default function NodeWrap({ node, parentNode }: NodeWrapProps) {
   if (isNil(node)) return null;
   return (
     <div>
       {node.type === FlowEnums.NodeType.major && <Promoter node={node} />}
-      {node.type === FlowEnums.NodeType.approval && <Approver node={node} />}
-      {node.type === FlowEnums.NodeType.cc && <Send node={node} />}
-      {node.type === FlowEnums.NodeType.conditionBranch && <Branch node={node} />}
+      {node.type === FlowEnums.NodeType.approval && <Approver node={node} parentNode={parentNode} />}
+      {node.type === FlowEnums.NodeType.cc && <Send node={node} parentNode={parentNode} />}
+      {node.type === FlowEnums.NodeType.conditionBranch && <Branch node={node} parentNode={parentNode} />}
 
-      {node.childNode && <NodeWrap node={node.childNode} />}
+      {node.childNode && <NodeWrap node={node.childNode} parentNode={node} />}
     </div>
   )
 }

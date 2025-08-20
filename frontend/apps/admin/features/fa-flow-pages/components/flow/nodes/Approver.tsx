@@ -1,25 +1,32 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { Flow } from "@features/fa-flow-pages/types";
 import { FaIcon } from "@fa/icons";
-import { Input } from "antd";
+import { Form, Input } from "antd";
 import AddNode from "@features/fa-flow-pages/components/flow/nodes/AddNode";
-import { BaseDrawer } from '@fa/ui';
+import { BaseDrawer, useOpen } from '@fa/ui';
 import FlowEnums from "../../../types/FlowEnums";
 import { NodeCloseBtn } from "@features/fa-flow-pages/components/flow/cubes";
+import FaWorkFlowContext from "@features/fa-flow-pages/components/flow/context/FaWorkFlowContext";
+import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
 
 
 export interface ApproverProps {
   /** 流程配置节点Node JSON */
   node: Flow.Node;
+  parentNode?: Flow.Node;
 }
 
 /**
  * @author xu.pengfei
  * @date 2025/8/19 22:11
  */
-export default function Approver({node}: ApproverProps) {
+export default function Approver({node, parentNode}: ApproverProps) {
+  const [form] = Form.useForm();
+  const [open, show, hide] = useOpen()
+  const [loading, setLoading] = useState(false)
 
-  function delNode() {}
+  const {deleteNode, refreshNode} = useContext(FaWorkFlowContext)
+  const {nodeCopy, setNodeCopy, updateNodeProps} = useNode(node)
 
   function toText(nodeConfig: Flow.Node) {
     if (nodeConfig.setType === FlowEnums.NodeSetType.specifyMembers) {
@@ -49,22 +56,28 @@ export default function Approver({node}: ApproverProps) {
 
   const text = useMemo(() => toText(node), [node])
 
+  function delNode() {
+    parentNode!.childNode = node.childNode
+    refreshNode()
+  }
+
   return (
     <div className="node-wrap">
-      <BaseDrawer
-        triggerDom={(
-          <div className="node-wrap-box start-node">
-            <div className="title" style={{background: '#576a95'}}>
-              <FaIcon icon="fa-solid fa-user-large"/>
-              <span>{node.nodeName}</span>
-              <NodeCloseBtn onClick={() => delNode()} />
-            </div>
+      <div className="node-wrap-box start-node">
+        <div className="title" style={{background: '#576a95'}}>
+          <FaIcon icon="fa-solid fa-user-large"/>
+          <span>{node.nodeName}</span>
+          <NodeCloseBtn onClick={() => delNode()}/>
+        </div>
 
-            <div className="content">
-              {text ? <span>{text}</span> : <span className="placeholder">请选择</span>}
-            </div>
-          </div>
-        )}
+        <div className="content">
+          {text ? <span>{text}</span> : <span className="placeholder">请选择</span>}
+        </div>
+      </div>
+
+      <BaseDrawer
+        open={open}
+        onClose={() => hide()}
         title={(
           <Input value={node.nodeName} variant="filled"/>
         )}

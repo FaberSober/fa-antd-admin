@@ -23,6 +23,23 @@ export default function FaWorkFlow({ processModel, onChange }: FaWorkFlowProps) 
     if (onChange) onChange(v)
   }
 
+  function loopNode(n: Flow.Node, func: (n: Flow.Node) => void) {
+    if (n.childNode) {
+      loopNode(n.childNode, func)
+    }
+    func(n)
+  }
+
+  function deleteNode(node: Flow.Node) {
+    // delete current node, move child node forward
+    loopNode(processModel.nodeConfig, n => {
+      if (n.childNode && n.childNode.nodeKey === node.nodeKey) {
+        n.childNode = n.childNode.childNode
+      }
+    })
+    updateProcessModel(cloneDeep(processModel))
+  }
+
   const contextValue: FaWorkFlowContextProps = {
     processModel,
     updateProcessModel,
@@ -30,7 +47,8 @@ export default function FaWorkFlow({ processModel, onChange }: FaWorkFlowProps) 
       const processNew = cloneDeep(processModel)
       updateProcessModel(processNew)
       console.log('processNew', processNew)
-    }
+    },
+    deleteNode,
   }
 
   return (

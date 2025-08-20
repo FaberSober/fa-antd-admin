@@ -7,6 +7,7 @@ export interface FaWorkFlowContextProps {
   processModel: Flow.ProcessModel;
   updateProcessModel: (v: Flow.ProcessModel) => void;
   refreshNode: () => void;
+  deleteNode: (n: Flow.Node) => void;
   // updateNode: (node: Flow.Node) => void;
 }
 

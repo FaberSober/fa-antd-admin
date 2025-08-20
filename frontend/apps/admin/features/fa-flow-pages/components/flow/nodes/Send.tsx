@@ -15,18 +15,19 @@ import { userApi } from "@features/fa-admin-pages/services";
 export interface SendProps {
   /** 流程配置节点Node JSON */
   node: Flow.Node;
+  parentNode?: Flow.Node;
 }
 
 /**
  * @author xu.pengfei
  * @date 2025/8/19 22:11
  */
-export default function Send({ node }: SendProps) {
+export default function Send({ node, parentNode }: SendProps) {
   const [form] = Form.useForm();
   const [open, show, hide] = useOpen()
   const [loading, setLoading] = useState(false)
 
-  const {refreshNode} = useContext(FaWorkFlowContext)
+  const {deleteNode, refreshNode} = useContext(FaWorkFlowContext)
   const {nodeCopy, setNodeCopy, updateNodeProps} = useNode(node)
 
   async function onFinish(fieldsValue: any) {
@@ -65,7 +66,10 @@ export default function Send({ node }: SendProps) {
     }
   }, [nodeCopy])
 
-  function delNode() {}
+  function delNode() {
+    parentNode!.childNode = node.childNode
+    refreshNode()
+  }
 
   return (
     <div className="node-wrap">
