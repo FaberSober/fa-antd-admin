@@ -52,7 +52,7 @@ export default function Approver({node, parentNode}: ApproverProps) {
       return "发起人自选"
     } else if (nodeConfig.setType === NodeSetType.initiatorThemselves) {
       return "发起人自己"
-    } else if (nodeConfig.setType === NodeSetType.department) {
+    } else if (nodeConfig.setType === NodeSetType.multiLevelSupervisors) {
       return "连续多级主管"
     }
     return false;
@@ -118,11 +118,11 @@ export default function Approver({node, parentNode}: ApproverProps) {
           layout="vertical"
           className="fa-flex-column fa-full"
           onFinish={onFinish}
-          onValuesChange={cv => {
-            if (cv.setType) {
+          onValuesChange={(cv, av) => {
+            if (cv.setType || cv.directorMode) {
               setNodeCopy(prev => ({
                 ...prev,
-                setType: cv.setType,
+                ...av,
                 nodeAssigneeIds: [],
               }))
               form.setFieldsValue({ nodeAssigneeIds: [] })
@@ -157,6 +157,23 @@ export default function Approver({node, parentNode}: ApproverProps) {
                   ]}
                 />
               </Form.Item>
+            )}
+            {nodeCopy.setType === NodeSetType.multiLevelSupervisors && (
+              <>
+                <Form.Item name="directorMode" label="连续主管审批终点">
+                  <Radio.Group
+                    options={[
+                      { label: '直到最上层主管', value: 0 },
+                      { label: '自定义审批终点', value: 1 },
+                    ]}
+                  />
+                </Form.Item>
+                {nodeCopy.directorMode === 1 && (
+                  <Form.Item name="directorLevel" label="指定主管" rules={[{ required: true }]}>
+                    <InputNumber style={{width: 230}} addonBefore="直到发起人的第" addonAfter="级主管" min={1} max={99} changeOnWheel />
+                  </Form.Item>
+                )}
+              </>
             )}
           </FaFlexRestLayout>
 
