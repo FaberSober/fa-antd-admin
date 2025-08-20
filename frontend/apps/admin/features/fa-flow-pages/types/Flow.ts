@@ -2,12 +2,26 @@ import FlowEnums from "./FlowEnums";
 
 namespace Flow {
 
+  /** FLOW-Process */
+  export interface ProcessModel {
+    /** 节点名称 */
+    name: string;
+    /** 流程 key */
+    key: string;
+    /** 实例地址 */
+    instanceUrl?: string;
+    /** 节点信息 */
+    nodeConfig: Node;
+    /** 扩展配置 */
+    extendConfig?: Record<string, any>;
+  }
+
   export interface FlowActor {
     id: string;
     name: string;
   }
 
-  /** STORE-库 */
+  /** FLOW-Node */
   export interface Node extends Record<any, any> {
     /**
      * node type: -1，结束节点 0，发起人 1，审批人 2，抄送人 3，条件审批 4，条件分支 5，办理子流程 6，定时器任务 7，触发器任务 8，并发分支 9，包容分支
@@ -16,7 +30,7 @@ namespace Flow {
     /**
      * 审核人类型: 1，指定成员 2，主管 3，角色 4，发起人自选 5，发起人自己 6，连续多级主管 7，部门 8，指定候选人
      */
-    setType: FlowEnums.NodeSetType;
+    setType?: FlowEnums.NodeSetType;
     nodeName?: string;
     nodeKey?: string;
     callProcess?: string;

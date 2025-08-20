@@ -1,5 +1,6 @@
-export const DEMO_FLOW_CONFIG = {
-  id: 1,
+import { Flow } from "@features/fa-flow-pages/types";
+
+export const DEMO_FLOW_CONFIG: Flow.ProcessModel = {
   name: '请假审批',
   key: 'k0001',
   nodeConfig: {
@@ -17,7 +18,6 @@ export const DEMO_FLOW_CONFIG = {
           nodeKey: 'flk1001',
           type: 3,
           priorityLevel: 1,
-          conditionMode: 1,
           conditionList: [
             [
               {
@@ -54,7 +54,6 @@ export const DEMO_FLOW_CONFIG = {
           nodeKey: 'flk2001',
           type: 3,
           priorityLevel: 2,
-          conditionMode: 1,
           conditionList: [],
           childNode: {
             nodeName: '直接主管审批',

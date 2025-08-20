@@ -1,0 +1,13 @@
+import { createContext } from 'react';
+import { Flow } from "@features/fa-flow-pages/types";
+
+
+export interface FaWorkFlowContextProps {
+  /** workflow config */
+  processModel: Flow.ProcessModel;
+  updateProcessModel: (v: Flow.ProcessModel) => void;
+}
+
+export const FaWorkFlowContext = createContext<FaWorkFlowContextProps>({} as any);
+
+export default FaWorkFlowContext;

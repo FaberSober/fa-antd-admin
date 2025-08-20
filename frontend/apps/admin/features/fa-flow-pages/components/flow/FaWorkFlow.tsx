@@ -1,12 +1,14 @@
 import React from 'react';
 import { Flow } from "@features/fa-flow-pages/types";
+import NodeWrap from './NodeWrap';
 import './index.scss'
-import NodeWrap from "@features/fa-flow-pages/components/flow/NodeWrap";
+import FaWorkFlowContext, { FaWorkFlowContextProps } from './context/FaWorkFlowContext';
 
 
 export interface FaWorkFlowProps {
   /** 流程配置JSON */
-  config: Flow.Node;
+  processModel: Flow.ProcessModel;
+  onChange?: (processModel: Flow.ProcessModel) => void;
 }
 
 /**
@@ -14,26 +16,27 @@ export interface FaWorkFlowProps {
  * @author xu.pengfei
  * @date 2025/8/19 17:34
  */
-export default function FaWorkFlow({ config }: FaWorkFlowProps) {
+export default function FaWorkFlow({ processModel, onChange }: FaWorkFlowProps) {
+
+  const contextValue: FaWorkFlowContextProps = {
+    processModel,
+    updateProcessModel: (v: Flow.ProcessModel) => {
+      if (onChange) onChange(v)
+    },
+  }
 
   return (
-    <div className="sc-workflow-design">
-      <div className="box-scale">
-        {/*<node-wrap*/}
-        {/*  v-if="nodeConfig"*/}
-        {/*  v-model="nodeConfig"></node-wrap>*/}
+    <FaWorkFlowContext.Provider value={contextValue}>
+      <div className="sc-workflow-design">
+        <div className="box-scale">
+          <NodeWrap node={processModel.nodeConfig}/>
 
-        <NodeWrap node={config} />
-
-        <div className="end-node">
-          <div className="end-node-circle"></div>
-          <div className="end-node-text">流程结束</div>
+          <div className="end-node">
+            <div className="end-node-circle"></div>
+            <div className="end-node-text">流程结束</div>
+          </div>
         </div>
       </div>
-      {/*<use-select*/}
-      {/*  v-if="selectVisible"*/}
-      {/*  ref="useselect"*/}
-      {/*@closed="selectVisible = false"></use-select>*/}
-    </div>
+    </FaWorkFlowContext.Provider>
   )
 }
