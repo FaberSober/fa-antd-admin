@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Flow } from "@features/fa-flow-pages/types";
 import { FaIcon } from '@fa/icons';
 import { BaseDrawer } from "@fa/ui";
 import AddNode from './AddNode';
 import { Input } from "antd";
+import { useNode } from '../hooks';
 
 
 export interface PromoterProps {
@@ -15,39 +16,41 @@ export interface PromoterProps {
  * @author xu.pengfei
  * @date 2025/8/19 20:22
  */
-export default function Promoter({ node }: PromoterProps) {
+export default function Promoter({node}: PromoterProps) {
+  const {nodeCopy, setNodeCopy, updateNodeProps} = useNode(node)
 
-
-  function toText(nodeConfig: Flow.Node){
-    if(nodeConfig.nodeAssigneeList && nodeConfig.nodeAssigneeList.length > 0){
-      return nodeConfig.nodeAssigneeList.map(item=>item.name).join("、")
-    }else{
+  function toText() {
+    if (nodeCopy.nodeAssigneeList && nodeCopy.nodeAssigneeList.length > 0) {
+      return nodeCopy.nodeAssigneeList.map(item => item.name).join("、")
+    } else {
       return "所有人"
     }
   }
+
+  const text = useMemo(() => toText(), [nodeCopy])
 
   return (
     <div className="node-wrap">
       <BaseDrawer
         triggerDom={(
           <div className="node-wrap-box start-node">
-            <div className="title" style={{ background: '#576a95' }}>
-              <FaIcon icon="fa-solid fa-user-large" />
-              <span>{node.nodeName}</span>
+            <div className="title" style={{background: '#576a95'}}>
+              <FaIcon icon="fa-solid fa-user-large"/>
+              <span>{nodeCopy.nodeName}</span>
             </div>
             <div className="content">
-              <span>{toText(node)}</span>
+              <span>{text}</span>
             </div>
           </div>
         )}
         title={(
-          <Input value={node.nodeName} variant="filled" />
+          <Input value={nodeCopy.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)}/>
         )}
       >
-        drawer
+        drawer1
       </BaseDrawer>
 
-      <AddNode node={node} />
+      <AddNode node={node}/>
     </div>
   )
 }
