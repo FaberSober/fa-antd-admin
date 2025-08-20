@@ -1,9 +1,9 @@
 import React, { useContext, useMemo, useState } from 'react';
 import { Flow, FlowEnums } from "@features/fa-flow-pages/types";
 import { FaIcon } from "@fa/icons";
-import { Button, Form, Input, InputNumber, Radio, Space } from "antd";
+import { Button, Checkbox, Divider, Form, Input, InputNumber, Radio, Space } from "antd";
 import AddNode from "@features/fa-flow-pages/components/flow/nodes/AddNode";
-import { BaseDrawer, FaFlexRestLayout, useOpen, UserSearchSelect } from '@fa/ui';
+import { BaseDrawer, FaFlexRestLayout, FaUtils, useOpen, UserSearchSelect } from '@fa/ui';
 import { NodeCloseBtn, NodeSetTypeSelect } from "@features/fa-flow-pages/components/flow/cubes";
 import FaWorkFlowContext from "@features/fa-flow-pages/components/flow/context/FaWorkFlowContext";
 import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
@@ -119,7 +119,7 @@ export default function Approver({node, parentNode}: ApproverProps) {
           className="fa-flex-column fa-full"
           onFinish={onFinish}
           onValuesChange={(cv, av) => {
-            if (cv.setType || cv.directorMode) {
+            if (FaUtils.hasAnyProp(cv, ['setType', 'directorMode', 'termAuto'])) {
               setNodeCopy(prev => ({
                 ...prev,
                 ...av,
@@ -140,7 +140,7 @@ export default function Approver({node, parentNode}: ApproverProps) {
             )}
             {nodeCopy.setType === NodeSetType.supervisor && (
               <Form.Item name="examineLevel" label="指定主管" rules={[{ required: true }]}>
-                <InputNumber style={{width: 230}} addonBefore="发起人的第" addonAfter="级主管" min={1} max={99} changeOnWheel />
+                <InputNumber style={{width: 230}} addonBefore="发起人的第" addonAfter="级主管" min={1} max={100} changeOnWheel />
               </Form.Item>
             )}
             {nodeCopy.setType === NodeSetType.role && (
@@ -170,11 +170,33 @@ export default function Approver({node, parentNode}: ApproverProps) {
                 </Form.Item>
                 {nodeCopy.directorMode === 1 && (
                   <Form.Item name="directorLevel" label="指定主管" rules={[{ required: true }]}>
-                    <InputNumber style={{width: 230}} addonBefore="直到发起人的第" addonAfter="级主管" min={1} max={99} changeOnWheel />
+                    <InputNumber style={{width: 230}} addonBefore="直到发起人的第" addonAfter="级主管" min={1} max={100} changeOnWheel />
                   </Form.Item>
                 )}
               </>
             )}
+
+            <Divider />
+
+            <Form.Item name="termAuto" valuePropName="checked">
+              <Checkbox>超时自动审批</Checkbox>
+            </Form.Item>
+            {nodeCopy.termAuto && (
+              <>
+                <Form.Item name="term" label="审批期限" tooltip="为 0 则不生效" rules={[{ required: true }]}>
+                  <InputNumber style={{width: 230}} addonAfter="小时" min={0} max={1000} changeOnWheel />
+                </Form.Item>
+                <Form.Item name="termMode" label="审批期限超时后执行">
+                  <Radio.Group
+                    options={[
+                      { label: '自动通过', value: 0 },
+                      { label: '自动拒绝', value: 1 },
+                    ]}
+                  />
+                </Form.Item>
+              </>
+            )}
+
           </FaFlexRestLayout>
 
           <Space>
