@@ -3,6 +3,7 @@ import { Flow } from "@features/fa-flow-pages/types";
 import NodeWrap from './NodeWrap';
 import './index.scss'
 import FaWorkFlowContext, { FaWorkFlowContextProps } from './context/FaWorkFlowContext';
+import { cloneDeep } from "lodash";
 
 
 export interface FaWorkFlowProps {
@@ -18,11 +19,18 @@ export interface FaWorkFlowProps {
  */
 export default function FaWorkFlow({ processModel, onChange }: FaWorkFlowProps) {
 
+  function updateProcessModel(v: Flow.ProcessModel) {
+    if (onChange) onChange(v)
+  }
+
   const contextValue: FaWorkFlowContextProps = {
     processModel,
-    updateProcessModel: (v: Flow.ProcessModel) => {
-      if (onChange) onChange(v)
-    },
+    updateProcessModel,
+    refreshNode: () => {
+      const processNew = cloneDeep(processModel)
+      updateProcessModel(processNew)
+      console.log('processNew', processNew)
+    }
   }
 
   return (

@@ -6,6 +6,8 @@ export interface FaWorkFlowContextProps {
   /** workflow config */
   processModel: Flow.ProcessModel;
   updateProcessModel: (v: Flow.ProcessModel) => void;
+  refreshNode: () => void;
+  // updateNode: (node: Flow.Node) => void;
 }
 
 export const FaWorkFlowContext = createContext<FaWorkFlowContextProps>({} as any);
