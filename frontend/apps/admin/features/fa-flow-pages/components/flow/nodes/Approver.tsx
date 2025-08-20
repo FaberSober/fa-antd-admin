@@ -9,6 +9,8 @@ import FaWorkFlowContext from "@features/fa-flow-pages/components/flow/context/F
 import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
 import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
 import { RbacRoleSelect } from "@features/fa-admin-pages/components";
+import { rbacRoleApi, userApi } from "@features/fa-admin-pages/services";
+import { FlowActor } from "@features/fa-flow-pages/types/Flow";
 
 const {NodeSetType} = FlowEnums;
 
@@ -68,9 +70,20 @@ export default function Approver({node, parentNode}: ApproverProps) {
   async function onFinish(fieldsValue: any) {
     try {
       setLoading(true)
+
+      let nodeAssigneeList: Flow.FlowActor[] = []
+      if (fieldsValue.setType === NodeSetType.specifyMembers) {
+        const res = await userApi.getByIds(fieldsValue.nodeAssigneeIds);
+        nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
+      } else if (fieldsValue.setType === NodeSetType.role) {
+        const res = await rbacRoleApi.getByIds(fieldsValue.nodeAssigneeIds);
+        nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
+      }
+
       const nodeNew = {
         ...nodeCopy,
         setType: fieldsValue.setType,
+        nodeAssigneeList,
       }
       setNodeCopy(nodeNew)
       // 这里node是使用根config传来的节点引用，修改node内容，但不修改引用
@@ -130,11 +143,11 @@ export default function Approver({node, parentNode}: ApproverProps) {
           }}
         >
           <FaFlexRestLayout>
-            <Form.Item name="setType" label="审批人员类型">
+            <Form.Item name="setType" label="审批人员类型" rules={[{ required: true }]}>
               <NodeSetTypeSelect />
             </Form.Item>
             {nodeCopy.setType === NodeSetType.specifyMembers && (
-              <Form.Item name="nodeAssigneeIds" label="审批人员">
+              <Form.Item name="nodeAssigneeIds" label="审批人员" rules={[{ required: true }]}>
                 <UserSearchSelect mode="multiple" />
               </Form.Item>
             )}
@@ -144,7 +157,7 @@ export default function Approver({node, parentNode}: ApproverProps) {
               </Form.Item>
             )}
             {nodeCopy.setType === NodeSetType.role && (
-              <Form.Item name="nodeAssigneeIds" label="选择角色">
+              <Form.Item name="nodeAssigneeIds" label="选择角色" rules={[{ required: true }]}>
                 <RbacRoleSelect mode="multiple" />
               </Form.Item>
             )}
@@ -197,6 +210,18 @@ export default function Approver({node, parentNode}: ApproverProps) {
               </>
             )}
 
+            <Divider />
+
+            <Form.Item name="examineMode" label="多人审批时审批方式" rules={[{ required: true }]}>
+              <Radio.Group
+                style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
+                options={[
+                  { label: '按顺序依次审批', value: 1 },
+                  { label: '会签 (可同时审批，每个人必须审批通过)', value: 2 },
+                  { label: '或签 (有一人审批通过即可)', value: 3 },
+                ]}
+              />
+            </Form.Item>
           </FaFlexRestLayout>
 
           <Space>
