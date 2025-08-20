@@ -15,7 +15,7 @@ import { userApi } from "@features/fa-admin-pages/services";
 export interface SendProps {
   /** 流程配置节点Node JSON */
   node: Flow.Node;
-  parentNode?: Flow.Node;
+  parentNode?: Flow.Node | Flow.ConditionNode;
 }
 
 /**
@@ -27,7 +27,7 @@ export default function Send({ node, parentNode }: SendProps) {
   const [open, show, hide] = useOpen()
   const [loading, setLoading] = useState(false)
 
-  const {deleteNode, refreshNode} = useContext(FaWorkFlowContext)
+  const {refreshNode} = useContext(FaWorkFlowContext)
   const {nodeCopy, setNodeCopy, updateNodeProps} = useNode(node)
 
   async function onFinish(fieldsValue: any) {
@@ -105,7 +105,7 @@ export default function Send({ node, parentNode }: SendProps) {
         </Form>
       </BaseDrawer>
 
-      <AddNode node={node}/>
+      <AddNode parentNode={node}/>
     </div>
   )
 }

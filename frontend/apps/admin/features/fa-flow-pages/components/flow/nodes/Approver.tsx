@@ -13,7 +13,7 @@ import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
 export interface ApproverProps {
   /** 流程配置节点Node JSON */
   node: Flow.Node;
-  parentNode?: Flow.Node;
+  parentNode?: Flow.Node | Flow.ConditionNode;
 }
 
 /**
@@ -85,7 +85,7 @@ export default function Approver({node, parentNode}: ApproverProps) {
         drawer
       </BaseDrawer>
 
-      <AddNode node={node}/>
+      <AddNode parentNode={node}/>
     </div>
   )
 }

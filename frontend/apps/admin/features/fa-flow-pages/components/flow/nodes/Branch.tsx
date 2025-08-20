@@ -12,7 +12,7 @@ import { NodeCloseBtn } from '../cubes';
 export interface BranchProps {
   /** 流程配置节点Node JSON */
   node: Flow.Node;
-  parentNode?: Flow.Node;
+  parentNode?: Flow.Node | Flow.ConditionNode;
 }
 
 /**
@@ -32,13 +32,13 @@ export default function Branch({node, parentNode}: BranchProps) {
 
   function toText(nodeConfig: Flow.Node, index: number) {
     const {conditionList} = nodeConfig.conditionNodes![index]
-    if (conditionList && conditionList.length == 1) {
+    if (conditionList && conditionList.length === 1) {
       const text = conditionList.map((conditionGroup) => conditionGroup.map((item) => `${item.label}${item.operator}${item.value}`)).join(' 和 ')
       return text
     } else if (conditionList && conditionList.length > 1) {
       return conditionList.length + '个条件，或满足'
     } else {
-      if (index == nodeConfig.conditionNodes!.length - 1) {
+      if (index === nodeConfig.conditionNodes!.length - 1) {
         return '其他条件进入此流程'
       } else {
         return false
@@ -92,7 +92,7 @@ export default function Branch({node, parentNode}: BranchProps) {
                       {index}
                     </BaseDrawer>
 
-                    <AddNode node={cNode.childNode}/>
+                    <AddNode parentNode={cNode}/>
                   </div>
                 </div>
 
@@ -110,7 +110,7 @@ export default function Branch({node, parentNode}: BranchProps) {
 
         </div>
 
-        <AddNode node={node.childNode}/>
+        <AddNode parentNode={node.childNode}/>
       </div>
     </div>
   )

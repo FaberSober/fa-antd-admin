@@ -97,7 +97,7 @@ export default function Promoter({node}: PromoterProps) {
         </Form>
       </BaseDrawer>
 
-      <AddNode node={node}/>
+      <AddNode parentNode={node}/>
     </div>
   )
 }

@@ -7,7 +7,7 @@ import { isNil } from "lodash";
 export interface NodeWrapProps {
   /** 流程配置节点Node JSON */
   node?: Flow.Node;
-  parentNode?: Flow.Node;
+  parentNode?: Flow.Node | Flow.ConditionNode;
 }
 
 /**
