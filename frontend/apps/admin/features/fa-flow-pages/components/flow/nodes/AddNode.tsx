@@ -3,11 +3,12 @@ import { Flow, FlowEnums } from "@features/fa-flow-pages/types";
 import { Button, Popover } from 'antd';
 import { PlusOutlined } from "@ant-design/icons";
 import { FaIcon } from "@fa/icons";
+import { isNil } from "lodash";
 
 
 export interface AddNodeProps {
   /** 流程配置节点Node JSON */
-  node: Flow.Node;
+  node?: Flow.Node;
 }
 
 /**
@@ -15,6 +16,7 @@ export interface AddNodeProps {
  * @date 2025/8/19 21:03
  */
 export default function AddNode({node}: AddNodeProps) {
+  if (isNil(node)) return null;
 
   function addType(type: FlowEnums.NodeType) {}
 

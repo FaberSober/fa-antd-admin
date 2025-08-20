@@ -13,12 +13,15 @@ namespace Flow {
      * node type: -1，结束节点 0，发起人 1，审批人 2，抄送人 3，条件审批 4，条件分支 5，办理子流程 6，定时器任务 7，触发器任务 8，并发分支 9，包容分支
      */
     type: FlowEnums.NodeType;
+    /**
+     * 审核人类型: 1，指定成员 2，主管 3，角色 4，发起人自选 5，发起人自己 6，连续多级主管 7，部门 8，指定候选人
+     */
+    setType: FlowEnums.NodeSetType;
     nodeName?: string;
     nodeKey?: string;
     callProcess?: string;
     callAsync?: boolean;
     actionUrl?: string;
-    setType?: number;
     nodeAssigneeList?: FlowActor[];
     examineLevel?: number;
     examineMode?: number;

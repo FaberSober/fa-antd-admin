@@ -1,11 +1,12 @@
 import React from 'react';
 import { Flow, FlowEnums } from "@features/fa-flow-pages/types";
 import { Approver, Branch, Promoter, Send } from "./nodes";
+import { isNil } from "lodash";
 
 
 export interface NodeWrapProps {
   /** 流程配置节点Node JSON */
-  node: Flow.Node;
+  node?: Flow.Node;
 }
 
 /**
@@ -13,6 +14,7 @@ export interface NodeWrapProps {
  * @date 2025/8/19 20:12
  */
 export default function NodeWrap({ node }: NodeWrapProps) {
+  if (isNil(node)) return null;
   return (
     <div>
       {node.type === FlowEnums.NodeType.major && <Promoter node={node} />}

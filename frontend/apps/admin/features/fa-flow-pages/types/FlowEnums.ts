@@ -97,6 +97,38 @@ namespace FlowEnums {
     [NodeType.autoReject]: '自动拒绝',
   }
 
+  /**
+   * {@link com.aizuda.bpm.engine.core.enums.NodeSetType}
+   */
+  export enum NodeSetType {
+    /** 指定成员 */
+    specifyMembers = 1,
+    /** 主管 */
+    supervisor = 2,
+    /** 角色 */
+    role = 3,
+    /** 发起人自选 */
+    initiatorSelected = 4,
+    /** 发起人自己 */
+    initiatorThemselves = 5,
+    /** 连续多级主管 */
+    multiLevelSupervisors = 6,
+    /** 部门 */
+    department = 7,
+    /** 指定候选人 */
+    designatedCandidate = 8,
+  }
+
+  export const NodeSetTypeMap: Record<NodeSetType, string> = {
+    [NodeSetType.specifyMembers]: '指定成员',
+    [NodeSetType.supervisor]: '主管',
+    [NodeSetType.role]: '角色',
+    [NodeSetType.initiatorSelected]: '发起人自选',
+    [NodeSetType.initiatorThemselves]: '发起人自己',
+    [NodeSetType.multiLevelSupervisors]: '连续多级主管',
+    [NodeSetType.department]: '部门',
+    [NodeSetType.designatedCandidate]: '指定候选人',
+  }
 
 }
 

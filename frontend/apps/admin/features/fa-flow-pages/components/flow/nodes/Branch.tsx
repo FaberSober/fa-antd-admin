@@ -2,8 +2,11 @@ import React from 'react';
 import { Flow } from "@features/fa-flow-pages/types";
 import { Button } from "antd";
 import { CloseOutlined, LeftOutlined, PlusOutlined, RightOutlined } from "@ant-design/icons";
-import AddNode from './AddNode';
 import { BaseDrawer } from "@fa/ui";
+import AddNode from './AddNode';
+import '../styles/Branch.scss'
+import NodeWrap from "@features/fa-flow-pages/components/flow/NodeWrap";
+import { NodeCloseBtn } from '../cubes';
 
 
 export interface BranchProps {
@@ -68,9 +71,7 @@ export default function Branch({node}: BranchProps) {
                           <div className="title">
                             <span className="node-title">{cNode.nodeName}</span>
                             <span className="priority-title">优先级{cNode.priorityLevel}</span>
-                            <div className="close fa-link-btn" onClick={() => delTerm(index)}>
-                              <CloseOutlined/>
-                            </div>
+                            <NodeCloseBtn onClick={() => delTerm(index)} />
                           </div>
 
                           <div className="content">
@@ -85,13 +86,17 @@ export default function Branch({node}: BranchProps) {
                           )}
                         </div>
                       )}
+                      title="条件设置"
                     >
                       {index}
                     </BaseDrawer>
 
-                    {cNode.childNode && <AddNode node={cNode.childNode}/>}
+                    <AddNode node={cNode.childNode}/>
                   </div>
                 </div>
+
+                {/* condition node's child node */}
+                <NodeWrap node={cNode.childNode} />
 
                 {index === 0 && <div className="top-left-cover-line"/>}
                 {index === 0 && <div className="bottom-left-cover-line"/>}
@@ -103,6 +108,8 @@ export default function Branch({node}: BranchProps) {
           })}
 
         </div>
+
+        <AddNode node={node.childNode}/>
       </div>
     </div>
   )
