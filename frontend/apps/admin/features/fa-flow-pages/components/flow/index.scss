@@ -1,5 +1,10 @@
+html {
+  --el-bg-color: #efefef;
+}
+
 .sc-workflow-design {
   width: 100%;
+  background: var(--el-bg-color);
 }
 .sc-workflow-design .box-scale {
   display: inline-block;

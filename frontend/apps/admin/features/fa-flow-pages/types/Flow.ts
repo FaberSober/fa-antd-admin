@@ -15,9 +15,14 @@ namespace Flow {
     type: FlowEnums.NodeType;
     nodeName?: string;
     nodeKey?: string;
+    callProcess?: string;
+    callAsync?: boolean;
+    actionUrl?: string;
     setType?: number;
+    nodeAssigneeList?: FlowActor[];
     examineLevel?: number;
     examineMode?: number;
+    groupStrategy?: number;
     directorLevel?: number;
     directorMode?: number;
     selectMode?: number;
@@ -25,18 +30,43 @@ namespace Flow {
     term?: number;
     termMode?: number;
     typeOfApprove?: number;
-    rejectStrategy?: 2,
+    passWeight?: number;
+    rejectStrategy?: number;
     rejectStart?: number;
+    conditionNodes?: ConditionNode[];
+    parallelNodes?: Node[];
+    inclusiveNodes?: ConditionNode[];
+    routeNodes?: ConditionNode[];
     remind?: boolean;
+    allowSelection?: boolean;
     allowTransfer?: boolean;
     allowAppendNode?: boolean;
     allowRollback?: boolean;
+    allowCc?: boolean;
     approveSelf?: number;
-    parallelNodes?: Node[];
+    extendConfig?: Record<string, any>;
     childNode?: Node;
-    nodeAssigneeList?: FlowActor[];
+    parentNode?: Node;
+    triggerType?: number;
+    delayType?: number;
   }
 
+  export interface ConditionNode {
+    nodeName?: string;
+    nodeKey?: string;
+    type?: number;
+    priorityLevel?: number;
+    conditionList?: Array<Array<NodeExpression>>;
+    childNode?: Node;
+  }
+
+  export interface NodeExpression {
+    label?: string;
+    field?: string;
+    operator?: string;
+    value?: string;
+    type?: string;
+  }
 
 }
 
