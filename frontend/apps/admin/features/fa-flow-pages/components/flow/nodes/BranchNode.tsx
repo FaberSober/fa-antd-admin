@@ -5,8 +5,6 @@ import { Button, Form, Input, Select, Space } from "antd";
 import { BaseDrawer, FaFlexRestLayout, FaArrUtils, useOpen } from "@fa/ui";
 import { useConditionNode } from '../hooks';
 import { DeleteOutlined, PlusOutlined, RollbackOutlined, SaveOutlined } from "@ant-design/icons";
-import { NodeExpression } from "@features/fa-flow-pages/types/Flow";
-import { spliceAndReturnSelf } from "@fa/ui/src/utils/arrUtils";
 
 
 export interface BranchNodeProps {
@@ -18,6 +16,8 @@ export interface BranchNodeProps {
 }
 
 /**
+ * BranchNode
+ * TODO add drag sort branch condition
  * @author xu.pengfei
  * @date 2025/8/21 17:08
  */
@@ -27,12 +27,6 @@ export default function BranchNode({node, index, onDel, conditionText, onSubmit}
   const [loading, setLoading] = useState(false)
 
   const {nodeCopy, setNodeCopy, updateNodeProps} = useConditionNode(node)
-
-  function deleteConditionGroup(conditionGroupIdx: number) {
-  }
-
-  function addConditionGroup() {}
-
 
   async function onFinish(fieldsValue: any) {
     try {
@@ -97,62 +91,67 @@ export default function BranchNode({node, index, onDel, conditionText, onSubmit}
                       <div className="header">
                         <span>条件组 {conditionGroupIdx + 1}</span>
 
-                        <div onClick={() => deleteConditionGroup(conditionGroupIdx)} className="fa-normal-btn">
+                        <div
+                          onClick={() => {
+                            updateNodeProps(`conditionList`, FaArrUtils.spliceAndReturnSelf(nodeCopy.conditionList!, conditionGroupIdx))
+                          }}
+                          className="fa-normal-btn">
                           <DeleteOutlined/>
                         </div>
                       </div>
 
                       <div className="main-content">
                         {/* 表头：单个条件 */}
-                        <div className="condition-content-box cell-box">
-                          <div>描述</div>
-                          <div>条件字段</div>
-                          <div>运算符</div>
-                          <div>值</div>
+                        <div className="fa-flex-row cell-box">
+                          <div style={{width: 60}} />
+                          <div className="fa-flex-1">描述</div>
+                          <div className="fa-flex-1">条件字段</div>
+                          <div className="fa-flex-1">运算符</div>
+                          <div className="fa-flex-1">值</div>
+                          <div style={{width: 60}} />
                         </div>
 
                         {conditionGroup.map((condition, idx) => {
                           return (
                             <div key={idx} className="condition-content">
-                              <div className="condition-relation">
-                                <span>{idx === 0 ? '当' : '且'}</span>
-                                <div
-                                  onClick={() => {
-                                    updateNodeProps(`conditionList.[${conditionGroupIdx}]`, FaArrUtils.spliceAndReturnSelf(conditionGroup, idx))
-                                  }}
-                                  className="fa-normal-btn"
-                                >
-                                  <DeleteOutlined />
-                                </div>
-                              </div>
+                              <div className="fa-flex-row" style={{ gap: 8 }}>
+                                <div style={{width: 60}} className="fa-flex-center">{idx === 0 ? '当' : '且'}</div>
+                                <Input style={{flex: 1}} value={condition.label} placeholder="描述" onChange={e => {
+                                  updateNodeProps(`conditionList.[${conditionGroupIdx}].[${idx}].label`, e.target.value)
+                                }} />
+                                <Input style={{flex: 1}} value={condition.field} placeholder="条件字段" onChange={e => {
+                                  updateNodeProps(`conditionList.[${conditionGroupIdx}].[${idx}].field`, e.target.value)
+                                }} />
+                                <Select
+                                  style={{flex: 1}}
+                                  value={condition.operator}
+                                  onChange={(v) => updateNodeProps(`conditionList.[${conditionGroupIdx}].[${idx}].operator`, v)}
+                                  options={[
+                                    {value: '==', label: '等于'},
+                                    {value: '!=', label: '不等于'},
+                                    {value: '>', label: '大于'},
+                                    {value: '>=', label: '大于等于'},
+                                    {value: '<', label: '小于'},
+                                    {value: '<=', label: '小于等于'},
+                                    {value: 'include', label: '包含'},
+                                    {value: 'notinclude', label: '不包含'},
+                                  ]}
+                                  placeholder="运算符"
+                                />
+                                <Input style={{flex: 1}} value={condition.value} placeholder="值" onChange={e => {
+                                  updateNodeProps(`conditionList.[${conditionGroupIdx}].[${idx}].value`, e.target.value)
+                                }} />
 
-                              <div className="condition-content">
-                                <Space className="condition-content-box">
-                                  <Input value={condition.label} placeholder="描述" onChange={e => {
-                                    updateNodeProps(`conditionList.[${conditionGroupIdx}].[${idx}].label`, e.target.value)
-                                  }} />
-                                  <Input value={condition.field} placeholder="条件字段" onChange={e => {
-                                    updateNodeProps(`conditionList.[${conditionGroupIdx}].[${idx}].field`, e.target.value)
-                                  }} />
-                                  <Select
-                                    value={condition.operator}
-                                    onChange={(v) => updateNodeProps(`conditionList.[${conditionGroupIdx}].[${idx}].operator`, v)}
-                                    options={[
-                                      {value: '==', label: '等于'},
-                                      {value: '!=', label: '不等于'},
-                                      {value: '>', label: '大于'},
-                                      {value: '>=', label: '大于等于'},
-                                      {value: '<', label: '小于'},
-                                      {value: '<=', label: '小于等于'},
-                                      {value: 'include', label: '包含'},
-                                      {value: 'notinclude', label: '不包含'},
-                                    ]}
-                                    placeholder="运算符"
-                                  />
-                                  <Input value={condition.value} placeholder="值" onChange={e => {
-                                    updateNodeProps(`conditionList.[${conditionGroupIdx}].[${idx}].value`, e.target.value)
-                                  }} />
-                                </Space>
+                                <div style={{width: 60}} className="fa-flex-center">
+                                  <div
+                                    onClick={() => {
+                                      updateNodeProps(`conditionList.[${conditionGroupIdx}]`, FaArrUtils.spliceAndReturnSelf(conditionGroup, idx))
+                                    }}
+                                    className="fa-normal-btn"
+                                  >
+                                    <DeleteOutlined />
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           )
@@ -178,7 +177,16 @@ export default function BranchNode({node, index, onDel, conditionText, onSubmit}
                 )
               })}
 
-              <Button onClick={() => addConditionGroup()} icon={<PlusOutlined/>} block variant="filled" color="default">添加条件组</Button>
+              <Button
+                onClick={() => {
+                  updateNodeProps('conditionList', [...nodeCopy.conditionList!, [{
+                    label: '',
+                    field: '',
+                    operator: '',
+                    value: '',
+                  }]])
+                }}
+                icon={<PlusOutlined/>} block variant="filled" color="default">添加条件组</Button>
             </div>
 
           </FaFlexRestLayout>

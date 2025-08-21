@@ -69,8 +69,8 @@
     .cell-box {
       div {
         padding: 12px 0;
-        width: 100%;
-        min-width: 120px;
+        //width: 100%;
+        //min-width: 120px;
         color: #909399;
         font-size: 14px;
         font-weight: 600;
@@ -81,6 +81,7 @@
     .condition-content {
       display: flex;
       flex-direction: column;
+      margin-bottom: 12px;
 
       :deep(.el-input__wrapper) {
         border-top-left-radius: 0;
@@ -95,6 +96,10 @@
         min-height: 31.6px;
         flex-wrap: wrap;
       }
+    }
+
+    .condition-content:last-child {
+      margin-bottom: 0;
     }
   }
 
