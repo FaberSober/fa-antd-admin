@@ -57,6 +57,8 @@
       div {
         width: 100%;
         min-width: 120px;
+        flex: 1;
+        flex-shrink: 0;
       }
 
       div:not(:first-child) {

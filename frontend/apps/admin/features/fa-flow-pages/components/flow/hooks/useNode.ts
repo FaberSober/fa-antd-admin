@@ -1,6 +1,6 @@
 import { Flow } from "@features/fa-flow-pages/types";
 import { useEffect, useState } from "react";
-import { cloneDeep } from "lodash";
+import { cloneDeep, set } from "lodash";
 
 /**
  * @author xu.pengfei
@@ -16,8 +16,11 @@ export default function useNode(node: Flow.Node, onNodeChange?: (n: Flow.Node) =
     }
   }, [node])
 
-  function updateNodeProps(propKey: keyof Flow.Node, value: any) {
-    setNodeCopy(prev => ({ ...prev, [propKey]: value }))
+  function updateNodeProps(path: keyof Flow.Node | any, value: any) {
+    setNodeCopy(prev => {
+      set(prev, path, value)
+      return {...prev}
+    })
   }
 
   return { nodeCopy, setNodeCopy, updateNodeProps }

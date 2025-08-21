@@ -2,9 +2,11 @@ import React, { ReactNode, useState } from 'react';
 import { Flow } from "@features/fa-flow-pages/types";
 import { NodeCloseBtn } from "@features/fa-flow-pages/components/flow/cubes";
 import { Button, Form, Input, Select, Space } from "antd";
-import { BaseDrawer, FaFlexRestLayout, useOpen } from "@fa/ui";
+import { BaseDrawer, FaFlexRestLayout, FaArrUtils, useOpen } from "@fa/ui";
 import { useConditionNode } from '../hooks';
 import { DeleteOutlined, PlusOutlined, RollbackOutlined, SaveOutlined } from "@ant-design/icons";
+import { NodeExpression } from "@features/fa-flow-pages/types/Flow";
+import { spliceAndReturnSelf } from "@fa/ui/src/utils/arrUtils";
 
 
 export interface BranchNodeProps {
@@ -28,10 +30,6 @@ export default function BranchNode({node, index, onDel, conditionText, onSubmit}
 
   function deleteConditionGroup(conditionGroupIdx: number) {
   }
-
-  function deleteConditionList(conditionGroup, idx) {}
-
-  function addConditionList(conditionGroup) {}
 
   function addConditionGroup() {}
 
@@ -118,17 +116,27 @@ export default function BranchNode({node, index, onDel, conditionText, onSubmit}
                             <div key={idx} className="condition-content">
                               <div className="condition-relation">
                                 <span>{idx === 0 ? '当' : '且'}</span>
-                                <div onClick={() => deleteConditionList(conditionGroup, idx)} className="fa-normal-btn">
+                                <div
+                                  onClick={() => {
+                                    updateNodeProps(`conditionList.[${conditionGroupIdx}]`, FaArrUtils.spliceAndReturnSelf(conditionGroup, idx))
+                                  }}
+                                  className="fa-normal-btn"
+                                >
                                   <DeleteOutlined />
                                 </div>
                               </div>
 
                               <div className="condition-content">
                                 <Space className="condition-content-box">
-                                  <Input value={condition.label} placeholder="描述" onChange={e => condition.label = e.target.value} />
-                                  <Input value={condition.field} placeholder="条件字段" />
+                                  <Input value={condition.label} placeholder="描述" onChange={e => {
+                                    updateNodeProps(`conditionList.[${conditionGroupIdx}].[${idx}].label`, e.target.value)
+                                  }} />
+                                  <Input value={condition.field} placeholder="条件字段" onChange={e => {
+                                    updateNodeProps(`conditionList.[${conditionGroupIdx}].[${idx}].field`, e.target.value)
+                                  }} />
                                   <Select
                                     value={condition.operator}
+                                    onChange={(v) => updateNodeProps(`conditionList.[${conditionGroupIdx}].[${idx}].operator`, v)}
                                     options={[
                                       {value: '==', label: '等于'},
                                       {value: '!=', label: '不等于'},
@@ -139,8 +147,11 @@ export default function BranchNode({node, index, onDel, conditionText, onSubmit}
                                       {value: 'include', label: '包含'},
                                       {value: 'notinclude', label: '不包含'},
                                     ]}
+                                    placeholder="运算符"
                                   />
-                                  <Input value={condition.value} placeholder="值" />
+                                  <Input value={condition.value} placeholder="值" onChange={e => {
+                                    updateNodeProps(`conditionList.[${conditionGroupIdx}].[${idx}].value`, e.target.value)
+                                  }} />
                                 </Space>
                               </div>
                             </div>
@@ -149,7 +160,18 @@ export default function BranchNode({node, index, onDel, conditionText, onSubmit}
                       </div>
 
                       <div className="sub-content">
-                        <Button onClick={() => addConditionList(conditionGroup)} type="link" icon={<PlusOutlined/>}>添加条件</Button>
+                        <Button
+                          onClick={() => {
+                            updateNodeProps(`conditionList.[${conditionGroupIdx}]`, [...conditionGroup, {
+                              label: '',
+                              field: '',
+                              operator: '',
+                              value: '',
+                            }])
+                          }}
+                          type="link"
+                          icon={<PlusOutlined/>}
+                        >添加条件</Button>
                       </div>
                     </div>
                   </div>
