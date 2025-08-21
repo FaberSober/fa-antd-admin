@@ -7,7 +7,7 @@ import { FaIcon } from "@fa/icons";
 
 export interface AddNodeProps {
   /** 流程配置节点Node JSON */
-  parentNode: Flow.Node;
+  parentNode: Flow.Node | Flow.ConditionNode;
 }
 
 /**

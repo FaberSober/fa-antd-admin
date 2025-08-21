@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Flow } from "@features/fa-flow-pages/types";
 import { Button } from "antd";
-import { CloseOutlined, LeftOutlined, PlusOutlined, RightOutlined } from "@ant-design/icons";
-import { BaseDrawer } from "@fa/ui";
+import { LeftOutlined, PlusOutlined, RightOutlined } from "@ant-design/icons";
 import AddNode from './AddNode';
 import '../styles/Branch.scss'
 import NodeWrap from "@features/fa-flow-pages/components/flow/NodeWrap";
-import { NodeCloseBtn } from '../cubes';
+import BranchNode from "@features/fa-flow-pages/components/flow/nodes/BranchNode";
+import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
+import FaWorkFlowContext from "@features/fa-flow-pages/components/flow/context/FaWorkFlowContext";
 
 
 export interface BranchProps {
@@ -20,6 +21,8 @@ export interface BranchProps {
  * @date 2025/8/19 22:19
  */
 export default function Branch({node, parentNode}: BranchProps) {
+  const {refreshNode} = useContext(FaWorkFlowContext)
+  const {nodeCopy, setNodeCopy, updateNodeProps} = useNode(node)
 
   function addTerm() {
   }
@@ -59,45 +62,43 @@ export default function Branch({node, parentNode}: BranchProps) {
               <div className="col-box" key={cNode.nodeKey}>
                 <div className="condition-node">
                   <div className="condition-node-box">
-                    <BaseDrawer
-                      triggerDom={(
-                        <div className="auto-judge">
-                          {/* move this condition to left */}
-                          {index !== 0 && (
-                            <div className="sort-left" onClick={() => arrTransfer(index, -1)}>
-                              <LeftOutlined/>
-                            </div>
-                          )}
-
-                          <div className="title">
-                            <span className="node-title">{cNode.nodeName}</span>
-                            <span className="priority-title">优先级{cNode.priorityLevel}</span>
-                            <NodeCloseBtn onClick={() => delTerm(index)} />
-                          </div>
-
-                          <div className="content">
-                            {conditionText ? <span>{conditionText}</span> : <span className="placeholder">请设置条件</span>}
-                          </div>
-
-                          {/* move this condition to right */}
-                          {index !== node.conditionNodes!.length - 1 && (
-                            <div className="sort-right" onClick={() => arrTransfer(index)}>
-                              <RightOutlined/>
-                            </div>
-                          )}
+                    <div className="auto-judge">
+                      {/* move this condition to left */}
+                      {index !== 0 && (
+                        <div className="sort-left" onClick={() => arrTransfer(index, -1)}>
+                          <LeftOutlined/>
                         </div>
                       )}
-                      title="条件设置"
-                    >
-                      {index}
-                    </BaseDrawer>
+
+                      <BranchNode
+                        node={cNode}
+                        onDel={() => delTerm(index)}
+                        conditionText={conditionText}
+                        index={index}
+                        onSubmit={cn => {
+                          const nodeNew = {
+                            ...nodeCopy,
+                            conditionNodes: node.conditionNodes!.map((oi) => oi.nodeKey === cn.nodeKey ? cn : oi),
+                          }
+                          Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
+                          refreshNode();
+                        }}
+                      />
+
+                      {/* move this condition to right */}
+                      {index !== node.conditionNodes!.length - 1 && (
+                        <div className="sort-right" onClick={() => arrTransfer(index)}>
+                          <RightOutlined/>
+                        </div>
+                      )}
+                    </div>
 
                     <AddNode parentNode={cNode}/>
                   </div>
                 </div>
 
                 {/* condition node's child node */}
-                <NodeWrap node={cNode.childNode} parentNode={cNode} />
+                <NodeWrap node={cNode.childNode} parentNode={cNode}/>
 
                 {index === 0 && <div className="top-left-cover-line"/>}
                 {index === 0 && <div className="bottom-left-cover-line"/>}

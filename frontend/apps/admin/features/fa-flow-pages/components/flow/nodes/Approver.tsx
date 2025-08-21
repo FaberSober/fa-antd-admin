@@ -10,7 +10,6 @@ import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
 import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
 import { RbacRoleSelect } from "@features/fa-admin-pages/components";
 import { rbacRoleApi, userApi } from "@features/fa-admin-pages/services";
-import { FlowActor } from "@features/fa-flow-pages/types/Flow";
 
 const {NodeSetType} = FlowEnums;
 
