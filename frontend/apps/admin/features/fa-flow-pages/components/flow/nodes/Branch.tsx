@@ -8,6 +8,7 @@ import NodeWrap from "@features/fa-flow-pages/components/flow/NodeWrap";
 import BranchNode from "@features/fa-flow-pages/components/flow/nodes/BranchNode";
 import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
 import FaWorkFlowContext from "@features/fa-flow-pages/components/flow/context/FaWorkFlowContext";
+import { FaArrUtils } from '@fa/ui';
 
 
 export interface BranchProps {
@@ -27,7 +28,20 @@ export default function Branch({node, parentNode}: BranchProps) {
   function addTerm() {
   }
 
+  /**
+   * move condition position
+   * @param index
+   * @param type -1-move left, 1-move right
+   */
   function arrTransfer(index: number, type: number = 1) {
+    const conditionNodes = FaArrUtils.arrTransfer(nodeCopy.conditionNodes!, index, index + type)
+    const nodeNew = {
+      ...nodeCopy,
+      conditionNodes,
+    }
+    setNodeCopy(nodeNew)
+    Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
+    refreshNode();
   }
 
   function delTerm(index: number) {
@@ -56,8 +70,8 @@ export default function Branch({node, parentNode}: BranchProps) {
           <Button onClick={addTerm} shape="round" icon={<PlusOutlined/>} className="add-branch">添加条件</Button>
 
           {/* loop condition */}
-          {node.conditionNodes && node.conditionNodes.map((cNode, index) => {
-            const conditionText = toText(node, index);
+          {nodeCopy.conditionNodes && nodeCopy.conditionNodes.map((cNode, index) => {
+            const conditionText = toText(nodeCopy, index);
             return (
               <div className="col-box" key={cNode.nodeKey}>
                 <div className="condition-node">
@@ -78,7 +92,7 @@ export default function Branch({node, parentNode}: BranchProps) {
                         onSubmit={cn => {
                           const nodeNew = {
                             ...nodeCopy,
-                            conditionNodes: node.conditionNodes!.map((oi) => oi.nodeKey === cn.nodeKey ? cn : oi),
+                            conditionNodes: nodeCopy.conditionNodes!.map((oi) => oi.nodeKey === cn.nodeKey ? cn : oi),
                           }
                           Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
                           refreshNode();
@@ -86,7 +100,7 @@ export default function Branch({node, parentNode}: BranchProps) {
                       />
 
                       {/* move this condition to right */}
-                      {index !== node.conditionNodes!.length - 1 && (
+                      {index !== nodeCopy.conditionNodes!.length - 1 && (
                         <div className="sort-right" onClick={() => arrTransfer(index)}>
                           <RightOutlined/>
                         </div>
@@ -103,15 +117,15 @@ export default function Branch({node, parentNode}: BranchProps) {
                 {index === 0 && <div className="top-left-cover-line"/>}
                 {index === 0 && <div className="bottom-left-cover-line"/>}
 
-                {index === node.conditionNodes!.length - 1 && <div className="top-right-cover-line"/>}
-                {index === node.conditionNodes!.length - 1 && <div className="bottom-right-cover-line"/>}
+                {index === nodeCopy.conditionNodes!.length - 1 && <div className="top-right-cover-line"/>}
+                {index === nodeCopy.conditionNodes!.length - 1 && <div className="bottom-right-cover-line"/>}
               </div>
             )
           })}
 
         </div>
 
-        <AddNode parentNode={node.childNode}/>
+        <AddNode parentNode={nodeCopy.childNode}/>
       </div>
     </div>
   )

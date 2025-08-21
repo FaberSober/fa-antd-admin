@@ -19,7 +19,7 @@ export default function useNode(node: Flow.Node, onNodeChange?: (n: Flow.Node) =
   function updateNodeProps(path: keyof Flow.Node | any, value: any) {
     setNodeCopy(prev => {
       set(prev, path, value)
-      return {...prev}
+      return cloneDeep(prev)
     })
   }
 
