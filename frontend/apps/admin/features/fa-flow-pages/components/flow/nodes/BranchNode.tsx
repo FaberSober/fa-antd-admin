@@ -33,6 +33,8 @@ export default function BranchNode({node, index, onDel, conditionText, onSubmit}
 
   function addConditionList(conditionGroup) {}
 
+  function addConditionGroup() {}
+
 
   async function onFinish(fieldsValue: any) {
     try {
@@ -115,9 +117,9 @@ export default function BranchNode({node, index, onDel, conditionText, onSubmit}
                           return (
                             <div key={idx} className="condition-content">
                               <div className="condition-relation">
-                                <span>{idx == 0 ? '当' : '且'}</span>
+                                <span>{idx === 0 ? '当' : '且'}</span>
                                 <div onClick={() => deleteConditionList(conditionGroup, idx)} className="fa-normal-btn">
-                                  <DeleteOutlined/>
+                                  <DeleteOutlined />
                                 </div>
                               </div>
 
@@ -126,6 +128,7 @@ export default function BranchNode({node, index, onDel, conditionText, onSubmit}
                                   <Input value={condition.label} placeholder="描述" onChange={e => condition.label = e.target.value} />
                                   <Input value={condition.field} placeholder="条件字段" />
                                   <Select
+                                    value={condition.operator}
                                     options={[
                                       {value: '==', label: '等于'},
                                       {value: '!=', label: '不等于'},
@@ -152,6 +155,8 @@ export default function BranchNode({node, index, onDel, conditionText, onSubmit}
                   </div>
                 )
               })}
+
+              <Button onClick={() => addConditionGroup()} icon={<PlusOutlined/>} block variant="filled" color="default">添加条件组</Button>
             </div>
 
           </FaFlexRestLayout>
