@@ -3,7 +3,17 @@ html {
 }
 
 .fa-workflow-editor {
+  position: relative;
   background: var(--el-bg-color);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.fa-workflow-editor-tools {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .sc-workflow-design {
