@@ -219,7 +219,7 @@ fa:
       # 系统启动时扫描任务class并启动
       startJobsOnBoot: true
       # 是否离线状态（离线状态不加载外网的js，如：高德地图）
-      offline: false
+      offline: true
     url:
       phpRedisAdmin: ${phpRedisAdmin:http://127.0.0.1:8090}
       kkFileView: ${kkFileView:http://127.0.0.1:8091}
