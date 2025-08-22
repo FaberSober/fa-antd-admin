@@ -9,12 +9,13 @@ import BranchNode from "@features/fa-flow-pages/components/flow/nodes/BranchNode
 import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
 import FaWorkFlowContext from "@features/fa-flow-pages/components/flow/context/FaWorkFlowContext";
 import { FaArrUtils } from '@fa/ui';
+import { getNodeKey } from "@features/fa-flow-pages/components/flow/utils";
 
 
 export interface BranchProps {
   /** 流程配置节点Node JSON */
   node: Flow.Node;
-  parentNode?: Flow.Node | Flow.ConditionNode;
+  parentNode: Flow.Node | Flow.ConditionNode;
 }
 
 /**
@@ -26,6 +27,33 @@ export default function Branch({node, parentNode}: BranchProps) {
   const {nodeCopy, setNodeCopy, updateNodeProps} = useNode(node)
 
   function addTerm() {
+    let len = nodeCopy.conditionNodes!.length + 1
+    nodeCopy.conditionNodes!.push({
+      nodeName: '条件' + len,
+      nodeKey: getNodeKey(),
+      type: 3,
+      priorityLevel: len,
+      conditionList: []
+    })
+    const nodeNew = { ...nodeCopy }
+    Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
+    refreshNode();
+  }
+
+  function delTerm(index: number) {
+    nodeCopy.conditionNodes!.splice(index, 1)
+    if (nodeCopy.conditionNodes!.length == 1) { // 只剩下一个条件节点，则将剩下的条件节点的条件下属子节点，移动到当前节点的子节点
+      if (nodeCopy.childNode) {
+        if (nodeCopy.conditionNodes![0].childNode) { // 剩下的最后一个条件节点，如果有条件下属子节点，则将该子节点设置为父节点的子节点
+          parentNode.childNode = nodeCopy.conditionNodes![0].childNode
+        } else { // 剩下的最后一个条件节点，如果没有条件下属子节点，则将整个条件节点的子节点，设置为父节点的子节点
+          parentNode.childNode = nodeCopy.childNode;
+        }
+      }
+    }
+    const nodeNew = { ...nodeCopy }
+    Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
+    refreshNode();
   }
 
   /**
@@ -42,9 +70,6 @@ export default function Branch({node, parentNode}: BranchProps) {
     setNodeCopy(nodeNew)
     Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
     refreshNode();
-  }
-
-  function delTerm(index: number) {
   }
 
   function toText(nodeConfig: Flow.Node, index: number) {
@@ -70,7 +95,7 @@ export default function Branch({node, parentNode}: BranchProps) {
           <Button onClick={addTerm} shape="round" icon={<PlusOutlined/>} className="add-branch">添加条件</Button>
 
           {/* loop condition */}
-          {nodeCopy.conditionNodes && nodeCopy.conditionNodes.map((cNode, index) => {
+          {node.conditionNodes && node.conditionNodes.map((cNode, index) => {
             const conditionText = toText(nodeCopy, index);
             return (
               <div className="col-box" key={cNode.nodeKey}>
@@ -100,7 +125,7 @@ export default function Branch({node, parentNode}: BranchProps) {
                       />
 
                       {/* move this condition to right */}
-                      {index !== nodeCopy.conditionNodes!.length - 1 && (
+                      {index !== node.conditionNodes!.length - 1 && (
                         <div className="sort-right" onClick={() => arrTransfer(index)}>
                           <RightOutlined/>
                         </div>
@@ -117,15 +142,15 @@ export default function Branch({node, parentNode}: BranchProps) {
                 {index === 0 && <div className="top-left-cover-line"/>}
                 {index === 0 && <div className="bottom-left-cover-line"/>}
 
-                {index === nodeCopy.conditionNodes!.length - 1 && <div className="top-right-cover-line"/>}
-                {index === nodeCopy.conditionNodes!.length - 1 && <div className="bottom-right-cover-line"/>}
+                {index === node.conditionNodes!.length - 1 && <div className="top-right-cover-line"/>}
+                {index === node.conditionNodes!.length - 1 && <div className="bottom-right-cover-line"/>}
               </div>
             )
           })}
 
         </div>
 
-        <AddNode parentNode={nodeCopy.childNode}/>
+        <AddNode parentNode={node}/>
       </div>
     </div>
   )

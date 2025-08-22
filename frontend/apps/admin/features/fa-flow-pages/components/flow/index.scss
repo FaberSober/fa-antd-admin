@@ -157,6 +157,7 @@ html {
     border-top: 2px solid #ccc;
     position: relative;
     margin-top: 15px;
+    background: var(--el-bg-color);
   }
   .branch-box .col-box::before {
     content: '';

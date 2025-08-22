@@ -135,21 +135,21 @@ namespace Flow {
 
   export interface ConditionNode {
     /** 节点名称 */
-    nodeName?: string;
+    nodeName: string;
     /**
      * 节点 key
      * 如果为路由分支，格式 route:targetNodeKey
      */
-    nodeKey?: string;
+    nodeKey: string;
     /** 节点类型 */
-    type?: number;
+    type: number;
     /** 优先级 */
-    priorityLevel?: number;
+    priorityLevel: number;
     /**
      * 节点条件表达式列表
      * 外层 Array 为条件组或关系、内层 Array 为具体条件且关系
      */
-    conditionList?: Array<Array<NodeExpression>>;
+    conditionList: Array<Array<NodeExpression>>;
     /** 子节点 */
     childNode?: Node;
   }
