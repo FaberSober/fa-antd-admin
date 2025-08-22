@@ -6,6 +6,7 @@ import FaWorkFlowContext, { FaWorkFlowContextProps } from './context/FaWorkFlowC
 import NodeWrap from './NodeWrap';
 import { useZoomPan } from './hooks';
 import './index.scss'
+import ZoomPanEditor from "@features/fa-flow-pages/components/flow/cubes/ZoomPanEditor";
 
 
 export interface FaWorkFlowProps {
@@ -60,30 +61,18 @@ export default function FaWorkFlow({ processModel, onChange }: FaWorkFlowProps) 
 
   return (
     <FaWorkFlowContext.Provider value={contextValue}>
-      <div ref={containerRef} className="fa-workflow-editor-container">
-        <div
-          ref={contentRef}
-          id="fa-workflow-editor"
-          className="fa-workflow-editor"
-          style={transform}
-        >
-          <div className="sc-workflow-design">
-            <div className="box-scale">
-              <NodeWrap node={processModel.nodeConfig}/>
+      <ZoomPanEditor>
+        <div className="sc-workflow-design">
+          <div className="box-scale">
+            <NodeWrap node={processModel.nodeConfig}/>
 
-              <div className="end-node">
-                <div className="end-node-circle"></div>
-                <div className="end-node-text">流程结束</div>
-              </div>
+            <div className="end-node">
+              <div className="end-node-circle"></div>
+              <div className="end-node-text">流程结束</div>
             </div>
           </div>
         </div>
-
-        <div className="fa-workflow-editor-tools">
-          <p>缩放比例: {zoom.toFixed(2)}</p>
-          <Button onClick={resetView}>复位</Button>
-        </div>
-      </div>
+      </ZoomPanEditor>
     </FaWorkFlowContext.Provider>
   )
 }
