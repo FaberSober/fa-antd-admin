@@ -44,7 +44,7 @@ export default defineConfig(({ mode }) => {
           { dir: 'src/pages', baseRoute: '' },
           { dir: 'features/*/pages', baseRoute: '' },
         ],
-        exclude: ['**/components/*.tsx', '**/modal/*.tsx', '**/cube/*.tsx', '**/drawer/*.tsx', '**/helper/*.tsx', '**/context/*.tsx'],
+        exclude: ['**/components/*.tsx', '**/modal/*.tsx', '**/cube/*.tsx', '**/drawer/*.tsx', '**/helper/*.tsx', '**/context/*.tsx', '**/*.ts'],
       }),
       // visualizer({
       //   open: true, //注意这里要设置为true，否则无效

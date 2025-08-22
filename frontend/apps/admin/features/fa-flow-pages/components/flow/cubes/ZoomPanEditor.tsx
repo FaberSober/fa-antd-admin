@@ -1,15 +1,20 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import './ZoomPanEditor.scss'
+import { QuestionCircleOutlined } from "@ant-design/icons";
+import { Popover } from "antd";
 
 interface ZoomPanEditorProps {
   children: React.ReactNode;
   miniMapWidth?: number;
   miniMapHeight?: number;
+  toolbar?: React.ReactNode;
 }
 
 export default function ZoomPanEditor({
                                         children,
                                         miniMapWidth = 200,
                                         miniMapHeight = 150,
+                                        toolbar,
                                       }: ZoomPanEditorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -115,70 +120,73 @@ export default function ZoomPanEditor({
   const viewportRect = getViewportRect();
 
   return (
-    <div
-      ref={containerRef}
-      style={{
-        position: "relative",
-        width: '100%',
-        height: '100%',
-        // border: "1px solid #ccc",
-        overflow: "hidden",
-        background: "var(--el-bg-color)",
-      }}
-      onWheel={handleWheel}
-      onMouseDown={handleMouseDown}
-    >
+    <div className="fa-relative">
       <div
-        ref={contentRef}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})`,
-          transformOrigin: "0 0",
-        }}
-      >
-        {children}
-      </div>
-
-      {/* 小地图 */}
-      <div
-        style={{
-          position: "absolute",
-          right: 10,
-          bottom: 10,
-          width: miniMapWidth,
-          height: miniMapHeight,
-          border: "1px solid #666",
-          background: "#fff",
-          overflow: "hidden",
-        }}
+        ref={containerRef}
+        className="fa-zoom-pan-editor-container"
+        onWheel={handleWheel}
+        onMouseDown={handleMouseDown}
       >
         <div
+          ref={contentRef}
           style={{
             position: "absolute",
-            width: "100%",
-            height: "100%",
-            transform: "scale(0.1)", // 小地图内容缩放
-            transformOrigin: "top left",
+            top: 0,
+            left: 0,
+            transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})`,
+            transformOrigin: "0 0",
           }}
         >
           {children}
         </div>
-        {/* 红框 */}
+
+        {/* 小地图 */}
         <div
-          onMouseDown={handleMiniMapMouseDown}
+          className="fa-zoom-pan-editor-minimap"
           style={{
-            position: "absolute",
-            border: "2px solid red",
-            left: viewportRect.x,
-            top: viewportRect.y,
-            width: viewportRect.w,
-            height: viewportRect.h,
-            cursor: "move",
-            boxSizing: "border-box",
+            width: miniMapWidth,
+            height: miniMapHeight,
           }}
-        />
+        >
+          <div
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              transform: "scale(0.1)", // 小地图内容缩放
+              transformOrigin: "top left",
+            }}
+          >
+            {children}
+          </div>
+          {/* 红框 */}
+          <div
+            onMouseDown={handleMiniMapMouseDown}
+            style={{
+              position: "absolute",
+              border: "2px solid red",
+              left: viewportRect.x,
+              top: viewportRect.y,
+              width: viewportRect.w,
+              height: viewportRect.h,
+              cursor: "move",
+              boxSizing: "border-box",
+            }}
+          />
+        </div>
+      </div>
+
+      <div className="fa-zoom-pan-editor-toolbar">
+        {toolbar}
+        <Popover
+          content={(
+            <div>
+
+            </div>
+          )}
+        >
+          <QuestionCircleOutlined />
+        </Popover>
       </div>
     </div>
   );

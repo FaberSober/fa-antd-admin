@@ -1,0 +1,27 @@
+.fa-zoom-pan-editor-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--el-bg-color);
+}
+
+.fa-zoom-pan-editor-minimap {
+  position: absolute;
+  right: 10;
+  bottom: 10;
+  width: miniMapWidth;
+  height: miniMapHeight;
+  border: "1px solid #666";
+  background: "#fff";
+  overflow: "hidden";
+}
+
+.fa-zoom-pan-editor-toolbar {
+  position: absolute;
+  top: 10;
+  right: 10;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
