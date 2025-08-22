@@ -8,8 +8,8 @@
 
 .fa-zoom-pan-editor-minimap {
   position: absolute;
-  right: 10;
-  bottom: 10;
+  right: 10px;
+  bottom: 10px;
   width: miniMapWidth;
   height: miniMapHeight;
   border: "1px solid #666";
@@ -19,8 +19,8 @@
 
 .fa-zoom-pan-editor-toolbar {
   position: absolute;
-  top: 10;
-  right: 10;
+  top: 10px;
+  right: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;

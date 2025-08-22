@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import './ZoomPanEditor.scss'
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { Popover } from "antd";
+import { Button, Popover, Space } from "antd";
 
 interface ZoomPanEditorProps {
   children: React.ReactNode;
@@ -120,74 +120,79 @@ export default function ZoomPanEditor({
   const viewportRect = getViewportRect();
 
   return (
-    <div className="fa-relative">
-      <div
-        ref={containerRef}
-        className="fa-zoom-pan-editor-container"
-        onWheel={handleWheel}
-        onMouseDown={handleMouseDown}
-      >
+    <div className="fa-full fa-relative">
+      <div className="fa-full-content">
         <div
-          ref={contentRef}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})`,
-            transformOrigin: "0 0",
-          }}
-        >
-          {children}
-        </div>
-
-        {/* 小地图 */}
-        <div
-          className="fa-zoom-pan-editor-minimap"
-          style={{
-            width: miniMapWidth,
-            height: miniMapHeight,
-          }}
+          ref={containerRef}
+          className="fa-zoom-pan-editor-container"
+          onWheelCapture={handleWheel}
+          onMouseDown={handleMouseDown}
         >
           <div
+            ref={contentRef}
             style={{
               position: "absolute",
-              width: "100%",
-              height: "100%",
-              transform: "scale(0.1)", // 小地图内容缩放
-              transformOrigin: "top left",
+              top: 0,
+              left: 0,
+              transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})`,
+              transformOrigin: "0 0",
             }}
           >
             {children}
           </div>
-          {/* 红框 */}
+
+          {/* 小地图 */}
           <div
-            onMouseDown={handleMiniMapMouseDown}
+            className="fa-zoom-pan-editor-minimap"
             style={{
-              position: "absolute",
-              border: "2px solid red",
-              left: viewportRect.x,
-              top: viewportRect.y,
-              width: viewportRect.w,
-              height: viewportRect.h,
-              cursor: "move",
-              boxSizing: "border-box",
+              width: miniMapWidth,
+              height: miniMapHeight,
             }}
-          />
+          >
+            <div
+              style={{
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                transform: "scale(0.1)", // 小地图内容缩放
+                transformOrigin: "top left",
+              }}
+            >
+              {children}
+            </div>
+            {/* 红框 */}
+            <div
+              onMouseDown={handleMiniMapMouseDown}
+              style={{
+                position: "absolute",
+                border: "2px solid red",
+                left: viewportRect.x,
+                top: viewportRect.y,
+                width: viewportRect.w,
+                height: viewportRect.h,
+                cursor: "move",
+                boxSizing: "border-box",
+              }}
+            />
+          </div>
         </div>
       </div>
 
-      <div className="fa-zoom-pan-editor-toolbar">
+      <Space className="fa-zoom-pan-editor-toolbar">
         {toolbar}
+        <Button >重置</Button>
         <Popover
           content={(
-            <div>
-
-            </div>
+            <ol>
+              <li>鼠标滚动缩放</li>
+              <li>按住Shift，按住鼠标左键拖动</li>
+            </ol>
           )}
+          placement="leftTop"
         >
-          <QuestionCircleOutlined />
+          <QuestionCircleOutlined/>
         </Popover>
-      </div>
+      </Space>
     </div>
   );
 };
