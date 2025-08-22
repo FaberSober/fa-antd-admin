@@ -2,6 +2,10 @@ html {
   --el-bg-color: #efefef;
 }
 
+.fa-workflow-editor {
+  background: var(--el-bg-color);
+}
+
 .sc-workflow-design {
   width: 100%;
   background: var(--el-bg-color);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Flow } from "@features/fa-flow-pages/types";
 import NodeWrap from './NodeWrap';
 import './index.scss'
@@ -18,6 +18,28 @@ export interface FaWorkFlowProps {
  * @date 2025/8/19 17:34
  */
 export default function FaWorkFlow({ processModel, onChange }: FaWorkFlowProps) {
+  const [zoom, setZoom] = useState<number>(1)
+
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      if (e.target instanceof Element && document.getElementById('fa-workflow-editor')?.contains(e.target)) {
+        e.preventDefault();
+        const delta = e.deltaY > 0 ? -0.1 : 0.1;
+        setZoom(prevZoom => Math.min(Math.max(prevZoom + delta, 0.1), 2));
+      }
+    };
+
+    const editorElement = document.getElementById('fa-workflow-editor');
+    if (editorElement) {
+      editorElement.addEventListener('wheel', handleWheel, { passive: false });
+    }
+
+    return () => {
+      if (editorElement) {
+        editorElement.removeEventListener('wheel', handleWheel);
+      }
+    };
+  }, []);
 
   function updateProcessModel(v: Flow.ProcessModel) {
     if (onChange) onChange(v)
@@ -53,13 +75,15 @@ export default function FaWorkFlow({ processModel, onChange }: FaWorkFlowProps) 
 
   return (
     <FaWorkFlowContext.Provider value={contextValue}>
-      <div className="sc-workflow-design">
-        <div className="box-scale">
-          <NodeWrap node={processModel.nodeConfig}/>
+      <div id="fa-workflow-editor" className="fa-workflow-editor" style={{ transformOrigin: '0 0', transform: `scale(${zoom})` }}>
+        <div className="sc-workflow-design">
+          <div className="box-scale">
+            <NodeWrap node={processModel.nodeConfig}/>
 
-          <div className="end-node">
-            <div className="end-node-circle"></div>
-            <div className="end-node-text">流程结束</div>
+            <div className="end-node">
+              <div className="end-node-circle"></div>
+              <div className="end-node-text">流程结束</div>
+            </div>
           </div>
         </div>
       </div>
