@@ -1,10 +1,8 @@
 import React from 'react';
 import { Flow } from "@features/fa-flow-pages/types";
-import { Button } from "antd";
 import { cloneDeep } from "lodash";
 import FaWorkFlowContext, { FaWorkFlowContextProps } from './context/FaWorkFlowContext';
 import NodeWrap from './NodeWrap';
-import { useZoomPan } from './hooks';
 import './index.scss'
 import ZoomPanEditor from "@features/fa-flow-pages/components/flow/cubes/ZoomPanEditor";
 
@@ -20,13 +18,7 @@ export interface FaWorkFlowProps {
  * @author xu.pengfei
  * @date 2025/8/19 17:34
  */
-export default function FaWorkFlow({ processModel, onChange }: FaWorkFlowProps) {
-  const { containerRef, contentRef, zoom, transform, resetView } = useZoomPan({
-    minZoom: 0.1,
-    maxZoom: 2,
-    step: 0.1,
-  });
-
+export default function FaWorkFlow({processModel, onChange}: FaWorkFlowProps) {
   function updateProcessModel(v: Flow.ProcessModel) {
     if (onChange) onChange(v)
   }

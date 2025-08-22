@@ -96,7 +96,7 @@ export default function Branch({node, parentNode}: BranchProps) {
 
           {/* loop condition */}
           {node.conditionNodes && node.conditionNodes.map((cNode, index) => {
-            const conditionText = toText(nodeCopy, index);
+            const conditionText = toText(node, index);
             return (
               <div className="col-box" key={cNode.nodeKey}>
                 <div className="condition-node">

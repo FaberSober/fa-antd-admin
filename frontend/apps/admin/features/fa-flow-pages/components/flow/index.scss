@@ -29,6 +29,7 @@ html {
   background: var(--el-bg-color);
   font-size: 14px;
   line-height: 18px;
+  user-select: none;
 }
 .sc-workflow-design .box-scale {
   display: inline-block;
