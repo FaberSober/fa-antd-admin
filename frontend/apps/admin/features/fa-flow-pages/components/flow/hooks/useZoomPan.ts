@@ -1,93 +1,143 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
-/**
- *
- * @param minZoom
- * @param maxZoom
- * @param step
- */
-export default function useZoomPan(minZoom = 0.1, maxZoom = 2, step = 0.1) {
-  const [zoom, setZoom] = useState(1);
-  const [translate, setTranslate] = useState({ x: 0, y: 0 });
-  const containerRef = useRef<HTMLDivElement>(null);
+interface ZoomPanOptions {
+  minZoom?: number;
+  maxZoom?: number;
+  step?: number;
+  initialZoom?: number;
+}
 
-  const isDragging = useRef(false);
-  const lastPos = useRef({ x: 0, y: 0 });
-  const isSpacePressed = useRef(false); // 记录空格是否按下
+export default function useZoomPan(options: ZoomPanOptions = {}) {
+  const {
+    minZoom = 0.1,
+    maxZoom = 2,
+    step = 0.1,
+    initialZoom = 1,
+  } = options;
 
-  /** 滚轮缩放（支持 Ctrl+滚轮） */
-  const handleWheel = useCallback(
-    (e: React.WheelEvent) => {
-      // Ctrl + 滚轮才缩放（避免页面整体缩放）
-      if (!e.ctrlKey) return;
-      e.preventDefault();
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
 
-      const scaleDelta = e.deltaY > 0 ? -step : step;
-      const newZoom = Math.min(Math.max(zoom + scaleDelta, minZoom), maxZoom);
+  const [zoom, setZoom] = useState(initialZoom);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
-      if (!containerRef.current) return;
+  const isPanning = useRef(false);
+  const lastMousePos = useRef({ x: 0, y: 0 });
+  const spacePressed = useRef(false);
 
-      const rect = containerRef.current.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
+  // ====== Zoom handling ======
+  const zoomTo = useCallback(
+    (delta: number, centerX: number, centerY: number) => {
+      setZoom((prevZoom) => {
+        const newZoom = Math.min(Math.max(prevZoom + delta, minZoom), maxZoom);
 
-      const ratio = newZoom / zoom;
-      const newTranslate = {
-        x: mouseX - ratio * (mouseX - translate.x),
-        y: mouseY - ratio * (mouseY - translate.y),
-      };
+        if (contentRef.current) {
+          const rect = contentRef.current.getBoundingClientRect();
 
-      setZoom(newZoom);
-      setTranslate(newTranslate);
+          // 计算缩放中心偏移
+          const offsetX = (centerX - rect.left) / prevZoom;
+          const offsetY = (centerY - rect.top) / prevZoom;
+
+          setPosition((prev) => ({
+            x: prev.x - offsetX * (newZoom - prevZoom),
+            y: prev.y - offsetY * (newZoom - prevZoom),
+          }));
+        }
+
+        return newZoom;
+      });
     },
-    [zoom, translate, minZoom, maxZoom, step]
+    [minZoom, maxZoom]
   );
 
-  /** 鼠标按下（右键拖动 / 空格+左键拖动） */
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    if (e.button === 2 || (isSpacePressed.current && e.button === 0)) {
-      e.preventDefault();
-      isDragging.current = true;
-      lastPos.current = { x: e.clientX, y: e.clientY };
+  // ====== Reset handling (双击复位) ======
+  const resetView = useCallback(() => {
+    setZoom(1);
+    if (containerRef.current && contentRef.current) {
+      const container = containerRef.current.getBoundingClientRect();
+      const content = contentRef.current.getBoundingClientRect();
+
+      const centerX = (container.width - content.width) / 2;
+      const centerY = (container.height - content.height) / 2;
+
+      setPosition({ x: centerX, y: centerY });
+    } else {
+      setPosition({ x: 0, y: 0 });
     }
   }, []);
 
-  /** 鼠标移动（拖动逻辑） */
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (isDragging.current) {
-      const dx = e.clientX - lastPos.current.x;
-      const dy = e.clientY - lastPos.current.y;
+  // ====== Mouse wheel ======
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
 
-      setTranslate((prev) => ({
-        x: prev.x + dx,
-        y: prev.y + dy,
-      }));
+    const handleWheel = (e: WheelEvent) => {
+      if (e.ctrlKey) {
+        e.preventDefault();
+        const delta = e.deltaY > 0 ? -step : step;
+        zoomTo(delta, e.clientX, e.clientY);
+      }
+    };
 
-      lastPos.current = { x: e.clientX, y: e.clientY };
-    }
+    container.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+    };
+  }, [zoomTo, step]);
+
+  // ====== Mouse drag ======
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleMouseDown = (e: MouseEvent) => {
+      if (e.button === 1 || (spacePressed.current && e.button === 0)) {
+        isPanning.current = true;
+        lastMousePos.current = { x: e.clientX, y: e.clientY };
+        e.preventDefault();
+      }
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isPanning.current) return;
+      const dx = e.clientX - lastMousePos.current.x;
+      const dy = e.clientY - lastMousePos.current.y;
+      setPosition((prev) => ({ x: prev.x + dx, y: prev.y + dy }));
+      lastMousePos.current = { x: e.clientX, y: e.clientY };
+    };
+
+    const handleMouseUp = () => {
+      isPanning.current = false;
+    };
+
+    container.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      container.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
   }, []);
 
-  const handleMouseUp = useCallback(() => {
-    isDragging.current = false;
-  }, []);
-
-  /** 监听键盘事件（+ / - 缩放, 空格控制拖动模式） */
+  // ====== Keyboard ======
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.code === "Space") {
-        isSpacePressed.current = true;
+        spacePressed.current = true;
       }
       if (e.key === "+") {
-        setZoom((z) => Math.min(z + step, maxZoom));
+        zoomTo(step, window.innerWidth / 2, window.innerHeight / 2);
       }
       if (e.key === "-") {
-        setZoom((z) => Math.max(z - step, minZoom));
+        zoomTo(-step, window.innerWidth / 2, window.innerHeight / 2);
       }
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
       if (e.code === "Space") {
-        isSpacePressed.current = false;
+        spacePressed.current = false;
       }
     };
 
@@ -98,20 +148,28 @@ export default function useZoomPan(minZoom = 0.1, maxZoom = 2, step = 0.1) {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [minZoom, maxZoom, step]);
+  }, [zoomTo, step]);
 
-  return {
-    zoom,
-    translate,
-    containerRef,
-    eventHandlers: {
-      onWheel: handleWheel,
-      onMouseDown: handleMouseDown,
-      onMouseMove: handleMouseMove,
-      onMouseUp: handleMouseUp,
-      onContextMenu: (e: React.MouseEvent) => e.preventDefault(),
-    },
-    setZoom,
-    setTranslate,
+  // ====== Double click reset ======
+  useEffect(() => {
+    const content = contentRef.current;
+    if (!content) return;
+
+    const handleDblClick = (e: MouseEvent) => {
+      e.preventDefault();
+      resetView();
+    };
+
+    content.addEventListener("dblclick", handleDblClick);
+    return () => {
+      content.removeEventListener("dblclick", handleDblClick);
+    };
+  }, [resetView]);
+
+  const transform = {
+    transform: `translate(${position.x}px, ${position.y}px) scale(${zoom})`,
+    transformOrigin: "0 0",
   };
+
+  return { containerRef, contentRef, zoom, position, transform, resetView };
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Flow } from "@features/fa-flow-pages/types";
+import { Button } from "antd";
 import { cloneDeep } from "lodash";
 import FaWorkFlowContext, { FaWorkFlowContextProps } from './context/FaWorkFlowContext';
 import NodeWrap from './NodeWrap';
@@ -19,7 +20,11 @@ export interface FaWorkFlowProps {
  * @date 2025/8/19 17:34
  */
 export default function FaWorkFlow({ processModel, onChange }: FaWorkFlowProps) {
-  const { zoom, translate, containerRef, eventHandlers } = useZoomPan(0.1, 2, 0.1);
+  const { containerRef, contentRef, zoom, transform, resetView } = useZoomPan({
+    minZoom: 0.1,
+    maxZoom: 2,
+    step: 0.1,
+  });
 
   function updateProcessModel(v: Flow.ProcessModel) {
     if (onChange) onChange(v)
@@ -55,15 +60,12 @@ export default function FaWorkFlow({ processModel, onChange }: FaWorkFlowProps) 
 
   return (
     <FaWorkFlowContext.Provider value={contextValue}>
-      <div className="fa-workflow-editor" {...eventHandlers}>
+      <div ref={containerRef} className="fa-workflow-editor-container">
         <div
-          ref={containerRef}
+          ref={contentRef}
           id="fa-workflow-editor"
           className="fa-workflow-editor"
-          style={{
-            transformOrigin: "0 0",
-            transform: `translate(${translate.x}px, ${translate.y}px) scale(${zoom})`,
-          }}
+          style={transform}
         >
           <div className="sc-workflow-design">
             <div className="box-scale">
@@ -79,8 +81,7 @@ export default function FaWorkFlow({ processModel, onChange }: FaWorkFlowProps) 
 
         <div className="fa-workflow-editor-tools">
           <p>缩放比例: {zoom.toFixed(2)}</p>
-          <p>滚轮 ↑ 放大，滚轮 ↓ 缩小</p>
-          <p>右键拖动画布</p>
+          <Button onClick={resetView}>复位</Button>
         </div>
       </div>
     </FaWorkFlowContext.Provider>
