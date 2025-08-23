@@ -102,7 +102,7 @@ export default function FlowProcessList({ catagoryId }: FlowProcessListProps) {
             <FaHref icon={<CopyOutlined />} tooltip="复制" />
 
             <BaseDrawer triggerDom={<FaHref tooltip="查看" icon={<EyeOutlined />} />}>
-              {/* <FlowProcessView item={r} /> */}
+              <FlowProcessEdit item={r} />
             </BaseDrawer>
 
             {r.processState === 1 && <FaHref icon={<CloseCircleOutlined />} tooltip="停用" color="red" onClick={() => handleDeactive(r.id)} />}

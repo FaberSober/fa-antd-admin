@@ -26,9 +26,26 @@ export default function ZoomPanEditor({
   const dragStart = useRef({x: 0, y: 0, offsetX: 0, offsetY: 0});
 
   const [isDraggingMiniMap, setIsDraggingMiniMap] = useState(false);
+  const [isSpacePressed, setIsSpacePressed] = useState(false);
+
+  /** ========== 键盘事件监听空格键 ========== */
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.code === 'Space') {
+      e.preventDefault();
+      setIsSpacePressed(true);
+    }
+  }, []);
+
+  const handleKeyUp = useCallback((e: KeyboardEvent) => {
+    if (e.code === 'Space') {
+      e.preventDefault();
+      setIsSpacePressed(false);
+      setIsDragging(false); // 释放空格键时停止拖动
+    }
+  }, []);
 
   /** ========== 主画布滚轮缩放 ========== */
-  const handleWheel = useCallback((e: WheelEvent) => {
+  const handleWheel = useCallback((e: React.WheelEvent) => {
     if (!containerRef.current) return;
     e.preventDefault();
 
@@ -49,9 +66,11 @@ export default function ZoomPanEditor({
 
   /** ========== 主画布拖动 ========== */
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.button !== 1 && !(e.button === 0 && e.shiftKey)) return;
-    setIsDragging(true);
-    dragStart.current = {x: e.clientX, y: e.clientY, offsetX: offset.x, offsetY: offset.y};
+    // 只有在按住空格键时才允许拖动
+    if (e.button === 0 && isSpacePressed) {
+      setIsDragging(true);
+      dragStart.current = {x: e.clientX, y: e.clientY, offsetX: offset.x, offsetY: offset.y};
+    }
   };
 
   const handleMouseMove = (e: MouseEvent) => {
@@ -89,11 +108,15 @@ export default function ZoomPanEditor({
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [isDragging, isDraggingMiniMap]);
+  }, [isDragging, isDraggingMiniMap, handleKeyDown, handleKeyUp]);
 
   /** ========== 小地图红框拖动 ========== */
   const handleMiniMapMouseDown = (e: React.MouseEvent) => {
@@ -185,7 +208,7 @@ export default function ZoomPanEditor({
           content={(
             <ol>
               <li>鼠标滚动缩放</li>
-              <li>按住Shift，按住鼠标左键拖动</li>
+              <li>按住空格键，按住鼠标左键拖动</li>
             </ol>
           )}
           placement="leftTop"
