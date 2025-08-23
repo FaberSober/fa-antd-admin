@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DownloadOutlined, EyeOutlined, SearchOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Space } from 'antd';
 import { AuthDelBtn, BaseBizTable, BaseDrawer, BaseTableUtils, clearForm, FaberTable, FaHref, useDelete, useDeleteByQuery, useExport, useTableQueryParams } from '@fa/ui';
@@ -10,14 +10,23 @@ import FlowProcessModal from '../modal/FlowProcessModal';
 const serviceName = '流程定义';
 const biz = 'flow_process';
 
+interface FlowProcessListProps {
+  catagoryId?: number;
+}
+
 /**
  * FLOW-流程定义表格查询
  */
-export default function FlowProcessList() {
+export default function FlowProcessList({ catagoryId }: FlowProcessListProps) {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, paginationProps } =
-          useTableQueryParams<Flow.FlowProcess>(api.page, {}, serviceName)
+  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, setExtraParams, fetchPageList, loading, list, paginationProps } =
+          useTableQueryParams<Flow.FlowProcess>(api.page, { extraParams: {catagoryId} }, serviceName)
+
+  // Refresh list when catagoryId changes
+  useEffect(() => {
+    setExtraParams({ catagoryId });
+  }, [catagoryId]);
 
   const [handleDelete] = useDelete<number>(api.remove, fetchPageList, serviceName)
   const [exporting, fetchExportExcel] = useExport(api.exportExcel, queryParams)

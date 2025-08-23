@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.annotation.SqlEquals;
+import com.faber.core.annotation.SqlSearch;
 import com.faber.core.bean.BaseDelEntity;
 import lombok.Data;
 
@@ -34,9 +35,11 @@ public class FlowProcess extends BaseDelEntity {
     @ExcelProperty("流程分类ID")
     private Integer catagoryId;
 
+    @SqlSearch
     @ExcelProperty("流程定义 key 唯一标识")
     private String processKey;
 
+    @SqlSearch
     @ExcelProperty("名称")
     private String processName;
 

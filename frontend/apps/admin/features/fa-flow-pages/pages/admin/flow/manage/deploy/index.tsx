@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Allotment } from "allotment";
 import { BaseTree } from "@fa/ui";
 import { flowCatagoryApi } from "@features/fa-flow-pages/services";
-import type { Admin } from "@features/fa-admin-pages/types";
+import { Flow } from '@features/fa-flow-pages/types';
 import FlowCatagoryModal from "./modal/FlowCatagoryModal";
 import FlowProcessList from './cube/FlowProcessList';
 
@@ -12,7 +12,7 @@ import FlowProcessList from './cube/FlowProcessList';
  * @date 2025/8/22 16:43
  */
 export default function FlowDeployPage() {
-  const [viewRecord, setViewRecord] = useState<Admin.Department>();
+  const [viewRecord, setViewRecord] = useState<Flow.FlowCatagory>();
 
   function onTreeSelect(keys: any[], event: any) {
     setViewRecord(keys.length > 0 ? event.node.sourceData : undefined);
@@ -42,7 +42,7 @@ export default function FlowDeployPage() {
 
         {/* 右侧面板 */}
         <div className="fa-flex-column fa-full">
-          <FlowProcessList />
+          <FlowProcessList catagoryId={viewRecord?.id} />
         </div>
       </Allotment>
     </div>
