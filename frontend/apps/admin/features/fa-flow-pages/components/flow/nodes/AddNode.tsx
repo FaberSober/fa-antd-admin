@@ -1,17 +1,17 @@
 import React, { useContext } from 'react';
-import { Flow, FlowEnums } from "@features/fa-flow-pages/types";
+import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
 import { Button, Popover } from 'antd';
 import { PlusOutlined } from "@ant-design/icons";
 import { FaIcon } from "@fa/icons";
 import { getNodeKey } from "@features/fa-flow-pages/components/flow/utils";
 import FaWorkFlowContext from "@features/fa-flow-pages/components/flow/context/FaWorkFlowContext";
 
-const NodeType = FlowEnums.NodeType
-const NodeSetType = FlowEnums.NodeSetType
+const NodeType = FlwEnums.NodeType
+const NodeSetType = FlwEnums.NodeSetType
 
 export interface AddNodeProps {
   /** 流程配置节点Node JSON */
-  parentNode: Flow.Node | Flow.ConditionNode;
+  parentNode: Flw.Node | Flw.ConditionNode;
 }
 
 /**
@@ -21,8 +21,8 @@ export interface AddNodeProps {
 export default function AddNode({parentNode}: AddNodeProps) {
   const {refreshNode} = useContext(FaWorkFlowContext)
 
-  function addType(type: FlowEnums.NodeType) {
-    let node: Flow.Node;
+  function addType(type: FlwEnums.NodeType) {
+    let node: Flw.Node;
     switch (type) {
       case NodeType.approval: {
         node = {
@@ -89,15 +89,15 @@ export default function AddNode({parentNode}: AddNodeProps) {
         <Popover
           content={(
             <div className="add-node-popover-body fa-flex-row">
-              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlowEnums.NodeType.approval)}>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.approval)}>
                 <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#ff943e'}} />} />
                 <div>审批节点</div>
               </div>
-              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlowEnums.NodeType.cc)}>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.cc)}>
                 <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#3296fa'}} />} />
                 <div>抄送节点</div>
               </div>
-              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlowEnums.NodeType.conditionBranch)}>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.conditionBranch)}>
                 <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#15BC83'}} />} />
                 <div>条件分支</div>
               </div>

@@ -1,13 +1,13 @@
 import React from 'react';
-import { Flow, FlowEnums } from "@features/fa-flow-pages/types";
+import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
 import { Approver, Branch, Promoter, Send } from "./nodes";
 import { isNil } from "lodash";
 
 
 export interface NodeWrapProps {
   /** 流程配置节点Node JSON */
-  node?: Flow.Node;
-  parentNode?: Flow.Node | Flow.ConditionNode;
+  node?: Flw.Node;
+  parentNode?: Flw.Node | Flw.ConditionNode;
 }
 
 /**
@@ -18,10 +18,10 @@ export default function NodeWrap({ node, parentNode }: NodeWrapProps) {
   if (isNil(node)) return null;
   return (
     <div>
-      {node.type === FlowEnums.NodeType.major && <Promoter node={node} />}
-      {node.type === FlowEnums.NodeType.approval && <Approver node={node} parentNode={parentNode} />}
-      {node.type === FlowEnums.NodeType.cc && <Send node={node} parentNode={parentNode} />}
-      {node.type === FlowEnums.NodeType.conditionBranch && <Branch node={node} parentNode={parentNode} />}
+      {node.type === FlwEnums.NodeType.major && <Promoter node={node} />}
+      {node.type === FlwEnums.NodeType.approval && <Approver node={node} parentNode={parentNode} />}
+      {node.type === FlwEnums.NodeType.cc && <Send node={node} parentNode={parentNode} />}
+      {node.type === FlwEnums.NodeType.conditionBranch && <Branch node={node} parentNode={parentNode} />}
 
       {node.childNode && <NodeWrap node={node.childNode} parentNode={node} />}
     </div>

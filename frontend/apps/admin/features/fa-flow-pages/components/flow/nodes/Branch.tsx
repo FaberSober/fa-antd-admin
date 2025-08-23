@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Flow } from "@features/fa-flow-pages/types";
+import { Flw } from "@features/fa-flow-pages/types";
 import { Button } from "antd";
 import { LeftOutlined, PlusOutlined, RightOutlined } from "@ant-design/icons";
 import AddNode from './AddNode';
@@ -14,8 +14,8 @@ import { getNodeKey } from "@features/fa-flow-pages/components/flow/utils";
 
 export interface BranchProps {
   /** 流程配置节点Node JSON */
-  node: Flow.Node;
-  parentNode: Flow.Node | Flow.ConditionNode;
+  node: Flw.Node;
+  parentNode: Flw.Node | Flw.ConditionNode;
 }
 
 /**
@@ -72,7 +72,7 @@ export default function Branch({node, parentNode}: BranchProps) {
     refreshNode();
   }
 
-  function toText(nodeConfig: Flow.Node, index: number) {
+  function toText(nodeConfig: Flw.Node, index: number) {
     const {conditionList} = nodeConfig.conditionNodes![index]
     if (conditionList && conditionList.length === 1) {
       const text = conditionList.map((conditionGroup) => conditionGroup.map((item) => `${item.label}${item.operator}${item.value}`)).join(' 和 ')

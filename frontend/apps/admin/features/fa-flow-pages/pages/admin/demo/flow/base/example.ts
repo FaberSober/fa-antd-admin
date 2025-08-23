@@ -1,6 +1,6 @@
-import { Flow } from "@features/fa-flow-pages/types";
+import { Flw } from "@features/fa-flow-pages/types";
 
-export const DEMO_FLOW_CONFIG: Flow.ProcessModel = {
+export const DEMO_FLOW_CONFIG: Flw.ProcessModel = {
   name: '请假审批',
   key: 'k0001',
   nodeConfig: {

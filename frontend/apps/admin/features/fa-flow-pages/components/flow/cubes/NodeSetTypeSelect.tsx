@@ -1,8 +1,8 @@
 import React from 'react';
 import { Select, SelectProps } from "antd";
-import { FlowEnums } from "@features/fa-flow-pages/types";
+import { FlwEnums } from "@features/fa-flow-pages/types";
 
-const {NodeSetType, NodeSetTypeMap} = FlowEnums;
+const {NodeSetType, NodeSetTypeMap} = FlwEnums;
 
 export interface NodeSetTypeSelectProps extends SelectProps {
 }

@@ -1,7 +1,7 @@
 import React, { useContext, useMemo, useState } from 'react';
 import { Button, Form, Input, Space } from "antd";
 import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
-import { Flow } from "@features/fa-flow-pages/types";
+import { Flw } from "@features/fa-flow-pages/types";
 import { FaIcon } from '@fa/icons';
 import { BaseDrawer, FaFlexRestLayout, useOpen } from "@fa/ui";
 import AddNode from './AddNode';
@@ -13,7 +13,7 @@ import { rbacRoleApi } from "@features/fa-admin-pages/services";
 
 export interface PromoterProps {
   /** 流程配置节点Node JSON */
-  node: Flow.Node;
+  node: Flw.Node;
 }
 
 /**

@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from 'react';
-import { Flow } from "@features/fa-flow-pages/types";
+import { Flw } from "@features/fa-flow-pages/types";
 import { NodeCloseBtn } from "@features/fa-flow-pages/components/flow/cubes";
 import { Button, Form, Input, Select, Space } from "antd";
 import { BaseDrawer, FaFlexRestLayout, FaArrUtils, useOpen } from "@fa/ui";
@@ -8,11 +8,11 @@ import { DeleteOutlined, PlusOutlined, RollbackOutlined, SaveOutlined } from "@a
 
 
 export interface BranchNodeProps {
-  node: Flow.ConditionNode;
+  node: Flw.ConditionNode;
   index: number;
   onDel?: () => void;
   conditionText: string | ReactNode;
-  onSubmit?: (cn: Flow.ConditionNode) => void;
+  onSubmit?: (cn: Flw.ConditionNode) => void;
 }
 
 /**

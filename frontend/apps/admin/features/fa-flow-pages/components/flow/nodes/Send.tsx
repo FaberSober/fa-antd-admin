@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useState } from 'react';
-import { Flow } from "@features/fa-flow-pages/types";
+import { Flw } from "@features/fa-flow-pages/types";
 import { FaIcon } from "@fa/icons";
 import { Button, Form, Input, Space } from "antd";
 import { BaseDrawer, FaFlexRestLayout, useOpen, UserSearchSelect } from '@fa/ui';
@@ -13,8 +13,8 @@ import { userApi } from "@features/fa-admin-pages/services";
 
 export interface SendProps {
   /** 流程配置节点Node JSON */
-  node: Flow.Node;
-  parentNode?: Flow.Node | Flow.ConditionNode;
+  node: Flw.Node;
+  parentNode?: Flw.Node | Flw.ConditionNode;
 }
 
 /**

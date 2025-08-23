@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useState } from 'react';
-import { Flow, FlowEnums } from "@features/fa-flow-pages/types";
+import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
 import { FaIcon } from "@fa/icons";
 import { Button, Checkbox, Divider, Form, Input, InputNumber, Radio, Space } from "antd";
 import AddNode from "@features/fa-flow-pages/components/flow/nodes/AddNode";
@@ -11,13 +11,13 @@ import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
 import { RbacRoleSelect } from "@features/fa-admin-pages/components";
 import { rbacRoleApi, userApi } from "@features/fa-admin-pages/services";
 
-const {NodeSetType} = FlowEnums;
+const {NodeSetType} = FlwEnums;
 
 
 export interface ApproverProps {
   /** 流程配置节点Node JSON */
-  node: Flow.Node;
-  parentNode?: Flow.Node | Flow.ConditionNode;
+  node: Flw.Node;
+  parentNode?: Flw.Node | Flw.ConditionNode;
 }
 
 /**
@@ -32,7 +32,7 @@ export default function Approver({node, parentNode}: ApproverProps) {
   const {refreshNode} = useContext(FaWorkFlowContext)
   const {nodeCopy, setNodeCopy, updateNodeProps} = useNode(node)
 
-  function toText(nodeConfig: Flow.Node) {
+  function toText(nodeConfig: Flw.Node) {
     if (nodeConfig.setType === NodeSetType.specifyMembers) {
       if (nodeConfig.nodeAssigneeList && nodeConfig.nodeAssigneeList.length > 0) {
         const users = nodeConfig.nodeAssigneeList.map(item => item.name).join("、")
@@ -70,7 +70,7 @@ export default function Approver({node, parentNode}: ApproverProps) {
     try {
       setLoading(true)
 
-      let nodeAssigneeList: Flow.FlowActor[] = []
+      let nodeAssigneeList: Flw.FlowActor[] = []
       if (fieldsValue.setType === NodeSetType.specifyMembers) {
         const res = await userApi.getByIds(fieldsValue.nodeAssigneeIds);
         nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))

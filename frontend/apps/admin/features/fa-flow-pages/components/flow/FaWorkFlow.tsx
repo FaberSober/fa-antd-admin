@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flow } from "@features/fa-flow-pages/types";
+import { Flw } from "@features/fa-flow-pages/types";
 import { cloneDeep } from "lodash";
 import FaWorkFlowContext, { FaWorkFlowContextProps } from './context/FaWorkFlowContext';
 import NodeWrap from './NodeWrap';
@@ -9,8 +9,8 @@ import ZoomPanEditor from "@features/fa-flow-pages/components/flow/cubes/ZoomPan
 
 export interface FaWorkFlowProps {
   /** 流程配置JSON */
-  processModel: Flow.ProcessModel;
-  onChange?: (processModel: Flow.ProcessModel) => void;
+  processModel: Flw.ProcessModel;
+  onChange?: (processModel: Flw.ProcessModel) => void;
 }
 
 /**
@@ -19,18 +19,18 @@ export interface FaWorkFlowProps {
  * @date 2025/8/19 17:34
  */
 export default function FaWorkFlow({processModel, onChange}: FaWorkFlowProps) {
-  function updateProcessModel(v: Flow.ProcessModel) {
+  function updateProcessModel(v: Flw.ProcessModel) {
     if (onChange) onChange(v)
   }
 
-  function loopNode(n: Flow.Node, func: (n: Flow.Node) => void) {
+  function loopNode(n: Flw.Node, func: (n: Flw.Node) => void) {
     if (n.childNode) {
       loopNode(n.childNode, func)
     }
     func(n)
   }
 
-  function deleteNode(node: Flow.Node) {
+  function deleteNode(node: Flw.Node) {
     // delete current node, move child node forward
     loopNode(processModel.nodeConfig, n => {
       if (n.childNode && n.childNode.nodeKey === node.nodeKey) {
