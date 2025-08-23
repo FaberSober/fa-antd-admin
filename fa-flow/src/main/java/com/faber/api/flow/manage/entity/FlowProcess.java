@@ -35,6 +35,10 @@ public class FlowProcess extends BaseDelEntity {
     @ExcelProperty("流程分类ID")
     private Integer catagoryId;
 
+    @SqlEquals
+    @ExcelProperty("当前流程ID")
+    private Long processId;
+
     @SqlSearch
     @ExcelProperty("流程定义 key 唯一标识")
     private String processKey;

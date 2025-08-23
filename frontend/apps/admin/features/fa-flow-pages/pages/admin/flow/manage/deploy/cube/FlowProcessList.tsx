@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { CheckCircleOutlined, CloseCircleOutlined, CopyOutlined, DownloadOutlined, EditOutlined, EyeOutlined, OrderedListOutlined, SearchOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Space, Tag } from 'antd';
-import { AuthDelBtn, BaseBizTable, BaseDrawer, BaseTableUtils, clearForm, FaberTable, FaHref, useDelete, useDeleteByQuery, useExport, useTableQueryParams } from '@fa/ui';
+import { Button, Form, Input, Modal, Space, Tag } from 'antd';
+import { AuthDelBtn, BaseBizTable, BaseDrawer, BaseTableUtils, clearForm, FaberTable, FaHref, FaUtils, useDelete, useDeleteByQuery, useExport, useTableQueryParams } from '@fa/ui';
 import { CommonExcelUploadModal } from "@/components";
 import { flowProcessApi as api } from '@/services';
 import { Flow } from '@/types';
@@ -31,6 +31,32 @@ export default function FlowProcessList({ catagoryId }: FlowProcessListProps) {
   const [handleDelete] = useDelete<number>(api.remove, fetchPageList, serviceName)
   const [exporting, fetchExportExcel] = useExport(api.exportExcel, queryParams)
   const [_, deleteByQuery] = useDeleteByQuery(api.removeByQuery, queryParams, fetchPageList);
+
+  function handleDeactive(id: number) {
+    Modal.confirm({
+      title: '停用流程定义',
+      content: '确定要停用该流程定义吗？',
+      onOk: () => {
+        return api.update(id, {processState: 0}).then((res) => {
+          FaUtils.showResponse(res, '停用流程定义');
+          fetchPageList();
+        })
+      }
+    })
+  }
+
+  function handleActive(id: number) {
+    Modal.confirm({
+      title: '启用流程定义',
+      content: '确定要启用该流程定义吗？',
+      onOk: () => {
+        return api.update(id, {processState: 1}).then((res) => {
+          FaUtils.showResponse(res, '启用流程定义');
+          fetchPageList();
+        })
+      }
+    })
+  }
 
   /** 生成表格字段List */
   function genColumns() {
@@ -71,8 +97,8 @@ export default function FlowProcessList({ catagoryId }: FlowProcessListProps) {
               <FaHref icon={<EditOutlined />} tooltip='编辑' />
             </FlowProcessModal>
 
-            {r.processState === 1 && <FaHref icon={<CloseCircleOutlined />} tooltip="停用" color="red" />}
-            {r.processState === 0 && <FaHref icon={<CloseCircleOutlined />} tooltip="启用" color='#f5222d' />}
+            {r.processState === 1 && <FaHref icon={<CloseCircleOutlined />} tooltip="停用" color="red" onClick={() => handleDeactive(r.id)} />}
+            {r.processState === 0 && <FaHref icon={<CheckCircleOutlined />} tooltip="启用" color='green' onClick={() => handleActive(r.id)} />}
 
             <AuthDelBtn handleDelete={() => handleDelete(r.id)} text="" />
           </Space>
