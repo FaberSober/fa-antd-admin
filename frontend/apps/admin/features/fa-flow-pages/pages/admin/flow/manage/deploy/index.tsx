@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { PlusOutlined } from "@ant-design/icons";
 import { Allotment } from "allotment";
 import { BaseTree } from "@fa/ui";
 import { flowCatagoryApi } from "@features/fa-flow-pages/services";
 import type { Admin } from "@features/fa-admin-pages/types";
 import FlowCatagoryModal from "./modal/FlowCatagoryModal";
+import FlowProcessList from './cube/FlowProcessList';
 
 
 /**
@@ -42,6 +42,7 @@ export default function FlowDeployPage() {
 
         {/* 右侧面板 */}
         <div className="fa-flex-column fa-full">
+          <FlowProcessList />
         </div>
       </Allotment>
     </div>
