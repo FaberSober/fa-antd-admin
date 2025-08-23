@@ -5,7 +5,8 @@ import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { DragModal, FaHref, ApiEffectLayoutContext, FaUtils, CommonModalProps } from '@fa/ui';
 import { flowProcessApi as api } from '@/services';
 import { FlowCatagoryCascader } from "@features/fa-flow-pages/components";
-import { Flow } from '@/types';
+import { Flow, Flw, FlwEnums } from '@/types';
+import { getNodeKey } from '@features/fa-flow-pages/components/flow/utils';
 
 
 /**
@@ -44,7 +45,43 @@ export default function FlowProcessModal({ children, title, record, fetchFinish,
     if (record) {
       invokeUpdateTask({ ...record, ...values });
     } else {
-      invokeInsertTask({ ...values });
+      const params = {
+        ...values,
+        modelContent: JSON.stringify({
+          "key": values.processKey,
+          "name": values.processName,
+          "nodeConfig": {
+            "nodeName": "发起人",
+            "nodeKey": getNodeKey(),
+            "type": FlwEnums.NodeType.major,
+            "childNode": {
+              "nodeName": "审核人",
+              "nodeKey": getNodeKey(),
+              // "callProcess": null,
+              "type": FlwEnums.NodeType.approval,
+              "setType": FlwEnums.NodeSetType.specifyMembers,
+              "nodeAssigneeList": [
+                {
+                  "id": "1",
+                  "name": "超级管理员"
+                }
+              ],
+              "examineLevel": 1,
+              "directorLevel": 1,
+              "selectMode": 1,
+              "termAuto": false,
+              "term": 0,
+              "termMode": 1,
+              "examineMode": 2,
+              "directorMode": 0,
+              "typeOfApprove": 1,
+              "remind": false,
+              "approveSelf": 1
+            }
+          }
+        } as Flw.ProcessModel),
+      }
+      invokeInsertTask(params);
     }
   }
 
@@ -60,7 +97,7 @@ export default function FlowProcessModal({ children, title, record, fetchFinish,
       remark: get(record, 'remark'),
       useScope: get(record, 'useScope'),
       processState: get(record, 'processState'),
-      modelContent: get(record, 'modelContent'),
+      // modelContent: get(record, 'modelContent'),
       sort: get(record, 'sort'),
       // birthday: FaUtils.getInitialKeyTimeValue(record, 'birthday'),
     }

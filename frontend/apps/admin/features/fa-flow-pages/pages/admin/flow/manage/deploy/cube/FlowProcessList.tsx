@@ -6,6 +6,7 @@ import { CommonExcelUploadModal } from "@/components";
 import { flowProcessApi as api } from '@/services';
 import { Flow } from '@/types';
 import FlowProcessModal from '../modal/FlowProcessModal';
+import FlowProcessEdit from './FlowProcessEdit';
 
 const serviceName = '流程定义';
 const biz = 'flow_process';
@@ -66,18 +67,21 @@ export default function FlowProcessList({ catagoryId }: FlowProcessListProps) {
       BaseTableUtils.genSimpleSorterColumn('流程分类', 'catagoryId', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('流程key', 'processKey', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('流程', 'processName', 100, sorter),
-      BaseTableUtils.genSimpleSorterColumn('图标', 'processIcon', 100, sorter),
-      BaseTableUtils.genSimpleSorterColumn('类型', 'processType', 100, sorter),
-      BaseTableUtils.genSimpleSorterColumn('流程版本', 'processVersion', 100, sorter),
+      // BaseTableUtils.genSimpleSorterColumn('图标', 'processIcon', 100, sorter),
+      // BaseTableUtils.genSimpleSorterColumn('类型', 'processType', 100, sorter),
+      {
+        ...BaseTableUtils.genSimpleSorterColumn('流程版本', 'processVersion', 100, sorter),
+        render: (text: string) => <Tag color="blue">v{text}</Tag>,
+      },
       {
         ...BaseTableUtils.genSimpleSorterColumn('流程状态', 'processState', 100, sorter),
         render: (v) => <Tag color={v === 1 ? 'green' : 'red'}>{v === 1 ? '启用' : '停用'}</Tag>,
       },
-      BaseTableUtils.genSimpleSorterColumn('实例地址', 'instanceUrl', 100, sorter),
-      BaseTableUtils.genSimpleSorterColumn('备注说明', 'remark', 100, sorter),
+      // BaseTableUtils.genSimpleSorterColumn('实例地址', 'instanceUrl', 100, sorter),
+      BaseTableUtils.genSimpleSorterColumn('备注说明', 'remark', undefined, sorter),
       BaseTableUtils.genSimpleSorterColumn('使用范围', 'useScope', 100, sorter),
       // BaseTableUtils.genSimpleSorterColumn('流程模型定义JSON内容', 'modelContent', 100, sorter),
-      BaseTableUtils.genSimpleSorterColumn('排序ID', 'sort', 100, sorter),
+      // BaseTableUtils.genSimpleSorterColumn('排序ID', 'sort', 100, sorter),
       ...BaseTableUtils.genCtrColumns(sorter),
       ...BaseTableUtils.genUpdateColumns(sorter),
       {
@@ -87,15 +91,19 @@ export default function FlowProcessList({ catagoryId }: FlowProcessListProps) {
           <Space>
             <FaHref icon={<OrderedListOutlined />} tooltip="版本管理" />
 
-            <BaseDrawer triggerDom={<FaHref tooltip="查看" icon={<EyeOutlined />} />}>
-              {/* <FlowProcessView item={r} /> */}
+            <BaseDrawer
+              title={`编辑-${r.processName}`}
+              triggerDom={<FaHref icon={<EditOutlined />} tooltip='编辑' />}
+              width={document.body.clientWidth * 0.8}
+            >
+              <FlowProcessEdit item={r} onSuccess={fetchPageList} />
             </BaseDrawer>
 
             <FaHref icon={<CopyOutlined />} tooltip="复制" />
 
-            <FlowProcessModal title={`编辑${serviceName}信息`} record={r} fetchFinish={fetchPageList}>
-              <FaHref icon={<EditOutlined />} tooltip='编辑' />
-            </FlowProcessModal>
+            <BaseDrawer triggerDom={<FaHref tooltip="查看" icon={<EyeOutlined />} />}>
+              {/* <FlowProcessView item={r} /> */}
+            </BaseDrawer>
 
             {r.processState === 1 && <FaHref icon={<CloseCircleOutlined />} tooltip="停用" color="red" onClick={() => handleDeactive(r.id)} />}
             {r.processState === 0 && <FaHref icon={<CheckCircleOutlined />} tooltip="启用" color='green' onClick={() => handleActive(r.id)} />}

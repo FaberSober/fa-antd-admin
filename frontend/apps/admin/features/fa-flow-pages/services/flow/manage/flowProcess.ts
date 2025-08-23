@@ -5,8 +5,8 @@ import { Flow } from '@/types';
 /** ------------------------------------------ FLOW-流程定义 操作接口 ------------------------------------------ */
 class Api extends BaseApi<Flow.FlowProcess, number> {
 
-  /** 部署流程 */
-  deployById = (id: number): Promise<Fa.Ret<boolean>> => this.get(`deployById/${id}`);
+  /** 发布流程 */
+  publish = (entity: Flow.FlowProcess): Promise<Fa.Ret<boolean>> => this.post('publish', entity);
 
   // /** 启用流程 */
   // activeById = (id: number): Promise<Fa.Ret<boolean>> => this.get(`activeById/${id}`);

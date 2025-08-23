@@ -131,7 +131,7 @@ export default function Approver({node, parentNode}: ApproverProps) {
           className="fa-flex-column fa-full"
           onFinish={onFinish}
           onValuesChange={(cv, av) => {
-            if (FaUtils.hasAnyProp(cv, ['setType', 'directorMode', 'termAuto'])) {
+            if (FaUtils.hasAnyProp(cv, ['setType'])) {
               setNodeCopy(prev => ({
                 ...prev,
                 ...av,
