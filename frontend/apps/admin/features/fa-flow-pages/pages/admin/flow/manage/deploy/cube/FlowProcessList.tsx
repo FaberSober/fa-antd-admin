@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { DownloadOutlined, EyeOutlined, SearchOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Space } from 'antd';
+import { CheckCircleOutlined, CloseCircleOutlined, CopyOutlined, DownloadOutlined, EditOutlined, EyeOutlined, OrderedListOutlined, SearchOutlined, UploadOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Space, Tag } from 'antd';
 import { AuthDelBtn, BaseBizTable, BaseDrawer, BaseTableUtils, clearForm, FaberTable, FaHref, useDelete, useDeleteByQuery, useExport, useTableQueryParams } from '@fa/ui';
 import { CommonExcelUploadModal } from "@/components";
 import { flowProcessApi as api } from '@/services';
@@ -43,10 +43,13 @@ export default function FlowProcessList({ catagoryId }: FlowProcessListProps) {
       BaseTableUtils.genSimpleSorterColumn('图标', 'processIcon', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('类型', 'processType', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('流程版本', 'processVersion', 100, sorter),
+      {
+        ...BaseTableUtils.genSimpleSorterColumn('流程状态', 'processState', 100, sorter),
+        render: (v) => <Tag color={v === 1 ? 'green' : 'red'}>{v === 1 ? '启用' : '停用'}</Tag>,
+      },
       BaseTableUtils.genSimpleSorterColumn('实例地址', 'instanceUrl', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('备注说明', 'remark', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('使用范围', 'useScope', 100, sorter),
-      BaseTableUtils.genSimpleSorterColumn('流程状态', 'processState', 100, sorter),
       // BaseTableUtils.genSimpleSorterColumn('流程模型定义JSON内容', 'modelContent', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('排序ID', 'sort', 100, sorter),
       ...BaseTableUtils.genCtrColumns(sorter),
@@ -56,11 +59,22 @@ export default function FlowProcessList({ catagoryId }: FlowProcessListProps) {
         dataIndex: 'menu',
         render: (_, r) => (
           <Space>
-            <BaseDrawer triggerDom={<FaHref text="查看" icon={<EyeOutlined />} />}>
+            <FaHref icon={<OrderedListOutlined />} tooltip="版本管理" />
+
+            <BaseDrawer triggerDom={<FaHref tooltip="查看" icon={<EyeOutlined />} />}>
               {/* <FlowProcessView item={r} /> */}
             </BaseDrawer>
-            <FlowProcessModal editBtn title={`编辑${serviceName}信息`} record={r} fetchFinish={fetchPageList} />
-            <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
+
+            <FaHref icon={<CopyOutlined />} tooltip="复制" />
+
+            <FlowProcessModal title={`编辑${serviceName}信息`} record={r} fetchFinish={fetchPageList}>
+              <FaHref icon={<EditOutlined />} tooltip='编辑' />
+            </FlowProcessModal>
+
+            {r.processState === 1 && <FaHref icon={<CloseCircleOutlined />} tooltip="停用" color="red" />}
+            {r.processState === 0 && <FaHref icon={<CloseCircleOutlined />} tooltip="启用" color='#f5222d' />}
+
+            <AuthDelBtn handleDelete={() => handleDelete(r.id)} text="" />
           </Space>
         ),
         width: 170,
