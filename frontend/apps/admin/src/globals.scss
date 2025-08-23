@@ -2,6 +2,7 @@
 //@tailwind components;
 //@tailwind utilities;
 @use '../features/fa-admin-pages/styles/round.scss';
+@use 'allotment/dist/style.css';
 
 .ant-select-disabled .ant-select-selection-item {
   color: #f11717;

@@ -11,7 +11,7 @@ namespace Flow {
     name: string;
     /** 排序ID */
     sort: number;
-    /** 图表 */
+    /** 图标 */
     icon: string;
   }
 }
