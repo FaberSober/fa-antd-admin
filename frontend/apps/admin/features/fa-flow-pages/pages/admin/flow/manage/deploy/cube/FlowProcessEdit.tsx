@@ -10,9 +10,10 @@ import { FaWorkFlow } from '@features/fa-flow-pages/components';
 interface FlowProcessEditProps {
   item: Flow.FlowProcess;
   onSuccess?: () => void;
+  viewOnly?: boolean;
 }
 
-export default function FlowProcessEdit({item, onSuccess}: FlowProcessEditProps) {
+export default function FlowProcessEdit({item, onSuccess, viewOnly}: FlowProcessEditProps) {
   const {closeDrawer} = useContext(BaseDrawerContext)
   const [data, setData] = useState({ ...item });
 
@@ -37,9 +38,11 @@ export default function FlowProcessEdit({item, onSuccess}: FlowProcessEditProps)
   return (
     <div className='fa-full-content-p12 fa-flex-column'>
       <div className='fa-pb12'>
-        <Space>
-          <Button onClick={handlePublish} type='primary' icon={<SendOutlined />}>发布</Button>
-        </Space>
+        {!viewOnly && (
+          <Space>
+            <Button onClick={handlePublish} type='primary' icon={<SendOutlined />}>发布</Button>
+          </Space>
+        )}
       </div>
 
       <FaFlexRestLayout>
