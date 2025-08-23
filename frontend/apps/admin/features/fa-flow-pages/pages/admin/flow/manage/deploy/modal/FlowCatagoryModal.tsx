@@ -15,7 +15,7 @@ interface FlowCatagoryModalProps extends CommonModalProps<Flow.FlowCatagory> {
 /**
  * FLOW-流程分类实体新增、编辑弹框
  */
-export default function FlowCatagoryModal({ children, title, record, fetchFinish, addBtn, editBtn, parentId = Fa.Constant.TREE_SUPER_ROOT_ID, ...props }: CommonModalProps<Flow.FlowCatagory>) {
+export default function FlowCatagoryModal({ children, title, record, fetchFinish, addBtn, editBtn, parentId = Fa.Constant.TREE_SUPER_ROOT_ID, ...props }: FlowCatagoryModalProps) {
   const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 
