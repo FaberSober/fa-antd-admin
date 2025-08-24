@@ -65,9 +65,45 @@ namespace Flow {
     /** Form Content - 表单内容 */
     formContent?: string;
     /** Model Content - 模型内容 */
-    modelContent: string;
+    flwProcess: Flow.FlwProcess;
     /** Render Nodes - 渲染节点 */
     renderNodes?: Record<string, any>;
+  }
+
+  /** 流程定义表 */
+  export interface FlwProcess {
+    /** 主键ID */
+    id: string;
+    /** 租户ID */
+    tenantId: string;
+    /** 创建人ID */
+    createId: string;
+    /** 创建人名称 */
+    createBy: string;
+    /** 创建时间 */
+    createTime: string;
+    /** 流程定义 key 唯一标识 */
+    processKey: string;
+    /** 流程定义名称 */
+    processName: string;
+    /** 流程图标地址 */
+    processIcon: string;
+    /** 流程类型 */
+    processType: string;
+    /** 流程版本，默认 1 */
+    processVersion: number;
+    /** 实例地址 */
+    instanceUrl: string;
+    /** 备注说明 */
+    remark: string;
+    /** 使用范围 0，全员 1，指定人员（业务关联） 2，均不可提交 */
+    useScope: boolean;
+    /** 流程状态 0，不可用 1，可用 2，历史版本 */
+    processState: boolean;
+    /** 流程模型定义JSON内容 */
+    modelContent: string;
+    /** 排序 */
+    sort: boolean;
   }
 
   /** 流程实例表 */

@@ -10,12 +10,13 @@ interface DemoFlowLeaveFormProps {
   form: FormInstance<any>;
   record?: Flow.DemoFlowLeave;
   onSuccess?: (record: Flow.DemoFlowLeave) => void;
+  disabled?: boolean;
 }
 
 /**
  * DEMO-请假流程实体新增、编辑弹框
  */
-export default function DemoFlowLeaveForm({ form, record, onSuccess }: DemoFlowLeaveFormProps) {
+export default function DemoFlowLeaveForm({ form, record, onSuccess, disabled }: DemoFlowLeaveFormProps) {
 
   useEffect(() => {
     form.setFieldsValue(getInitialValues())
@@ -65,7 +66,7 @@ export default function DemoFlowLeaveForm({ form, record, onSuccess }: DemoFlowL
 
   return (
     <span>
-      <Form form={form} onFinish={onFinish} {...FaUtils.formItemFullLayout}>
+      <Form form={form} onFinish={onFinish} {...FaUtils.formItemFullLayout} disabled={disabled}>
         <Form.Item name="applyUserId" label="请假员工" rules={[{ required: true }]}>
           <UserSearchSelect />
         </Form.Item>

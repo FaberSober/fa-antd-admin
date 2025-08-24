@@ -111,13 +111,16 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
 
         FlwHisInstance flwHisInstance = flowLongEngine.queryService().getHistInstance(instanceId);
         FlwExtInstance flwExtInstance = flowLongEngine.queryService().getExtInstance(instanceId);
+        FlwProcess flwProcess = flowLongEngine.processService().getProcessById(flwHisInstance.getProcessId());
 
         data.setInstanceState(flwHisInstance.getInstanceState());
         data.setCreateBy(flwHisInstance.getCreateBy());
         data.setCreateId(flwHisInstance.getCreateId());
         data.setCreateTime(flwHisInstance.getCreateTime());
         data.setFormContent(flwHisInstance.getVariable());
-        data.setModelContent(flwExtInstance.getModelContent());
+        // data.setModelContent(flwExtInstance.getModelContent());
+
+        data.setFlwProcess(flwProcess);
 
         Map<String, Object> renderNodes = new HashMap<>();
         data.setRenderNodes(renderNodes);

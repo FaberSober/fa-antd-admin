@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
+import com.aizuda.bpm.engine.entity.FlwProcess;
+
 import lombok.Data;
 
 @Data
@@ -16,12 +18,12 @@ public class FlowApprovalInfo implements Serializable {
     private String createId;
     private Date createTime;
     private String formContent;
-    private String modelContent;
+    // private String modelContent;
 
     private Map<String, Object> renderNodes;
 
     // private FlwHisInstance flwHisInstance;
     // private FlwExtInstance flwExtInstance;
-    // private FlwProcess flwProcess;
+    private FlwProcess flwProcess;
 
 }
