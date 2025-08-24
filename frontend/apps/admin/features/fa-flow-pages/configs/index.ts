@@ -6,6 +6,7 @@ export default {
     /** flow服务 */
     flow: {
       manage: '/api/flow/manage',
+      demo: '/api/flow/demo',
     },
   },
 } as Fa.ConfigApp

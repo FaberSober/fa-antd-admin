@@ -44,6 +44,34 @@ namespace Flow {
     /** 排序ID */
     sort: number;
   }
+
+  export interface FlowProcessStartReqVo {
+    processKey: string;
+    args: any;
+  }
+
+  /** DEMO-请假流程 */
+  export interface DemoFlowLeave extends Fa.BaseDelEntity {
+    /** ID */
+    id: number;
+    /** 流程ID */
+    flowId: string;
+    /** 请假员工ID */
+    applyUserId: string;
+    /** 申请日期 */
+    applyDate: string;
+    /** 请假原因 */
+    applyReason: string;
+    /** 请假天数 */
+    leaveDayCount: number;
+    /** 开始时间 */
+    leaveStartTime: string;
+    /** 结束时间 */
+    leaveEndTime: string;
+    /** 租户ID */
+    tenantId?: number;
+  }
+
 }
 
 export default Flow;
