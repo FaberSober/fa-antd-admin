@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.aizuda.bpm.engine.FlowLongEngine;
 import com.aizuda.bpm.engine.core.FlowCreator;
+import com.aizuda.bpm.engine.entity.FlwExtInstance;
+import com.aizuda.bpm.engine.entity.FlwHisInstance;
 import com.aizuda.bpm.engine.entity.FlwInstance;
 import com.aizuda.bpm.engine.entity.FlwProcess;
 import com.faber.api.flow.manage.entity.FlowProcess;
@@ -107,11 +109,15 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
 
         data.setInstanceId(instanceId);
 
-        FlwInstance flwInstance = flowLongEngine.queryService().getInstance(instanceId);
-        FlwProcess flwProcess = flowLongEngine.processService().getProcessById(flwInstance.getProcessId());
+        FlwHisInstance flwHisInstance = flowLongEngine.queryService().getHistInstance(instanceId);
+        FlwExtInstance flwExtInstance = flowLongEngine.queryService().getExtInstance(instanceId);
 
-        data.setFlwInstance(flwInstance);
-        data.setFlwProcess(flwProcess);
+        data.setInstanceState(flwHisInstance.getInstanceState());
+        data.setCreateBy(flwHisInstance.getCreateBy());
+        data.setCreateId(flwHisInstance.getCreateId());
+        data.setCreateTime(flwHisInstance.getCreateTime());
+        data.setFormContent(flwHisInstance.getVariable());
+        data.setModelContent(flwExtInstance.getModelContent());
 
         Map<String, Object> renderNodes = new HashMap<>();
         data.setRenderNodes(renderNodes);

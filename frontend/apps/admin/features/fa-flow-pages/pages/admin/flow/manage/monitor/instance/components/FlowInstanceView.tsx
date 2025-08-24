@@ -28,7 +28,7 @@ export default function FlowInstanceView({ instance }: FlowInstanceViewProps) {
   if (isNil(info)) return <PageLoading />
   return (
     <div className='fa-full-content-p12'>
-      <FaWorkFlow processModel={JSON.parse(info.flwProcess.modelContent)} />
+      <FaWorkFlow processModel={JSON.parse(info.modelContent)} />
     </div>
   )
 }

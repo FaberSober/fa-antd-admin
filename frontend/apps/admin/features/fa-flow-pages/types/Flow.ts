@@ -52,10 +52,22 @@ namespace Flow {
   }
 
   export interface FlowApprovalInfo {
-    instanceId: string;
+    /** Instance ID - 实例ID */
+    instanceId: number;
+    /** Instance State - 实例状态 */
     instanceState: number;
-    flwInstance: Flow.FlwInstance;
-    flwProcess: Flow.FlowProcess;
+    /** Create By - 创建人 */
+    createBy: string;
+    /** Create ID - 创建人ID */
+    createId: string;
+    /** Create Time - 创建时间 */
+    createTime: string; // ISO date string format
+    /** Form Content - 表单内容 */
+    formContent?: string;
+    /** Model Content - 模型内容 */
+    modelContent: string;
+    /** Render Nodes - 渲染节点 */
+    renderNodes?: Record<string, any>;
   }
 
   /** 流程实例表 */
