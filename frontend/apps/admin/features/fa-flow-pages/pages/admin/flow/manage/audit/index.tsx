@@ -3,6 +3,7 @@ import { FaFlexRestLayout, FaLazyContainer } from '@fa/ui';
 import FlowAuditStart from './cube/FlowAuditStart';
 import { Segmented } from 'antd';
 import { AuditOutlined, BookOutlined, CarryOutOutlined, ContainerOutlined, SendOutlined, SettingOutlined } from '@ant-design/icons';
+import FlowTodo from './cube/FlowTodo';
 
 
 export default function FlowAudit() {
@@ -33,7 +34,7 @@ export default function FlowAudit() {
         </FaLazyContainer>
 
         <FaLazyContainer showCond={tab === 'todo'}>
-          <div>待审批内容</div>
+          <FlowTodo />
         </FaLazyContainer>
 
         <FaLazyContainer showCond={tab === 'myStart'}>

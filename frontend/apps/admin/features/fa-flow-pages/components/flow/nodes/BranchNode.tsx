@@ -54,7 +54,7 @@ export default function BranchNode({ node, index, onDel, conditionText, onSubmit
   return (
     <>
       <div className="fa-flex-column" onClick={showDrawer}>
-        <div className="title">
+        <div className="branch-title">
           <span className="node-title">{node.nodeName}</span>
           <span className="priority-title">优先级{node.priorityLevel}</span>
           <NodeCloseBtn onClick={onDel} />

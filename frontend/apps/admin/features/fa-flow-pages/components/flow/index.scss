@@ -270,15 +270,15 @@ html {
     background: rgb(239, 239, 239);
   }
 
-  .auto-judge .title {
+  .auto-judge .branch-title {
     line-height: 16px;
   }
 
-  .auto-judge .title .node-title {
+  .auto-judge .branch-title .node-title {
     color: #15bc83;
   }
 
-  .auto-judge .title .close {
+  .auto-judge .branch-title .close {
     font-size: 15px;
     position: absolute;
     top: 10px;
@@ -287,7 +287,7 @@ html {
     display: none;
   }
 
-  .auto-judge .title .priority-title {
+  .auto-judge .branch-title .priority-title {
     position: absolute;
     top: 15px;
     right: 15px;

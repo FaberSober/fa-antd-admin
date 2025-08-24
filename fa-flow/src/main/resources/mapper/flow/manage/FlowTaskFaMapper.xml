@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faber.api.flow.manage.mapper.FlowTaskFaMapper">
+
+    <select id="queryTask" parameterType="com.faber.api.flow.manage.vo.req.FlowTaskPageReqVo" resultType="com.faber.api.flow.manage.vo.ret.FlowTaskRet">
+        SELECT t.id as task_id, t.task_key, t.task_name, t.task_type, t.remind_repeat, t.create_time, 
+            t.instance_id, i.instance_state, i.create_by as launch_by, i.create_time as launch_time, 
+            i.process_id, p.process_key, p.process_name, p.process_type
+        FROM flw_task t 
+        LEFT JOIN flw_his_instance i ON t.instance_id = i.id
+        LEFT JOIN flw_process p ON i.process_id = p.id
+        <if test="query.instanceId != null">
+            and t.instance_id = #{query.instanceId}
+        </if>
+        <if test="query.instanceState != null and query.instanceState.trim() != ''">
+            and i.instance_state = #{query.instanceState}
+        </if>
+        <if test="query.processName != null and query.processName.trim() != ''">
+            and p.process_name like concat('%', #{processName}, '%')
+        </if>
+        <choose>
+            <when test="sorter != null and sorter != ''">
+                ORDER BY ${sorter}
+            </when>
+            <otherwise>
+                ORDER BY t.create_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
+</mapper>
