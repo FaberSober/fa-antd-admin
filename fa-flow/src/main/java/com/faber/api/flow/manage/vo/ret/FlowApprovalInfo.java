@@ -18,7 +18,7 @@ public class FlowApprovalInfo implements Serializable {
     private String createId;
     private Date createTime;
     private String formContent;
-    // private String modelContent;
+    private String modelContent;
 
     private Map<String, Object> renderNodes;
 

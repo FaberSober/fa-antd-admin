@@ -127,7 +127,7 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
         data.setCreateId(flwHisInstance.getCreateId());
         data.setCreateTime(flwHisInstance.getCreateTime());
         data.setFormContent(flwHisInstance.getVariable());
-        // data.setModelContent(flwExtInstance.getModelContent());
+        data.setModelContent(flwExtInstance.getModelContent());
 
         data.setFlwProcess(flwProcess);
 

@@ -10,6 +10,8 @@
         FROM flw_task t 
         LEFT JOIN flw_his_instance i ON t.instance_id = i.id
         LEFT JOIN flw_process p ON i.process_id = p.id
+        LEFT JOIN flw_task_actor ta ON t.id = ta.task_id
+        WHERE 1=1
         <if test="query.instanceId != null">
             and t.instance_id = #{query.instanceId}
         </if>
@@ -18,6 +20,9 @@
         </if>
         <if test="query.processName != null and query.processName.trim() != ''">
             and p.process_name like concat('%', #{processName}, '%')
+        </if>
+        <if test="query.actorId != null and query.actorId.trim() != ''">
+            and ta.actor_id = #{query.actorId}
         </if>
         <choose>
             <when test="sorter != null and sorter != ''">

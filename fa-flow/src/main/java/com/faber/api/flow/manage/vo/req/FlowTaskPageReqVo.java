@@ -16,5 +16,6 @@ public class FlowTaskPageReqVo implements Serializable {
     private Long instanceId;
     private String instanceState;
     private String processName;
+    private String actorId;
 
 }

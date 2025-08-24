@@ -4,10 +4,11 @@ import { BaseDrawer, BaseTree, FaFlexRestLayout, FaUtils } from '@fa/ui';
 import DemoFlowLeaveForm from '@features/fa-flow-pages/pages/admin/demo/flow/form/leave/modal/DemoFlowLeaveForm';
 import { Allotment } from "allotment";
 import { Button, Form, Space } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 
 export default function FlowAuditStart() {
+  const drawerRef = useRef<any>(null);
   const [form] = Form.useForm();
 
   const [cata, setCata] = useState<Flow.FlowCatagory>();
@@ -38,6 +39,7 @@ export default function FlowAuditStart() {
     // start flow
     flowProcessApi.start({ processKey: flow.processKey, args: formValues }).then(res => {
       FaUtils.showResponse(res, '发起流程');
+      drawerRef.current?.close();
     })
   }
 
@@ -47,6 +49,7 @@ export default function FlowAuditStart() {
         {/* 左侧面板 */}
         <Allotment.Pane minSize={200} maxSize={400}>
           <BaseTree
+            ref={drawerRef}
             // showRoot
             rootName="全部"
             onSelect={onTreeSelect}

@@ -21,6 +21,7 @@ export default function NodeWrap({ node, parentNode }: NodeWrapProps) {
   // 判断节点类型,运行中不同类型的task节点状态,展示不同的颜色
   const cls = useMemo(() => {
     if (isNil(node) || isNil(renderNodes)) return "fa-workflow-node-idle";
+    if (node.type === FlwEnums.NodeType.conditionBranch) return "";
     if (renderNodes[node.nodeKey || ''] === '0') {
       return 'fa-workflow-node-done'
     } else if (renderNodes[node.nodeKey || ''] === '1') {

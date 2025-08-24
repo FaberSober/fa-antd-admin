@@ -49,7 +49,7 @@ export default function FlowInstanceView({ instance }: FlowInstanceViewProps) {
           <FlowFormView flwProcess={info.flwProcess} formValues={JSON.parse(info.formContent || '{}')} />
         </FaLazyContainer>
         <FaLazyContainer showCond={tab === 'workflow'}>
-          <FaWorkFlow processModel={JSON.parse(info.flwProcess.modelContent)} renderNodes={info.renderNodes} showLegends />
+          <FaWorkFlow processModel={JSON.parse(info.modelContent)} renderNodes={info.renderNodes} showLegends />
         </FaLazyContainer>
       </FaFlexRestLayout>
     </div>

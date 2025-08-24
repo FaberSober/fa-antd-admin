@@ -65,6 +65,7 @@ namespace Flow {
     createTime: string; // ISO date string format
     /** Form Content - 表单内容 */
     formContent?: string;
+    modelContent: string;
     /** Model Content - 模型内容 */
     flwProcess: Flow.FlwProcess;
     /** Render Nodes - 渲染节点 */
@@ -160,31 +161,31 @@ namespace Flow {
   /** 工作流任务返回对象 - Flow Task Return Object */
   export interface FlowTaskRet {
     /** 任务ID - Task ID */
-    taskId?: string;
+    taskId: string;
     /** 任务Key - Task Key */
-    taskKey?: string;
+    taskKey: string;
     /** 任务名称 - Task Name */
-    taskName?: string;
+    taskName: string;
     /** 任务类型 - Task Type */
-    taskType?: number;
+    taskType: number;
     /** 提醒次数 - Remind Repeat */
     remindRepeat?: number;
     /** 任务创建时间 - Task Create Time */
-    createTime?: string; // ISO date string format
+    createTime: string; // ISO date string format
     /** 实例ID - Instance ID */
-    instanceId?: string;
+    instanceId: string;
     /** 实例状态 - Instance State */
-    instanceState?: number;
+    instanceState: number;
     /** 发起人 - Launch By */
-    launchBy?: string;
+    launchBy: string;
     /** 发起时间 - Launch Time */
-    launchTime?: string; // ISO date string format
+    launchTime: string; // ISO date string format
     /** 流程ID - Process ID */
-    processId?: string;
+    processId: string;
     /** 流程Key - Process Key */
-    processKey?: string;
+    processKey: string;
     /** 流程名称 - Process Name */
-    processName?: string;
+    processName: string;
     /** 流程类型 - Process Type */
     processType?: string;
   }
