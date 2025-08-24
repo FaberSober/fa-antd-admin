@@ -77,6 +77,7 @@ export default function FlowAuditStart() {
                       start {flow.processName}
                       <FaFlexRestLayout>
                         {flow.processKey === 'testLeave' && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} />)}
+                        {flow.processKey === 'testLeave2' && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} />)}
                       </FaFlexRestLayout>
 
                       <Space>

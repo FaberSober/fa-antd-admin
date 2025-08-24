@@ -3,6 +3,7 @@ import { Flow } from '@/types';
 import { CloseCircleOutlined, DownloadOutlined, EyeOutlined, FormOutlined, SearchOutlined } from '@ant-design/icons';
 import { AuthDelBtn, BaseBizTable, BaseDrawer, BaseTableUtils, clearForm, FaberTable, FaHref, useDelete, useDeleteByQuery, useExport, useTableQueryParams } from '@fa/ui';
 import { Button, Form, Input, Space } from 'antd';
+import FlowInstanceView from '../components/FlowInstanceView';
 
 
 const serviceName = '流程实例表';
@@ -55,7 +56,7 @@ export default function FlwInstanceList() {
         render: (_, r) => (
           <Space>
             <BaseDrawer triggerDom={<FaHref tooltip="查看流程" icon={<EyeOutlined />} />} width={1000}>
-
+              <FlowInstanceView instance={r} />
             </BaseDrawer>
 
             <FaHref tooltip="查看变量" icon={<FormOutlined />} />

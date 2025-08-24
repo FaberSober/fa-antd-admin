@@ -1,6 +1,7 @@
 package com.faber.api.flow.manage.rest;
 
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.faber.api.flow.manage.biz.FlowProcessBiz;
 import com.faber.api.flow.manage.entity.FlowProcess;
 import com.faber.api.flow.manage.vo.req.FlowProcessStartReqVo;
+import com.faber.api.flow.manage.vo.ret.FlowApprovalInfo;
 import com.faber.core.annotation.FaLogBiz;
 import com.faber.core.annotation.FaLogOpr;
 import com.faber.core.config.validator.validator.Vg;
@@ -43,6 +45,14 @@ public class FlowProcessController extends BaseController<FlowProcessBiz, FlowPr
     public Ret<Boolean> start(@Validated(value = Vg.Crud.C.class) @RequestBody FlowProcessStartReqVo reqVo) {
         baseBiz.start(reqVo);
         return ok();
+    }
+
+    @FaLogOpr(value = "查看流程详情", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/getApprovalInfoById/{instanceId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Ret<FlowApprovalInfo> getApprovalInfoById(@PathVariable Long instanceId) {
+        FlowApprovalInfo data = baseBiz.getApprovalInfoById(instanceId);
+        return ok(data);
     }
 
     // @FaLogOpr(value = "部署流程", crud = LogCrudEnum.R)

@@ -1,12 +1,18 @@
 package com.faber.api.flow.manage.biz;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
 import com.aizuda.bpm.engine.FlowLongEngine;
 import com.aizuda.bpm.engine.core.FlowCreator;
+import com.aizuda.bpm.engine.entity.FlwInstance;
+import com.aizuda.bpm.engine.entity.FlwProcess;
 import com.faber.api.flow.manage.entity.FlowProcess;
 import com.faber.api.flow.manage.mapper.FlowProcessMapper;
 import com.faber.api.flow.manage.vo.req.FlowProcessStartReqVo;
+import com.faber.api.flow.manage.vo.ret.FlowApprovalInfo;
 import com.faber.core.context.BaseContextHandler;
 import com.faber.core.web.biz.BaseBiz;
 
@@ -94,6 +100,23 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
         flowLongEngine.startInstanceByProcessKey(reqVo.getProcessKey(), null, flowCreator, reqVo.getArgs());
 
         return true;
+    }
+
+    public FlowApprovalInfo getApprovalInfoById(Long instanceId) {
+        FlowApprovalInfo data = new FlowApprovalInfo();
+
+        data.setInstanceId(instanceId);
+
+        FlwInstance flwInstance = flowLongEngine.queryService().getInstance(instanceId);
+        FlwProcess flwProcess = flowLongEngine.processService().getProcessById(flwInstance.getProcessId());
+
+        data.setFlwInstance(flwInstance);
+        data.setFlwProcess(flwProcess);
+
+        Map<String, Object> renderNodes = new HashMap<>();
+        data.setRenderNodes(renderNodes);
+
+        return data;
     }
 
     // public void deployById(Integer id) {

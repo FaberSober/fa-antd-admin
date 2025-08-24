@@ -1,4 +1,5 @@
 import { Fa } from '@fa/ui';
+import Flw from './Flw';
 
 namespace Flow {
   /** FLOW-流程分类 */
@@ -48,6 +49,13 @@ namespace Flow {
   export interface FlowProcessStartReqVo {
     processKey: string;
     args: any;
+  }
+
+  export interface FlowApprovalInfo {
+    instanceId: string;
+    instanceState: number;
+    flwInstance: Flow.FlwInstance;
+    flwProcess: Flow.FlowProcess;
   }
 
   /** 流程实例表 */
