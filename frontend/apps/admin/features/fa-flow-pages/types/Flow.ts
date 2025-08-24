@@ -50,6 +50,43 @@ namespace Flow {
     args: any;
   }
 
+  /** 流程实例表 */
+  export interface FlwInstance {
+    /** 主键ID */
+    id: string;
+    /** 租户ID */
+    tenantId: string;
+    /** 创建人ID */
+    createId: string;
+    /** 创建人名称 */
+    createBy: string;
+    /** 创建时间 */
+    createTime: string;
+    /** 流程定义ID */
+    processId: string;
+    /** 父流程实例ID */
+    parentInstanceId: string;
+    /** 优先级 */
+    priority: boolean;
+    /** 流程实例编号 */
+    instanceNo: string;
+    /** 业务KEY */
+    businessKey: string;
+    /** 变量json */
+    variable: string;
+    /** 当前所在节点名称 */
+    currentNodeName: string;
+    /** 当前所在节点key */
+    currentNodeKey: string;
+    /** 期望完成时间 */
+    expireTime: string;
+    /** 上次更新人 */
+    lastUpdateBy: string;
+    /** 上次更新时间 */
+    lastUpdateTime: string;
+  }
+
+
   /** DEMO-请假流程 */
   export interface DemoFlowLeave extends Fa.BaseDelEntity {
     /** ID */

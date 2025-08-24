@@ -7,6 +7,7 @@ export default {
     flow: {
       manage: '/api/flow/manage',
       demo: '/api/flow/demo',
+      core: '/api/flow/core',
     },
   },
 } as Fa.ConfigApp

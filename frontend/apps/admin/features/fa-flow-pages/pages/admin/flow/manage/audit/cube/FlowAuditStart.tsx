@@ -71,7 +71,7 @@ export default function FlowAuditStart() {
                         {flow.processName}
                       </div>
                     )}
-                    width={document.body.clientWidth - 200}
+                    width={1000}
                   >
                     <div className='fa-full-content-p12 fa-flex-column'>
                       start {flow.processName}
