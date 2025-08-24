@@ -14,6 +14,23 @@
       "console": "integratedTerminal",     // ✅ 用 VS Code 终端输出，支持 UTF-8
       // 如果你有 .env 文件，可以启用
       "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "node-terminal",
+      "name": "Frontend Dev Server",
+      "request": "launch",
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder}/frontend",
+      "console": "integratedTerminal",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new",
+        "showReuseMessage": true,
+        "clear": false
+      }
     }
   ]
 }

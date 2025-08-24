@@ -4,15 +4,15 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- 添加数据库初始化脚本+兼容5.6/5.7版本MYSQL
 -- ----------------------------
-DROP DATABASE IF  EXISTS  `flowlong`;
-CREATE DATABASE IF NOT EXISTS `flowlong` charset utf8mb4 collate utf8mb4_unicode_ci;
-USE `flowlong`;
+-- DROP DATABASE IF  EXISTS  `flowlong`;
+-- CREATE DATABASE IF NOT EXISTS `flowlong` charset utf8mb4 collate utf8mb4_unicode_ci;
+-- USE `flowlong`;
 
 -- ----------------------------
 -- Table structure for flw_process
 -- ----------------------------
-DROP TABLE IF EXISTS `flw_process`;
-CREATE TABLE `flw_process`
+-- DROP TABLE IF EXISTS `flw_process`;
+CREATE TABLE IF NOT EXISTS `flw_process`
 (
     `id`              bigint       NOT NULL COMMENT '主键ID',
     `tenant_id`       varchar(50) COMMENT '租户ID',
@@ -37,8 +37,8 @@ CREATE TABLE `flw_process`
 -- ----------------------------
 -- Table structure for flw_his_instance
 -- ----------------------------
-DROP TABLE IF EXISTS `flw_his_instance`;
-CREATE TABLE `flw_his_instance`
+-- DROP TABLE IF EXISTS `flw_his_instance`;
+CREATE TABLE IF NOT EXISTS `flw_his_instance`
 (
     `id`                 bigint       NOT NULL COMMENT '主键ID',
     `tenant_id`          varchar(50) COMMENT '租户ID',
@@ -67,8 +67,8 @@ CREATE TABLE `flw_his_instance`
 -- ----------------------------
 -- Table structure for flw_his_task
 -- ----------------------------
-DROP TABLE IF EXISTS `flw_his_task`;
-CREATE TABLE `flw_his_task`
+-- DROP TABLE IF EXISTS `flw_his_task`;
+CREATE TABLE IF NOT EXISTS `flw_his_task`
 (
     `id`               bigint       NOT NULL COMMENT '主键ID',
     `tenant_id`        varchar(50) COMMENT '租户ID',
@@ -103,8 +103,8 @@ CREATE TABLE `flw_his_task`
 -- ----------------------------
 -- Table structure for flw_his_task_actor
 -- ----------------------------
-DROP TABLE IF EXISTS `flw_his_task_actor`;
-CREATE TABLE `flw_his_task_actor`
+-- DROP TABLE IF EXISTS `flw_his_task_actor`;
+CREATE TABLE IF NOT EXISTS `flw_his_task_actor`
 (
     `id`          bigint       NOT NULL COMMENT '主键 ID',
     `tenant_id`   varchar(50) COMMENT '租户ID',
@@ -125,8 +125,8 @@ CREATE TABLE `flw_his_task_actor`
 -- ----------------------------
 -- Table structure for flw_instance
 -- ----------------------------
-DROP TABLE IF EXISTS `flw_instance`;
-CREATE TABLE `flw_instance`
+-- DROP TABLE IF EXISTS `flw_instance`;
+CREATE TABLE IF NOT EXISTS `flw_instance`
 (
     `id`                 bigint       NOT NULL COMMENT '主键ID',
     `tenant_id`          varchar(50) COMMENT '租户ID',
@@ -152,8 +152,8 @@ CREATE TABLE `flw_instance`
 -- ----------------------------
 -- Table structure for flw_task
 -- ----------------------------
-DROP TABLE IF EXISTS `flw_task`;
-CREATE TABLE `flw_task`
+-- DROP TABLE IF EXISTS `flw_task`;
+CREATE TABLE IF NOT EXISTS `flw_task`
 (
     `id`             bigint       NOT NULL COMMENT '主键ID',
     `tenant_id`      varchar(50) COMMENT '租户ID',
@@ -182,8 +182,8 @@ CREATE TABLE `flw_task`
 -- ----------------------------
 -- Table structure for flw_task_actor
 -- ----------------------------
-DROP TABLE IF EXISTS `flw_task_actor`;
-CREATE TABLE `flw_task_actor`
+-- DROP TABLE IF EXISTS `flw_task_actor`;
+CREATE TABLE IF NOT EXISTS `flw_task_actor`
 (
     `id`          bigint       NOT NULL COMMENT '主键 ID',
     `tenant_id`   varchar(50) COMMENT '租户ID',
@@ -204,8 +204,8 @@ CREATE TABLE `flw_task_actor`
 -- ----------------------------
 -- Table structure for flw_instance
 -- ----------------------------
-DROP TABLE IF EXISTS `flw_ext_instance`;
-CREATE TABLE `flw_ext_instance`
+-- DROP TABLE IF EXISTS `flw_ext_instance`;
+CREATE TABLE IF NOT EXISTS `flw_ext_instance`
 (
     `id`            bigint NOT NULL COMMENT '主键ID',
     `tenant_id`     varchar(50) COMMENT '租户ID',
