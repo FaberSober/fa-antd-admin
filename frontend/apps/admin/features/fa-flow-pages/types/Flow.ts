@@ -143,6 +143,51 @@ namespace Flow {
     lastUpdateTime: string;
   }
 
+  /** 工作流任务分页查询请求对象 - Flow Task Page Query Request Object */
+  export interface FlowTaskPageReqVo {
+    /** 开始时间 - Begin Time */
+    beginTime?: string; // ISO date string format
+    /** 结束时间 - End Time */
+    endTime?: string; // ISO date string format
+    /** 实例ID - Instance ID */
+    instanceId?: string;
+    /** 实例状态 - Instance State */
+    instanceState?: string;
+    /** 流程名称 - Process Name */
+    processName?: string;
+  }
+
+  /** 工作流任务返回对象 - Flow Task Return Object */
+  export interface FlowTaskRet {
+    /** 任务ID - Task ID */
+    taskId?: string;
+    /** 任务Key - Task Key */
+    taskKey?: string;
+    /** 任务名称 - Task Name */
+    taskName?: string;
+    /** 任务类型 - Task Type */
+    taskType?: number;
+    /** 提醒次数 - Remind Repeat */
+    remindRepeat?: number;
+    /** 任务创建时间 - Task Create Time */
+    createTime?: string; // ISO date string format
+    /** 实例ID - Instance ID */
+    instanceId?: string;
+    /** 实例状态 - Instance State */
+    instanceState?: number;
+    /** 发起人 - Launch By */
+    launchBy?: string;
+    /** 发起时间 - Launch Time */
+    launchTime?: string; // ISO date string format
+    /** 流程ID - Process ID */
+    processId?: string;
+    /** 流程Key - Process Key */
+    processKey?: string;
+    /** 流程名称 - Process Name */
+    processName?: string;
+    /** 流程类型 - Process Type */
+    processType?: string;
+  }
 
   /** DEMO-请假流程 */
   export interface DemoFlowLeave extends Fa.BaseDelEntity {

@@ -7,7 +7,7 @@ export default function FlowTodo() {
       <Allotment defaultSizes={[100, 500]}>
         {/* 左侧面板 */}
         <Allotment.Pane minSize={200} maxSize={400}>
-
+          <div />
         </Allotment.Pane>
 
         {/* 右侧面板 */}
