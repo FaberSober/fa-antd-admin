@@ -8,22 +8,24 @@ interface ZoomPanEditorProps {
   miniMapWidth?: number;
   miniMapHeight?: number;
   toolbar?: React.ReactNode;
+  leftTop?: React.ReactNode;
 }
 
 export default function ZoomPanEditor({
-                                        children,
-                                        miniMapWidth = 200,
-                                        miniMapHeight = 150,
-                                        toolbar,
-                                      }: ZoomPanEditorProps) {
+  children,
+  miniMapWidth = 200,
+  miniMapHeight = 150,
+  toolbar,
+  leftTop,
+}: ZoomPanEditorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   const [zoom, setZoom] = useState(1);
-  const [offset, setOffset] = useState({x: 0, y: 0});
+  const [offset, setOffset] = useState({ x: 100, y: 100 });
 
   const [isDragging, setIsDragging] = useState(false);
-  const dragStart = useRef({x: 0, y: 0, offsetX: 0, offsetY: 0});
+  const dragStart = useRef({ x: 0, y: 0, offsetX: 0, offsetY: 0 });
 
   const [isDraggingMiniMap, setIsDraggingMiniMap] = useState(false);
   const [isSpacePressed, setIsSpacePressed] = useState(false);
@@ -61,7 +63,7 @@ export default function ZoomPanEditor({
     const newOffsetY = offset.y - (mouseY * (scale - 1));
 
     setZoom(newZoom);
-    setOffset({x: newOffsetX, y: newOffsetY});
+    setOffset({ x: newOffsetX, y: newOffsetY });
   }, [zoom, offset]);
 
   /** ========== 主画布拖动 ========== */
@@ -69,7 +71,7 @@ export default function ZoomPanEditor({
     // 只有在按住空格键时才允许拖动
     if (e.button === 0 && isSpacePressed) {
       setIsDragging(true);
-      dragStart.current = {x: e.clientX, y: e.clientY, offsetX: offset.x, offsetY: offset.y};
+      dragStart.current = { x: e.clientX, y: e.clientY, offsetX: offset.x, offsetY: offset.y };
     }
   };
 
@@ -127,7 +129,7 @@ export default function ZoomPanEditor({
 
   /** ========== 小地图计算红框位置 ========== */
   const getViewportRect = () => {
-    if (!containerRef.current) return {x: 0, y: 0, w: 0, h: 0};
+    if (!containerRef.current) return { x: 0, y: 0, w: 0, h: 0 };
     const rect = containerRef.current.getBoundingClientRect();
     const scaleX = miniMapWidth / rect.width;
     const scaleY = miniMapHeight / rect.height;
@@ -201,6 +203,10 @@ export default function ZoomPanEditor({
         </div>
       </div>
 
+      <div className="fa-zoom-pan-left-top">
+        {leftTop}
+      </div>
+
       <Space className="fa-zoom-pan-editor-toolbar">
         {toolbar}
         <Button >重置</Button>
@@ -213,7 +219,7 @@ export default function ZoomPanEditor({
           )}
           placement="leftTop"
         >
-          <QuestionCircleOutlined/>
+          <QuestionCircleOutlined />
         </Popover>
       </Space>
     </div>

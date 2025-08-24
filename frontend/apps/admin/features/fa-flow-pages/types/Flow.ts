@@ -1,5 +1,6 @@
 import { Fa } from '@fa/ui';
 import Flw from './Flw';
+import { FlwEnums } from '.';
 
 namespace Flow {
   /** FLOW-流程分类 */
@@ -67,7 +68,7 @@ namespace Flow {
     /** Model Content - 模型内容 */
     flwProcess: Flow.FlwProcess;
     /** Render Nodes - 渲染节点 */
-    renderNodes?: Record<string, any>;
+    renderNodes?: Record<string, '0' | '1'>;
   }
 
   /** 流程定义表 */

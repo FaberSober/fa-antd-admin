@@ -98,6 +98,57 @@ namespace FlowEnums {
   }
 
   /**
+   * {@link com.aizuda.bpm.engine.core.enums.TaskState}
+   */
+  export enum TaskState {
+    /** 活动 */
+    active = 0,
+    /** 跳转 */
+    jump = 1,
+    /** 完成 */
+    complete = 2,
+    /** 拒绝 */
+    reject = 3,
+    /** 撤销审批 */
+    revoke = 4,
+    /** 超时 */
+    timeout = 5,
+    /** 终止 */
+    terminate = 6,
+    /** 驳回终止 */
+    rejectEnd = 7,
+    /** 自动完成 */
+    autoComplete = 8,
+    /** 自动驳回 */
+    autoReject = 9,
+    /** 自动跳转 */
+    autoJump = 10,
+    /** 驳回跳转 */
+    rejectJump = 11,
+    /** 驳回重新审批跳转 */
+    reApproveJump = 12,
+    /** 路由跳转 */
+    routeJump = 13,
+  }
+
+  export const TaskStateMap: Record<TaskState, string> = {
+    [TaskState.active]: '活动',
+    [TaskState.jump]: '跳转',
+    [TaskState.complete]: '完成',
+    [TaskState.reject]: '拒绝',
+    [TaskState.revoke]: '撤销审批',
+    [TaskState.timeout]: '超时',
+    [TaskState.terminate]: '终止',
+    [TaskState.rejectEnd]: '驳回终止',
+    [TaskState.autoComplete]: '自动完成',
+    [TaskState.autoReject]: '自动驳回',
+    [TaskState.autoJump]: '自动跳转',
+    [TaskState.rejectJump]: '驳回跳转',
+    [TaskState.reApproveJump]: '驳回重新审批跳转',
+    [TaskState.routeJump]: '路由跳转',
+  }
+
+  /**
    * {@link com.aizuda.bpm.engine.core.enums.NodeSetType}
    */
   export enum NodeSetType {

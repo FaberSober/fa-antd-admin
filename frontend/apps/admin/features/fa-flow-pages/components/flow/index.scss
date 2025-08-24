@@ -31,6 +31,7 @@ html {
   line-height: 18px;
   user-select: none;
 }
+
 .sc-workflow-design .box-scale {
   display: inline-block;
   position: relative;
@@ -52,6 +53,7 @@ html {
     position: relative;
     z-index: 1;
   }
+
   .node-wrap-box {
     display: inline-flex;
     flex-direction: column;
@@ -64,6 +66,7 @@ html {
     cursor: pointer;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
   }
+
   .node-wrap-box::before {
     content: '';
     position: absolute;
@@ -75,9 +78,11 @@ html {
     border-width: 8px 6px 4px;
     border-color: rgb(202, 202, 202) transparent transparent;
   }
+
   .node-wrap-box.start-node:before {
     content: none;
   }
+
   .node-wrap-box .title {
     height: 24px;
     line-height: 24px;
@@ -89,9 +94,11 @@ html {
     display: flex;
     align-items: center;
   }
+
   .node-wrap-box .title .icon {
     margin-right: 5px;
   }
+
   .node-wrap-box .title .close {
     font-size: 15px;
     position: absolute;
@@ -100,16 +107,20 @@ html {
     right: 10px;
     display: none;
   }
+
   .node-wrap-box .content {
     position: relative;
     padding: 15px;
   }
+
   .node-wrap-box .content .placeholder {
     color: #999;
   }
+
   .node-wrap-box:hover .close {
     display: block;
   }
+
   .add-node-btn-box {
     width: 240px;
     display: inline-flex;
@@ -117,6 +128,7 @@ html {
     position: relative;
     z-index: 1;
   }
+
   .add-node-btn-box:before {
     content: '';
     position: absolute;
@@ -130,6 +142,7 @@ html {
     height: 100%;
     background-color: rgb(202, 202, 202);
   }
+
   .add-node-btn {
     user-select: none;
     width: 240px;
@@ -139,8 +152,9 @@ html {
     flex-shrink: 0;
     flex-grow: 1;
   }
-  .add-node-btn span {
-  }
+
+  .add-node-btn span {}
+
   .add-branch {
     justify-content: center;
     padding: 0px 10px;
@@ -153,10 +167,12 @@ html {
     display: inline-flex;
     align-items: center;
   }
+
   .branch-wrap {
     display: inline-flex;
     width: 100%;
   }
+
   .branch-box-wrap {
     display: flex;
     flex-flow: column wrap;
@@ -165,12 +181,14 @@ html {
     width: 100%;
     flex-shrink: 0;
   }
+
   .col-box {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     position: relative;
   }
+
   .branch-box {
     display: flex;
     overflow: visible;
@@ -182,6 +200,7 @@ html {
     margin-top: 15px;
     background: var(--el-bg-color);
   }
+
   .branch-box .col-box::before {
     content: '';
     position: absolute;
@@ -195,11 +214,13 @@ html {
     height: 100%;
     background-color: rgb(202, 202, 202);
   }
+
   .condition-node {
     display: inline-flex;
     flex-direction: column;
     min-height: 220px;
   }
+
   .condition-node-box {
     padding-top: 30px;
     padding-right: 50px;
@@ -211,6 +232,7 @@ html {
     display: inline-flex;
     flex-direction: column;
   }
+
   .condition-node-box::before {
     content: '';
     position: absolute;
@@ -223,6 +245,7 @@ html {
     height: 100%;
     background-color: rgb(202, 202, 202);
   }
+
   .auto-judge {
     position: relative;
     width: 220px;
@@ -233,6 +256,7 @@ html {
     cursor: pointer;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
   }
+
   .auto-judge::before {
     content: '';
     position: absolute;
@@ -245,12 +269,15 @@ html {
     border-color: rgb(202, 202, 202) transparent transparent;
     background: rgb(239, 239, 239);
   }
+
   .auto-judge .title {
     line-height: 16px;
   }
+
   .auto-judge .title .node-title {
     color: #15bc83;
   }
+
   .auto-judge .title .close {
     font-size: 15px;
     position: absolute;
@@ -259,27 +286,33 @@ html {
     color: #999;
     display: none;
   }
+
   .auto-judge .title .priority-title {
     position: absolute;
     top: 15px;
     right: 15px;
     color: #999;
   }
+
   .auto-judge .content {
     position: relative;
     padding-top: 15px;
   }
+
   .auto-judge .content .placeholder {
     color: #999;
   }
+
   .auto-judge:hover {
     .close {
       display: block;
     }
+
     .priority-title {
       display: none;
     }
   }
+
   .top-left-cover-line,
   .top-right-cover-line {
     position: absolute;
@@ -288,6 +321,7 @@ html {
     background-color: #efefef;
     top: -2px;
   }
+
   .bottom-left-cover-line,
   .bottom-right-cover-line {
     position: absolute;
@@ -296,24 +330,30 @@ html {
     background-color: #efefef;
     bottom: -2px;
   }
+
   .top-left-cover-line {
     left: -1px;
   }
+
   .top-right-cover-line {
     right: -1px;
   }
+
   .bottom-left-cover-line {
     left: -1px;
   }
+
   .bottom-right-cover-line {
     right: -1px;
   }
+
   .end-node {
     border-radius: 50%;
     font-size: 14px;
     color: rgba(25, 31, 37, 0.4);
     text-align: left;
   }
+
   .end-node-circle {
     width: 10px;
     height: 10px;
@@ -321,18 +361,22 @@ html {
     border-radius: 50%;
     background: #ccc;
   }
+
   .end-node-text {
     margin-top: 5px;
     text-align: center;
   }
+
   .auto-judge:hover {
     .sort-left {
       display: flex;
     }
+
     .sort-right {
       display: flex;
     }
   }
+
   .auto-judge .sort-left {
     position: absolute;
     top: 0;
@@ -344,6 +388,7 @@ html {
     align-items: center;
     flex-direction: column;
   }
+
   .auto-judge .sort-right {
     position: absolute;
     top: 0;
@@ -355,10 +400,12 @@ html {
     align-items: center;
     flex-direction: column;
   }
+
   .auto-judge .sort-left:hover,
   .auto-judge .sort-right:hover {
     background: #eee;
   }
+
   .auto-judge:after {
     pointer-events: none;
     content: '';
@@ -371,10 +418,12 @@ html {
     border-radius: 4px;
     transition: all 0.1s;
   }
+
   .auto-judge:hover:after {
     border: 1px solid #3296fa;
     box-shadow: 0 0 6px 0 rgba(50, 150, 250, 0.3);
   }
+
   .node-wrap-box:after {
     pointer-events: none;
     content: '';
@@ -387,6 +436,7 @@ html {
     border-radius: 4px;
     transition: all 0.1s;
   }
+
   .node-wrap-box:hover:after {
     border: 1px solid #3296fa;
     box-shadow: 0 0 6px 0 rgba(50, 150, 250, 0.3);
@@ -397,14 +447,16 @@ html {
   margin-top: 15px;
   width: 100%;
 }
-.add-node-popover-body {
-}
+
+.add-node-popover-body {}
+
 .add-node-popover-body li {
   display: inline-block;
   width: 80px;
   text-align: center;
   padding: 10px 0;
 }
+
 .add-node-popover-body li i {
   border: 1px solid var(--el-border-color-light);
   width: 40px;
@@ -415,24 +467,30 @@ html {
   font-size: 18px;
   cursor: pointer;
 }
+
 .add-node-popover-body li i:hover {
   border: 1px solid #3296fa;
   background: #3296fa;
   color: #fff !important;
 }
+
 .add-node-popover-body li p {
   font-size: 12px;
   margin-top: 5px;
 }
+
 .node-wrap-drawer__title {
   padding-right: 40px;
 }
+
 .node-wrap-drawer__title label {
   cursor: pointer;
 }
+
 .node-wrap-drawer__title label:hover {
   border-bottom: 1px dashed #409eff;
 }
+
 .node-wrap-drawer__title .node-wrap-drawer__title-edit {
   color: #409eff;
   margin-left: 10px;
@@ -440,31 +498,51 @@ html {
 }
 
 .dark .sc-workflow-design {
+
   .node-wrap-box,
   .auto-judge {
     background: #2b2b2b;
   }
+
   .col-box {
     background: var(--el-bg-color);
   }
+
   .top-left-cover-line,
   .top-right-cover-line,
   .bottom-left-cover-line,
   .bottom-right-cover-line {
     background-color: var(--el-bg-color);
   }
+
   .node-wrap-box::before,
   .auto-judge::before {
     background-color: var(--el-bg-color);
   }
+
   .branch-box .add-branch {
     background: var(--el-bg-color);
   }
+
   .end-node .end-node-text {
     color: #ccc;
   }
+
   .auto-judge .sort-left:hover,
   .auto-judge .sort-right:hover {
     background: var(--el-bg-color);
   }
+}
+
+// --------------------------------- workflow show css ---------------------------------
+.fa-workflow-node-done .title {
+  background: #52c41a;
+}
+
+.fa-workflow-node-active .title {
+  background: #faad14;
+}
+
+.fa-workflow-node-idle .title {
+  background: #909399;
 }

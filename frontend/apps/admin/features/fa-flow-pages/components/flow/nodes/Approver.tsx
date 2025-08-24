@@ -11,7 +11,7 @@ import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
 import { RbacRoleSelect } from "@features/fa-admin-pages/components";
 import { rbacRoleApi, userApi } from "@features/fa-admin-pages/services";
 
-const {NodeSetType} = FlwEnums;
+const { NodeSetType } = FlwEnums;
 
 
 export interface ApproverProps {
@@ -24,13 +24,13 @@ export interface ApproverProps {
  * @author xu.pengfei
  * @date 2025/8/19 22:11
  */
-export default function Approver({node, parentNode}: ApproverProps) {
+export default function Approver({ node, parentNode }: ApproverProps) {
   const [form] = Form.useForm();
   const [open, show, hide] = useOpen()
   const [loading, setLoading] = useState(false)
 
-  const {refreshNode} = useContext(FaWorkFlowContext)
-  const {nodeCopy, setNodeCopy, updateNodeProps} = useNode(node)
+  const { refreshNode } = useContext(FaWorkFlowContext)
+  const { nodeCopy, setNodeCopy, updateNodeProps } = useNode(node)
 
   function toText(nodeConfig: Flw.Node) {
     if (nodeConfig.setType === NodeSetType.specifyMembers) {
@@ -107,10 +107,10 @@ export default function Approver({node, parentNode}: ApproverProps) {
   return (
     <div className="node-wrap">
       <div className="node-wrap-box start-node" onClick={showDrawer}>
-        <div className="title" style={{background: '#576a95'}}>
-          <FaIcon icon="fa-solid fa-user-large"/>
+        <div className="title">
+          <FaIcon icon="fa-solid fa-user-large" />
           <span>{node.nodeName}</span>
-          <NodeCloseBtn onClick={() => delNode()}/>
+          <NodeCloseBtn onClick={() => delNode()} />
         </div>
 
         <div className="content">
@@ -122,7 +122,7 @@ export default function Approver({node, parentNode}: ApproverProps) {
         open={open}
         onClose={() => hide()}
         title={(
-          <Input value={nodeCopy.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)}/>
+          <Input value={nodeCopy.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)} />
         )}
       >
         <Form
@@ -152,7 +152,7 @@ export default function Approver({node, parentNode}: ApproverProps) {
             )}
             {nodeCopy.setType === NodeSetType.supervisor && (
               <Form.Item name="examineLevel" label="指定主管" rules={[{ required: true }]}>
-                <InputNumber style={{width: 230}} addonBefore="发起人的第" addonAfter="级主管" min={1} max={100} changeOnWheel />
+                <InputNumber style={{ width: 230 }} addonBefore="发起人的第" addonAfter="级主管" min={1} max={100} changeOnWheel />
               </Form.Item>
             )}
             {nodeCopy.setType === NodeSetType.role && (
@@ -182,7 +182,7 @@ export default function Approver({node, parentNode}: ApproverProps) {
                 </Form.Item>
                 {nodeCopy.directorMode === 1 && (
                   <Form.Item name="directorLevel" label="指定主管" rules={[{ required: true }]}>
-                    <InputNumber style={{width: 230}} addonBefore="直到发起人的第" addonAfter="级主管" min={1} max={100} changeOnWheel />
+                    <InputNumber style={{ width: 230 }} addonBefore="直到发起人的第" addonAfter="级主管" min={1} max={100} changeOnWheel />
                   </Form.Item>
                 )}
               </>
@@ -196,7 +196,7 @@ export default function Approver({node, parentNode}: ApproverProps) {
             {nodeCopy.termAuto && (
               <>
                 <Form.Item name="term" label="审批期限" tooltip="为 0 则不生效" rules={[{ required: true }]}>
-                  <InputNumber style={{width: 230}} addonAfter="小时" min={0} max={1000} changeOnWheel />
+                  <InputNumber style={{ width: 230 }} addonAfter="小时" min={0} max={1000} changeOnWheel />
                 </Form.Item>
                 <Form.Item name="termMode" label="审批期限超时后执行">
                   <Radio.Group
@@ -224,13 +224,13 @@ export default function Approver({node, parentNode}: ApproverProps) {
           </FaFlexRestLayout>
 
           <Space>
-            <Button type="primary" icon={<SaveOutlined/>} htmlType="submit" loading={loading}>保存</Button>
+            <Button type="primary" icon={<SaveOutlined />} htmlType="submit" loading={loading}>保存</Button>
             <Button onClick={() => hide()} icon={<RollbackOutlined />}>取消</Button>
           </Space>
         </Form>
       </BaseDrawer>
 
-      <AddNode parentNode={node}/>
+      <AddNode parentNode={node} />
     </div>
   )
 }

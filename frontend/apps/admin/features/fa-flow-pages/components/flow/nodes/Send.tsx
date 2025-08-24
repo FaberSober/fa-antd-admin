@@ -26,8 +26,8 @@ export default function Send({ node, parentNode }: SendProps) {
   const [open, show, hide] = useOpen()
   const [loading, setLoading] = useState(false)
 
-  const {refreshNode} = useContext(FaWorkFlowContext)
-  const {nodeCopy, setNodeCopy, updateNodeProps} = useNode(node)
+  const { refreshNode } = useContext(FaWorkFlowContext)
+  const { nodeCopy, setNodeCopy, updateNodeProps } = useNode(node)
 
   async function onFinish(fieldsValue: any) {
     try {
@@ -73,13 +73,13 @@ export default function Send({ node, parentNode }: SendProps) {
   return (
     <div className="node-wrap">
       <div className="node-wrap-box start-node" onClick={showDrawer}>
-        <div className="title" style={{background: '#576a95'}}>
-          <FaIcon icon="fa-solid fa-user-large"/>
+        <div className="title">
+          <FaIcon icon="fa-solid fa-user-large" />
           <span>{node.nodeName}</span>
-          <NodeCloseBtn onClick={() => delNode()}/>
+          <NodeCloseBtn onClick={() => delNode()} />
         </div>
         <div className="content">
-          {text ? text : '请选择人员' }
+          {text ? text : '请选择人员'}
         </div>
       </div>
 
@@ -87,24 +87,24 @@ export default function Send({ node, parentNode }: SendProps) {
         open={open}
         onClose={() => hide()}
         title={(
-          <Input value={nodeCopy.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)}/>
+          <Input value={nodeCopy.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)} />
         )}
       >
         <Form form={form} layout="vertical" className="fa-flex-column fa-full" onFinish={onFinish}>
           <FaFlexRestLayout>
             <Form.Item name="nodeAssigneeIds" label="抄送人员" tooltip="抄送以站内信的形式发送给选定人员">
-              <UserSearchSelect mode="multiple"/>
+              <UserSearchSelect mode="multiple" />
             </Form.Item>
           </FaFlexRestLayout>
 
           <Space>
-            <Button type="primary" icon={<SaveOutlined/>} htmlType="submit" loading={loading}>保存</Button>
+            <Button type="primary" icon={<SaveOutlined />} htmlType="submit" loading={loading}>保存</Button>
             <Button onClick={() => hide()} icon={<RollbackOutlined />}>取消</Button>
           </Space>
         </Form>
       </BaseDrawer>
 
-      <AddNode parentNode={node}/>
+      <AddNode parentNode={node} />
     </div>
   )
 }

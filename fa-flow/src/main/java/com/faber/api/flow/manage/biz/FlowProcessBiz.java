@@ -1,6 +1,7 @@
 package com.faber.api.flow.manage.biz;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -9,8 +10,10 @@ import com.aizuda.bpm.engine.FlowLongEngine;
 import com.aizuda.bpm.engine.core.FlowCreator;
 import com.aizuda.bpm.engine.entity.FlwExtInstance;
 import com.aizuda.bpm.engine.entity.FlwHisInstance;
+import com.aizuda.bpm.engine.entity.FlwHisTask;
 import com.aizuda.bpm.engine.entity.FlwInstance;
 import com.aizuda.bpm.engine.entity.FlwProcess;
+import com.aizuda.bpm.engine.entity.FlwTask;
 import com.faber.api.flow.manage.entity.FlowProcess;
 import com.faber.api.flow.manage.mapper.FlowProcessMapper;
 import com.faber.api.flow.manage.vo.req.FlowProcessStartReqVo;
@@ -113,6 +116,12 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
         FlwExtInstance flwExtInstance = flowLongEngine.queryService().getExtInstance(instanceId);
         FlwProcess flwProcess = flowLongEngine.processService().getProcessById(flwHisInstance.getProcessId());
 
+        // 获取当前流程实例的历史操作信息
+        List<FlwHisTask> hisTasks = flowLongEngine.queryService().getHisTasksByInstanceId(instanceId).get();
+
+        // 获取当前流程实例的当前操作信息
+        List<FlwTask> tasks = flowLongEngine.queryService().getActiveTasksByInstanceId(instanceId).get();
+
         data.setInstanceState(flwHisInstance.getInstanceState());
         data.setCreateBy(flwHisInstance.getCreateBy());
         data.setCreateId(flwHisInstance.getCreateId());
@@ -123,6 +132,18 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
         data.setFlwProcess(flwProcess);
 
         Map<String, Object> renderNodes = new HashMap<>();
+
+        // 渲染历史task
+        for (FlwHisTask hisTask : hisTasks) {
+            // renderNodes.put(hisTask.getTaskKey(), hisTask.getTaskState());
+            // 这里需要考虑放1还是taskState
+            renderNodes.put(hisTask.getTaskKey(), "0");
+        }
+        // 渲染当前task
+        for (FlwTask task : tasks) {
+            renderNodes.put(task.getTaskKey(), "1");
+        }
+
         data.setRenderNodes(renderNodes);
 
         return data;
