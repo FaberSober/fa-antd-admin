@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import './ZoomPanEditor.scss'
+import "./ZoomPanEditor.scss";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { Button, Popover, Space } from "antd";
 
@@ -21,8 +21,12 @@ export default function ZoomPanEditor({
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const [zoom, setZoom] = useState(1);
-  const [offset, setOffset] = useState({ x: 100, y: 100 });
+  // 初始状态
+  const initialZoom = 1;
+  const initialOffset = { x: 100, y: 100 };
+
+  const [zoom, setZoom] = useState(initialZoom);
+  const [offset, setOffset] = useState(initialOffset);
 
   const [isDragging, setIsDragging] = useState(false);
   const dragStart = useRef({ x: 0, y: 0, offsetX: 0, offsetY: 0 });
@@ -32,14 +36,14 @@ export default function ZoomPanEditor({
 
   /** ========== 键盘事件监听空格键 ========== */
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (e.code === 'Space') {
+    if (e.code === "Space") {
       e.preventDefault();
       setIsSpacePressed(true);
     }
   }, []);
 
   const handleKeyUp = useCallback((e: KeyboardEvent) => {
-    if (e.code === 'Space') {
+    if (e.code === "Space") {
       e.preventDefault();
       setIsSpacePressed(false);
       setIsDragging(false); // 释放空格键时停止拖动
@@ -47,31 +51,39 @@ export default function ZoomPanEditor({
   }, []);
 
   /** ========== 主画布滚轮缩放 ========== */
-  const handleWheel = useCallback((e: React.WheelEvent) => {
-    if (!containerRef.current) return;
-    e.preventDefault();
+  const handleWheel = useCallback(
+    (e: React.WheelEvent) => {
+      if (!containerRef.current) return;
+      e.preventDefault();
 
-    const rect = containerRef.current.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left - offset.x;
-    const mouseY = e.clientY - rect.top - offset.y;
+      const rect = containerRef.current.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left - offset.x;
+      const mouseY = e.clientY - rect.top - offset.y;
 
-    let delta = e.deltaY > 0 ? -0.1 : 0.1;
-    let newZoom = Math.min(Math.max(zoom + delta, 0.1), 4);
+      let delta = e.deltaY > 0 ? -0.1 : 0.1;
+      let newZoom = Math.min(Math.max(zoom + delta, 0.1), 4);
 
-    const scale = newZoom / zoom;
-    const newOffsetX = offset.x - (mouseX * (scale - 1));
-    const newOffsetY = offset.y - (mouseY * (scale - 1));
+      const scale = newZoom / zoom;
+      const newOffsetX = offset.x - mouseX * (scale - 1);
+      const newOffsetY = offset.y - mouseY * (scale - 1);
 
-    setZoom(newZoom);
-    setOffset({ x: newOffsetX, y: newOffsetY });
-  }, [zoom, offset]);
+      setZoom(newZoom);
+      setOffset({ x: newOffsetX, y: newOffsetY });
+    },
+    [zoom, offset]
+  );
 
   /** ========== 主画布拖动 ========== */
   const handleMouseDown = (e: React.MouseEvent) => {
     // 只有在按住空格键时才允许拖动
     if (e.button === 0 && isSpacePressed) {
       setIsDragging(true);
-      dragStart.current = { x: e.clientX, y: e.clientY, offsetX: offset.x, offsetY: offset.y };
+      dragStart.current = {
+        x: e.clientX,
+        y: e.clientY,
+        offsetX: offset.x,
+        offsetY: offset.y,
+      };
     }
   };
 
@@ -96,8 +108,8 @@ export default function ZoomPanEditor({
       const viewportHeight = rect.height / zoom;
 
       setOffset({
-        x: -miniX / scaleX * zoom + rect.width / 2,
-        y: -miniY / scaleY * zoom + rect.height / 2,
+        x: (-miniX / scaleX) * zoom + rect.width / 2,
+        y: (-miniY / scaleY) * zoom + rect.height / 2,
       });
     }
   };
@@ -135,14 +147,20 @@ export default function ZoomPanEditor({
     const scaleY = miniMapHeight / rect.height;
 
     return {
-      x: -offset.x * scaleX / zoom,
-      y: -offset.y * scaleY / zoom,
-      w: rect.width * scaleX / zoom,
-      h: rect.height * scaleY / zoom,
+      x: (-offset.x * scaleX) / zoom,
+      y: (-offset.y * scaleY) / zoom,
+      w: (rect.width * scaleX) / zoom,
+      h: (rect.height * scaleY) / zoom,
     };
   };
 
   const viewportRect = getViewportRect();
+
+  /** ========== 重置到初始位置和缩放 ========== */
+  const handleReset = useCallback(() => {
+    setZoom(initialZoom);
+    setOffset(initialOffset);
+  }, []);
 
   return (
     <div className="fa-full fa-relative">
@@ -203,20 +221,18 @@ export default function ZoomPanEditor({
         </div>
       </div>
 
-      <div className="fa-zoom-pan-left-top">
-        {leftTop}
-      </div>
+      <div className="fa-zoom-pan-left-top">{leftTop}</div>
 
       <Space className="fa-zoom-pan-editor-toolbar">
         {toolbar}
-        <Button >重置</Button>
+        <Button onClick={handleReset}>重置</Button>
         <Popover
-          content={(
+          content={
             <ol>
               <li>鼠标滚动缩放</li>
               <li>按住空格键，按住鼠标左键拖动</li>
             </ol>
-          )}
+          }
           placement="leftTop"
         >
           <QuestionCircleOutlined />
@@ -224,4 +240,4 @@ export default function ZoomPanEditor({
       </Space>
     </div>
   );
-};
+}
