@@ -67,5 +67,6 @@
 
     // 格式化时优先使用编辑器设置的缩进
     "prettier.useTabs": false,
-    "prettier.tabWidth": 2
+    "prettier.tabWidth": 2,
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
