@@ -5,6 +5,7 @@ import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.faber.api.flow.core.enums.FaInstanceStateEnum;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.bean.BaseDelEntity;
 import lombok.Data;
@@ -24,8 +25,8 @@ import java.math.BigDecimal;
 @Data
 public class FaFlwHisInstance extends FaFlwInstance {
 
-    @ExcelProperty("状态 -2，已暂停状态 -1，暂存待审 0，审批中 1，审批通过 2，审批拒绝 3，撤销审批 4，超时结束 5，强制终止 6，自动通过 7，自动拒绝")
-    private Boolean instanceState;
+    @ExcelProperty("实例状态")
+    private FaInstanceStateEnum instanceState;
 
     @ExcelProperty("结束时间")
     private Date endTime;

@@ -181,6 +181,49 @@ namespace FlowEnums {
     [NodeSetType.designatedCandidate]: '指定候选人',
   }
 
+  /**
+   * 流程实例状态枚举
+   * {相对应com.aizuda.bpm.engine.core.enums.InstanceState}
+   */
+  export enum InstanceStateEnum {
+    /** 作废状态，删除当前任务，保留了历史审批任务 */
+    DESTROY = -3,
+    /** 已暂停状态，被主动挂起，暂停执行 */
+    SUSPEND = -2,
+    /** 暂存待审 */
+    SAVE_AS_DRAFT = -1,
+    /** 审批中 */
+    ACTIVE = 0,
+    /** 审批通过 */
+    COMPLETE = 1,
+    /** 审批拒绝（驳回结束流程） */
+    REJECT = 2,
+    /** 撤销审批 */
+    REVOKE = 3,
+    /** 超时结束 */
+    TIMEOUT = 4,
+    /** 强制终止 */
+    TERMINATE = 5,
+    /** 自动通过 */
+    AUTO_PASS = 6,
+    /** 自动拒绝 */
+    AUTO_REJECT = 7,
+  }
+
+  export const InstanceStateEnumMap: Record<InstanceStateEnum, string> = {
+    [InstanceStateEnum.DESTROY]: '作废',
+    [InstanceStateEnum.SUSPEND]: '已暂停',
+    [InstanceStateEnum.SAVE_AS_DRAFT]: '暂存待审',
+    [InstanceStateEnum.ACTIVE]: '审批中',
+    [InstanceStateEnum.COMPLETE]: '审批通过',
+    [InstanceStateEnum.REJECT]: '审批拒绝',
+    [InstanceStateEnum.REVOKE]: '撤销审批',
+    [InstanceStateEnum.TIMEOUT]: '超时结束',
+    [InstanceStateEnum.TERMINATE]: '强制终止',
+    [InstanceStateEnum.AUTO_PASS]: '自动通过',
+    [InstanceStateEnum.AUTO_REJECT]: '自动拒绝',
+  }
+
 }
 
 export default FlowEnums;

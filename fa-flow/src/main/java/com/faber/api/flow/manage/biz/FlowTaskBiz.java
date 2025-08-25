@@ -40,7 +40,7 @@ public class FlowTaskBiz {
     public void reject(Long taskId) {
         FlowCreator flowCreator = FlowCreator.of(BaseContextHandler.getUserId(), BaseContextHandler.getName());
         FlwTask flwTask = flowLongEngine.queryService().getTask(taskId);
-        flowLongEngine.executeRejectTask(flwTask, flowCreator);
+        flowLongEngine.executeRejectTask(flwTask, null, flowCreator, null, true);
     }
 
 }

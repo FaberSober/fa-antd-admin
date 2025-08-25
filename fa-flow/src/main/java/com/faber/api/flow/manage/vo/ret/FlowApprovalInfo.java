@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import com.aizuda.bpm.engine.entity.FlwProcess;
+import com.faber.api.flow.core.enums.FaInstanceStateEnum;
 
 import lombok.Data;
 
@@ -12,7 +13,7 @@ import lombok.Data;
 public class FlowApprovalInfo implements Serializable {
 
     private Long instanceId;
-    private Integer instanceState;
+    private FaInstanceStateEnum instanceState;
 
     private String createBy;
     private String createId;

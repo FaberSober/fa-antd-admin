@@ -147,8 +147,8 @@ namespace Flow {
 
   /** 历史流程实例表 */
   export interface FlwHisInstance extends FlwInstance {
-    /** 状态 -2，已暂停状态 -1，暂存待审 0，审批中 1，审批通过 2，审批拒绝 3，撤销审批 4，超时结束 5，强制终止 6，自动通过 7，自动拒绝 */
-    instanceState: boolean;
+    /** 实例状态: -3作废, -2已暂停, -1暂存待审, 0审批中, 1审批通过, 2审批拒绝, 3撤销审批, 4超时结束, 5强制终止, 6自动通过, 7自动拒绝 */
+    instanceState: number;
     /** 结束时间 */
     endTime: string;
     /** 处理耗时 */

@@ -14,6 +14,7 @@ import com.aizuda.bpm.engine.entity.FlwHisTask;
 import com.aizuda.bpm.engine.entity.FlwInstance;
 import com.aizuda.bpm.engine.entity.FlwProcess;
 import com.aizuda.bpm.engine.entity.FlwTask;
+import com.faber.api.flow.core.enums.FaInstanceStateEnum;
 import com.faber.api.flow.manage.entity.FlowProcess;
 import com.faber.api.flow.manage.mapper.FlowProcessMapper;
 import com.faber.api.flow.manage.vo.req.FlowProcessStartReqVo;
@@ -122,7 +123,7 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
         // 获取当前流程实例的当前操作信息
         List<FlwTask> tasks = flowLongEngine.queryService().getActiveTasksByInstanceId(instanceId).get();
 
-        data.setInstanceState(flwHisInstance.getInstanceState());
+        data.setInstanceState(FaInstanceStateEnum.fromValue(flwHisInstance.getInstanceState()));
         data.setCreateBy(flwHisInstance.getCreateBy());
         data.setCreateId(flwHisInstance.getCreateId());
         data.setCreateTime(flwHisInstance.getCreateTime());

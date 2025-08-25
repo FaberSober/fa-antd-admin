@@ -15,6 +15,7 @@ import {
   BaseTableUtils,
   clearForm,
   FaberTable,
+  FaDateUtils,
   FaHref,
   useDelete,
   useDeleteByQuery,
@@ -23,7 +24,7 @@ import {
 } from "@fa/ui";
 import { CommonExcelUploadModal } from "@/components";
 import { flwHisInstanceApi as api } from "@/services";
-import { Flow } from "@/types";
+import { Flow, FlwEnums } from "@/types";
 import FlowInstanceView from "../components/FlowInstanceView";
 
 const serviceName = "历史流程实例表";
@@ -78,12 +79,15 @@ export default function FlwHisInstanceList() {
         undefined,
         sorter
       ),
-      BaseTableUtils.genSimpleSorterColumn(
-        "实例状态",
-        "instanceState",
-        100,
-        sorter
-      ),
+      {
+        ...BaseTableUtils.genSimpleSorterColumn(
+          "实例状态",
+          "instanceState",
+          100,
+          sorter
+        ),
+        render: (v) => FlwEnums.InstanceStateEnumMap[v as FlwEnums.InstanceStateEnum] || v,
+      },
       BaseTableUtils.genSimpleSorterColumn("创建人", "createBy", 100, sorter),
       BaseTableUtils.genSimpleSorterColumn(
         "期望完成时间",
@@ -97,15 +101,11 @@ export default function FlwHisInstanceList() {
         170,
         sorter
       ),
-
-      BaseTableUtils.genSimpleSorterColumn(
-        "状态",
-        "instanceState",
-        100,
-        sorter
-      ),
       BaseTableUtils.genSimpleSorterColumn("结束时间", "endTime", 170, sorter),
-      BaseTableUtils.genSimpleSorterColumn("处理耗时", "duration", 100, sorter),
+      {
+        ...BaseTableUtils.genSimpleSorterColumn("处理耗时", "duration", 140, sorter),
+        render: (v) => v ? FaDateUtils.formatDuration(Math.floor(v / 1000)) : null,
+      },
       {
         title: "操作",
         dataIndex: "menu",

@@ -3,6 +3,7 @@ package com.faber.api.flow.manage.vo.ret;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.faber.api.flow.core.enums.FaInstanceStateEnum;
 import lombok.Data;
 
 /**
@@ -49,7 +50,7 @@ public class FlowTaskRet implements Serializable {
     /**
      * 实例状态
      */
-    private Integer instanceState;
+    private FaInstanceStateEnum instanceState;
 
     /**
      * 发起人
