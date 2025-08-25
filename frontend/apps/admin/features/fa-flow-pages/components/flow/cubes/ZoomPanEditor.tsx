@@ -21,25 +21,39 @@ export default function ZoomPanEditor({
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // 计算居中位置的函数
-  const getCenteredOffset = useCallback(() => {
+  // 计算居中位置和最佳缩放的函数
+  const getCenteredOffsetAndZoom = useCallback(() => {
     if (!containerRef.current || !contentRef.current) {
-      return { x: 100, y: 100 }; // 默认位置
+      return { offset: { x: 100, y: 100 }, zoom: 1 }; // 默认值
     }
 
     const containerRect = containerRef.current.getBoundingClientRect();
     const contentRect = contentRef.current.getBoundingClientRect();
 
-    // 计算居中偏移量
-    const centerX = (containerRect.width - contentRect.width) / 2;
-    const centerY = (containerRect.height - contentRect.height) / 2;
+    // 计算最佳缩放比例（确保内容完全可见，留一些边距）
+    const padding = 50; // 边距
+    const scaleX = (containerRect.width - padding * 2) / contentRect.width;
+    const scaleY = (containerRect.height - padding * 2) / contentRect.height;
+    const optimalZoom = Math.min(scaleX, scaleY, 1); // 不超过1倍缩放
 
-    return { x: centerX, y: centerY };
+    // 计算缩放后的内容尺寸
+    const scaledWidth = contentRect.width * optimalZoom;
+    const scaledHeight = contentRect.height * optimalZoom;
+
+    // 计算居中偏移量
+    const centerX = (containerRect.width - scaledWidth) / 2;
+    const centerY = (containerRect.height - scaledHeight) / 2;
+
+    return {
+      offset: { x: centerX, y: centerY },
+      zoom: optimalZoom,
+    };
   }, []);
 
   // 初始状态
   const initialZoom = 1;
   const [initialOffset, setInitialOffset] = useState({ x: 100, y: 100 });
+  const [initialZoomLevel, setInitialZoomLevel] = useState(1);
 
   const [zoom, setZoom] = useState(initialZoom);
   const [offset, setOffset] = useState(initialOffset);
@@ -50,16 +64,19 @@ export default function ZoomPanEditor({
   const [isDraggingMiniMap, setIsDraggingMiniMap] = useState(false);
   const [isSpacePressed, setIsSpacePressed] = useState(false);
 
-  /** ========== 初始化居中定位 ========== */
+  /** ========== 初始化居中定位和最佳缩放 ========== */
   useEffect(() => {
     const timer = setTimeout(() => {
-      const centeredOffset = getCenteredOffset();
+      const { offset: centeredOffset, zoom: optimalZoom } =
+        getCenteredOffsetAndZoom();
       setInitialOffset(centeredOffset);
+      setInitialZoomLevel(optimalZoom);
       setOffset(centeredOffset);
+      setZoom(optimalZoom);
     }, 100); // 延迟确保DOM已渲染
 
     return () => clearTimeout(timer);
-  }, [getCenteredOffset]);
+  }, [getCenteredOffsetAndZoom]);
 
   /** ========== 键盘事件监听空格键 ========== */
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -185,9 +202,9 @@ export default function ZoomPanEditor({
 
   /** ========== 重置到初始位置和缩放 ========== */
   const handleReset = useCallback(() => {
-    setZoom(initialZoom);
+    setZoom(initialZoomLevel);
     setOffset(initialOffset);
-  }, [initialOffset]);
+  }, [initialOffset, initialZoomLevel]);
 
   return (
     <div className="fa-full fa-relative">
