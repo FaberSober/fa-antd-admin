@@ -21,9 +21,25 @@ export default function ZoomPanEditor({
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
+  // 计算居中位置的函数
+  const getCenteredOffset = useCallback(() => {
+    if (!containerRef.current || !contentRef.current) {
+      return { x: 100, y: 100 }; // 默认位置
+    }
+
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const contentRect = contentRef.current.getBoundingClientRect();
+
+    // 计算居中偏移量
+    const centerX = (containerRect.width - contentRect.width) / 2;
+    const centerY = (containerRect.height - contentRect.height) / 2;
+
+    return { x: centerX, y: centerY };
+  }, []);
+
   // 初始状态
   const initialZoom = 1;
-  const initialOffset = { x: 100, y: 100 };
+  const [initialOffset, setInitialOffset] = useState({ x: 100, y: 100 });
 
   const [zoom, setZoom] = useState(initialZoom);
   const [offset, setOffset] = useState(initialOffset);
@@ -33,6 +49,17 @@ export default function ZoomPanEditor({
 
   const [isDraggingMiniMap, setIsDraggingMiniMap] = useState(false);
   const [isSpacePressed, setIsSpacePressed] = useState(false);
+
+  /** ========== 初始化居中定位 ========== */
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const centeredOffset = getCenteredOffset();
+      setInitialOffset(centeredOffset);
+      setOffset(centeredOffset);
+    }, 100); // 延迟确保DOM已渲染
+
+    return () => clearTimeout(timer);
+  }, [getCenteredOffset]);
 
   /** ========== 键盘事件监听空格键 ========== */
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -160,7 +187,7 @@ export default function ZoomPanEditor({
   const handleReset = useCallback(() => {
     setZoom(initialZoom);
     setOffset(initialOffset);
-  }, []);
+  }, [initialOffset]);
 
   return (
     <div className="fa-full fa-relative">
