@@ -10,6 +10,7 @@ import { DeleteOutlined, PlusOutlined, RollbackOutlined, SaveOutlined } from "@a
 export interface BranchNodeProps {
   node: Flw.ConditionNode;
   index: number;
+  elseNode?: boolean; // 是否为 else 节点
   onDel?: () => void;
   conditionText: string | ReactNode;
   onSubmit?: (cn: Flw.ConditionNode) => void;
@@ -21,7 +22,7 @@ export interface BranchNodeProps {
  * @author xu.pengfei
  * @date 2025/8/21 17:08
  */
-export default function BranchNode({ node, index, onDel, conditionText, onSubmit }: BranchNodeProps) {
+export default function BranchNode({ node, index, elseNode, onDel, conditionText, onSubmit }: BranchNodeProps) {
   const [form] = Form.useForm();
   const [open, show, hide] = useOpen()
   const [loading, setLoading] = useState(false)
@@ -45,6 +46,7 @@ export default function BranchNode({ node, index, onDel, conditionText, onSubmit
   }
 
   function showDrawer() {
+    if (elseNode) return;
     show()
     // form.setFieldsValue({
     //   ...nodeCopy,
@@ -57,7 +59,7 @@ export default function BranchNode({ node, index, onDel, conditionText, onSubmit
         <div className="branch-title">
           <span className="node-title">{node.nodeName}</span>
           <span className="priority-title">优先级{node.priorityLevel}</span>
-          <NodeCloseBtn onClick={onDel} />
+          {!elseNode && <NodeCloseBtn onClick={onDel} />}
         </div>
 
         <div className="content">

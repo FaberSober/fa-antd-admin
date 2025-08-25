@@ -22,9 +22,9 @@ export interface BranchProps {
  * @author xu.pengfei
  * @date 2025/8/19 22:19
  */
-export default function Branch({node, parentNode}: BranchProps) {
-  const {refreshNode} = useContext(FaWorkFlowContext)
-  const {nodeCopy, setNodeCopy, updateNodeProps} = useNode(node)
+export default function Branch({ node, parentNode }: BranchProps) {
+  const { refreshNode } = useContext(FaWorkFlowContext)
+  const { nodeCopy, setNodeCopy, updateNodeProps } = useNode(node)
 
   function addTerm() {
     let len = nodeCopy.conditionNodes!.length + 1
@@ -73,7 +73,7 @@ export default function Branch({node, parentNode}: BranchProps) {
   }
 
   function toText(nodeConfig: Flw.Node, index: number) {
-    const {conditionList} = nodeConfig.conditionNodes![index]
+    const { conditionList } = nodeConfig.conditionNodes![index]
     if (conditionList && conditionList.length === 1) {
       const text = conditionList.map((conditionGroup) => conditionGroup.map((item) => `${item.label}${item.operator}${item.value}`)).join(' 和 ')
       return text
@@ -92,7 +92,7 @@ export default function Branch({node, parentNode}: BranchProps) {
     <div className="branch-wrap">
       <div className="branch-box-wrap">
         <div className="branch-box">
-          <Button onClick={addTerm} shape="round" icon={<PlusOutlined/>} className="add-branch">添加条件</Button>
+          <Button onClick={addTerm} shape="round" icon={<PlusOutlined />} className="add-branch">添加条件</Button>
 
           {/* loop condition */}
           {node.conditionNodes && node.conditionNodes.map((cNode, index) => {
@@ -103,9 +103,9 @@ export default function Branch({node, parentNode}: BranchProps) {
                   <div className="condition-node-box">
                     <div className="auto-judge">
                       {/* move this condition to left */}
-                      {index !== 0 && (
+                      {index !== 0 && index < node.conditionNodes!.length - 1 && (
                         <div className="sort-left" onClick={() => arrTransfer(index, -1)}>
-                          <LeftOutlined/>
+                          <LeftOutlined />
                         </div>
                       )}
 
@@ -114,6 +114,7 @@ export default function Branch({node, parentNode}: BranchProps) {
                         onDel={() => delTerm(index)}
                         conditionText={conditionText}
                         index={index}
+                        elseNode={index === node.conditionNodes!.length - 1}
                         onSubmit={cn => {
                           const nodeNew = {
                             ...nodeCopy,
@@ -125,32 +126,32 @@ export default function Branch({node, parentNode}: BranchProps) {
                       />
 
                       {/* move this condition to right */}
-                      {index !== node.conditionNodes!.length - 1 && (
+                      {index < node.conditionNodes!.length - 2 && node.conditionNodes!.length > 2 && (
                         <div className="sort-right" onClick={() => arrTransfer(index)}>
-                          <RightOutlined/>
+                          <RightOutlined />
                         </div>
                       )}
                     </div>
 
-                    <AddNode parentNode={cNode}/>
+                    <AddNode parentNode={cNode} />
                   </div>
                 </div>
 
                 {/* condition node's child node */}
-                <NodeWrap node={cNode.childNode} parentNode={cNode}/>
+                <NodeWrap node={cNode.childNode} parentNode={cNode} />
 
-                {index === 0 && <div className="top-left-cover-line"/>}
-                {index === 0 && <div className="bottom-left-cover-line"/>}
+                {index === 0 && <div className="top-left-cover-line" />}
+                {index === 0 && <div className="bottom-left-cover-line" />}
 
-                {index === node.conditionNodes!.length - 1 && <div className="top-right-cover-line"/>}
-                {index === node.conditionNodes!.length - 1 && <div className="bottom-right-cover-line"/>}
+                {index === node.conditionNodes!.length - 1 && <div className="top-right-cover-line" />}
+                {index === node.conditionNodes!.length - 1 && <div className="bottom-right-cover-line" />}
               </div>
             )
           })}
 
         </div>
 
-        <AddNode parentNode={node}/>
+        <AddNode parentNode={node} />
       </div>
     </div>
   )
