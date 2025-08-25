@@ -266,24 +266,24 @@ CREATE TABLE IF NOT EXISTS `flow_process` (
 CREATE TABLE IF NOT EXISTS `demo_flow_leave`  (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `flow_id` bigint NULL DEFAULT NULL COMMENT '流程ID',
-  `apply_user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '请假员工ID',
+  `apply_user_id` varchar(32) NOT NULL COMMENT '请假员工ID',
   `apply_date` datetime NULL DEFAULT NULL COMMENT '申请日期',
-  `apply_reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '请假原因',
+  `apply_reason` varchar(255) NULL DEFAULT NULL COMMENT '请假原因',
   `leave_day_count` int NULL DEFAULT NULL COMMENT '请假天数',
   `leave_start_time` datetime NULL DEFAULT NULL COMMENT '开始时间',
   `leave_end_time` datetime NULL DEFAULT NULL COMMENT '结束时间',
   `tenant_id` int NULL DEFAULT NULL COMMENT '租户ID',
   `crt_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `crt_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建用户ID',
-  `crt_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建用户',
-  `crt_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建IP',
+  `crt_user` varchar(32) NOT NULL COMMENT '创建用户ID',
+  `crt_name` varchar(255) NOT NULL COMMENT '创建用户',
+  `crt_host` varchar(255) NULL DEFAULT NULL COMMENT '创建IP',
   `upd_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `upd_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '更新用户ID',
-  `upd_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '更新用户',
-  `upd_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '更新IP',
+  `upd_user` varchar(32) NULL DEFAULT NULL COMMENT '更新用户ID',
+  `upd_name` varchar(255) NULL DEFAULT NULL COMMENT '更新用户',
+  `upd_host` varchar(255) NULL DEFAULT NULL COMMENT '更新IP',
   `deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'DEMO-请假流程' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COMMENT = 'DEMO-请假流程';
 
 
 -- ----------------------------
