@@ -5,6 +5,7 @@ export { default as flowTaskApi } from './flow/manage/flowTask';
 
 // ------------------------------------- Core -------------------------------------
 export { default as flwInstanceApi } from './flow/core/flwInstance';
+export { default as flwHisInstanceApi } from './flow/core/flwHisInstance';
 
 // ------------------------------------- Demo -------------------------------------
 export { default as demoFlowLeaveApi } from './flow/demo/demoFlowLeave';

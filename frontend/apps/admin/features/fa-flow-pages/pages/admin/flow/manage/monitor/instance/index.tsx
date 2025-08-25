@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Allotment } from "allotment";
 import { BaseTree } from "@fa/ui";
 import { flowCatagoryApi } from "@features/fa-flow-pages/services";
-import { Flow } from '@features/fa-flow-pages/types';
-import FlwInstanceList from './cube/FlwInstanceList';
-
-
+import { Flow } from "@features/fa-flow-pages/types";
+import FlwInstanceList from "./cube/FlwInstanceList";
+import FlwHisInstanceList from "./cube/FlwHisInstanceList";
 
 /**
  * @author xu.pengfei
@@ -36,9 +35,9 @@ export default function FlowMonitorInstancePage() {
 
         {/* 右侧面板 */}
         <div className="fa-flex-column fa-full">
-          <FlwInstanceList />
+          <FlwHisInstanceList />
         </div>
       </Allotment>
     </div>
-  )
+  );
 }

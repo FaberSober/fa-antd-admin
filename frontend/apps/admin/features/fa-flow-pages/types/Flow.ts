@@ -144,6 +144,17 @@ namespace Flow {
     lastUpdateTime: string;
   }
 
+
+  /** 历史流程实例表 */
+  export interface FlwHisInstance extends FlwInstance {
+    /** 状态 -2，已暂停状态 -1，暂存待审 0，审批中 1，审批通过 2，审批拒绝 3，撤销审批 4，超时结束 5，强制终止 6，自动通过 7，自动拒绝 */
+    instanceState: boolean;
+    /** 结束时间 */
+    endTime: string;
+    /** 处理耗时 */
+    duration: string;
+  }
+
   /** 工作流任务分页查询请求对象 - Flow Task Page Query Request Object */
   export interface FlowTaskPageReqVo {
     /** 开始时间 - Begin Time */
