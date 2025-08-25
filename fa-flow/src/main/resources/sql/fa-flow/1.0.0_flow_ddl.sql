@@ -285,4 +285,16 @@ CREATE TABLE IF NOT EXISTS `demo_flow_leave`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'DEMO-请假流程' ROW_FORMAT = Dynamic;
 
+
+-- ----------------------------
+-- add flow menu
+-- ----------------------------
+BEGIN;
+INSERT INTO `base_rbac_menu` VALUES (13000000, 10000000, 1, '流程示例', 2, 1, 'briefcase', 1, 1, '/admin/demo/flow', '2025-08-24 13:22:35', '1', '超级管理员', '26.26.26.1', '2025-08-24 13:22:48', '1', '超级管理员', '26.26.26.1', 0);
+-- INSERT INTO `base_rbac_menu` VALUES (22020002, 13000000, 1, '流程编辑器', 0, 1, NULL, 1, 1, '/admin/demo/flow/base', '2025-08-24 13:22:52', '1', '超级管理员', '26.26.26.1', '2025-08-24 13:23:05', NULL, NULL, NULL, 0);
+INSERT INTO `base_rbac_menu` VALUES (13000100, 13000000, 1, '流程配置', 1, 1, NULL, 1, 1, '/admin/flow/manage/deploy', '2025-08-24 13:23:11', '1', '超级管理员', '26.26.26.1', '2025-08-24 13:23:24', NULL, NULL, NULL, 0);
+INSERT INTO `base_rbac_menu` VALUES (13000200, 13000000, 1, '流程审批', 2, 1, NULL, 1, 1, '/admin/flow/manage/audit', '2025-08-24 13:23:22', '1', '超级管理员', '26.26.26.1', '2025-08-24 13:23:35', NULL, NULL, NULL, 0);
+INSERT INTO `base_rbac_menu` VALUES (13000300, 13000000, 1, '流程实例', 3, 1, NULL, 1, 1, '/admin/flow/manage/monitor/instance', '2025-08-24 14:21:13', '1', '超级管理员', '26.26.26.1', '2025-08-24 14:21:26', NULL, NULL, NULL, 0);
+COMMIT;
+
 SET FOREIGN_KEY_CHECKS = 1;
