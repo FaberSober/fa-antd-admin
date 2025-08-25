@@ -62,7 +62,7 @@ export default function Branch({ node, parentNode }: BranchProps) {
    * @param type -1-move left, 1-move right
    */
   function arrTransfer(index: number, type: number = 1) {
-    const conditionNodes = FaArrUtils.arrTransfer(nodeCopy.conditionNodes!, index, index + type)
+    const conditionNodes = FaArrUtils.arrTransfer(nodeCopy.conditionNodes!, index, index + type).map((c, i) => ({ ...c, priorityLevel: i + 1 }))
     const nodeNew = {
       ...nodeCopy,
       conditionNodes,
