@@ -49,7 +49,6 @@ export default function FlowAuditStart() {
         {/* 左侧面板 */}
         <Allotment.Pane minSize={200} maxSize={400}>
           <BaseTree
-            ref={drawerRef}
             // showRoot
             rootName="全部"
             onSelect={onTreeSelect}
@@ -69,6 +68,7 @@ export default function FlowAuditStart() {
               return (
                 <div key={flow.id}>
                   <BaseDrawer
+                    ref={drawerRef}
                     triggerDom={(
                       <div className='fa-btn'>
                         {flow.processName}
