@@ -6,57 +6,57 @@
   "editor.tabSize": 4,
   "editor.insertSpaces": true,
   "editor.detectIndentation": false, // 禁用自动检测，以免覆盖手动设置
-  "editor.formatOnSave": true, // 保存时自动格式化
+  "editor.formatOnSave": false, // 保存时自动格式化
   // 针对 Java 设置缩进为 4 个空格
   "[java]": {
     "editor.tabSize": 4,
     "editor.insertSpaces": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
   },
   // 针对 JavaScript 设置缩进为 2 个空格
   "[javascript]": {
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
   },
   // 针对 TypeScript 设置缩进为 2 个空格
   "[typescript]": {
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
   },
   // 针对 Python 设置缩进为 4 个空格
   "[python]": {
     "editor.tabSize": 4,
     "editor.insertSpaces": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
   },
   // 针对 JSON / JSONC 设置缩进为 2 个空格
   "[json]": {
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
   },
   "[jsonc]": {
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
   },
   // 针对 HTML / CSS / SCSS 等常用前端文件设置为 2 个空格
   "[html]": {
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
   },
   "[css]": {
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
   },
   "[scss]": {
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
   },
   // 格式化时优先使用编辑器设置的缩进
   "prettier.useTabs": false,
