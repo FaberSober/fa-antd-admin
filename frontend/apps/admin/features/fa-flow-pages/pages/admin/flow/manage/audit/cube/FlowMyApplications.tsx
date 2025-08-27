@@ -8,15 +8,15 @@ import FlowInstanceDeal from "../components/FlowInstanceDeal";
 
 /**
  * 流程任务管理 - 我的申请组件
- * 用于显示当前用户申请的所有流程任务列表，包括待审批、审批中和已完成的任务
+ * 用于显示当前用户申请的所有历史流程实例列表，包括待审批、审批中和已完成的任务
  */
 export default function FlowMyApplications() {
-  // 使用表格查询参数Hook，获取我申请的流程任务列表
+  // 使用表格查询参数Hook，获取我申请的历史流程实例列表
   const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, setExtraParams, fetchPageList, loading, list, paginationProps } =
-      useTableQueryParams<Flow.FlowTaskRet>(flowTaskApi.pageMyApplications, { extraParams: {}, sorter: { field: 't.createTime', order: 'descend' } }, '流程任务')
+      useTableQueryParams<Flow.FlowHisInstanceRet>(flowTaskApi.pageMyApplications, { extraParams: {}, sorter: { field: 't.createTime', order: 'descend' } }, '流程任务')
 
-  // 当前选中的任务信息
-  const [task, setTask] = useState<Flow.FlowTaskRet>()
+  // 当前选中的实例信息
+  const [task, setTask] = useState<Flow.FlowHisInstanceRet>()
 
   /**
    * 刷新任务列表
@@ -30,7 +30,7 @@ export default function FlowMyApplications() {
    * 选择任务处理函数
    * @param selectedTask - 被选中的任务对象
    */
-  const handleTaskSelect = (selectedTask: Flow.FlowTaskRet) => {
+  const handleTaskSelect = (selectedTask: Flow.FlowHisInstanceRet) => {
     setTask(selectedTask);
   };
 
@@ -57,7 +57,7 @@ export default function FlowMyApplications() {
               {list.map(i => {
                 return (
                   <div
-                    key={i.taskId}
+                    key={i.instanceId}
                     className="fa-card fa-hover fa-mb12 fa-flex-column"
                     onClick={() => handleTaskSelect(i)}
                     onKeyDown={(e) => {
@@ -78,12 +78,12 @@ export default function FlowMyApplications() {
 
                     <div className="fa-flex-row-center">
                       <div className="fa-subtitle">当前所在节点:</div>
-                      <div>{i.taskName}</div>
+                      <div>{i.currentNodeName}</div>
                     </div>
 
                     <div className="fa-flex-row-center">
-                      <div className='fa-flex-1'>{i.launchBy}</div>
-                      <div>提交于{i.launchTime}</div>
+                      <div className='fa-flex-1'>{i.createBy}</div>
+                      <div>提交于{i.createTime}</div>
                     </div>
                   </div>
                 )
@@ -92,11 +92,23 @@ export default function FlowMyApplications() {
           </div>
         </Allotment.Pane>
 
-        {/* 右侧面板 - 任务处理详情 */}
+        {/* 右侧面板 - 实例详情 */}
         <div className="fa-flex-column fa-full">
           {task && (
-            <div>
-              <FlowInstanceDeal instanceId={task.instanceId} taskId={task.taskId} onSuccess={handleTaskDealSuccess} />
+            <div className="fa-full-content-p12">
+              <div className="fa-mb12">
+                <h3>流程实例详情</h3>
+              </div>
+              <div className="fa-card">
+                <div className="fa-mb8"><strong>流程名称：</strong>{task.processName}</div>
+                <div className="fa-mb8"><strong>流程类型：</strong>{task.processType}</div>
+                <div className="fa-mb8"><strong>当前节点：</strong>{task.currentNodeName}</div>
+                <div className="fa-mb8"><strong>实例状态：</strong>{FlwEnums.InstanceStateEnumMap[task.instanceState as FlwEnums.InstanceStateEnum]}</div>
+                <div className="fa-mb8"><strong>创建人：</strong>{task.createBy}</div>
+                <div className="fa-mb8"><strong>创建时间：</strong>{task.createTime}</div>
+                <div className="fa-mb8"><strong>结束时间：</strong>{task.endTime}</div>
+                <div className="fa-mb8"><strong>处理耗时：</strong>{task.duration} 毫秒</div>
+              </div>
             </div>
           )}
         </div>

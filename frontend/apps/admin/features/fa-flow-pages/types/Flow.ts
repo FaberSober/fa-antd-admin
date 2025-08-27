@@ -201,6 +201,34 @@ namespace Flow {
     processType?: string;
   }
 
+  /** 历史流程实例返回对象 - Historical Flow Instance Return Object */
+  export interface FlowHisInstanceRet {
+    /** 流程ID - Process ID */
+    processId: string;
+    /** 流程名称 - Process Name */
+    processName: string;
+    /** 流程类型 - Process Type */
+    processType: string;
+    /** 当前节点名称 - Current Node Name */
+    currentNodeName: string;
+    /** 当前节点Key - Current Node Key */
+    currentNodeKey: string;
+    /** 实例ID - Instance ID */
+    instanceId: string;
+    /** 实例状态 - Instance State */
+    instanceState: number;
+    /** 创建人ID - Create ID */
+    createId: string;
+    /** 创建人名称 - Create By */
+    createBy: string;
+    /** 创建时间 - Create Time */
+    createTime: string; // ISO date string format
+    /** 结束时间 - End Time */
+    endTime: string; // ISO date string format
+    /** 处理耗时（毫秒） - Duration (milliseconds) */
+    duration: string;
+  }
+
   /** 流程任务数量统计返回对象 - Flow Task Count Return Object */
   export interface FlowTaskCountRet {
     /** 任务数量-待审批 */

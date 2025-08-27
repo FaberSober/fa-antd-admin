@@ -37,22 +37,22 @@
     <sql id="Query_HisInstance_Where_Condition">
         <where>
             <if test="query.instanceId != null">
-                and hi.id = #{query.instanceId}
+                and t.id = #{query.instanceId}
             </if>
             <if test="query.instanceState != null and query.instanceState.trim() != ''">
-                and hi.instance_state = #{query.instanceState}
+                and t.instance_state = #{query.instanceState}
             </if>
             <if test="query.processName != null and query.processName.trim() != ''">
                 and p.process_name like concat('%', #{query.processName}, '%')
             </if>
             <if test="query.createId != null and query.createId.trim() != ''">
-                and hi.create_id = #{query.createId}
+                and t.create_id = #{query.createId}
             </if>
             <if test="query.beginTime != null">
-                and hi.create_time >= #{query.beginTime}
+                and t.create_time &gt;= #{query.beginTime}
             </if>
             <if test="query.endTime != null">
-                and hi.create_time <= #{query.endTime}
+                and t.create_time &lt;= #{query.endTime}
             </if>
         </where>
     </sql>
@@ -97,27 +97,27 @@
 
     <select id="queryHisInstance" resultType="com.faber.api.flow.manage.vo.ret.FlowHisInstanceRet">
         SELECT 
-            hi.process_id as processId,
+            t.process_id as processId,
             p.process_name as processName,
             p.process_type as processType,
-            hi.current_node_name as currentNodeName,
-            hi.current_node_key as currentNodeKey,
-            hi.id as instanceId,
-            hi.instance_state as instanceState,
-            hi.create_id as createId,
-            hi.create_by as createBy,
-            hi.create_time as createTime,
-            hi.end_time as endTime,
-            hi.duration as duration
-        FROM flw_his_instance hi
-        LEFT JOIN flw_process p ON hi.process_id = p.id
+            t.current_node_name as currentNodeName,
+            t.current_node_key as currentNodeKey,
+            t.id as instanceId,
+            t.instance_state as instanceState,
+            t.create_id as createId,
+            t.create_by as createBy,
+            t.create_time as createTime,
+            t.end_time as endTime,
+            t.duration as duration
+        FROM flw_his_instance t
+        LEFT JOIN flw_process p ON t.process_id = p.id
         <include refid="Query_HisInstance_Where_Condition"/>
         <choose>
             <when test="sorter != null and sorter != ''">
                 ORDER BY ${sorter}
             </when>
             <otherwise>
-                ORDER BY hi.create_time DESC
+                ORDER BY t.create_time DESC
             </otherwise>
         </choose>
     </select>

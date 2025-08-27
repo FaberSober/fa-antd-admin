@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.faber.api.flow.manage.biz.FlowTaskBiz;
 import com.faber.api.flow.manage.vo.req.FlowTaskPageReqVo;
 import com.faber.api.flow.manage.vo.ret.FlowTaskRet;
+import com.faber.api.flow.manage.vo.ret.FlowHisInstanceRet;
 import com.faber.api.flow.manage.vo.ret.FlowTaskCountRet;
 import com.faber.core.annotation.FaLogBiz;
 import com.faber.core.annotation.FaLogOpr;
@@ -41,7 +42,7 @@ public class FlowTaskController extends BaseResHandler {
     @FaLogOpr(value = "我申请的流程", crud = LogCrudEnum.R)
     @RequestMapping(value = "/pageMyApplications", method = RequestMethod.POST)
     @ResponseBody
-    public TableRet<FlowTaskRet> pageMyApplications(@RequestBody BasePageQuery<FlowTaskPageReqVo> query) {
+    public TableRet<FlowHisInstanceRet> pageMyApplications(@RequestBody BasePageQuery<FlowTaskPageReqVo> query) {
         return flowTaskBiz.pageMyApplications(query);
     }
 

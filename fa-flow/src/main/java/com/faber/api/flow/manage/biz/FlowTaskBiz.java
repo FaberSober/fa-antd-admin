@@ -41,10 +41,10 @@ public class FlowTaskBiz {
     /**
      * 查询我申请的流程task列表
      */
-    public TableRet<FlowTaskRet> pageMyApplications(BasePageQuery<FlowTaskPageReqVo> query) {
+    public TableRet<FlowHisInstanceRet> pageMyApplications(BasePageQuery<FlowTaskPageReqVo> query) {
         query.getQuery().setCreateId(BaseContextHandler.getUserId());
-        PageInfo<FlowTaskRet> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
-                .doSelectPageInfo(() -> flowTaskMapper.queryHisTask(query.getQuery(), query.getSorter()));
+        PageInfo<FlowHisInstanceRet> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
+                .doSelectPageInfo(() -> flowTaskMapper.queryHisInstance(query.getQuery(), query.getSorter()));
         return new TableRet<>(info);
     }
 
