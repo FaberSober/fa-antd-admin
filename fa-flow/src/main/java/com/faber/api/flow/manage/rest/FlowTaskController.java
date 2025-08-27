@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.faber.api.flow.manage.biz.FlowTaskBiz;
 import com.faber.api.flow.manage.vo.req.FlowTaskPageReqVo;
 import com.faber.api.flow.manage.vo.ret.FlowTaskRet;
+import com.faber.api.flow.manage.vo.ret.FlowTaskCountRet;
 import com.faber.core.annotation.FaLogBiz;
 import com.faber.core.annotation.FaLogOpr;
 import com.faber.core.enums.LogCrudEnum;
@@ -53,6 +54,13 @@ public class FlowTaskController extends BaseResHandler {
         Long taskId = MapUtil.getLong(query, "taskId");
         flowTaskBiz.reject(taskId);
         return ok();
+    }
+    
+    @FaLogOpr(value = "查询我的流程任务数量", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/getMyTaskCount", method = RequestMethod.GET)
+    @ResponseBody
+    public Ret<FlowTaskCountRet> getMyTaskCount() {
+        return ok(flowTaskBiz.getMyTaskCount());
     }
 
 }

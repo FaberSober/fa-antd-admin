@@ -14,6 +14,9 @@ class Api extends BaseZeroApi {
   /** 拒绝流程 */
   reject = (params: { taskId: string }): Promise<Fa.Ret<boolean>> => this.post('reject', params);
 
+  /** 查询我的流程任务数量 */
+  getMyTaskCount = (): Promise<Fa.Ret<Flow.FlowTaskCountRet>> => this.get('getMyTaskCount');
+
 }
 
 export default new Api(GATE_APP.flow.manage, 'flowTask');

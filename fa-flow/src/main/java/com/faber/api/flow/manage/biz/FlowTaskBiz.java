@@ -8,6 +8,7 @@ import com.aizuda.bpm.engine.entity.FlwTask;
 import com.faber.api.flow.manage.mapper.FlowTaskFaMapper;
 import com.faber.api.flow.manage.vo.req.FlowTaskPageReqVo;
 import com.faber.api.flow.manage.vo.ret.FlowTaskRet;
+import com.faber.api.flow.manage.vo.ret.FlowTaskCountRet;
 import com.faber.core.context.BaseContextHandler;
 import com.faber.core.vo.msg.TableRet;
 import com.faber.core.vo.query.BasePageQuery;
@@ -41,6 +42,37 @@ public class FlowTaskBiz {
         FlowCreator flowCreator = FlowCreator.of(BaseContextHandler.getUserId(), BaseContextHandler.getName());
         FlwTask flwTask = flowLongEngine.queryService().getTask(taskId);
         flowLongEngine.executeRejectTask(flwTask, null, flowCreator, null, true);
+    }
+    
+    /**
+     * 查询我的流程任务数量
+     */
+    public FlowTaskCountRet getMyTaskCount() {
+        String currentUserId = BaseContextHandler.getUserId();
+        
+        FlowTaskCountRet countRet = new FlowTaskCountRet();
+        
+        // 查询待审批任务数量
+        Integer pendingCount = flowTaskMapper.countPendingApproval(currentUserId);
+        countRet.setPendingApprovalCount(pendingCount != null ? pendingCount : 0);
+        
+        // 查询我的申请数量
+        Integer myAppCount = flowTaskMapper.countMyApplications(currentUserId);
+        countRet.setMyApplicationCount(myAppCount != null ? myAppCount : 0);
+        
+        // 查询我收到的任务数量
+        Integer myReceivedCount = flowTaskMapper.countMyReceived(currentUserId);
+        countRet.setMyReceivedCount(myReceivedCount != null ? myReceivedCount : 0);
+        
+        // 查询认领任务数量
+        Integer claimCount = flowTaskMapper.countClaimTasks(currentUserId);
+        countRet.setClaimTaskCount(claimCount != null ? claimCount : 0);
+        
+        // 查询已审批任务数量
+        Integer auditedCount = flowTaskMapper.countAudited(currentUserId);
+        countRet.setAuditedCount(auditedCount != null ? auditedCount : 0);
+        
+        return countRet;
     }
 
 }

@@ -201,6 +201,20 @@ namespace Flow {
     processType?: string;
   }
 
+  /** 流程任务数量统计返回对象 - Flow Task Count Return Object */
+  export interface FlowTaskCountRet {
+    /** 任务数量-待审批 */
+    pendingApprovalCount: number;
+    /** 任务数量-我的申请 */
+    myApplicationCount: number;
+    /** 任务数量-我收到的 */
+    myReceivedCount: number;
+    /** 任务数量-认领任务 */
+    claimTaskCount: number;
+    /** 任务数量-已审批 */
+    auditedCount: number;
+  }
+
   /** DEMO-请假流程 */
   export interface DemoFlowLeave extends Fa.BaseDelEntity {
     /** ID */

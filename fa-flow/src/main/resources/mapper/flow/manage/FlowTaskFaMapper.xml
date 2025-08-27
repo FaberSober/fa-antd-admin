@@ -3,6 +3,24 @@
 
 <mapper namespace="com.faber.api.flow.manage.mapper.FlowTaskFaMapper">
 
+    <!-- 公共 where 条件片段 -->
+    <sql id="Query_Task_Where_Condition">
+        <where>
+            <if test="query.instanceId != null">
+                and t.instance_id = #{query.instanceId}
+            </if>
+            <if test="query.instanceState != null and query.instanceState.trim() != ''">
+                and i.instance_state = #{query.instanceState}
+            </if>
+            <if test="query.processName != null and query.processName.trim() != ''">
+                and p.process_name like concat('%', #{processName}, '%')
+            </if>
+            <if test="query.actorId != null and query.actorId.trim() != ''">
+                and ta.actor_id = #{query.actorId}
+            </if>
+        </where>
+    </sql>
+
     <select id="queryTask" resultType="com.faber.api.flow.manage.vo.ret.FlowTaskRet">
         SELECT t.id as task_id, t.task_key, t.task_name, t.task_type, t.remind_repeat, t.create_time, 
             t.instance_id, i.instance_state, i.create_by as launch_by, i.create_time as launch_time, 
@@ -11,19 +29,7 @@
         LEFT JOIN flw_his_instance i ON t.instance_id = i.id
         LEFT JOIN flw_process p ON i.process_id = p.id
         LEFT JOIN flw_task_actor ta ON t.id = ta.task_id
-        WHERE 1=1
-        <if test="query.instanceId != null">
-            and t.instance_id = #{query.instanceId}
-        </if>
-        <if test="query.instanceState != null and query.instanceState.trim() != ''">
-            and i.instance_state = #{query.instanceState}
-        </if>
-        <if test="query.processName != null and query.processName.trim() != ''">
-            and p.process_name like concat('%', #{processName}, '%')
-        </if>
-        <if test="query.actorId != null and query.actorId.trim() != ''">
-            and ta.actor_id = #{query.actorId}
-        </if>
+        <include refid="Query_Task_Where_Condition"/>
         <choose>
             <when test="sorter != null and sorter != ''">
                 ORDER BY ${sorter}
@@ -32,6 +38,48 @@
                 ORDER BY t.create_time DESC
             </otherwise>
         </choose>
+    </select>
+    
+    <!-- 查询待审批任务数量 -->
+    <select id="countPendingApproval" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT t.id)
+        FROM flw_task t 
+        LEFT JOIN flw_task_actor ta ON t.id = ta.task_id
+        WHERE ta.actor_id = #{actorId}
+    </select>
+    
+    <!-- 查询我的申请数量 -->
+    <select id="countMyApplications" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM flw_instance i 
+        WHERE i.create_id = #{createId}
+    </select>
+    
+    <!-- 查询我收到的任务数量（包括已完成的） -->
+    <select id="countMyReceived" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT t.id)
+        FROM flw_task t 
+        LEFT JOIN flw_his_task ht ON t.id = ht.id
+        LEFT JOIN flw_task_actor ta ON t.id = ta.task_id
+        LEFT JOIN flw_his_task_actor hta ON ht.id = hta.task_id
+        WHERE ta.actor_id = #{actorId} OR hta.actor_id = #{actorId}
+    </select>
+    
+    <!-- 查询认领任务数量 -->
+    <select id="countClaimTasks" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT t.id)
+        FROM flw_task t 
+        LEFT JOIN flw_task_actor ta ON t.id = ta.task_id
+        WHERE ta.actor_id = #{actorId} 
+        AND ta.agent_type = 2 <!-- 2: claiming role -->
+    </select>
+    
+    <!-- 查询已审批任务数量 -->
+    <select id="countAudited" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT ht.id)
+        FROM flw_his_task ht 
+        LEFT JOIN flw_his_task_actor hta ON ht.id = hta.task_id
+        WHERE hta.actor_id = #{actorId}
     </select>
 
 </mapper>
