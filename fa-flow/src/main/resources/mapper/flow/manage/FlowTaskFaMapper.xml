@@ -59,7 +59,7 @@
 
     <select id="queryTask" resultType="com.faber.api.flow.manage.vo.ret.FlowTaskRet">
         SELECT t.id as task_id, t.task_key, t.task_name, t.task_type, t.remind_repeat, t.create_time, 
-            t.instance_id, i.instance_state, i.create_by as launch_by, i.create_time as launch_time, 
+            t.instance_id, 0 as instance_state, i.create_by as launch_by, i.create_time as launch_time, 
             i.process_id, p.process_key, p.process_name, p.process_type
         FROM flw_task t 
         LEFT JOIN flw_instance i ON t.instance_id = i.id
