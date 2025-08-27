@@ -27,6 +27,9 @@
             <if test="query.actorType != null">
                 and ta.actor_type = #{query.actorType}
             </if>
+            <if test="query.createId != null and query.createId.trim() != ''">
+                and i.create_id = #{query.createId}
+            </if>
         </where>
     </sql>
 
