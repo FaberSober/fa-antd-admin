@@ -26,8 +26,12 @@ public class FlowTaskBiz {
     @Resource
     FlowLongEngine flowLongEngine;
 
+    /**
+     * 查询个人名下待审批的task列表
+     */
     public TableRet<FlowTaskRet> pagePendingApproval(BasePageQuery<FlowTaskPageReqVo> query) {
         query.getQuery().setActorId(BaseContextHandler.getUserId());
+        query.getQuery().setActorType(0);
         PageInfo<FlowTaskRet> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
                 .doSelectPageInfo(() -> flowTaskMapper.queryTask(query.getQuery(), query.getSorter()));
         return new TableRet<>(info);

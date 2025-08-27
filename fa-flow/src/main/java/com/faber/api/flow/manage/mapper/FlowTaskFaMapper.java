@@ -9,8 +9,12 @@ import com.faber.api.flow.manage.vo.ret.FlowTaskRet;
 
 public interface FlowTaskFaMapper {
 
+    /** 查询任务 */
     List<FlowTaskRet> queryTask(@Param("query") FlowTaskPageReqVo queryVo, @Param("sorter") String sorter);
     
+    /** 查询历史任务 */
+    List<FlowTaskRet> queryHisTask(@Param("query") FlowTaskPageReqVo queryVo, @Param("sorter") String sorter);
+
     /** 查询待审批任务数量 */
     Integer countPendingApproval(@Param("actorId") String actorId);
     

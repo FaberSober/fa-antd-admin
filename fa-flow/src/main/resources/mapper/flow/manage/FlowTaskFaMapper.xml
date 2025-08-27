@@ -18,6 +18,15 @@
             <if test="query.actorId != null and query.actorId.trim() != ''">
                 and ta.actor_id = #{query.actorId}
             </if>
+            <if test="query.actorIds != null and query.actorId.size() > 0">
+                and ta.actor_id IN
+                <foreach collection="query.actorIds" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="query.actorType != null">
+                and ta.actor_type = #{query.actorType}
+            </if>
         </where>
     </sql>
 
@@ -26,9 +35,28 @@
             t.instance_id, i.instance_state, i.create_by as launch_by, i.create_time as launch_time, 
             i.process_id, p.process_key, p.process_name, p.process_type
         FROM flw_task t 
-        LEFT JOIN flw_his_instance i ON t.instance_id = i.id
+        LEFT JOIN flw_instance i ON t.instance_id = i.id
         LEFT JOIN flw_process p ON i.process_id = p.id
         LEFT JOIN flw_task_actor ta ON t.id = ta.task_id
+        <include refid="Query_Task_Where_Condition"/>
+        <choose>
+            <when test="sorter != null and sorter != ''">
+                ORDER BY ${sorter}
+            </when>
+            <otherwise>
+                ORDER BY t.create_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="queryHisTask" resultType="com.faber.api.flow.manage.vo.ret.FlowTaskRet">
+        SELECT t.id as task_id, t.task_key, t.task_name, t.task_type, t.remind_repeat, t.create_time, 
+            t.instance_id, i.instance_state, i.create_by as launch_by, i.create_time as launch_time, 
+            i.process_id, p.process_key, p.process_name, p.process_type
+        FROM flw_his_task t 
+        LEFT JOIN flw_his_instance i ON t.instance_id = i.id
+        LEFT JOIN flw_process p ON i.process_id = p.id
+        LEFT JOIN flw_his_task_actor ta ON t.id = ta.task_id
         <include refid="Query_Task_Where_Condition"/>
         <choose>
             <when test="sorter != null and sorter != ''">
