@@ -4,6 +4,7 @@ import FlowAuditStart from './cube/FlowAuditStart';
 import { Segmented } from 'antd';
 import { AuditOutlined, BookOutlined, CarryOutOutlined, ContainerOutlined, SendOutlined, SettingOutlined } from '@ant-design/icons';
 import FlowTodo from './cube/FlowTodo';
+import FlowMyApplications from './cube/FlowMyApplications';
 import { flowTaskApi } from '@features/fa-flow-pages/services';
 import { Flow } from '@features/fa-flow-pages/types';
 
@@ -78,7 +79,7 @@ export default function FlowAudit() {
         </FaLazyContainer>
 
         <FaLazyContainer showCond={tab === 'myStart'}>
-          <div>我的申请内容</div>
+          <FlowMyApplications />
         </FaLazyContainer>
 
         <FaLazyContainer showCond={tab === 'myReceive'}>
