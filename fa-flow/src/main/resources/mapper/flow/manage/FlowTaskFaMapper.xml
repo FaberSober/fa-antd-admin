@@ -33,6 +33,30 @@
         </where>
     </sql>
 
+    <!-- 历史流程实例查询 where 条件片段 -->
+    <sql id="Query_HisInstance_Where_Condition">
+        <where>
+            <if test="query.instanceId != null">
+                and hi.id = #{query.instanceId}
+            </if>
+            <if test="query.instanceState != null and query.instanceState.trim() != ''">
+                and hi.instance_state = #{query.instanceState}
+            </if>
+            <if test="query.processName != null and query.processName.trim() != ''">
+                and p.process_name like concat('%', #{query.processName}, '%')
+            </if>
+            <if test="query.createId != null and query.createId.trim() != ''">
+                and hi.create_id = #{query.createId}
+            </if>
+            <if test="query.beginTime != null">
+                and hi.create_time >= #{query.beginTime}
+            </if>
+            <if test="query.endTime != null">
+                and hi.create_time <= #{query.endTime}
+            </if>
+        </where>
+    </sql>
+
     <select id="queryTask" resultType="com.faber.api.flow.manage.vo.ret.FlowTaskRet">
         SELECT t.id as task_id, t.task_key, t.task_name, t.task_type, t.remind_repeat, t.create_time, 
             t.instance_id, i.instance_state, i.create_by as launch_by, i.create_time as launch_time, 
@@ -70,6 +94,33 @@
             </otherwise>
         </choose>
     </select>
+
+    <select id="queryHisInstance" resultType="com.faber.api.flow.manage.vo.ret.FlowHisInstanceRet">
+        SELECT 
+            hi.process_id as processId,
+            p.process_name as processName,
+            p.process_type as processType,
+            hi.current_node_name as currentNodeName,
+            hi.current_node_key as currentNodeKey,
+            hi.id as instanceId,
+            hi.instance_state as instanceState,
+            hi.create_id as createId,
+            hi.create_by as createBy,
+            hi.create_time as createTime,
+            hi.end_time as endTime,
+            hi.duration as duration
+        FROM flw_his_instance hi
+        LEFT JOIN flw_process p ON hi.process_id = p.id
+        <include refid="Query_HisInstance_Where_Condition"/>
+        <choose>
+            <when test="sorter != null and sorter != ''">
+                ORDER BY ${sorter}
+            </when>
+            <otherwise>
+                ORDER BY hi.create_time DESC
+            </otherwise>
+        </choose>
+    </select>
     
     <!-- 查询待审批任务数量 -->
     <select id="countPendingApproval" resultType="java.lang.Integer">
@@ -82,7 +133,7 @@
     <!-- 查询我的申请数量 -->
     <select id="countMyApplications" resultType="java.lang.Integer">
         SELECT COUNT(*)
-        FROM flw_instance i 
+        FROM flw_his_instance i 
         WHERE i.create_id = #{createId}
     </select>
     

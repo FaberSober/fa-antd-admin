@@ -38,6 +38,13 @@ public class FlowTaskController extends BaseResHandler {
         return flowTaskBiz.pagePendingApproval(query);
     }
 
+    @FaLogOpr(value = "我申请的流程", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/pageMyApplications", method = RequestMethod.POST)
+    @ResponseBody
+    public TableRet<FlowTaskRet> pageMyApplications(@RequestBody BasePageQuery<FlowTaskPageReqVo> query) {
+        return flowTaskBiz.pageMyApplications(query);
+    }
+
     @FaLogOpr(value = "同意流程", crud = LogCrudEnum.C)
     @RequestMapping(value = "/pass", method = RequestMethod.POST)
     @ResponseBody
@@ -61,13 +68,6 @@ public class FlowTaskController extends BaseResHandler {
     @ResponseBody
     public Ret<FlowTaskCountRet> getMyTaskCount() {
         return ok(flowTaskBiz.getMyTaskCount());
-    }
-
-    @FaLogOpr(value = "我申请的流程", crud = LogCrudEnum.R)
-    @RequestMapping(value = "/pageMyApplications", method = RequestMethod.POST)
-    @ResponseBody
-    public TableRet<FlowTaskRet> pageMyApplications(@RequestBody BasePageQuery<FlowTaskPageReqVo> query) {
-        return flowTaskBiz.pageMyApplications(query);
     }
 
 }

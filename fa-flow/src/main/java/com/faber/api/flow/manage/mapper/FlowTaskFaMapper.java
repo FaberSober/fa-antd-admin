@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.faber.api.flow.manage.vo.req.FlowTaskPageReqVo;
 import com.faber.api.flow.manage.vo.ret.FlowTaskRet;
+import com.faber.api.flow.manage.vo.ret.FlowHisInstanceRet;
 
 public interface FlowTaskFaMapper {
 
@@ -14,6 +15,9 @@ public interface FlowTaskFaMapper {
     
     /** 查询历史任务 */
     List<FlowTaskRet> queryHisTask(@Param("query") FlowTaskPageReqVo queryVo, @Param("sorter") String sorter);
+
+    /** 查询历史流程实例数据 */
+    List<FlowHisInstanceRet> queryHisInstance(@Param("query") FlowTaskPageReqVo queryVo, @Param("sorter") String sorter);
 
     /** 查询待审批任务数量 */
     Integer countPendingApproval(@Param("actorId") String actorId);

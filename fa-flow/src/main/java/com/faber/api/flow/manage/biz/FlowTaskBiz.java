@@ -9,6 +9,7 @@ import com.faber.api.flow.manage.mapper.FlowTaskFaMapper;
 import com.faber.api.flow.manage.vo.req.FlowTaskPageReqVo;
 import com.faber.api.flow.manage.vo.ret.FlowTaskRet;
 import com.faber.api.flow.manage.vo.ret.FlowTaskCountRet;
+import com.faber.api.flow.manage.vo.ret.FlowHisInstanceRet;
 import com.faber.core.context.BaseContextHandler;
 import com.faber.core.vo.msg.TableRet;
 import com.faber.core.vo.query.BasePageQuery;
@@ -44,6 +45,18 @@ public class FlowTaskBiz {
         query.getQuery().setCreateId(BaseContextHandler.getUserId());
         PageInfo<FlowTaskRet> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
                 .doSelectPageInfo(() -> flowTaskMapper.queryHisTask(query.getQuery(), query.getSorter()));
+        return new TableRet<>(info);
+    }
+
+    /**
+     * 查询历史流程实例列表
+     */
+    public TableRet<FlowHisInstanceRet> pageHisInstances(BasePageQuery<FlowTaskPageReqVo> query) {
+        // 如果需要查询当前用户的历史流程，可以设置 createId
+        // query.getQuery().setCreateId(BaseContextHandler.getUserId());
+        
+        PageInfo<FlowHisInstanceRet> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
+                .doSelectPageInfo(() -> flowTaskMapper.queryHisInstance(query.getQuery(), query.getSorter()));
         return new TableRet<>(info);
     }
 
