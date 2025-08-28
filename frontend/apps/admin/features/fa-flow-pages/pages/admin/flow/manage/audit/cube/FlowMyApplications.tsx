@@ -16,7 +16,7 @@ export default function FlowMyApplications() {
       useTableQueryParams<Flow.FlowHisInstanceRet>(flowTaskApi.pageMyApplications, { extraParams: {}, sorter: { field: 't.createTime', order: 'descend' } }, '流程任务')
 
   // 当前选中的实例信息
-  const [task, setTask] = useState<Flow.FlowHisInstanceRet>()
+  const [instance, setInstance] = useState<Flow.FlowHisInstanceRet>()
 
   /**
    * 刷新任务列表
@@ -31,7 +31,7 @@ export default function FlowMyApplications() {
    * @param selectedTask - 被选中的任务对象
    */
   const handleTaskSelect = (selectedTask: Flow.FlowHisInstanceRet) => {
-    setTask(selectedTask);
+    setInstance(selectedTask);
   };
 
   /**
@@ -40,7 +40,7 @@ export default function FlowMyApplications() {
    */
   const handleTaskDealSuccess = () => {
     fetchPageList();
-    setTask(undefined);
+    setInstance(undefined);
   };
 
   return (
@@ -94,22 +94,8 @@ export default function FlowMyApplications() {
 
         {/* 右侧面板 - 实例详情 */}
         <div className="fa-flex-column fa-full">
-          {task && (
-            <div className="fa-full-content-p12">
-              <div className="fa-mb12">
-                <h3>流程实例详情</h3>
-              </div>
-              <div className="fa-card">
-                <div className="fa-mb8"><strong>流程名称：</strong>{task.processName}</div>
-                <div className="fa-mb8"><strong>流程类型：</strong>{task.processType}</div>
-                <div className="fa-mb8"><strong>当前节点：</strong>{task.currentNodeName}</div>
-                <div className="fa-mb8"><strong>实例状态：</strong>{FlwEnums.InstanceStateEnumMap[task.instanceState as FlwEnums.InstanceStateEnum]}</div>
-                <div className="fa-mb8"><strong>创建人：</strong>{task.createBy}</div>
-                <div className="fa-mb8"><strong>创建时间：</strong>{task.createTime}</div>
-                <div className="fa-mb8"><strong>结束时间：</strong>{task.endTime}</div>
-                <div className="fa-mb8"><strong>处理耗时：</strong>{task.duration} 毫秒</div>
-              </div>
-            </div>
+          {instance && (
+            <FlowInstanceDeal instanceId={instance.instanceId} />
           )}
         </div>
       </Allotment>

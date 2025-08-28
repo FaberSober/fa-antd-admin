@@ -11,7 +11,7 @@ import FlowFormView from './FlowFormView';
 
 interface FlowInstanceDealProps {
   instanceId: string;
-  taskId: string;
+  taskId?: string;
   onSuccess?: () => void;
 }
 
@@ -34,7 +34,7 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess }: Flow
     Modal.confirm({
       title: '请确认是否通过?',
       onOk: () => {
-        flowTaskApi.pass({ taskId }).then(res => {
+        flowTaskApi.pass({ taskId: taskId! }).then(res => {
           FaUtils.showResponse(res, '同意流程')
           onSuccess?.();
         })
@@ -46,7 +46,7 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess }: Flow
     Modal.confirm({
       title: '请确认是否拒绝?',
       onOk: () => {
-        flowTaskApi.reject({ taskId }).then(res => {
+        flowTaskApi.reject({ taskId: taskId! }).then(res => {
           FaUtils.showResponse(res, '拒绝流程')
           onSuccess?.();
         })
@@ -75,8 +75,8 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess }: Flow
           <FlowFormView flwProcess={info.flwProcess} formValues={JSON.parse(info.formContent || '{}')} />
           <Space>
             <Button onClick={() => message.info('TODO')} icon={<CommentOutlined />}>评论</Button>
-            <Button onClick={() => handlePass()} icon={<CheckOutlined />} type='primary'>同意</Button>
-            <Button onClick={() => handleReject()} icon={<CloseOutlined />} type='primary' danger>拒绝</Button>
+            {taskId && <Button onClick={() => handlePass()} icon={<CheckOutlined />} type='primary'>同意</Button>}
+            {taskId && <Button onClick={() => handleReject()} icon={<CloseOutlined />} type='primary' danger>拒绝</Button>}
           </Space>
         </FaLazyContainer>
         <FaLazyContainer showCond={tab === 'workflow'}>
