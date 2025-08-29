@@ -57,7 +57,8 @@
         "useValidAnchor": "off",
         "useMediaCaption": "off",
         "useIframeTitle": "off",
-        "useAltText": "off"
+        "useAltText": "off",
+        "noStaticElementInteractions": "off"
       }
     }
 	},
