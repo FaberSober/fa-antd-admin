@@ -20,6 +20,7 @@ public class FlowTaskPageReqVo implements Serializable {
     private String actorId;
     private List<String> actorIds;
     private String createId;
+    private String createBy;
     /**
      * 参与者类型 0，用户 1，角色 2，部门
      */

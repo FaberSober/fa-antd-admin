@@ -15,6 +15,9 @@
             <if test="query.processName != null and query.processName.trim() != ''">
                 and p.process_name like concat('%', #{processName}, '%')
             </if>
+            <if test="query.createBy != null and query.createBy.trim() != ''">
+                and p.create_by like concat('%', #{query.createBy}, '%')
+            </if>
             <if test="query.actorId != null and query.actorId.trim() != ''">
                 and ta.actor_id = #{query.actorId}
             </if>
@@ -47,6 +50,9 @@
             </if>
             <if test="query.createId != null and query.createId.trim() != ''">
                 and t.create_id = #{query.createId}
+            </if>
+            <if test="query.createBy != null and query.createBy.trim() != ''">
+                and p.create_by like concat('%', #{query.createBy}, '%')
             </if>
             <if test="query.beginTime != null">
                 and t.create_time &gt;= #{query.beginTime}

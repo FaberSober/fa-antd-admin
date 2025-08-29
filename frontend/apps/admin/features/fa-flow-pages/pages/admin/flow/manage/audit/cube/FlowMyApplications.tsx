@@ -1,8 +1,8 @@
 import { Flow, FlwEnums } from "@/types";
-import { FaFlexRestLayout, useTableQueryParams } from "@fa/ui";
 import { Allotment } from "allotment";
-import { Button, Space, Tag } from "antd";
-import { useState } from "react";
+import { Form, Input, Tag } from "antd";
+import { useRef, useState } from "react";
+import { FaApiScrollList, FaApiScrollListRef } from '@features/fa-admin-pages/components';
 import { flowTaskApi } from "@features/fa-flow-pages/services";
 import FlowInstanceDeal from "../components/FlowInstanceDeal";
 
@@ -11,91 +11,80 @@ import FlowInstanceDeal from "../components/FlowInstanceDeal";
  * 用于显示当前用户申请的所有历史流程实例列表，包括待审批、审批中和已完成的任务
  */
 export default function FlowMyApplications() {
-  // 使用表格查询参数Hook，获取我申请的历史流程实例列表
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, setExtraParams, fetchPageList, loading, list, paginationProps } =
-      useTableQueryParams<Flow.FlowHisInstanceRet>(flowTaskApi.pageMyApplications, { extraParams: {}, sorter: { field: 't.createTime', order: 'descend' } }, '流程任务')
-
   // 当前选中的实例信息
   const [instance, setInstance] = useState<Flow.FlowHisInstanceRet>()
+  const scrollListRef = useRef<FaApiScrollListRef>(null);
 
   /**
-   * 刷新任务列表
-   * 重新获取最新的任务数据
+   * 刷新列表数据
+   * 先调用FaApiScrollList组件内部的refresh方法，然后清空选中的实例
    */
-  const handleRefresh = () => {
-    fetchPageList();
-  };
-
-  /**
-   * 选择任务处理函数
-   * @param selectedTask - 被选中的任务对象
-   */
-  const handleTaskSelect = (selectedTask: Flow.FlowHisInstanceRet) => {
-    setInstance(selectedTask);
-  };
-
-  /**
-   * 任务处理成功后的回调函数
-   * 刷新列表并清除当前选中的任务
-   */
-  const handleTaskDealSuccess = () => {
-    fetchPageList();
-    setInstance(undefined);
-  };
+  function refresh() {
+    scrollListRef.current?.refresh();
+    setInstance(undefined)
+  }
 
   return (
     <div className='fa-full-content'>
       <Allotment defaultSizes={[150]}>
-        {/* 左侧面板 - 任务列表 */}
+        {/* 左侧面板 - 我的申请列表 */}
         <Allotment.Pane minSize={200} maxSize={400}>
           <div className="fa-full-content fa-flex-column">
-            <Space className="fa-mb12">
-              <Button loading={loading} onClick={handleRefresh}>刷新</Button>
-            </Space>
-
-            <FaFlexRestLayout>
-              {list.map(i => {
+            <FaApiScrollList
+              ref={scrollListRef}
+              apiPage={flowTaskApi.pageMyApplications}
+              searchKey="processName"
+              sorter="t.create_time DESC"
+              renderItem={(item: Flow.FlowHisInstanceRet, index: number) => {
                 return (
-                  <div
-                    key={i.instanceId}
-                    className="fa-card fa-hover fa-mb12 fa-flex-column"
-                    onClick={() => handleTaskSelect(i)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        handleTaskSelect(i);
-                      }
-                    }}
-                    role="button"
-                    tabIndex={0}
-                  >
-                    <div className="fa-flex-row-center">
-                      <div className='fa-flex-1'>{i.processName}</div>
-                      <div>
-                        <Tag>{FlwEnums.InstanceStateEnumMap[i.instanceState as FlwEnums.InstanceStateEnum]}</Tag>
+                  <div key={item.instanceId} className="fa-mt6 fa-mb6">
+                    <div
+                      className="fa-card fa-hover"
+                      style={{borderColor: instance?.instanceId === item.instanceId ? 'var(--primary-color)' : ''}}
+                      onClick={() => setInstance(item)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setInstance(item);
+                        }
+                      }}
+                      tabIndex={0}
+                    >
+                      <div className="fa-flex-row-center">
+                        <div className='fa-flex-1'>{item.processName}</div>
+                        <div>
+                          <Tag>{FlwEnums.InstanceStateEnumMap[item.instanceState as FlwEnums.InstanceStateEnum]}</Tag>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="fa-flex-row-center">
-                      <div className="fa-subtitle">当前所在节点:</div>
-                      <div>{i.currentNodeName}</div>
-                    </div>
+                      <div className="fa-flex-row-center">
+                        <div className="fa-subtitle">当前所在节点:</div>
+                        <div>{item.currentNodeName}</div>
+                      </div>
 
-                    <div className="fa-flex-row-center">
-                      <div className='fa-flex-1'>{i.createBy}</div>
-                      <div>提交于{i.createTime}</div>
+                      <div className="fa-flex-row-center">
+                        <div className='fa-flex-1'>{item.createBy}</div>
+                        <div>提交于{item.createTime}</div>
+                      </div>
                     </div>
                   </div>
                 )
-              })}
-            </FaFlexRestLayout>
+              }}
+              renderFilterFormItems={() => (
+                <div>
+                  <Form.Item name="createBy">
+                    <Input placeholder="创建人名称" allowClear />
+                  </Form.Item>
+                </div>
+              )}
+            />
           </div>
         </Allotment.Pane>
 
         {/* 右侧面板 - 实例详情 */}
         <div className="fa-flex-column fa-full">
           {instance && (
-            <FlowInstanceDeal instanceId={instance.instanceId} />
+            <FlowInstanceDeal instanceId={instance.instanceId} onSuccess={() => refresh()} />
           )}
         </div>
       </Allotment>
