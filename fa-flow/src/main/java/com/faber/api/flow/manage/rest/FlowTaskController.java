@@ -60,6 +60,13 @@ public class FlowTaskController extends BaseResHandler {
         return flowTaskBiz.pageMyReceived(query);
     }
 
+    @FaLogOpr(value = "我已审批的任务", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/pageMyApproved", method = RequestMethod.POST)
+    @ResponseBody
+    public TableRet<FlowHisInstanceRet> pageMyApproved(@RequestBody BasePageQuery<FlowTaskPageReqVo> query) {
+        return flowTaskBiz.pageMyApproved(query);
+    }
+
     @FaLogOpr(value = "同意流程", crud = LogCrudEnum.C)
     @RequestMapping(value = "/pass", method = RequestMethod.POST)
     @ResponseBody

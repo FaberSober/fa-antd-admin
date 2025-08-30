@@ -22,6 +22,9 @@ public interface FlowTaskFaMapper {
     /** 查询历史流程实例数据 */
     List<FlowHisInstanceRet> queryHisInstance(@Param("query") FlowTaskPageReqVo queryVo, @Param("sorter") String sorter);
 
+    /** 查询我已审批的任务 */
+    List<FlowHisInstanceRet> queryMyApproved(@Param("query") FlowTaskPageReqVo queryVo, @Param("sorter") String sorter);
+
     /** 查询待审批任务数量 */
     Integer countPendingApproval(@Param("actorId") String actorId);
     

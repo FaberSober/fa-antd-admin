@@ -93,6 +93,17 @@ public class FlowTaskBiz {
     }
 
     /**
+     * 查询我已审批的任务列表
+     */
+    public TableRet<FlowHisInstanceRet> pageMyApproved(BasePageQuery<FlowTaskPageReqVo> query) {
+        query.getQuery().setActorId(BaseContextHandler.getUserId());
+        query.getQuery().setActorType(0); // 设置参与者类型为用户
+        PageInfo<FlowHisInstanceRet> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
+                .doSelectPageInfo(() -> flowTaskFaMapper.queryMyApproved(query.getQuery(), query.getSorter()));
+        return new TableRet<>(info);
+    }
+
+    /**
      * 查询我的流程任务数量
      */
     public FlowTaskCountRet getMyTaskCount() {

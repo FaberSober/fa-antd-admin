@@ -66,6 +66,7 @@
         </where>
     </sql>
 
+    <!-- 查询任务列表 -->
     <select id="queryTask" resultType="com.faber.api.flow.manage.vo.ret.FlowTaskRet">
         SELECT t.id as task_id, t.task_key, t.task_name, t.task_type, t.remind_repeat, t.create_time, 
             t.instance_id, 0 as instance_state, i.create_by as launch_by, i.create_time as launch_time, 
@@ -85,6 +86,7 @@
         </choose>
     </select>
 
+    <!-- 查询待认领任务列表 -->
     <select id="queryClaimTask" resultType="com.faber.api.flow.manage.vo.ret.FlowTaskRet">
         SELECT t.id as task_id, t.task_key, t.task_name, t.task_type, t.remind_repeat, t.create_time, 
             t.instance_id, 0 as instance_state, i.create_by as launch_by, i.create_time as launch_time, 
@@ -134,6 +136,7 @@
         </choose>
     </select>
 
+    <!-- 查询历史任务列表 -->
     <select id="queryHisTask" resultType="com.faber.api.flow.manage.vo.ret.FlowTaskRet">
         SELECT t.id as task_id, t.task_key, t.task_name, t.task_type, t.remind_repeat, t.create_time, 
             t.instance_id, i.instance_state, i.create_by as launch_by, i.create_time as launch_time, 
@@ -153,6 +156,7 @@
         </choose>
     </select>
 
+    <!-- 查询历史流程实例列表 -->
     <select id="queryHisInstance" resultType="com.faber.api.flow.manage.vo.ret.FlowHisInstanceRet">
         SELECT 
             t.process_id as processId,
@@ -170,6 +174,62 @@
         FROM flw_his_instance t
         LEFT JOIN flw_process p ON t.process_id = p.id
         <include refid="Query_HisInstance_Where_Condition"/>
+        <choose>
+            <when test="sorter != null and sorter != ''">
+                ORDER BY ${sorter}
+            </when>
+            <otherwise>
+                ORDER BY t.create_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 查询我已审批的任务列表 -->
+    <select id="queryMyApproved" resultType="com.faber.api.flow.manage.vo.ret.FlowHisInstanceRet">
+        SELECT DISTINCT
+            t.process_id as processId,
+            p.process_name as processName,
+            p.process_type as processType,
+            t.current_node_name as currentNodeName,
+            t.current_node_key as currentNodeKey,
+            t.id as instanceId,
+            t.instance_state as instanceState,
+            t.create_id as createId,
+            t.create_by as createBy,
+            t.create_time as createTime,
+            t.end_time as endTime,
+            t.duration as duration
+        FROM flw_his_instance t
+        LEFT JOIN flw_process p ON t.process_id = p.id
+        LEFT JOIN flw_his_task ht ON t.id = ht.instance_id
+        LEFT JOIN flw_his_task_actor hta ON ht.id = hta.task_id
+        <where>
+            <if test="query.instanceId != null">
+                and t.id = #{query.instanceId}
+            </if>
+            <if test="query.instanceState != null and query.instanceState.trim() != ''">
+                and t.instance_state = #{query.instanceState}
+            </if>
+            <if test="query.processName != null and query.processName.trim() != ''">
+                and p.process_name like concat('%', #{query.processName}, '%')
+            </if>
+            <if test="query.createBy != null and query.createBy.trim() != ''">
+                and p.create_by like concat('%', #{query.createBy}, '%')
+            </if>
+            <if test="query.beginTime != null">
+                and t.create_time &gt;= #{query.beginTime}
+            </if>
+            <if test="query.endTime != null">
+                and t.create_time &lt;= #{query.endTime}
+            </if>
+            <!-- 我已审批的任务查询条件 -->
+            <if test="query.actorId != null and query.actorId.trim() != ''">
+                and hta.actor_id = #{query.actorId}
+            </if>
+            <if test="query.actorType != null">
+                and hta.actor_type = #{query.actorType}
+            </if>
+        </where>
         <choose>
             <when test="sorter != null and sorter != ''">
                 ORDER BY ${sorter}
