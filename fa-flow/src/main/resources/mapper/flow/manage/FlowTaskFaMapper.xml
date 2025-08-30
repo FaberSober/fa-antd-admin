@@ -33,6 +33,9 @@
             <if test="query.createId != null and query.createId.trim() != ''">
                 and i.create_id = #{query.createId}
             </if>
+            <if test="query.taskType != null">
+                and t.task_type = #{query.taskType}
+            </if>
         </where>
     </sql>
 

@@ -69,6 +69,18 @@ public class FlowTaskBiz {
     }
     
     /**
+     * 查询我收到的任务列表
+     */
+    public TableRet<FlowTaskRet> pageMyReceived(BasePageQuery<FlowTaskPageReqVo> query) {
+        query.getQuery().setActorId(BaseContextHandler.getUserId());
+        query.getQuery().setActorType(0);
+        query.getQuery().setTaskType(2); // 设置任务类型为抄送任务
+        PageInfo<FlowTaskRet> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
+                .doSelectPageInfo(() -> flowTaskFaMapper.queryHisTask(query.getQuery(), query.getSorter()));
+        return new TableRet<>(info);
+    }
+
+    /**
      * 查询我的流程任务数量
      */
     public FlowTaskCountRet getMyTaskCount() {

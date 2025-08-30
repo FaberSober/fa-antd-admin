@@ -25,5 +25,10 @@ public class FlowTaskPageReqVo implements Serializable {
      * 参与者类型 0，用户 1，角色 2，部门
      */
     protected Integer actorType;
+    
+    /**
+     * 任务类型 0，审批任务 1，会签任务 2，抄送任务
+     */
+    private Integer taskType;
 
 }
