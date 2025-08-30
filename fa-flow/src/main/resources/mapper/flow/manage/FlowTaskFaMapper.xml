@@ -85,6 +85,55 @@
         </choose>
     </select>
 
+    <select id="queryClaimTask" resultType="com.faber.api.flow.manage.vo.ret.FlowTaskRet">
+        SELECT t.id as task_id, t.task_key, t.task_name, t.task_type, t.remind_repeat, t.create_time, 
+            t.instance_id, 0 as instance_state, i.create_by as launch_by, i.create_time as launch_time, 
+            i.process_id, p.process_key, p.process_name, p.process_type
+        FROM flw_task t 
+        LEFT JOIN flw_instance i ON t.instance_id = i.id
+        LEFT JOIN flw_process p ON i.process_id = p.id
+        LEFT JOIN flw_task_actor ta ON t.id = ta.task_id
+        <where>
+            <if test="query.instanceId != null">
+                and t.instance_id = #{query.instanceId}
+            </if>
+            <if test="query.instanceState != null and query.instanceState.trim() != ''">
+                and i.instance_state = #{query.instanceState}
+            </if>
+            <if test="query.processName != null and query.processName.trim() != ''">
+                and p.process_name like concat('%', #{processName}, '%')
+            </if>
+            <if test="query.createBy != null and query.createBy.trim() != ''">
+                and p.create_by like concat('%', #{query.createBy}, '%')
+            </if>
+            <if test="query.actorId != null and query.actorId.trim() != ''">
+                and ta.actor_id = #{query.actorId}
+            </if>
+            <if test="query.actorIds != null and query.actorId.size() > 0">
+                and ta.actor_id IN
+                <foreach collection="query.actorIds" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <!-- 待认领任务的参与者类型为角色(1)或部门(2) -->
+            and ta.actor_type IN (1, 2)
+            <if test="query.createId != null and query.createId.trim() != ''">
+                and i.create_id = #{query.createId}
+            </if>
+            <if test="query.taskType != null">
+                and t.task_type = #{query.taskType}
+            </if>
+        </where>
+        <choose>
+            <when test="sorter != null and sorter != ''">
+                ORDER BY ${sorter}
+            </when>
+            <otherwise>
+                ORDER BY t.create_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
     <select id="queryHisTask" resultType="com.faber.api.flow.manage.vo.ret.FlowTaskRet">
         SELECT t.id as task_id, t.task_key, t.task_name, t.task_type, t.remind_repeat, t.create_time, 
             t.instance_id, i.instance_state, i.create_by as launch_by, i.create_time as launch_time, 

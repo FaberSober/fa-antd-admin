@@ -39,6 +39,13 @@ public class FlowTaskController extends BaseResHandler {
         return flowTaskBiz.pagePendingApproval(query);
     }
 
+    @FaLogOpr(value = "待认领任务", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/pagePendingClaim", method = RequestMethod.POST)
+    @ResponseBody
+    public TableRet<FlowTaskRet> pagePendingClaim(@RequestBody BasePageQuery<FlowTaskPageReqVo> query) {
+        return flowTaskBiz.pagePendingClaim(query);
+    }
+
     @FaLogOpr(value = "我申请的流程", crud = LogCrudEnum.R)
     @RequestMapping(value = "/pageMyApplications", method = RequestMethod.POST)
     @ResponseBody

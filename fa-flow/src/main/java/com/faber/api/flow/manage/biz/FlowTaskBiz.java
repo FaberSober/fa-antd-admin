@@ -36,6 +36,18 @@ public class FlowTaskBiz {
     }
 
     /**
+     * 查询待认领的task列表
+     */
+    public TableRet<FlowTaskRet> pagePendingClaim(BasePageQuery<FlowTaskPageReqVo> query) {
+        query.getQuery().setActorId(BaseContextHandler.getUserId());
+        // 设置参与者类型为角色和部门类型
+        query.getQuery().setActorType(null); // 不设置单一类型，由SQL中处理IN(1,2)
+        PageInfo<FlowTaskRet> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
+                .doSelectPageInfo(() -> flowTaskFaMapper.queryClaimTask(query.getQuery(), query.getSorter()));
+        return new TableRet<>(info);
+    }
+
+    /**
      * 查询我申请的流程task列表
      */
     public TableRet<FlowHisInstanceRet> pageMyApplications(BasePageQuery<FlowTaskPageReqVo> query) {
