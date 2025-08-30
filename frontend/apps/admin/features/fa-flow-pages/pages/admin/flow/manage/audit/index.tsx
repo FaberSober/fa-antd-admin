@@ -6,6 +6,7 @@ import { AuditOutlined, BookOutlined, CarryOutOutlined, ContainerOutlined, SendO
 import FlowTodo from './cube/FlowTodo';
 import FlowMyApplications from './cube/FlowMyApplications';
 import FlowMyReceived from './cube/FlowMyReceived';
+import FlowPendingClaim from './cube/FlowPendingClaim';
 import { flowTaskApi } from '@features/fa-flow-pages/services';
 import { Flow } from '@features/fa-flow-pages/types';
 
@@ -88,7 +89,7 @@ export default function FlowAudit() {
         </FaLazyContainer>
 
         <FaLazyContainer showCond={tab === 'claim'}>
-          <div>认领任务内容</div>
+          <FlowPendingClaim />
         </FaLazyContainer>
 
         <FaLazyContainer showCond={tab === 'audited'}>

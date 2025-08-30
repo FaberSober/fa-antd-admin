@@ -8,6 +8,9 @@ class Api extends BaseZeroApi {
   /** 待审批 */
   pagePendingApproval = (params: Fa.BasePageQuery<Flow.FlowTaskPageReqVo>): Promise<Fa.Ret<Fa.Page<Flow.FlowTaskRet>>> => this.post('pagePendingApproval', params);
 
+  /** 待认领任务 */
+  pagePendingClaim = (params: Fa.BasePageQuery<Flow.FlowTaskPageReqVo>): Promise<Fa.Ret<Fa.Page<Flow.FlowTaskRet>>> => this.post('pagePendingClaim', params);
+
   /** 我申请的流程 */
   pageMyApplications = (params: Fa.BasePageQuery<Flow.FlowTaskPageReqVo>): Promise<Fa.Ret<Fa.Page<Flow.FlowHisInstanceRet>>> => this.post('pageMyApplications', params);
 
