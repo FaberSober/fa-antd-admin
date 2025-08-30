@@ -149,11 +149,11 @@
     <!-- 查询我收到的任务数量（包括已完成的） -->
     <select id="countMyReceived" resultType="java.lang.Integer">
         SELECT COUNT(DISTINCT t.id)
-        FROM flw_task t 
-        LEFT JOIN flw_his_task ht ON t.id = ht.id
-        LEFT JOIN flw_task_actor ta ON t.id = ta.task_id
-        LEFT JOIN flw_his_task_actor hta ON ht.id = hta.task_id
-        WHERE ta.actor_id = #{actorId} OR hta.actor_id = #{actorId}
+        FROM flw_his_task t 
+        LEFT JOIN flw_his_task_actor ta ON t.id = ta.task_id
+        WHERE t.task_type = 2 
+        AND ta.actor_type = 0
+        AND ta.actor_id = #{actorId}
     </select>
     
     <!-- 查询认领任务数量 -->

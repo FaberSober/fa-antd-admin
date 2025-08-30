@@ -5,6 +5,7 @@ import { Segmented } from 'antd';
 import { AuditOutlined, BookOutlined, CarryOutOutlined, ContainerOutlined, SendOutlined, SettingOutlined } from '@ant-design/icons';
 import FlowTodo from './cube/FlowTodo';
 import FlowMyApplications from './cube/FlowMyApplications';
+import FlowMyReceived from './cube/FlowMyReceived';
 import { flowTaskApi } from '@features/fa-flow-pages/services';
 import { Flow } from '@features/fa-flow-pages/types';
 
@@ -83,7 +84,7 @@ export default function FlowAudit() {
         </FaLazyContainer>
 
         <FaLazyContainer showCond={tab === 'myReceive'}>
-          <div>我收到的内容</div>
+          <FlowMyReceived />
         </FaLazyContainer>
 
         <FaLazyContainer showCond={tab === 'claim'}>

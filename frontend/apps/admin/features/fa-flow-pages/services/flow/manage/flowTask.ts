@@ -11,6 +11,9 @@ class Api extends BaseZeroApi {
   /** 我申请的流程 */
   pageMyApplications = (params: Fa.BasePageQuery<Flow.FlowTaskPageReqVo>): Promise<Fa.Ret<Fa.Page<Flow.FlowHisInstanceRet>>> => this.post('pageMyApplications', params);
 
+  /** 我收到的任务 */
+  pageMyReceived = (params: Fa.BasePageQuery<Flow.FlowTaskPageReqVo>): Promise<Fa.Ret<Fa.Page<Flow.FlowTaskRet>>> => this.post('pageMyReceived', params);
+
   /** 同意流程 */
   pass = (params: { taskId: string }): Promise<Fa.Ret<boolean>> => this.post('pass', params);
 
