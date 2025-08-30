@@ -137,6 +137,7 @@
         FROM flw_task t 
         LEFT JOIN flw_task_actor ta ON t.id = ta.task_id
         WHERE ta.actor_id = #{actorId}
+        AND ta.actor_type = 0
     </select>
     
     <!-- 查询我的申请数量 -->
@@ -162,7 +163,7 @@
         FROM flw_task t 
         LEFT JOIN flw_task_actor ta ON t.id = ta.task_id
         WHERE ta.actor_id = #{actorId} 
-        AND ta.agent_type = 2 <!-- 2: claiming role -->
+        AND ta.actor_type IN (1, 2) <!-- 1:角色 2:部门 -->
     </select>
     
     <!-- 查询已审批任务数量 -->
@@ -171,6 +172,7 @@
         FROM flw_his_task ht 
         LEFT JOIN flw_his_task_actor hta ON ht.id = hta.task_id
         WHERE hta.actor_id = #{actorId}
+        AND hta.actor_type = 0
     </select>
 
 </mapper>
