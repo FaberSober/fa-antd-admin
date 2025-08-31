@@ -1,18 +1,20 @@
 import { flowCatagoryApi, flowProcessApi } from '@/services';
 import { Flow } from '@/types';
-import { BaseDrawer, BaseTree, FaFlexRestLayout, FaUtils } from '@fa/ui';
+import { ApiEffectLayoutContext, BaseDrawer, BaseTree, FaFlexRestLayout, FaUtils } from '@fa/ui';
 import DemoFlowLeaveForm from '@features/fa-flow-pages/pages/admin/demo/flow/form/leave/modal/DemoFlowLeaveForm';
 import { Allotment } from "allotment";
 import { Button, Form, Space } from 'antd';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 
 export default function FlowAuditStart() {
+  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const drawerRef = useRef<any>(null);
   const [form] = Form.useForm();
 
   const [cata, setCata] = useState<Flow.FlowCatagory>();
   const [flows, setFlows] = useState<Flow.FlowProcess[]>([]);
+  const [formLoading, setFormLoading] = useState<boolean>(false);
 
   function onTreeSelect(keys: any[], event: any) {
     setCata(keys.length > 0 ? event.node.sourceData : undefined);
@@ -43,6 +45,7 @@ export default function FlowAuditStart() {
     })
   }
 
+  const loading = loadingEffect[flowProcessApi.getUrl('start')];
   return (
     <div className='fa-full-content'>
       <Allotment defaultSizes={[100, 500]}>
@@ -79,12 +82,12 @@ export default function FlowAuditStart() {
                     <div className='fa-full-content-p12 fa-flex-column'>
                       start {flow.processName}
                       <FaFlexRestLayout>
-                        {flow.processKey === 'testLeave' && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} />)}
-                        {flow.processKey === 'testLeave2' && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} />)}
+                        {flow.processKey === 'testLeave' && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} onLoadingChange={setFormLoading} />)}
+                        {flow.processKey === 'testLeave2' && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} onLoadingChange={setFormLoading} />)}
                       </FaFlexRestLayout>
 
                       <Space>
-                        <Button type='primary' onClick={() => handleStart()}>提交审批</Button>
+                        <Button type='primary' onClick={() => handleStart()} loading={loading || formLoading}>提交审批</Button>
                       </Space>
                     </div>
                   </BaseDrawer>

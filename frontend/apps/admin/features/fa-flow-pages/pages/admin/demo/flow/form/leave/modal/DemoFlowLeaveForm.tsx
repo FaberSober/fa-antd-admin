@@ -10,13 +10,14 @@ interface DemoFlowLeaveFormProps {
   form: FormInstance<any>;
   record?: Flow.DemoFlowLeave;
   onSuccess?: (record: Flow.DemoFlowLeave) => void;
+  onLoadingChange?: (loading: boolean) => void;
   disabled?: boolean;
 }
 
 /**
  * DEMO-请假流程实体新增、编辑弹框
  */
-export default function DemoFlowLeaveForm({ form, record, onSuccess, disabled }: DemoFlowLeaveFormProps) {
+export default function DemoFlowLeaveForm({ form, record, onSuccess, onLoadingChange, disabled }: DemoFlowLeaveFormProps) {
 
   useEffect(() => {
     form.setFieldsValue(getInitialValues())
@@ -24,17 +25,23 @@ export default function DemoFlowLeaveForm({ form, record, onSuccess, disabled }:
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
+    onLoadingChange?.(true);
     api.save(params).then((res) => {
       FaUtils.showResponse(res, '新增DEMO-请假流程');
       if (onSuccess) onSuccess(res.data);
+    }).finally(() => {
+      onLoadingChange?.(false);
     })
   }
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
+    onLoadingChange?.(true);
     api.update(params.id, params).then((res) => {
       FaUtils.showResponse(res, '更新DEMO-请假流程');
       if (onSuccess) onSuccess(res.data);
+    }).finally(() => {
+      onLoadingChange?.(false);
     })
   }
 
