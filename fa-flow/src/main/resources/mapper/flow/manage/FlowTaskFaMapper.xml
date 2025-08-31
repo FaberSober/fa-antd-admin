@@ -76,6 +76,7 @@
         LEFT JOIN flw_process p ON i.process_id = p.id
         LEFT JOIN flw_task_actor ta ON t.id = ta.task_id
         <include refid="Query_Task_Where_Condition"/>
+        <!-- 动态排序：sorter参数已在BasePageQuery.setSorter()中进行SQL注入防护验证 -->
         <choose>
             <when test="sorter != null and sorter != ''">
                 ORDER BY ${sorter}

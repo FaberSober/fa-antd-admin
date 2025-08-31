@@ -243,6 +243,22 @@ namespace Flow {
     auditedCount: number;
   }
 
+  /** 流程任务审批通过请求对象 - Flow Task Pass Request Object */
+  export interface FlowTaskPassReqVo {
+    /** 任务ID - Task ID */
+    taskId: number;
+    /** 审批意见 - Comment */
+    comment?: string;
+  }
+
+  /** 流程任务审批拒绝请求对象 - Flow Task Reject Request Object */
+  export interface FlowTaskRejectReqVo {
+    /** 任务ID - Task ID */
+    taskId: number;
+    /** 拒绝原因 - Reason */
+    reason?: string;
+  }
+
   /** DEMO-请假流程 */
   export interface DemoFlowLeave extends Fa.BaseDelEntity {
     /** ID */

@@ -21,10 +21,10 @@ class Api extends BaseZeroApi {
   pageMyApproved = (params: Fa.BasePageQuery<Flow.FlowTaskPageReqVo>): Promise<Fa.Ret<Fa.Page<Flow.FlowHisInstanceRet>>> => this.post('pageMyApproved', params);
 
   /** 同意流程 */
-  pass = (params: { taskId: string }): Promise<Fa.Ret<boolean>> => this.post('pass', params);
+  pass = (params: Flow.FlowTaskPassReqVo): Promise<Fa.Ret<boolean>> => this.post('pass', params);
 
   /** 拒绝流程 */
-  reject = (params: { taskId: string }): Promise<Fa.Ret<boolean>> => this.post('reject', params);
+  reject = (params: Flow.FlowTaskRejectReqVo): Promise<Fa.Ret<boolean>> => this.post('reject', params);
 
   /** 查询我的流程任务数量 */
   getMyTaskCount = (): Promise<Fa.Ret<Flow.FlowTaskCountRet>> => this.get('getMyTaskCount');
