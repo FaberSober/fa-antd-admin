@@ -2,6 +2,7 @@ import { flowCatagoryApi, flowProcessApi } from '@/services';
 import { Flow } from '@/types';
 import { ApiEffectLayoutContext, BaseDrawer, BaseTree, FaFlexRestLayout, FaUtils } from '@fa/ui';
 import DemoFlowLeaveForm from '@features/fa-flow-pages/pages/admin/demo/flow/form/leave/modal/DemoFlowLeaveForm';
+import { useFlowAuditContext } from '../contexts/FlowAuditContext';
 import { Allotment } from "allotment";
 import { Button, Form, Space } from 'antd';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -9,6 +10,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 
 export default function FlowAuditStart() {
   const { loadingEffect } = useContext(ApiEffectLayoutContext);
+  const { refreshCount } = useFlowAuditContext();
   const drawerRef = useRef<any>(null);
   const [form] = Form.useForm();
 
@@ -42,6 +44,8 @@ export default function FlowAuditStart() {
     flowProcessApi.start({ processKey: flow.processKey, args: formValues }).then(res => {
       FaUtils.showResponse(res, '发起流程');
       drawerRef.current?.close();
+      // 成功提交审批流程后，刷新任务数量统计
+      refreshCount();
     })
   }
 
