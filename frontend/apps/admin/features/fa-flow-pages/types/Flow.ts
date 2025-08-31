@@ -70,6 +70,46 @@ namespace Flow {
     flwProcess: Flow.FlwProcess;
     /** Render Nodes - 渲染节点 */
     renderNodes?: Record<string, '0' | '1'>;
+    /** Process Approvals - 流程审批历史记录列表 */
+    processApprovals?: FlowProcessApproval[];
+  }
+
+  /** 流程审批历史记录 - Flow Process Approval History */
+  export interface FlowProcessApproval {
+    /** 任务ID - Task ID */
+    id?: string;
+    /** 创建人ID - Create ID */
+    createId?: string;
+    /** 创建人名称 - Create By */
+    createBy?: string;
+    /** 创建时间 - Create Time */
+    createTime?: number;
+    /** 流程实例ID - Instance ID */
+    instanceId?: string;
+    /** 任务ID - Task ID */
+    taskId?: string;
+    /** 任务名称 - Task Name */
+    taskName?: string;
+    /** 任务Key - Task Key */
+    taskKey?: string;
+    /** 任务类型/状态 - Task Type/Status (1:已完成, -1:待处理) */
+    type?: number;
+    /** 扩展内容 - Extended Content */
+    content?: FlowProcessApprovalContent;
+  }
+
+  /** 流程审批历史记录扩展内容 - Flow Process Approval Extended Content */
+  export interface FlowProcessApprovalContent {
+    /** 节点用户列表 - Node User List */
+    nodeUserList?: NodeUser[];
+  }
+
+  /** 节点用户 - Node User */
+  export interface NodeUser {
+    /** 用户ID - User ID */
+    id?: string;
+    /** 用户名称 - User Name */
+    name?: string;
   }
 
   /** 流程定义表 */

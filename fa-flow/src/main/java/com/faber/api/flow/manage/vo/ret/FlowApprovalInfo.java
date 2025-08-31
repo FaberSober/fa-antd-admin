@@ -2,6 +2,7 @@ package com.faber.api.flow.manage.vo.ret;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import com.aizuda.bpm.engine.entity.FlwProcess;
@@ -26,5 +27,10 @@ public class FlowApprovalInfo implements Serializable {
     // private FlwHisInstance flwHisInstance;
     // private FlwExtInstance flwExtInstance;
     private FlwProcess flwProcess;
+
+    /**
+     * 流程审批历史记录列表
+     */
+    private List<FlowProcessApprovalVo> processApprovals;
 
 }

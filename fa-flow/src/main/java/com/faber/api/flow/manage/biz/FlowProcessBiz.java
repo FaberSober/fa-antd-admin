@@ -3,6 +3,8 @@ package com.faber.api.flow.manage.biz;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -11,14 +13,17 @@ import com.aizuda.bpm.engine.core.FlowCreator;
 import com.aizuda.bpm.engine.entity.FlwExtInstance;
 import com.aizuda.bpm.engine.entity.FlwHisInstance;
 import com.aizuda.bpm.engine.entity.FlwHisTask;
+import com.aizuda.bpm.engine.entity.FlwHisTaskActor;
 import com.aizuda.bpm.engine.entity.FlwInstance;
 import com.aizuda.bpm.engine.entity.FlwProcess;
 import com.aizuda.bpm.engine.entity.FlwTask;
+import com.aizuda.bpm.engine.entity.FlwTaskActor;
 import com.faber.api.flow.core.enums.FaInstanceStateEnum;
 import com.faber.api.flow.manage.entity.FlowProcess;
 import com.faber.api.flow.manage.mapper.FlowProcessMapper;
 import com.faber.api.flow.manage.vo.req.FlowProcessStartReqVo;
 import com.faber.api.flow.manage.vo.ret.FlowApprovalInfo;
+import com.faber.api.flow.manage.vo.ret.FlowProcessApprovalVo;
 import com.faber.core.context.BaseContextHandler;
 import com.faber.core.web.biz.BaseBiz;
 
@@ -147,7 +152,68 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
 
         data.setRenderNodes(renderNodes);
 
+        // 构建流程审批历史记录
+        List<FlowProcessApprovalVo> processApprovals = buildProcessApprovals(hisTasks, tasks);
+        data.setProcessApprovals(processApprovals);
+
         return data;
+    }
+
+    /**
+     * 构建流程审批历史记录列表
+     * 
+     * @param hisTasks 历史任务列表
+     * @param tasks    当前活跃任务列表
+     * @return 审批历史记录列表
+     */
+    private List<FlowProcessApprovalVo> buildProcessApprovals(List<FlwHisTask> hisTasks, List<FlwTask> tasks) {
+        List<FlowProcessApprovalVo> approvals = new ArrayList<>();
+
+        // 处理历史任务（已完成的审批）
+        for (FlwHisTask hisTask : hisTasks) {
+            FlowProcessApprovalVo approval = new FlowProcessApprovalVo();
+            approval.setId(hisTask.getId());
+            approval.setCreateId(hisTask.getCreateId());
+            approval.setCreateBy(hisTask.getCreateBy());
+            approval.setCreateTime(hisTask.getCreateTime() != null ? hisTask.getCreateTime().getTime() : null);
+            approval.setInstanceId(hisTask.getInstanceId());
+            approval.setTaskId(hisTask.getId());
+            approval.setTaskName(hisTask.getTaskName());
+            approval.setTaskKey(hisTask.getTaskKey());
+            approval.setType(1); // 1表示已完成的审批任务
+            
+            approvals.add(approval);
+        }
+
+        // 处理当前活跃任务（待处理的审批）
+        for (FlwTask task : tasks) {
+            FlowProcessApprovalVo approval = new FlowProcessApprovalVo();
+            approval.setId(task.getId());
+            approval.setInstanceId(task.getInstanceId());
+            approval.setTaskId(task.getId());
+            approval.setTaskName(task.getTaskName());
+            approval.setType(-1); // -1表示当前待处理的任务
+
+            // 获取当前任务的审批人信息
+            List<FlwTaskActor> taskActors = flowLongEngine.queryService().getTaskActorsByTaskId(task.getId());
+            if (taskActors != null && !taskActors.isEmpty()) {
+                FlowProcessApprovalVo.FlowProcessApprovalContentVo content = new FlowProcessApprovalVo.FlowProcessApprovalContentVo();
+                List<FlowProcessApprovalVo.NodeUserVo> nodeUserList = taskActors.stream()
+                        .map(actor -> {
+                            FlowProcessApprovalVo.NodeUserVo nodeUser = new FlowProcessApprovalVo.NodeUserVo();
+                            nodeUser.setId(actor.getActorId());
+                            nodeUser.setName(actor.getActorName());
+                            return nodeUser;
+                        })
+                        .collect(Collectors.toList());
+                content.setNodeUserList(nodeUserList);
+                approval.setContent(content);
+            }
+
+            approvals.add(approval);
+        }
+
+        return approvals;
     }
 
     // public void deployById(Integer id) {
