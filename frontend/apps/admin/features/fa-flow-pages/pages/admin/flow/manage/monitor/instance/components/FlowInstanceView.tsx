@@ -1,8 +1,8 @@
 import { flowProcessApi } from '@/services';
 import { Flow } from '@/types';
-import { ApartmentOutlined, FormOutlined } from '@ant-design/icons';
+import { ApartmentOutlined, FormOutlined, HistoryOutlined } from '@ant-design/icons';
 import { FaFlexRestLayout, FaLazyContainer, PageLoading } from '@fa/ui';
-import { FaWorkFlow } from '@features/fa-flow-pages/components';
+import { FaWorkFlow, FaFlowTaskTimeline } from '@features/fa-flow-pages/components';
 import { Segmented } from 'antd';
 import { isNil } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -36,6 +36,7 @@ export default function FlowInstanceView({ instance }: FlowInstanceViewProps) {
           options={[
             { label: '审批信息', value: 'form', icon: <FormOutlined /> },
             { label: '流程图', value: 'workflow', icon: <ApartmentOutlined /> },
+            { label: '审批记录', value: 'timeline', icon: <HistoryOutlined /> },
           ]}
           value={tab}
           onChange={(value) => {
@@ -50,6 +51,9 @@ export default function FlowInstanceView({ instance }: FlowInstanceViewProps) {
         </FaLazyContainer>
         <FaLazyContainer showCond={tab === 'workflow'}>
           <FaWorkFlow processModel={JSON.parse(info.modelContent)} renderNodes={info.renderNodes} showLegends />
+        </FaLazyContainer>
+        <FaLazyContainer showCond={tab === 'timeline'}>
+          <FaFlowTaskTimeline processApprovals={info.processApprovals} />
         </FaLazyContainer>
       </FaFlexRestLayout>
     </div>

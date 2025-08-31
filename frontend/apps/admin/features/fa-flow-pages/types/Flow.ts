@@ -83,7 +83,7 @@ namespace Flow {
     /** 创建人名称 - Create By */
     createBy?: string;
     /** 创建时间 - Create Time */
-    createTime?: number;
+    createTime?: string; // ISO date string format
     /** 流程实例ID - Instance ID */
     instanceId?: string;
     /** 任务ID - Task ID */
@@ -286,7 +286,7 @@ namespace Flow {
   /** 流程任务审批通过请求对象 - Flow Task Pass Request Object */
   export interface FlowTaskPassReqVo {
     /** 任务ID - Task ID */
-    taskId: number;
+    taskId: string;
     /** 审批意见 - Comment */
     comment?: string;
   }
@@ -294,7 +294,7 @@ namespace Flow {
   /** 流程任务审批拒绝请求对象 - Flow Task Reject Request Object */
   export interface FlowTaskRejectReqVo {
     /** 任务ID - Task ID */
-    taskId: number;
+    taskId: string;
     /** 拒绝原因 - Reason */
     reason?: string;
   }

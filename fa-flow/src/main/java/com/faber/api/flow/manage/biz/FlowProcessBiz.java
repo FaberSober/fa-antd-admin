@@ -175,7 +175,7 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
             approval.setId(hisTask.getId());
             approval.setCreateId(hisTask.getCreateId());
             approval.setCreateBy(hisTask.getCreateBy());
-            approval.setCreateTime(hisTask.getCreateTime() != null ? hisTask.getCreateTime().getTime() : null);
+            approval.setCreateTime(hisTask.getCreateTime());
             approval.setInstanceId(hisTask.getInstanceId());
             approval.setTaskId(hisTask.getId());
             approval.setTaskName(hisTask.getTaskName());
@@ -189,6 +189,9 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
         for (FlwTask task : tasks) {
             FlowProcessApprovalVo approval = new FlowProcessApprovalVo();
             approval.setId(task.getId());
+            approval.setCreateId(task.getCreateId());
+            approval.setCreateBy(task.getCreateBy());
+            approval.setCreateTime(task.getCreateTime());
             approval.setInstanceId(task.getInstanceId());
             approval.setTaskId(task.getId());
             approval.setTaskName(task.getTaskName());

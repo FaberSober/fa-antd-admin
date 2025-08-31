@@ -1,9 +1,9 @@
 import { flowProcessApi, flowTaskApi } from '@/services';
 import { Flow } from '@/types';
-import { ApartmentOutlined, CheckOutlined, CloseOutlined, CommentOutlined, FormOutlined } from '@ant-design/icons';
+import { ApartmentOutlined, CheckOutlined, CloseOutlined, CommentOutlined, FormOutlined, HistoryOutlined } from '@ant-design/icons';
 import { FaFlexRestLayout, FaLazyContainer, FaUtils, PageLoading } from '@fa/ui';
-import { FaWorkFlow } from '@features/fa-flow-pages/components';
-import { Button, message, Modal, Segmented, Space } from 'antd';
+import { FaWorkFlow, FaFlowTaskTimeline } from '@features/fa-flow-pages/components';
+import { Button, message, Modal, Segmented, Space, Typography } from 'antd';
 import { isNil } from 'lodash';
 import { useEffect, useState } from 'react';
 import FlowFormView from './FlowFormView';
@@ -72,12 +72,23 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess }: Flow
 
       <FaFlexRestLayout>
         <FaLazyContainer showCond={tab === 'form'}>
-          <FlowFormView flwProcess={info.flwProcess} formValues={JSON.parse(info.formContent || '{}')} />
-          <Space>
-            <Button onClick={() => message.info('TODO')} icon={<CommentOutlined />}>评论</Button>
-            {taskId && <Button onClick={() => handlePass()} icon={<CheckOutlined />} type='primary'>同意</Button>}
-            {taskId && <Button onClick={() => handleReject()} icon={<CloseOutlined />} type='primary' danger>拒绝</Button>}
-          </Space>
+          <div className='fa-full-content fa-flex-row'>
+            {/* 左侧展示流程对应的业务表单 */}
+            <div className='fa-flex-1'>
+              <FlowFormView flwProcess={info.flwProcess} formValues={JSON.parse(info.formContent || '{}')} />
+              <Space>
+                <Button onClick={() => message.info('TODO')} icon={<CommentOutlined />}>评论</Button>
+                {taskId && <Button onClick={() => handlePass()} icon={<CheckOutlined />} type='primary'>同意</Button>}
+                {taskId && <Button onClick={() => handleReject()} icon={<CloseOutlined />} type='primary' danger>拒绝</Button>}
+              </Space>
+            </div>
+
+            {/* 右侧展示流程的审批时间轴 */}
+            <div style={{width: 300, paddingLeft: 16, borderLeft: '1px solid #f0f0f0'}} className='fa-flex-column'>
+              <Typography.Title level={5} style={{ marginBottom: 16 }}>审批记录</Typography.Title>
+              <FaFlowTaskTimeline processApprovals={info.processApprovals} />
+            </div>
+          </div>
         </FaLazyContainer>
         <FaLazyContainer showCond={tab === 'workflow'}>
           <FaWorkFlow processModel={JSON.parse(info.modelContent)} renderNodes={info.renderNodes} showLegends />
