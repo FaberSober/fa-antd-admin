@@ -1,10 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { get } from 'lodash';
 import { Flow } from '@/types';
 import { BaseDrawerContext, FaFlexRestLayout, FaUtils } from '@fa/ui';
-import { Button, Modal, Space, Steps } from 'antd';
+import { Button, Modal, Space, Steps, Form, Checkbox, Typography, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import { flowProcessApi } from '@features/fa-flow-pages/services';
 import { FaWorkFlow } from '@features/fa-flow-pages/components';
+import FlowProcessForm from './FlowProcessForm';
+
+const { Text } = Typography;
 
 
 interface FlowProcessEditProps {
@@ -17,10 +21,29 @@ export default function FlowProcessEdit({item, onSuccess, viewOnly}: FlowProcess
   const {closeDrawer} = useContext(BaseDrawerContext)
   const [data, setData] = useState({ ...item });
   const [current, setCurrent] = useState(0);
+  const [form] = Form.useForm();
+  const [extendForm] = Form.useForm();
 
   useEffect(() => {
     setData({ ...item });
-  }, [item]);
+    // 设置基础信息表单数据
+    form.setFieldsValue({
+      catagoryId: get(item, 'catagoryId'),
+      processKey: get(item, 'processKey'),
+      processName: get(item, 'processName'),
+      processIcon: get(item, 'processIcon'),
+      processType: get(item, 'processType'),
+      instanceUrl: get(item, 'instanceUrl'),
+      remark: get(item, 'remark'),
+      useScope: get(item, 'useScope'),
+      processState: get(item, 'processState'),
+      sort: get(item, 'sort'),
+    });
+    // 设置扩展配置表单数据
+    extendForm.setFieldsValue({
+      submitterPermission: get(item, 'submitterPermission', false),
+    });
+  }, [item, form, extendForm]);
 
   function handlePublish() {
     Modal.confirm({
@@ -62,10 +85,51 @@ export default function FlowProcessEdit({item, onSuccess, viewOnly}: FlowProcess
       </div>
 
       <FaFlexRestLayout>
-        <FaWorkFlow
-          processModel={JSON.parse(data.modelContent)}
-          onChange={v => setData(prev => ({ ...prev, modelContent: JSON.stringify(v) }))}
-        />
+        {current === 0 && (
+          <div className='fa-full-content-p12'>
+            <FlowProcessForm
+              form={form}
+              onFinish={(values) => {
+                setData(prev => ({ ...prev, ...values }));
+                message.success('基础信息已保存');
+              }}
+              readOnly={viewOnly}
+            />
+          </div>
+        )}
+        {current === 1 && (
+          <FaWorkFlow
+            processModel={JSON.parse(data.modelContent)}
+            onChange={v => setData(prev => ({ ...prev, modelContent: JSON.stringify(v) }))}
+          />
+        )}
+        {current === 2 && (
+          <div className='fa-full-content-p12'>
+            <Form
+              form={extendForm}
+              onFinish={(values) => {
+                setData(prev => ({ ...prev, ...values }));
+                message.success('扩展配置已保存');
+              }}
+              {...FaUtils.formItemFullLayout}
+            >
+              <Form.Item
+                name="submitterPermission"
+                valuePropName="checked"
+                label="提交人权限"
+              >
+                <Checkbox disabled={viewOnly}>
+                  第一个审批节点通过后，提交人仍可撤销申请
+                </Checkbox>
+              </Form.Item>
+              <Form.Item>
+                <Text type="secondary" style={{ fontSize: '12px' }}>
+                  第一个审批节点通过后，提交人仍可撤销申请（配置前已发起的申请不生效）
+                </Text>
+              </Form.Item>
+            </Form>
+          </div>
+        )}
       </FaFlexRestLayout>
     </div>
   );
