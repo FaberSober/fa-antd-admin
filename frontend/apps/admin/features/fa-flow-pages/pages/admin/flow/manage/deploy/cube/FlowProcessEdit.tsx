@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Flow } from '@/types';
 import { BaseDrawerContext, FaFlexRestLayout, FaUtils } from '@fa/ui';
-import { Button, Modal, Space } from 'antd';
+import { Button, Modal, Space, Steps } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import { flowProcessApi } from '@features/fa-flow-pages/services';
 import { FaWorkFlow } from '@features/fa-flow-pages/components';
@@ -16,6 +16,7 @@ interface FlowProcessEditProps {
 export default function FlowProcessEdit({item, onSuccess, viewOnly}: FlowProcessEditProps) {
   const {closeDrawer} = useContext(BaseDrawerContext)
   const [data, setData] = useState({ ...item });
+  const [current, setCurrent] = useState(0);
 
   useEffect(() => {
     setData({ ...item });
@@ -39,9 +40,24 @@ export default function FlowProcessEdit({item, onSuccess, viewOnly}: FlowProcess
     <div className='fa-full-content-p12 fa-flex-column'>
       <div className='fa-pb12'>
         {!viewOnly && (
-          <Space>
-            <Button onClick={handlePublish} type='primary' icon={<SendOutlined />}>发布</Button>
-          </Space>
+          <div className='fa-flex-row-center'>
+            <div style={{width: 100}}></div>
+            <div className='fa-flex-1 fa-flex-center'>
+              <Steps
+                style={{width: 450}}
+                current={current}
+                onChange={setCurrent}
+                items={[
+                  { title: '基础信息' },
+                  { title: '流程设计' },
+                  { title: '扩展配置' },
+                ]}
+              />
+            </div>
+            <Space style={{width: 100}} className='fa-flex-row-end'>
+              <Button onClick={handlePublish} type='primary' icon={<SendOutlined />}>发布</Button>
+            </Space>
+          </div>
         )}
       </div>
 
