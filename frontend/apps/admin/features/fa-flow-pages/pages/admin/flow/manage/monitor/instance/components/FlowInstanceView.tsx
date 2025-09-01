@@ -52,7 +52,7 @@ export default function FlowInstanceView({ instance }: FlowInstanceViewProps) {
         <FaLazyContainer showCond={tab === 'workflow'}>
           <FaWorkFlow processModel={JSON.parse(info.modelContent)} renderNodes={info.renderNodes} showLegends />
         </FaLazyContainer>
-        <FaLazyContainer showCond={tab === 'timeline'}>
+        <FaLazyContainer showCond={tab === 'timeline'} style={{padding: 12}}>
           <FaFlowTaskTimeline processApprovals={info.processApprovals} />
         </FaLazyContainer>
       </FaFlexRestLayout>
