@@ -45,18 +45,47 @@ export default function FlowProcessEdit({item, onSuccess, viewOnly}: FlowProcess
     });
   }, [item, form, extendForm]);
 
-  function handlePublish() {
-    Modal.confirm({
-      title: '发布流程',
-      content: '确定要发布该流程吗？',
-      onOk: () => {
-        flowProcessApi.publish(data).then(res => {
-          FaUtils.showResponse(res, '发布流程');
-          onSuccess?.();
-          closeDrawer();
-        });
-      },
-    });
+  async function handlePublish() {
+    try {
+      // 校验基础信息表单
+      const formValues = await form.validateFields();
+
+      // 获取扩展配置表单数据
+      const extendValues = extendForm.getFieldsValue();
+
+      // 组合所有数据
+      const publishData = {
+        ...data,
+        ...formValues,
+        ...extendValues,
+      };
+
+      Modal.confirm({
+        title: '发布流程',
+        content: '确定要发布该流程吗？',
+        onOk: async () => {
+          try {
+            // 先更新表单信息
+            await flowProcessApi.update(publishData.id, publishData);
+            FaUtils.showResponse({ status: 200 } as any, '更新流程信息');
+
+            // 然后发布流程配置
+            const publishRes = await flowProcessApi.publish(publishData);
+            FaUtils.showResponse(publishRes, '发布流程');
+
+            onSuccess?.();
+            closeDrawer();
+          } catch (error) {
+            message.error('发布流程失败');
+            console.error('发布流程错误:', error);
+          }
+        },
+      });
+    } catch (error) {
+      message.error('请先完善基础信息');
+      // 切换到基础信息步骤
+      setCurrent(0);
+    }
   }
 
   return (
