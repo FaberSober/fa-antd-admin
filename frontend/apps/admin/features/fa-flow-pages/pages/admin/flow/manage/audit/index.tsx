@@ -3,6 +3,7 @@ import { FaFlexRestLayout, FaLazyContainer, Fa } from '@fa/ui';
 import FlowAuditStart from './cube/FlowAuditStart';
 import { Segmented } from 'antd';
 import { AuditOutlined, BookOutlined, CarryOutOutlined, ContainerOutlined, SendOutlined, SettingOutlined } from '@ant-design/icons';
+import useBus from "use-bus";
 import FlowTodo from './cube/FlowTodo';
 import FlowMyApplications from './cube/FlowMyApplications';
 import FlowMyReceived from './cube/FlowMyReceived';
@@ -29,6 +30,13 @@ export default function FlowAudit() {
   useEffect(() => {
     getTaskCounts();
   }, [getTaskCounts]);
+
+  // 接收websocket处理组件FlowTaskWebsocketProcessor发布的刷新任务数量信息
+  useBus(
+    ['@@api/FLOW/REFRESH_TASK_COUNT'],
+    () => getTaskCounts(),
+    [],
+  )
 
   // 刷新任务数量统计的方法
   const handleRefreshCount = useCallback(() => {

@@ -7,6 +7,7 @@ import { Button, message, Modal, Segmented, Space, Typography } from 'antd';
 import { isNil } from 'lodash';
 import { useEffect, useState } from 'react';
 import FlowFormView from './FlowFormView';
+import { useFlowAuditContext } from '../contexts/FlowAuditContext';
 
 
 interface FlowInstanceDealProps {
@@ -16,6 +17,7 @@ interface FlowInstanceDealProps {
 }
 
 export default function FlowInstanceDeal({ instanceId, taskId, onSuccess }: FlowInstanceDealProps) {
+  const { refreshCount } = useFlowAuditContext();
   const [tab, setTab] = useState('form');
   const [info, setInfo] = useState<Flow.FlowApprovalInfo>()
 
@@ -34,9 +36,10 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess }: Flow
     Modal.confirm({
       title: '请确认是否通过?',
       onOk: () => {
-        flowTaskApi.pass({ taskId: taskId! }).then(res => {
+        return flowTaskApi.pass({ taskId: taskId! }).then(res => {
           FaUtils.showResponse(res, '同意流程')
           onSuccess?.();
+          refreshCount();
         })
       }
     })
@@ -45,10 +48,13 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess }: Flow
   function handleReject() {
     Modal.confirm({
       title: '请确认是否拒绝?',
+      okText: '拒绝',
+      okButtonProps: {danger: true},
       onOk: () => {
-        flowTaskApi.reject({ taskId: taskId! }).then(res => {
+        return flowTaskApi.reject({ taskId: taskId! }).then(res => {
           FaUtils.showResponse(res, '拒绝流程')
           onSuccess?.();
+          refreshCount();
         })
       }
     })
