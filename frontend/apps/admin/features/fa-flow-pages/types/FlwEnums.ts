@@ -182,6 +182,127 @@ namespace FlowEnums {
   }
 
   /**
+   * {@link com.aizuda.bpm.engine.core.enums.TaskEventType}
+   * 任务事件类型枚举
+   */
+  export enum TaskEventType {
+    /** 发起 */
+    start = 'start',
+    /** 发起暂存草稿 */
+    startAsDraft = 'startAsDraft',
+    /** 重新发起 */
+    restart = 'restart',
+    /** 创建 */
+    create = 'create',
+    /** 再创建，仅用于流程回退 */
+    recreate = 'recreate',
+    /** 抄送 */
+    cc = 'cc',
+    /** 手动创建抄送任务 */
+    createCc = 'createCc',
+    /** 代理 */
+    agent = 'agent',
+    /** 转办 */
+    transfer = 'transfer',
+    /** 委派 */
+    delegate = 'delegate',
+    /** 委派任务解决 */
+    delegateResolve = 'delegateResolve',
+    /** 会签加签 */
+    addCountersign = 'addCountersign',
+    /** 任务加签 */
+    addTaskActor = 'addTaskActor',
+    /** 任务减签 */
+    removeTaskActor = 'removeTaskActor',
+    /** 驳回至上一步处理 */
+    reject = 'reject',
+    /** 角色认领 */
+    claimRole = 'claimRole',
+    /** 部门认领 */
+    claimDepartment = 'claimDepartment',
+    /** 拿回未执行任务 */
+    reclaim = 'reclaim',
+    /** 撤回指定任务 */
+    withdraw = 'withdraw',
+    /** 唤醒历史任务 */
+    resume = 'resume',
+    /** 完成 */
+    complete = 'complete',
+    /** 撤销 */
+    revoke = 'revoke',
+    /** 终止 */
+    terminate = 'terminate',
+    /** 更新 */
+    update = 'update',
+    /** 删除 */
+    delete = 'delete',
+    /** 调用外部流程任务【办理子流程】 */
+    callProcess = 'callProcess',
+    /** 超时 */
+    timeout = 'timeout',
+    /** 跳转 */
+    jump = 'jump',
+    /** 自动跳转 */
+    autoJump = 'autoJump',
+    /** 驳回跳转 */
+    rejectJump = 'rejectJump',
+    /** 路由跳转 */
+    routeJump = 'routeJump',
+    /** 重新审批跳转 */
+    reApproveJump = 'reApproveJump',
+    /** 重新审批创建 */
+    reApproveCreate = 'reApproveCreate',
+    /** 自动审批完成 */
+    autoComplete = 'autoComplete',
+    /** 自动审批拒绝 */
+    autoReject = 'autoReject',
+    /** 触发器任务 */
+    trigger = 'trigger',
+    /** 结束 */
+    end = 'end',
+  }
+
+  export const TaskEventTypeMap: Record<TaskEventType, string> = {
+    [TaskEventType.start]: '发起',
+    [TaskEventType.startAsDraft]: '发起暂存草稿',
+    [TaskEventType.restart]: '重新发起',
+    [TaskEventType.create]: '创建',
+    [TaskEventType.recreate]: '再创建',
+    [TaskEventType.cc]: '抄送',
+    [TaskEventType.createCc]: '手动创建抄送任务',
+    [TaskEventType.agent]: '代理',
+    [TaskEventType.transfer]: '转办',
+    [TaskEventType.delegate]: '委派',
+    [TaskEventType.delegateResolve]: '委派任务解决',
+    [TaskEventType.addCountersign]: '会签加签',
+    [TaskEventType.addTaskActor]: '任务加签',
+    [TaskEventType.removeTaskActor]: '任务减签',
+    [TaskEventType.reject]: '驳回至上一步处理',
+    [TaskEventType.claimRole]: '角色认领',
+    [TaskEventType.claimDepartment]: '部门认领',
+    [TaskEventType.reclaim]: '拿回未执行任务',
+    [TaskEventType.withdraw]: '撤回指定任务',
+    [TaskEventType.resume]: '唤醒历史任务',
+    [TaskEventType.complete]: '完成',
+    [TaskEventType.revoke]: '撤销',
+    [TaskEventType.terminate]: '终止',
+    [TaskEventType.update]: '更新',
+    [TaskEventType.delete]: '删除',
+    [TaskEventType.callProcess]: '调用外部流程任务',
+    [TaskEventType.timeout]: '超时',
+    [TaskEventType.jump]: '跳转',
+    [TaskEventType.autoJump]: '自动跳转',
+    [TaskEventType.rejectJump]: '驳回跳转',
+    [TaskEventType.routeJump]: '路由跳转',
+    [TaskEventType.reApproveJump]: '重新审批跳转',
+    [TaskEventType.reApproveCreate]: '重新审批创建',
+    [TaskEventType.autoComplete]: '自动审批完成',
+    [TaskEventType.autoReject]: '自动审批拒绝',
+    [TaskEventType.trigger]: '触发器任务',
+    [TaskEventType.end]: '结束',
+  }
+
+  /**
    * 流程实例状态枚举
    * {相对应com.aizuda.bpm.engine.core.enums.InstanceState}
    */

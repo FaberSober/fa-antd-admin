@@ -1,6 +1,5 @@
 import { Fa } from '@fa/ui';
-import Flw from './Flw';
-import { FlwEnums } from '.';
+import FlwEnums from './FlwEnums';
 
 namespace Flow {
   /** FLOW-流程分类 */
@@ -319,6 +318,25 @@ namespace Flow {
     leaveEndTime: string;
     /** 租户ID */
     tenantId?: number;
+  }
+
+  // ------------------------------------------------- Flow -------------------------------------------------
+  /** 流程任务消息对象 - Flow Task Message Object */
+  export interface FaFlowTaskMsgVo {
+    /** 消息标题 - Message Title */
+    title?: string;
+    /** 审核人类型 - Event Type */
+    eventType?: FlwEnums.NodeType;
+    /** 节点名称 - Node Name */
+    nodeName?: string;
+    /** 节点 key - Node Key */
+    nodeKey?: string;
+    /** 节点类型 - Task Type */
+    taskType?: number;
+    /** 流程名称 - Process Name */
+    processName?: string;
+    /** 流程实例ID - Process Instance ID */
+    processInstanceId?: string;
   }
 
 }

@@ -52,22 +52,22 @@ public class TestTaskListener implements TaskListener {
 
         FaFlowTaskMsgVo taskMsg = new FaFlowTaskMsgVo();
         taskMsg.setEventType(eventType);
-        if (nodeModel != null) {
-            taskMsg.setTaskType(nodeModel.getType());
-            taskMsg.setNodeKey(nodeModel.getNodeKey());
-            taskMsg.setNodeName(nodeModel.getNodeName());
+        taskMsg.setTaskType(nodeModel.getType());
+        taskMsg.setNodeKey(nodeModel.getNodeKey());
+        taskMsg.setNodeName(nodeModel.getNodeName());
 
-            taskMsg.setProcessName("");
-            taskMsg.setProcessInstanceId(flwTask.getInstanceId());
-        }
+        taskMsg.setProcessName("");
+        taskMsg.setProcessInstanceId(flwTask.getInstanceId());
 
+        String title = "";
         switch (eventType) {
             case create: {
                 // 发起审批，通知审核人员
                 if (NodeSetType.specifyMembers.eq(nodeModel.getSetType())) {
                     log.info("处理指定成员审批");
                     if (taskActors == null || taskActors.isEmpty()) break;
-
+                    
+                    taskMsg.setTitle(nodeModel.getNodeName() + "待处理");
                     List<String> userIds = taskActors.stream().map(FlwTaskActor::getActorId).toList();
                     WsHolder.sendMessage(userIds, WsTypeEnum.FLOW_TASK_INFO, taskMsg);
                 }
