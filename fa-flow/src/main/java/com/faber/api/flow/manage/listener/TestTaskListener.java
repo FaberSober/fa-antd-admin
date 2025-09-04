@@ -9,6 +9,8 @@ import com.aizuda.bpm.engine.FlowLongEngine;
 import com.aizuda.bpm.engine.core.FlowCreator;
 import com.aizuda.bpm.engine.core.enums.NodeSetType;
 import com.aizuda.bpm.engine.core.enums.TaskEventType;
+import com.aizuda.bpm.engine.entity.FlwInstance;
+import com.aizuda.bpm.engine.entity.FlwProcess;
 import com.aizuda.bpm.engine.entity.FlwTask;
 import com.aizuda.bpm.engine.entity.FlwTaskActor;
 import com.aizuda.bpm.engine.listener.TaskListener;
@@ -50,13 +52,16 @@ public class TestTaskListener implements TaskListener {
             }
         }
 
+        FlwInstance flwInstance = flowLongEngine.queryService().getInstance(flwTask.getInstanceId());
+        FlwProcess flwProcess = flowLongEngine.processService().getProcessById(flwInstance.getProcessId());
+
         FaFlowTaskMsgVo taskMsg = new FaFlowTaskMsgVo();
         taskMsg.setEventType(eventType);
         taskMsg.setTaskType(nodeModel.getType());
         taskMsg.setNodeKey(nodeModel.getNodeKey());
         taskMsg.setNodeName(nodeModel.getNodeName());
 
-        taskMsg.setProcessName("");
+        taskMsg.setProcessName(flwProcess.getProcessName());
         taskMsg.setProcessInstanceId(flwTask.getInstanceId());
 
         String title = "";
@@ -67,7 +72,8 @@ public class TestTaskListener implements TaskListener {
                     log.info("处理指定成员审批");
                     if (taskActors == null || taskActors.isEmpty()) break;
                     
-                    taskMsg.setTitle(nodeModel.getNodeName() + "待处理");
+                    taskMsg.setTitle(flwProcess.getProcessName() + "-待处理");
+                    taskMsg.setDescription(flwInstance.getCreateBy() + "发起了" + flwProcess.getProcessName());
                     List<String> userIds = taskActors.stream().map(FlwTaskActor::getActorId).toList();
                     WsHolder.sendMessage(userIds, WsTypeEnum.FLOW_TASK_INFO, taskMsg);
                 }
@@ -75,12 +81,19 @@ public class TestTaskListener implements TaskListener {
             case cc: {
                 // 抄送，通知抄送人员
                 log.info("处理抄送");
-                WsHolder.sendMessage(WsTypeEnum.PLAIN_TEXT, nodeModel.getNodeName() + "抄送");
+                if (taskActors == null || taskActors.isEmpty()) break;
+                
+                taskMsg.setTitle(flwProcess.getProcessName() + "-" + nodeModel.getNodeName() + "-抄送给您");
+                taskMsg.setDescription(flwInstance.getCreateBy() + "发起的" + flwProcess.getProcessName() + "-" + nodeModel.getNodeName() + "-抄送给您");
+                List<String> userIds = taskActors.stream().map(FlwTaskActor::getActorId).toList();
+                WsHolder.sendMessage(userIds, WsTypeEnum.FLOW_TASK_INFO, taskMsg);
             } break;
             case complete: {
                 // 完成，通知发起人
                 log.info("处理完成");
-                WsHolder.sendMessage(WsTypeEnum.PLAIN_TEXT, nodeModel.getNodeName() + "完成");
+                taskMsg.setTitle(flwProcess.getProcessName() + "-流程结束");
+                taskMsg.setDescription("您发起的【" + flwProcess.getProcessName() + "】流程结束");
+                WsHolder.sendMessage(flwInstance.getCreateId(), WsTypeEnum.FLOW_TASK_INFO, taskMsg);
             } break;
             default:
                 break;

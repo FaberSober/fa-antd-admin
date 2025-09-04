@@ -31,7 +31,7 @@ export default function FlowTaskWebsocketProcessor() {
   function openNotification(data: Flow.FaFlowTaskMsgVo) {
     api.open({
       message: data.title,
-      description: data.title,
+      description: data.description,
       showProgress: true,
       pauseOnHover: true,
     });

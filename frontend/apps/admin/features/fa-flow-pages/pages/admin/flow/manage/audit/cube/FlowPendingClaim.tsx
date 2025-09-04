@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { FaApiScrollList, FaApiScrollListRef } from '@features/fa-admin-pages/components';
 import { flowTaskApi } from "@features/fa-flow-pages/services";
 import FlowInstanceDeal from "../components/FlowInstanceDeal";
+import useBus from "use-bus";
 
 /**
  * 流程任务管理 - 待认领任务组件
@@ -23,6 +24,13 @@ export default function FlowPendingClaim() {
     scrollListRef.current?.refresh();
     setTask(undefined)
   }
+
+  // 接收websocket处理组件FlowTaskWebsocketProcessor发布的刷新任务数量信息
+  useBus(
+    ['@@api/FLOW/REFRESH_TASK_COUNT'],
+    () => refresh(),
+    [],
+  )
 
   return (
     <div className='fa-full-content'>

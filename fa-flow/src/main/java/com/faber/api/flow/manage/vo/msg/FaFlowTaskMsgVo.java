@@ -16,6 +16,10 @@ public class FaFlowTaskMsgVo implements Serializable {
      */
     private String title;
     /**
+     * 消息内容
+     */
+    private String description;
+    /**
      * 审核人类型 {@link NodeSetType}
      * <p>
      * 1，指定成员 2，主管 3，角色 4，发起人自选 5，发起人自己 6，连续多级主管 7，部门 8，指定候选人

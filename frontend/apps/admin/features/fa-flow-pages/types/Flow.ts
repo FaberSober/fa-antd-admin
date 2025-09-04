@@ -325,6 +325,8 @@ namespace Flow {
   export interface FaFlowTaskMsgVo {
     /** 消息标题 - Message Title */
     title?: string;
+    /** 消息内容 - Message description */
+    description?: string;
     /** 审核人类型 - Event Type */
     eventType?: FlwEnums.NodeType;
     /** 节点名称 - Node Name */
