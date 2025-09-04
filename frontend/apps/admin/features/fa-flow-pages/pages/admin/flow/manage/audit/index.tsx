@@ -85,9 +85,7 @@ export default function FlowAudit() {
               },
             ]}
             value={tab}
-            onChange={(value) => {
-              setTab(value as string);
-            }}
+            onChange={setTab}
           />
         </div>
 
