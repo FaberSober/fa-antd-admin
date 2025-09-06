@@ -15,10 +15,9 @@ import com.aizuda.bpm.engine.entity.FlwTask;
 import com.aizuda.bpm.engine.entity.FlwTaskActor;
 import com.aizuda.bpm.engine.listener.TaskListener;
 import com.aizuda.bpm.engine.model.NodeModel;
-import com.faber.api.base.msg.biz.MsgBiz;
 import com.faber.api.base.msg.helper.MsgHelper;
-import com.faber.api.base.msg.helper.config.MsgSendSysConfig;
 import com.faber.api.flow.manage.vo.msg.FaFlowTaskMsgVo;
+import com.faber.api.flow.manage.vo.msg.MsgSendFlowNoticeConfig;
 import com.faber.config.websocket.WsHolder;
 import com.faber.core.constant.CommonConstants;
 import com.faber.core.context.BaseContextHandler;
@@ -84,9 +83,10 @@ public class TestTaskListener implements TaskListener {
                     WsHolder.sendMessage(userIds, WsTypeEnum.FLOW_TASK_INFO, taskMsg);
 
                     BaseContextHandler.useAdmin(); // 站内信使用admin角色发布
-                    MsgSendSysConfig msgVo = MsgSendSysConfig.builder()
+                    MsgSendFlowNoticeConfig msgVo = MsgSendFlowNoticeConfig.builder()
                         .buzzId("")
                         .content(taskMsg.getDescription())
+                        .taskMsg(taskMsg)
                         .build();
                     msgHelper.sendSysMsgAsync(CommonConstants.SUPER_ADMIN_ID, userIds, msgVo);
                 }
@@ -102,9 +102,10 @@ public class TestTaskListener implements TaskListener {
                 WsHolder.sendMessage(userIds, WsTypeEnum.FLOW_TASK_INFO, taskMsg);
                 
                 BaseContextHandler.useAdmin(); // 站内信使用admin角色发布
-                MsgSendSysConfig msgVo = MsgSendSysConfig.builder()
+                MsgSendFlowNoticeConfig msgVo = MsgSendFlowNoticeConfig.builder()
                     .buzzId("")
                     .content(taskMsg.getDescription())
+                    .taskMsg(taskMsg)
                     .build();
                 msgHelper.sendSysMsgAsync(CommonConstants.SUPER_ADMIN_ID, userIds, msgVo);
             } break;
@@ -116,9 +117,10 @@ public class TestTaskListener implements TaskListener {
                 WsHolder.sendMessage(flwInstance.getCreateId(), WsTypeEnum.FLOW_TASK_INFO, taskMsg);
 
                 BaseContextHandler.useAdmin(); // 站内信使用admin角色发布
-                MsgSendSysConfig msgVo = MsgSendSysConfig.builder()
+                MsgSendFlowNoticeConfig msgVo = MsgSendFlowNoticeConfig.builder()
                     .buzzId("")
                     .content(taskMsg.getDescription())
+                    .taskMsg(taskMsg)
                     .build();
                 msgHelper.sendSysMsgAsync(CommonConstants.SUPER_ADMIN_ID, flwInstance.getCreateId(), msgVo);
             } break;
