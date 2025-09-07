@@ -2,7 +2,7 @@ package com.faber.api.im.message.rest;
 
 import com.faber.api.im.message.biz.ImUserMessageBiz;
 import com.faber.api.im.message.entity.ImUserMessage;
-import com.faber.core.rest.BaseController;
+import com.faber.core.web.rest.BaseController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author faber
  */
 @RestController
-@RequestMapping("/api/im/message/user")
+@RequestMapping("/api/im/message/userMessage")
 public class ImUserMessageController extends BaseController<ImUserMessageBiz, ImUserMessage, Long> {
 }

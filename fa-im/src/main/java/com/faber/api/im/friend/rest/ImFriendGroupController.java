@@ -2,7 +2,8 @@ package com.faber.api.im.friend.rest;
 
 import com.faber.api.im.friend.biz.ImFriendGroupBiz;
 import com.faber.api.im.friend.entity.ImFriendGroup;
-import com.faber.core.rest.BaseController;
+import com.faber.core.web.rest.BaseController;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author faber
  */
 @RestController
-@RequestMapping("/api/im/friend/group")
+@RequestMapping("/api/im/friend/friendGroup")
 public class ImFriendGroupController extends BaseController<ImFriendGroupBiz, ImFriendGroup, Long> {
 }
