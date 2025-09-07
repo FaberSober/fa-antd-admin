@@ -2,7 +2,7 @@ package com.faber.api.im.group.biz;
 
 import com.faber.api.im.group.entity.ImGroup;
 import com.faber.api.im.group.mapper.ImGroupMapper;
-import com.faber.core.biz.BaseBiz;
+import com.faber.core.web.biz.BaseBiz;
 import org.springframework.stereotype.Service;
 
 /**

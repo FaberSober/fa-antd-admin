@@ -2,7 +2,7 @@ package com.faber.api.im.message.biz;
 
 import com.faber.api.im.message.entity.ImUserMessage;
 import com.faber.api.im.message.mapper.ImUserMessageMapper;
-import com.faber.core.biz.BaseBiz;
+import com.faber.core.web.biz.BaseBiz;
 import org.springframework.stereotype.Service;
 
 /**

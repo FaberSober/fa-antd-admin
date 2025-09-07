@@ -1,7 +1,7 @@
 package com.faber.api.im.session.mapper;
 
 import com.faber.api.im.session.entity.ImChatSession;
-import com.faber.core.mapper.BaseMapper;
+import com.faber.core.config.mybatis.base.FaBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -10,5 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @author faber
  */
 @Mapper
-public interface ImChatSessionMapper extends BaseMapper<ImChatSession> {
+public interface ImChatSessionMapper extends FaBaseMapper<ImChatSession> {
 }

@@ -2,7 +2,7 @@ package com.faber.api.im.friend.biz;
 
 import com.faber.api.im.friend.entity.ImFriendGroup;
 import com.faber.api.im.friend.mapper.ImFriendGroupMapper;
-import com.faber.core.biz.BaseBiz;
+import com.faber.core.web.biz.BaseBiz;
 import org.springframework.stereotype.Service;
 
 /**

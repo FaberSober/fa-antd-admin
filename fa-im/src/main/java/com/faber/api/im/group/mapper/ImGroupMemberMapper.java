@@ -1,7 +1,7 @@
 package com.faber.api.im.group.mapper;
 
 import com.faber.api.im.group.entity.ImGroupMember;
-import com.faber.core.mapper.BaseMapper;
+import com.faber.core.config.mybatis.base.FaBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -10,5 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @author faber
  */
 @Mapper
-public interface ImGroupMemberMapper extends BaseMapper<ImGroupMember> {
+public interface ImGroupMemberMapper extends FaBaseMapper<ImGroupMember> {
 }

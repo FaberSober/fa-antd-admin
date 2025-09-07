@@ -1,7 +1,7 @@
 package com.faber.api.im.message.mapper;
 
 import com.faber.api.im.message.entity.ImMessage;
-import com.faber.core.mapper.BaseMapper;
+import com.faber.core.config.mybatis.base.FaBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -10,5 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @author faber
  */
 @Mapper
-public interface ImMessageMapper extends BaseMapper<ImMessage> {
+public interface ImMessageMapper extends FaBaseMapper<ImMessage> {
 }
