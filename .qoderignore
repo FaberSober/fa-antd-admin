@@ -1,0 +1,7 @@
+# Specify files or folders to ignore during indexing. Use commas to separate entries. Glob patterns like *.log，my-security/ are supported.
+target/
+node_modules/
+.turbo/
+dist/
+public/
+.changeset/
