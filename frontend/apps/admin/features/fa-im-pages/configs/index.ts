@@ -5,10 +5,7 @@ export default {
   GATE_APP: {
     /** im服务 */
     im: {
-      friend: '/api/im/friend',
-      group: '/api/im/group',
-      message: '/api/im/message',
-      session: '/api/im/session',
+      core: '/api/im/core',
     },
   },
 } as Fa.ConfigApp
