@@ -2,8 +2,24 @@
   position: fixed;
   right: 0;
   bottom: 0;
-  padding: 12px;
+  padding: 0;
   background: var(--fa-bg-color);
   border: 1px solid var(--fa-border-color);
   z-index: 9999;
+}
+
+.fa-im-chat-panel {
+  width: 260px;
+  height: 520px;
+  background: var(--fa-bg-color);
+  border: 1px solid var(--fa-border-color);
+  z-index: 9999;
+}
+
+.fa-im-chat-panel-title {
+  background: #D6D6D6;
+}
+
+.fa-im-chat-panel-bottom {
+  background: #D6D6D6;
 }
