@@ -1,17 +1,16 @@
 package com.faber.api.flow.core.entity;
 
+import java.io.Serializable;
+import java.util.Date;
+
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.core.annotation.FaModalName;
-import com.faber.core.bean.BaseDelEntity;
-import lombok.Data;
 
-import java.util.Date;
-import java.io.Serializable;
-import java.math.BigDecimal;
+import lombok.Data;
 
 /**
  * 流程实例表
@@ -27,7 +26,6 @@ public class FaFlwInstance implements Serializable {
 
     @ColumnWidth(8)
     @ExcelProperty("主键ID")
-    @TableId(type = IdType.AUTO)
     private Long id;
 
     @ExcelProperty("租户ID")

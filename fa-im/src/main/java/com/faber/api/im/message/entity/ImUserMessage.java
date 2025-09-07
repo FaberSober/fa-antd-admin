@@ -17,6 +17,8 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @TableName("im_user_message")
 public class ImUserMessage extends BaseDelEntity {
+    
+    private Long id;
     /**
      * 消息ID
      */

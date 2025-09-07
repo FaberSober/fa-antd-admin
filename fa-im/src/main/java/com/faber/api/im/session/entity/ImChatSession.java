@@ -17,6 +17,8 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @TableName("im_chat_session")
 public class ImChatSession extends BaseDelEntity {
+    
+    private Long id;
     /**
      * 会话ID
      */

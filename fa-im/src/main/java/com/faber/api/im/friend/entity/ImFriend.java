@@ -15,6 +15,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @TableName("im_friend")
 public class ImFriend extends BaseDelEntity {
+    
+    private Long id;
+    
     /**
      * 用户ID
      */

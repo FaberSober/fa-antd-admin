@@ -17,6 +17,8 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @TableName("im_group_member")
 public class ImGroupMember extends BaseDelEntity {
+    
+    private Long id;
     /**
      * 群ID
      */

@@ -1,17 +1,13 @@
 package com.faber.api.flow.core.entity;
 
+import java.util.Date;
+
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.alibaba.excel.annotation.write.style.ColumnWidth;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.api.flow.core.enums.FaInstanceStateEnum;
 import com.faber.core.annotation.FaModalName;
-import com.faber.core.bean.BaseDelEntity;
-import lombok.Data;
 
-import java.util.Date;
-import java.math.BigDecimal;
+import lombok.Data;
 
 /**
  * 历史流程实例表

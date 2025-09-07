@@ -15,6 +15,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @TableName("im_group")
 public class ImGroup extends BaseDelEntity {
+    
+    private Long id;
     /**
      * 群ID
      */
