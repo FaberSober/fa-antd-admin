@@ -1,0 +1,40 @@
+.fa-im-wx-panel-main {
+
+}
+
+.fa-im-wx-panel-left {
+  background: #EDEDED;
+  border-right: 1px solid #E1E1E1;
+}
+
+.fa-im-wx-panel-left-btn, .fa-im-wx-panel-left-btn-selected {
+  height: 40px;
+  width: 40px;
+  border-radius: 4px;
+  padding: 6px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.fa-im-wx-panel-left-btn-selected {
+  background-color: #e6e6e6;
+  color: var(--primary-color);
+}
+
+.fa-im-wx-panel-left-sub {
+  background: #F7F7F7;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.fa-im-wx-panel-right {
+  background: #EDEDED;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
