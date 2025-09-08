@@ -9,11 +9,15 @@ import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapp
 import com.faber.api.base.admin.biz.UserBiz;
 import com.faber.api.base.admin.entity.User;
 import com.faber.api.im.core.entity.ImConversation;
+import com.faber.api.im.core.entity.ImMessage;
 import com.faber.api.im.core.entity.ImParticipant;
 import com.faber.api.im.core.enums.ImConversationTypeEnum;
 import com.faber.api.im.core.mapper.ImConversationMapper;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
 import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
+import com.faber.api.im.core.vo.req.ImConversationSendMsgReqVo;
+import com.faber.config.websocket.WsHolder;
+import com.faber.core.enums.WsTypeEnum;
 import com.faber.core.web.biz.BaseBiz;
 
 import cn.hutool.core.util.StrUtil;
@@ -31,6 +35,8 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
 
     @Resource UserBiz userBiz;
     @Resource ImParticipantBiz imParticipantBiz;
+    @Resource ImMessageBiz imMessageBiz;
+    @Resource ImMessageReadBiz imMessageReadBiz;
 
     /**
      * 创建新的单聊会话
@@ -96,6 +102,29 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
             .list();
 
         return convList;
+    }
+
+    public ImMessage sendMsg(ImConversationSendMsgReqVo reqVo) {
+        // create new message
+        ImMessage msg = new ImMessage();
+        msg.setConversationId(reqVo.getConversationId());
+        msg.setSenderId(getCurrentUserId());
+        msg.setType(reqVo.getType());
+        msg.setContent(reqVo.getContent());
+        msg.setIsWithdrawn(false);
+        imMessageBiz.save(msg);
+
+        // get conversation participants
+        List<ImParticipant> convList = imParticipantBiz.lambdaQuery()
+            .eq(ImParticipant::getConversationId, reqVo.getConversationId())
+            .list();
+        // get userIds except senderId
+        List<String> userIds = convList.stream().map(ImParticipant::getUserId).filter(userId -> !userId.equals(getCurrentUserId())).toList();
+
+        // send message throw websocket
+        WsHolder.sendMessage(userIds, WsTypeEnum.IM, msg);
+
+        return msg;
     }
 
 }

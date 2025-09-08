@@ -1,11 +1,11 @@
 import { Im } from '@/types';
-import { FolderOutlined, MessageOutlined, SearchOutlined, SmileOutlined } from '@ant-design/icons';
+import { FolderOutlined, MessageOutlined, SmileOutlined } from '@ant-design/icons';
 import { FaFlexRestLayout } from '@fa/ui';
 import { imConversationApi } from '@features/fa-im-pages/services';
 import { Button, Empty, Input, Space, Splitter } from 'antd';
 import clsx from 'clsx';
 import { isNil } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * @author xu.pengfei
@@ -14,6 +14,7 @@ import React, { useEffect, useState } from 'react';
 export default function ImChatMsgPanel() {
   const [convList, setConvList] = useState<Im.ImConversation[]>([]);
   const [convSel, setConvSel] = useState<Im.ImConversation>();
+  const [messageText, setMessageText] = useState<string>('');
 
   function getConvList() {
     imConversationApi.listQuery({}).then(res => {
@@ -26,7 +27,13 @@ export default function ImChatMsgPanel() {
   }, []);
 
   function handleSendMsg() {
-    if (isNil(convSel)) return;
+    if (isNil(convSel) || !messageText.trim()) return;
+
+    // TODO: 实现发送消息逻辑
+    console.log('发送消息:', messageText, '到会话:', convSel.id);
+
+    // 发送后清空输入框
+    setMessageText('');
   }
 
   return (
@@ -70,7 +77,19 @@ export default function ImChatMsgPanel() {
                         <Button type="text" icon={<MessageOutlined />} />
                       </Space>
 
-                      <Input.TextArea variant="borderless" style={{resize: 'none', flex: 1}} />
+                      <Input.TextArea
+                        variant="borderless"
+                        style={{resize: 'none', flex: 1}}
+                        value={messageText}
+                        onChange={(e) => setMessageText(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            handleSendMsg();
+                          }
+                        }}
+                        placeholder="输入消息，回车发送，Shift+回车换行"
+                      />
                     </div>
                   </Splitter.Panel>
                 </Splitter>

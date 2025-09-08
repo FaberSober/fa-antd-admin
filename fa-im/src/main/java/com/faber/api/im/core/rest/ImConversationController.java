@@ -8,8 +8,10 @@ import com.faber.core.vo.msg.Ret;
 import com.faber.core.web.rest.BaseController;
 import com.faber.api.im.core.biz.ImConversationBiz;
 import com.faber.api.im.core.entity.ImConversation;
+import com.faber.api.im.core.entity.ImMessage;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
 import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
+import com.faber.api.im.core.vo.req.ImConversationSendMsgReqVo;
 
 import java.util.List;
 
@@ -46,6 +48,14 @@ public class ImConversationController extends BaseController<ImConversationBiz, 
     public Ret<List<ImConversation>> listQuery(@RequestBody ImConversationListQueryReqVo reqVo) {
         List<ImConversation> list = baseBiz.listQuery(reqVo);
         return ok(list);
+    }
+
+    @FaLogOpr(value = "发送消息", crud = LogCrudEnum.C)
+    @RequestMapping(value = "/sendMsg", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<ImMessage> sendMsg(@Validated(value = Vg.Crud.C.class) @RequestBody ImConversationSendMsgReqVo reqVo) {
+        ImMessage data = baseBiz.sendMsg(reqVo);
+        return ok(data);
     }
 
 }
