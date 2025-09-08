@@ -1,10 +1,26 @@
 .fa-im-wx-panel-main {
+  --fa-im-wx-bg-color: #EDEDED; /* 适配主题-背景色 */
+  --fa-im-wx-bg-color-second: #F7F7F7;
+  --fa-im-wx-bg-color-right: #EDEDED;
+  --fa-im-wx-btn-selected-color: #e6e6e6;
+  --fa-im-wx-border-color: #E1E1E1;
+}
+
+[data-theme=dark] .fa-im-wx-panel-main {
+  --fa-im-wx-bg-color: #292A29; /* 适配主题-背景色 */
+  --fa-im-wx-bg-color-second: #242424;
+  --fa-im-wx-bg-color-right: #191919;
+  --fa-im-wx-btn-selected-color: #4f4f4f;
+  --fa-im-wx-border-color: #303030;
+}
+
+.fa-im-wx-panel-main {
 
 }
 
 .fa-im-wx-panel-left {
-  background: #EDEDED;
-  border-right: 1px solid #E1E1E1;
+  background: var(--fa-im-wx-bg-color);
+  border-right: 1px solid var(--fa-im-wx-border-color);
 }
 
 .fa-im-wx-panel-left-btn, .fa-im-wx-panel-left-btn-selected {
@@ -21,20 +37,24 @@
 }
 
 .fa-im-wx-panel-left-btn-selected {
-  background-color: #e6e6e6;
+  background-color: var(--fa-im-wx-btn-selected-color);
   color: var(--primary-color);
 }
 
 .fa-im-wx-panel-left-sub {
-  background: #F7F7F7;
+  background: var(--fa-im-wx-bg-color-second);
   width: 100%;
   height: 100%;
   position: relative;
 }
 
 .fa-im-wx-panel-right {
-  background: #EDEDED;
+  background: var(--fa-im-wx-bg-color-right);
   width: 100%;
   height: 100%;
   position: relative;
+}
+
+.fa-im-wx-item-selected {
+  background-color: var(--fa-im-wx-item-selected-color);
 }

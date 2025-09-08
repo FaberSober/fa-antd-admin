@@ -1,10 +1,11 @@
 import { UserHeadMy } from '@/components';
 import { MessageOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
-import clsx from 'clsx';
 import { FaIcon } from '@fa/icons';
 import { FaFlexRestLayout } from '@fa/ui';
-import { Splitter } from 'antd';
+import clsx from 'clsx';
+import { useState } from 'react';
+import ImChatMsgPanel from './ImChatMsgPanel';
+import ImChatUserPanel from './ImChatUserPanel';
 
 
 /**
@@ -31,19 +32,8 @@ export default function ImChatPanel() {
       </div>
 
       <FaFlexRestLayout>
-        <Splitter style={{ height: '100%', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
-          {/* left item */}
-          <Splitter.Panel defaultSize={260} min={240} max="70%">
-            <div className='fa-im-wx-panel-left-sub'>
-
-            </div>
-          </Splitter.Panel>
-
-          {/* right main content */}
-          <Splitter.Panel>
-            <div className='fa-im-wx-panel-right'>Second</div>
-          </Splitter.Panel>
-        </Splitter>
+        {menu === 'msg' && <ImChatMsgPanel />}
+        {menu === 'user' && <ImChatUserPanel />}
       </FaFlexRestLayout>
     </div>
   );

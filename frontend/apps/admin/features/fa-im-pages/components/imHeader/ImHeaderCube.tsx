@@ -17,7 +17,7 @@ export default function ImHeaderCube() {
         title="内部聊天"
         triggerDom={(
           <Tooltip title="内部聊天">
-            <div className="fa-link-grey fa-flex-center" style={{ width: 44 }}>
+            <div className="fa-link-primary fa-flex-center" style={{ width: 44 }}>
               <a className="fa-menu-normal-cube">
                 <Badge size="small" count={unreadCount}>
                   <MessageOutlined className="fa-menu-normal-cube" style={{ margin: '0 4px' }} />
@@ -26,6 +26,7 @@ export default function ImHeaderCube() {
             </div>
           </Tooltip>
         )}
+        width={1000}
       >
         <ImChatPanel />
       </BaseDrawer>
