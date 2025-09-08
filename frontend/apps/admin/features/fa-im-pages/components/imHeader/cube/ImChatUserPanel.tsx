@@ -1,3 +1,4 @@
+import { UserLayoutContext } from '@/layout';
 import { fileSaveApi, userApi } from '@/services';
 import { Admin, Im } from '@/types';
 import { MessageOutlined } from '@ant-design/icons';
@@ -19,6 +20,7 @@ interface ImChatUserPanelProps {
  */
 export default function ImChatUserPanel({onCreateNewSingle}: ImChatUserPanelProps) {
   const { loadingEffect } = useContext(ApiEffectLayoutContext);
+  const {user} = useContext(UserLayoutContext)
   const [userList, setUserList] = useState<Admin.User[]>([]);
   const [userSel, setUserSel] = useState<Admin.User>();
 
@@ -72,9 +74,11 @@ export default function ImChatUserPanel({onCreateNewSingle}: ImChatUserPanelProp
               </div>
 
               <div className='fa-flex-row'>
-                <Button loading={loading} onClick={handleCreateNewSingle} icon={<MessageOutlined />}>
-                  发消息
-                </Button>
+                {user.id !== userSel.id && (
+                  <Button loading={loading} onClick={handleCreateNewSingle} icon={<MessageOutlined />}>
+                    发消息
+                  </Button>
+                )}
               </div>
             </div>
           ) : <Empty />}
