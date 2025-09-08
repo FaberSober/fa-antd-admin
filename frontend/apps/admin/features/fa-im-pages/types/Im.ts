@@ -1,4 +1,5 @@
 import { Fa } from '@fa/ui';
+import ImEnums from './ImEnums';
 
 // IM模块相关的类型定义
 namespace Im {
@@ -60,6 +61,15 @@ namespace Im {
     lastReadMessageId: string;
   }
 
+  // ----------------------------------------- request -----------------------------------------
+  export interface ImConversationSendMsgReqVo {
+    /** 会话ID */
+    conversationId: string;
+    /** 消息类型 */
+    type: ImEnums.ImMessageTypeEnum;
+    /** 消息内容 */
+    content: string;
+  }
 }
 
 export default Im;
