@@ -11,6 +11,8 @@ namespace Im {
     type: number;
     /** 群聊名称 */
     title: string;
+    /** 单聊对方用户ID */
+    toUserId?: string;
   }
 
   /** IM-消息表 */

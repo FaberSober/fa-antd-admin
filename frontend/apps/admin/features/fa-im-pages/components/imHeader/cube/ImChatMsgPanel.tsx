@@ -1,11 +1,18 @@
+import { Im } from '@/types';
 import { Splitter } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 
 /**
  * @author xu.pengfei
  * @date 2025-09-08 14:18:22
  */
 export default function ImChatMsgPanel() {
+  const [convList, setConvList] = useState<Im.ImConversation[]>([]);
+
+  function getConvList() {
+
+  }
+
   return (
     <Splitter style={{ height: '100%' }}>
       {/* left item */}

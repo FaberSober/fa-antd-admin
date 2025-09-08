@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import ImChatMsgPanel from './ImChatMsgPanel';
 import ImChatUserPanel from './ImChatUserPanel';
+import { Im } from '@/types';
 
 
 /**
@@ -15,6 +16,10 @@ import ImChatUserPanel from './ImChatUserPanel';
  */
 export default function ImChatPanel() {
   const [menu, setMenu] = useState('msg')
+
+  function handleCreateNewSingle(conversation: Im.ImConversation) {
+    setMenu('msg')
+  }
 
   return (
     <div className='fa-im-wx-panel-main fa-flex-row fa-full-content'>
@@ -33,7 +38,7 @@ export default function ImChatPanel() {
 
       <FaFlexRestLayout>
         {menu === 'msg' && <ImChatMsgPanel />}
-        {menu === 'user' && <ImChatUserPanel />}
+        {menu === 'user' && <ImChatUserPanel onCreateNewSingle={handleCreateNewSingle} />}
       </FaFlexRestLayout>
     </div>
   );

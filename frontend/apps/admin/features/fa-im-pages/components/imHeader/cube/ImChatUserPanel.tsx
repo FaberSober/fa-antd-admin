@@ -1,15 +1,24 @@
 import { fileSaveApi, userApi } from '@/services';
-import { Admin } from '@/types';
-import { UserOutlined } from '@ant-design/icons';
-import { Avatar, Empty, Splitter } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { Admin, Im } from '@/types';
+import { MessageOutlined } from '@ant-design/icons';
+import { ApiEffectLayoutContext } from '@fa/ui';
+import { imConversationApi } from '@features/fa-im-pages/services';
+import { Avatar, Button, Empty, Splitter } from 'antd';
 import clsx from 'clsx';
+import { isNil } from 'lodash';
+import { useContext, useEffect, useState } from 'react';
+
+
+interface ImChatUserPanelProps {
+  onCreateNewSingle?: (conversation: Im.ImConversation) => void;
+}
 
 /**
  * @author xu.pengfei
  * @date 2025-09-08 14:17:52
  */
-export default function ImChatUserPanel() {
+export default function ImChatUserPanel({onCreateNewSingle}: ImChatUserPanelProps) {
+  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [userList, setUserList] = useState<Admin.User[]>([]);
   const [userSel, setUserSel] = useState<Admin.User>();
 
@@ -23,6 +32,14 @@ export default function ImChatUserPanel() {
     getUserList();
   }, []);
 
+  function handleCreateNewSingle() {
+    if (isNil(userSel)) return;
+    imConversationApi.createNewSingle({ toUserId: userSel.id }).then(res => {
+      onCreateNewSingle?.(res.data)
+    })
+  }
+
+  const loading = loadingEffect[imConversationApi.getUrl('createNewSingle')];
   return (
     <Splitter style={{ height: '100%' }}>
       {/* left item */}
@@ -55,9 +72,9 @@ export default function ImChatUserPanel() {
               </div>
 
               <div className='fa-flex-row'>
-                <div className='fa-btn'>
+                <Button loading={loading} onClick={handleCreateNewSingle} icon={<MessageOutlined />}>
                   发消息
-                </div>
+                </Button>
               </div>
             </div>
           ) : <Empty />}
