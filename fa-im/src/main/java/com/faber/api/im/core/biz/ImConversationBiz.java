@@ -1,16 +1,22 @@
 package com.faber.api.im.core.biz;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.faber.api.base.admin.biz.UserBiz;
+import com.faber.api.base.admin.entity.User;
 import com.faber.api.im.core.entity.ImConversation;
 import com.faber.api.im.core.entity.ImParticipant;
 import com.faber.api.im.core.enums.ImConversationTypeEnum;
 import com.faber.api.im.core.mapper.ImConversationMapper;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
+import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
 import com.faber.core.web.biz.BaseBiz;
 
+import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
 
 /**
@@ -23,6 +29,7 @@ import jakarta.annotation.Resource;
 @Service
 public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversation> {
 
+    @Resource UserBiz userBiz;
     @Resource ImParticipantBiz imParticipantBiz;
 
     /**
@@ -43,10 +50,13 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
             return getTop(wrapper.orderByDesc(ImConversation::getId));
         }
 
+        User toUser = userBiz.getById(reqVo.getToUserId());
+
         // create new conversation
         ImConversation conversation = new ImConversation();
         conversation.setToUserId(reqVo.getToUserId());
         conversation.setType(ImConversationTypeEnum.SINGLE);
+        conversation.setTitle(toUser.getName());
         this.save(conversation);
 
         // save conversation user link
@@ -64,6 +74,28 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
         }
 
         return conversation;
+    }
+
+    /**
+     * 查询聊天记录
+     * 
+     * @param reqVo
+     * @return
+     */
+    public List<ImConversation> listQuery(ImConversationListQueryReqVo reqVo) {
+        // 查询用户参加的聊天记录
+        List<ImParticipant> participantList = imParticipantBiz.lambdaQuery()
+            .eq(ImParticipant::getUserId, getCurrentUserId())
+            .list();
+        List<Long> conversationIds = participantList.stream().map(ImParticipant::getConversationId).toList();
+        // query
+        List<ImConversation> convList = lambdaQuery()
+            .like(StrUtil.isNotEmpty(reqVo.getTitle()), ImConversation::getTitle, reqVo.getTitle())
+            .in(ImConversation::getId, conversationIds)
+            .orderByDesc(ImConversation::getUpdTime)
+            .list();
+
+        return convList;
     }
 
 }

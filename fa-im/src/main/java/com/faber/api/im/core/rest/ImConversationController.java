@@ -9,6 +9,9 @@ import com.faber.core.web.rest.BaseController;
 import com.faber.api.im.core.biz.ImConversationBiz;
 import com.faber.api.im.core.entity.ImConversation;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
+import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
+
+import java.util.List;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +38,14 @@ public class ImConversationController extends BaseController<ImConversationBiz, 
     public Ret<ImConversation> createNewSingle(@Validated(value = Vg.Crud.C.class) @RequestBody ImConversationCreateNewSingleReqVo reqVo) {
         ImConversation data = baseBiz.createNewSingle(reqVo);
         return ok(data);
+    }
+
+    @FaLogOpr(value = "聊天查询", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/listQuery", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<List<ImConversation>> listQuery(@RequestBody ImConversationListQueryReqVo reqVo) {
+        List<ImConversation> list = baseBiz.listQuery(reqVo);
+        return ok(list);
     }
 
 }
