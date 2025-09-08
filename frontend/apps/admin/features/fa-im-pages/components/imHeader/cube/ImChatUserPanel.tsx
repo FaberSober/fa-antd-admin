@@ -31,7 +31,7 @@ export default function ImChatUserPanel() {
           {userList.map(user => {
             return (
               <div key={user.id} className={clsx('fa-flex-row-center fa-base-btn fa-p12', userSel?.id === user.id && 'fa-im-wx-item-selected')} onClick={() => setUserSel(user)}>
-                <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(user.img)} alt={user.name} />} icon={<UserOutlined />} />
+                <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(user.img)} alt={user.name} />} />
                 <div className='fa-ml12'>{user.name}</div>
               </div>
             )
@@ -41,10 +41,24 @@ export default function ImChatUserPanel() {
 
       {/* right main content */}
       <Splitter.Panel>
-        <div className='fa-im-wx-panel-right'>
+        <div className='fa-im-wx-panel-right fa-flex-center'>
           {userSel ? (
             <div>
+              <div className='fa-flex-row'>
+                <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(userSel.img)} alt={userSel.name} />} size={50} />
 
+                <div className='fa-ml12'>
+                  <div className='fa-h3'>{userSel.name}</div>
+                  <div>部门：{userSel.departmentName}</div>
+                  <div>手机：{userSel.tel}</div>
+                </div>
+              </div>
+
+              <div className='fa-flex-row'>
+                <div className='fa-btn'>
+                  发消息
+                </div>
+              </div>
             </div>
           ) : <Empty />}
         </div>
