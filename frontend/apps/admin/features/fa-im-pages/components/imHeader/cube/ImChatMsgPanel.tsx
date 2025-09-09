@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import { isNil } from 'lodash';
 import { useContext, useEffect, useState } from 'react';
 import ImChatMsg from './ImChatMsg';
-import useBus from 'use-bus';
+import useBus, { dispatch } from 'use-bus';
 import ImChatCover from './ImChatCover';
 
 /**
@@ -40,6 +40,12 @@ export default function ImChatMsgPanel() {
       setMsgList(res.data.rows.map(i => ({ ...i, sending: false })))
     })
     // 更新消息未读数量
+    if (conv.unreadCount > 0) {
+      imConversationApi.updateConversationRead({ conversationId: conv.id }).then(() => {
+        setConvList(prev => prev.map(i => i.id === conv.id ? { ...i, unreadCount: 0 } : i))
+        dispatch({ type: '@@api/IM_REFRESH_UNREAD_COUNT', payload: { } })
+      })
+    }
   }
 
   function handleSendMsg() {
@@ -117,9 +123,12 @@ export default function ImChatMsgPanel() {
       setConvList(prev => {
         return prev.map(item => {
           if (item.id === `${data.conversationId}`) {
+            // 如果是当前打开的聊天窗口，则设置未读消息数量为0
+            const unreadCount = item.id === convSel?.id ? 0 : item.unreadCount + 1
             return {
               ...item,
               lastMsg: data.crtName + ":" + data.content,
+              unreadCount,
             }
           }
           return item
@@ -135,6 +144,10 @@ export default function ImChatMsgPanel() {
             error: '',
           }
         ]))
+        // 更新当前聊天的未读数量
+        imConversationApi.updateConversationRead({ conversationId: `${data.conversationId}` }).then(() => {
+          dispatch({ type: '@@api/IM_REFRESH_UNREAD_COUNT', payload: { } })
+        })
       }
     },
     [convSel],

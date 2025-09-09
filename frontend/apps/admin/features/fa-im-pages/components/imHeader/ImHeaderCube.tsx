@@ -33,6 +33,16 @@ export default function ImHeaderCube() {
     },
     [],
   )
+
+  // 刷新消息未读数量
+  useBus(
+    ['@@api/IM_REFRESH_UNREAD_COUNT'],
+    ({  }) => {
+      getUnreadCount()
+    },
+    [],
+  )
+
   return (
     <>
       <BaseDrawer
