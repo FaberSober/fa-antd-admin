@@ -9,6 +9,7 @@ import { isNil } from 'lodash';
 import { useContext, useEffect, useState } from 'react';
 import ImChatMsg from './ImChatMsg';
 import useBus from 'use-bus';
+import ImChatCover from './ImChatCover';
 
 /**
  * @author xu.pengfei
@@ -119,6 +120,7 @@ export default function ImChatMsgPanel() {
             return (
               <div key={conv.id} className={clsx('fa-flex-row-center fa-base-btn fa-p12', convSel?.id === conv.id && 'fa-im-wx-item-selected')} onClick={() => handleClickConv(conv)}>
                 {/* <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(user.img)} alt={user.name} />} /> */}
+                <ImChatCover conv={conv} />
                 <div className='fa-ml12'>{conv.convTitle}</div>
               </div>
             )

@@ -87,6 +87,18 @@
 }
 
 .fa-im-wx-msg-header {
-  background: #FFF;
+  background: #DCDCDC;
   border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+
+  .ant-avatar {
+    background: #FFF;
+  }
 }

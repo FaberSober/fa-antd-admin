@@ -38,4 +38,7 @@ public class ImConversation extends BaseDelEntity {
     @ExcelProperty("聊天用户ID集合")
     private String userIds;
 
+    @ExcelProperty("封面图标")
+    private String cover;
+    
 }

@@ -26,6 +26,7 @@ import com.faber.core.web.biz.BaseBiz;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
 import jakarta.annotation.Resource;
 
 /**
@@ -68,11 +69,26 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
 
         User toUser = userBiz.getById(reqVo.getToUserId());
 
+        // 聊天封面图片，为参加聊天的用户头像数组
+        JSONArray imgArr = new JSONArray();
+        List<User> userList = userBiz.lambdaQuery()
+            .in(User::getId, Arrays.asList(getCurrentUserId(), reqVo.getToUserId()))
+            .orderByAsc(User::getId)
+            .select(User::getId, User::getImg)
+            .list();
+        for (User user : userList) {
+            JSONObject userJson = new JSONObject();
+            userJson.set("id", user.getId());
+            userJson.set("img", user.getImg());
+            imgArr.add(userJson);
+        }
+
         // create new conversation
         ImConversation conversation = new ImConversation();
         conversation.setUserIds(userIdsStr);
         conversation.setType(ImConversationTypeEnum.SINGLE);
         conversation.setTitle("单聊");
+        conversation.setCover(imgArr.toString());
         this.save(conversation);
 
         // save conversation user link

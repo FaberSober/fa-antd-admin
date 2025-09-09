@@ -9,11 +9,13 @@ namespace Im {
     /** ID */
     id: string;
     /** 类型：1-单聊/2-群聊 */
-    type: number;
+    type: ImEnums.ImConversationTypeEnum;
     /** 群聊名称 */
     title: string;
     /** 聊天用户ID集合 */
     userIds: string;
+    /** 封面图标 */
+    cover: string;
   }
 
   /** IM-消息表 */
