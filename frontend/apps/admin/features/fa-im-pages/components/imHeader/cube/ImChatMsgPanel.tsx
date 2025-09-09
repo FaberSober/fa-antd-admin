@@ -8,6 +8,7 @@ import clsx from 'clsx';
 import { isNil } from 'lodash';
 import { useContext, useEffect, useState } from 'react';
 import ImChatMsg from './ImChatMsg';
+import useBus from 'use-bus';
 
 /**
  * @author xu.pengfei
@@ -32,7 +33,7 @@ export default function ImChatMsgPanel() {
 
   function handleClickConv(conv: Im.ImConversation) {
     setConvSel(conv)
-    imMessageApi.page({ query: {}, order: 'id DESC', pageSize: 40 }).then(res => {
+    imMessageApi.page({ query: { conversationId: conv.id }, order: 'id DESC', pageSize: 40 }).then(res => {
       setMsgList(res.data.rows.map(i => ({ ...i, sending: false })))
     })
   }
@@ -87,6 +88,26 @@ export default function ImChatMsgPanel() {
       ])
     })
   }
+
+  // 接收消息
+  useBus(
+    ['@@ws/RECEIVE/IM'],
+    ({ type, payload }) => {
+      console.log('FlowTaskCube.received', type, payload)
+      const data = payload as Im.ImMessageShow;
+      if (`${data.conversationId}` === convSel?.id) {
+        setMsgList([
+          ...msgList,
+          {
+            ...data,
+            sending: false,
+            error: '',
+          }
+        ])
+      }
+    },
+    [convSel, msgList],
+  )
 
   return (
     <Splitter style={{ height: '100%' }}>

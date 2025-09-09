@@ -4,6 +4,10 @@
   --fa-im-wx-bg-color-right: #EDEDED;
   --fa-im-wx-btn-selected-color: #e6e6e6;
   --fa-im-wx-border-color: #E1E1E1;
+  --fa-im-wx-msg-bg-color: #FFF;
+  --fa-im-wx-msg-me-bg-color: #95EC69;
+  --fa-im-wx-msg-text-color: #333;
+  --fa-im-wx-msg-me-text-color: #333;
 }
 
 [data-theme=dark] .fa-im-wx-panel-main {
@@ -12,6 +16,10 @@
   --fa-im-wx-bg-color-right: #191919;
   --fa-im-wx-btn-selected-color: #4f4f4f;
   --fa-im-wx-border-color: #303030;
+  --fa-im-wx-msg-bg-color: #2E2E2E;
+  --fa-im-wx-msg-me-bg-color: #95EC69;
+  --fa-im-wx-msg-text-color: #FFF;
+  --fa-im-wx-msg-me-text-color: #333;
 }
 
 .fa-im-wx-panel-main {
@@ -63,8 +71,16 @@
 .fa-im-wx-msg, .fa-im-wx-msg-me {
   border-radius: 4px;
   padding: 8px;
+  background: var(--fa-im-wx-msg-bg-color);
+  color: var(--fa-im-wx-msg-text-color);
 }
 
 .fa-im-wx-msg-me {
-  background: #95EC69;
+  background: var(--fa-im-wx-msg-me-bg-color);
+  color: var(--fa-im-wx-msg-me-text-color);
+}
+
+.fa-im-wx-msg-item {
+  margin: 6px 0;
+  padding: 0 12px;
 }
