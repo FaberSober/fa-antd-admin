@@ -3,4 +3,18 @@
 
 <mapper namespace="com.faber.api.im.core.mapper.ImConversationMapper">
 
+    <!-- listQuery --> 
+    <select id="listQuery" resultType="com.faber.api.im.core.vo.ret.ImConversationRetVo">
+        SELECT c.*, t.title as conv_title, t.unread_count, t.last_read_message_id
+        FROM im_participant t
+        INNER JOIN im_conversation c on t.conversation_id = c.id
+        WHERE t.deleted = FALSE
+        AND c.deleted = FALSE
+        AND t.user_id = #{userId}
+        <if test="query.title != null and query.title.trim() != ''">
+            and t.title like concat('%', #{query.title}, '%')
+        </if>
+        ORDER BY c.upd_time DESC
+    </select>
+
 </mapper>

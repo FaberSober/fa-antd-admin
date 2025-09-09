@@ -16,8 +16,8 @@ import useBus from 'use-bus';
  */
 export default function ImChatMsgPanel() {
   const {user} = useContext(UserLayoutContext)
-  const [convList, setConvList] = useState<Im.ImConversation[]>([]);
-  const [convSel, setConvSel] = useState<Im.ImConversation>();
+  const [convList, setConvList] = useState<Im.ImConversationRetVo[]>([]);
+  const [convSel, setConvSel] = useState<Im.ImConversationRetVo>();
   const [messageText, setMessageText] = useState<string>('');
   const [msgList, setMsgList] = useState<Im.ImMessageShow[]>([]);
 
@@ -31,7 +31,7 @@ export default function ImChatMsgPanel() {
     getConvList();
   }, []);
 
-  function handleClickConv(conv: Im.ImConversation) {
+  function handleClickConv(conv: Im.ImConversationRetVo) {
     setConvSel(conv)
     imMessageApi.pageQuery({ query: { conversationId: conv.id }, order: 'id DESC', pageSize: 40 }).then(res => {
       setMsgList(res.data.rows.map(i => ({ ...i, sending: false })))
@@ -119,7 +119,7 @@ export default function ImChatMsgPanel() {
             return (
               <div key={conv.id} className={clsx('fa-flex-row-center fa-base-btn fa-p12', convSel?.id === conv.id && 'fa-im-wx-item-selected')} onClick={() => handleClickConv(conv)}>
                 {/* <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(user.img)} alt={user.name} />} /> */}
-                <div className='fa-ml12'>{conv.title}</div>
+                <div className='fa-ml12'>{conv.convTitle}</div>
               </div>
             )
           })}

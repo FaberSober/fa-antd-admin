@@ -43,4 +43,8 @@ public class ImParticipant extends BaseDelEntity {
     @ExcelProperty("未读消息数量")
     private Integer unreadCount;
     
+    // 如用户A与用户B的单聊：针对用户A，会话标题为用户B。针对用户B，会话标题为用户A
+    @ExcelProperty("用户标题")
+    private String title;
+
 }

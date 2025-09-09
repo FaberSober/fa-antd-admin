@@ -1,5 +1,7 @@
 package com.faber.api.im.core.biz;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -16,11 +18,14 @@ import com.faber.api.im.core.mapper.ImConversationMapper;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
 import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
 import com.faber.api.im.core.vo.req.ImConversationSendMsgReqVo;
+import com.faber.api.im.core.vo.ret.ImConversationRetVo;
 import com.faber.config.websocket.WsHolder;
+import com.faber.core.context.BaseContextHandler;
 import com.faber.core.enums.WsTypeEnum;
 import com.faber.core.web.biz.BaseBiz;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONArray;
 import jakarta.annotation.Resource;
 
 /**
@@ -47,9 +52,14 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
      */
     @Transactional
     public ImConversation createNewSingle(ImConversationCreateNewSingleReqVo reqVo) {
+        // 将参考单聊的用户IDs进行排序，然后转换为jsonarray
+        List<String> userIds = Arrays.asList(getCurrentUserId(), reqVo.getToUserId());
+        Collections.sort(userIds);
+        JSONArray userIdArray = new JSONArray(userIds);
+        String userIdsStr = userIdArray.toString();
+
         LambdaQueryChainWrapper<ImConversation> wrapper = lambdaQuery()
-            .eq(ImConversation::getCrtUser, getCurrentUserId())
-            .eq(ImConversation::getToUserId, reqVo.getToUserId())
+            .eq(ImConversation::getUserIds, userIdsStr)
             .eq(ImConversation::getType, ImConversationTypeEnum.SINGLE);
         long count = wrapper.count();
         if (count > 0) {
@@ -60,9 +70,9 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
 
         // create new conversation
         ImConversation conversation = new ImConversation();
-        conversation.setToUserId(reqVo.getToUserId());
+        conversation.setUserIds(userIdsStr);
         conversation.setType(ImConversationTypeEnum.SINGLE);
-        conversation.setTitle(toUser.getName());
+        conversation.setTitle("单聊");
         this.save(conversation);
 
         // save conversation user link
@@ -70,12 +80,16 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
             ImParticipant participantCrt = new ImParticipant();
             participantCrt.setConversationId(conversation.getId());
             participantCrt.setUserId(getCurrentUserId());
+            participantCrt.setTitle(toUser.getName()); // 存对方的名称
+            participantCrt.setUnreadCount(0);
             imParticipantBiz.save(participantCrt);
         }
         {
             ImParticipant participantTo = new ImParticipant();
             participantTo.setConversationId(conversation.getId());
             participantTo.setUserId(reqVo.getToUserId());
+            participantTo.setTitle(BaseContextHandler.getName()); // 存对方的名称
+            participantTo.setUnreadCount(0);
             imParticipantBiz.save(participantTo);
         }
 
@@ -88,19 +102,9 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
      * @param reqVo
      * @return
      */
-    public List<ImConversation> listQuery(ImConversationListQueryReqVo reqVo) {
+    public List<ImConversationRetVo> listQuery(ImConversationListQueryReqVo reqVo) {
         // 查询用户参加的聊天记录
-        List<ImParticipant> participantList = imParticipantBiz.lambdaQuery()
-            .eq(ImParticipant::getUserId, getCurrentUserId())
-            .list();
-        List<Long> conversationIds = participantList.stream().map(ImParticipant::getConversationId).toList();
-        // query
-        List<ImConversation> convList = lambdaQuery()
-            .like(StrUtil.isNotEmpty(reqVo.getTitle()), ImConversation::getTitle, reqVo.getTitle())
-            .in(ImConversation::getId, conversationIds)
-            .orderByDesc(ImConversation::getUpdTime)
-            .list();
-
+        List<ImConversationRetVo> convList = baseMapper.listQuery(getCurrentUserId(), reqVo);
         return convList;
     }
 

@@ -16,7 +16,7 @@ export default function ImChatMsg({ msg }: ImChatMsgProps) {
   const {user} = useContext(UserLayoutContext)
 
   // send by me
-  if (msg.crtUser === user.id) {
+  if (msg.senderId === user.id) {
     return (
       <div className='fa-flex-row-center fa-im-wx-msg-item'>
         <div style={{minWidth: 100, flex: 1}}></div>

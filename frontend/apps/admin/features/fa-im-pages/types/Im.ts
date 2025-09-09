@@ -12,8 +12,8 @@ namespace Im {
     type: number;
     /** 群聊名称 */
     title: string;
-    /** 单聊对方用户ID */
-    toUserId?: string;
+    /** 聊天用户ID集合 */
+    userIds: string;
   }
 
   /** IM-消息表 */
@@ -71,6 +71,8 @@ namespace Im {
     lastReadMessageId: string;
     /** 未读消息数量 */
     unreadCount: number;
+    /** 用户标题 */
+    title: string;
   }
 
   // ----------------------------------------- request -----------------------------------------
@@ -81,6 +83,16 @@ namespace Im {
     type: ImEnums.ImMessageTypeEnum;
     /** 消息内容 */
     content: string;
+  }
+
+  // ----------------------------------------- response -----------------------------------------
+  export interface ImConversationRetVo extends ImConversation {
+    /** 最后一条已读消息ID */
+    lastReadMessageId: string;
+    /** 未读消息数量 */
+    unreadCount: number;
+    /** 用户标题 */
+    convTitle: string;
   }
 }
 

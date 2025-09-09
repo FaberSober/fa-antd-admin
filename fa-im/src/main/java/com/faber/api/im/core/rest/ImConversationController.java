@@ -1,18 +1,5 @@
 package com.faber.api.im.core.rest;
 
-import com.faber.core.annotation.FaLogBiz;
-import com.faber.core.annotation.FaLogOpr;
-import com.faber.core.config.validator.validator.Vg;
-import com.faber.core.enums.LogCrudEnum;
-import com.faber.core.vo.msg.Ret;
-import com.faber.core.web.rest.BaseController;
-import com.faber.api.im.core.biz.ImConversationBiz;
-import com.faber.api.im.core.entity.ImConversation;
-import com.faber.api.im.core.entity.ImMessage;
-import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
-import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
-import com.faber.api.im.core.vo.req.ImConversationSendMsgReqVo;
-
 import java.util.List;
 
 import org.springframework.validation.annotation.Validated;
@@ -21,6 +8,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.faber.api.im.core.biz.ImConversationBiz;
+import com.faber.api.im.core.entity.ImConversation;
+import com.faber.api.im.core.entity.ImMessage;
+import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
+import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
+import com.faber.api.im.core.vo.req.ImConversationSendMsgReqVo;
+import com.faber.api.im.core.vo.ret.ImConversationRetVo;
+import com.faber.core.annotation.FaLogBiz;
+import com.faber.core.annotation.FaLogOpr;
+import com.faber.core.config.validator.validator.Vg;
+import com.faber.core.enums.LogCrudEnum;
+import com.faber.core.vo.msg.Ret;
+import com.faber.core.web.rest.BaseController;
 
 /**
  * IM-会话表
@@ -45,8 +46,8 @@ public class ImConversationController extends BaseController<ImConversationBiz, 
     @FaLogOpr(value = "聊天查询", crud = LogCrudEnum.R)
     @RequestMapping(value = "/listQuery", method = RequestMethod.POST)
     @ResponseBody
-    public Ret<List<ImConversation>> listQuery(@RequestBody ImConversationListQueryReqVo reqVo) {
-        List<ImConversation> list = baseBiz.listQuery(reqVo);
+    public Ret<List<ImConversationRetVo>> listQuery(@RequestBody ImConversationListQueryReqVo reqVo) {
+        List<ImConversationRetVo> list = baseBiz.listQuery(reqVo);
         return ok(list);
     }
 

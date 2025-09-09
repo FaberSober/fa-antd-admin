@@ -1,7 +1,14 @@
 package com.faber.api.im.core.mapper;
 
 import com.faber.core.config.mybatis.base.FaBaseMapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.faber.api.im.core.entity.ImConversation;
+import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
+import com.faber.api.im.core.vo.ret.ImConversationRetVo;
 
 /**
  * IM-会话表
@@ -12,4 +19,6 @@ import com.faber.api.im.core.entity.ImConversation;
  */
 public interface ImConversationMapper extends FaBaseMapper<ImConversation> {
 	
+    List<ImConversationRetVo> listQuery(@Param("userId") String userId, @Param("query") ImConversationListQueryReqVo reqVo);
+
 }
