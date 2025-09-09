@@ -62,6 +62,19 @@ export default function ImChatMsgPanel() {
       }
     ])
 
+    // 更新聊天列表最新消息
+    setConvList(prev => {
+      return prev.map(item => {
+        if (item.id === `${convSel.id}`) {
+          return {
+            ...item,
+            lastMsg: messageText,
+          }
+        }
+        return item
+      })
+    })
+
     // 实现发送消息逻辑
     console.log('发送消息:', messageText, '到会话:', convSel.id);
     imConversationApi.sendMsg({
@@ -97,18 +110,31 @@ export default function ImChatMsgPanel() {
     ({ type, payload }) => {
       console.log('FlowTaskCube.received', type, payload)
       const data = payload as Im.ImMessageShow;
+      // 更新聊天列表最新消息
+      setConvList(prev => {
+        return prev.map(item => {
+          if (item.id === `${data.conversationId}`) {
+            return {
+              ...item,
+              lastMsg: data.crtName + ":" + data.content,
+            }
+          }
+          return item
+        })
+      })
+      // 追加到选中聊天消息列表
       if (`${data.conversationId}` === convSel?.id) {
-        setMsgList([
-          ...msgList,
+        setMsgList(prev => ([
+          ...prev,
           {
             ...data,
             sending: false,
             error: '',
           }
-        ])
+        ]))
       }
     },
-    [convSel, msgList],
+    [convSel],
   )
 
   return (
@@ -120,7 +146,10 @@ export default function ImChatMsgPanel() {
             return (
               <div key={conv.id} className={clsx('fa-flex-row-center fa-base-btn fa-p12', convSel?.id === conv.id && 'fa-im-wx-item-selected')} onClick={() => handleClickConv(conv)}>
                 <ImChatCover conv={conv} />
-                <div className='fa-ml12'>{conv.convTitle}</div>
+                <div className='fa-ml12'>
+                  <div>{conv.convTitle}</div>
+                  <div>{conv.lastMsg}</div>
+                </div>
               </div>
             )
           })}
