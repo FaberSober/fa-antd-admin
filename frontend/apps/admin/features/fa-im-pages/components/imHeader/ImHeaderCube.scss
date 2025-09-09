@@ -73,6 +73,7 @@
   padding: 8px;
   background: var(--fa-im-wx-msg-bg-color);
   color: var(--fa-im-wx-msg-text-color);
+  min-width: 40px;
 }
 
 .fa-im-wx-msg-me {
@@ -83,4 +84,9 @@
 .fa-im-wx-msg-item {
   margin: 6px 0;
   padding: 0 12px;
+}
+
+.fa-im-wx-msg-header {
+  background: #FFF;
+  border-radius: 4px;
 }
