@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Allotment } from "allotment";
 import { BaseTree } from "@fa/ui";
 import { flowCatagoryApi } from "@features/fa-flow-pages/services";
 import { Flow } from '@features/fa-flow-pages/types';
-import FlowCatagoryModal from "./modal/FlowCatagoryModal";
+import { Splitter } from 'antd';
+import { useState } from 'react';
 import FlowProcessList from './cube/FlowProcessList';
+import FlowCatagoryModal from "./modal/FlowCatagoryModal";
 
 
 /**
@@ -24,9 +24,9 @@ export default function FlowDeployPage() {
 
   return (
     <div className="fa-full-content">
-      <Allotment defaultSizes={[100, 500]}>
+      <Splitter>
         {/* 左侧面板 */}
-        <Allotment.Pane minSize={200} maxSize={400}>
+        <Splitter.Panel defaultSize={300} min={240} max="50%" collapsible>
           <BaseTree
             // showRoot
             rootName="全部"
@@ -38,13 +38,15 @@ export default function FlowDeployPage() {
             ServiceModal={FlowCatagoryModal}
             serviceApi={flowCatagoryApi}
           />
-        </Allotment.Pane>
+        </Splitter.Panel>
 
         {/* 右侧面板 */}
-        <div className="fa-flex-column fa-full">
-          <FlowProcessList catagoryId={viewRecord?.id} />
-        </div>
-      </Allotment>
+        <Splitter.Panel>
+          <div className="fa-flex-column fa-full fa-relative">
+            <FlowProcessList catagoryId={viewRecord?.id} />
+          </div>
+        </Splitter.Panel>
+      </Splitter>
     </div>
   )
 }

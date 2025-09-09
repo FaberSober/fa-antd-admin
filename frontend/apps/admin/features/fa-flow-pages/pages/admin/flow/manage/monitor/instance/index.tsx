@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { Allotment } from "allotment";
 import { BaseTree } from "@fa/ui";
 import { flowCatagoryApi } from "@features/fa-flow-pages/services";
 import { Flow } from "@features/fa-flow-pages/types";
-import FlwInstanceList from "./cube/FlwInstanceList";
+import { Splitter } from "antd";
+import { useState } from "react";
 import FlwHisInstanceList from "./cube/FlwHisInstanceList";
 
 /**
@@ -19,9 +18,9 @@ export default function FlowMonitorInstancePage() {
 
   return (
     <div className="fa-full-content">
-      <Allotment defaultSizes={[100, 500]}>
+      <Splitter>
         {/* 左侧面板 */}
-        <Allotment.Pane minSize={200} maxSize={400}>
+        <Splitter.Panel defaultSize={300} min={240} max="50%" collapsible>
           <BaseTree
             // showRoot
             rootName="全部"
@@ -31,13 +30,15 @@ export default function FlowMonitorInstancePage() {
             serviceApi={flowCatagoryApi}
             showTopAddBtn={false}
           />
-        </Allotment.Pane>
+        </Splitter.Panel>
 
         {/* 右侧面板 */}
-        <div className="fa-flex-column fa-full">
-          <FlwHisInstanceList />
-        </div>
-      </Allotment>
+        <Splitter.Panel>
+          <div className="fa-flex-column fa-full fa-relative">
+            <FlwHisInstanceList />
+          </div>
+        </Splitter.Panel>
+      </Splitter>
     </div>
   );
 }

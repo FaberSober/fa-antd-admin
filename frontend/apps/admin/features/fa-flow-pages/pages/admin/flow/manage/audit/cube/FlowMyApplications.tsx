@@ -1,11 +1,10 @@
 import { Flow, FlwEnums } from "@/types";
-import { Allotment } from "allotment";
-import { Form, Input, Tag } from "antd";
-import { useRef, useState } from "react";
 import { FaApiScrollList, FaApiScrollListRef } from '@features/fa-admin-pages/components';
 import { flowTaskApi } from "@features/fa-flow-pages/services";
-import FlowInstanceDeal from "../components/FlowInstanceDeal";
+import { Form, Input, Splitter, Tag } from "antd";
+import { useRef, useState } from "react";
 import useBus from "use-bus";
+import FlowInstanceDeal from "../components/FlowInstanceDeal";
 
 /**
  * 流程任务管理 - 我的申请组件
@@ -34,10 +33,10 @@ export default function FlowMyApplications() {
 
   return (
     <div className='fa-full-content'>
-      <Allotment defaultSizes={[150]}>
+      <Splitter>
         {/* 左侧面板 - 我的申请列表 */}
-        <Allotment.Pane minSize={200} maxSize={400}>
-          <div className="fa-full-content fa-flex-column">
+        <Splitter.Panel defaultSize={300} min={240} max="50%" collapsible>
+          <div className="fa-full fa-flex-column fa-relative">
             <FaApiScrollList
               ref={scrollListRef}
               apiPage={flowTaskApi.pageMyApplications}
@@ -87,15 +86,17 @@ export default function FlowMyApplications() {
               )}
             />
           </div>
-        </Allotment.Pane>
+        </Splitter.Panel>
 
         {/* 右侧面板 - 实例详情 */}
-        <div className="fa-flex-column fa-full">
-          {instance && (
-            <FlowInstanceDeal instanceId={instance.instanceId} onSuccess={() => refresh()} />
-          )}
-        </div>
-      </Allotment>
+        <Splitter.Panel>
+          <div className="fa-flex-column fa-full fa-relative">
+            {instance && (
+              <FlowInstanceDeal instanceId={instance.instanceId} onSuccess={() => refresh()} />
+            )}
+          </div>
+        </Splitter.Panel>
+      </Splitter>
     </div>
   );
 }
