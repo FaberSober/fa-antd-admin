@@ -43,7 +43,7 @@ export default function ImChatUserPanel({onCreateNewSingle}: ImChatUserPanelProp
 
   const loading = loadingEffect[imConversationApi.getUrl('createNewSingle')];
   return (
-    <Splitter style={{ height: '100%' }}>
+    <Splitter>
       {/* left item */}
       <Splitter.Panel defaultSize={260} min={240} max="70%">
         <div className='fa-im-wx-panel-left-sub fa-flex-column'>
