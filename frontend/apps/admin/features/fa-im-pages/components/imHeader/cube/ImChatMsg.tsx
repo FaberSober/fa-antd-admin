@@ -21,14 +21,14 @@ export default function ImChatMsg({ msg }: ImChatMsgProps) {
       <div className='fa-flex-row-center fa-im-wx-msg-item'>
         <div style={{minWidth: 100, flex: 1}}></div>
         <div className='fa-mr12 fa-im-wx-msg-me'>{msg.content}</div>
-        <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(user.img)} alt={user.name} />} />
+        <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(msg.senderUserImg)} alt={msg.crtName} />} />
       </div>
     )
   }
 
   return (
     <div className='fa-flex-row-center fa-im-wx-msg-item'>
-      <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(user.img)} alt={user.name} />} />
+      <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(msg.senderUserImg)} alt={msg.crtName} />} />
       <div className='fa-ml12 fa-im-wx-msg'>{msg.content}</div>
       <div style={{minWidth: 100, flex: 1}}></div>
     </div>

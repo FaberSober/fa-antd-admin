@@ -1,7 +1,12 @@
 package com.faber.api.im.core.mapper;
 
-import com.faber.core.config.mybatis.base.FaBaseMapper;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.faber.api.im.core.entity.ImMessage;
+import com.faber.api.im.core.vo.req.ImMessagePageQueryVo;
+import com.faber.core.config.mybatis.base.FaBaseMapper;
 
 /**
  * IM-消息表
@@ -12,4 +17,7 @@ import com.faber.api.im.core.entity.ImMessage;
  */
 public interface ImMessageMapper extends FaBaseMapper<ImMessage> {
 	
+    /** 查询任务 */
+    List<ImMessage> pageQuery(@Param("query") ImMessagePageQueryVo queryVo);
+
 }

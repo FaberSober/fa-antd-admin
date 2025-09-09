@@ -33,7 +33,7 @@ export default function ImChatMsgPanel() {
 
   function handleClickConv(conv: Im.ImConversation) {
     setConvSel(conv)
-    imMessageApi.page({ query: { conversationId: conv.id }, order: 'id DESC', pageSize: 40 }).then(res => {
+    imMessageApi.pageQuery({ query: { conversationId: conv.id }, order: 'id DESC', pageSize: 40 }).then(res => {
       setMsgList(res.data.rows.map(i => ({ ...i, sending: false })))
     })
   }
@@ -48,6 +48,7 @@ export default function ImChatMsgPanel() {
       id,
       conversationId: convSel.id,
       senderId: user.id,
+      senderUserImg: user.img,
       type: ImEnums.ImMessageTypeEnum.TEXT,
       content: messageText,
       isWithdrawn: false,

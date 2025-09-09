@@ -122,6 +122,7 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
         List<String> userIds = convList.stream().map(ImParticipant::getUserId).filter(userId -> !userId.equals(getCurrentUserId())).toList();
 
         // send message throw websocket
+        msg.setSenderUserImg(userBiz.getLoginUser().getImg());
         WsHolder.sendMessage(userIds, WsTypeEnum.IM, msg);
 
         return msg;

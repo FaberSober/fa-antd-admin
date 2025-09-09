@@ -34,6 +34,9 @@ namespace Im {
     isWithdrawn: boolean;
     /** 删除状态 */
     deleted?: boolean;
+    // ------------- show cols -------------
+    /** 发送用户头像 */
+    senderUserImg: string;
   }
 
   export interface ImMessageShow extends ImMessage {

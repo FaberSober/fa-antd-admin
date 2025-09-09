@@ -3,4 +3,19 @@
 
 <mapper namespace="com.faber.api.im.core.mapper.ImMessageMapper">
 
+    <!-- 查询任务列表 -->
+    <select id="pageQuery" resultType="com.faber.api.im.core.entity.ImMessage">
+        SELECT t.*, u.img as sender_user_img
+        FROM im_message t
+        LEFT JOIN base_user u ON t.sender_id = u.id
+        <where>
+            <if test="query.conversationId != null">
+                and t.conversation_id = #{query.conversationId}
+            </if>
+            <if test="query.maxId != null">
+                and t.id &lt;= #{query.maxId}
+            </if>
+        </where>
+    </select>
+
 </mapper>

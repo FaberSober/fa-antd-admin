@@ -62,4 +62,9 @@ public class ImMessage extends BaseCrtEntity {
     @TableField(select = false, fill = FieldFill.INSERT)
     private Boolean deleted;
 
+    // ------------- show cols -------------
+    @TableField(exist = false)
+    @ExcelProperty("发送用户头像")
+    private String senderUserImg;
+
 }
