@@ -11,6 +11,9 @@
         WHERE t.deleted = FALSE
         AND c.deleted = FALSE
         AND t.user_id = #{userId}
+        <if test="query.conversationId != null and query.conversationId.trim() != ''">
+            and t.conversation_id = #{query.conversationId}
+        </if>
         <if test="query.title != null and query.title.trim() != ''">
             and t.title like concat('%', #{query.title}, '%')
         </if>

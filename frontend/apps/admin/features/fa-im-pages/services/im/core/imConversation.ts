@@ -9,7 +9,7 @@ class Api extends BaseApi<Im.ImConversation, string> {
   createNewSingle = (params: {toUserId: string}): Promise<Fa.Ret<Im.ImConversation>> => this.post('createNewSingle', params);
 
   /** 聊天查询 */
-  listQuery = (params: {title?: string}): Promise<Fa.Ret<Im.ImConversationRetVo[]>> => this.post('listQuery', params);
+  listQuery = (params: {title?: string, conversationId?: string}): Promise<Fa.Ret<Im.ImConversationRetVo[]>> => this.post('listQuery', params);
 
   /** 发送消息 */
   sendMsg = (params: Im.ImConversationSendMsgReqVo): Promise<Fa.Ret<Im.ImMessage>> => this.post('sendMsg', params);

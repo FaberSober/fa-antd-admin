@@ -9,4 +9,6 @@ public class ImConversationListQueryReqVo implements Serializable {
     
     private String title;
 
+    private String conversationId;
+
 }

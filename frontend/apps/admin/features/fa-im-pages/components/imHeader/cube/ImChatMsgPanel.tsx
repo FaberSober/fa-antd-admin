@@ -119,21 +119,36 @@ export default function ImChatMsgPanel() {
     ({ type, payload }) => {
       console.log('FlowTaskCube.received', type, payload)
       const data = payload as Im.ImMessageShow;
-      // 更新聊天列表最新消息
-      setConvList(prev => {
-        return prev.map(item => {
-          if (item.id === `${data.conversationId}`) {
-            // 如果是当前打开的聊天窗口，则设置未读消息数量为0
-            const unreadCount = item.id === convSel?.id ? 0 : item.unreadCount + 1
-            return {
-              ...item,
-              lastMsg: data.crtName + ":" + data.content,
-              unreadCount,
+      // 查找聊天列表是否包含该聊天ID
+      const conv = convList.find(item => item.id === `${data.conversationId}`);
+      if (conv) {
+        // 更新聊天列表最新消息
+        setConvList(prev => {
+          const newArr = prev.map(item => {
+            if (item.id === `${data.conversationId}`) {
+              // 如果是当前打开的聊天窗口，则设置未读消息数量为0
+              const unreadCount = item.id === convSel?.id ? 0 : item.unreadCount + 1
+              return {
+                ...item,
+                lastMsg: data.crtName + ":" + data.content,
+                unreadCount,
+                updTime: FaUtils.getCurDateTime(),
+              }
             }
-          }
-          return item
+            return item
+          })
+          // TODO 将data.conversationId移动到第一个位置
+
+          return newArr;
         })
-      })
+      } else {
+        imConversationApi.listQuery({ conversationId: `${data.conversationId}` }).then(res => {
+          setConvList(prev => ([
+            ...res.data,
+            ...prev,
+          ]))
+        })
+      }
       // 追加到选中聊天消息列表
       if (`${data.conversationId}` === convSel?.id) {
         setMsgList(prev => ([
@@ -150,7 +165,7 @@ export default function ImChatMsgPanel() {
         })
       }
     },
-    [convSel],
+    [convSel, convList],
   )
 
   return (
