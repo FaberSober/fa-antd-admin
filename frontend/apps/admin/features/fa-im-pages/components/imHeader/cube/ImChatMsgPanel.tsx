@@ -179,8 +179,12 @@ export default function ImChatMsgPanel() {
                 <Badge size="small" count={conv.unreadCount}>
                   <ImChatCover conv={conv} />
                 </Badge>
-                <div className='fa-ml12'>
-                  <div>{conv.convTitle}</div>
+                <div className='fa-ml12 fa-flex-1'>
+                  <div className='fa-flex-row-center'>
+                    <div className='fa-flex-1'>{conv.convTitle}</div>
+                    {/* TODO 最后更新时间：如果是今天，则展示HH:mm；如果是最近7天，则展示星期几；如果超过7天但是同一年的，则展示MM-DD；如果超过7天且不是同一年，则展示YYYY-MM-DD  */}
+                    <div>{conv.updTime}</div>
+                  </div>
                   <div>{conv.lastMsg}</div>
                 </div>
               </div>
