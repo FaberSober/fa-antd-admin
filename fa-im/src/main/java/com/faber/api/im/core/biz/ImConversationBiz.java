@@ -24,7 +24,6 @@ import com.faber.core.context.BaseContextHandler;
 import com.faber.core.enums.WsTypeEnum;
 import com.faber.core.web.biz.BaseBiz;
 
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import jakarta.annotation.Resource;
@@ -124,6 +123,11 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
         return convList;
     }
 
+    /**
+     * 发送消息
+     * @param reqVo
+     * @return
+     */
     public ImMessage sendMsg(ImConversationSendMsgReqVo reqVo) {
         // create new message
         ImMessage msg = new ImMessage();
@@ -157,6 +161,32 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
         WsHolder.sendMessage(userIds, WsTypeEnum.IM, msg);
 
         return msg;
+    }
+
+    /**
+     * 更新聊天已读
+     * @param reqVo
+     */
+    public void updateConversationRead(String userId, Long conversationId) {
+        // 查询最新的消息
+        ImMessage lastMsg = imMessageBiz.lambdaQuery()
+            .eq(ImMessage::getConversationId, conversationId)
+            .orderByDesc(ImMessage::getId)
+            .last("limit 1")
+            .one();
+        Long lastReadMessageId = lastMsg == null ? null : lastMsg.getId();
+
+        // 更新用户关联的聊天记录已读数量为0
+        imParticipantBiz.lambdaUpdate()
+            .eq(ImParticipant::getConversationId, conversationId)
+            .eq(ImParticipant::getUserId, userId)
+            .set(ImParticipant::getUnreadCount, 0)
+            .set(ImParticipant::getLastReadMessageId, lastReadMessageId)
+            .update();
+    }
+
+    public Integer getUnreadCount() {
+        return baseMapper.countUnreadByUserId(getCurrentUserId());
     }
 
 }

@@ -33,10 +33,13 @@ export default function ImChatMsgPanel() {
   }, []);
 
   function handleClickConv(conv: Im.ImConversationRetVo) {
+    // 设置选中的聊天
     setConvSel(conv)
+    // 查询消息列表
     imMessageApi.pageQuery({ query: { conversationId: conv.id }, order: 'id DESC', pageSize: 40 }).then(res => {
       setMsgList(res.data.rows.map(i => ({ ...i, sending: false })))
     })
+    // 更新消息未读数量
   }
 
   function handleSendMsg() {

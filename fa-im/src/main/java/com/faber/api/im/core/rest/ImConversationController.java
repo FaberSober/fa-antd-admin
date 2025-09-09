@@ -3,6 +3,7 @@ package com.faber.api.im.core.rest;
 import java.util.List;
 
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +16,7 @@ import com.faber.api.im.core.entity.ImMessage;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
 import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
 import com.faber.api.im.core.vo.req.ImConversationSendMsgReqVo;
+import com.faber.api.im.core.vo.req.ImConversationUpdateReadReqVo;
 import com.faber.api.im.core.vo.ret.ImConversationRetVo;
 import com.faber.core.annotation.FaLogBiz;
 import com.faber.core.annotation.FaLogOpr;
@@ -57,6 +59,22 @@ public class ImConversationController extends BaseController<ImConversationBiz, 
     public Ret<ImMessage> sendMsg(@Validated(value = Vg.Crud.C.class) @RequestBody ImConversationSendMsgReqVo reqVo) {
         ImMessage data = baseBiz.sendMsg(reqVo);
         return ok(data);
+    }
+
+    @FaLogOpr(value = "更新聊天已读", crud = LogCrudEnum.C)
+    @RequestMapping(value = "/updateConversationRead", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<Boolean> updateConversationRead(@Validated(value = Vg.Crud.C.class) @RequestBody ImConversationUpdateReadReqVo reqVo) {
+        baseBiz.updateConversationRead(getCurrentUserId(), reqVo.getConversationId());
+        return ok();
+    }
+
+    @FaLogOpr(value = "获取未读消息数量", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/getUnreadCount", method = RequestMethod.GET)
+    @ResponseBody
+    public Ret<Integer> getUnreadCount() {
+        Integer o = baseBiz.getUnreadCount();
+        return ok(o);
     }
 
 }

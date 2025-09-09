@@ -21,4 +21,6 @@ public interface ImConversationMapper extends FaBaseMapper<ImConversation> {
 	
     List<ImConversationRetVo> listQuery(@Param("userId") String userId, @Param("query") ImConversationListQueryReqVo reqVo);
 
+    Integer countUnreadByUserId(@Param("userId") String userId);
+
 }
