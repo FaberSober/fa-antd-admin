@@ -137,7 +137,13 @@ export default function ImChatMsgPanel() {
             }
             return item
           })
-          // TODO 将data.conversationId移动到第一个位置
+
+          // 将data.conversationId移动到第一个位置
+          const targetIndex = newArr.findIndex(item => item.id === `${data.conversationId}`);
+          if (targetIndex !== -1) {
+            const [targetItem] = newArr.splice(targetIndex, 1);
+            newArr.unshift(targetItem);
+          }
 
           return newArr;
         })
