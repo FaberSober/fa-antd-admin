@@ -29,11 +29,18 @@ namespace Im {
     /** 消息内容 */
     content: string;
     /** 附件ID */
-    fileId: string;
+    fileId?: string;
     /** 是否撤回 */
     isWithdrawn: boolean;
     /** 删除状态 */
     deleted?: boolean;
+  }
+
+  export interface ImMessageShow extends ImMessage {
+    /** sending */
+    sending: boolean;
+    /** send error msg */
+    error?: string;
   }
 
 
@@ -59,6 +66,8 @@ namespace Im {
     userId: string;
     /** 最后一条已读消息ID */
     lastReadMessageId: string;
+    /** 未读消息数量 */
+    unreadCount: number;
   }
 
   // ----------------------------------------- request -----------------------------------------

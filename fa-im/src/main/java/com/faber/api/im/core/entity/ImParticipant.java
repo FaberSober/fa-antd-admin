@@ -40,4 +40,7 @@ public class ImParticipant extends BaseDelEntity {
     @ExcelProperty("最后一条已读消息ID")
     private Long lastReadMessageId;
 
+    @ExcelProperty("未读消息数量")
+    private Integer unreadCount;
+    
 }

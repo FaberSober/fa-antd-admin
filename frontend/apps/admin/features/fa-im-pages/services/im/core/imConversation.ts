@@ -11,6 +11,9 @@ class Api extends BaseApi<Im.ImConversation, string> {
   /** 聊天查询 */
   listQuery = (params: {title?: string}): Promise<Fa.Ret<Im.ImConversation[]>> => this.post('listQuery', params);
 
+  /** 发送消息 */
+  sendMsg = (params: Im.ImConversationSendMsgReqVo): Promise<Fa.Ret<Im.ImMessage>> => this.post('sendMsg', params);
+
 }
 
 export default new Api(GATE_APP.im.core, 'imConversation');

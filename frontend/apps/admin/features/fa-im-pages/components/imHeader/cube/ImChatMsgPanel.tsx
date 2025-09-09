@@ -1,20 +1,24 @@
-import { Im } from '@/types';
 import { FolderOutlined, MessageOutlined, SmileOutlined } from '@ant-design/icons';
-import { FaFlexRestLayout } from '@fa/ui';
-import { imConversationApi } from '@features/fa-im-pages/services';
+import { FaFlexRestLayout, FaUtils } from '@fa/ui';
+import { UserLayoutContext } from '@features/fa-admin-pages/layout';
+import { imConversationApi, imMessageApi } from '@features/fa-im-pages/services';
+import { Im, ImEnums } from '@features/fa-im-pages/types';
 import { Button, Empty, Input, Space, Splitter } from 'antd';
 import clsx from 'clsx';
 import { isNil } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import ImChatMsg from './ImChatMsg';
 
 /**
  * @author xu.pengfei
  * @date 2025-09-08 14:18:22
  */
 export default function ImChatMsgPanel() {
+  const {user} = useContext(UserLayoutContext)
   const [convList, setConvList] = useState<Im.ImConversation[]>([]);
   const [convSel, setConvSel] = useState<Im.ImConversation>();
   const [messageText, setMessageText] = useState<string>('');
+  const [msgList, setMsgList] = useState<Im.ImMessageShow[]>([]);
 
   function getConvList() {
     imConversationApi.listQuery({}).then(res => {
@@ -26,14 +30,62 @@ export default function ImChatMsgPanel() {
     getConvList();
   }, []);
 
+  function handleClickConv(conv: Im.ImConversation) {
+    setConvSel(conv)
+    imMessageApi.page({ query: {}, order: 'id DESC', pageSize: 40 }).then(res => {
+      setMsgList(res.data.rows.map(i => ({ ...i, sending: false })))
+    })
+  }
+
   function handleSendMsg() {
     if (isNil(convSel) || !messageText.trim()) return;
 
-    // TODO: 实现发送消息逻辑
-    console.log('发送消息:', messageText, '到会话:', convSel.id);
-
     // 发送后清空输入框
     setMessageText('');
+    const id = FaUtils.uuid()
+    const msgTmp = {
+      id,
+      conversationId: convSel.id,
+      senderId: user.id,
+      type: ImEnums.ImMessageTypeEnum.TEXT,
+      content: messageText,
+      isWithdrawn: false,
+    }
+    setMsgList([
+      ...msgList,
+      {
+        ...msgTmp,
+        sending: true
+      }
+    ])
+
+    // 实现发送消息逻辑
+    console.log('发送消息:', messageText, '到会话:', convSel.id);
+    imConversationApi.sendMsg({
+      conversationId: convSel.id,
+      content: messageText,
+      type: ImEnums.ImMessageTypeEnum.TEXT,
+    }).then(res => {
+      // 发送成功后更新会话列表
+      console.log('发送成功:', res.data);
+      setMsgList([
+        ...msgList,
+        {
+          ...res.data,
+          sending: false,
+        }
+      ])
+    }).catch(err => {
+      console.log('发送失败:', err);
+      setMsgList([
+        ...msgList,
+        {
+          ...msgTmp,
+          sending: false,
+          error: '发送失败:' + err.message,
+        }
+      ])
+    })
   }
 
   return (
@@ -43,7 +95,7 @@ export default function ImChatMsgPanel() {
         <div className='fa-im-wx-panel-left-sub fa-flex-column'>
           {convList.map(conv => {
             return (
-              <div key={conv.id} className={clsx('fa-flex-row-center fa-base-btn fa-p12', convSel?.id === conv.id && 'fa-im-wx-item-selected')} onClick={() => setConvSel(conv)}>
+              <div key={conv.id} className={clsx('fa-flex-row-center fa-base-btn fa-p12', convSel?.id === conv.id && 'fa-im-wx-item-selected')} onClick={() => handleClickConv(conv)}>
                 {/* <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(user.img)} alt={user.name} />} /> */}
                 <div className='fa-ml12'>{conv.title}</div>
               </div>
@@ -65,7 +117,15 @@ export default function ImChatMsgPanel() {
                 <Splitter layout="vertical">
                   {/* msg list */}
                   <Splitter.Panel>
-                    <div className='fa-full fa-relative'>msg list</div>
+                    <div className='fa-full fa-relative fa-flex-column'>
+                      {msgList.map(msg => {
+                        return (
+                          <div key={msg.id}>
+                            <ImChatMsg msg={msg} />
+                          </div>
+                        )
+                      })}
+                    </div>
                   </Splitter.Panel>
 
                   {/* bottom tool & input */}

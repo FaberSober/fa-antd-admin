@@ -58,3 +58,13 @@
 .fa-im-wx-item-selected {
   background-color: var(--fa-im-wx-btn-selected-color);
 }
+
+// ----------------------------------- msg -----------------------------------
+.fa-im-wx-msg, .fa-im-wx-msg-me {
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.fa-im-wx-msg-me {
+  background: #95EC69;
+}
