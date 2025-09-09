@@ -134,6 +134,17 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
         msg.setIsWithdrawn(false);
         imMessageBiz.save(msg);
 
+        // update conversation last message，超过250个字符截断
+        String lastMsg = BaseContextHandler.getName() + ":" + reqVo.getContent();
+        // 如果lastMsg超过250个字符，则截断
+        if (lastMsg.length() > 250) {
+            lastMsg = lastMsg.substring(0, 250);
+        }
+        this.lambdaUpdate()
+            .eq(ImConversation::getId, reqVo.getConversationId())
+            .set(ImConversation::getLastMsg, lastMsg)
+            .update();
+
         // get conversation participants
         List<ImParticipant> convList = imParticipantBiz.lambdaQuery()
             .eq(ImParticipant::getConversationId, reqVo.getConversationId())

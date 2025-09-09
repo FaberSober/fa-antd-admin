@@ -119,7 +119,6 @@ export default function ImChatMsgPanel() {
           {convList.map(conv => {
             return (
               <div key={conv.id} className={clsx('fa-flex-row-center fa-base-btn fa-p12', convSel?.id === conv.id && 'fa-im-wx-item-selected')} onClick={() => handleClickConv(conv)}>
-                {/* <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(user.img)} alt={user.name} />} /> */}
                 <ImChatCover conv={conv} />
                 <div className='fa-ml12'>{conv.convTitle}</div>
               </div>

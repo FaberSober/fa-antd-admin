@@ -40,5 +40,8 @@ public class ImConversation extends BaseDelEntity {
 
     @ExcelProperty("封面图标")
     private String cover;
+
+    @ExcelProperty("最新一条消息")
+    private String lastMsg;
     
 }

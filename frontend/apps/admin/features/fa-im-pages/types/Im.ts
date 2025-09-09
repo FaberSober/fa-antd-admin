@@ -16,6 +16,8 @@ namespace Im {
     userIds: string;
     /** 封面图标 */
     cover: string;
+    /** 最新一条消息 */
+    lastMsg?: string;
   }
 
   /** IM-消息表 */
