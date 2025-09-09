@@ -1,7 +1,7 @@
 import { MessageOutlined } from '@ant-design/icons';
 import { BaseDrawer } from '@fa/ui';
 import { Badge, Tooltip } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './ImHeaderCube.scss'
 import ImChatPanel from './cube/ImChatPanel';
 import { imConversationApi } from '@features/fa-im-pages/services';
@@ -14,6 +14,7 @@ import useBus from 'use-bus';
  */
 export default function ImHeaderCube() {
   const [unreadCount, setUnreadCount] = useState(0);
+  const audioRef = useRef(new Audio('/file/audio/notify.mp3'));
 
   useEffect(() => {
     getUnreadCount()
@@ -29,6 +30,8 @@ export default function ImHeaderCube() {
   useBus(
     ['@@ws/RECEIVE/IM'],
     ({  }) => {
+      // 接收到消息，给出音效提醒
+      audioRef.current.play().catch(console.error);
       getUnreadCount()
     },
     [],
