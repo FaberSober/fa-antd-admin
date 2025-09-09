@@ -3,7 +3,7 @@ import { FaFlexRestLayout, FaUtils } from '@fa/ui';
 import { UserLayoutContext } from '@features/fa-admin-pages/layout';
 import { imConversationApi, imMessageApi } from '@features/fa-im-pages/services';
 import { Im, ImEnums } from '@features/fa-im-pages/types';
-import { Button, Empty, Input, Space, Splitter } from 'antd';
+import { Badge, Button, Empty, Input, Space, Splitter } from 'antd';
 import clsx from 'clsx';
 import { isNil } from 'lodash';
 import { useContext, useEffect, useState } from 'react';
@@ -148,7 +148,9 @@ export default function ImChatMsgPanel() {
           {convList.map(conv => {
             return (
               <div key={conv.id} className={clsx('fa-flex-row-center fa-base-btn fa-p12', convSel?.id === conv.id && 'fa-im-wx-item-selected')} onClick={() => handleClickConv(conv)}>
-                <ImChatCover conv={conv} />
+                <Badge size="small" count={conv.unreadCount}>
+                  <ImChatCover conv={conv} />
+                </Badge>
                 <div className='fa-ml12'>
                   <div>{conv.convTitle}</div>
                   <div>{conv.lastMsg}</div>

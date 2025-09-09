@@ -149,6 +149,9 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
             .set(ImConversation::getLastMsg, lastMsg)
             .update();
 
+        // update unread count
+        baseMapper.updateUnreadByConvId(reqVo.getConversationId(), getCurrentUserId());
+
         // get conversation participants
         List<ImParticipant> convList = imParticipantBiz.lambdaQuery()
             .eq(ImParticipant::getConversationId, reqVo.getConversationId())

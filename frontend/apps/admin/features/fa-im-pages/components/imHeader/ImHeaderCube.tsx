@@ -1,16 +1,38 @@
 import { MessageOutlined } from '@ant-design/icons';
 import { BaseDrawer } from '@fa/ui';
 import { Badge, Tooltip } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './ImHeaderCube.scss'
 import ImChatPanel from './cube/ImChatPanel';
+import { imConversationApi } from '@features/fa-im-pages/services';
+import useBus from 'use-bus';
+
 
 /**
  * @author xu.pengfei
  * @date 2025-09-07 20:57:56
  */
 export default function ImHeaderCube() {
-  const [unreadCount] = useState(0);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    getUnreadCount()
+  }, []);
+
+  function getUnreadCount() {
+    imConversationApi.getUnreadCount().then(res => {
+      setUnreadCount(res.data)
+    })
+  }
+
+  // 接收消息
+  useBus(
+    ['@@ws/RECEIVE/IM'],
+    ({  }) => {
+      getUnreadCount()
+    },
+    [],
+  )
   return (
     <>
       <BaseDrawer

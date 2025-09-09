@@ -14,6 +14,12 @@ class Api extends BaseApi<Im.ImConversation, string> {
   /** 发送消息 */
   sendMsg = (params: Im.ImConversationSendMsgReqVo): Promise<Fa.Ret<Im.ImMessage>> => this.post('sendMsg', params);
 
+  /** 更新聊天已读 */
+  updateConversationRead = (params: {conversationId: string}): Promise<Fa.Ret<boolean>> => this.post('updateConversationRead', params);
+
+  /** 获取未读消息数量 */
+  getUnreadCount = (): Promise<Fa.Ret<number>> => this.get('getUnreadCount');
+
 }
 
 export default new Api(GATE_APP.im.core, 'imConversation');

@@ -23,4 +23,6 @@ public interface ImConversationMapper extends FaBaseMapper<ImConversation> {
 
     Integer countUnreadByUserId(@Param("userId") String userId);
 
+    void updateUnreadByConvId(@Param("conversationId") Long conversationId, @Param("excludeUserId") String excludeUserId);
+
 }
