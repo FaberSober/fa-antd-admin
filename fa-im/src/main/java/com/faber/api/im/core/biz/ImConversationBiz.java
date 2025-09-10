@@ -74,12 +74,13 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
         List<User> userList = userBiz.lambdaQuery()
             .in(User::getId, Arrays.asList(getCurrentUserId(), reqVo.getToUserId()))
             .orderByAsc(User::getId)
-            .select(User::getId, User::getImg)
+            .select(User::getId, User::getImg, User::getName)
             .list();
         for (User user : userList) {
             JSONObject userJson = new JSONObject();
             userJson.set("id", user.getId());
             userJson.set("img", user.getImg());
+            userJson.set("name", user.getName());
             imgArr.add(userJson);
         }
 

@@ -62,6 +62,7 @@ export default function ImHeaderCube() {
           </Tooltip>
         )}
         width={1000}
+        push={false}
       >
         <ImChatPanel />
       </BaseDrawer>

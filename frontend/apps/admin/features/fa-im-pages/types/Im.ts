@@ -14,7 +14,7 @@ namespace Im {
     title: string;
     /** 聊天用户ID集合 */
     userIds: string;
-    /** 封面图标 */
+    /** 封面图标JSONArray */
     cover: string;
     /** 最新一条消息 */
     lastMsg?: string;

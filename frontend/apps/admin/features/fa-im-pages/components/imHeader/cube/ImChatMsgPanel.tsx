@@ -1,10 +1,10 @@
-import { FolderOutlined, MessageOutlined, SmileOutlined } from '@ant-design/icons';
-import { FaFlexRestLayout, FaUtils } from '@fa/ui';
+import { EllipsisOutlined, FolderOutlined, MessageOutlined, PlusOutlined, SmileOutlined } from '@ant-design/icons';
+import { BaseDrawer, FaFlexRestLayout, FaUtils } from '@fa/ui';
 import { UserLayoutContext } from '@features/fa-admin-pages/layout';
 import { fileSaveApi } from '@features/fa-admin-pages/services';
 import { imConversationApi, imMessageApi } from '@features/fa-im-pages/services';
 import { Im, ImEnums } from '@features/fa-im-pages/types';
-import { Badge, Button, Empty, Input, Space, Splitter } from 'antd';
+import { Avatar, Badge, Button, Empty, Input, Space, Splitter, Tooltip } from 'antd';
 import clsx from 'clsx';
 import { isNil } from 'lodash';
 import { useContext, useEffect, useState } from 'react';
@@ -307,8 +307,35 @@ export default function ImChatMsgPanel() {
           convSel ? (
             <div className='fa-im-wx-panel-right fa-flex-column'>
               {/* title */}
-              <div className='fa-flex-row-center fa-p12 fa-border-b'>
-                <div>{convSel.title}</div>
+              <div className='fa-flex-row-center fa-p12 fa-border-b fa-flex-row-center'>
+                <div>{convSel.convTitle}</div>
+                <div className='fa-flex-1'></div>
+                <BaseDrawer
+                  triggerDom={<Button type='text' icon={<EllipsisOutlined style={{fontSize: '24px'}} />}></Button>}
+                  push={false}
+                  width={300}
+                  title="聊天详情"
+                >
+                  <div className='fa-full-content'>
+                    <div className='fa-flex-row fa-flex-wrap fa-p12' style={{gap: 12}}>
+                      {JSON.parse(convSel.cover).map((item:{id:string,name:string,img:string}) => {
+                        return (
+                          <div key={item.id} className='fa-flex-column-center fa-base-btn' style={{padding: 2, borderRadius: 2}}>
+                            <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(item.img)} />} size={36} />
+                            <Tooltip title={item.name} placement='bottom'>
+                              <div className='fa-word-ellipse fa-text-center' style={{fontSize: '11px', width: 40, marginTop: 2}}>{item.name}</div>
+                            </Tooltip>
+                          </div>
+                        )
+                      })}
+                      <div className='fa-flex-column-center' style={{padding: 2, borderRadius: 2}}>
+                        <div className='fa-im-wx-conv-add-user-btn fa-base-btn'>
+                          <PlusOutlined style={{fontSize: '16px'}} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </BaseDrawer>
               </div>
               <FaFlexRestLayout>
                 <Splitter layout="vertical">

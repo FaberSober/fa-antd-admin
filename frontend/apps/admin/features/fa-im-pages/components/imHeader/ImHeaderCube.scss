@@ -128,3 +128,13 @@
   max-height: 200px;
   background: var(--fa-im-wx-bg-color);
 }
+
+.fa-im-wx-conv-add-user-btn {
+  width: 34px;
+  height: 34px;
+  border: 1px dashed var(--fa-border-color);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
