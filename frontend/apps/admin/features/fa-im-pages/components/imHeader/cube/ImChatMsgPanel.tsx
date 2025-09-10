@@ -173,7 +173,7 @@ export default function ImChatMsgPanel() {
               }
               return {
                 ...item,
-                lastMsg: data.crtName + ":" + data.content,
+                lastMsg: data.crtName + ":" + content,
                 unreadCount,
                 updTime: FaUtils.getCurDateTime(),
               }
