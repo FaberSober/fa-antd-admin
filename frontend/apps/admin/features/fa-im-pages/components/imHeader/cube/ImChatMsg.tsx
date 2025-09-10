@@ -29,11 +29,16 @@ export default function ImChatMsg({ msg }: ImChatMsgProps) {
     )
   }
 
+  // send by others
   return (
-    <div className='fa-flex-row-center fa-im-wx-msg-item'>
+    <div className='fa-flex-row fa-im-wx-msg-item'>
       <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(msg.senderUserImg)} alt={msg.crtName} />} className='fa-im-wx-msg-header' size={36} />
-      <div className='fa-ml12 fa-im-wx-msg'>
-        <ImChatMsgContent msg={msg} />
+
+      <div className='fa-ml12'>
+        <div className='fa-im-wx-msg-other-sender-name'>{msg.crtName}</div>
+        <div className='fa-im-wx-msg'>
+          <ImChatMsgContent msg={msg} />
+        </div>
       </div>
       <div style={{minWidth: 100, flex: 1}}></div>
     </div>

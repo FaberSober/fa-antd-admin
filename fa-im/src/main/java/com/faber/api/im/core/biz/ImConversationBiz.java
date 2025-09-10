@@ -16,6 +16,7 @@ import com.faber.api.im.core.entity.ImMessage;
 import com.faber.api.im.core.entity.ImParticipant;
 import com.faber.api.im.core.enums.ImConversationTypeEnum;
 import com.faber.api.im.core.mapper.ImConversationMapper;
+import com.faber.api.im.core.vo.req.ImConversationAddGroupUsersReqVo;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewGroupReqVo;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
 import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
@@ -44,7 +45,6 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
     @Resource UserBiz userBiz;
     @Resource ImParticipantBiz imParticipantBiz;
     @Resource ImMessageBiz imMessageBiz;
-    @Resource ImMessageReadBiz imMessageReadBiz;
 
     /**
      * 创建新的单聊会话
@@ -72,19 +72,7 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
         User toUser = userBiz.getById(reqVo.getToUserId());
 
         // 聊天封面图片，为参加聊天的用户头像数组
-        JSONArray imgArr = new JSONArray();
-        List<User> userList = userBiz.lambdaQuery()
-            .in(User::getId, Arrays.asList(getCurrentUserId(), reqVo.getToUserId()))
-            .orderByAsc(User::getId)
-            .select(User::getId, User::getImg, User::getName)
-            .list();
-        for (User user : userList) {
-            JSONObject userJson = new JSONObject();
-            userJson.set("id", user.getId());
-            userJson.set("img", user.getImg());
-            userJson.set("name", user.getName());
-            imgArr.add(userJson);
-        }
+        JSONArray imgArr = getUserImgs(Arrays.asList(getCurrentUserId(), reqVo.getToUserId()));
 
         // create new conversation
         ImConversation conversation = new ImConversation();
@@ -115,17 +103,8 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
         return conversation;
     }
 
-    @Transactional
-    public ImConversation createNewGroup(ImConversationCreateNewGroupReqVo reqVo) {
-        List<String> userIds = reqVo.getUserIds();
-        if (userIds.size() < 3) {
-            throw new BuzzException("群聊最少添加三位用户");
-        }
-        Collections.sort(userIds);
-        JSONArray userIdArray = new JSONArray(userIds);
-        String userIdsStr = userIdArray.toString();
-
-        // 聊天封面图片，为参加聊天的用户头像数组
+    /** 聊天封面图片，为参加聊天的用户头像数组 */
+    private JSONArray getUserImgs(List<String> userIds) {
         JSONArray imgArr = new JSONArray();
         List<User> userList = userBiz.lambdaQuery()
             .in(User::getId, userIds)
@@ -139,10 +118,23 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
             userJson.set("name", user.getName());
             imgArr.add(userJson);
         }
+        return imgArr;
+    }
+
+    /** 创建新的群聊 */
+    @Transactional
+    public ImConversation createNewGroup(ImConversationCreateNewGroupReqVo reqVo) {
+        List<String> userIds = reqVo.getUserIds();
+        if (userIds.size() < 3) {
+            throw new BuzzException("群聊最少添加三位用户");
+        }
+
+        // 聊天封面图片，为参加聊天的用户头像数组
+        JSONArray imgArr = getUserImgs(userIds);
 
         // create new conversation
         ImConversation conversation = new ImConversation();
-        conversation.setUserIds(userIdsStr);
+        conversation.setUserIds("[]");
         conversation.setType(ImConversationTypeEnum.GROUP);
         conversation.setTitle("群聊");
         conversation.setCover(imgArr.toString());
@@ -159,6 +151,58 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
             participantList.add(participant);
         }
         imParticipantBiz.saveBatch(participantList);
+
+        return conversation;
+    }
+
+    /** 创建新的群聊 */
+    @Transactional
+    public ImConversation addGroupUsers(ImConversationAddGroupUsersReqVo reqVo) {
+        ImConversation conversation = this.getById(reqVo.getConversationId());
+
+        // 过滤已经参加该群聊的用户
+        List<String> inUserIdList = imParticipantBiz.lambdaQuery()
+            .eq(ImParticipant::getConversationId, reqVo.getConversationId())
+            .in(ImParticipant::getUserId, reqVo.getUserIds())
+            .select(ImParticipant::getUserId)
+            .list()
+            .stream().map(i -> i.getUserId()).toList();
+        List<String> addUserIds = reqVo.getUserIds().stream()
+            .filter(i -> !inUserIdList.contains(i))
+            .toList();
+        if (addUserIds == null || addUserIds.isEmpty()) {
+            return conversation;
+        }
+
+        // save conversation user link
+        List<ImParticipant> participantList = new ArrayList<>();
+        for (String userId : addUserIds) {
+            ImParticipant participant = new ImParticipant();
+            participant.setConversationId(conversation.getId());
+            participant.setUserId(userId);
+            participant.setTitle(conversation.getTitle()); // 存群聊名称
+            participant.setUnreadCount(0);
+            participantList.add(participant);
+        }
+        imParticipantBiz.saveBatch(participantList);
+
+        // update conversation cover
+        List<String> userIds = imParticipantBiz.lambdaQuery()
+            .eq(ImParticipant::getConversationId, reqVo.getConversationId())
+            .select(ImParticipant::getUserId)
+            .orderByAsc(ImParticipant::getCrtTime, ImParticipant::getUserId)
+            .last("limit 9") // 群聊封面最多展示9个用户头像
+            .list()
+            .stream().map(i -> i.getUserId()).toList();
+
+        // 更新群聊头像
+        JSONArray imgArr = getUserImgs(userIds);
+        conversation.setCover(imgArr.toString());
+
+        this.lambdaUpdate()
+            .eq(ImConversation::getId, conversation.getId())
+            .set(ImConversation::getCover, imgArr.toString())
+            .update();
 
         return conversation;
     }

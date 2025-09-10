@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.faber.api.im.core.biz.ImConversationBiz;
 import com.faber.api.im.core.entity.ImConversation;
 import com.faber.api.im.core.entity.ImMessage;
+import com.faber.api.im.core.vo.req.ImConversationAddGroupUsersReqVo;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewGroupReqVo;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
 import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
@@ -50,6 +51,14 @@ public class ImConversationController extends BaseController<ImConversationBiz, 
     @ResponseBody
     public Ret<ImConversation> createNewGroup(@Validated(value = Vg.Crud.C.class) @RequestBody ImConversationCreateNewGroupReqVo reqVo) {
         ImConversation data = baseBiz.createNewGroup(reqVo);
+        return ok(data);
+    }
+
+    @FaLogOpr(value = "加入群聊", crud = LogCrudEnum.C)
+    @RequestMapping(value = "/addGroupUsers", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<ImConversation> addGroupUsers(@Validated(value = Vg.Crud.C.class) @RequestBody ImConversationAddGroupUsersReqVo reqVo) {
+        ImConversation data = baseBiz.addGroupUsers(reqVo);
         return ok(data);
     }
 

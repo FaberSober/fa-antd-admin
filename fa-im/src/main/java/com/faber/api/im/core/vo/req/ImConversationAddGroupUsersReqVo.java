@@ -8,7 +8,10 @@ import com.dtflys.forest.annotation.NotNull;
 import lombok.Data;
 
 @Data
-public class ImConversationCreateNewGroupReqVo implements Serializable {
+public class ImConversationAddGroupUsersReqVo implements Serializable {
+
+    @NotNull
+    private String conversationId;
 
     /** 群聊用户ID */
     @NotNull

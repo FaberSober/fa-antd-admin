@@ -296,6 +296,14 @@ export default function ImChatMsgPanel() {
       }).catch(() => callback())
     } else {
       // 如果是群聊，则添加用户
+      // 过滤已经加入的用户
+      const inUserIds = getConvUsers(convSel).map(i => i.id);
+      const addUserIds = userIds.filter(i => !inUserIds.includes(i))
+      imConversationApi.addGroupUsers({ userIds: addUserIds, conversationId: convSel.id }).then(res => {
+        FaUtils.showResponse(res, '添加群聊用户')
+        setConvList(prev => prev.map(i => i.id === res.data.id ? { ...i, ...res.data } : i))
+        callback();
+      }).catch(() => callback())
       callback();
     }
   }

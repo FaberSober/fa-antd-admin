@@ -1,9 +1,7 @@
-import { FileOutlined } from '@ant-design/icons';
-import { PageLoading } from '@fa/ui';
+import { FileOutlined, LoadingOutlined } from '@ant-design/icons';
 import { fileSaveApi } from '@features/fa-admin-pages/services';
 import { Im, ImEnums } from '@features/fa-im-pages/types';
-import { Image, Space } from 'antd';
-import React from 'react';
+import { Image, Space, Spin } from 'antd';
 
 const { ImMessageTypeEnum } = ImEnums;
 
@@ -32,7 +30,7 @@ export default function ImChatMsgContent({ msg }: ImChatMsgContentProps) {
             <Image
               src={previewUrl}
               style={{ maxWidth: '100%', maxHeight: 300 }}
-              placeholder={<PageLoading />}
+              placeholder={<Spin indicator={<LoadingOutlined spin />} size="small" />}
               preview={{ src: fileUrl }}
             />
           </div>
