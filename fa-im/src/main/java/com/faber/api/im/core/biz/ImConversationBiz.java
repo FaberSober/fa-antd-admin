@@ -1,5 +1,6 @@
 package com.faber.api.im.core.biz;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -14,8 +15,8 @@ import com.faber.api.im.core.entity.ImConversation;
 import com.faber.api.im.core.entity.ImMessage;
 import com.faber.api.im.core.entity.ImParticipant;
 import com.faber.api.im.core.enums.ImConversationTypeEnum;
-import com.faber.api.im.core.enums.ImMessageTypeEnum;
 import com.faber.api.im.core.mapper.ImConversationMapper;
+import com.faber.api.im.core.vo.req.ImConversationCreateNewGroupReqVo;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
 import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
 import com.faber.api.im.core.vo.req.ImConversationSendMsgReqVo;
@@ -23,6 +24,7 @@ import com.faber.api.im.core.vo.ret.ImConversationRetVo;
 import com.faber.config.websocket.WsHolder;
 import com.faber.core.context.BaseContextHandler;
 import com.faber.core.enums.WsTypeEnum;
+import com.faber.core.exception.BuzzException;
 import com.faber.core.web.biz.BaseBiz;
 
 import cn.hutool.json.JSONArray;
@@ -109,6 +111,54 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
             participantTo.setUnreadCount(0);
             imParticipantBiz.save(participantTo);
         }
+
+        return conversation;
+    }
+
+    @Transactional
+    public ImConversation createNewGroup(ImConversationCreateNewGroupReqVo reqVo) {
+        List<String> userIds = reqVo.getUserIds();
+        if (userIds.size() < 3) {
+            throw new BuzzException("群聊最少添加三位用户");
+        }
+        Collections.sort(userIds);
+        JSONArray userIdArray = new JSONArray(userIds);
+        String userIdsStr = userIdArray.toString();
+
+        // 聊天封面图片，为参加聊天的用户头像数组
+        JSONArray imgArr = new JSONArray();
+        List<User> userList = userBiz.lambdaQuery()
+            .in(User::getId, userIds)
+            .orderByAsc(User::getId)
+            .select(User::getId, User::getImg, User::getName)
+            .list();
+        for (User user : userList) {
+            JSONObject userJson = new JSONObject();
+            userJson.set("id", user.getId());
+            userJson.set("img", user.getImg());
+            userJson.set("name", user.getName());
+            imgArr.add(userJson);
+        }
+
+        // create new conversation
+        ImConversation conversation = new ImConversation();
+        conversation.setUserIds(userIdsStr);
+        conversation.setType(ImConversationTypeEnum.GROUP);
+        conversation.setTitle("群聊");
+        conversation.setCover(imgArr.toString());
+        this.save(conversation);
+
+        // save conversation user link
+        List<ImParticipant> participantList = new ArrayList<>();
+        for (String userId : userIds) {
+            ImParticipant participant = new ImParticipant();
+            participant.setConversationId(conversation.getId());
+            participant.setUserId(userId);
+            participant.setTitle("群聊"); // 存群聊名称
+            participant.setUnreadCount(0);
+            participantList.add(participant);
+        }
+        imParticipantBiz.saveBatch(participantList);
 
         return conversation;
     }

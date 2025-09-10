@@ -1,5 +1,5 @@
 import { EllipsisOutlined, FolderOutlined, MessageOutlined, PlusOutlined, SmileOutlined } from '@ant-design/icons';
-import { BaseDrawer, FaFlexRestLayout, FaUtils } from '@fa/ui';
+import { BaseDrawer, BizUserSelect, FaFlexRestLayout, FaUtils, SelectedUser } from '@fa/ui';
 import { UserLayoutContext } from '@features/fa-admin-pages/layout';
 import { fileSaveApi } from '@features/fa-admin-pages/services';
 import { imConversationApi, imMessageApi } from '@features/fa-im-pages/services';
@@ -276,6 +276,34 @@ export default function ImChatMsgPanel() {
     input.click();
   }
 
+  /** 群聊添加用户 */
+  function handleAddUsers(users: SelectedUser[], callback: any, error: any) {
+    console.log('handleAddUsers', users)
+    if (isNil(convSel)) {
+      callback();
+      return;
+    }
+    const userIds = users.map(i => i.id)
+    // 如果是单聊，则创建一个新的群聊
+    if (convSel.type == ImEnums.ImConversationTypeEnum.SINGLE) {
+      imConversationApi.createNewGroup({ userIds }).then(res => {
+        FaUtils.showResponse(res, '创建群聊')
+        setConvList(prev => ([
+          { ...res.data, unreadCount: 0, convTitle: '群聊' },
+          ...prev,
+        ]))
+        callback();
+      }).catch(() => callback())
+    } else {
+      // 如果是群聊，则添加用户
+      callback();
+    }
+  }
+
+  function getConvUsers(conv: Im.ImConversationRetVo):{id:string,name:string,img:string}[] {
+    return JSON.parse(conv.cover)
+  }
+
   return (
     <Splitter>
       {/* left item */}
@@ -318,7 +346,7 @@ export default function ImChatMsgPanel() {
                 >
                   <div className='fa-full-content'>
                     <div className='fa-flex-row fa-flex-wrap fa-p12' style={{gap: 12}}>
-                      {JSON.parse(convSel.cover).map((item:{id:string,name:string,img:string}) => {
+                      {getConvUsers(convSel).map((item) => {
                         return (
                           <div key={item.id} className='fa-flex-column-center fa-base-btn' style={{padding: 2, borderRadius: 2}}>
                             <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(item.img)} />} size={36} />
@@ -329,9 +357,11 @@ export default function ImChatMsgPanel() {
                         )
                       })}
                       <div className='fa-flex-column-center' style={{padding: 2, borderRadius: 2}}>
-                        <div className='fa-im-wx-conv-add-user-btn fa-base-btn'>
-                          <PlusOutlined style={{fontSize: '16px'}} />
-                        </div>
+                        <BizUserSelect onChange={handleAddUsers} selectedUsers={getConvUsers(convSel).map(i => ({ id: i.id, allowRemove: false }))}>
+                          <div className='fa-im-wx-conv-add-user-btn fa-base-btn'>
+                            <PlusOutlined style={{fontSize: '16px'}} />
+                          </div>
+                        </BizUserSelect>
                       </div>
                     </div>
                   </div>

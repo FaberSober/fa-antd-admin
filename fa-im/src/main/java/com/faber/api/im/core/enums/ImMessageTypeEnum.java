@@ -46,4 +46,10 @@ public enum ImMessageTypeEnum implements IEnum<Integer> {
         return result;
     }
 
+    // FIXME 这里要修改为hutool的统一序列化设置
+    // @Override
+    // public String toString() {
+    //     return this.value + "";
+    // }
+
 }

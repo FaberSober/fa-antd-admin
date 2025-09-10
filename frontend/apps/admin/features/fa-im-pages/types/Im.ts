@@ -92,7 +92,7 @@ namespace Im {
   // ----------------------------------------- response -----------------------------------------
   export interface ImConversationRetVo extends ImConversation {
     /** 最后一条已读消息ID */
-    lastReadMessageId: string;
+    lastReadMessageId?: string;
     /** 未读消息数量 */
     unreadCount: number;
     /** 用户标题 */

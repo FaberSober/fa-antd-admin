@@ -15,9 +15,9 @@ import lombok.Getter;
  */
 @Getter
 public enum ImConversationTypeEnum implements IEnum<Integer> {
-    /** 自动通过 */
+    /** 单聊 */
     SINGLE(1, "单聊"),
-    /** 自动拒绝 */
+    /** 群聊 */
     GROUP(2, "群聊");
 
     @JsonValue
