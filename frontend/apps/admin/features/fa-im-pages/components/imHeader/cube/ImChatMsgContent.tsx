@@ -64,7 +64,6 @@ export default function ImChatMsgContent({ msg }: ImChatMsgContentProps) {
             <FileOutlined style={{ fontSize: 24 }} />
             <div>
               <div>{fileName}</div>
-              <div className="fa-text-grey">{ext.toUpperCase()}文件</div>
             </div>
           </Space>
         </div>

@@ -110,7 +110,13 @@
 
 .fa-im-wx-msg-file {
   padding: 8px;
-  background: var(--fa-im-wx-bg-color);
+  background: var(--fa-im-wx-msg-bg-color);
+}
+
+.fa-im-wx-msg-me {
+  .fa-im-wx-msg-file {
+    background: var(--fa-im-wx-msg-me-bg-color);
+  }
 }
 
 .fa-im-wx-msg-video {
