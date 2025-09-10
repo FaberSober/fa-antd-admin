@@ -29,7 +29,7 @@ namespace Im {
     /** 发送用户ID */
     senderId: string;
     /** 类型：1-文本/2-图片/3-视频/4-文件 */
-    type: number;
+    type: ImEnums.ImMessageTypeEnum;
     /** 消息内容 */
     content: string;
     /** 附件ID */

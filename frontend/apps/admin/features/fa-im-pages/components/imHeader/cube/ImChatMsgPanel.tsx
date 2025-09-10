@@ -1,8 +1,10 @@
 import { FolderOutlined, MessageOutlined, SmileOutlined } from '@ant-design/icons';
 import { FaFlexRestLayout, FaUtils } from '@fa/ui';
 import { UserLayoutContext } from '@features/fa-admin-pages/layout';
+import { fileSaveApi } from '@features/fa-admin-pages/services';
 import { imConversationApi, imMessageApi } from '@features/fa-im-pages/services';
 import { Im, ImEnums } from '@features/fa-im-pages/types';
+import { AxiosProgressEvent } from 'axios';
 import { Badge, Button, Empty, Input, Space, Splitter } from 'antd';
 import clsx from 'clsx';
 import { isNil } from 'lodash';
@@ -206,6 +208,59 @@ export default function ImChatMsgPanel() {
     [convSel, convList],
   )
 
+  /** upload file */
+  function handleClickUploadFile() {
+    // 创建一个隐藏的文件输入框
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.multiple = true; // 允许多选文件
+
+    input.onchange = (e) => {
+      const files = (e.target as HTMLInputElement).files;
+      if (!files || !convSel) return;
+
+      // 遍历所有选中的文件
+      Array.from(files).forEach(file => {
+        // 先将文件上传到服务器
+        fileSaveApi.uploadFile(file, (progress: any) => {
+          const percent = (progress.loaded / progress.total * 100).toFixed(2);
+          console.log('上传进度:', percent + '%');
+        }).then((res: any) => {
+          if (res.status === 200 && res.data) {
+            const fileInfo = res.data;
+
+            // 上传成功后，发送消息
+            imConversationApi.sendMsg({
+              conversationId: convSel.id,
+              type: ImEnums.ImMessageTypeEnum.FILE,
+              content: JSON.stringify({
+                fileId: fileInfo.id,
+                fileName: fileInfo.originalFilename,
+                fileSize: fileInfo.size,
+                ext: fileInfo.ext,
+              }),
+            }).then(res => {
+              // 发送成功后清空输入框
+              if (res.status === 200) {
+                const msg = res.data;
+                setMsgList(prev => [
+                  ...prev,
+                  {
+                    ...msg,
+                    sending: false,
+                  }
+                ]);
+              }
+            });
+          }
+        });
+      });
+    }
+
+    // 触发文件选择框
+    input.click();
+  }
+
   return (
     <Splitter>
       {/* left item */}
@@ -260,7 +315,7 @@ export default function ImChatMsgPanel() {
                     <div className='fa-full fa-flex-column fa-p12'>
                       <Space>
                         <Button type="text" icon={<SmileOutlined />} />
-                        <Button type="text" icon={<FolderOutlined />} />
+                        <Button type="text" icon={<FolderOutlined />} onClick={handleClickUploadFile} />
                         <Button type="text" icon={<MessageOutlined />} />
                       </Space>
 
