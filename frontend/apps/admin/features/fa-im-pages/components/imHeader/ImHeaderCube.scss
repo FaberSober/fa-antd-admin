@@ -70,7 +70,8 @@
 // ----------------------------------- msg -----------------------------------
 .fa-im-wx-msg, .fa-im-wx-msg-me {
   border-radius: 4px;
-  padding: 8px;
+  padding: 0px;
+  overflow: hidden;
   background: var(--fa-im-wx-msg-bg-color);
   color: var(--fa-im-wx-msg-text-color);
   min-width: 40px;
@@ -101,4 +102,23 @@
   .ant-avatar {
     background: #FFF;
   }
+}
+
+.fa-im-wx-msg-text {
+  padding: 8px;
+}
+
+.fa-im-wx-msg-file {
+  padding: 8px;
+  background: var(--fa-im-wx-bg-color);
+}
+
+.fa-im-wx-msg-video {
+  background: var(--fa-im-wx-bg-color);
+}
+
+.fa-im-wx-msg-image {
+  max-width: 200px;
+  max-height: 200px;
+  background: var(--fa-im-wx-bg-color);
 }

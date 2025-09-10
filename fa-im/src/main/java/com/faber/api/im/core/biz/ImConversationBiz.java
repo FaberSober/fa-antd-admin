@@ -14,6 +14,7 @@ import com.faber.api.im.core.entity.ImConversation;
 import com.faber.api.im.core.entity.ImMessage;
 import com.faber.api.im.core.entity.ImParticipant;
 import com.faber.api.im.core.enums.ImConversationTypeEnum;
+import com.faber.api.im.core.enums.ImMessageTypeEnum;
 import com.faber.api.im.core.mapper.ImConversationMapper;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
 import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
@@ -143,6 +144,20 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
         // 如果lastMsg超过250个字符，则截断
         if (lastMsg.length() > 250) {
             lastMsg = lastMsg.substring(0, 250);
+        }
+        // 文件类型
+        switch (reqVo.getType()) {
+            case IMAGE:
+                lastMsg = BaseContextHandler.getName() + ":" + "图片";
+                break;
+            case VIDEO:
+                lastMsg = BaseContextHandler.getName() + ":" + "视频";
+                break;
+            case FILE:
+                lastMsg = BaseContextHandler.getName() + ":" + "文件";
+                break;
+            default:
+                break;
         }
         this.lambdaUpdate()
             .eq(ImConversation::getId, reqVo.getConversationId())

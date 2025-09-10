@@ -4,7 +4,6 @@ import { UserLayoutContext } from '@features/fa-admin-pages/layout';
 import { fileSaveApi } from '@features/fa-admin-pages/services';
 import { imConversationApi, imMessageApi } from '@features/fa-im-pages/services';
 import { Im, ImEnums } from '@features/fa-im-pages/types';
-import { AxiosProgressEvent } from 'axios';
 import { Badge, Button, Empty, Input, Space, Splitter } from 'antd';
 import clsx from 'clsx';
 import { isNil } from 'lodash';
@@ -13,6 +12,8 @@ import ImChatMsg from './ImChatMsg';
 import useBus, { dispatch } from 'use-bus';
 import ImChatCover from './ImChatCover';
 import dayjs from 'dayjs';
+
+const { ImMessageTypeEnum } = ImEnums;
 
 /**
  * 格式化聊天会话的最后更新时间
@@ -162,6 +163,14 @@ export default function ImChatMsgPanel() {
             if (item.id === `${data.conversationId}`) {
               // 如果是当前打开的聊天窗口，则设置未读消息数量为0
               const unreadCount = item.id === convSel?.id ? 0 : item.unreadCount + 1
+              let content = data.content;
+              if (data.type === ImMessageTypeEnum.IMAGE) {
+                content = '图片'
+              } else if (data.type === ImMessageTypeEnum.VIDEO) {
+                content = '视频'
+              } else if (data.type === ImMessageTypeEnum.FILE) {
+                content = '文件'
+              }
               return {
                 ...item,
                 lastMsg: data.crtName + ":" + data.content,
@@ -221,6 +230,12 @@ export default function ImChatMsgPanel() {
 
       // 遍历所有选中的文件
       Array.from(files).forEach(file => {
+        let type = ImEnums.ImMessageTypeEnum.FILE
+        if (FaUtils.isImageByFileName(file.name)) {
+          type = ImEnums.ImMessageTypeEnum.IMAGE
+        } else if (FaUtils.isVideoByFileName(file.name)) {
+          type = ImEnums.ImMessageTypeEnum.VIDEO
+        }
         // 先将文件上传到服务器
         fileSaveApi.uploadFile(file, (progress: any) => {
           const percent = (progress.loaded / progress.total * 100).toFixed(2);
@@ -232,7 +247,7 @@ export default function ImChatMsgPanel() {
             // 上传成功后，发送消息
             imConversationApi.sendMsg({
               conversationId: convSel.id,
-              type: ImEnums.ImMessageTypeEnum.FILE,
+              type,
               content: JSON.stringify({
                 fileId: fileInfo.id,
                 fileName: fileInfo.originalFilename,
