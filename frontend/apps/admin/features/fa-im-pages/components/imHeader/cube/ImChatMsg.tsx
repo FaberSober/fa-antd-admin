@@ -1,9 +1,10 @@
 import { UserLayoutContext } from '@features/fa-admin-pages/layout';
 import { fileSaveApi } from '@features/fa-admin-pages/services';
 import { Im } from '@features/fa-im-pages/types';
-import { Avatar } from 'antd';
+import { Avatar, Popover } from 'antd';
 import React, { useContext } from 'react';
 import ImChatMsgContent from './ImChatMsgContent';
+import ImUserView from './ImUserView';
 
 export interface ImChatMsgProps {
   msg: Im.ImMessageShow;
@@ -32,7 +33,9 @@ export default function ImChatMsg({ msg }: ImChatMsgProps) {
   // send by others
   return (
     <div className='fa-flex-row fa-im-wx-msg-item'>
-      <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(msg.senderUserImg)} alt={msg.crtName} />} className='fa-im-wx-msg-header' size={36} />
+      <Popover content={<ImUserView userId={msg.senderId} />} trigger="click" placement='rightTop'>
+        <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(msg.senderUserImg)} alt={msg.crtName} />} className='fa-im-wx-msg-header' size={36} />
+      </Popover>
 
       <div className='fa-ml12'>
         <div className='fa-im-wx-msg-other-sender-name'>{msg.crtName}</div>

@@ -71,6 +71,7 @@ export default function ImChatMsgPanel() {
     getConvList();
   }, []);
 
+  /** 点击聊天item */
   function handleClickConv(conv: Im.ImConversationRetVo) {
     if (isNil(conv)) return;
     // 设置选中的聊天
@@ -88,6 +89,7 @@ export default function ImChatMsgPanel() {
     }
   }
 
+  /** 发送消息 */
   function handleSendMsg() {
     if (isNil(convSel) || !messageText.trim()) return;
 
@@ -161,7 +163,7 @@ export default function ImChatMsgPanel() {
     })
   }
 
-  // 接收消息
+  /** 接收消息: @@ws/RECEIVE/IM */
   useBus(
     ['@@ws/RECEIVE/IM'],
     ({ type, payload }) => {
@@ -228,6 +230,25 @@ export default function ImChatMsgPanel() {
       }
     },
     [convSel, convList],
+  )
+
+  /** 接收消息: @@event/CREATE_NEW_SINGLE */
+  useBus(
+    ['@@event/CREATE_NEW_SINGLE'],
+    ({ type, payload }) => {
+      console.log('callback', type, payload)
+      const data = payload as Im.ImConversationRetVo
+      const findConv = convList.find(i => i.id === data.id)
+      if (findConv) {
+        handleClickConv(findConv)
+      } else {
+        setConvList(prev => ([
+          { ...data },
+          ...prev
+        ]))
+      }
+    },
+    [convList],
   )
 
   /** upload file */
