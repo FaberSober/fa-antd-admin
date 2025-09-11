@@ -8,8 +8,7 @@
         SELECT c.*, t.title as conv_title, t.unread_count, t.last_read_message_id
         FROM im_participant t
         INNER JOIN im_conversation c on t.conversation_id = c.id
-        WHERE t.deleted = FALSE
-        AND c.deleted = FALSE
+        WHERE c.deleted = FALSE
         AND t.user_id = #{userId}
         <if test="query.conversationId != null and query.conversationId.trim() != ''">
             and t.conversation_id = #{query.conversationId}
@@ -25,8 +24,7 @@
         SELECT sum(t.unread_count) as count
         FROM im_participant t
         LEFT JOIN im_conversation c ON t.conversation_id = c.id
-        WHERE t.deleted = FALSE
-        AND c.deleted = FALSE
+        WHERE c.deleted = FALSE
         AND t.user_id = #{userId}
     </select>
 

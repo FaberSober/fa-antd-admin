@@ -12,6 +12,7 @@ import ImChatMsg from './ImChatMsg';
 import useBus, { dispatch } from 'use-bus';
 import ImChatCover from './ImChatCover';
 import dayjs from 'dayjs';
+import ImChatDetail from './ImChatDetail';
 
 const { ImMessageTypeEnum } = ImEnums;
 
@@ -279,42 +280,6 @@ export default function ImChatMsgPanel() {
     input.click();
   }
 
-  /** 群聊添加用户 */
-  function handleAddUsers(users: SelectedUser[], callback: any, error: any) {
-    console.log('handleAddUsers', users)
-    if (isNil(convSel)) {
-      callback();
-      return;
-    }
-    const userIds = users.map(i => i.id)
-    // 如果是单聊，则创建一个新的群聊
-    if (convSel.type == ImEnums.ImConversationTypeEnum.SINGLE) {
-      imConversationApi.createNewGroup({ userIds }).then(res => {
-        FaUtils.showResponse(res, '创建群聊')
-        setConvList(prev => ([
-          { ...res.data, unreadCount: 0, convTitle: '群聊' },
-          ...prev,
-        ]))
-        callback();
-      }).catch(() => callback())
-    } else {
-      // 如果是群聊，则添加用户
-      // 过滤已经加入的用户
-      const inUserIds = getConvUsers(convSel).map(i => i.id);
-      const addUserIds = userIds.filter(i => !inUserIds.includes(i))
-      imConversationApi.addGroupUsers({ userIds: addUserIds, conversationId: convSel.id }).then(res => {
-        FaUtils.showResponse(res, '添加群聊用户')
-        setConvList(prev => prev.map(i => i.id === res.data.id ? { ...i, ...res.data } : i))
-        callback();
-      }).catch(() => callback())
-      callback();
-    }
-  }
-
-  function getConvUsers(conv: Im.ImConversationRetVo):{id:string,name:string,img:string}[] {
-    return JSON.parse(conv.cover)
-  }
-
   return (
     <Splitter>
       {/* left item */}
@@ -328,11 +293,11 @@ export default function ImChatMsgPanel() {
                 </Badge>
                 <div className='fa-ml12 fa-flex-1'>
                   <div className='fa-flex-row-center'>
-                    <div className='fa-flex-1 fa-word-ellipse'>{conv.convTitle}</div>
+                    <div className='fa-flex-1 fa-word-ellipse fa-im-wx-conv-item-title'>{conv.convTitle}</div>
                     {/* 最后更新时间：如果是今天，则展示HH:mm；如果是最近7天，则展示星期几；如果超过7天但是同一年的，则展示MM-DD；如果超过7天且不是同一年，则展示YYYY-MM-DD  */}
-                    <div>{formatConversationTime(conv.updTime)}</div>
+                    <div className='fa-im-wx-conv-item-right-time'>{formatConversationTime(conv.updTime)}</div>
                   </div>
-                  <div className='fa-word-ellipse'>{conv.lastMsg}</div>
+                  <div className='fa-word-ellipse fa-im-wx-conv-item-last-msg'>{conv.lastMsg}</div>
                 </div>
               </div>
             )
@@ -355,29 +320,24 @@ export default function ImChatMsgPanel() {
                   width={300}
                   title="聊天详情"
                 >
-                  <div className='fa-full-content'>
-                    <div className='fa-flex-row fa-flex-wrap fa-p12' style={{gap: 12}}>
-                      {getConvUsers(convSel).map((item) => {
-                        return (
-                          <div key={item.id} className='fa-flex-column-center fa-base-btn' style={{padding: 2, borderRadius: 2}}>
-                            <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(item.img)} />} size={36} />
-                            <Tooltip title={item.name} placement='bottom'>
-                              <div className='fa-word-ellipse fa-text-center' style={{fontSize: '11px', width: 40, marginTop: 2}}>{item.name}</div>
-                            </Tooltip>
-                          </div>
-                        )
-                      })}
-                      <div className='fa-flex-column-center' style={{padding: 2, borderRadius: 2}}>
-                        <BizUserSelect onChange={handleAddUsers} selectedUsers={getConvUsers(convSel).map(i => ({ id: i.id, allowRemove: false }))}>
-                          <div className='fa-im-wx-conv-add-user-btn fa-base-btn'>
-                            <PlusOutlined style={{fontSize: '16px'}} />
-                          </div>
-                        </BizUserSelect>
-                      </div>
-                    </div>
-                  </div>
+                  <ImChatDetail
+                    conv={convSel}
+                    onCreateNewConv={nc => {
+                      const newConv = { ...nc, unreadCount: 0, convTitle: '群聊' }
+                      setConvList(prev => ([
+                        newConv,
+                        ...prev,
+                      ]))
+                      handleClickConv(newConv) // 选中刚创建的新聊天
+                    }}
+                    onUpdateConv={nc => {
+                      setConvList(prev => prev.map(i => i.id === nc.id ? { ...i, ...nc } : i))
+                    }}
+                  />
                 </BaseDrawer>
               </div>
+
+              {/* msg list panel */}
               <FaFlexRestLayout>
                 <Splitter layout="vertical">
                   {/* msg list */}
@@ -394,7 +354,7 @@ export default function ImChatMsgPanel() {
                   </Splitter.Panel>
 
                   {/* bottom tool & input */}
-                  <Splitter.Panel defaultSize={200} max={260} min={120}>
+                  <Splitter.Panel defaultSize={150} max={260} min={100}>
                     <div className='fa-full fa-flex-column fa-p12'>
                       <Space>
                         <Button type="text" icon={<SmileOutlined />} />

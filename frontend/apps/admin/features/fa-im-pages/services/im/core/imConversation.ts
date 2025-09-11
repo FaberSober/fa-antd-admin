@@ -27,7 +27,7 @@ class Api extends BaseApi<Im.ImConversation, string> {
   getUnreadCount = (): Promise<Fa.Ret<number>> => this.get('getUnreadCount');
 
   /** 获取聊天参与者 */
-  getParticipant = (params: {conversationId: string, limit: number}): Promise<Fa.Ret<boolean>> => this.post('getParticipant', params);
+  getParticipant = (params: {conversationId: string, limit: number}): Promise<Fa.Ret<Im.ImParticipant[]>> => this.post('getParticipant', params);
 
 }
 
