@@ -7,6 +7,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.faber.api.im.core.entity.ImConversation;
+import com.faber.api.im.core.entity.ImParticipant;
+import com.faber.api.im.core.vo.req.ImConversationGetParticipantReqVo;
 import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
 import com.faber.api.im.core.vo.ret.ImConversationRetVo;
 
@@ -25,4 +27,5 @@ public interface ImConversationMapper extends FaBaseMapper<ImConversation> {
 
     void updateUnreadByConvId(@Param("conversationId") Long conversationId, @Param("excludeUserId") String excludeUserId);
 
+    List<ImParticipant> getParticipant(@Param("query") ImConversationGetParticipantReqVo reqVo);
 }

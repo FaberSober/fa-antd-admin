@@ -64,7 +64,7 @@ namespace Im {
   }
 
   /** IM-会话参与者表 */
-  export interface ImParticipant extends Fa.BaseDelEntity {
+  export interface ImParticipant extends Fa.BaseCrtEntity {
     /** ID */
     id: string;
     /** 会话ID */
@@ -77,6 +77,11 @@ namespace Im {
     unreadCount: number;
     /** 用户标题 */
     title: string;
+    // ------------- show cols -------------
+    /** 用户姓名 */
+    name: string;
+    /** 用户头像 */
+    img: string;
   }
 
   // ----------------------------------------- request -----------------------------------------

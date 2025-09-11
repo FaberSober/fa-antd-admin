@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.faber.api.im.core.biz.ImConversationBiz;
 import com.faber.api.im.core.entity.ImConversation;
 import com.faber.api.im.core.entity.ImMessage;
+import com.faber.api.im.core.entity.ImParticipant;
 import com.faber.api.im.core.vo.req.ImConversationAddGroupUsersReqVo;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewGroupReqVo;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
+import com.faber.api.im.core.vo.req.ImConversationGetParticipantReqVo;
 import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
 import com.faber.api.im.core.vo.req.ImConversationSendMsgReqVo;
 import com.faber.api.im.core.vo.req.ImConversationUpdateReadReqVo;
@@ -92,6 +94,14 @@ public class ImConversationController extends BaseController<ImConversationBiz, 
     public Ret<Integer> getUnreadCount() {
         Integer o = baseBiz.getUnreadCount();
         return ok(o);
+    }
+
+    @FaLogOpr(value = "获取聊天参与者", crud = LogCrudEnum.C)
+    @RequestMapping(value = "/getParticipant", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<List<ImParticipant>> getParticipant(@Validated(value = Vg.Crud.C.class) @RequestBody ImConversationGetParticipantReqVo reqVo) {
+        List<ImParticipant> list = baseBiz.getParticipant(reqVo);
+        return ok(list);
     }
 
 }

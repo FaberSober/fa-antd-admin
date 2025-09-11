@@ -40,4 +40,14 @@
         </if>
     </update>
 
+    <!-- getParticipant --> 
+    <select id="getParticipant" resultType="com.faber.api.im.core.entity.ImParticipant">
+        SELECT t.*, u.name, u.img
+        FROM im_participant t
+        LEFT JOIN base_user u ON t.user_id = u.id
+        WHERE t.conversation_id = #{query.conversationId}
+        ORDER BY t.id ASC
+        LIMIT #{query.limit}
+    </select>
+
 </mapper>

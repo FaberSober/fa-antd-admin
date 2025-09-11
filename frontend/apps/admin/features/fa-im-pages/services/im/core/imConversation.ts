@@ -26,6 +26,9 @@ class Api extends BaseApi<Im.ImConversation, string> {
   /** 获取未读消息数量 */
   getUnreadCount = (): Promise<Fa.Ret<number>> => this.get('getUnreadCount');
 
+  /** 获取聊天参与者 */
+  getParticipant = (params: {conversationId: string, limit: number}): Promise<Fa.Ret<boolean>> => this.post('getParticipant', params);
+
 }
 
 export default new Api(GATE_APP.im.core, 'imConversation');

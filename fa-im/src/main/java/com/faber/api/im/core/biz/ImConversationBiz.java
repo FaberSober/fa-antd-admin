@@ -19,6 +19,7 @@ import com.faber.api.im.core.mapper.ImConversationMapper;
 import com.faber.api.im.core.vo.req.ImConversationAddGroupUsersReqVo;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewGroupReqVo;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
+import com.faber.api.im.core.vo.req.ImConversationGetParticipantReqVo;
 import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
 import com.faber.api.im.core.vo.req.ImConversationSendMsgReqVo;
 import com.faber.api.im.core.vo.ret.ImConversationRetVo;
@@ -302,4 +303,7 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
         return baseMapper.countUnreadByUserId(getCurrentUserId());
     }
 
+    public List<ImParticipant> getParticipant(ImConversationGetParticipantReqVo reqVo) {
+        return baseMapper.getParticipant(reqVo);
+    }
 }
