@@ -60,6 +60,9 @@ export default function ImChatMsgPanel() {
   function getConvList() {
     imConversationApi.listQuery({}).then(res => {
       setConvList(res.data)
+      if (isNil(convSel)) {
+        handleClickConv(res.data[0])
+      }
     })
   }
 
