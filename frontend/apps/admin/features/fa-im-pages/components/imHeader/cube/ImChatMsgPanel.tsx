@@ -1,18 +1,18 @@
-import { EllipsisOutlined, FolderOutlined, MessageOutlined, PlusOutlined, SmileOutlined } from '@ant-design/icons';
-import { BaseDrawer, BizUserSelect, FaFlexRestLayout, FaUtils, SelectedUser } from '@fa/ui';
+import { EllipsisOutlined, FolderOutlined, MessageOutlined, SmileOutlined } from '@ant-design/icons';
+import { BaseDrawer, FaFlexRestLayout, FaUtils } from '@fa/ui';
 import { UserLayoutContext } from '@features/fa-admin-pages/layout';
 import { fileSaveApi } from '@features/fa-admin-pages/services';
 import { imConversationApi, imMessageApi } from '@features/fa-im-pages/services';
 import { Im, ImEnums } from '@features/fa-im-pages/types';
-import { Avatar, Badge, Button, Empty, Input, Space, Splitter, Tooltip } from 'antd';
+import { Badge, Button, Empty, Input, Space, Splitter } from 'antd';
 import clsx from 'clsx';
+import dayjs from 'dayjs';
 import { isNil } from 'lodash';
 import { useContext, useEffect, useState } from 'react';
-import ImChatMsg from './ImChatMsg';
 import useBus, { dispatch } from 'use-bus';
 import ImChatCover from './ImChatCover';
-import dayjs from 'dayjs';
 import ImChatDetail from './ImChatDetail';
+import ImChatMsg from './ImChatMsg';
 
 const { ImMessageTypeEnum } = ImEnums;
 

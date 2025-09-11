@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.api.im.core.enums.ImConversationTypeEnum;
 import com.faber.core.annotation.FaModalName;
+import com.faber.core.annotation.SqlEquals;
 import com.faber.core.bean.BaseDelEntity;
 
 import lombok.Data;
@@ -43,5 +44,9 @@ public class ImConversation extends BaseDelEntity {
 
     @ExcelProperty("最新一条消息")
     private String lastMsg;
+
+    @SqlEquals
+    @ExcelProperty("管理员ID")
+    private String managerId;
     
 }

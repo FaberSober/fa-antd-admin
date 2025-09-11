@@ -115,13 +115,15 @@ export default function ImChatDetail({ conv, onCreateNewConv, onUpdateConv }: Im
           </BizUserSelect>
         </div>
         {/* 移除用户按钮 */}
-        <div className='fa-flex-column-center' style={{padding: 2, borderRadius: 2}}>
-          <RemoveUserListModal userList={getAllUsers().filter(i => i.id !== user.id)} onRemove={handleRemoveUsers}>
-            <div className='fa-im-wx-conv-add-user-btn fa-base-btn'>
-              <MinusOutlined style={{fontSize: '16px'}} />
-            </div>
-          </RemoveUserListModal>
-        </div>
+        {conv.managerId === user.id && (
+          <div className='fa-flex-column-center' style={{padding: 2, borderRadius: 2}}>
+            <RemoveUserListModal userList={getAllUsers().filter(i => i.id !== user.id)} onRemove={handleRemoveUsers}>
+              <div className='fa-im-wx-conv-add-user-btn fa-base-btn'>
+                <MinusOutlined style={{fontSize: '16px'}} />
+              </div>
+            </RemoveUserListModal>
+          </div>
+        )}
 
         {userTotal > showUserNum && (
           <div className='fa-flex-center fa-full-w'>

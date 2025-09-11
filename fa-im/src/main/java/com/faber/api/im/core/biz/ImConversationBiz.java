@@ -144,6 +144,7 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
         conversation.setType(ImConversationTypeEnum.GROUP);
         conversation.setTitle("群聊");
         conversation.setCover(imgArr.toString());
+        conversation.setManagerId(getCurrentUserId()); // 管理员为创建人
         this.save(conversation);
 
         // save conversation user link

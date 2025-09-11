@@ -18,6 +18,8 @@ namespace Im {
     cover: string;
     /** 最新一条消息 */
     lastMsg?: string;
+    /** 管理员ID */
+    managerId?: string;
   }
 
   /** IM-消息表 */
