@@ -17,6 +17,9 @@ class Api extends BaseApi<Im.ImConversation, string> {
   /** 移出群聊 */
   removeGroupUsers = (params: {userIds: string[], conversationId: string}): Promise<Fa.Ret<Im.ImConversation>> => this.post('removeGroupUsers', params);
 
+  /** 重命名群聊 */
+  renameGroup = (params: {title: string, conversationId: string}): Promise<Fa.Ret<Im.ImConversation>> => this.post('renameGroup', params);
+
   /** 聊天查询 */
   listQuery = (params: {title?: string, conversationId?: string}): Promise<Fa.Ret<Im.ImConversationRetVo[]>> => this.post('listQuery', params);
 

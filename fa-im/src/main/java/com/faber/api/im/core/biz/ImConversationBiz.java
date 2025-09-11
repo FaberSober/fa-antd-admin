@@ -22,6 +22,7 @@ import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
 import com.faber.api.im.core.vo.req.ImConversationGetParticipantReqVo;
 import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
 import com.faber.api.im.core.vo.req.ImConversationRemoveGroupUsersReqVo;
+import com.faber.api.im.core.vo.req.ImConversationRenameReqVo;
 import com.faber.api.im.core.vo.req.ImConversationSendMsgReqVo;
 import com.faber.api.im.core.vo.ret.ImConversationRetVo;
 import com.faber.config.websocket.WsHolder;
@@ -138,11 +139,13 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
         // 聊天封面图片，为参加聊天的用户头像数组
         JSONArray imgArr = getUserImgs(userIds);
 
+        String title = BaseContextHandler.getName() + "发起的群聊";
+
         // create new conversation
         ImConversation conversation = new ImConversation();
         conversation.setUserIds("[]");
         conversation.setType(ImConversationTypeEnum.GROUP);
-        conversation.setTitle("群聊");
+        conversation.setTitle(title);
         conversation.setCover(imgArr.toString());
         conversation.setManagerId(getCurrentUserId()); // 管理员为创建人
         this.save(conversation);
@@ -153,7 +156,7 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
             ImParticipant participant = new ImParticipant();
             participant.setConversationId(conversation.getId());
             participant.setUserId(userId);
-            participant.setTitle("群聊"); // 存群聊名称
+            participant.setTitle(""); // 存群聊名称
             participant.setUnreadCount(0);
             participantList.add(participant);
         }
@@ -249,6 +252,16 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
 
         // TODO websocket通知群聊用户更新群聊
 
+        return conversation;
+    }
+
+    public ImConversation renameGroup(ImConversationRenameReqVo reqVo) {
+        ImConversation conversation = this.getById(reqVo.getConversationId());
+        lambdaUpdate()
+            .eq(ImConversation::getId, conversation.getId())
+            .set(ImConversation::getTitle, reqVo.getTitle())
+            .update();
+        conversation.setTitle(reqVo.getTitle());
         return conversation;
     }
 

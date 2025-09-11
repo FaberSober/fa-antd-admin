@@ -19,6 +19,7 @@ import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
 import com.faber.api.im.core.vo.req.ImConversationGetParticipantReqVo;
 import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
 import com.faber.api.im.core.vo.req.ImConversationRemoveGroupUsersReqVo;
+import com.faber.api.im.core.vo.req.ImConversationRenameReqVo;
 import com.faber.api.im.core.vo.req.ImConversationSendMsgReqVo;
 import com.faber.api.im.core.vo.req.ImConversationUpdateReadReqVo;
 import com.faber.api.im.core.vo.ret.ImConversationRetVo;
@@ -72,6 +73,14 @@ public class ImConversationController extends BaseController<ImConversationBiz, 
     @ResponseBody
     public Ret<ImConversation> removeGroupUsers(@Validated(value = Vg.Crud.C.class) @RequestBody ImConversationRemoveGroupUsersReqVo reqVo) {
         ImConversation data = baseBiz.removeGroupUsers(reqVo);
+        return ok(data);
+    }
+
+    @FaLogOpr(value = "重命名群聊", crud = LogCrudEnum.C)
+    @RequestMapping(value = "/renameGroup", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<ImConversation> renameGroup(@Validated(value = Vg.Crud.C.class) @RequestBody ImConversationRenameReqVo reqVo) {
+        ImConversation data = baseBiz.renameGroup(reqVo);
         return ok(data);
     }
 

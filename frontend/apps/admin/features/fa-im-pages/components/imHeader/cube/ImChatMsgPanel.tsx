@@ -72,6 +72,7 @@ export default function ImChatMsgPanel() {
   }, []);
 
   function handleClickConv(conv: Im.ImConversationRetVo) {
+    if (isNil(conv)) return;
     // 设置选中的聊天
     setConvSel(conv)
     // 查询消息列表
@@ -301,7 +302,7 @@ export default function ImChatMsgPanel() {
                 </Badge>
                 <div className='fa-ml12 fa-flex-1'>
                   <div className='fa-flex-row-center'>
-                    <div className='fa-flex-1 fa-word-ellipse fa-im-wx-conv-item-title'>{conv.convTitle}</div>
+                    <div className='fa-flex-1 fa-word-ellipse fa-im-wx-conv-item-title'>{conv.type === ImEnums.ImConversationTypeEnum.GROUP ? conv.title : conv.convTitle}</div>
                     {/* 最后更新时间：如果是今天，则展示HH:mm；如果是最近7天，则展示星期几；如果超过7天但是同一年的，则展示MM-DD；如果超过7天且不是同一年，则展示YYYY-MM-DD  */}
                     <div className='fa-im-wx-conv-item-right-time'>{formatConversationTime(conv.updTime)}</div>
                   </div>

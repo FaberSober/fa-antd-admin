@@ -5,7 +5,8 @@ import { RemoveUserListModal } from '@features/fa-admin-pages/components';
 import { fileSaveApi } from '@features/fa-admin-pages/services';
 import { imConversationApi } from '@features/fa-im-pages/services';
 import { Im, ImEnums } from '@features/fa-im-pages/types';
-import { Avatar, Tooltip } from 'antd';
+import { Avatar, Divider, Input, message, Tooltip } from 'antd';
+import { trim } from 'lodash';
 import React, { useContext, useEffect, useState } from 'react';
 
 export interface ImChatDetailProps {
@@ -92,6 +93,21 @@ export default function ImChatDetail({ conv, onCreateNewConv, onUpdateConv }: Im
     setShowAll(!showAll)
   }
 
+  function handleRenameGroupTitle(title: any) {
+    if (trim(title) === '') {
+      message.error('标题不可为空')
+      return;
+    }
+    if (trim(title).length > 100) {
+      message.error('标题长度不可超过100个字符')
+      return;
+    }
+    imConversationApi.renameGroup({ conversationId: conv.id, title: trim(title) }).then(res => {
+      FaUtils.showResponse(res, '重命名群聊')
+    })
+  }
+
+  const isGroupChat = conv.type === ImEnums.ImConversationTypeEnum.GROUP;
   return (
     <div className='fa-full-content'>
       <div className='fa-flex-row fa-flex-wrap fa-p12' style={{gap: 12}}>
@@ -133,6 +149,16 @@ export default function ImChatDetail({ conv, onCreateNewConv, onUpdateConv }: Im
               ) : (
                 <div className='fa-flex-row-center'>查看更多<DownOutlined /></div>
               )}
+            </div>
+          </div>
+        )}
+
+        <Divider size='small' />
+        {isGroupChat && (
+          <div>
+            <div className='fa-mb6'>群聊名称</div>
+            <div>
+              <Input defaultValue={conv.title} variant="filled" size='small'onBlur={(e) => handleRenameGroupTitle(e.target.value)} />
             </div>
           </div>
         )}
