@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { DownOutlined, PlusOutlined, UpOutlined } from '@ant-design/icons';
 import { BaseDrawerContext, BizUserSelect, FaUtils, SelectedUser } from '@fa/ui';
 import { fileSaveApi } from '@features/fa-admin-pages/services';
 import { imConversationApi } from '@features/fa-im-pages/services';
@@ -24,14 +24,18 @@ export default function ImChatDetail({ conv, onCreateNewConv, onUpdateConv }: Im
   const {closeDrawer} = useContext(BaseDrawerContext)
   const [showAll, setShowAll] = useState(false);
   const [users, setUsers] = useState<Im.ImParticipant[]>([]);
+  const [userTotal, setUserTotal] = useState(0);
+
+  const showUserNum = 15; // 如果普通用户，则展示15个，如果是群管理员，则展示14个用户
 
   useEffect(() => {
     getParticipants()
   }, [conv]);
 
-  function getParticipants() {
-    imConversationApi.getParticipant({ conversationId: conv.id, limit: showAll ? 999 : 15 }).then(res => {
-      setUsers(res.data)
+  function getParticipants(limit = showUserNum) {
+    imConversationApi.getParticipant({ query: { conversationId: conv.id }, pageSize: limit }).then(res => {
+      setUsers(res.data.rows)
+      setUserTotal(res.data.pagination.total)
     })
   }
 
@@ -68,6 +72,13 @@ export default function ImChatDetail({ conv, onCreateNewConv, onUpdateConv }: Im
     return users.map(i => ({ id: i.userId, name: i.name, img: i.img }));
   }
 
+  function handleToggleViewMore() {
+    const newFlag = !showAll;
+    setShowAll(newFlag)
+    const limit = newFlag ? 999 : showUserNum;
+    getParticipants(limit)
+  }
+
   return (
     <div className='fa-full-content'>
       <div className='fa-flex-row fa-flex-wrap fa-p12' style={{gap: 12}}>
@@ -92,9 +103,17 @@ export default function ImChatDetail({ conv, onCreateNewConv, onUpdateConv }: Im
         </div>
         {/* TODO 移除用户按钮 */}
 
-        <div className='fa-flex-center fa-full-w'>
-          <div style={{fontSize: '12px', padding: '2px 6px'}} className='fa-base-btn fa-radius'>查看更多</div>
-        </div>
+        {userTotal > showUserNum && (
+          <div className='fa-flex-center fa-full-w'>
+            <div onClick={handleToggleViewMore} style={{fontSize: '12px', padding: '2px 6px'}} className='fa-base-btn fa-radius'>
+              {showAll ? (
+                <div className='fa-flex-row-center'>收起<UpOutlined /></div>
+              ) : (
+                <div className='fa-flex-row-center'>查看更多<DownOutlined /></div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

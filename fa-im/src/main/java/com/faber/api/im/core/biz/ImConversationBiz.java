@@ -27,7 +27,11 @@ import com.faber.config.websocket.WsHolder;
 import com.faber.core.context.BaseContextHandler;
 import com.faber.core.enums.WsTypeEnum;
 import com.faber.core.exception.BuzzException;
+import com.faber.core.vo.msg.TableRet;
+import com.faber.core.vo.query.BasePageQuery;
 import com.faber.core.web.biz.BaseBiz;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
@@ -303,7 +307,9 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
         return baseMapper.countUnreadByUserId(getCurrentUserId());
     }
 
-    public List<ImParticipant> getParticipant(ImConversationGetParticipantReqVo reqVo) {
-        return baseMapper.getParticipant(reqVo);
+    public TableRet<ImParticipant> getParticipant(BasePageQuery<ImConversationGetParticipantReqVo> query) {
+        PageInfo<ImParticipant> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
+                .doSelectPageInfo(() -> baseMapper.getParticipant(query.getQuery()));
+        return new TableRet<>(info);
     }
 }

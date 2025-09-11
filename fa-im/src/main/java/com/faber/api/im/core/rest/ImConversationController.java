@@ -26,6 +26,8 @@ import com.faber.core.annotation.FaLogOpr;
 import com.faber.core.config.validator.validator.Vg;
 import com.faber.core.enums.LogCrudEnum;
 import com.faber.core.vo.msg.Ret;
+import com.faber.core.vo.msg.TableRet;
+import com.faber.core.vo.query.BasePageQuery;
 import com.faber.core.web.rest.BaseController;
 
 /**
@@ -99,9 +101,8 @@ public class ImConversationController extends BaseController<ImConversationBiz, 
     @FaLogOpr(value = "获取聊天参与者", crud = LogCrudEnum.C)
     @RequestMapping(value = "/getParticipant", method = RequestMethod.POST)
     @ResponseBody
-    public Ret<List<ImParticipant>> getParticipant(@Validated(value = Vg.Crud.C.class) @RequestBody ImConversationGetParticipantReqVo reqVo) {
-        List<ImParticipant> list = baseBiz.getParticipant(reqVo);
-        return ok(list);
+    public TableRet<ImParticipant> getParticipant(@RequestBody BasePageQuery<ImConversationGetParticipantReqVo> reqVo) {
+        return baseBiz.getParticipant(reqVo);
     }
 
 }

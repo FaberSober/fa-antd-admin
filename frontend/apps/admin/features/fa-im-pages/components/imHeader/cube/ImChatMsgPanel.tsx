@@ -110,17 +110,25 @@ export default function ImChatMsgPanel() {
       }
     ])
 
-    // 更新聊天列表最新消息
+    // 更新聊天列表最新消息，同时将本聊天置顶
     setConvList(prev => {
-      return prev.map(item => {
+      const newArr = prev.map(item => {
         if (item.id === `${convSel.id}`) {
           return {
             ...item,
             lastMsg: messageText,
+            updTime: FaUtils.getCurDateTime(),
           }
         }
         return item
       })
+      // 将data.conversationId移动到第一个位置
+      const targetIndex = newArr.findIndex(item => item.id === `${convSel.id}`);
+      if (targetIndex !== -1) {
+        const [targetItem] = newArr.splice(targetIndex, 1);
+        newArr.unshift(targetItem);
+      }
+      return newArr;
     })
 
     // 实现发送消息逻辑

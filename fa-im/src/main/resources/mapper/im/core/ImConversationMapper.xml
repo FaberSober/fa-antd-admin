@@ -44,8 +44,7 @@
         FROM im_participant t
         LEFT JOIN base_user u ON t.user_id = u.id
         WHERE t.conversation_id = #{query.conversationId}
-        ORDER BY t.id ASC
-        LIMIT #{query.limit}
+        ORDER BY t.crt_time ASC
     </select>
 
 </mapper>
