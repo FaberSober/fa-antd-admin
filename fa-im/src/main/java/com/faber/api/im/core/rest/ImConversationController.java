@@ -18,6 +18,7 @@ import com.faber.api.im.core.vo.req.ImConversationCreateNewGroupReqVo;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
 import com.faber.api.im.core.vo.req.ImConversationGetParticipantReqVo;
 import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
+import com.faber.api.im.core.vo.req.ImConversationRemoveGroupUsersReqVo;
 import com.faber.api.im.core.vo.req.ImConversationSendMsgReqVo;
 import com.faber.api.im.core.vo.req.ImConversationUpdateReadReqVo;
 import com.faber.api.im.core.vo.ret.ImConversationRetVo;
@@ -63,6 +64,14 @@ public class ImConversationController extends BaseController<ImConversationBiz, 
     @ResponseBody
     public Ret<ImConversation> addGroupUsers(@Validated(value = Vg.Crud.C.class) @RequestBody ImConversationAddGroupUsersReqVo reqVo) {
         ImConversation data = baseBiz.addGroupUsers(reqVo);
+        return ok(data);
+    }
+
+    @FaLogOpr(value = "移出群聊", crud = LogCrudEnum.C)
+    @RequestMapping(value = "/removeGroupUsers", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<ImConversation> removeGroupUsers(@Validated(value = Vg.Crud.C.class) @RequestBody ImConversationRemoveGroupUsersReqVo reqVo) {
+        ImConversation data = baseBiz.removeGroupUsers(reqVo);
         return ok(data);
     }
 

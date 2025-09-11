@@ -1,5 +1,7 @@
-import { DownOutlined, PlusOutlined, UpOutlined } from '@ant-design/icons';
+import { UserLayoutContext } from '@/layout';
+import { DownOutlined, MinusOutlined, PlusOutlined, UpOutlined } from '@ant-design/icons';
 import { BaseDrawerContext, BizUserSelect, FaUtils, SelectedUser } from '@fa/ui';
+import { RemoveUserListModal } from '@features/fa-admin-pages/components';
 import { fileSaveApi } from '@features/fa-admin-pages/services';
 import { imConversationApi } from '@features/fa-im-pages/services';
 import { Im, ImEnums } from '@features/fa-im-pages/types';
@@ -21,6 +23,7 @@ export interface ImChatDetailProps {
  * @date 2025-09-11 11:12:45
  */
 export default function ImChatDetail({ conv, onCreateNewConv, onUpdateConv }: ImChatDetailProps) {
+  const {user} = useContext(UserLayoutContext)
   const {closeDrawer} = useContext(BaseDrawerContext)
   const [showAll, setShowAll] = useState(false);
   const [users, setUsers] = useState<Im.ImParticipant[]>([]);
@@ -32,8 +35,8 @@ export default function ImChatDetail({ conv, onCreateNewConv, onUpdateConv }: Im
     getParticipants()
   }, [conv]);
 
-  function getParticipants(limit = showUserNum) {
-    imConversationApi.getParticipant({ query: { conversationId: conv.id }, pageSize: limit }).then(res => {
+  function getParticipants() {
+    imConversationApi.getParticipant({ query: { conversationId: conv.id }, pageSize: 999 }).then(res => {
       setUsers(res.data.rows)
       setUserTotal(res.data.pagination.total)
     })
@@ -55,7 +58,7 @@ export default function ImChatDetail({ conv, onCreateNewConv, onUpdateConv }: Im
     } else {
       // 如果是群聊，则添加用户
       // 过滤已经加入的用户
-      const inUserIds = getConvUsers(conv).map(i => i.id);
+      const inUserIds = getAllUsers().map(i => i.id);
       const addUserIds = userIds.filter(i => !inUserIds.includes(i))
       imConversationApi.addGroupUsers({ userIds: addUserIds, conversationId: conv.id }).then(res => {
         FaUtils.showResponse(res, '添加群聊用户')
@@ -67,23 +70,33 @@ export default function ImChatDetail({ conv, onCreateNewConv, onUpdateConv }: Im
     }
   }
 
-  function getConvUsers(conv: Im.ImConversationRetVo):{id:string,name:string,img:string}[] {
-    // return JSON.parse(conv.cover)
+  function handleRemoveUsers(removeUserList: SelectedUser[]) {
+    console.log('removeUserList', removeUserList)
+    const userIds = removeUserList.map(i => i.id)
+    return imConversationApi.removeGroupUsers({ conversationId: conv.id, userIds }).then(res => {
+      FaUtils.showResponse(res, '移出用户')
+      getParticipants()
+      onUpdateConv?.(res.data)
+    })
+  }
+
+  function getShowUsers() {
+    return users.map(i => ({ id: i.userId, name: i.name, img: i.img }));
+  }
+
+  function getAllUsers() {
     return users.map(i => ({ id: i.userId, name: i.name, img: i.img }));
   }
 
   function handleToggleViewMore() {
-    const newFlag = !showAll;
-    setShowAll(newFlag)
-    const limit = newFlag ? 999 : showUserNum;
-    getParticipants(limit)
+    setShowAll(!showAll)
   }
 
   return (
     <div className='fa-full-content'>
       <div className='fa-flex-row fa-flex-wrap fa-p12' style={{gap: 12}}>
         {/* 展示参与聊天的用户列表， TOOD 默认展示15个用户，点击查看更多，展示全部用户 */}
-        {getConvUsers(conv).map((item) => {
+        {getShowUsers().map((item) => {
           return (
             <div key={item.id} className='fa-flex-column-center fa-base-btn' style={{padding: 2, borderRadius: 2}}>
               <Avatar shape="square" src={<img src={fileSaveApi.genLocalGetFilePreview(item.img)} />} size={36} />
@@ -95,13 +108,20 @@ export default function ImChatDetail({ conv, onCreateNewConv, onUpdateConv }: Im
         })}
         {/* 添加用户按钮 */}
         <div className='fa-flex-column-center' style={{padding: 2, borderRadius: 2}}>
-          <BizUserSelect onChange={handleAddUsers} selectedUsers={getConvUsers(conv).map(i => ({ id: i.id, allowRemove: false }))}>
+          <BizUserSelect onChange={handleAddUsers} selectedUsers={getAllUsers().map(i => ({ id: i.id, allowRemove: false }))}>
             <div className='fa-im-wx-conv-add-user-btn fa-base-btn'>
               <PlusOutlined style={{fontSize: '16px'}} />
             </div>
           </BizUserSelect>
         </div>
-        {/* TODO 移除用户按钮 */}
+        {/* 移除用户按钮 */}
+        <div className='fa-flex-column-center' style={{padding: 2, borderRadius: 2}}>
+          <RemoveUserListModal userList={getAllUsers().filter(i => i.id !== user.id)} onRemove={handleRemoveUsers}>
+            <div className='fa-im-wx-conv-add-user-btn fa-base-btn'>
+              <MinusOutlined style={{fontSize: '16px'}} />
+            </div>
+          </RemoveUserListModal>
+        </div>
 
         {userTotal > showUserNum && (
           <div className='fa-flex-center fa-full-w'>

@@ -21,6 +21,7 @@ import com.faber.api.im.core.vo.req.ImConversationCreateNewGroupReqVo;
 import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
 import com.faber.api.im.core.vo.req.ImConversationGetParticipantReqVo;
 import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
+import com.faber.api.im.core.vo.req.ImConversationRemoveGroupUsersReqVo;
 import com.faber.api.im.core.vo.req.ImConversationSendMsgReqVo;
 import com.faber.api.im.core.vo.ret.ImConversationRetVo;
 import com.faber.config.websocket.WsHolder;
@@ -208,6 +209,44 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
             .eq(ImConversation::getId, conversation.getId())
             .set(ImConversation::getCover, imgArr.toString())
             .update();
+        
+        // TODO websocket通知群聊用户更新群聊
+
+        return conversation;
+    }
+
+    /** 移出群聊 */
+    @Transactional
+    public ImConversation removeGroupUsers(ImConversationRemoveGroupUsersReqVo reqVo) {
+        ImConversation conversation = this.getById(reqVo.getConversationId());
+
+        // 移出群聊
+        imParticipantBiz.lambdaUpdate()
+            .eq(ImParticipant::getConversationId, reqVo.getConversationId())
+            .in(ImParticipant::getUserId, reqVo.getUserIds())
+            .remove();
+
+        // update conversation cover
+        List<String> userIds = imParticipantBiz.lambdaQuery()
+            .eq(ImParticipant::getConversationId, reqVo.getConversationId())
+            .select(ImParticipant::getUserId)
+            .orderByAsc(ImParticipant::getCrtTime, ImParticipant::getUserId)
+            .last("limit 9") // 群聊封面最多展示9个用户头像
+            .list()
+            .stream().map(i -> i.getUserId()).toList();
+
+        // 更新群聊头像
+        JSONArray imgArr = getUserImgs(userIds);
+        conversation.setCover(imgArr.toString());
+
+        this.lambdaUpdate()
+            .eq(ImConversation::getId, conversation.getId())
+            .set(ImConversation::getCover, imgArr.toString())
+            .update();
+        
+        // TODO websocket通知移出群聊用户更新群聊
+
+        // TODO websocket通知群聊用户更新群聊
 
         return conversation;
     }
