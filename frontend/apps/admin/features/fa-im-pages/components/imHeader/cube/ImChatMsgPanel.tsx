@@ -304,7 +304,7 @@ export default function ImChatMsgPanel() {
                 menu={{
                   items: [
                     {key: 'hide', label: '不显示'},
-                    {key: 'delete', label: '删除', danger: true},
+                    // {key: 'delete', label: '删除', danger: true},
                   ],
                   onClick: (menuInfo) => handleClickConvMenu(menuInfo.key, conv),
                 }}
