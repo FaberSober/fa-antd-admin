@@ -4,7 +4,7 @@ import { UserLayoutContext } from '@features/fa-admin-pages/layout';
 import { fileSaveApi } from '@features/fa-admin-pages/services';
 import { imConversationApi, imMessageApi } from '@features/fa-im-pages/services';
 import { Im, ImEnums } from '@features/fa-im-pages/types';
-import { Badge, Button, Empty, Input, Space, Splitter } from 'antd';
+import { Badge, Button, Dropdown, Empty, Input, Space, Splitter } from 'antd';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { isNil } from 'lodash';
@@ -13,39 +13,9 @@ import useBus, { dispatch } from 'use-bus';
 import ImChatCover from './ImChatCover';
 import ImChatDetail from './ImChatDetail';
 import ImChatMsg from './ImChatMsg';
+import { formatConversationTime } from '../utils';
 
 const { ImMessageTypeEnum } = ImEnums;
-
-/**
- * 格式化聊天会话的最后更新时间
- * @param updTime 最后更新时间字符串
- * @returns 格式化后的时间显示
- */
-function formatConversationTime(updTime?: string): string {
-  if (!updTime) return '';
-
-  const now = dayjs();
-  const updateTime = dayjs(updTime);
-
-  // 如果是今天，则展示HH:mm
-  if (updateTime.isSame(now, 'day')) {
-    return updateTime.format('HH:mm');
-  }
-
-  // 如果是最近7天，则展示星期几
-  if (updateTime.isAfter(now.subtract(7, 'day')) && updateTime.isSame(now, 'year')) {
-    const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
-    return weekdays[updateTime.day()];
-  }
-
-  // 如果超过7天但是同一年的，则展示MM-DD
-  if (updateTime.isSame(now, 'year')) {
-    return updateTime.format('MM-DD');
-  }
-
-  // 如果超过7天且不是同一年，则展示YYYY-MM-DD
-  return updateTime.format('YYYY-MM-DD');
-}
 
 /**
  * @author xu.pengfei
@@ -310,6 +280,18 @@ export default function ImChatMsgPanel() {
     input.click();
   }
 
+  /** 聊天记录item右键菜单点击 */
+  function handleClickConvMenu(key: string, conv: Im.ImConversationRetVo) {
+    // console.log('key', key, 'conv', conv)
+    if (key === 'hide') {
+      setConvList(prev => prev.filter(i => i.id !== conv.id))
+      if (conv.id === convSel?.id) {
+        setConvSel(undefined)
+      }
+    } else if (key === 'delete') {
+    }
+  }
+
   return (
     <Splitter>
       {/* left item */}
@@ -317,19 +299,31 @@ export default function ImChatMsgPanel() {
         <div className='fa-im-wx-panel-left-sub fa-flex-column'>
           {convList.map(conv => {
             return (
-              <div key={conv.id} className={clsx('fa-flex-row-center fa-base-btn fa-p12', convSel?.id === conv.id && 'fa-im-wx-item-selected')} onClick={() => handleClickConv(conv)}>
-                <Badge size="small" count={conv.unreadCount}>
-                  <ImChatCover conv={conv} />
-                </Badge>
-                <div className='fa-ml12 fa-flex-1'>
-                  <div className='fa-flex-row-center'>
-                    <div className='fa-flex-1 fa-word-ellipse fa-im-wx-conv-item-title'>{conv.type === ImEnums.ImConversationTypeEnum.GROUP ? conv.title : conv.convTitle}</div>
-                    {/* 最后更新时间：如果是今天，则展示HH:mm；如果是最近7天，则展示星期几；如果超过7天但是同一年的，则展示MM-DD；如果超过7天且不是同一年，则展示YYYY-MM-DD  */}
-                    <div className='fa-im-wx-conv-item-right-time'>{formatConversationTime(conv.updTime)}</div>
+              <Dropdown
+                key={conv.id}
+                menu={{
+                  items: [
+                    {key: 'hide', label: '不显示'},
+                    {key: 'delete', label: '删除', danger: true},
+                  ],
+                  onClick: (menuInfo) => handleClickConvMenu(menuInfo.key, conv),
+                }}
+                trigger={['contextMenu']}
+              >
+                <div key={conv.id} className={clsx('fa-flex-row-center fa-base-btn fa-p12', convSel?.id === conv.id && 'fa-im-wx-item-selected')} onClick={() => handleClickConv(conv)}>
+                  <Badge size="small" count={conv.unreadCount}>
+                    <ImChatCover conv={conv} />
+                  </Badge>
+                  <div className='fa-ml12 fa-flex-1'>
+                    <div className='fa-flex-row-center'>
+                      <div className='fa-flex-1 fa-word-ellipse fa-im-wx-conv-item-title'>{conv.type === ImEnums.ImConversationTypeEnum.GROUP ? conv.title : conv.convTitle}</div>
+                      {/* 最后更新时间：如果是今天，则展示HH:mm；如果是最近7天，则展示星期几；如果超过7天但是同一年的，则展示MM-DD；如果超过7天且不是同一年，则展示YYYY-MM-DD  */}
+                      <div className='fa-im-wx-conv-item-right-time'>{formatConversationTime(conv.updTime)}</div>
+                    </div>
+                    <div className='fa-word-ellipse fa-im-wx-conv-item-last-msg'>{conv.lastMsg}</div>
                   </div>
-                  <div className='fa-word-ellipse fa-im-wx-conv-item-last-msg'>{conv.lastMsg}</div>
                 </div>
-              </div>
+              </Dropdown>
             )
           })}
         </div>
