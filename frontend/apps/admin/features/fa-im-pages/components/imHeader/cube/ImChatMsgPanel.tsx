@@ -10,6 +10,7 @@ import { isNil, min } from 'lodash';
 import { ClipboardEvent, useContext, useEffect, useState } from 'react';
 import useBus, { dispatch } from 'use-bus';
 import { formatConversationTime } from '../utils';
+import { formatChatTime } from './utils';
 import ImChatCover from './ImChatCover';
 import ImChatDetail from './ImChatDetail';
 import ImChatMsg from './ImChatMsg';
@@ -567,12 +568,21 @@ export default function ImChatMsgPanel() {
                   <Splitter.Panel>
                     <div className='fa-full fa-relative fa-flex-column'>
                       <div id="fa-im-chat-msg-container" className='fa-full-content fa-scroll-auto-y'>
-                        {msgList.map(msg => {
+                        {msgList.map((msg, index) => {
+                          const timeStr = msg.crtTime ? formatChatTime(
+                            msg.crtTime,
+                            index > 0 && msgList[index - 1].crtTime ? msgList[index - 1].crtTime : undefined
+                          ) : null;
                           return (
-                            <div key={msg.id}>
+                            <div key={msg.id} id={`fa-msg-item-${msg.id}`}>
+                              {timeStr && (
+                                <div className="fa-text-center fa-im-wx-msg-time">
+                                  <span>{timeStr}</span>
+                                </div>
+                              )}
                               <ImChatMsg msg={msg} />
                             </div>
-                          )
+                          );
                         })}
                       </div>
                     </div>
