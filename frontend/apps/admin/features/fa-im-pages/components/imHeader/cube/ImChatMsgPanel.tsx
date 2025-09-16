@@ -303,7 +303,10 @@ export default function ImChatMsgPanel() {
     ({ type, payload }) => {
       console.log('callback', type, payload)
       const data = payload as Im.ImConversationRetVo
-      setConvList(prev => prev.filter(i => i.id !== data.id))
+      setConvList(prev => prev.filter(item => `${item.id}` !== `${data.id}`))
+      if (convSel?.id === `${data.id}`) {
+        setConvSel(undefined)
+      }
     },
     [convList],
   )
@@ -314,7 +317,7 @@ export default function ImChatMsgPanel() {
     ({ type, payload }) => {
       console.log('callback', type, payload)
       const data = payload as Im.ImConversationRetVo
-      setConvList(prev => prev.map(item => item.id === data.id ? { ...item, ...data} : item))
+      setConvList(prev => prev.map(item => `${item.id}` === `${data.id}` ? { ...item, ...data} : item))
     },
     [convList],
   )

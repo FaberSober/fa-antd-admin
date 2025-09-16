@@ -168,24 +168,24 @@ export default function ImChatDetail({ conv, onCreateNewConv, onUpdateConv }: Im
             </div>
           </div>
         )}
-
-        <Divider size='small' />
-        {isGroupChat && (
-          <div>
-            <div className='fa-mb6'>群聊名称</div>
-            <div>
-              <Input defaultValue={conv.title} variant="filled" size='small'onBlur={(e) => handleRenameGroupTitle(e.target.value)} />
-            </div>
-          </div>
-        )}
-
-        {/* 退出群聊 */}
-        {isGroupChat && (
-          <div>
-            <Button onClick={handleExitGroup} type='text' danger>退出群聊</Button>
-          </div>
-        )}
       </div>
+
+      <Divider size='small' />
+      {isGroupChat && (
+        <div className='fa-p12'>
+          <div className='fa-mb6'>群聊名称</div>
+          <div>
+            <Input defaultValue={conv.title} variant="filled" size='small'onBlur={(e) => handleRenameGroupTitle(e.target.value)} />
+          </div>
+        </div>
+      )}
+
+      {/* 退出群聊 */}
+      {isGroupChat && (
+        <div className='fa-flex-center fa-p12'>
+          <Button onClick={handleExitGroup} type='text' danger>退出群聊</Button>
+        </div>
+      )}
     </div>
   );
 }
