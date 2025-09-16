@@ -31,10 +31,28 @@ export default function ImChatMsgPanel() {
   const [hasNextPage, setHasNextPage] = useState(false) // 是否还有更早的聊天记录
 
   // 监听消息列表变化，滚动到底部
+  // 初始化滚动监听
   useEffect(() => {
-    // 使用setTimeout确保DOM已经更新
-    FaUtils.scrollToBottomById('fa-im-chat-msg-container', 100)
-  }, [msgList]);
+    const container = document.getElementById('fa-im-chat-msg-container');
+    if (!container) return;
+
+    const handleScroll = () => {
+      if (container.scrollTop === 0 && hasNextPage) {
+        loadPreMsg();
+      }
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, [hasNextPage, convSel]);
+
+  // // 新消息时滚动到底部
+  // useEffect(() => {
+  //   // 使用setTimeout确保DOM已经更新
+  //   FaUtils.scrollToBottomById('fa-im-chat-msg-container', 100)
+  // }, [msgList]);
 
   function getConvList() {
     imConversationApi.listQuery({}).then(res => {
@@ -60,6 +78,7 @@ export default function ImChatMsgPanel() {
       setMsgList(res.data.rows.map(i => ({ ...i, sending: false })))
       setHasNextPage(res.data.pagination.hasNextPage)
       setMaxMsgId(min(res.data.rows.map(i => Number(i.id))))
+      FaUtils.scrollToBottomById('fa-im-chat-msg-container', 100)
     })
     // 更新消息未读数量
     if (conv.unreadCount > 0) {
@@ -68,6 +87,18 @@ export default function ImChatMsgPanel() {
         dispatch({ type: '@@api/IM_REFRESH_UNREAD_COUNT', payload: { } })
       })
     }
+  }
+
+  /** 加载之前的聊天记录 */
+  function loadPreMsg() {
+    if (isNil(convSel)) return;
+    if (!hasNextPage) return;
+    imMessageApi.pageQuery({ query: { conversationId: convSel.id, maxMsgId }, pageSize: 40 }).then(res => {
+      res.data.rows.reverse()
+      setMsgList(prev => [ ...res.data.rows.map(i => ({ ...i, sending: false })), ...prev ])
+      setHasNextPage(res.data.pagination.hasNextPage)
+      setMaxMsgId(min(res.data.rows.map(i => Number(i.id))))
+    })
   }
 
   /** 发送文本消息 */

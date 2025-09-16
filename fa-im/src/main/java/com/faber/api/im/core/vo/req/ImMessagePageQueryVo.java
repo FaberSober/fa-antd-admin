@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class ImMessagePageQueryVo implements Serializable {
     
-    private Long maxId;
+    private Long maxMsgId;
     private Long conversationId;
 
 }
