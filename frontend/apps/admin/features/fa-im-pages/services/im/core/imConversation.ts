@@ -32,6 +32,9 @@ class Api extends BaseApi<Im.ImConversation, string> {
   /** 获取未读消息数量 */
   getUnreadCount = (): Promise<Fa.Ret<number>> => this.get('getUnreadCount');
 
+  /** 退出群聊 */
+  exitGroupChat = (conversationId: string): Promise<Fa.Ret<boolean>> => this.get(`exitGroupChat/${conversationId}`);
+
   /** 获取聊天参与者 */
   getParticipant = (params: Fa.BasePageQuery<{conversationId: string, name?: string}>): Promise<Fa.Ret<Fa.Page<Im.ImParticipant>>> => this.post('getParticipant', params);
 

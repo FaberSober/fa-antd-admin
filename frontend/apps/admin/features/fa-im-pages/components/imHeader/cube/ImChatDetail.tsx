@@ -5,7 +5,7 @@ import { RemoveUserListModal } from '@features/fa-admin-pages/components';
 import { fileSaveApi } from '@features/fa-admin-pages/services';
 import { imConversationApi } from '@features/fa-im-pages/services';
 import { Im, ImEnums } from '@features/fa-im-pages/types';
-import { Avatar, Divider, Input, message, Tooltip } from 'antd';
+import { Avatar, Button, Divider, Input, message, Modal, Tooltip } from 'antd';
 import { trim } from 'lodash';
 import React, { useContext, useEffect, useState } from 'react';
 
@@ -107,6 +107,22 @@ export default function ImChatDetail({ conv, onCreateNewConv, onUpdateConv }: Im
     })
   }
 
+  function handleExitGroup() {
+    Modal.confirm({
+      title: '确认退出群聊',
+      content: '您确定要退出该群聊吗？退出后将不再接收此群的消息。',
+      okText: '确认退出',
+      okButtonProps: { danger: true },
+      cancelText: '取消',
+      onOk: () => {
+        return imConversationApi.exitGroupChat(conv.id).then(res => {
+          FaUtils.showResponse(res, '退出群聊')
+          closeDrawer?.();
+        })
+      },
+    })
+  }
+
   const isGroupChat = conv.type === ImEnums.ImConversationTypeEnum.GROUP;
   return (
     <div className='fa-full-content'>
@@ -160,6 +176,13 @@ export default function ImChatDetail({ conv, onCreateNewConv, onUpdateConv }: Im
             <div>
               <Input defaultValue={conv.title} variant="filled" size='small'onBlur={(e) => handleRenameGroupTitle(e.target.value)} />
             </div>
+          </div>
+        )}
+
+        {/* 退出群聊 */}
+        {isGroupChat && (
+          <div>
+            <Button onClick={handleExitGroup} type='text' danger>退出群聊</Button>
           </div>
         )}
       </div>

@@ -1,8 +1,10 @@
 package com.faber.api.im.core.rest;
 
 import java.util.List;
+import java.util.Arrays;
 
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -121,6 +123,17 @@ public class ImConversationController extends BaseController<ImConversationBiz, 
     @ResponseBody
     public TableRet<ImParticipant> getParticipant(@RequestBody BasePageQuery<ImConversationGetParticipantReqVo> reqVo) {
         return baseBiz.getParticipant(reqVo);
+    }
+
+    @FaLogOpr(value = "退出群聊", crud = LogCrudEnum.D)
+    @RequestMapping(value = "/exitGroupChat/{conversationId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Ret<Boolean> exitGroupChat(@PathVariable @Validated(value = Vg.Crud.R.class) Long conversationId) {
+        ImConversationRemoveGroupUsersReqVo reqVo = new ImConversationRemoveGroupUsersReqVo();
+        reqVo.setConversationId(String.valueOf(conversationId));
+        reqVo.setUserIds(Arrays.asList(getCurrentUserId()));
+        baseBiz.removeGroupUsers(reqVo);
+        return ok();
     }
 
 }
