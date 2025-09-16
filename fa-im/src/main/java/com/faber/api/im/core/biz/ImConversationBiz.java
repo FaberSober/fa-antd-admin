@@ -249,8 +249,16 @@ public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversati
             .update();
         
         // TODO websocket通知移出群聊用户更新群聊
+        WsHolder.sendMessage(reqVo.getUserIds(), WsTypeEnum.IM_EXIT_GROUP_CHAT, conversation);
 
         // TODO websocket通知群聊用户更新群聊
+        List<String> notifyUserIds = imParticipantBiz.lambdaQuery()
+            .eq(ImParticipant::getConversationId, reqVo.getConversationId())
+            .select(ImParticipant::getUserId)
+            .orderByAsc(ImParticipant::getCrtTime, ImParticipant::getUserId)
+            .list()
+            .stream().map(i -> i.getUserId()).toList();
+        WsHolder.sendMessage(notifyUserIds, WsTypeEnum.IM_REFRESH_GROUP_CHAT, conversation);
 
         return conversation;
     }

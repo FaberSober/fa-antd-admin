@@ -221,6 +221,28 @@ export default function ImChatMsgPanel() {
     [convList],
   )
 
+  /** 接收消息: @@ws/RECEIVE/IM_EXIT_GROUP_CHAT */
+  useBus(
+    ['@@ws/RECEIVE/IM_EXIT_GROUP_CHAT'],
+    ({ type, payload }) => {
+      console.log('callback', type, payload)
+      const data = payload as Im.ImConversationRetVo
+      setConvList(prev => prev.filter(i => i.id !== data.id))
+    },
+    [convList],
+  )
+
+  /** 接收消息: @@ws/RECEIVE/IM_REFRESH_GROUP_CHAT */
+  useBus(
+    ['@@ws/RECEIVE/IM_REFRESH_GROUP_CHAT'],
+    ({ type, payload }) => {
+      console.log('callback', type, payload)
+      const data = payload as Im.ImConversationRetVo
+      setConvList(prev => prev.map(item => item.id === data.id ? { ...item, ...data} : item))
+    },
+    [convList],
+  )
+
   /** upload file */
   function handleClickUploadFile() {
     // 创建一个隐藏的文件输入框
@@ -335,7 +357,7 @@ export default function ImChatMsgPanel() {
           convSel ? (
             <div className='fa-im-wx-panel-right fa-flex-column'>
               {/* title */}
-              <div className='fa-flex-row-center fa-p12 fa-border-b fa-flex-row-center'>
+              <div className='fa-flex-row-center fa-p12 fa-border-b'>
                 <div>{convSel.convTitle}</div>
                 <div className='fa-flex-1'></div>
                 <BaseDrawer
