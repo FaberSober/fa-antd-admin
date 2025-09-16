@@ -8,7 +8,7 @@ import { Badge, Button, Dropdown, Empty, Input, Space, Splitter } from 'antd';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { isNil } from 'lodash';
-import { useContext, useEffect, useState } from 'react';
+import { ClipboardEvent, useContext, useEffect, useState } from 'react';
 import useBus, { dispatch } from 'use-bus';
 import ImChatCover from './ImChatCover';
 import ImChatDetail from './ImChatDetail';
@@ -131,6 +131,59 @@ export default function ImChatMsgPanel() {
         }
       ])
     })
+  }
+
+  function handlePaste(e: ClipboardEvent<HTMLTextAreaElement>) {
+    const items = e.clipboardData.items;
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      // 如果是文件类型
+      if (item.kind === 'file') {
+        e.preventDefault(); // 阻止默认粘贴行为
+        const file = item.getAsFile();
+        if (!file || !convSel) return;
+
+        let type = ImEnums.ImMessageTypeEnum.FILE;
+        if (FaUtils.isImageByFileName(file.name)) {
+          type = ImEnums.ImMessageTypeEnum.IMAGE;
+        } else if (FaUtils.isVideoByFileName(file.name)) {
+          type = ImEnums.ImMessageTypeEnum.VIDEO;
+        }
+
+        // 文件上传到服务器
+        fileSaveApi.uploadFile(file, (progress: any) => {
+          const percent = (progress.loaded / progress.total * 100).toFixed(2);
+          console.log('上传进度:', percent + '%');
+        }).then((res: any) => {
+          if (res.status === 200 && res.data) {
+            const fileInfo = res.data;
+            // 发送消息
+            imConversationApi.sendMsg({
+              conversationId: convSel.id,
+              type,
+              content: JSON.stringify({
+                fileId: fileInfo.id,
+                fileName: fileInfo.originalFilename,
+                fileSize: fileInfo.size,
+                ext: fileInfo.ext,
+              }),
+            }).then(res => {
+              if (res.status === 200) {
+                const msg = res.data;
+                setMsgList(prev => [
+                  ...prev,
+                  {
+                    ...msg,
+                    sending: false,
+                  }
+                ]);
+              }
+            });
+          }
+        });
+        return; // 文件处理完成后退出循环
+      }
+    }
   }
 
   /** 接收消息: @@ws/RECEIVE/IM */
@@ -419,58 +472,7 @@ export default function ImChatMsgPanel() {
                             handleSendMsg();
                           }
                         }}
-                        onPaste={(e) => {
-                          const items = e.clipboardData.items;
-                          for (let i = 0; i < items.length; i++) {
-                            const item = items[i];
-                            // 如果是文件类型
-                            if (item.kind === 'file') {
-                              e.preventDefault(); // 阻止默认粘贴行为
-                              const file = item.getAsFile();
-                              if (!file || !convSel) return;
-
-                              let type = ImEnums.ImMessageTypeEnum.FILE;
-                              if (FaUtils.isImageByFileName(file.name)) {
-                                type = ImEnums.ImMessageTypeEnum.IMAGE;
-                              } else if (FaUtils.isVideoByFileName(file.name)) {
-                                type = ImEnums.ImMessageTypeEnum.VIDEO;
-                              }
-
-                              // 文件上传到服务器
-                              fileSaveApi.uploadFile(file, (progress: any) => {
-                                const percent = (progress.loaded / progress.total * 100).toFixed(2);
-                                console.log('上传进度:', percent + '%');
-                              }).then((res: any) => {
-                                if (res.status === 200 && res.data) {
-                                  const fileInfo = res.data;
-                                  // 发送消息
-                                  imConversationApi.sendMsg({
-                                    conversationId: convSel.id,
-                                    type,
-                                    content: JSON.stringify({
-                                      fileId: fileInfo.id,
-                                      fileName: fileInfo.originalFilename,
-                                      fileSize: fileInfo.size,
-                                      ext: fileInfo.ext,
-                                    }),
-                                  }).then(res => {
-                                    if (res.status === 200) {
-                                      const msg = res.data;
-                                      setMsgList(prev => [
-                                        ...prev,
-                                        {
-                                          ...msg,
-                                          sending: false,
-                                        }
-                                      ]);
-                                    }
-                                  });
-                                }
-                              });
-                              return; // 文件处理完成后退出循环
-                            }
-                          }
-                        }}
+                        onPaste={(e) => handlePaste(e)}
                         placeholder="输入消息，回车发送，Shift+回车换行。支持粘贴图片、文件"
                       />
                     </div>
