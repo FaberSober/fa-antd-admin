@@ -47,7 +47,7 @@ export default function ImChatMsgPanel() {
     return () => {
       container.removeEventListener('scroll', handleScroll);
     };
-  }, [hasNextPage, convSel]);
+  }, [hasNextPage, convSel, msgList]);
 
   // // 新消息时滚动到底部
   // useEffect(() => {
@@ -120,7 +120,7 @@ export default function ImChatMsgPanel() {
           const scrollOffset = newDistanceFromTop - oldDistanceFromTop;
           container.scrollTop = scrollOffset;
         }
-      }, 0);
+      }, 10);
     });
   }
 

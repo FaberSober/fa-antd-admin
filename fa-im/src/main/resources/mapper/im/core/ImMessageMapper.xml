@@ -13,7 +13,7 @@
             and t.conversation_id = #{query.conversationId}
         </if>
         <if test="query.maxMsgId != null">
-            and t.id &lt;= #{query.maxMsgId}
+            and t.id &lt; #{query.maxMsgId}
         </if>
         ORDER BY id DESC
     </select>
