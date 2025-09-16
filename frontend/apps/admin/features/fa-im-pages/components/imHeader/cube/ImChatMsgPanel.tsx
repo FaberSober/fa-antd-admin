@@ -29,6 +29,12 @@ export default function ImChatMsgPanel() {
   const [msgList, setMsgList] = useState<Im.ImMessageShow[]>([]);
   const [pendingFiles, setPendingFiles] = useState<Array<{ file: File; type: ImEnums.ImMessageTypeEnum }>>([]);
 
+  // 监听消息列表变化，滚动到底部
+  useEffect(() => {
+    // 使用setTimeout确保DOM已经更新
+    FaUtils.scrollToBottomById('fa-im-chat-msg-container', 100)
+  }, [msgList]);
+
   function getConvList() {
     imConversationApi.listQuery({}).then(res => {
       setConvList(res.data)
@@ -83,6 +89,7 @@ export default function ImChatMsgPanel() {
         sending: true
       }
     ])
+    FaUtils.scrollToBottomById('fa-im-chat-msg-container', 100)
 
     // 更新聊天列表最新消息，同时将本聊天置顶
     setConvList(prev => {
@@ -179,6 +186,7 @@ export default function ImChatMsgPanel() {
     // 清空待发送文件
     setPendingFiles([]);
     setMessageText('');
+    FaUtils.scrollToBottomById('fa-im-chat-msg-container', 100)
   }
 
   /** 发送消息 */
@@ -482,14 +490,16 @@ export default function ImChatMsgPanel() {
                 <Splitter layout="vertical">
                   {/* msg list */}
                   <Splitter.Panel>
-                    <div id="fa-im-chat-msg-container" className='fa-full fa-relative fa-flex-column'>
-                      {msgList.map(msg => {
-                        return (
-                          <div key={msg.id}>
-                            <ImChatMsg msg={msg} />
-                          </div>
-                        )
-                      })}
+                    <div className='fa-full fa-relative fa-flex-column'>
+                      <div id="fa-im-chat-msg-container" className='fa-full-content fa-scroll-auto-y'>
+                        {msgList.map(msg => {
+                          return (
+                            <div key={msg.id}>
+                              <ImChatMsg msg={msg} />
+                            </div>
+                          )
+                        })}
+                      </div>
                     </div>
                   </Splitter.Panel>
 
