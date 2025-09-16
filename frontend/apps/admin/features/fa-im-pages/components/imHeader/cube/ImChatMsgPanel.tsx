@@ -94,12 +94,34 @@ export default function ImChatMsgPanel() {
   function loadPreMsg() {
     if (isNil(convSel)) return;
     if (!hasNextPage) return;
+
+    // 获取当前第一条消息的DOM元素和其位置信息
+    const container = document.getElementById('fa-im-chat-msg-container');
+    const firstMsg = msgList[0];
+    const firstMsgElement = document.getElementById(`fa-msg-item-${firstMsg.id}`);
+
+    if (!container || !firstMsgElement) return;
+
+    // 记录第一条消息到容器顶部的距离
+    const oldDistanceFromTop = firstMsgElement.offsetTop;
+
     imMessageApi.pageQuery({ query: { conversationId: convSel.id, maxMsgId }, pageSize: 40 }).then(res => {
-      res.data.rows.reverse()
-      setMsgList(prev => [ ...res.data.rows.map(i => ({ ...i, sending: false })), ...prev ])
-      setHasNextPage(res.data.pagination.hasNextPage)
-      setMaxMsgId(min(res.data.rows.map(i => Number(i.id))))
-    })
+      res.data.rows.reverse();
+      setMsgList(prev => [ ...res.data.rows.map(i => ({ ...i, sending: false })), ...prev ]);
+      setHasNextPage(res.data.pagination.hasNextPage);
+      setMaxMsgId(min(res.data.rows.map(i => Number(i.id))));
+
+      // 在下一个渲染周期后调整滚动位置
+      setTimeout(() => {
+        const newFirstMsgElement = document.getElementById(`fa-msg-item-${firstMsg.id}`);
+        if (newFirstMsgElement && container) {
+          // 计算新的滚动位置：新消息的高度 = 新位置 - 原来的位置
+          const newDistanceFromTop = newFirstMsgElement.offsetTop;
+          const scrollOffset = newDistanceFromTop - oldDistanceFromTop;
+          container.scrollTop = scrollOffset;
+        }
+      }, 0);
+    });
   }
 
   /** 发送文本消息 */
