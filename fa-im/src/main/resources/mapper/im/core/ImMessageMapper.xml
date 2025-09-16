@@ -15,6 +15,7 @@
         <if test="query.maxId != null">
             and t.id &lt;= #{query.maxId}
         </if>
+        ORDER BY id DESC
     </select>
 
 </mapper>

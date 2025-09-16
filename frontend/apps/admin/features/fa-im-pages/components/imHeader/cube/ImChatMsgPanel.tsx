@@ -6,14 +6,13 @@ import { imConversationApi, imMessageApi } from '@features/fa-im-pages/services'
 import { Im, ImEnums } from '@features/fa-im-pages/types';
 import { Badge, Button, Dropdown, Empty, Input, Space, Splitter } from 'antd';
 import clsx from 'clsx';
-import dayjs from 'dayjs';
-import { isNil } from 'lodash';
+import { isNil, min } from 'lodash';
 import { ClipboardEvent, useContext, useEffect, useState } from 'react';
 import useBus, { dispatch } from 'use-bus';
+import { formatConversationTime } from '../utils';
 import ImChatCover from './ImChatCover';
 import ImChatDetail from './ImChatDetail';
 import ImChatMsg from './ImChatMsg';
-import { formatConversationTime } from '../utils';
 
 const { ImMessageTypeEnum } = ImEnums;
 
@@ -28,6 +27,8 @@ export default function ImChatMsgPanel() {
   const [messageText, setMessageText] = useState<string>('');
   const [msgList, setMsgList] = useState<Im.ImMessageShow[]>([]);
   const [pendingFiles, setPendingFiles] = useState<Array<{ file: File; type: ImEnums.ImMessageTypeEnum }>>([]);
+  const [maxMsgId, setMaxMsgId] = useState<number>() // 本次加载最大的聊天记录ID
+  const [hasNextPage, setHasNextPage] = useState(false) // 是否还有更早的聊天记录
 
   // 监听消息列表变化，滚动到底部
   useEffect(() => {
@@ -54,8 +55,11 @@ export default function ImChatMsgPanel() {
     // 设置选中的聊天
     setConvSel(conv)
     // 查询消息列表
-    imMessageApi.pageQuery({ query: { conversationId: conv.id }, order: 'id DESC', pageSize: 40 }).then(res => {
+    imMessageApi.pageQuery({ query: { conversationId: conv.id }, pageSize: 40 }).then(res => {
+      res.data.rows.reverse()
       setMsgList(res.data.rows.map(i => ({ ...i, sending: false })))
+      setHasNextPage(res.data.pagination.hasNextPage)
+      setMaxMsgId(min(res.data.rows.map(i => Number(i.id))))
     })
     // 更新消息未读数量
     if (conv.unreadCount > 0) {
@@ -145,17 +149,49 @@ export default function ImChatMsgPanel() {
   async function handleSendFileMsg() {
     if (pendingFiles.length === 0 || !convSel) return;
 
-    // 使用 Promise.all 并行上传所有文件
-    await Promise.all(pendingFiles.map(async (pending) => {
+    // 清空输入框和待发送文件列表
+    setMessageText('');
+
+    // 为每个文件创建临时消息并添加到消息列表
+    const tempMsgs = pendingFiles.map(pending => ({
+      id: FaUtils.uuid(),
+      conversationId: convSel.id,
+      senderId: user.id,
+      senderUserImg: user.img,
+      type: pending.type,
+      content: JSON.stringify({
+        fileName: pending.file.name,
+        fileSize: pending.file.size,
+        ext: pending.file.name.split('.').pop() || '',
+      }),
+      isWithdrawn: false,
+      uploading: true,
+      progress: 0,
+      uploadSuccess: false,
+      sending: false,
+    } as Im.ImMessageShow));
+
+    setMsgList(prev => [...prev, ...tempMsgs]);
+
+    // 并行上传所有文件
+    const filesToUpload = [...pendingFiles];
+    setPendingFiles([]); // 清空待发送列表
+
+    await Promise.all(tempMsgs.map(async (tempMsg, index) => {
+      const pending = filesToUpload[index];
       try {
         const res = await fileSaveApi.uploadFile(pending.file, (progress: any) => {
-          const percent = (progress.loaded / progress.total * 100).toFixed(2);
-          console.log('上传进度:', percent + '%');
+          const percent = Math.round((progress.loaded / progress.total) * 100);
+          // 更新对应消息的上传进度
+          setMsgList(prev => prev.map(msg =>
+            msg.id === tempMsg.id
+              ? { ...msg, progress: percent }
+              : msg
+          ));
         });
 
         if (res.status === 200 && res.data) {
           const fileInfo = res.data;
-          // 发送消息
           const msgRes = await imConversationApi.sendMsg({
             conversationId: convSel.id,
             type: pending.type,
@@ -168,25 +204,33 @@ export default function ImChatMsgPanel() {
           });
 
           if (msgRes.status === 200) {
-            const msg = msgRes.data;
-            setMsgList(prev => [
-              ...prev,
-              {
-                ...msg,
-                sending: false,
-              }
-            ]);
+            // 用服务器返回的消息更新临时消息
+            setMsgList(prev => prev.map(msg =>
+              msg.id === tempMsg.id
+                ? {
+                    ...msgRes.data,
+                    uploading: false,
+                    uploadSuccess: true,
+                    sending: false,
+                  }
+                : msg
+            ));
           }
         }
       } catch (error) {
         console.error('文件上传或发送失败:', error);
+        // 更新消息状态为失败
+        setMsgList(prev => prev.map(msg =>
+          msg.id === tempMsg.id
+            ? {
+                ...msg,
+                uploading: false,
+                error: '文件上传失败',
+              }
+            : msg
+        ));
       }
     }));
-
-    // 清空待发送文件
-    setPendingFiles([]);
-    setMessageText('');
-    FaUtils.scrollToBottomById('fa-im-chat-msg-container', 100)
   }
 
   /** 发送消息 */

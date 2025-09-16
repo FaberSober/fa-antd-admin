@@ -1,12 +1,16 @@
 import { FileOutlined, LoadingOutlined } from '@ant-design/icons';
 import { fileSaveApi } from '@features/fa-admin-pages/services';
 import { Im, ImEnums } from '@features/fa-im-pages/types';
-import { Image, Space, Spin } from 'antd';
+import { Image, Progress, Space, Spin } from 'antd';
 
 const { ImMessageTypeEnum } = ImEnums;
 
 export interface ImChatMsgContentProps {
-  msg: Im.ImMessageShow;
+  msg: Im.ImMessageShow & {
+    uploading?: boolean;
+    progress?: number;
+    uploadSuccess?: boolean;
+  };
 }
 
 /**
@@ -33,6 +37,14 @@ export default function ImChatMsgContent({ msg }: ImChatMsgContentProps) {
               placeholder={<Spin indicator={<LoadingOutlined spin />} size="small" />}
               preview={{ src: fileUrl }}
             />
+            {msg.uploading && (
+              <div>
+                <div style={{ fontSize: 12 }} className="fa-text-grey">
+                  上传中 {msg.progress}%
+                </div>
+                <Progress percent={msg.progress} size="small" />
+              </div>
+            )}
           </div>
         );
       }
@@ -51,18 +63,37 @@ export default function ImChatMsgContent({ msg }: ImChatMsgContentProps) {
               <source src={fileUrl} type={`video/${ext.toLowerCase()}`} />
               您的浏览器不支持 video 标签。
             </video>
+            {msg.uploading && (
+              <div>
+                <div style={{ fontSize: 12 }} className="fa-text-grey">
+                  上传中 {msg.progress}%
+                </div>
+                <Progress percent={msg.progress} size="small" />
+              </div>
+            )}
           </div>
         );
       }
 
       // 其他类型文件
       return (
-        <div className='fa-im-wx-msg-file' style={{ cursor: 'pointer' }} onClick={() => window.open(fileUrl, '_blank')}>
-          <Space>
-            <FileOutlined style={{ fontSize: 24 }} />
-            <div>
-              <div>{fileName}</div>
-            </div>
+        <div style={{ cursor: msg.uploadSuccess ? 'pointer' : 'default' }} onClick={() => msg.uploadSuccess && window.open(fileUrl, '_blank')}>
+          <Space direction="vertical" style={{ width: '100%' }}>
+            <Space>
+              <FileOutlined style={{ fontSize: 24 }} />
+              <div>
+                <div>{fileName}</div>
+                <div className="fa-text-grey">{ext.toUpperCase()}文件</div>
+              </div>
+            </Space>
+            {msg.uploading && (
+              <div>
+                <div style={{ fontSize: 12 }} className="fa-text-grey">
+                  上传中 {msg.progress}%
+                </div>
+                <Progress percent={msg.progress} size="small" />
+              </div>
+            )}
           </Space>
         </div>
       );
