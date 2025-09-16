@@ -27,7 +27,7 @@ export default function ImChatMsgPanel() {
   const [convSel, setConvSel] = useState<Im.ImConversationRetVo>();
   const [messageText, setMessageText] = useState<string>('');
   const [msgList, setMsgList] = useState<Im.ImMessageShow[]>([]);
-  const [pendingFile, setPendingFile] = useState<{ file: File; type: ImEnums.ImMessageTypeEnum } | null>(null);
+  const [pendingFiles, setPendingFiles] = useState<Array<{ file: File; type: ImEnums.ImMessageTypeEnum }>>([]);
 
   function getConvList() {
     imConversationApi.listQuery({}).then(res => {
@@ -135,28 +135,33 @@ export default function ImChatMsgPanel() {
   }
 
   /** 发送文件消息 */
-  function handleSendFileMsg() {
-    if (!pendingFile || !convSel) return;
+  async function handleSendFileMsg() {
+    if (pendingFiles.length === 0 || !convSel) return;
 
-    fileSaveApi.uploadFile(pendingFile.file, (progress: any) => {
-      const percent = (progress.loaded / progress.total * 100).toFixed(2);
-      console.log('上传进度:', percent + '%');
-    }).then((res: any) => {
-      if (res.status === 200 && res.data) {
-        const fileInfo = res.data;
-        // 发送消息
-        imConversationApi.sendMsg({
-          conversationId: convSel.id,
-          type: pendingFile.type,
-          content: JSON.stringify({
-            fileId: fileInfo.id,
-            fileName: fileInfo.originalFilename,
-            fileSize: fileInfo.size,
-            ext: fileInfo.ext,
-          }),
-        }).then(res => {
-          if (res.status === 200) {
-            const msg = res.data;
+    // 使用 Promise.all 并行上传所有文件
+    await Promise.all(pendingFiles.map(async (pending) => {
+      try {
+        const res = await fileSaveApi.uploadFile(pending.file, (progress: any) => {
+          const percent = (progress.loaded / progress.total * 100).toFixed(2);
+          console.log('上传进度:', percent + '%');
+        });
+
+        if (res.status === 200 && res.data) {
+          const fileInfo = res.data;
+          // 发送消息
+          const msgRes = await imConversationApi.sendMsg({
+            conversationId: convSel.id,
+            type: pending.type,
+            content: JSON.stringify({
+              fileId: fileInfo.id,
+              fileName: fileInfo.originalFilename,
+              fileSize: fileInfo.size,
+              ext: fileInfo.ext,
+            }),
+          });
+
+          if (msgRes.status === 200) {
+            const msg = msgRes.data;
             setMsgList(prev => [
               ...prev,
               {
@@ -165,18 +170,20 @@ export default function ImChatMsgPanel() {
               }
             ]);
           }
-        });
+        }
+      } catch (error) {
+        console.error('文件上传或发送失败:', error);
       }
-    });
+    }));
 
     // 清空待发送文件
-    setPendingFile(null);
+    setPendingFiles([]);
     setMessageText('');
   }
 
   /** 发送消息 */
   function handleSendMsg() {
-    if (pendingFile) {
+    if (pendingFiles.length > 0) {
       handleSendFileMsg();
     } else {
       handleSendTextMsg();
@@ -185,13 +192,16 @@ export default function ImChatMsgPanel() {
 
   function handlePaste(e: ClipboardEvent<HTMLTextAreaElement>) {
     const items = e.clipboardData.items;
+    const fileItems = [];
+
+    let hasFile = false;
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
       // 如果是文件类型
       if (item.kind === 'file') {
-        e.preventDefault(); // 阻止默认粘贴行为
+        hasFile = true;
         const file = item.getAsFile();
-        if (!file || !convSel) return;
+        if (!file || !convSel) continue;
 
         let type = ImEnums.ImMessageTypeEnum.FILE;
         if (FaUtils.isImageByFileName(file.name)) {
@@ -200,12 +210,17 @@ export default function ImChatMsgPanel() {
           type = ImEnums.ImMessageTypeEnum.VIDEO;
         }
 
-        // 设置待发送文件
-        setPendingFile({ file, type });
-        // 设置预览信息到输入框
-        setMessageText(`[${type === ImEnums.ImMessageTypeEnum.IMAGE ? '图片' : type === ImEnums.ImMessageTypeEnum.VIDEO ? '视频' : '文件'}] ${file.name} (回车发送，ESC取消)`);
-        return; // 文件处理完成后退出循环
+        fileItems.push({ file, type });
       }
+    }
+
+    if (hasFile) {
+      e.preventDefault(); // 阻止默认粘贴行为
+      // 设置待发送文件
+      setPendingFiles(fileItems);
+      // 设置预览信息到输入框
+      const fileNames = fileItems.map(item => item.file.name).join('、');
+      setMessageText(`[文件] ${fileNames} (回车发送，ESC取消)`);
     }
   }
 
@@ -467,7 +482,7 @@ export default function ImChatMsgPanel() {
                 <Splitter layout="vertical">
                   {/* msg list */}
                   <Splitter.Panel>
-                    <div className='fa-full fa-relative fa-flex-column'>
+                    <div id="fa-im-chat-msg-container" className='fa-full fa-relative fa-flex-column'>
                       {msgList.map(msg => {
                         return (
                           <div key={msg.id}>
@@ -496,8 +511,8 @@ export default function ImChatMsgPanel() {
                           if (e.key === 'Enter' && !e.shiftKey) {
                             e.preventDefault();
                             handleSendMsg();
-                          } else if (e.key === 'Escape' && pendingFile) {
-                            setPendingFile(null);
+                          } else if (e.key === 'Escape' && pendingFiles.length > 0) {
+                            setPendingFiles([]);
                             setMessageText('');
                           }
                         }}
