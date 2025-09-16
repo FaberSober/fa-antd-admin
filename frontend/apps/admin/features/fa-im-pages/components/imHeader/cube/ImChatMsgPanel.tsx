@@ -27,6 +27,7 @@ export default function ImChatMsgPanel() {
   const [convSel, setConvSel] = useState<Im.ImConversationRetVo>();
   const [messageText, setMessageText] = useState<string>('');
   const [msgList, setMsgList] = useState<Im.ImMessageShow[]>([]);
+  const [pendingFile, setPendingFile] = useState<{ file: File; type: ImEnums.ImMessageTypeEnum } | null>(null);
 
   function getConvList() {
     imConversationApi.listQuery({}).then(res => {
@@ -59,8 +60,8 @@ export default function ImChatMsgPanel() {
     }
   }
 
-  /** 发送消息 */
-  function handleSendMsg() {
+  /** 发送文本消息 */
+  function handleSendTextMsg() {
     if (isNil(convSel) || !messageText.trim()) return;
 
     // 发送后清空输入框
@@ -133,6 +134,55 @@ export default function ImChatMsgPanel() {
     })
   }
 
+  /** 发送文件消息 */
+  function handleSendFileMsg() {
+    if (!pendingFile || !convSel) return;
+
+    fileSaveApi.uploadFile(pendingFile.file, (progress: any) => {
+      const percent = (progress.loaded / progress.total * 100).toFixed(2);
+      console.log('上传进度:', percent + '%');
+    }).then((res: any) => {
+      if (res.status === 200 && res.data) {
+        const fileInfo = res.data;
+        // 发送消息
+        imConversationApi.sendMsg({
+          conversationId: convSel.id,
+          type: pendingFile.type,
+          content: JSON.stringify({
+            fileId: fileInfo.id,
+            fileName: fileInfo.originalFilename,
+            fileSize: fileInfo.size,
+            ext: fileInfo.ext,
+          }),
+        }).then(res => {
+          if (res.status === 200) {
+            const msg = res.data;
+            setMsgList(prev => [
+              ...prev,
+              {
+                ...msg,
+                sending: false,
+              }
+            ]);
+          }
+        });
+      }
+    });
+
+    // 清空待发送文件
+    setPendingFile(null);
+    setMessageText('');
+  }
+
+  /** 发送消息 */
+  function handleSendMsg() {
+    if (pendingFile) {
+      handleSendFileMsg();
+    } else {
+      handleSendTextMsg();
+    }
+  }
+
   function handlePaste(e: ClipboardEvent<HTMLTextAreaElement>) {
     const items = e.clipboardData.items;
     for (let i = 0; i < items.length; i++) {
@@ -150,37 +200,10 @@ export default function ImChatMsgPanel() {
           type = ImEnums.ImMessageTypeEnum.VIDEO;
         }
 
-        // 文件上传到服务器
-        fileSaveApi.uploadFile(file, (progress: any) => {
-          const percent = (progress.loaded / progress.total * 100).toFixed(2);
-          console.log('上传进度:', percent + '%');
-        }).then((res: any) => {
-          if (res.status === 200 && res.data) {
-            const fileInfo = res.data;
-            // 发送消息
-            imConversationApi.sendMsg({
-              conversationId: convSel.id,
-              type,
-              content: JSON.stringify({
-                fileId: fileInfo.id,
-                fileName: fileInfo.originalFilename,
-                fileSize: fileInfo.size,
-                ext: fileInfo.ext,
-              }),
-            }).then(res => {
-              if (res.status === 200) {
-                const msg = res.data;
-                setMsgList(prev => [
-                  ...prev,
-                  {
-                    ...msg,
-                    sending: false,
-                  }
-                ]);
-              }
-            });
-          }
-        });
+        // 设置待发送文件
+        setPendingFile({ file, type });
+        // 设置预览信息到输入框
+        setMessageText(`[${type === ImEnums.ImMessageTypeEnum.IMAGE ? '图片' : type === ImEnums.ImMessageTypeEnum.VIDEO ? '视频' : '文件'}] ${file.name} (回车发送，ESC取消)`);
         return; // 文件处理完成后退出循环
       }
     }
@@ -470,6 +493,9 @@ export default function ImChatMsgPanel() {
                           if (e.key === 'Enter' && !e.shiftKey) {
                             e.preventDefault();
                             handleSendMsg();
+                          } else if (e.key === 'Escape' && pendingFile) {
+                            setPendingFile(null);
+                            setMessageText('');
                           }
                         }}
                         onPaste={(e) => handlePaste(e)}
