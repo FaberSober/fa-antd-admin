@@ -109,9 +109,6 @@
             <if test="query.createBy != null and query.createBy.trim() != ''">
                 and p.create_by like concat('%', #{query.createBy}, '%')
             </if>
-            <if test="query.actorId != null and query.actorId.trim() != ''">
-                and ta.actor_id = #{query.actorId}
-            </if>
             <if test="query.actorIds != null and query.actorId.size() > 0">
                 and ta.actor_id IN
                 <foreach collection="query.actorIds" item="id" open="(" separator="," close=")">
@@ -119,7 +116,11 @@
                 </foreach>
             </if>
             <!-- 待认领任务的参与者类型为角色(1)或部门(2) -->
-            and ta.actor_type IN (1, 2)
+            AND  (
+                (ta.actor_type = 1 AND ta.actor_id IN (SELECT rur.role_id from base_rbac_user_role rur WHERE rur.deleted = FALSE AND rur.user_id = #{query.actorId}))
+                OR
+                (ta.actor_type = 2 AND ta.actor_id = (SELECT u.department_id from base_user u WHERE u.deleted = FALSE AND u.id = #{query.actorId}))
+            )
             <if test="query.createId != null and query.createId.trim() != ''">
                 and i.create_id = #{query.createId}
             </if>
@@ -272,8 +273,13 @@
         SELECT COUNT(DISTINCT t.id)
         FROM flw_task t 
         LEFT JOIN flw_task_actor ta ON t.id = ta.task_id
-        WHERE ta.actor_id = #{actorId} 
-        AND ta.actor_type IN (1, 2) <!-- 1:角色 2:部门 -->
+        WHERE 1=1
+        <!-- 待认领任务的参与者类型为角色(1)或部门(2) -->
+        AND  (
+            (ta.actor_type = 1 AND ta.actor_id IN (SELECT rur.role_id from base_rbac_user_role rur WHERE rur.deleted = FALSE AND rur.user_id = #{actorId}))
+            OR
+            (ta.actor_type = 2 AND ta.actor_id = (SELECT u.department_id from base_user u WHERE u.deleted = FALSE AND u.id = #{actorId}))
+        )
     </select>
     
     <!-- 查询已审批任务数量 -->
