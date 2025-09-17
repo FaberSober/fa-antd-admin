@@ -11,6 +11,7 @@ export interface FaWorkFlowContextProps {
   // updateNode: (node: Flw.Node) => void;
   /** 流程task节点状态(适用于进行中的流程展示流程节点运行状态) */
   renderNodes?: Record<string, '0' | '1'>;
+  readOnly: boolean;
 }
 
 export const FaWorkFlowContext = createContext<FaWorkFlowContextProps>({} as any);

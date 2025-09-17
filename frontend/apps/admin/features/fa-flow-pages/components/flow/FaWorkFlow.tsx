@@ -1,11 +1,12 @@
 import React from 'react';
-import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
+import { Flw } from "@features/fa-flow-pages/types";
 import { cloneDeep } from "lodash";
 import FaWorkFlowContext, { FaWorkFlowContextProps } from './context/FaWorkFlowContext';
 import NodeWrap from './NodeWrap';
 import './index.scss'
 import ZoomPanEditor from "@features/fa-flow-pages/components/flow/cubes/ZoomPanEditor";
 import { Tag } from 'antd';
+import clsx from 'clsx';
 
 
 export interface FaWorkFlowProps {
@@ -25,7 +26,7 @@ export interface FaWorkFlowProps {
  * @author xu.pengfei
  * @date 2025/8/19 17:34
  */
-export default function FaWorkFlow({ processModel, onChange, renderNodes, showLegends }: FaWorkFlowProps) {
+export default function FaWorkFlow({ processModel, onChange, renderNodes, showLegends, readOnly = false }: FaWorkFlowProps) {
   function updateProcessModel(v: Flw.ProcessModel) {
     if (onChange) onChange(v)
   }
@@ -57,6 +58,7 @@ export default function FaWorkFlow({ processModel, onChange, renderNodes, showLe
     },
     deleteNode,
     renderNodes: renderNodes || {},
+    readOnly,
   }
 
   return (
@@ -70,7 +72,7 @@ export default function FaWorkFlow({ processModel, onChange, renderNodes, showLe
           </div>
         )}
       >
-        <div className="sc-workflow-design">
+        <div className={clsx('sc-workflow-design', readOnly && 'sc-workflow-design-readonly')}>
           <div className="box-scale">
             <NodeWrap node={processModel.nodeConfig} />
 

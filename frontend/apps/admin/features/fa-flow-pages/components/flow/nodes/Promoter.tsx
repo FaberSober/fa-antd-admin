@@ -25,7 +25,7 @@ export default function Promoter({ node }: PromoterProps) {
   const [open, show, hide] = useOpen()
   const [loading, setLoading] = useState(false)
 
-  const { refreshNode } = useContext(FaWorkFlowContext)
+  const { refreshNode, readOnly } = useContext(FaWorkFlowContext)
   const { nodeCopy, setNodeCopy, updateNodeProps } = useNode(node)
 
   async function onFinish(fieldsValue: any) {
@@ -83,7 +83,7 @@ export default function Promoter({ node }: PromoterProps) {
           <Input value={nodeCopy.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)} />
         )}
       >
-        <Form form={form} layout="vertical" className="fa-flex-column fa-full" onFinish={onFinish}>
+        <Form form={form} layout="vertical" className="fa-flex-column fa-full" onFinish={onFinish} disabled={readOnly}>
           <FaFlexRestLayout>
             <Form.Item name="nodeAssigneeIds" label="发起角色" tooltip="谁可以发起此审批（不指定则默认所有人都可发起此审批）">
               <RbacRoleSelect mode="multiple" />
@@ -91,8 +91,8 @@ export default function Promoter({ node }: PromoterProps) {
           </FaFlexRestLayout>
 
           <Space>
-            <Button type="primary" icon={<SaveOutlined />} htmlType="submit" loading={loading}>保存</Button>
-            <Button onClick={() => hide()} icon={<RollbackOutlined />}>取消</Button>
+            <Button type="primary" icon={<SaveOutlined />} htmlType="submit" loading={loading} disabled={readOnly}>保存</Button>
+            <Button onClick={() => hide()} icon={<RollbackOutlined />} disabled={readOnly}>取消</Button>
           </Space>
         </Form>
       </BaseDrawer>

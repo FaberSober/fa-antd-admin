@@ -15,7 +15,7 @@ export default function NodeCloseBtn({ onClick }: NodeCloseBtnProps) {
 
   return (
     <div
-      className="close fa-link-btn"
+      className="close fa-link-btn fa-branch-node-del-btn"
       onClick={(e) => {
         FaUtils.preventEvent(e)
         if (onClick) onClick();

@@ -1,10 +1,12 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useContext, useState } from 'react';
 import { Flw } from "@features/fa-flow-pages/types";
 import { NodeCloseBtn } from "@features/fa-flow-pages/components/flow/cubes";
 import { Button, Form, Input, Select, Space } from "antd";
 import { BaseDrawer, FaFlexRestLayout, FaArrUtils, useOpen } from "@fa/ui";
 import { useConditionNode } from '../hooks';
 import { DeleteOutlined, PlusOutlined, RollbackOutlined, SaveOutlined } from "@ant-design/icons";
+import FaWorkFlowContext from '../context/FaWorkFlowContext';
+import clsx from 'clsx';
 
 
 export interface BranchNodeProps {
@@ -23,6 +25,7 @@ export interface BranchNodeProps {
  * @date 2025/8/21 17:08
  */
 export default function BranchNode({ node, index, elseNode, onDel, conditionText, onSubmit }: BranchNodeProps) {
+  const { readOnly } = useContext(FaWorkFlowContext)
   const [form] = Form.useForm();
   const [open, show, hide] = useOpen()
   const [loading, setLoading] = useState(false)
@@ -77,8 +80,9 @@ export default function BranchNode({ node, index, elseNode, onDel, conditionText
         <Form
           form={form}
           layout="vertical"
-          className="fa-flex-column fa-full"
+          className={clsx('fa-flex-column fa-full', readOnly && 'sc-workflow-design-readonly')}
           onFinish={onFinish}
+          disabled={readOnly}
         >
           <FaFlexRestLayout>
             <div className="fa-flex-column">
@@ -97,7 +101,7 @@ export default function BranchNode({ node, index, elseNode, onDel, conditionText
                           onClick={() => {
                             updateNodeProps(`conditionList`, FaArrUtils.spliceAndReturnSelf(nodeCopy.conditionList!, conditionGroupIdx))
                           }}
-                          className="fa-normal-btn">
+                          className="fa-normal-btn fa-branch-cond-group-del">
                           <DeleteOutlined />
                         </div>
                       </div>
@@ -149,7 +153,7 @@ export default function BranchNode({ node, index, elseNode, onDel, conditionText
                                     onClick={() => {
                                       updateNodeProps(`conditionList.[${conditionGroupIdx}]`, FaArrUtils.spliceAndReturnSelf(conditionGroup, idx))
                                     }}
-                                    className="fa-normal-btn"
+                                    className="fa-normal-btn fa-branch-cond-del-btn"
                                   >
                                     <DeleteOutlined />
                                   </div>
@@ -172,6 +176,7 @@ export default function BranchNode({ node, index, elseNode, onDel, conditionText
                           }}
                           type="link"
                           icon={<PlusOutlined />}
+                          className='fa-branch-add-cond-btn'
                         >添加条件</Button>
                       </div>
                     </div>
@@ -188,6 +193,7 @@ export default function BranchNode({ node, index, elseNode, onDel, conditionText
                     value: '',
                   }]])
                 }}
+                className='fa-branch-add-cond-group-btn'
                 icon={<PlusOutlined />} block variant="filled" color="default">添加条件组</Button>
             </div>
 

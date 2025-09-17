@@ -26,7 +26,7 @@ export default function Send({ node, parentNode }: SendProps) {
   const [open, show, hide] = useOpen()
   const [loading, setLoading] = useState(false)
 
-  const { refreshNode } = useContext(FaWorkFlowContext)
+  const { refreshNode, readOnly } = useContext(FaWorkFlowContext)
   const { nodeCopy, setNodeCopy, updateNodeProps } = useNode(node)
 
   async function onFinish(fieldsValue: any) {
@@ -90,7 +90,7 @@ export default function Send({ node, parentNode }: SendProps) {
           <Input value={nodeCopy.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)} />
         )}
       >
-        <Form form={form} layout="vertical" className="fa-flex-column fa-full" onFinish={onFinish}>
+        <Form form={form} layout="vertical" className="fa-flex-column fa-full" onFinish={onFinish} disabled={readOnly}>
           <FaFlexRestLayout>
             <Form.Item name="nodeAssigneeIds" label="抄送人员" tooltip="抄送以站内信的形式发送给选定人员">
               <UserSearchSelect mode="multiple" />
@@ -98,8 +98,8 @@ export default function Send({ node, parentNode }: SendProps) {
           </FaFlexRestLayout>
 
           <Space>
-            <Button type="primary" icon={<SaveOutlined />} htmlType="submit" loading={loading}>保存</Button>
-            <Button onClick={() => hide()} icon={<RollbackOutlined />}>取消</Button>
+            <Button type="primary" icon={<SaveOutlined />} htmlType="submit" loading={loading} disabled={readOnly}>保存</Button>
+            <Button onClick={() => hide()} icon={<RollbackOutlined />} disabled={readOnly}>取消</Button>
           </Space>
         </Form>
       </BaseDrawer>

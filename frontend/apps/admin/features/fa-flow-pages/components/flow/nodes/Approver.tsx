@@ -29,7 +29,7 @@ export default function Approver({ node, parentNode }: ApproverProps) {
   const [open, show, hide] = useOpen()
   const [loading, setLoading] = useState(false)
 
-  const { refreshNode } = useContext(FaWorkFlowContext)
+  const { refreshNode, readOnly } = useContext(FaWorkFlowContext)
   const { nodeCopy, setNodeCopy, updateNodeProps } = useNode(node)
 
   function toText(nodeConfig: Flw.Node) {
@@ -140,6 +140,7 @@ export default function Approver({ node, parentNode }: ApproverProps) {
               form.setFieldsValue({ nodeAssigneeIds: [] })
             }
           }}
+          disabled={readOnly}
         >
           <FaFlexRestLayout>
             <Form.Item name="setType" label="审批人员类型" rules={[{ required: true }]}>
@@ -224,7 +225,7 @@ export default function Approver({ node, parentNode }: ApproverProps) {
           </FaFlexRestLayout>
 
           <Space>
-            <Button type="primary" icon={<SaveOutlined />} htmlType="submit" loading={loading}>保存</Button>
+            <Button type="primary" icon={<SaveOutlined />} htmlType="submit" loading={loading} disabled={readOnly}>保存</Button>
             <Button onClick={() => hide()} icon={<RollbackOutlined />}>取消</Button>
           </Space>
         </Form>
