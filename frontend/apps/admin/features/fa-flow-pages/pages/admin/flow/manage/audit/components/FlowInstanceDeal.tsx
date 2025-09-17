@@ -97,7 +97,7 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess }: Flow
           </div>
         </FaLazyContainer>
         <FaLazyContainer showCond={tab === 'workflow'}>
-          <FaWorkFlow processModel={JSON.parse(info.modelContent)} renderNodes={info.renderNodes} showLegends />
+          <FaWorkFlow processModel={JSON.parse(info.modelContent)} renderNodes={info.renderNodes} showLegends readOnly />
         </FaLazyContainer>
       </FaFlexRestLayout>
     </div>

@@ -1,10 +1,12 @@
 import { flowCatagoryApi, flowProcessApi } from '@/services';
 import { Flow } from '@/types';
-import { ApiEffectLayoutContext, BaseDrawer, BaseTree, FaFlexRestLayout, FaUtils } from '@fa/ui';
+import { ApiEffectLayoutContext, BaseDrawer, BaseTree, FaFlexRestLayout, FaLazyContainer, FaUtils } from '@fa/ui';
 import DemoFlowLeaveForm from '@features/fa-flow-pages/pages/admin/demo/flow/form/leave/modal/DemoFlowLeaveForm';
-import { Button, Form, Space, Splitter } from 'antd';
+import { Button, Form, Segmented, Space, Splitter } from 'antd';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useFlowAuditContext } from '../contexts/FlowAuditContext';
+import { ApartmentOutlined, FormOutlined } from '@ant-design/icons';
+import { FaWorkFlow } from '@features/fa-flow-pages/components';
 
 
 export default function FlowAuditStart() {
@@ -16,6 +18,8 @@ export default function FlowAuditStart() {
   const [cata, setCata] = useState<Flow.FlowCatagory>();
   const [flows, setFlows] = useState<Flow.FlowProcess[]>([]);
   const [formLoading, setFormLoading] = useState<boolean>(false);
+
+  const [tab, setTab] = useState('basic');
 
   function onTreeSelect(keys: any[], event: any) {
     setCata(keys.length > 0 ? event.node.sourceData : undefined);
@@ -69,29 +73,53 @@ export default function FlowAuditStart() {
         {/* 右侧面板 */}
         <Splitter.Panel>
           <div className="fa-flex-column fa-full fa-relative fa-plr12">
-            <div className='fa-flex-row fa-flex-wrap'>
+            <div className='fa-flex-row fa-flex-wrap fa-gap12'>
               {flows.map(flow => {
                 return (
                   <div key={flow.id}>
                     <BaseDrawer
                       ref={drawerRef}
                       triggerDom={(
-                        <div className='fa-card fa-hover'>
-                          {flow.processName}
+                        <div className='fa-card fa-hover' style={{ width: 160, height: 100, padding: 12 }}>
+                          <div className='fa-h3'>{flow.processName}</div>
                         </div>
                       )}
                       width={1000}
+                      push={false}
                     >
                       <div className='fa-full-content-p12 fa-flex-column'>
-                        start {flow.processName}
+                        <div className='fa-mb12'>
+                          <Segmented
+                            options={[
+                              { label: '发起表单', value: 'basic', icon: <FormOutlined /> },
+                              { label: '流程配置', value: 'workflow', icon: <ApartmentOutlined /> },
+                            ]}
+                            value={tab}
+                            onChange={(value) => {
+                              setTab(value as string);
+                            }}
+                          />
+                        </div>
+
                         <FaFlexRestLayout>
-                          {flow.processKey === 'testLeave' && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} onLoadingChange={setFormLoading} />)}
-                          {flow.processKey === 'testLeave2' && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} onLoadingChange={setFormLoading} />)}
+                          <FaLazyContainer showCond={tab === 'basic'}>
+                            <div className='fa-full-content fa-flex-column'>
+                              发起流程：{flow.processName}
+                              <FaFlexRestLayout>
+                                {flow.processKey === 'testLeave' && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} onLoadingChange={setFormLoading} />)}
+                                {flow.processKey === 'testLeave2' && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} onLoadingChange={setFormLoading} />)}
+                              </FaFlexRestLayout>
+
+                              <Space>
+                                <Button type='primary' onClick={() => handleStart()} loading={loading || formLoading}>提交审批</Button>
+                              </Space>
+                            </div>
+                          </FaLazyContainer>
+                          <FaLazyContainer showCond={tab === 'workflow'}>
+                            <FaWorkFlow processModel={JSON.parse(flow.modelContent)} readOnly />
+                          </FaLazyContainer>
                         </FaFlexRestLayout>
 
-                        <Space>
-                          <Button type='primary' onClick={() => handleStart()} loading={loading || formLoading}>提交审批</Button>
-                        </Space>
                       </div>
                     </BaseDrawer>
                   </div>
