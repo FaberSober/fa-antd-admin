@@ -16,6 +16,8 @@ export interface FaWorkFlowProps {
   renderNodes?: Record<string, '0' | '1'>;
   /** 是否显示流程图图例 */
   showLegends?: boolean;
+  /** 是否只读 */
+  readOnly?: boolean;
 }
 
 /**

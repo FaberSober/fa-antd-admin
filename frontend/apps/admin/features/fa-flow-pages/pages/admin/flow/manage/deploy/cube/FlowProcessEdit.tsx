@@ -89,8 +89,8 @@ export default function FlowProcessEdit({item, onSuccess, viewOnly}: FlowProcess
   }
 
   return (
-    <div className='fa-full-content-p12 fa-flex-column'>
-      <div className='fa-pb12'>
+    <div className='fa-full fa-flex-column'>
+      <div>
         {!viewOnly && (
           <div className='fa-flex-row-center'>
             <div style={{width: 100}}></div>

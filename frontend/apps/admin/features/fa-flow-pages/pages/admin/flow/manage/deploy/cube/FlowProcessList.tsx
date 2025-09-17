@@ -7,6 +7,7 @@ import { flowProcessApi as api } from '@/services';
 import { Flow } from '@/types';
 import FlowProcessModal from '../modal/FlowProcessModal';
 import FlowProcessEdit from './FlowProcessEdit';
+import FlowProcessView from './FlowProcessView';
 
 const serviceName = '流程定义';
 const biz = 'flow_process';
@@ -102,7 +103,7 @@ export default function FlowProcessList({ catagoryId }: FlowProcessListProps) {
             <FaHref icon={<CopyOutlined />} tooltip="复制" />
 
             <BaseDrawer triggerDom={<FaHref tooltip="查看" icon={<EyeOutlined />} />}>
-              <FlowProcessEdit item={r} viewOnly />
+              <FlowProcessView item={r} />
             </BaseDrawer>
 
             {r.processState === 1 && <FaHref icon={<CloseCircleOutlined />} tooltip="停用" color="red" onClick={() => handleDeactive(r.id)} />}
