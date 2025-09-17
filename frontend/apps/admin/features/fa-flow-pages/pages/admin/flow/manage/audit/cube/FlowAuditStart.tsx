@@ -31,7 +31,7 @@ export default function FlowAuditStart() {
 
   function getFlows() {
     flowProcessApi.list({
-      query: { catagoryId: cata?.id },
+      query: { catagoryId: cata?.id, processState: 1 },
       sorter: 'sort ASC',
     }).then(res => {
       setFlows(res.data);

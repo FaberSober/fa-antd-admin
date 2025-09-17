@@ -8,8 +8,8 @@ import { NodeCloseBtn, NodeSetTypeSelect } from "@features/fa-flow-pages/compone
 import FaWorkFlowContext from "@features/fa-flow-pages/components/flow/context/FaWorkFlowContext";
 import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
 import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
-import { RbacRoleSelect } from "@features/fa-admin-pages/components";
-import { rbacRoleApi, userApi } from "@features/fa-admin-pages/services";
+import { DepartmentCascade, RbacRoleSelect } from "@features/fa-admin-pages/components";
+import { departmentApi, rbacRoleApi, userApi } from "@features/fa-admin-pages/services";
 
 const { NodeSetType } = FlwEnums;
 
@@ -45,7 +45,14 @@ export default function Approver({ node, parentNode }: ApproverProps) {
     } else if (nodeConfig.setType === NodeSetType.role) {
       if (nodeConfig.nodeAssigneeList && nodeConfig.nodeAssigneeList.length > 0) {
         const roles = nodeConfig.nodeAssigneeList.map(item => item.name).join("、")
-        return '角色-' + roles
+        return '角色：' + roles
+      } else {
+        return false
+      }
+    } else if (nodeConfig.setType === NodeSetType.department) {
+      if (nodeConfig.nodeAssigneeList && nodeConfig.nodeAssigneeList.length > 0) {
+        const roles = nodeConfig.nodeAssigneeList.map(item => item.name).join("、")
+        return '部门：' + roles
       } else {
         return false
       }
@@ -76,6 +83,9 @@ export default function Approver({ node, parentNode }: ApproverProps) {
         nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
       } else if (fieldsValue.setType === NodeSetType.role) {
         const res = await rbacRoleApi.getByIds(fieldsValue.nodeAssigneeIds);
+        nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
+      } else if (fieldsValue.setType === NodeSetType.department) {
+        const res = await departmentApi.getByIds(fieldsValue.nodeAssigneeIds);
         nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
       }
 
@@ -131,6 +141,7 @@ export default function Approver({ node, parentNode }: ApproverProps) {
           className="fa-flex-column fa-full"
           onFinish={onFinish}
           onValuesChange={(cv, av) => {
+            console.log('cv, av', cv, av)
             if (FaUtils.hasAnyProp(cv, ['setType'])) {
               setNodeCopy(prev => ({
                 ...prev,
@@ -159,6 +170,11 @@ export default function Approver({ node, parentNode }: ApproverProps) {
             {nodeCopy.setType === NodeSetType.role && (
               <Form.Item name="nodeAssigneeIds" label="选择角色" rules={[{ required: true }]}>
                 <RbacRoleSelect mode="multiple" />
+              </Form.Item>
+            )}
+            {nodeCopy.setType === NodeSetType.department && (
+              <Form.Item name="nodeAssigneeIds" label="选择部门" rules={[{ required: true }]}>
+                <DepartmentCascade multiple changeOnSelect={false} />
               </Form.Item>
             )}
             {nodeCopy.setType === NodeSetType.initiatorSelected && (

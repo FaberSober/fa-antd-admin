@@ -92,7 +92,7 @@ export default function FlowProcessEdit({item, onSuccess, viewOnly}: FlowProcess
     <div className='fa-full fa-flex-column'>
       <div>
         {!viewOnly && (
-          <div className='fa-flex-row-center'>
+          <div className='fa-flex-row-center fa-mb12'>
             <div style={{width: 100}}></div>
             <div className='fa-flex-1 fa-flex-center'>
               <Steps

@@ -1,5 +1,11 @@
-html {
+body {
   --el-bg-color: #efefef;
+  --el-node-bg-color: #FFF;
+}
+
+[data-theme=dark] body {
+  --el-bg-color: #222222;
+  --el-node-bg-color: #333;
 }
 
 .fa-workflow-editor-container {
@@ -61,7 +67,7 @@ html {
     width: 220px;
     min-height: 72px;
     flex-shrink: 0;
-    background: rgb(255, 255, 255);
+    background: var(--el-node-bg-color);
     border-radius: 4px;
     cursor: pointer;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);

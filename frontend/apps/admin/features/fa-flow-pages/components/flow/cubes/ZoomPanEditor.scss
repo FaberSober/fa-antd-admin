@@ -13,7 +13,7 @@
   width: miniMapWidth;
   height: miniMapHeight;
   border: 1px solid #666;
-  background: #fff;
+  background: var(--el-bg-color);
   overflow: hidden;
 }
 
