@@ -4,13 +4,16 @@ import org.springframework.stereotype.Service;
 
 import com.aizuda.bpm.engine.FlowLongEngine;
 import com.aizuda.bpm.engine.core.FlowCreator;
+import com.aizuda.bpm.engine.core.enums.NodeSetType;
 import com.aizuda.bpm.engine.entity.FlwTask;
+import com.aizuda.bpm.engine.model.NodeModel;
 import com.faber.api.flow.manage.mapper.FlowTaskFaMapper;
 import com.faber.api.flow.manage.vo.req.FlowTaskPageReqVo;
-import com.faber.api.flow.manage.vo.ret.FlowTaskRet;
-import com.faber.api.flow.manage.vo.ret.FlowTaskCountRet;
 import com.faber.api.flow.manage.vo.ret.FlowHisInstanceRet;
+import com.faber.api.flow.manage.vo.ret.FlowTaskCountRet;
+import com.faber.api.flow.manage.vo.ret.FlowTaskRet;
 import com.faber.core.context.BaseContextHandler;
+import com.faber.core.exception.BuzzException;
 import com.faber.core.vo.msg.TableRet;
 import com.faber.core.vo.query.BasePageQuery;
 import com.github.pagehelper.PageHelper;
@@ -78,6 +81,19 @@ public class FlowTaskBiz {
         FlowCreator flowCreator = FlowCreator.of(BaseContextHandler.getUserId(), BaseContextHandler.getName());
         FlwTask flwTask = flowLongEngine.queryService().getTask(taskId);
         flowLongEngine.executeRejectTask(flwTask, null, flowCreator, null, true);
+    }
+
+    public void claim(Long taskId) {
+        FlowCreator flowCreator = FlowCreator.of(BaseContextHandler.getUserId(), BaseContextHandler.getName());
+        NodeModel nodeModel = flowLongEngine.taskService().getTaskModel(taskId);
+        Integer setType = nodeModel.getSetType();
+        if (NodeSetType.department.eq(setType)) {
+            flowLongEngine.taskService().claimDepartment(taskId, flowCreator);
+        } else if (NodeSetType.role.eq(setType)) {
+            flowLongEngine.taskService().claimRole(taskId, flowCreator);
+        } else {
+            throw new BuzzException("当前任务不支持认领操作");
+        }
     }
     
     /**

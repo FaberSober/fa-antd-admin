@@ -86,7 +86,7 @@ export default function FlowPendingClaim() {
           <div className="fa-flex-column fa-full fa-relative">
             {task && (
               <div>
-                <FlowInstanceDeal instanceId={task.instanceId} taskId={task.taskId} onSuccess={() => refresh()} />
+                <FlowInstanceDeal type="claim" instanceId={task.instanceId} taskId={task.taskId} onSuccess={() => refresh()} />
               </div>
             )}
           </div>

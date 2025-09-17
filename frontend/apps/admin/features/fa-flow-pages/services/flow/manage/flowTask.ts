@@ -26,6 +26,9 @@ class Api extends BaseZeroApi {
   /** 拒绝流程 */
   reject = (params: Flow.FlowTaskRejectReqVo): Promise<Fa.Ret<boolean>> => this.post('reject', params);
 
+  /** 认领任务 */
+  claim = (params: {taskId: string}): Promise<Fa.Ret<boolean>> => this.post('claim', params);
+
   /** 查询我的流程任务数量 */
   getMyTaskCount = (): Promise<Fa.Ret<Flow.FlowTaskCountRet>> => this.get('getMyTaskCount');
 

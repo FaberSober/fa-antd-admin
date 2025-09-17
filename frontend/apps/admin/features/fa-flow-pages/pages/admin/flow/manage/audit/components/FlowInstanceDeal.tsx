@@ -14,9 +14,10 @@ interface FlowInstanceDealProps {
   instanceId: string;
   taskId?: string;
   onSuccess?: () => void;
+  type?: 'audit' | 'view' | 'claim'; // 审批 or 查看 or 认领
 }
 
-export default function FlowInstanceDeal({ instanceId, taskId, onSuccess }: FlowInstanceDealProps) {
+export default function FlowInstanceDeal({ instanceId, taskId, onSuccess, type = 'view' }: FlowInstanceDealProps) {
   const { refreshCount } = useFlowAuditContext();
   const [tab, setTab] = useState('form');
   const [info, setInfo] = useState<Flow.FlowApprovalInfo>()
@@ -35,6 +36,7 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess }: Flow
   function handlePass() {
     Modal.confirm({
       title: '请确认是否通过?',
+      okText: '通过',
       onOk: () => {
         return flowTaskApi.pass({ taskId: taskId! }).then(res => {
           FaUtils.showResponse(res, '同意流程')
@@ -53,6 +55,20 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess }: Flow
       onOk: () => {
         return flowTaskApi.reject({ taskId: taskId! }).then(res => {
           FaUtils.showResponse(res, '拒绝流程')
+          onSuccess?.();
+          refreshCount();
+        })
+      }
+    })
+  }
+
+  function handleClaim() {
+    Modal.confirm({
+      title: '请确认是否认领该任务?',
+      okText: '认领',
+      onOk: () => {
+        return flowTaskApi.claim({ taskId: taskId! }).then(res => {
+          FaUtils.showResponse(res, '认领任务')
           onSuccess?.();
           refreshCount();
         })
@@ -84,8 +100,9 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess }: Flow
               <FlowFormView flwProcess={info.flwProcess} formValues={JSON.parse(info.formContent || '{}')} />
               <Space>
                 <Button onClick={() => message.info('TODO')} icon={<CommentOutlined />}>评论</Button>
-                {taskId && <Button onClick={() => handlePass()} icon={<CheckOutlined />} type='primary'>同意</Button>}
-                {taskId && <Button onClick={() => handleReject()} icon={<CloseOutlined />} type='primary' danger>拒绝</Button>}
+                {type === 'audit' && taskId && <Button onClick={() => handlePass()} icon={<CheckOutlined />} type='primary'>同意</Button>}
+                {type === 'audit' && taskId && <Button onClick={() => handleReject()} icon={<CloseOutlined />} type='primary' danger>拒绝</Button>}
+                {type === 'claim' && taskId && <Button onClick={() => handleClaim()} icon={<CheckOutlined />} variant="solid" color="cyan">认领</Button>}
               </Space>
             </div>
 

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.faber.api.flow.manage.biz.FlowTaskBiz;
+import com.faber.api.flow.manage.vo.req.FlowTaskClaimReqVo;
 import com.faber.api.flow.manage.vo.req.FlowTaskPageReqVo;
 import com.faber.api.flow.manage.vo.req.FlowTaskPassReqVo;
 import com.faber.api.flow.manage.vo.req.FlowTaskRejectReqVo;
@@ -80,6 +81,14 @@ public class FlowTaskController extends BaseResHandler {
     @ResponseBody
     public Ret<Boolean> reject(@Validated @RequestBody FlowTaskRejectReqVo reqVo) {
         flowTaskBiz.reject(reqVo.getTaskId());
+        return ok();
+    }
+
+    @FaLogOpr(value = "认领任务", crud = LogCrudEnum.C)
+    @RequestMapping(value = "/claim", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<Boolean> claim(@Validated @RequestBody FlowTaskClaimReqVo reqVo) {
+        flowTaskBiz.claim(reqVo.getTaskId());
         return ok();
     }
     
