@@ -58,16 +58,18 @@ export default function FlowAuditStart() {
       <Splitter>
         {/* 左侧面板 */}
         <Splitter.Panel defaultSize={300} min={240} max="50%" collapsible>
-          <BaseTree
-            // showRoot
-            rootName="全部"
-            onSelect={onTreeSelect}
-            // 自定义配置
-            serviceName="分类"
-            serviceApi={flowCatagoryApi}
-            defaultExpandAll
-            showTopAddBtn={false}
-          />
+          <div className="fa-full fa-flex-column fa-relative fa-pr12">
+            <BaseTree
+              // showRoot
+              rootName="全部"
+              onSelect={onTreeSelect}
+              // 自定义配置
+              serviceName="分类"
+              serviceApi={flowCatagoryApi}
+              defaultExpandAll
+              showTopAddBtn={false}
+            />
+          </div>
         </Splitter.Panel>
 
         {/* 右侧面板 */}

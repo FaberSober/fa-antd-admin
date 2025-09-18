@@ -3,7 +3,7 @@ import { Flow } from '@/types';
 import { ApartmentOutlined, CheckOutlined, CloseOutlined, CommentOutlined, FormOutlined, HistoryOutlined } from '@ant-design/icons';
 import { FaFlexRestLayout, FaLazyContainer, FaUtils, PageLoading } from '@fa/ui';
 import { FaWorkFlow, FaFlowTaskTimeline } from '@features/fa-flow-pages/components';
-import { Button, message, Modal, Segmented, Space, Typography } from 'antd';
+import { Button, message, Modal, Segmented, Space, Splitter, Typography } from 'antd';
 import { isNil } from 'lodash';
 import { useEffect, useState } from 'react';
 import FlowFormView from './FlowFormView';
@@ -78,7 +78,7 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess, type =
 
   if (isNil(info)) return <PageLoading />
   return (
-    <div className='fa-full-content-p12 fa-flex-column'>
+    <div className='fa-full-content-p12 fa-flex-column' style={{right: 0}}>
       <div className='fa-mb12'>
         <Segmented
           options={[
@@ -94,23 +94,29 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess, type =
 
       <FaFlexRestLayout>
         <FaLazyContainer showCond={tab === 'form'}>
-          <div className='fa-full-content fa-flex-row'>
+          <div className='fa-full-content fa-flex-row fa-scroll-hidden'>
             {/* 左侧展示流程对应的业务表单 */}
-            <div className='fa-flex-1'>
-              <FlowFormView flwProcess={info.flwProcess} formValues={JSON.parse(info.formContent || '{}')} />
-              <Space>
-                <Button onClick={() => message.info('TODO')} icon={<CommentOutlined />}>评论</Button>
-                {type === 'audit' && taskId && <Button onClick={() => handlePass()} icon={<CheckOutlined />} type='primary'>同意</Button>}
-                {type === 'audit' && taskId && <Button onClick={() => handleReject()} icon={<CloseOutlined />} type='primary' danger>拒绝</Button>}
-                {type === 'claim' && taskId && <Button onClick={() => handleClaim()} icon={<CheckOutlined />} variant="solid" color="cyan">认领</Button>}
-              </Space>
-            </div>
+            <Splitter>
+              <Splitter.Panel>
+              <div className='fa-full fa-flex-column fa-pr12'>
+                <FlowFormView flwProcess={info.flwProcess} formValues={JSON.parse(info.formContent || '{}')} />
+                <Space>
+                  <Button onClick={() => message.info('TODO')} icon={<CommentOutlined />}>评论</Button>
+                  {type === 'audit' && taskId && <Button onClick={() => handlePass()} icon={<CheckOutlined />} type='primary'>同意</Button>}
+                  {type === 'audit' && taskId && <Button onClick={() => handleReject()} icon={<CloseOutlined />} type='primary' danger>拒绝</Button>}
+                  {type === 'claim' && taskId && <Button onClick={() => handleClaim()} icon={<CheckOutlined />} variant="solid" color="cyan">认领</Button>}
+                </Space>
+              </div>
+              </Splitter.Panel>
 
-            {/* 右侧展示流程的审批时间轴 */}
-            <div style={{width: 300, paddingLeft: 16, borderLeft: '1px solid #f0f0f0'}} className='fa-flex-column'>
-              <Typography.Title level={5} style={{ marginBottom: 16 }}>审批记录</Typography.Title>
-              <FaFlowTaskTimeline processApprovals={info.processApprovals} />
-            </div>
+              {/* 右侧展示流程的审批时间轴 */}
+              <Splitter.Panel defaultSize={300} min={240} max="50%" collapsible>
+                <div style={{width: '100%', paddingLeft: 12}} className='fa-flex-column'>
+                  <Typography.Title level={5} style={{ marginBottom: 24, marginTop: 0 }}>审批记录</Typography.Title>
+                  <FaFlowTaskTimeline processApprovals={info.processApprovals} />
+                </div>
+              </Splitter.Panel>
+            </Splitter>
           </div>
         </FaLazyContainer>
         <FaLazyContainer showCond={tab === 'workflow'}>

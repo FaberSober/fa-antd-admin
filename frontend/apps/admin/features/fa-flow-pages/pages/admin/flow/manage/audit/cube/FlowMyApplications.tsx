@@ -84,6 +84,8 @@ export default function FlowMyApplications() {
                   </Form.Item>
                 </div>
               )}
+              formStyle={{ marginRight: 12 }}
+              bodyStyle={{ scrollbarGutter: 'stable' }}
             />
           </div>
         </Splitter.Panel>
