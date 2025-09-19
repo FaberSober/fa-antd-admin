@@ -15,6 +15,8 @@ export default function FlowFormView({ flwProcess, formValues }: FlowFormViewPro
     <div>
       {flwProcess.processKey === 'testLeave' && (<DemoFlowLeaveForm form={form} record={formValues} disabled />)}
       {flwProcess.processKey === 'testLeave2' && (<DemoFlowLeaveForm form={form} record={formValues} disabled />)}
+      {flwProcess.processKey === 'testLeave3' && (<DemoFlowLeaveForm form={form} record={formValues} disabled />)}
+      {flwProcess.processKey === 'testLeave4' && (<DemoFlowLeaveForm form={form} record={formValues} disabled />)}
     </div>
   )
 }

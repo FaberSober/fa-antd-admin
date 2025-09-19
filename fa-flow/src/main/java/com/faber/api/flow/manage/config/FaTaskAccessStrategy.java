@@ -16,6 +16,7 @@ import jakarta.annotation.Resource;
 
 /**
  * 任务访问策略
+ * https://flowlong.aizuda.com/docs/taskAccessStrategy.html
  * 1. 任务处理人为用户，判断用户是否在taskActors中；
  * 2. 任务处理人为角色，判读用户角色是否在taskActors中；
  * 3. 任务处理人为部门，判读用户部门是否在taskActors中；
