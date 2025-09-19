@@ -26,7 +26,7 @@ export default function FlowProcessForm({ form, initialValues, onFinish, readOnl
       <Form.Item name="catagoryId" label="流程分类" rules={[{ required: true }]}>
         <FlowCatagoryCascader />
       </Form.Item>
-      <Form.Item name="processKey" label="流程定义" tooltip="流程定义 key 唯一标识" rules={[{ required: true }]}>
+      <Form.Item name="processKey" label="流程定义" tooltip="流程定义 key 唯一标识，已发起的流程实例不会随之变化" rules={[{ required: true }]}>
         <Input placeholder="请输入流程定义 key 唯一标识" />
       </Form.Item>
       <Form.Item name="processName" label="流程名称" rules={[{ required: true }]}>

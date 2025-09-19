@@ -1,5 +1,6 @@
 package com.faber.api.flow.manage.rest;
 
+import com.aizuda.bpm.engine.entity.FlwInstance;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,6 +46,13 @@ public class FlowProcessController extends BaseController<FlowProcessBiz, FlowPr
     public Ret<Boolean> start(@Validated(value = Vg.Crud.C.class) @RequestBody FlowProcessStartReqVo reqVo) {
         baseBiz.start(reqVo);
         return ok();
+    }
+
+    @FaLogOpr(value = "发起流程-返回实例", crud = LogCrudEnum.C)
+    @RequestMapping(value = "/retInstanceStart", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<FlwInstance> retInstanceStart(@Validated(value = Vg.Crud.C.class) @RequestBody FlowProcessStartReqVo reqVo) {
+        return ok(baseBiz.retInstanceStart(reqVo));
     }
 
     @FaLogOpr(value = "查看流程详情", crud = LogCrudEnum.R)

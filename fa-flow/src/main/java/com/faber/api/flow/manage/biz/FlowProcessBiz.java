@@ -1,9 +1,6 @@
 package com.faber.api.flow.manage.biz;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -111,6 +108,13 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
         flowLongEngine.startInstanceByProcessKey(reqVo.getProcessKey(), null, flowCreator, reqVo.getArgs());
 
         return true;
+    }
+    // 流程实例-返回实例id
+    public FlwInstance retInstanceStart(FlowProcessStartReqVo reqVo) {
+        FlowCreator flowCreator = FlowCreator.of(getCurrentUserId(), BaseContextHandler.getName());
+        Optional<FlwInstance> instance = flowLongEngine.startInstanceByProcessKey(reqVo.getProcessKey(), null, flowCreator, reqVo.getArgs());
+
+        return instance.orElse(null);
     }
 
     public FlowApprovalInfo getApprovalInfoById(Long instanceId) {
