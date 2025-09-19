@@ -1,9 +1,10 @@
+import { UserLayoutContext } from '@/layout';
 import { demoFlowLeaveApi as api } from '@/services';
 import { Flow } from '@/types';
 import { FaUtils, UserSearchSelect } from '@fa/ui';
 import { DatePicker, Form, FormInstance, Input, InputNumber } from 'antd';
 import { get } from 'lodash';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 
 
 interface DemoFlowLeaveFormProps {
@@ -18,6 +19,7 @@ interface DemoFlowLeaveFormProps {
  * DEMO-请假流程实体新增、编辑弹框
  */
 export default function DemoFlowLeaveForm({ form, record, onSuccess, onLoadingChange, disabled }: DemoFlowLeaveFormProps) {
+  const { user } = useContext(UserLayoutContext)
 
   useEffect(() => {
     form.setFieldsValue(getInitialValues())
@@ -62,7 +64,7 @@ export default function DemoFlowLeaveForm({ form, record, onSuccess, onLoadingCh
 
   function getInitialValues() {
     return {
-      applyUserId: get(record, 'applyUserId'),
+      applyUserId: get(record, 'applyUserId', user.id),
       applyDate: FaUtils.getInitialKeyTimeValue(record, 'applyDate'),
       applyReason: get(record, 'applyReason'),
       leaveDayCount: get(record, 'leaveDayCount'),
@@ -77,19 +79,19 @@ export default function DemoFlowLeaveForm({ form, record, onSuccess, onLoadingCh
         <Form.Item name="applyUserId" label="请假员工" rules={[{ required: true }]}>
           <UserSearchSelect />
         </Form.Item>
-        <Form.Item name="applyDate" label="申请日期" rules={[{ required: true }]}>
+        <Form.Item name="applyDate" label="申请日期" rules={[{ required: false }]}>
           <DatePicker placeholder="请输入申请日期" />
         </Form.Item>
-        <Form.Item name="applyReason" label="请假原因" rules={[{ required: true }]}>
+        <Form.Item name="applyReason" label="请假原因" rules={[{ required: false }]}>
           <Input placeholder="请输入请假原因" />
         </Form.Item>
         <Form.Item name="leaveDayCount" label="请假天数" rules={[{ required: true }]}>
           <InputNumber min={0} max={100} placeholder="请输入请假天数" />
         </Form.Item>
-        <Form.Item name="leaveStartTime" label="开始时间" rules={[{ required: true }]}>
+        <Form.Item name="leaveStartTime" label="开始时间" rules={[{ required: false }]}>
           <DatePicker showTime={{ format: 'HH:mm' }} placeholder="请输入开始时间" />
         </Form.Item>
-        <Form.Item name="leaveEndTime" label="结束时间" rules={[{ required: true }]}>
+        <Form.Item name="leaveEndTime" label="结束时间" rules={[{ required: false }]}>
           <DatePicker showTime={{ format: 'HH:mm' }} placeholder="请输入结束时间" />
         </Form.Item>
       </Form>

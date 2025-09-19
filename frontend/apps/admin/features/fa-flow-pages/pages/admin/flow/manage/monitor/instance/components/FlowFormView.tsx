@@ -13,8 +13,7 @@ export default function FlowFormView({ flwProcess, formValues }: FlowFormViewPro
   const [form] = Form.useForm();
   return (
     <div>
-      {flwProcess.processKey === 'testLeave' && (<DemoFlowLeaveForm form={form} record={formValues} disabled />)}
-      {flwProcess.processKey === 'testLeave2' && (<DemoFlowLeaveForm form={form} record={formValues} disabled />)}
+      {flwProcess.processKey.startsWith('testLeave') && (<DemoFlowLeaveForm form={form} record={formValues} disabled />)}
     </div>
   )
 }

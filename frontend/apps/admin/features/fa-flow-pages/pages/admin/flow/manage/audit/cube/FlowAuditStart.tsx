@@ -109,10 +109,7 @@ export default function FlowAuditStart() {
                             <div className='fa-full-content fa-flex-column'>
                               发起流程：{flow.processName}
                               <FaFlexRestLayout>
-                                {flow.processKey === 'testLeave' && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} onLoadingChange={setFormLoading} />)}
-                                {flow.processKey === 'testLeave2' && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} onLoadingChange={setFormLoading} />)}
-                                {flow.processKey === 'testLeave3' && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} onLoadingChange={setFormLoading} />)}
-                                {flow.processKey === 'testLeave4' && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} onLoadingChange={setFormLoading} />)}
+                                {flow.processKey.startsWith('testLeave') && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} onLoadingChange={setFormLoading} />)}
                               </FaFlexRestLayout>
 
                               <Space>
