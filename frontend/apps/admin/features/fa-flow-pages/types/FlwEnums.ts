@@ -168,6 +168,8 @@ namespace FlowEnums {
     department = 7,
     /** 指定候选人 */
     designatedCandidate = 8,
+    /** 代码接口指定 */
+    code = 20,
   }
 
   export const NodeSetTypeMap: Record<NodeSetType, string> = {
@@ -179,6 +181,7 @@ namespace FlowEnums {
     [NodeSetType.multiLevelSupervisors]: '连续多级主管',
     [NodeSetType.department]: '部门',
     [NodeSetType.designatedCandidate]: '指定候选人',
+    [NodeSetType.code]: '代码接口指定',
   }
 
   /**

@@ -23,6 +23,7 @@ export default function NodeSetTypeSelect({...props}: NodeSetTypeSelectProps) {
         { label: NodeSetTypeMap[NodeSetType.multiLevelSupervisors], value: NodeSetType.multiLevelSupervisors },
         { label: NodeSetTypeMap[NodeSetType.department], value: NodeSetType.department },
         { label: NodeSetTypeMap[NodeSetType.designatedCandidate], value: NodeSetType.designatedCandidate },
+        { label: NodeSetTypeMap[NodeSetType.code], value: NodeSetType.code },
       ]}
       {...props}
     />

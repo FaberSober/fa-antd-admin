@@ -10,6 +10,7 @@ import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
 import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
 import { DepartmentCascade, RbacRoleSelect } from "@features/fa-admin-pages/components";
 import { departmentApi, rbacRoleApi, userApi } from "@features/fa-admin-pages/services";
+import { get } from 'lodash';
 
 const { NodeSetType } = FlwEnums;
 
@@ -62,6 +63,8 @@ export default function Approver({ node, parentNode }: ApproverProps) {
       return "发起人自己"
     } else if (nodeConfig.setType === NodeSetType.multiLevelSupervisors) {
       return "连续多级主管"
+    } else if (nodeConfig.setType === NodeSetType.code) {
+      return "代码接口指定"
     }
     return false;
   }
@@ -89,11 +92,22 @@ export default function Approver({ node, parentNode }: ApproverProps) {
         nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
       }
 
-      const nodeNew = {
+      let nodeNew = {
         ...nodeCopy,
         setType: fieldsValue.setType,
         nodeAssigneeList,
       }
+
+      if (fieldsValue.setType === NodeSetType.code) {
+        nodeNew = {
+          ...nodeNew,
+          extendConfig: {
+            ...nodeNew.extendConfig,
+            nodeAssigneeCodePath: fieldsValue.nodeAssigneeCodePath,
+          }
+        }
+      }
+
       setNodeCopy(nodeNew)
       // 这里node是使用根config传来的节点引用，修改node内容，但不修改引用
       Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
@@ -108,10 +122,14 @@ export default function Approver({ node, parentNode }: ApproverProps) {
 
   function showDrawer() {
     show()
-    form.setFieldsValue({
+    const initValues: any = {
       ...nodeCopy,
       nodeAssigneeIds: nodeCopy.nodeAssigneeList ? nodeCopy.nodeAssigneeList.map(item => item.id) : [],
-    })
+    }
+    if (initValues.setType === NodeSetType.code) {
+      initValues.nodeAssigneeCodePath = get(nodeCopy, 'extendConfig.nodeAssigneeCodePath')
+    }
+    form.setFieldsValue(initValues)
   }
 
   return (
@@ -203,6 +221,11 @@ export default function Approver({ node, parentNode }: ApproverProps) {
                   </Form.Item>
                 )}
               </>
+            )}
+            {nodeCopy.setType === NodeSetType.code && (
+              <Form.Item name="nodeAssigneeCodePath" label="代码接口" rules={[{ required: true }]}>
+                <Input placeholder='请输入代码接口地址' />
+              </Form.Item>
             )}
 
             <Divider />
