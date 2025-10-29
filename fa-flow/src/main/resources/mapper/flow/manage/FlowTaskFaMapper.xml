@@ -13,7 +13,7 @@
                 and i.instance_state = #{query.instanceState}
             </if>
             <if test="query.processName != null and query.processName.trim() != ''">
-                and p.process_name like concat('%', #{processName}, '%')
+                and p.process_name like concat('%', #{query.processName}, '%')
             </if>
             <if test="query.createBy != null and query.createBy.trim() != ''">
                 and p.create_by like concat('%', #{query.createBy}, '%')

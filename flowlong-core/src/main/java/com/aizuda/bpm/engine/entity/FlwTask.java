@@ -100,8 +100,9 @@ public class FlwTask extends FlowEntity {
         return FlowLongContext.fromJson(this.variable, Map.class);
     }
 
-    public void taskType(TaskType taskType) {
+    public FlwTask taskType(TaskType taskType) {
         this.taskType = taskType.getValue();
+        return this;
     }
 
     public void setTaskType(Integer taskType) {
@@ -142,12 +143,13 @@ public class FlwTask extends FlowEntity {
         return Objects.equals(0L, this.parentTaskId);
     }
 
-    public FlwTask cloneTask(FlwHisTaskActor flwHisTaskActor) {
-        if (null != flwHisTaskActor) {
-            this.createId = flwHisTaskActor.getActorId();
-            this.createBy = flwHisTaskActor.getActorName();
+    public FlwTask cloneTask(FlwHisTaskActor hta) {
+        FlwTask ft = this.cloneTask(createId, createBy);
+        if (null != hta) {
+            ft.setCreateId(hta.getActorId());
+            ft.setCreateBy(hta.getActorName());
         }
-        return cloneTask(createId, createBy);
+        return ft;
     }
 
     public FlwTask cloneTask(String createId, String createBy) {

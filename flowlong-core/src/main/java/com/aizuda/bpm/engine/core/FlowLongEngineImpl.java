@@ -197,7 +197,7 @@ public class FlowLongEngineImpl implements FlowLongEngine {
      */
     @Override
     public boolean autoRejectTask(FlwTask flwTask, Map<String, Object> args, FlowCreator flowCreator) {
-        Optional<List<FlwTask>> flwTasksOptional = taskService().rejectTask(flwTask, flowCreator, args);
+        Optional<List<FlwTask>> flwTasksOptional = taskService().rejectTask(flwTask, flowCreator, args, TaskState.autoReject, TaskEventType.autoReject);
         if (log.isDebugEnabled()) {
             log.debug("Auto reject taskId={}", flwTask.getId());
         }
@@ -205,7 +205,7 @@ public class FlowLongEngineImpl implements FlowLongEngine {
     }
 
     @Override
-    public Optional<List<FlwTask>> executeJumpTask(Long taskId, String nodeKey, FlowCreator flowCreator, Map<String, Object> args, TaskType taskTye) {
+    public Optional<List<FlwTask>> executeJumpTask(Long taskId, String nodeKey, FlowCreator flowCreator, Map<String, Object> args, TaskType taskType) {
         // 执行任务跳转归档
         return taskService().executeJumpTask(taskId, nodeKey, flowCreator, args, flwTask -> {
             FlwInstance flwInstance = this.getFlwInstance(flwTask.getInstanceId(), flowCreator.getCreateBy());
@@ -220,7 +220,7 @@ public class FlowLongEngineImpl implements FlowLongEngine {
             // 传递父节点信息
             execution.setFlwTask(flwTask);
             return execution;
-        }, taskTye);
+        }, taskType);
     }
 
     @Override
@@ -296,6 +296,19 @@ public class FlowLongEngineImpl implements FlowLongEngine {
 
         // 2，驳回到上一节点
         return taskService().rejectTask(currentFlwTask, flowCreator, args);
+    }
+
+    @Override
+    public boolean executeResumeTask(Long instanceId, FlowCreator flowCreator, Map<String, Object> args) {
+        return taskService().resume(instanceId, flowCreator, (flwInstance, nodeKey) -> {
+            ProcessModel processModel = runtimeService().getProcessModelByInstanceId(instanceId);
+            NodeModel nodeModel = processModel.getNode(nodeKey);
+
+            // 构建节点模型
+            Execution execution = new Execution(this, processModel, flowCreator, flwInstance, args);
+            execution.setTaskEventType(TaskEventType.resume);
+           return nodeModel.execute(flowLongContext, execution);
+        });
     }
 
     @Override
@@ -471,7 +484,7 @@ public class FlowLongEngineImpl implements FlowLongEngine {
             if (null != nextNodeAssignee) {
                 // 参与者类型
                 int actorType = execution.getProviderTaskActorType(nodeModel);
-                execution.setNextFlwTaskActor(FlwTaskActor.of(nextNodeAssignee, actorType));
+                execution.setNextFlwTaskActor(FlwTaskActor.of(nextNodeAssignee, actorType, nodeModel.saveWeight()));
                 return flowLongContext.createTask(execution, nodeModel);
             }
         }

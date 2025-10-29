@@ -282,7 +282,7 @@ public interface FlowLongEngine {
         return executeJumpTask(taskId, nodeKey, flowCreator, null);
     }
 
-    Optional<List<FlwTask>> executeJumpTask(Long taskId, String nodeKey, FlowCreator flowCreator, Map<String, Object> args, TaskType taskTye);
+    Optional<List<FlwTask>> executeJumpTask(Long taskId, String nodeKey, FlowCreator flowCreator, Map<String, Object> args, TaskType taskType);
 
     /**
      * 根据当前任务对象驳回至指定 nodeKey 节点，如果 nodeKey 为空默认为上一步处理
@@ -310,6 +310,20 @@ public interface FlowLongEngine {
 
     default Optional<List<FlwTask>> executeRejectTask(FlwTask currentFlwTask, FlowCreator flowCreator) {
         return executeRejectTask(currentFlwTask, flowCreator, null);
+    }
+
+    /**
+     * 执行唤醒撤回或拒绝终止历史任务（只有实例发起人可操作）
+     *
+     * @param instanceId  历史实例ID
+     * @param flowCreator 任务唤醒者
+     * @param args        任务参数
+     * @return true 成功 false 失败
+     */
+    boolean executeResumeTask(Long instanceId, FlowCreator flowCreator, Map<String, Object> args);
+
+    default boolean executeResumeTask(Long instanceId, FlowCreator flowCreator) {
+        return this.executeResumeTask(instanceId, flowCreator, null);
     }
 
     /**

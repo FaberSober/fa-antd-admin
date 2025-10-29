@@ -10,6 +10,7 @@ import com.aizuda.bpm.engine.core.Execution;
 import com.aizuda.bpm.engine.core.FlowCreator;
 import com.aizuda.bpm.engine.core.enums.*;
 import com.aizuda.bpm.engine.entity.FlwHisTask;
+import com.aizuda.bpm.engine.entity.FlwInstance;
 import com.aizuda.bpm.engine.entity.FlwTask;
 import com.aizuda.bpm.engine.entity.FlwTaskActor;
 import com.aizuda.bpm.engine.model.NodeAssignee;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -96,10 +98,10 @@ public interface TaskService {
      * @param args              任务参数
      * @param nodeKey           跳转至目标节点key
      * @param executionFunction 执行函数
-     * @param taskTye           任务类型，仅支持 jump rejectJump routeJump
+     * @param taskType           任务类型，仅支持 jump rejectJump routeJump
      * @return 当前 flowCreator 所在的任务
      */
-    Optional<List<FlwTask>> executeJumpTask(Long taskId, String nodeKey, FlowCreator flowCreator, Map<String, Object> args, Function<FlwTask, Execution> executionFunction, TaskType taskTye);
+    Optional<List<FlwTask>> executeJumpTask(Long taskId, String nodeKey, FlowCreator flowCreator, Map<String, Object> args, Function<FlwTask, Execution> executionFunction, TaskType taskType);
 
     default boolean executeJumpTask(Long taskId, String nodeKey, FlowCreator flowCreator, Map<String, Object> args, Function<FlwTask, Execution> executionFunction) {
         return executeJumpTask(taskId, nodeKey, flowCreator, args, executionFunction, TaskType.jump).isPresent();
@@ -278,21 +280,10 @@ public interface TaskService {
      *
      * @param instanceId  历史实例ID
      * @param flowCreator 任务唤醒者
+     * @param execFunc 执行函数
      * @return true 成功 false 失败
      */
-    default boolean resume(Long instanceId, FlowCreator flowCreator) {
-        return this.resume(instanceId, null, flowCreator);
-    }
-
-    /**
-     * 唤醒撤回或拒绝终止历史任务（只有实例发起人可操作）
-     *
-     * @param instanceId  历史实例ID
-     * @param nodeKey     节点key历史任务
-     * @param flowCreator 任务唤醒者
-     * @return true 成功 false 失败
-     */
-    boolean resume(Long instanceId, String nodeKey, FlowCreator flowCreator);
+    boolean resume(Long instanceId, FlowCreator flowCreator, BiFunction<FlwInstance, String, Boolean> execFunc);
 
     /**
      * 根据任务ID、创建人撤回任务（该任务后续任务未执行前有效）
@@ -309,9 +300,15 @@ public interface TaskService {
      * @param currentFlwTask 当前任务对象
      * @param flowCreator    任务创建者
      * @param args           任务参数
+     * @param taskState      任务状态
+     * @param eventType      任务执行事件类型
      * @return Task 任务对象
      */
-    Optional<List<FlwTask>> rejectTask(FlwTask currentFlwTask, FlowCreator flowCreator, Map<String, Object> args);
+    Optional<List<FlwTask>> rejectTask(FlwTask currentFlwTask, FlowCreator flowCreator, Map<String, Object> args, TaskState taskState, TaskEventType eventType);
+
+    default Optional<List<FlwTask>> rejectTask(FlwTask currentFlwTask, FlowCreator flowCreator, Map<String, Object> args) {
+        return this.rejectTask(currentFlwTask, flowCreator, args, TaskState.reject, TaskEventType.reject);
+    }
 
     default Optional<List<FlwTask>> rejectTask(FlwTask currentFlwTask, FlowCreator flowCreator) {
         return rejectTask(currentFlwTask, flowCreator, null);

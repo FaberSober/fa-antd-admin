@@ -25,6 +25,7 @@ import com.aizuda.bpm.engine.model.NodeModel;
 import com.aizuda.bpm.engine.model.ProcessModel;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
@@ -202,7 +203,7 @@ public class RuntimeServiceImpl implements RuntimeService {
         instanceDao.insert(flwInstance);
 
         // 保存历史实例设置为活的状态
-        FlwHisInstance fhi = FlwHisInstance.of(flwInstance, saveAsDraft ? InstanceState.saveAsDraft : InstanceState.active);
+        FlwHisInstance fhi = FlwHisInstance.of(flwInstance, saveAsDraft ? InstanceState.saveAsDraft : InstanceState.active, false);
         if (hisInstanceDao.insert(fhi)) {
 
             // 保存扩展流程实例
@@ -306,6 +307,19 @@ public class RuntimeServiceImpl implements RuntimeService {
                                     InstanceState instanceState, TaskEventType eventType) {
         FlwInstance flwInstance = instanceDao.selectById(instanceId);
         if (null == flwInstance) {
+            // 流程审批完成，用户执行撤销完成
+            if (InstanceEventType.revokeComplete == instanceEventType) {
+                FlwHisInstance hisInstance = hisInstanceDao.selectById(instanceId);
+                if (null != hisInstance) {
+                    FlwHisInstance fhi = new FlwHisInstance();
+                    fhi.setId(hisInstance.getId());
+                    if (hisInstanceDao.updateById(fhi.instanceState(InstanceState.revoke))) {
+                        // 流程实例监听器通知
+                        this.instanceNotify(instanceEventType, () -> hisInstance, null, flowCreator);
+                        return true;
+                    }
+                }
+            }
             return false;
         }
 
@@ -334,7 +348,7 @@ public class RuntimeServiceImpl implements RuntimeService {
         if (taskService.forceCompleteAllTask(flwInstance.getId(), currentFlwTask, flowCreator, instanceState, eventType)) {
 
             // 更新历史实例设置状态为终止
-            FlwHisInstance flwHisInstance = FlwHisInstance.of(flwInstance, instanceState);
+            FlwHisInstance flwHisInstance = FlwHisInstance.of(flwInstance, instanceState, true);
             hisInstanceDao.updateById(flwHisInstance);
 
             // 删除实例
@@ -447,18 +461,29 @@ public class RuntimeServiceImpl implements RuntimeService {
             // 前置追溯父节点
             selectNode = selectNode.getParentNode();
         }
-        if (null != selectNode.getConditionNodes()) {
+
+        // 条件分支
+        List<ConditionNode> conditionNodes = selectNode.getConditionNodes();
+        if (null == conditionNodes) {
+            // 并行分支
+            conditionNodes = selectNode.getParallelNodes();
+            if (null == conditionNodes) {
+                // 包容分支
+                conditionNodes = selectNode.getInclusiveNodes();
+            }
+        }
+        if (null != conditionNodes) {
             boolean findIt = false;
             NodeModel childNode = selectNode.getChildNode();
             if (null != childNode && Objects.equals(childNode.getNodeKey(), appendTaskKey)) {
                 // 为直接子节点情况
-                nodeModel.setChildNode(childNode.getChildNode());
+                nodeModel.setChildNode(childNode);
                 selectNode.setChildNode(nodeModel);
                 findIt = true;
             }
             if (!findIt) {
                 // 如果直接跟着条件节点，找到分支作为父节点
-                for (ConditionNode conditionNode : selectNode.getConditionNodes()) {
+                for (ConditionNode conditionNode : conditionNodes) {
                     NodeModel conditionChildNode = conditionNode.getChildNode();
                     if (null == conditionChildNode) {
                         continue;
