@@ -58,7 +58,7 @@ public class FaTaskActorProvider extends GeneralTaskActorProvider {
                     flwTaskActors.add(FlwTaskActor.ofUser(nodeAssignee.getTenantId(), user.getId(), user.getName()));
                 } else {
                     final Integer actorType = this.getActorType(nodeModel);
-                    flwTaskActors.add(FlwTaskActor.of(nodeAssignee, actorType));
+                    flwTaskActors.add(FlwTaskActor.of(nodeAssignee, actorType, false));
                 }
             }
             return flwTaskActors;
@@ -75,7 +75,7 @@ public class FaTaskActorProvider extends GeneralTaskActorProvider {
                     flwTaskActors.add(FlwTaskActor.ofUser(nodeAssignee.getTenantId(), user.getId(), user.getName()));
                 } else {
                     final Integer actorType = this.getActorType(nodeModel);
-                    flwTaskActors.add(FlwTaskActor.of(nodeAssignee, actorType));
+                    flwTaskActors.add(FlwTaskActor.of(nodeAssignee, actorType, false));
                 }
             }
             return flwTaskActors;
