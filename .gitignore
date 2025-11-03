@@ -12,4 +12,7 @@ log/
 ./tmp*
 rebel.xml
 .DS_Store
+node_modules/
+dist/
+.turbo/
 .env
