@@ -46,6 +46,13 @@ public class FaTaskActorProvider extends GeneralTaskActorProvider {
     
     @Override
     public List<FlwTaskActor> getTaskActors(NodeModel nodeModel, Execution execution) {
+        // 审批人为：发起人自己
+        if (NodeSetType.initiatorThemselves.eq(nodeModel.getSetType())) {
+            FlowCreator flowCreator = execution.getFlowCreator();
+            FlwTaskActor taskActor = FlwTaskActor.of(flowCreator, execution.getFlwTask());
+            return Collections.singletonList(taskActor);
+        }
+
         // 处理审批人为：角色
         if (NodeSetType.role.eq(nodeModel.getSetType())) {
             List<FlwTaskActor> flwTaskActors = new ArrayList<>();
