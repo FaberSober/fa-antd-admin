@@ -1,5 +1,6 @@
 server:
   port: 80
+  max-http-request-header-size: 32KB   # 默认 8KB
   compression:
     enabled: true
     min-response-size: 1024
@@ -16,7 +17,7 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-    default-property-inclusion: non_null
+    default-property-inclusion: NON_NULL
   datasource:
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource

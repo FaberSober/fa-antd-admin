@@ -25,6 +25,12 @@
     "editor.insertSpaces": true,
     "editor.formatOnSave": false
   },
+  // 针对 TypeScript React 设置缩进为 2 个空格
+  "[typescriptreact]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.formatOnSave": false
+  },
   // 针对 Python 设置缩进为 4 个空格
   "[python]": {
     "editor.tabSize": 4,
