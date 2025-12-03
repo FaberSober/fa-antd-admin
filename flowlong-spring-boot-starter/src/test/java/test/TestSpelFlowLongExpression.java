@@ -5,6 +5,7 @@ import com.aizuda.bpm.spring.adaptive.SpelFlowLongExpression;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,24 +14,41 @@ public class TestSpelFlowLongExpression {
 
     @Test
     public void test() {
+        // long
+        assertNumericalValue(">", "1030151717973013506", new HashMap<String, Object>() {{
+            put("day", 1930151717973013506L);
+        }});
+        assertNumericalValue("<", "20", new HashMap<String, Object>() {{
+            put("day", 19L);
+        }});
+
+        // int
         assertNumericalValue(">", "7");
         assertNumericalValue(">=", "8");
         assertNumericalValue("<=", "8");
         assertNumericalValue("<", "9");
         assertNumericalValue("!=", "3");
+        assertNumericalValue(">", "7");
+
+        // String
         assertStringValue("==", "张三");
         assertStringValue("include", "飞龙工作流张三王五都说好用");
         assertStringValue("notinclude", "李");
+
     }
 
     public void assertNumericalValue(String operator, String value) {
+        assertNumericalValue(operator, value, null);
+    }
+
+    public void assertNumericalValue(String operator, String value, Map<String, Object> args) {
         NodeExpression nodeExpression = new NodeExpression();
         nodeExpression.setLabel("日期");
         nodeExpression.setField("day");
         nodeExpression.setOperator(operator);
         nodeExpression.setValue(value);
         Assertions.assertFalse(this.eval(nodeExpression, null));
-        Assertions.assertTrue(this.eval(nodeExpression, new HashMap<String, Object>() {{
+        Assertions.assertTrue(this.eval(nodeExpression, null != args ? args : new HashMap<String, Object>() {{
             put("day", 8);
         }}));
     }
@@ -54,4 +72,30 @@ public class TestSpelFlowLongExpression {
         }
         return expression.eval(Collections.singletonList(Collections.singletonList(nodeExpression)), args);
     }
+
+    @Test
+    public void testArrayContains() {
+        // 测试数组包含
+        NodeExpression nodeExpression = new NodeExpression();
+        nodeExpression.setLabel("标签检查");
+        nodeExpression.setField("tags");  // 假设这是一个数组字段
+        nodeExpression.setOperator("include");  // 自定义操作符表示包含
+        nodeExpression.setValue("important");
+
+        Map<String, Object> args = new HashMap<>();
+        Assertions.assertFalse(this.eval(nodeExpression, args));
+
+        args.put("tags", Arrays.asList("normal", "important", "urgent"));
+        Assertions.assertTrue(this.eval(nodeExpression, args));
+
+        // 测试数组不包含
+        NodeExpression nodeExpression2 = new NodeExpression();
+        nodeExpression2.setLabel("标签检查");
+        nodeExpression2.setField("tags");
+        nodeExpression2.setOperator("notinclude");  // 自定义操作符表示不包含
+        nodeExpression2.setValue("critical");
+
+        Assertions.assertTrue(this.eval(nodeExpression2, args));
+    }
+
 }

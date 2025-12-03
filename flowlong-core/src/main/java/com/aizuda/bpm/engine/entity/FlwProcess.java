@@ -7,10 +7,10 @@ package com.aizuda.bpm.engine.entity;
 import com.aizuda.bpm.engine.FlowConstants;
 import com.aizuda.bpm.engine.ProcessModelCache;
 import com.aizuda.bpm.engine.assist.Assert;
-import com.aizuda.bpm.engine.assist.DateUtils;
 import com.aizuda.bpm.engine.core.Execution;
 import com.aizuda.bpm.engine.core.FlowCreator;
 import com.aizuda.bpm.engine.core.FlowLongContext;
+import com.aizuda.bpm.engine.core.enums.ExecuteType;
 import com.aizuda.bpm.engine.core.enums.FlowState;
 import com.aizuda.bpm.engine.model.ModelHelper;
 import com.aizuda.bpm.engine.model.NodeModel;
@@ -102,7 +102,7 @@ public class FlwProcess extends FlowEntity implements ProcessModelCache {
         process.setUseScope(0);
         process.setSort(0);
         process.setFlowCreator(flowCreator);
-        process.setCreateTime(DateUtils.getCurrentDate());
+        process.setCreateTime(FlowLongContext.getFlowCreateTimeHandler().getCurrentTime(ExecuteType.process, null, null));
         return process.formatModelContent(jsonString);
     }
 

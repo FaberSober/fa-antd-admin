@@ -5,6 +5,7 @@
 package test.mysql.config;
 
 import com.aizuda.bpm.engine.FlowLongEngine;
+import com.aizuda.bpm.engine.handler.FlowCreateTimeHandler;
 import com.aizuda.bpm.spring.autoconfigure.FlowLongAutoConfiguration;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
@@ -49,7 +50,7 @@ public class MysqlConfig extends FlowLongAutoConfiguration {
         configuration.setMapUnderscoreToCamelCase(true);
         MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();
 //        mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor());
-        mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         sqlSessionFactory.setPlugins(mybatisPlusInterceptor);
         sqlSessionFactory.setConfiguration(configuration);
         return sqlSessionFactory.getObject();
@@ -74,6 +75,16 @@ public class MysqlConfig extends FlowLongAutoConfiguration {
     private DataSourceTransactionManager createTransactionManager(Environment environment, DataSource dataSource) {
         return environment.getProperty("spring.dao.exceptiontranslation.enabled", Boolean.class, Boolean.TRUE)
                 ? new JdbcTransactionManager(dataSource) : new DataSourceTransactionManager(dataSource);
+    }
+
+    @Bean
+    public TestAiHandler aiHandler() {
+        return new TestAiHandler();
+    }
+
+    @Bean
+    public TestFlowCreateTimeHandler flowCreateTimeHandler() {
+        return new TestFlowCreateTimeHandler();
     }
 
     @Bean

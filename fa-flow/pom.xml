@@ -18,10 +18,16 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
+        <!-- <dependency>
             <groupId>com.faber</groupId>
             <artifactId>flowlong-spring-boot-starter</artifactId>
             <version>1.0.0-SNAPSHOT</version>
+        </dependency> -->
+
+        <dependency>
+            <groupId>com.aizuda</groupId>
+            <artifactId>flowlong-spring-boot-starter</artifactId>
+            <version>1.2.1</version>
         </dependency>
     </dependencies>
 

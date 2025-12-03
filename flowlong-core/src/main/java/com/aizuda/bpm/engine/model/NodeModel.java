@@ -63,6 +63,13 @@ public class NodeModel implements ModelInstance, Serializable {
      */
     private Boolean callAsync;
     /**
+     * 调用外部 AI 智能体业务
+     * <p>
+     * 用于存储外部AI智能体相关配置ID等唯一标识
+     * </p>
+     */
+    private String callAi;
+    /**
      * 任务关联的表单url
      */
     private String actionUrl;
@@ -548,6 +555,15 @@ public class NodeModel implements ModelInstance, Serializable {
      */
     public boolean routeNode() {
         return TaskType.routeBranch.eq(type);
+    }
+
+    /**
+     * 判断是否为触发器节点
+     *
+     * @return true 是 false 否
+     */
+    public boolean triggerNode() {
+        return TaskType.trigger.eq(type);
     }
 
     /**

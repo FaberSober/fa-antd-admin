@@ -7,9 +7,7 @@ package com.aizuda.bpm.engine.core;
 import com.aizuda.bpm.engine.*;
 import com.aizuda.bpm.engine.assist.Assert;
 import com.aizuda.bpm.engine.cache.FlowCache;
-import com.aizuda.bpm.engine.handler.ConditionNodeHandler;
-import com.aizuda.bpm.engine.handler.CreateTaskHandler;
-import com.aizuda.bpm.engine.handler.FlowJsonHandler;
+import com.aizuda.bpm.engine.handler.*;
 import com.aizuda.bpm.engine.handler.impl.SimpleConditionNodeHandler;
 import com.aizuda.bpm.engine.handler.impl.SimpleCreateTaskHandler;
 import com.aizuda.bpm.engine.impl.DefaultProcessModelParser;
@@ -35,11 +33,17 @@ import java.util.Map;
 @Getter
 @Setter
 public class FlowLongContext {
+    private FlowLongEngine flowLongEngine;
     private ProcessService processService;
     private QueryService queryService;
     private RuntimeService runtimeService;
     private TaskService taskService;
     private FlowLongExpression flowLongExpression;
+
+    /**
+     * 流程AI智能体处理器
+     */
+    private FlowAiHandler flowAiHandler;
 
     /**
      * 流程任务创建处理器
@@ -113,6 +117,18 @@ public class FlowLongContext {
     }
 
     /**
+     * 流程创建时间处理器
+     */
+    @Getter
+    private static FlowCreateTimeHandler flowCreateTimeHandler;
+
+    public static void setFlowCreateTimeHandler(FlowCreateTimeHandler fctHandler) {
+        if (null == flowCreateTimeHandler) {
+            flowCreateTimeHandler = fctHandler;
+        }
+    }
+
+    /**
      * 流程 JSON 处理器，默认 jackson 实现
      * 使用其它json框架可在初始化时赋值该静态属性
      */
@@ -120,11 +136,11 @@ public class FlowLongContext {
     private static FlowJsonHandler flowJsonHandler;
 
     public static <T> T fromJson(String jsonString, Class<T> clazz) {
-        return getFlowJsonHandler().fromJson(jsonString, clazz);
+        return flowJsonHandler.fromJson(jsonString, clazz);
     }
 
     public static String toJson(Object object) {
-        return getFlowJsonHandler().toJson(object);
+        return flowJsonHandler.toJson(object);
     }
 
     @SuppressWarnings({"all"})
@@ -145,11 +161,6 @@ public class FlowLongContext {
             return toJson(args);
         }
         return variable;
-    }
-
-    private static FlowJsonHandler getFlowJsonHandler() {
-        Assert.isNull(flowJsonHandler, "Please implement the FlowJsonHandler interface class");
-        return flowJsonHandler;
     }
 
     /**
@@ -211,11 +222,12 @@ public class FlowLongContext {
             log.info("FlowLongEngine be found {}", configEngine.getClass());
         }
         configEngine.configure(this);
+        this.flowLongEngine = configEngine;
 
         if (banner) {
             System.out.println("┌─┐┬  ┌─┐┬ ┬┬  ┌─┐┌┐┌┌─┐");
             System.out.println("├┤ │  │ │││││  │ │││││ ┬");
-            System.out.println("└  ┴─┘└─┘└┴┘┴─┘└─┘┘└┘└─┘  1.1.19");
+            System.out.println("└  ┴─┘└─┘└┴┘┴─┘└─┘┘└┘└─┘  1.2.1");
         }
 
         return this;

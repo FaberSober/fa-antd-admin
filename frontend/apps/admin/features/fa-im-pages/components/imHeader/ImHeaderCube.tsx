@@ -61,7 +61,7 @@ export default function ImHeaderCube() {
             </div>
           </Tooltip>
         )}
-        width={1000}
+        size={1000}
         push={false}
       >
         <ImChatPanel />

@@ -52,6 +52,7 @@
         <!-- flow -->
         <module>flowlong-core</module>
         <module>flowlong-mybatis-plus</module>
+        <module>flowlong-spring-boot-autoconfigure</module>
         <module>flowlong-spring-boot-starter</module>
         <module>fa-flow</module>
         <module>fa-im</module>
