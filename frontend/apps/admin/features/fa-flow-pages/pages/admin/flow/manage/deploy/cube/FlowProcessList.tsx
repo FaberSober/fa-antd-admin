@@ -95,7 +95,7 @@ export default function FlowProcessList({ catagoryId }: FlowProcessListProps) {
             <BaseDrawer
               title={`编辑-${r.processName}`}
               triggerDom={<FaHref icon={<EditOutlined />} tooltip='编辑' />}
-              width={document.body.clientWidth * 0.8}
+              size={document.body.clientWidth * 0.8}
             >
               <FlowProcessEdit item={r} onSuccess={fetchPageList} />
             </BaseDrawer>
