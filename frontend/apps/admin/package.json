@@ -36,7 +36,7 @@
     "@visactor/vtable-export": "1.19.5",
     "@xyflow/react": "12.8.2",
     "ahooks": "3.9.0",
-    "antd": "6.0.0",
+    "antd": "6.0.1",
     "clsx": "2.1.1",
     "dayjs": "1.11.13",
     "echarts": "6.0.0",
