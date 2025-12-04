@@ -158,7 +158,7 @@
                         <goals>
                             <goal>pnpm</goal>
                         </goals>
-                        <phase>prepare-package</phase>
+                        <!-- <phase>prepare-package</phase> -->
                         <configuration>
                             <arguments>build</arguments>
                             <!-- <nodeVersion>${node.version}</nodeVersion> -->
