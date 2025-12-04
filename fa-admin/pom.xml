@@ -13,9 +13,9 @@
 
     <properties>
         <!-- 前端打包 -->
-        <node.version>v22.18.0</node.version>
-        <npm.version>10.2.4</npm.version>
-        <pnpm.version>9.15.4</pnpm.version>
+        <node.version>v22.21.1</node.version>
+        <npm.version>10.9.4</npm.version>
+        <pnpm.version>10.24.0</pnpm.version>
         <frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
         <frontend-src-dir>../frontend</frontend-src-dir>
         <!-- docker -->
