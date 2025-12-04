@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
-import { get } from 'lodash';
-import { Button, Form, Input } from 'antd';
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { DragModal, Fa, FaHref, ApiEffectLayoutContext, FaUtils, CommonModalProps } from '@fa/ui';
 import { flowCatagoryApi as api } from '@/services';
 import { Flow } from '@/types';
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { CommonModalProps, DragModal, Fa, FaHref, FaUtils, useApiLoading } from '@fa/ui';
 import { FlowCatagoryCascader } from "@features/fa-flow-pages/components";
+import { Button, Form, Input } from 'antd';
+import { get } from 'lodash';
+import { useState } from 'react';
 
 
 interface FlowCatagoryModalProps extends CommonModalProps<Flow.FlowCatagory> {
@@ -16,7 +16,6 @@ interface FlowCatagoryModalProps extends CommonModalProps<Flow.FlowCatagory> {
  * FLOW-流程分类实体新增、编辑弹框
  */
 export default function FlowCatagoryModal({ children, title, record, fetchFinish, addBtn, editBtn, parentId = Fa.Constant.TREE_SUPER_ROOT_ID, ...props }: FlowCatagoryModalProps) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -67,7 +66,7 @@ export default function FlowCatagoryModal({ children, title, record, fetchFinish
     form.setFieldsValue(getInitialValues())
   }
 
-  const loading = loadingEffect[api.getUrl('save')] || loadingEffect[api.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>

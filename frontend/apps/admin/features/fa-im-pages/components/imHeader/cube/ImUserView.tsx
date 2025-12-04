@@ -1,11 +1,11 @@
 import { MessageOutlined } from '@ant-design/icons';
-import { Admin, ApiEffectLayoutContext, fileSaveApi, PageLoading } from '@fa/ui';
+import { Admin, fileSaveApi, PageLoading, useApiLoading } from '@fa/ui';
 import { userApi } from '@features/fa-admin-pages/services';
 import { imConversationApi } from '@features/fa-im-pages/services';
 import { Im } from '@features/fa-im-pages/types';
 import { Avatar, Button } from 'antd';
 import { isNil } from 'lodash';
-import React, { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { dispatch } from 'use-bus';
 
 export interface ImUserViewProps {
@@ -18,7 +18,6 @@ export interface ImUserViewProps {
  * @date 2025-09-11 21:05:11
  */
 export default function ImUserView({ userId, onCreateNewSingle }: ImUserViewProps) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [user, setUser] = useState<Admin.UserWeb>();
 
   useEffect(() => {
@@ -37,7 +36,7 @@ export default function ImUserView({ userId, onCreateNewSingle }: ImUserViewProp
 
   if (isNil(user)) return <PageLoading />
 
-  const loading = loadingEffect[imConversationApi.getUrl('createNewSingle')];
+  const loading = useApiLoading([imConversationApi.getUrl('createNewSingle')]);
   return (
     <div className='fa-flex-center'>
       <div className='fa-flex-column'>

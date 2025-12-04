@@ -2,7 +2,7 @@ import { UserLayoutContext } from '@/layout';
 import { fileSaveApi, userApi } from '@/services';
 import { Admin, Im } from '@/types';
 import { MessageOutlined } from '@ant-design/icons';
-import { ApiEffectLayoutContext } from '@fa/ui';
+import { useApiLoading } from '@fa/ui';
 import { imConversationApi } from '@features/fa-im-pages/services';
 import { Avatar, Button, Empty, Splitter } from 'antd';
 import clsx from 'clsx';
@@ -19,7 +19,6 @@ interface ImChatUserPanelProps {
  * @date 2025-09-08 14:17:52
  */
 export default function ImChatUserPanel({onCreateNewSingle}: ImChatUserPanelProps) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const {user} = useContext(UserLayoutContext)
   const [userList, setUserList] = useState<Admin.User[]>([]);
   const [userSel, setUserSel] = useState<Admin.User>();
@@ -41,7 +40,7 @@ export default function ImChatUserPanel({onCreateNewSingle}: ImChatUserPanelProp
     })
   }
 
-  const loading = loadingEffect[imConversationApi.getUrl('createNewSingle')];
+  const loading = useApiLoading([imConversationApi.getUrl('createNewSingle')]);
   return (
     <Splitter>
       {/* left item */}

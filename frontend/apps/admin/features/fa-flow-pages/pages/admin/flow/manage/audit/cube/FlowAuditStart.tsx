@@ -1,16 +1,15 @@
 import { flowCatagoryApi, flowProcessApi } from '@/services';
 import { Flow } from '@/types';
-import { ApiEffectLayoutContext, BaseDrawer, BaseTree, FaFlexRestLayout, FaLazyContainer, FaUtils } from '@fa/ui';
+import { ApartmentOutlined, FormOutlined } from '@ant-design/icons';
+import { BaseDrawer, BaseTree, FaFlexRestLayout, FaLazyContainer, FaUtils, useApiLoading } from '@fa/ui';
+import { FaWorkFlow } from '@features/fa-flow-pages/components';
 import DemoFlowLeaveForm from '@features/fa-flow-pages/pages/admin/demo/flow/form/leave/modal/DemoFlowLeaveForm';
 import { Button, Form, Segmented, Space, Splitter } from 'antd';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFlowAuditContext } from '../contexts/FlowAuditContext';
-import { ApartmentOutlined, FormOutlined } from '@ant-design/icons';
-import { FaWorkFlow } from '@features/fa-flow-pages/components';
 
 
 export default function FlowAuditStart() {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const { refreshCount } = useFlowAuditContext();
   const drawerRef = useRef<any>(null);
   const [form] = Form.useForm();
@@ -52,7 +51,7 @@ export default function FlowAuditStart() {
     })
   }
 
-  const loading = loadingEffect[flowProcessApi.getUrl('start')];
+  const loading = useApiLoading([flowProcessApi.getUrl('start')]);
   return (
     <div className='fa-full-content'>
       <Splitter>

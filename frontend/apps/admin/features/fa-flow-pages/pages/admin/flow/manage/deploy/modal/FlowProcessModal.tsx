@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
-import { get } from 'lodash';
-import { Button, Form } from 'antd';
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { DragModal, FaHref, ApiEffectLayoutContext, FaUtils, CommonModalProps } from '@fa/ui';
 import { flowProcessApi as api } from '@/services';
 import { Flow, Flw, FlwEnums } from '@/types';
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { CommonModalProps, DragModal, FaHref, FaUtils, useApiLoading } from '@fa/ui';
 import { getNodeKey } from '@features/fa-flow-pages/components/flow/utils';
+import { Button, Form } from 'antd';
+import { get } from 'lodash';
+import { useState } from 'react';
 import FlowProcessForm from '../cube/FlowProcessForm';
 
 
@@ -13,7 +13,6 @@ import FlowProcessForm from '../cube/FlowProcessForm';
  * FLOW-流程定义实体新增、编辑弹框
  */
 export default function FlowProcessModal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: CommonModalProps<Flow.FlowProcess>) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -108,7 +107,7 @@ export default function FlowProcessModal({ children, title, record, fetchFinish,
     form.setFieldsValue(getInitialValues())
   }
 
-  const loading = loadingEffect[api.getUrl('save')] || loadingEffect[api.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>
