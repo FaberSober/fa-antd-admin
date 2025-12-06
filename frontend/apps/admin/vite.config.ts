@@ -86,10 +86,11 @@ export default defineConfig(({ mode }) => {
       //   { find: '@features', replacement: path.resolve(__dirname, 'features') },
       // ],
       alias: {
+        // ✅ 目标配置中新增的别名
+        '@ui': uiSourceDir,
+        '@fa/ui': uiSourceDir,
         '@': path.resolve(__dirname, 'src'),
         '@features': path.resolve(__dirname, 'features'),
-        // ✅ 目标配置中新增的别名
-        // '@fa/ui': uiSourceDir,
         // 💡 目标配置中新增的 Monorepo 优化
         'react': resolve(__dirname, 'node_modules/react'),
         'react-dom': resolve(__dirname, 'node_modules/react-dom'),

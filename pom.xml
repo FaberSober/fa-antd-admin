@@ -50,10 +50,10 @@
         <module>fa-admin</module>
         <module>fa-admin-server</module>
         <!-- flow -->
-        <module>flowlong-core</module>
-        <module>flowlong-mybatis-plus</module>
-        <module>flowlong-spring-boot-autoconfigure</module>
-        <module>flowlong-spring-boot-starter</module>
+<!--        <module>flowlong-core</module>-->
+<!--        <module>flowlong-mybatis-plus</module>-->
+<!--        <module>flowlong-spring-boot-autoconfigure</module>-->
+<!--        <module>flowlong-spring-boot-starter</module>-->
         <module>fa-flow</module>
         <module>fa-im</module>
     </modules>
