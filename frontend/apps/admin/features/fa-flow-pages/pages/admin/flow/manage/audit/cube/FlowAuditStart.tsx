@@ -86,7 +86,7 @@ export default function FlowAuditStart() {
                           <div className='fa-text-small fa-text-light100'>{flow.remark}</div>
                         </div>
                       )}
-                      width={1000}
+                      size={1000}
                       push={false}
                     >
                       <div className='fa-full-content-p12 fa-flex-column'>

@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
+import { Flw } from "@features/fa-flow-pages/types";
 
 
 export interface FaWorkFlowContextProps {

@@ -1,8 +1,8 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
 import { Approver, Branch, Promoter, Send } from "./nodes";
 import { isNil } from "lodash";
-import FaWorkFlowContext from './context/FaWorkFlowContext';
+import { useWorkFlowStore } from './stores/useWorkFlowStore';
 
 
 export interface NodeWrapProps {
@@ -16,7 +16,7 @@ export interface NodeWrapProps {
  * @date 2025/8/19 20:12
  */
 export default function NodeWrap({ node, parentNode }: NodeWrapProps) {
-  const { renderNodes } = useContext(FaWorkFlowContext)
+  const renderNodes = useWorkFlowStore(state => state.renderNodes);
 
   // 判断节点类型,运行中不同类型的task节点状态,展示不同的颜色
   const cls = useMemo(() => {

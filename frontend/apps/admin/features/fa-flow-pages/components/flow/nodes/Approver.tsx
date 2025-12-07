@@ -1,11 +1,11 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
 import { FaIcon } from "@fa/icons";
 import { Button, Checkbox, Divider, Form, Input, InputNumber, Radio, Space } from "antd";
 import AddNode from "@features/fa-flow-pages/components/flow/nodes/AddNode";
 import { BaseDrawer, FaFlexRestLayout, FaUtils, useOpen, UserSearchSelect } from '@fa/ui';
 import { NodeCloseBtn, NodeSetTypeSelect } from "@features/fa-flow-pages/components/flow/cubes";
-import FaWorkFlowContext from "@features/fa-flow-pages/components/flow/context/FaWorkFlowContext";
+import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
 import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
 import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
 import { DepartmentCascade, RbacRoleSelect } from "@features/fa-admin-pages/components";
@@ -30,7 +30,8 @@ export default function Approver({ node, parentNode }: ApproverProps) {
   const [open, show, hide] = useOpen()
   const [loading, setLoading] = useState(false)
 
-  const { refreshNode, readOnly } = useContext(FaWorkFlowContext)
+  const refreshNode = useWorkFlowStore(state => state.refreshNode);
+  const readOnly = useWorkFlowStore(state => state.readOnly);
   const { nodeCopy, setNodeCopy, updateNodeProps } = useNode(node)
 
   function toText(nodeConfig: Flw.Node) {

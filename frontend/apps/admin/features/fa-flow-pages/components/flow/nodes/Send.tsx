@@ -1,11 +1,11 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Flw } from "@features/fa-flow-pages/types";
 import { FaIcon } from "@fa/icons";
 import { Button, Form, Input, Space } from "antd";
 import { BaseDrawer, FaFlexRestLayout, useOpen, UserSearchSelect } from '@fa/ui';
 import { NodeCloseBtn } from '../cubes';
 import AddNode from './AddNode';
-import FaWorkFlowContext from "@features/fa-flow-pages/components/flow/context/FaWorkFlowContext";
+import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
 import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
 import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
 import { userApi } from "@features/fa-admin-pages/services";
@@ -26,7 +26,8 @@ export default function Send({ node, parentNode }: SendProps) {
   const [open, show, hide] = useOpen()
   const [loading, setLoading] = useState(false)
 
-  const { refreshNode, readOnly } = useContext(FaWorkFlowContext)
+  const refreshNode = useWorkFlowStore(state => state.refreshNode);
+  const readOnly = useWorkFlowStore(state => state.readOnly);
   const { nodeCopy, setNodeCopy, updateNodeProps } = useNode(node)
 
   async function onFinish(fieldsValue: any) {

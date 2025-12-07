@@ -1,11 +1,11 @@
-import React, { ReactNode, useContext, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Flw } from "@features/fa-flow-pages/types";
 import { NodeCloseBtn } from "@features/fa-flow-pages/components/flow/cubes";
 import { Button, Form, Input, Select, Space } from "antd";
 import { BaseDrawer, FaFlexRestLayout, FaArrUtils, useOpen } from "@fa/ui";
 import { useConditionNode } from '../hooks';
 import { DeleteOutlined, PlusOutlined, RollbackOutlined, SaveOutlined } from "@ant-design/icons";
-import FaWorkFlowContext from '../context/FaWorkFlowContext';
+import { useWorkFlowStore } from '../stores/useWorkFlowStore';
 import clsx from 'clsx';
 
 
@@ -25,7 +25,7 @@ export interface BranchNodeProps {
  * @date 2025/8/21 17:08
  */
 export default function BranchNode({ node, index, elseNode, onDel, conditionText, onSubmit }: BranchNodeProps) {
-  const { readOnly } = useContext(FaWorkFlowContext)
+  const readOnly = useWorkFlowStore(state => state.readOnly);
   const [form] = Form.useForm();
   const [open, show, hide] = useOpen()
   const [loading, setLoading] = useState(false)

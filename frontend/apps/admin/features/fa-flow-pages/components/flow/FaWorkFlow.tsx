@@ -1,12 +1,11 @@
-import React from 'react';
-import { Flw } from "@features/fa-flow-pages/types";
-import { cloneDeep } from "lodash";
-import FaWorkFlowContext, { FaWorkFlowContextProps } from './context/FaWorkFlowContext';
-import NodeWrap from './NodeWrap';
-import './index.scss'
 import ZoomPanEditor from "@features/fa-flow-pages/components/flow/cubes/ZoomPanEditor";
+import { Flw } from "@features/fa-flow-pages/types";
 import { Tag } from 'antd';
 import clsx from 'clsx';
+import { useEffect } from 'react';
+import './index.scss';
+import NodeWrap from './NodeWrap';
+import { useWorkFlowStore } from './stores/useWorkFlowStore';
 
 
 export interface FaWorkFlowProps {
@@ -27,62 +26,56 @@ export interface FaWorkFlowProps {
  * @date 2025/8/19 17:34
  */
 export default function FaWorkFlow({ processModel, onChange, renderNodes, showLegends, readOnly = false }: FaWorkFlowProps) {
-  function updateProcessModel(v: Flw.ProcessModel) {
-    if (onChange) onChange(v)
-  }
+  // 从 Store 中获取设置方法和流程数据
+  const setProcessModel = useWorkFlowStore(state => state.setProcessModel);
+  const setExternalOnChange = useWorkFlowStore(state => state.setExternalOnChange);
+  const setRenderNodes = useWorkFlowStore(state => state.setRenderNodes);
+  const setReadOnly = useWorkFlowStore(state => state.setReadOnly);
 
-  function loopNode(n: Flw.Node, func: (n: Flw.Node) => void) {
-    if (n.childNode) {
-      loopNode(n.childNode, func)
+  // 1. 同步外部传入的 processModel 到 Store (仅在 processModel 变化时执行)
+  useEffect(() => {
+    setProcessModel(processModel);
+  }, [processModel]);
+
+  useEffect(() => {
+    setRenderNodes(renderNodes||{})
+  }, [renderNodes]);
+
+  useEffect(() => {
+    setReadOnly(readOnly);
+  }, [readOnly]);
+
+  // 2. 同步外部传入的 onChange 回调到 Store
+  // 这样 Store 内部的方法就能调用它
+  useEffect(() => {
+    setExternalOnChange(onChange);
+
+    // 清理函数：在组件卸载时或 onChange 改变时，清除 Store 中的回调，防止内存泄漏或错误调用。
+    return () => {
+      setExternalOnChange(undefined);
     }
-    func(n)
-  }
-
-  function deleteNode(node: Flw.Node) {
-    // delete current node, move child node forward
-    loopNode(processModel.nodeConfig, n => {
-      if (n.childNode && n.childNode.nodeKey === node.nodeKey) {
-        n.childNode = n.childNode.childNode
-      }
-    })
-    updateProcessModel(cloneDeep(processModel))
-  }
-
-  const contextValue: FaWorkFlowContextProps = {
-    processModel,
-    updateProcessModel,
-    refreshNode: () => {
-      const processNew = cloneDeep(processModel)
-      updateProcessModel(processNew)
-      console.log('processNew', processNew)
-    },
-    deleteNode,
-    renderNodes: renderNodes || {},
-    readOnly,
-  }
+  }, [onChange, setExternalOnChange]);
 
   return (
-    <FaWorkFlowContext.Provider value={contextValue}>
-      <ZoomPanEditor
-        leftTop={showLegends && (
-          <div className="fa-flex-row">
-            <Tag color="success">已执行</Tag>
-            <Tag color="processing">执行中</Tag>
-            <Tag color="default">未执行</Tag>
-          </div>
-        )}
-      >
-        <div className={clsx('sc-workflow-design', readOnly && 'sc-workflow-design-readonly')}>
-          <div className="box-scale">
-            <NodeWrap node={processModel.nodeConfig} />
+    <ZoomPanEditor
+      leftTop={showLegends && (
+        <div className="fa-flex-row">
+          <Tag color="success">已执行</Tag>
+          <Tag color="processing">执行中</Tag>
+          <Tag color="default">未执行</Tag>
+        </div>
+      )}
+    >
+      <div className={clsx('sc-workflow-design', readOnly && 'sc-workflow-design-readonly')}>
+        <div className="box-scale">
+          <NodeWrap node={processModel.nodeConfig} />
 
-            <div className="end-node">
-              <div className="end-node-circle"></div>
-              <div className="end-node-text">流程结束</div>
-            </div>
+          <div className="end-node">
+            <div className="end-node-circle"></div>
+            <div className="end-node-text">流程结束</div>
           </div>
         </div>
-      </ZoomPanEditor>
-    </FaWorkFlowContext.Provider>
+      </div>
+    </ZoomPanEditor>
   )
 }

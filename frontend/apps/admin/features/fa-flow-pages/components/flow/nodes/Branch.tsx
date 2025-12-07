@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Flw } from "@features/fa-flow-pages/types";
 import { Button } from "antd";
 import { LeftOutlined, PlusOutlined, RightOutlined } from "@ant-design/icons";
@@ -7,7 +7,7 @@ import '../styles/Branch.scss'
 import NodeWrap from "@features/fa-flow-pages/components/flow/NodeWrap";
 import BranchNode from "@features/fa-flow-pages/components/flow/nodes/BranchNode";
 import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
-import FaWorkFlowContext from "@features/fa-flow-pages/components/flow/context/FaWorkFlowContext";
+import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
 import { FaArrUtils } from '@fa/ui';
 import { getNodeKey } from "@features/fa-flow-pages/components/flow/utils";
 
@@ -23,7 +23,7 @@ export interface BranchProps {
  * @date 2025/8/19 22:19
  */
 export default function Branch({ node, parentNode }: BranchProps) {
-  const { refreshNode } = useContext(FaWorkFlowContext)
+  const refreshNode = useWorkFlowStore(state => state.refreshNode);
   const { nodeCopy, setNodeCopy, updateNodeProps } = useNode(node)
 
   function addTerm() {

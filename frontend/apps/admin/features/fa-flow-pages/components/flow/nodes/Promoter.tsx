@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Button, Form, Input, Space } from "antd";
 import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
 import { Flw } from "@features/fa-flow-pages/types";
@@ -7,7 +7,7 @@ import { BaseDrawer, FaFlexRestLayout, useOpen } from "@fa/ui";
 import AddNode from './AddNode';
 import { useNode } from '../hooks';
 import { RbacRoleSelect } from "@features/fa-admin-pages/components";
-import FaWorkFlowContext from "@features/fa-flow-pages/components/flow/context/FaWorkFlowContext";
+import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
 import { rbacRoleApi } from "@features/fa-admin-pages/services";
 
 
@@ -25,7 +25,9 @@ export default function Promoter({ node }: PromoterProps) {
   const [open, show, hide] = useOpen()
   const [loading, setLoading] = useState(false)
 
-  const { refreshNode, readOnly } = useContext(FaWorkFlowContext)
+  const refreshNode = useWorkFlowStore(state => state.refreshNode);
+  const readOnly = useWorkFlowStore(state => state.readOnly);
+
   const { nodeCopy, setNodeCopy, updateNodeProps } = useNode(node)
 
   async function onFinish(fieldsValue: any) {

@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
 import { Button, Popover } from 'antd';
 import { PlusOutlined } from "@ant-design/icons";
 import { FaIcon } from "@fa/icons";
 import { getNodeKey } from "@features/fa-flow-pages/components/flow/utils";
-import FaWorkFlowContext from "@features/fa-flow-pages/components/flow/context/FaWorkFlowContext";
+import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
 
 const NodeType = FlwEnums.NodeType
 const NodeSetType = FlwEnums.NodeSetType
@@ -19,7 +19,7 @@ export interface AddNodeProps {
  * @date 2025/8/19 21:03
  */
 export default function AddNode({parentNode}: AddNodeProps) {
-  const {refreshNode} = useContext(FaWorkFlowContext)
+  const refreshNode = useWorkFlowStore(state => state.refreshNode);
 
   function addType(type: FlwEnums.NodeType) {
     let node: Flw.Node;
