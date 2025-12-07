@@ -49,8 +49,9 @@ export default function FaFlowTaskTimeline({ processApprovals = [], style }: FaF
     return {
       key: `approval-${index}`,
       color: getItemColor(approval.type),
-      dot: getItemDot(approval.type),
-      children: (
+      icon: getItemDot(approval.type),
+      // 🚀 修复点：将 'children' 替换为 'content'
+      content: (
         <div>
           {/* 任务名称和状态标签 */}
           <div style={{ fontWeight: 'bold', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 8 }}>
