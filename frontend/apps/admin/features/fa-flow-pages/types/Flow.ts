@@ -361,6 +361,8 @@ namespace Flow {
     sort: number;
     /** 图标 */
     icon: string;
+    /** 表名 */
+    tableName: string;
     /** 备注 */
     remark: string;
     /** 表单配置 */

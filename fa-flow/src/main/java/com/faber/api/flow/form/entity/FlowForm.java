@@ -55,6 +55,9 @@ public class FlowForm extends BaseDelEntity {
     @ExcelProperty("图标")
     private String icon;
 
+    @ExcelProperty("表名")
+    private String tableName;
+
     @ExcelProperty("备注")
     private String remark;
 

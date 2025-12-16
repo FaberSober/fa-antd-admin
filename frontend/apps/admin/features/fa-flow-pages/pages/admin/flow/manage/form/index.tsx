@@ -1,11 +1,10 @@
 import { flowFormApi as api } from '@/services';
 import { Flow } from '@/types';
-import { CalculatorOutlined, DownloadOutlined, SearchOutlined } from '@ant-design/icons';
-import { AuthDelBtn, BaseBizTable, BaseDrawer, BaseTableUtils, clearForm, FaberTable, FaHref, useDelete, useDeleteByQuery, useExport, useTableQueryParams } from '@fa/ui';
+import { DownloadOutlined, SearchOutlined } from '@ant-design/icons';
+import { AuthDelBtn, BaseBizTable, BaseTableUtils, clearForm, FaberTable, useDelete, useDeleteByQuery, useExport, useTableQueryParams } from '@fa/ui';
 import { Button, Form, Input, Space } from 'antd';
-import FlowFormModal from './modal/FlowFormModal';
-import { FaFormEditor } from '@features/fa-flow-pages/components';
 import FlowFormConfigDrawer from './modal/FlowFormConfigDrawer';
+import FlowFormModal from './modal/FlowFormModal';
 
 const serviceName = '流程表单';
 const biz = 'flow_form';
@@ -35,6 +34,7 @@ export default function FlowFormList() {
       BaseTableUtils.genSimpleSorterColumn('状态', 'status', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('排序', 'sort', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('图标', 'icon', 100, sorter),
+      BaseTableUtils.genSimpleSorterColumn('表名', 'tableName', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('备注', 'remark', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('表单配置', 'config', 100, sorter),
       ...BaseTableUtils.genCtrColumns(sorter),

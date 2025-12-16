@@ -1,9 +1,9 @@
 import { flowFormApi } from '@/services';
 import { CalculatorOutlined } from '@ant-design/icons';
-import { FaHref } from '@fa/ui';
+import { FaFlexRestLayout, FaHref } from '@fa/ui';
 import { FaFormEditor } from '@features/fa-flow-pages/components';
 import { Flow } from '@features/fa-flow-pages/types';
-import { Button, Drawer, Space } from 'antd';
+import { Button, Drawer, Space, Tabs } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
 
@@ -18,6 +18,7 @@ export interface FlowFormConfigDrawerProps {
 export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps) {
   const [open, setOpen] = useState(false);
   const [itemClone, setItemClone] = useState(item);
+  const [tab, setTab] = useState('database');
 
   useEffect(() => {
     setItemClone(item);
@@ -53,11 +54,31 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
         {(open) && (
           <>
             <div className="fa-full">
-              <div className="fa-full-content fa-scroll fa-p12">
-                <FaFormEditor
-                  config={item.config}
-                  onChange={handleConfigChange}
-                />
+              <div className="fa-full-content fa-flex-column fa-tabs">
+                <div>
+                  <Tabs
+                    items={[
+                      { key: 'database', label: '数据库' },
+                      { key: 'form', label: '表单配置' },
+                    ]}
+                    activeKey={tab}
+                    onChange={setTab}
+                  />
+                </div>
+
+                <FaFlexRestLayout>
+                  {tab === 'database' && (
+                    <div style={{ padding: 16 }}>
+                      <pre>{JSON.stringify(itemClone?.databaseConfig, null, 2)}</pre>
+                    </div>
+                  )}
+                  {tab === 'form' && (
+                    <FaFormEditor
+                      config={itemClone?.config}
+                      onChange={handleConfigChange}
+                    />
+                  )}
+                </FaFlexRestLayout>
               </div>
             </div>
           </>

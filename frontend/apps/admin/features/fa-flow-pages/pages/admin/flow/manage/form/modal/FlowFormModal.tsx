@@ -58,6 +58,7 @@ export default function FlowFormModal({ children, title, record, fetchFinish, ad
       status: get(record, 'status'),
       sort: get(record, 'sort'),
       icon: get(record, 'icon'),
+      tableName: get(record, 'tableName'),
       remark: get(record, 'remark'),
       config: get(record, 'config'),
       // birthday: FaUtils.getInitialKeyTimeValue(record, 'birthday'),
@@ -106,6 +107,9 @@ export default function FlowFormModal({ children, title, record, fetchFinish, ad
           </Form.Item>
           <Form.Item name="icon" label="图标" rules={[{ required: false }]}>
             <Input placeholder="请输入图标" />
+          </Form.Item>
+          <Form.Item name="tableName" label="表名" rules={[{ required: true }]}>
+            <Input placeholder="请输入表名" />
           </Form.Item>
           <Form.Item name="remark" label="备注" rules={[{ required: false }]}>
             <Input placeholder="请输入备注" />
