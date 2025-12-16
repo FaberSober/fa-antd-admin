@@ -5,6 +5,7 @@ import { AuthDelBtn, BaseBizTable, BaseDrawer, BaseTableUtils, clearForm, FaberT
 import { Button, Form, Input, Space } from 'antd';
 import FlowFormModal from './modal/FlowFormModal';
 import { FaFormEditor } from '@features/fa-flow-pages/components';
+import FlowFormConfigDrawer from './modal/FlowFormConfigDrawer';
 
 const serviceName = '流程表单';
 const biz = 'flow_form';
@@ -43,15 +44,7 @@ export default function FlowFormList() {
         dataIndex: 'menu',
         render: (_, r) => (
           <Space>
-            <BaseDrawer title="配置表单" size={window.document.body.clientWidth} triggerDom={<FaHref text='配置' icon={<CalculatorOutlined />} />}>
-              <FaFormEditor
-                config={r.config}
-                onChange={async (config) => {
-                  await api.update(r.id, { ...r, config });
-                  fetchPageList();
-                }}
-              />
-            </BaseDrawer>
+            <FlowFormConfigDrawer item={r} />
             <FlowFormModal editBtn title={`编辑${serviceName}信息`} record={r} fetchFinish={fetchPageList} />
             <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
           </Space>

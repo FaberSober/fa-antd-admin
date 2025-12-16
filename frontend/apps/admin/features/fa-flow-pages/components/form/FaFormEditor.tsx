@@ -6,6 +6,7 @@ import { Draggable } from './components/Draggable';
 import { Droppable } from './components/Droppable';
 import RowContainer from './components/RowContainer';
 import { useFaFormStore } from './stores/useFaFormStore';
+import { useEffect, useRef } from 'react';
 
 
 const DROPPABLE_ID = 'form-canvas-area';
@@ -29,6 +30,25 @@ export default function FaFormEditor({ config, onChange }: FaFormEditorProps) {
   const moveFormItemToRow = useFaFormStore((state) => state.moveFormItemToRow);
   const addFormItem = useFaFormStore((state) => state.addFormItem);
   const addChildToRow = useFaFormStore((state) => state.addChildToRow);
+  const clearFormItems = useFaFormStore((state) => state.clearFormItems);
+
+  // 初始化 store 和清理
+  useEffect(() => {
+    return () => {
+      clearFormItems();
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log('config changed:', config);
+    const formItems = config?.formItems || [];
+    reorderFormItems(formItems);
+  }, [config]);
+
+  useEffect(() => {
+    console.log('formItems changed:', formItems);
+    onChange?.({ formItems });
+  }, [formItems, onChange]);
 
   function handleDragEnd(event: DragEndEvent) {
     console.log('拖拽结束', event);
