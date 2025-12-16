@@ -55,7 +55,7 @@ export default function FlwInstanceList() {
         dataIndex: 'menu',
         render: (_, r) => (
           <Space>
-            <BaseDrawer triggerDom={<FaHref tooltip="查看流程" icon={<EyeOutlined />} />} width={1000}>
+            <BaseDrawer triggerDom={<FaHref tooltip="查看流程" icon={<EyeOutlined />} />} size={1000}>
               <FlowInstanceView instance={r} />
             </BaseDrawer>
 

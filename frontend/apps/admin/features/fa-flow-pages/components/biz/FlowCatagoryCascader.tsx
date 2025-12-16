@@ -3,7 +3,7 @@ import { BaseCascader, type BaseCascaderProps } from '@fa/ui';
 import { Flow } from "@features/fa-flow-pages/types";
 import { flowCatagoryApi } from "@features/fa-flow-pages/services";
 
-export interface FlowCatagoryCascadereProps extends Omit<BaseCascaderProps<Flow.FlowCatagory, string>, 'serviceApi'> {}
+export interface FlowCatagoryCascadereProps extends Omit<BaseCascaderProps<Flow.FlowCatagory, number>, 'serviceApi'> {}
 
 /**
  * @author xu.pengfei

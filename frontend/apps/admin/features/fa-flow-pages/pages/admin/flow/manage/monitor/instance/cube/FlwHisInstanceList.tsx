@@ -22,7 +22,6 @@ import {
   useExport,
   useTableQueryParams,
 } from "@fa/ui";
-import { CommonExcelUploadModal } from "@/components";
 import { flwHisInstanceApi as api } from "@/services";
 import { Flow, FlwEnums } from "@/types";
 import FlowInstanceView from "../components/FlowInstanceView";
@@ -113,7 +112,7 @@ export default function FlwHisInstanceList() {
           <Space>
             <BaseDrawer
               triggerDom={<FaHref tooltip="查看流程" icon={<EyeOutlined />} />}
-              width={1000}
+              size={1000}
             >
               <FlowInstanceView instance={r} />
             </BaseDrawer>

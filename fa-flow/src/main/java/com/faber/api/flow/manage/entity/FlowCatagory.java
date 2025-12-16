@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.core.annotation.*;
 import com.faber.core.bean.BaseDelEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 import java.math.BigDecimal;
@@ -22,6 +23,7 @@ import java.math.BigDecimal;
 @FaModalName(name = "FLOW-流程分类")
 @TableName("flow_catagory")
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class FlowCatagory extends BaseDelEntity {
 
     @SqlTreeId

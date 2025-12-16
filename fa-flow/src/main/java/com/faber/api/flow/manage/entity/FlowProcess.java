@@ -10,6 +10,7 @@ import com.faber.core.annotation.SqlEquals;
 import com.faber.core.annotation.SqlSearch;
 import com.faber.core.bean.BaseDelEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 import java.math.BigDecimal;
@@ -24,6 +25,7 @@ import java.math.BigDecimal;
 @FaModalName(name = "FLOW-流程定义")
 @TableName("flow_process")
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class FlowProcess extends BaseDelEntity {
 
     @ColumnWidth(8)

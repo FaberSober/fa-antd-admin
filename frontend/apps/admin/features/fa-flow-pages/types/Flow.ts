@@ -341,6 +341,32 @@ namespace Flow {
     processInstanceId?: string;
   }
 
+
+  // ------------------------------------------------- Form -------------------------------------------------
+  /** FLOW-流程表单 */
+  export interface FlowForm extends Fa.BaseDelEntity {
+    /** ID */
+    id: number;
+    /** 流程分类ID */
+    catagoryId: number;
+    /** 名称 */
+    name: string;
+    /** 编码 */
+    no: string;
+    /** 表单类型:1设计表单/2系统表单 */
+    type: number;
+    /** 状态：1启用/2禁止 */
+    status: number;
+    /** 排序ID */
+    sort: number;
+    /** 图标 */
+    icon: string;
+    /** 备注 */
+    remark: string;
+    /** 表单配置 */
+    config: Record<string, any>;
+  }
+
 }
 
 export default Flow;
