@@ -23,6 +23,8 @@ export interface FaFormEditorProps {
  */
 export default function FaFormEditor({ config, onChange }: FaFormEditorProps) {
   const formItems = useFaFormStore((state) => state.formItems);
+  const initialized = useFaFormStore((state) => state.initialized);
+  const initConfig = useFaFormStore((state) => state.initConfig);
   const reorderFormItems = useFaFormStore((state) => state.reorderFormItems);
   const reorderRowChildren = useFaFormStore((state) => state.reorderRowChildren);
   const moveChildBetweenRows = useFaFormStore((state) => state.moveChildBetweenRows);
@@ -34,7 +36,10 @@ export default function FaFormEditor({ config, onChange }: FaFormEditorProps) {
 
   // 初始化 store 和清理
   useEffect(() => {
+    console.log('FaFormEditor mounted', config);
+    initConfig(config);
     return () => {
+      console.log('FaFormEditor unmounted, clearing form items');
       clearFormItems();
     };
   }, []);
@@ -47,8 +52,11 @@ export default function FaFormEditor({ config, onChange }: FaFormEditorProps) {
 
   useEffect(() => {
     console.log('formItems changed:', formItems);
+    if (!initialized) {
+      return;
+    }
     onChange?.({ formItems });
-  }, [formItems, onChange]);
+  }, [formItems, onChange, initialized]);
 
   function handleDragEnd(event: DragEndEvent) {
     console.log('拖拽结束', event);

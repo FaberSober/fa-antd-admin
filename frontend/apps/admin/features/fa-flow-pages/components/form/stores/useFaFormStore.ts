@@ -5,6 +5,9 @@ import { FaUtils } from '@fa/ui';
 
 interface FaFormState {
   formItems: DynItem[];
+  initialized: boolean;
+  // 初始化配置
+  initConfig: (config: any) => void;
   // 添加表单项
   addFormItem: (type: 'input' | 'row') => void;
   // 删除表单项
@@ -33,6 +36,13 @@ export const useFaFormStore = create<FaFormState>()(
   devtools<FaFormState>(
     (set, get) => ({
       formItems: [],
+      initialized: false,
+
+      initConfig: (config) =>
+        set(() => ({
+          formItems: config?.formItems || [],
+          initialized: true,
+        })),
 
       addFormItem: (type) =>
         set((state) => ({
@@ -168,6 +178,7 @@ export const useFaFormStore = create<FaFormState>()(
   clearFormItems: () =>
     set(() => ({
       formItems: [],
+      initialized: false,
     })),
     }),
     { name: 'FaFormStore' }
