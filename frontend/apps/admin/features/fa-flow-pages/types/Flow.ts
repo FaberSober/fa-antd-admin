@@ -365,8 +365,46 @@ namespace Flow {
     tableName: string;
     /** 备注 */
     remark: string;
+    /** 数据库配置 */
+    dataConfig: FlowFormDataConfig;
     /** 表单配置 */
-    config: Record<string, any>;
+    config: FlowFormConfig;
+  }
+
+  export interface FlowFormDataConfigColumn {
+    sort: number;
+    fieldName: string;
+    fieldType: string;
+    fieldLength: number;
+    isPk: boolean;
+    isNullable: boolean;
+    defaultValue: any;
+    comment: string;
+  }
+
+  export interface FlowFormDataConfig {
+    /** 主表 */
+    main: {
+      tableName: string;
+      pkField: string;
+      comment: string;
+      columns: FlowFormDataConfigColumn[],
+    };
+    /** 从表 */
+    subTables: Array<{
+      tableName: string;
+      pkField: string;
+      comment: string;
+      fkField: string;
+      columns: FlowFormDataConfigColumn[],
+    }>;
+  }
+
+  export interface FlowFormConfig {
+    /** 表单配置 */
+    formConfig: Record<string, any>;
+    /** 表单项列表 */
+    formItems: Array<Record<string, any>>;
   }
 
 }

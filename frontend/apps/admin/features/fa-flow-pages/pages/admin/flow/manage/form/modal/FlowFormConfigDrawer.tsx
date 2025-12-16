@@ -6,6 +6,7 @@ import { Flow } from '@features/fa-flow-pages/types';
 import { Button, Drawer, Space, Tabs } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
+import FormTableEdit from '../cube/FormTableEdit';
 
 export interface FlowFormConfigDrawerProps {
   item: Flow.FlowForm;
@@ -68,9 +69,7 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
 
                 <FaFlexRestLayout>
                   {tab === 'database' && (
-                    <div style={{ padding: 16 }}>
-                      <pre>{JSON.stringify(itemClone?.databaseConfig, null, 2)}</pre>
-                    </div>
+                    <FormTableEdit item={item} />
                   )}
                   {tab === 'form' && (
                     <FaFormEditor

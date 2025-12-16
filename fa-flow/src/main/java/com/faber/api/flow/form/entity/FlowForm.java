@@ -61,6 +61,10 @@ public class FlowForm extends BaseDelEntity {
     @ExcelProperty("备注")
     private String remark;
 
+    @ExcelProperty("数据库配置")
+    @TableField(typeHandler = UniversalJsonTypeHandler.class)
+    private Map<String, Object> dataConfig;
+
     @ExcelProperty("表单配置")
     @TableField(typeHandler = UniversalJsonTypeHandler.class)
     private Map<String, Object> config;
