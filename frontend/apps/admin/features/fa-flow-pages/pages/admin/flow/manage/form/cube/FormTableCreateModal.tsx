@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 
 export interface FormTableCreateModalProps extends DragModalProps {
-  fetchFinish?: () => void;
+  fetchFinish?: (v: {tableName: string, comment: string}) => void;
   addBtn?: boolean;
   editBtn?: boolean;
 }
@@ -27,7 +27,7 @@ export default function FormTableCreateModal({ children, title, record, fetchFin
     api.createFormTable(params).then((res) => {
       FaUtils.showResponse(res, '新增数据表');
       setOpen(false);
-      if (fetchFinish) fetchFinish();
+      if (fetchFinish) fetchFinish(res.data);
     })
   }
 

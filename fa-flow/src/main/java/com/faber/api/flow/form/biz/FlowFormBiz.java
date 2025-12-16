@@ -41,7 +41,7 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> {
             "  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,\n" +
             "  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" +
             "  PRIMARY KEY (`id`)\n" +
-            ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+            ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
             tableName
         );
 

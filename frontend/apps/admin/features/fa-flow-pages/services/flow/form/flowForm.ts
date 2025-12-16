@@ -6,7 +6,7 @@ import { Flow } from '@/types';
 class Api extends BaseApi<Flow.FlowForm, number> {
 
   /** 创建流程表单表 */
-  createFormTable = (data: any) => this.post('/createFormTable', data);
+  createFormTable = (data: any) => this.post('createFormTable', data);
 
 }
 

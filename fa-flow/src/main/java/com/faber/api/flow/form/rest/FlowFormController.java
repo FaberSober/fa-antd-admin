@@ -34,9 +34,9 @@ public class FlowFormController extends BaseController<FlowFormBiz, FlowForm, In
     @FaLogOpr(value = "新增主表", crud = LogCrudEnum.C)
     @RequestMapping(value = "/createFormTable", method = RequestMethod.POST)
     @ResponseBody
-    public Ret<Boolean> createFormTable(@Validated @RequestBody CreateFormTableReqVo reqVo) throws SQLException {
+    public Ret<CreateFormTableReqVo> createFormTable(@Validated @RequestBody CreateFormTableReqVo reqVo) throws SQLException {
         baseBiz.createFormTable(reqVo);
-        return ok();
+        return ok(reqVo);
     }
 
 }
