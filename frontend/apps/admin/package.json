@@ -17,6 +17,9 @@
   "dependencies": {
     "@ant-design/colors": "7.2.1",
     "@ant-design/icons": "6.1.0",
+    "@dnd-kit/core": "6.3.1",
+    "@dnd-kit/sortable": "10.0.0",
+    "@dnd-kit/utilities": "3.2.2",
     "@fa/icons": "workspace:*",
     "@fa/ui": "workspace:*",
     "@iimm/data-view-react": "1.0.0",

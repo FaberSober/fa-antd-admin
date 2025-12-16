@@ -1,9 +1,10 @@
 import { flowFormApi as api } from '@/services';
 import { Flow } from '@/types';
-import { DownloadOutlined, SearchOutlined } from '@ant-design/icons';
-import { AuthDelBtn, BaseBizTable, BaseTableUtils, clearForm, FaberTable, useDelete, useDeleteByQuery, useExport, useTableQueryParams } from '@fa/ui';
+import { CalculatorOutlined, DownloadOutlined, SearchOutlined } from '@ant-design/icons';
+import { AuthDelBtn, BaseBizTable, BaseDrawer, BaseTableUtils, clearForm, FaberTable, FaHref, useDelete, useDeleteByQuery, useExport, useTableQueryParams } from '@fa/ui';
 import { Button, Form, Input, Space } from 'antd';
 import FlowFormModal from './modal/FlowFormModal';
+import { FaFormEditor } from '@features/fa-flow-pages/components';
 
 const serviceName = '流程表单';
 const biz = 'flow_form';
@@ -42,11 +43,20 @@ export default function FlowFormList() {
         dataIndex: 'menu',
         render: (_, r) => (
           <Space>
+            <BaseDrawer title="配置表单" size={window.document.body.clientWidth} triggerDom={<FaHref text='配置' icon={<CalculatorOutlined />} />}>
+              <FaFormEditor
+                config={r.config}
+                onChange={async (config) => {
+                  await api.update(r.id, { ...r, config });
+                  fetchPageList();
+                }}
+              />
+            </BaseDrawer>
             <FlowFormModal editBtn title={`编辑${serviceName}信息`} record={r} fetchFinish={fetchPageList} />
             <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
           </Space>
         ),
-        width: 120,
+        width: 170,
         fixed: 'right',
         tcRequired: true,
         tcType: 'menu',
