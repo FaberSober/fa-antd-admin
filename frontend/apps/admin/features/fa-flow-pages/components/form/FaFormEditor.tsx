@@ -56,7 +56,7 @@ export default function FaFormEditor({ config, onChange }: FaFormEditorProps) {
       return;
     }
     onChange?.({ formItems });
-  }, [formItems, onChange, initialized]);
+  }, [formItems, initialized]);
 
   function handleDragEnd(event: DragEndEvent) {
     console.log('拖拽结束', event);

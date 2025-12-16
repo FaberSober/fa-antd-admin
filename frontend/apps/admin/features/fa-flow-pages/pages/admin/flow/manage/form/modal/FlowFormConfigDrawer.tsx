@@ -4,7 +4,8 @@ import { FaHref } from '@fa/ui';
 import { FaFormEditor } from '@features/fa-flow-pages/components';
 import { Flow } from '@features/fa-flow-pages/types';
 import { Button, Drawer, Space } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { isEqual } from 'lodash';
 
 export interface FlowFormConfigDrawerProps {
   item: Flow.FlowForm;
@@ -16,6 +17,21 @@ export interface FlowFormConfigDrawerProps {
  */
 export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps) {
   const [open, setOpen] = useState(false);
+  const [itemClone, setItemClone] = useState(item);
+
+  useEffect(() => {
+    setItemClone(item);
+  }, [item]);
+
+  function handleConfigChange(config: any) {
+    // compare with previous config
+    if (!isEqual(itemClone.config, config)) {
+      setItemClone({...itemClone, config});
+      // config changed, update via API
+      flowFormApi.update(itemClone.id, { config }).then(() => {
+      });
+    }
+  }
 
   return (
     <span>
@@ -40,9 +56,7 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
               <div className="fa-full-content fa-scroll fa-p12">
                 <FaFormEditor
                   config={item.config}
-                  onChange={async (config) => {
-                    await flowFormApi.update(item.id, { ...item, config });
-                  }}
+                  onChange={handleConfigChange}
                 />
               </div>
             </div>
