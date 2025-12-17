@@ -16,6 +16,8 @@ export interface FormTableEditProps {
 export default function FormTableEdit({ item }: FormTableEditProps) {
 
   const [itemClone, setItemClone] = useState(item);
+  const [tableName, setTableName] = useState<string>();
+  const [tableInfo, setTableInfo] = useState<Flow.TableInfoVo>();
 
   useEffect(() => {
     setItemClone(item);
@@ -46,13 +48,25 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
   return (
     <div className='fa-full fa-flex-row'>
       <div style={{ width: 300 }} className='fa-border-r fa-p12'>
-        <div>{itemClone?.dataConfig?.main?.tableName}</div>
-        {!hasMainTable && (
+        {!hasMainTable ? (
           <FormTableCreateModal
             addBtn
             title='新增主表'
             fetchFinish={handleCreateMainTableFinish}
           />
+        ) : (
+          <div className='fa-normal-btn'
+            onClick={() =>{
+              const clickTableName = itemClone?.dataConfig?.main?.tableName;
+              if (clickTableName === tableName) {
+                return;
+              }
+              setTableName(itemClone?.dataConfig?.main?.tableName);
+              flowFormApi.queryTableStructure({ tableName: clickTableName! }).then(res => {
+                setTableInfo(res.data);
+              });
+            }}
+          >{itemClone?.dataConfig?.main?.tableName}</div>
         )}
       </div>
 

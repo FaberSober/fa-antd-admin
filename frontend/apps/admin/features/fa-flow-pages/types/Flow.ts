@@ -418,6 +418,38 @@ namespace Flow {
     formItems: FlowFormItem[];
   }
 
+  // ------------------------------------------------- Database -------------------------------------------------
+  export interface TableInfoVo {
+    tableName: string;
+    tableComment: string;
+    columns: TableColumnVo[];
+  }
+
+  export interface TableColumnVo {
+    /** 字段名 */
+    field: string;
+    /** 数据类型（如 varchar(255)） */
+    type: string;
+    /** 纯类型（如 varchar） */
+    dataType: string;
+    /** 字符长度（varchar 专用） */
+    length: number;
+    /** 数字精度 */
+    precision: number;
+    /** 小数位数 */
+    scale: number;
+    /** 是否可空（YES/NO） */
+    nullable: string;
+    /** 默认值 */
+    defaultValue: string;
+    /** 键类型（PRI 表示主键） */
+    key: string;
+    /** 自增等（auto_increment） */
+    extra: string;
+    /** 字段注释（最重要，用于表单 label） */
+    comment: string;
+  }
+
 }
 
 export default Flow;

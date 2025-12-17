@@ -1,9 +1,7 @@
 import { flowFormApi as api } from '@/services';
-import { Flow } from '@/types';
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { CommonModalProps, DragModal, DragModalProps, FaHref, FaUtils, useApiLoading } from '@fa/ui';
+import { DragModal, DragModalProps, FaHref, FaUtils, useApiLoading } from '@fa/ui';
 import { Button, Form, Input } from 'antd';
-import { get } from 'lodash';
 import { useState } from 'react';
 
 
@@ -16,7 +14,7 @@ export interface FormTableCreateModalProps extends DragModalProps {
 /**
  * FLOW-流程表单实体新增、编辑弹框
  */
-export default function FormTableCreateModal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: CommonModalProps<Flow.FlowForm>) {
+export default function FormTableCreateModal({ children, title, fetchFinish, addBtn, editBtn, ...props }: FormTableCreateModalProps) {
   const loading = useApiLoading([ api.getUrl('createFormTable')]);
   const [form] = Form.useForm();
 
@@ -32,13 +30,13 @@ export default function FormTableCreateModal({ children, title, record, fetchFin
   }
 
   /** 更新Item */
-  function invokeUpdateTask(params: any) {
-    api.update(params.id, params).then((res) => {
-      FaUtils.showResponse(res, '更新数据表');
-      setOpen(false);
-      if (fetchFinish) fetchFinish();
-    })
-  }
+  // function invokeUpdateTask(params: any) {
+  //   api.update(params.id, params).then((res) => {
+  //     FaUtils.showResponse(res, '更新数据表');
+  //     setOpen(false);
+  //     if (fetchFinish) fetchFinish();
+  //   })
+  // }
 
   /** 提交表单 */
   function onFinish(fieldsValue: any) {
@@ -47,23 +45,23 @@ export default function FormTableCreateModal({ children, title, record, fetchFin
       config: {},
       // birthday: FaUtils.getDateStr000(fieldsValue.birthday),
     };
-    if (record) {
-      invokeUpdateTask({ ...record, ...values });
-    } else {
-      invokeInsertTask({ ...values });
-    }
+    // if (record) {
+    //   invokeUpdateTask({ ...record, ...values });
+    // } else {
+    // }
+    invokeInsertTask({ ...values });
   }
 
-  function getInitialValues() {
-    return {
-      tableName: get(record, 'tableName'),
-      comment: get(record, 'comment'),
-    }
-  }
+  // function getInitialValues() {
+  //   return {
+  //     tableName: get(record, 'tableName'),
+  //     comment: get(record, 'comment'),
+  //   }
+  // }
 
   function showModal() {
     setOpen(true)
-    form.setFieldsValue(getInitialValues())
+    // form.setFieldsValue(getInitialValues())
   }
 
   return (

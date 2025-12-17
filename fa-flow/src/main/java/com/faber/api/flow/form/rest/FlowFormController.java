@@ -1,6 +1,7 @@
 package com.faber.api.flow.form.rest;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,11 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.faber.api.flow.form.biz.FlowFormBiz;
 import com.faber.api.flow.form.entity.FlowForm;
 import com.faber.api.flow.form.vo.req.CreateFormTableReqVo;
+import com.faber.api.flow.form.vo.ret.TableInfoVo;
 import com.faber.core.annotation.FaLogBiz;
 import com.faber.core.annotation.FaLogOpr;
 import com.faber.core.enums.LogCrudEnum;
 import com.faber.core.vo.msg.Ret;
 import com.faber.core.web.rest.BaseController;
+
+import cn.hutool.core.map.MapUtil;
 
 /**
  * FLOW-流程表单
@@ -37,6 +41,15 @@ public class FlowFormController extends BaseController<FlowFormBiz, FlowForm, In
     public Ret<CreateFormTableReqVo> createFormTable(@Validated @RequestBody CreateFormTableReqVo reqVo) throws SQLException {
         baseBiz.createFormTable(reqVo);
         return ok(reqVo);
+    }
+
+    @FaLogOpr(value = "查询表结构", crud = LogCrudEnum.C)
+    @RequestMapping(value = "/queryTableStructure", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<TableInfoVo> queryTableStructure(@RequestBody Map<String, Object> reqVo) throws SQLException {
+        String tableName = MapUtil.getStr(reqVo, "tableName");
+        TableInfoVo data = baseBiz.queryTableStructure(tableName);
+        return ok(data);
     }
 
 }

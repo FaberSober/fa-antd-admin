@@ -1,7 +1,13 @@
 package com.faber.api.flow.form.mapper;
 
 import com.faber.core.config.mybatis.base.FaBaseMapper;
+
+import io.lettuce.core.dynamic.annotation.Param;
+
+import java.util.List;
+
 import com.faber.api.flow.form.entity.FlowForm;
+import com.faber.api.flow.form.vo.ret.TableColumnVo;
 
 /**
  * FLOW-流程表单
@@ -11,5 +17,7 @@ import com.faber.api.flow.form.entity.FlowForm;
  * @date 2025-12-16 15:43:41
  */
 public interface FlowFormMapper extends FaBaseMapper<FlowForm> {
+
+    List<TableColumnVo> getTableColumns(@Param("tableName") String tableName);
 	
 }

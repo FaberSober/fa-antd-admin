@@ -2,6 +2,7 @@ package com.faber.api.flow.form.biz;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.faber.api.flow.form.entity.FlowForm;
 import com.faber.api.flow.form.mapper.FlowFormMapper;
 import com.faber.api.flow.form.vo.req.CreateFormTableReqVo;
+import com.faber.api.flow.form.vo.ret.TableColumnVo;
+import com.faber.api.flow.form.vo.ret.TableInfoVo;
 import com.faber.core.utils.SqlUtils;
 import com.faber.core.web.biz.BaseBiz;
 
@@ -47,6 +50,16 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> {
 
         Connection conn = dataSource.getConnection();
         SqlUtils.executeSql(conn, createTableSql);
+    }
+
+    public TableInfoVo queryTableStructure(String tableName) throws SQLException {
+        TableInfoVo tableInfo = new TableInfoVo();
+        tableInfo.setTableName(tableName);
+
+        List<TableColumnVo> columns = baseMapper.getTableColumns(tableName);
+        tableInfo.setColumns(columns);
+
+        return tableInfo;
     }
 
 }

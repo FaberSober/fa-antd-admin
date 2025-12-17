@@ -3,4 +3,26 @@
 
 <mapper namespace="com.faber.api.flow.form.mapper.FlowFormMapper">
 
+    <select id="getTableColumns" parameterType="map" resultType="com.faber.api.flow.form.vo.ret.TableColumnVo">
+        SELECT 
+            COLUMN_NAME          AS field,
+            COLUMN_TYPE          AS type,
+            DATA_TYPE            AS dataType,
+            CHARACTER_MAXIMUM_LENGTH AS length,
+            NUMERIC_PRECISION    AS `precision`,
+            NUMERIC_SCALE        AS scale,
+            IS_NULLABLE          AS nullable,
+            COLUMN_DEFAULT       AS defaultValue,
+            COLUMN_KEY           AS `key`,
+            EXTRA                AS extra,
+            COLUMN_COMMENT       AS comment
+        FROM 
+            information_schema.columns
+        WHERE 
+            TABLE_SCHEMA = (select database())
+            AND TABLE_NAME = #{tableName}
+        ORDER BY 
+            ORDINAL_POSITION
+    </select>
+
 </mapper>
