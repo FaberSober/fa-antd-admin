@@ -400,11 +400,23 @@ namespace Flow {
     }>;
   }
 
+  export interface FlowFormItem {
+    type: 'input' | 'row',
+    id: string;
+    label?: string;
+    name?: string;
+    rules?: Array<Record<string, any>>;
+    children?: FlowFormItem[];
+  }
+
   export interface FlowFormConfig {
     /** 表单配置 */
-    formConfig: Record<string, any>;
+    formConfig: {
+      name: string;
+      description: string;
+    };
     /** 表单项列表 */
-    formItems: Array<Record<string, any>>;
+    formItems: FlowFormItem[];
   }
 
 }

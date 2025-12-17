@@ -7,13 +7,17 @@ import { Droppable } from './components/Droppable';
 import RowContainer from './components/RowContainer';
 import { useFaFormStore } from './stores/useFaFormStore';
 import { useEffect, useRef } from 'react';
+import { FaFlexRestLayout } from '@fa/ui';
+import { Button } from 'antd';
+import FaFormShowModal from './modal/FaFormShowModal';
+import { Flow } from '@/types';
 
 
 const DROPPABLE_ID = 'form-canvas-area';
 
 export interface FaFormEditorProps {
-  config?: any;
-  onChange?: (config: any) => void;
+  config?: Flow.FlowFormConfig;
+  onChange?: (config: Flow.FlowFormConfig) => void;
 }
 
 /**
@@ -182,35 +186,52 @@ export default function FaFormEditor({ config, onChange }: FaFormEditorProps) {
           </div>
         </div>
 
-        {/* right droppable  */}
-        <div style={{ flex: 1, position: 'relative' }}>
-          <Droppable className='fa-full-content' id={DROPPABLE_ID}>
-            <div className='fa-full-content' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div style={{ width: 500 }}>
-                <FaFormSortList
-                  list={formItems}
-                  renderItem={(i) => {
-                    if (i.type === 'input') {
-                      return <div>这是一个输入框 - {i.id}</div>;
-                    } else if (i.type === 'row') {
-                      return <RowContainer row={i} />;
-                    } else {
-                      return <div>未知组件 - {i.id}</div>;
-                    }
-                  }}
-                  // onSortEnd={(l) => reorderFormItems(l)}
-                  itemStyle={{
-                    padding: 8,
-                    borderBottom: '1px solid #ccc',
-                    width: '100%',
-                  }}
-                  containerStyle={{}}
-                  type='vertical'
-                  vertical
-                />
+        {/* right  */}
+        <div style={{ flex: 1, position: 'relative' }} className='fa-flex-column'>
+          {/* toolbar */}
+          <div style={{ height: 40 }} className='fa-border-b fa-flex-row-center'>
+            toolbar
+            {config && (
+              <FaFormShowModal title="预览表单" config={config}>
+                <Button size="small">预览</Button>
+              </FaFormShowModal>
+            )}
+          </div>
+
+          {/* form canvas */}
+          <FaFlexRestLayout>
+            <Droppable className='fa-full-content' id={DROPPABLE_ID}>
+              <div className='fa-full-content' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ width: 500 }}>
+                  <FaFormSortList
+                    list={formItems}
+                    renderItem={(i) => {
+                      if (i.type === 'input') {
+                        return <div>这是一个输入框 - {i.id}</div>;
+                      } else if (i.type === 'row') {
+                        return <RowContainer row={i} />;
+                      } else {
+                        return <div>未知组件 - {i.id}</div>;
+                      }
+                    }}
+                    // onSortEnd={(l) => reorderFormItems(l)}
+                    itemStyle={{
+                      padding: 8,
+                      borderBottom: '1px solid #ccc',
+                      width: '100%',
+                    }}
+                    containerStyle={{}}
+                    type='vertical'
+                    vertical
+                  />
+                </div>
               </div>
-            </div>
-          </Droppable>
+            </Droppable>
+          </FaFlexRestLayout>
+        </div>
+
+        <div style={{ width: 300 }} className='fa-border-l'>
+          <h1>表单属性</h1>
         </div>
       </div>
     </DndContext>
