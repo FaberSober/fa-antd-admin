@@ -1,12 +1,12 @@
-import { DndContext, DragEndEvent } from '@dnd-kit/core';
-import { arrayMove } from '@dnd-kit/sortable';
+import { closestCenter, DndContext, DragEndEvent, KeyboardSensor, PointerSensor, pointerWithin, useSensor, useSensors } from '@dnd-kit/core';
+import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { findIndex } from 'lodash';
 import { FaFormSortList } from './base-drag';
 import { Draggable } from './components/Draggable';
 import { Droppable } from './components/Droppable';
 import RowContainer from './components/RowContainer';
 import { useFaFormStore } from './stores/useFaFormStore';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { FaFlexRestLayout } from '@fa/ui';
 import { Button } from 'antd';
 import FaFormShowModal from './modal/FaFormShowModal';
@@ -18,6 +18,7 @@ const DROPPABLE_ID = 'form-canvas-area';
 export interface FaFormEditorProps {
   config?: Flow.FlowFormConfig;
   onChange?: (config: Flow.FlowFormConfig) => void;
+  onClickItem?: (item: Flow.FlowFormItem) => void;
 }
 
 /**
@@ -25,7 +26,7 @@ export interface FaFormEditorProps {
  * @author xu.pengfei
  * @date 2025-12-16 16:38:38
  */
-export default function FaFormEditor({ config, onChange }: FaFormEditorProps) {
+export default function FaFormEditor({ config, onChange, onClickItem }: FaFormEditorProps) {
   const formItems = useFaFormStore((state) => state.formItems);
   const initialized = useFaFormStore((state) => state.initialized);
   const initConfig = useFaFormStore((state) => state.initConfig);
@@ -37,6 +38,18 @@ export default function FaFormEditor({ config, onChange }: FaFormEditorProps) {
   const addFormItem = useFaFormStore((state) => state.addFormItem);
   const addChildToRow = useFaFormStore((state) => state.addChildToRow);
   const clearFormItems = useFaFormStore((state) => state.clearFormItems);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10, // 移动 10px 才启动拖动
+        // 或 delay: 200, // 长按 200ms 才启动（可结合 tolerance）
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
 
   // 初始化 store 和清理
   useEffect(() => {
@@ -170,8 +183,18 @@ export default function FaFormEditor({ config, onChange }: FaFormEditorProps) {
     }
   }
 
+  function handleClickItem(item: Flow.FlowFormItem) {
+    console.log('点击表单项', item);
+    onClickItem?.(item);
+  }
+
   return (
-    <DndContext onDragEnd={handleDragEnd}>
+    <DndContext
+      sensors={sensors}
+      // collisionDetection={closestCenter} // 比较中心点距离，选择最近的
+      collisionDetection={pointerWithin} // 指针（鼠标/手指）是否在目标内
+      onDragEnd={handleDragEnd}
+    >
       <div className='fa-full fa-flex-row'>
         <div style={{ width: 300, borderRight: '1px solid #ccc'}} className='fa-flex-column'>
           <h1>表单组件</h1>
@@ -207,13 +230,26 @@ export default function FaFormEditor({ config, onChange }: FaFormEditorProps) {
                     list={formItems}
                     renderItem={(i) => {
                       if (i.type === 'input') {
-                        return <div>这是一个输入框 - {i.id}</div>;
+                        return (
+                          <div>
+                            这是一个输入框 - {i.id}
+                          </div>
+                        );
                       } else if (i.type === 'row') {
-                        return <RowContainer row={i} />;
+                        return (
+                          <div style={{ width: '100%' }}>
+                            <RowContainer row={i} onClickRowItem={handleClickItem} />
+                          </div>
+                        );
                       } else {
-                        return <div>未知组件 - {i.id}</div>;
+                        return (
+                          <div>
+                            未知组件 - {i.id}
+                          </div>
+                        );
                       }
                     }}
+                    // handle
                     // onSortEnd={(l) => reorderFormItems(l)}
                     itemStyle={{
                       padding: 8,
@@ -223,6 +259,9 @@ export default function FaFormEditor({ config, onChange }: FaFormEditorProps) {
                     containerStyle={{}}
                     type='vertical'
                     vertical
+                    onClickItem={(item) => {
+                      handleClickItem(item)
+                    }}
                   />
                 </div>
               </div>

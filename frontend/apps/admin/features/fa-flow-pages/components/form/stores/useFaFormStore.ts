@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { DynItem } from '../types';
 import { FaUtils } from '@fa/ui';
+import { Flow } from '@/types';
 
 interface FaFormState {
-  formItems: DynItem[];
+  formItems: Flow.FlowFormItem[];
   initialized: boolean;
   // 初始化配置
   initConfig: (config: any) => void;
@@ -13,15 +13,15 @@ interface FaFormState {
   // 删除表单项
   removeFormItem: (id: string) => void;
   // 更新表单项
-  updateFormItem: (id: string, item: Partial<DynItem>) => void;
+  updateFormItem: (id: string, item: Partial<Flow.FlowFormItem>) => void;
   // 添加子项到行容器
   addChildToRow: (rowId: string, type: 'input' | 'row') => void;
   // 从行中删除子项
   removeChildFromRow: (rowId: string, childId: string) => void;
   // 重新排序表单项
-  reorderFormItems: (items: DynItem[]) => void;
+  reorderFormItems: (items: Flow.FlowFormItem[]) => void;
   // 重新排序行内的子项
-  reorderRowChildren: (rowId: string, children: DynItem[]) => void;
+  reorderRowChildren: (rowId: string, children: Flow.FlowFormItem[]) => void;
   // 将子项从一个行移动到另一个行
   moveChildBetweenRows: (sourceRowId: string, targetRowId: string, childId: string) => void;
   // 将子项从行移动到主表单
@@ -150,7 +150,7 @@ export const useFaFormStore = create<FaFormState>()(
         state.formItems
           .find((item) => item.id === rowId && item.type === 'row')
           ?.children?.find((child) => child.id === childId) || null
-      ).filter((item): item is DynItem => item !== null),
+      ).filter((item): item is Flow.FlowFormItem => item !== null),
     })),
 
   moveFormItemToRow: (formItemId, rowId) =>

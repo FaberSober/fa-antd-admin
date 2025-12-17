@@ -1,37 +1,11 @@
-import { SortableContext, horizontalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { useFaFormStore } from '../stores/useFaFormStore';
-import { DynItem } from '../types';
+import { Flow } from '@/types';
+import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
 import { Droppable } from './Droppable';
+import RowItem from './RowItem';
 
 export interface RowContainerProps {
-  row: DynItem;
-}
-
-/**
- * 行内子项组件，支持拖动
- */
-function RowItem({ item, rowId }: { item: DynItem; rowId: string }) {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: item.id, data: { type: 'RowItem', rowId } });
-
-  const style: React.CSSProperties = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    padding: '8px 12px',
-    backgroundColor: '#fff',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
-    cursor: 'grab',
-    flexShrink: 0,
-    minWidth: 'fit-content',
-  };
-
-  return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      {item.type === 'input' ? '输入框' : '行'}
-      <span style={{ fontSize: '12px', color: '#292424ff', marginLeft: '4px' }}>- {item.id}</span>
-    </div>
-  );
+  row: Flow.FlowFormItem;
+  onClickRowItem?: (item: Flow.FlowFormItem) => void;
 }
 
 /**
@@ -41,10 +15,13 @@ function RowItem({ item, rowId }: { item: DynItem; rowId: string }) {
  * @author xu.pengfei
  * @date 2025-12-13 21:33:37
  */
-export default function RowContainer({ row }: RowContainerProps) {
-  const reorderRowChildren = useFaFormStore((state) => state.reorderRowChildren);
-
+export default function RowContainer({ row, onClickRowItem }: RowContainerProps) {
   const childIds = (row.children || []).map((child) => child.id);
+
+
+  function handleClickRowItem(item: Flow.FlowFormItem) {
+    onClickRowItem?.(item);
+  }
 
   return (
     <div style={{ width: '100%' }}>
@@ -81,7 +58,7 @@ export default function RowContainer({ row }: RowContainerProps) {
               }}
             >
               {row.children?.map((child) => (
-                <RowItem key={child.id} item={child} rowId={row.id} />
+                <RowItem key={child.id} item={child} rowId={row.id} onClickItem={() => handleClickRowItem(child)} />
               ))}
             </div>
           </SortableContext>

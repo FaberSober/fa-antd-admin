@@ -20,6 +20,7 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
   const [open, setOpen] = useState(false);
   const [itemClone, setItemClone] = useState(item);
   const [tab, setTab] = useState('database');
+  const [selectedFormItem, setSelectedFormItem] = useState<Flow.FlowFormItem>();
 
   useEffect(() => {
     setItemClone(item);
@@ -75,6 +76,9 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
                     <FaFormEditor
                       config={itemClone?.config}
                       onChange={handleConfigChange}
+                      onClickItem={(item) => {
+                        setSelectedFormItem(item);
+                      }}
                     />
                   )}
                 </FaFlexRestLayout>

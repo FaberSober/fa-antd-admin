@@ -3,7 +3,7 @@ import {
   SortableContext,
   verticalListSortingStrategy
 } from '@dnd-kit/sortable';
-import { FaSortItem } from '@fa/ui';
+import { FaSortItem, FaUtils } from '@fa/ui';
 import { Empty } from "antd";
 import { get } from 'lodash';
 import { CSSProperties, ReactNode } from 'react';
@@ -24,6 +24,7 @@ export interface FaFormSortListProps<T> {
   vertical?: boolean;
   /** true-只变更y坐标，固定x坐标 */
   horizontal?: boolean;
+  onClickItem?: (item: T, index: number) => void;
 }
 
 /**
@@ -43,6 +44,7 @@ export default function FaFormSortList<T>({
   type = 'vertical',
   vertical,
   horizontal,
+  onClickItem,
 }: FaFormSortListProps<T>) {
 
   function getRowKey(item: T) {
@@ -72,6 +74,10 @@ export default function FaFormSortList<T>({
             horizontal={horizontal}
             style={itemStyle}
             handleStyle={handleStyle}
+            onClick={e => {
+              FaUtils.preventEvent(e)
+              onClickItem?.(item, index)
+            }}
           >
             {renderItem(item, index)}
           </FaSortItem>
