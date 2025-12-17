@@ -36,7 +36,7 @@ export default function RowItem({ item, rowId, onClickItem }: RowItemProps) {
       onClickItem?.(item)
     }} {...attributes} {...listeners}>
       {item.type === 'input' ? '输入框' : '行'}
-      <span style={{ fontSize: '12px', color: '#292424ff', marginLeft: '4px' }}>- {item.id}</span>
+      <span style={{ fontSize: '12px', color: '#292424ff', marginLeft: '4px' }}> - {item.id} - {item.name}</span>
     </div>
   );
 }

@@ -19,8 +19,7 @@ export interface FlowFormConfigDrawerProps {
 export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps) {
   const [open, setOpen] = useState(false);
   const [itemClone, setItemClone] = useState(item);
-  const [tab, setTab] = useState('database');
-  const [selectedFormItem, setSelectedFormItem] = useState<Flow.FlowFormItem>();
+  const [tab, setTab] = useState('form');
 
   useEffect(() => {
     setItemClone(item);
@@ -60,8 +59,8 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
                 <div>
                   <Tabs
                     items={[
-                      { key: 'database', label: '数据库' },
                       { key: 'form', label: '表单配置' },
+                      { key: 'database', label: '数据库' },
                     ]}
                     activeKey={tab}
                     onChange={setTab}
@@ -69,17 +68,14 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
                 </div>
 
                 <FaFlexRestLayout>
-                  {tab === 'database' && (
-                    <FormTableEdit item={item} />
-                  )}
                   {tab === 'form' && (
                     <FaFormEditor
                       config={itemClone?.config}
                       onChange={handleConfigChange}
-                      onClickItem={(item) => {
-                        setSelectedFormItem(item);
-                      }}
                     />
+                  )}
+                  {tab === 'database' && (
+                    <FormTableEdit item={item} />
                   )}
                 </FaFlexRestLayout>
               </div>

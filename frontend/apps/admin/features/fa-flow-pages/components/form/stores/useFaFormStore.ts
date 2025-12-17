@@ -5,6 +5,7 @@ import { Flow } from '@/types';
 
 interface FaFormState {
   formItems: Flow.FlowFormItem[];
+  selectedFormItem?: Flow.FlowFormItem;
   initialized: boolean;
   // 初始化配置
   initConfig: (config: any) => void;
@@ -30,12 +31,16 @@ interface FaFormState {
   moveFormItemToRow: (formItemId: string, rowId: string) => void;
   // 清空表单
   clearFormItems: () => void;
+
+  setSelectedFormItem: (item?: Flow.FlowFormItem) => void;
+  updateSelectedFormItem: (updates: Partial<Flow.FlowFormItem>) => void;
 }
 
 export const useFaFormStore = create<FaFormState>()(
   devtools<FaFormState>(
     (set, get) => ({
       formItems: [],
+      selectedFormItem: undefined,
       initialized: false,
 
       initConfig: (config) =>
@@ -172,6 +177,35 @@ export const useFaFormStore = create<FaFormState>()(
             }
             return item;
           }),
+      };
+    }),
+
+  setSelectedFormItem: (item) =>
+    set(() => ({
+      selectedFormItem: item,
+    })),
+  updateSelectedFormItem: (updates) =>
+    set((state) => {
+      // 如果没有选中项，直接返回
+      if (!state.selectedFormItem) return state;
+      // 在formItems中更新选中项
+      const updatedFormItems = state.formItems.map((item) => {
+        if (item.type === 'row' && item.children) {
+          return {
+            ...item,
+            children: item.children.map((child) =>
+              child.id === state.selectedFormItem!.id ? { ...child, ...updates } : child
+            ),
+          };
+        }
+        if (item.id === state.selectedFormItem!.id) {
+          return { ...item, ...updates };
+        }
+        return item;
+      });
+      return {
+        formItems: updatedFormItems,
+        selectedFormItem: { ...state.selectedFormItem, ...updates },
       };
     }),
 

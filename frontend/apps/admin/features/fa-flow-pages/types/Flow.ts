@@ -403,7 +403,6 @@ namespace Flow {
   export interface FlowFormItem {
     type: 'input' | 'row',
     id: string;
-    label?: string;
     name?: string;
     rules?: Array<Record<string, any>>;
     children?: FlowFormItem[];

@@ -11,6 +11,7 @@ import { FaFlexRestLayout } from '@fa/ui';
 import { Button } from 'antd';
 import FaFormShowModal from './modal/FaFormShowModal';
 import { Flow } from '@/types';
+import FormItemPanel from './panel/FormItemPanel';
 
 
 const DROPPABLE_ID = 'form-canvas-area';
@@ -38,6 +39,9 @@ export default function FaFormEditor({ config, onChange, onClickItem }: FaFormEd
   const addFormItem = useFaFormStore((state) => state.addFormItem);
   const addChildToRow = useFaFormStore((state) => state.addChildToRow);
   const clearFormItems = useFaFormStore((state) => state.clearFormItems);
+
+  const selectedFormItem = useFaFormStore((state) => state.selectedFormItem);
+  const setSelectedFormItem = useFaFormStore((state) => state.setSelectedFormItem);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -185,6 +189,7 @@ export default function FaFormEditor({ config, onChange, onClickItem }: FaFormEd
 
   function handleClickItem(item: Flow.FlowFormItem) {
     console.log('点击表单项', item);
+    setSelectedFormItem(item);
     onClickItem?.(item);
   }
 
@@ -232,7 +237,7 @@ export default function FaFormEditor({ config, onChange, onClickItem }: FaFormEd
                       if (i.type === 'input') {
                         return (
                           <div>
-                            这是一个输入框 - {i.id}
+                            这是一个输入框 - {i.id} - {i.name}
                           </div>
                         );
                       } else if (i.type === 'row') {
@@ -271,6 +276,8 @@ export default function FaFormEditor({ config, onChange, onClickItem }: FaFormEd
 
         <div style={{ width: 300 }} className='fa-border-l'>
           <h1>表单属性</h1>
+
+          <FormItemPanel />
         </div>
       </div>
     </DndContext>
