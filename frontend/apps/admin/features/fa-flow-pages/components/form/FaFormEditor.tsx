@@ -1,7 +1,7 @@
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { findIndex } from 'lodash';
-import { FaSortList } from './base-drag';
+import { FaFormSortList } from './base-drag';
 import { Draggable } from './components/Draggable';
 import { Droppable } from './components/Droppable';
 import RowContainer from './components/RowContainer';
@@ -187,7 +187,7 @@ export default function FaFormEditor({ config, onChange }: FaFormEditorProps) {
           <Droppable className='fa-full-content' id={DROPPABLE_ID}>
             <div className='fa-full-content' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div style={{ width: 500 }}>
-                <FaSortList
+                <FaFormSortList
                   list={formItems}
                   renderItem={(i) => {
                     if (i.type === 'input') {
