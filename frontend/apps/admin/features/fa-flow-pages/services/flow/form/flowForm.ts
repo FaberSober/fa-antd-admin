@@ -14,6 +14,12 @@ class Api extends BaseApi<Flow.FlowForm, number> {
   /** 新建列 */
   createColumn = (data: {tableName: string, column: Flow.TableColumnVo}): Promise<Fa.Ret<boolean>> => this.post('createColumn', data);
 
+  /** 更新列 */
+  updateColumn = (data: {tableName: string, column: Flow.TableColumnVo}): Promise<Fa.Ret<boolean>> => this.post('updateColumn', data);
+
+  /** 删除列 */
+  deleteColumn = (data: {tableName: string, column: string}): Promise<Fa.Ret<boolean>> => this.post('deleteColumn', data);
+
 }
 
 export default new Api(GATE_APP.flow.form, 'flowForm');

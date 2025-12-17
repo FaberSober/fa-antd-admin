@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.faber.api.flow.form.entity.FlowForm;
 import com.faber.api.flow.form.mapper.FlowFormMapper;
+import com.faber.api.flow.form.vo.req.CreateColumnReqVo;
 import com.faber.api.flow.form.vo.req.CreateFormTableReqVo;
 import com.faber.api.flow.form.vo.ret.TableColumnVo;
 import com.faber.api.flow.form.vo.ret.TableInfoVo;
@@ -69,7 +70,7 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> {
         return tableInfo;
     }
 
-    public void createColumn(com.faber.api.flow.form.vo.req.CreateColumnReqVo reqVo) throws SQLException {
+    public void createColumn(CreateColumnReqVo reqVo) throws SQLException {
         String tableName = reqVo.getTableName();
         TableColumnVo column = reqVo.getColumn();
 
@@ -105,6 +106,56 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> {
         sb.append(";");
 
         String sql = sb.toString();
+
+        Connection conn = dataSource.getConnection();
+        SqlUtils.executeSql(conn, sql);
+    }
+
+
+    public void updateColumn(CreateColumnReqVo reqVo) throws SQLException {
+        String tableName = reqVo.getTableName();
+        TableColumnVo column = reqVo.getColumn();
+
+        // 校验表名必须以ff_开头
+        if (tableName == null || !tableName.startsWith("ff_")) {
+            throw new IllegalArgumentException("表名必须以ff_开头");
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("ALTER TABLE `").append(tableName).append("` MODIFY COLUMN `").append(column.getField()).append("` ");
+        if (DATA_TYPES_LENGTH.contains(column.getDataType()) && column.getLength() != null) {
+            sb.append(column.getDataType()).append("(").append(column.getLength()).append(") ");
+        } else if (DATA_TYPES_PRECISION.contains(column.getDataType()) && column.getPrecision() != null && column.getScale() != null) {
+            sb.append(column.getDataType()).append("(").append(column.getPrecision()).append(",").append(column.getScale()).append(") ");
+        } else {
+            sb.append(column.getDataType()).append(" ");
+        }
+        if ("NO".equalsIgnoreCase(column.getNullable())) {
+            sb.append("NOT NULL ");
+        } else {
+            sb.append("NULL ");
+        }
+        if (column.getDefaultValue() != null) {
+            sb.append("DEFAULT '").append(column.getDefaultValue()).append("' ");
+        }
+        if (column.getComment() != null) {
+            sb.append("COMMENT '").append(column.getComment()).append("' ");
+        }
+        sb.append(";");
+        String sql = sb.toString();
+        Connection conn = dataSource.getConnection();
+        SqlUtils.executeSql(conn, sql);
+    }
+
+    public void deleteColumn(com.faber.api.flow.form.vo.req.DeleteColumnReqVo reqVo) throws SQLException {
+        String tableName = reqVo.getTableName();
+        String columnName = reqVo.getColumn();
+
+        // 校验表名必须以ff_开头
+        if (tableName == null || !tableName.startsWith("ff_")) {
+            throw new IllegalArgumentException("表名必须以ff_开头");
+        }
+
+        String sql = String.format("ALTER TABLE `%s` DROP COLUMN `%s`;", tableName, columnName);
 
         Connection conn = dataSource.getConnection();
         SqlUtils.executeSql(conn, sql);

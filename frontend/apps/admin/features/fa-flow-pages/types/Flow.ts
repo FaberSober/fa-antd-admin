@@ -371,15 +371,8 @@ namespace Flow {
     config: FlowFormConfig;
   }
 
-  export interface FlowFormDataConfigColumn {
+  export interface FlowFormDataConfigColumn extends TableColumnVo {
     sort: number;
-    fieldName: string;
-    fieldType: string;
-    fieldLength: number;
-    isPk: boolean;
-    isNullable: boolean;
-    defaultValue: any;
-    comment: string;
   }
 
   export interface FlowFormDataConfig {

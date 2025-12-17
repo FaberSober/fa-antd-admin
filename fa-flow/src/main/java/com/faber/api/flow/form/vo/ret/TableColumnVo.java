@@ -1,6 +1,8 @@
 package com.faber.api.flow.form.vo.ret;
 
 import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import lombok.Data;
 
@@ -22,7 +24,7 @@ public class TableColumnVo implements Serializable {
     private String dataType;
     
     /** 字符长度（varchar 专用） */
-    private Long length;
+    private Integer length;
     
     /** 数字精度 */
     private Integer precision;
@@ -44,4 +46,20 @@ public class TableColumnVo implements Serializable {
     
     /** 字段注释（最重要，用于表单 label） */
     private String comment;
+
+    // 后处理 length 的 getter
+    public Integer getLength() {
+        if (length != null) {
+            return length; // 字符类型直接用 CHARACTER_MAXIMUM_LENGTH
+        }
+        // 整数类型从 COLUMN_TYPE 解析显示宽度
+        if ("int".equalsIgnoreCase(dataType) || type != null) {
+            Matcher matcher = Pattern.compile("\\((\\d+)\\)").matcher(type);
+            if (matcher.find()) {
+                return Integer.parseInt(matcher.group(1));
+            }
+        }
+        return precision; // 备选：用 NUMERIC_PRECISION（如 int 默认 10）
+    }
+
 }

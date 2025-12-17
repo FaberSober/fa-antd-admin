@@ -1,21 +1,25 @@
-import { Flow } from '@/types';
-import { FaFlexRestLayout, FaSortList } from '@fa/ui';
-import { set } from 'lodash';
-import React, { useEffect, useState } from 'react';
-import FormTableColumnEdit from './FormTableColumnEdit';
-import FormTableColumnAdd from './FormTableColumnAdd';
 import { flowFormApi } from '@/services';
+import { Flow } from '@/types';
+import { FaFlexRestLayout, FaSortList, useApiLoading } from '@fa/ui';
+import { Spin } from 'antd';
+import { isNil, set } from 'lodash';
+import { useEffect, useState } from 'react';
+import FormTableColumnAdd from './FormTableColumnAdd';
+import FormTableColumnEdit from './FormTableColumnEdit';
+import { resortColumnsByConfig } from './utils';
 
 
 export interface FormTableColumnTableProps {
+  item: Flow.FlowForm;
   tableInfo: Flow.TableInfoVo;
+  onColumnsChange?: (columns: Flow.FlowFormDataConfigColumn[]) => void;
 }
 
 /**
  * @author xu.pengfei
  * @date 2025-12-17 16:14:30
  */
-export default function FormTableColumnTable({ tableInfo }: FormTableColumnTableProps) {
+export default function FormTableColumnTable({ item, tableInfo, onColumnsChange }: FormTableColumnTableProps) {
   const [tableInfoClone, setTableInfoClone] = useState(tableInfo);
 
   useEffect(() => {
@@ -30,14 +34,26 @@ export default function FormTableColumnTable({ tableInfo }: FormTableColumnTable
       set(newInfo, 'columns', newList);
       return newInfo;
     });
+    const columns: Flow.FlowFormDataConfigColumn[] = newList.map((col, index) => ({
+      ...col,
+      sort: index,
+    }));
+    onColumnsChange?.(columns);
   }
 
   function refresh() {
     flowFormApi.queryTableStructure({ tableName: tableInfo.tableName }).then(res => {
+      resortColumnsByConfig(res.data.columns, item.dataConfig);
       setTableInfoClone(res.data);
+      onColumnsChange?.(res.data.columns.map((col, index) => ({
+        ...col,
+        sort: index,
+      })));
     });
   }
 
+  console.log('isNil(0)', isNil(0))
+  const loading = useApiLoading(flowFormApi.getUrl('queryTableStructure'));
   return (
     <div className='fa-flex-column fa-full'>
       {/* header */}
@@ -47,34 +63,42 @@ export default function FormTableColumnTable({ tableInfo }: FormTableColumnTable
         <div style={{ width: 80 }}>长度</div>
         <div style={{ width: 80 }}>精度</div>
         <div style={{ width: 80 }}>小数</div>
-        <div style={{ width: 40 }}>非空</div>
+        <div style={{ width: 40, textAlign: 'center' }}>非空</div>
         <div style={{ width: 200 }}>默认值</div>
-        <div style={{ width: 40 }}>主键</div>
-        <div style={{ width: 40 }}>自增</div>
+        <div style={{ width: 40, textAlign: 'center' }}>主键</div>
+        <div style={{ width: 40, textAlign: 'center' }}>自增</div>
         <div style={{ flex: 1 }}>注释</div>
         <div style={{ width: 30 }}></div>
       </div>
 
       <FaFlexRestLayout>
-        <FaSortList
-          rowKey='field'
-          list={tableInfoClone.columns}
-          renderItem={(i) => (<FormTableColumnEdit column={i} />)}
-          onSortEnd={l => updateColumnList(l)}
-          itemStyle={{
-            padding: 4,
-            borderBottom: '1px solid var(--fa-border-color)',
-          }}
-          containerStyle={{
+        <Spin spinning={loading} style={{ flex: 1 }}>
+          <FaSortList
+            rowKey='field'
+            list={tableInfoClone.columns}
+            renderItem={(i) => (
+              <FormTableColumnEdit
+                column={i}
+                tableName={tableInfo.tableName}
+                onSuccess={() => refresh()}
+              />
+            )}
+            onSortEnd={l => updateColumnList(l)}
+            itemStyle={{
+              padding: 4,
+              borderBottom: '1px solid var(--fa-border-color)',
+            }}
+            containerStyle={{
 
-          }}
-          vertical
-          handle
-        />
-        <FormTableColumnAdd
-          tableName={tableInfo.tableName}
-          onSuccess={() => refresh()}
-        />
+            }}
+            vertical
+            handle
+          />
+          <FormTableColumnAdd
+            tableName={tableInfo.tableName}
+            onSuccess={refresh}
+          />
+        </Spin>
       </FaFlexRestLayout>
     </div>
   );

@@ -34,9 +34,9 @@ export default function FlowFormList() {
       BaseTableUtils.genSimpleSorterColumn('状态', 'status', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('排序', 'sort', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('图标', 'icon', 100, sorter),
-      BaseTableUtils.genSimpleSorterColumn('表名', 'tableName', 100, sorter),
-      BaseTableUtils.genSimpleSorterColumn('备注', 'remark', 100, sorter),
-      BaseTableUtils.genSimpleSorterColumn('表单配置', 'config', 100, sorter),
+      BaseTableUtils.genSimpleSorterColumn('表名', 'tableName', 150, sorter),
+      BaseTableUtils.genSimpleSorterColumn('备注', 'remark', 200, sorter),
+      // BaseTableUtils.genSimpleSorterColumn('表单配置', 'config', 100, sorter),
       ...BaseTableUtils.genCtrColumns(sorter),
       ...BaseTableUtils.genUpdateColumns(sorter),
       {

@@ -6,6 +6,7 @@ import { flowFormApi } from '@features/fa-flow-pages/services';
 import { set } from 'lodash';
 import FormTableColumnTable from './FormTableColumnTable';
 import { Empty } from 'antd';
+import { resortColumnsByConfig } from './utils';
 
 export interface FormTableEditProps {
   item: Flow.FlowForm;
@@ -40,6 +41,7 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
       return newItem;
     });
     flowFormApi.update(item.id, {
+      tableName: v.tableName,
       dataConfig: {
         ...item.dataConfig,
         main: {
@@ -50,7 +52,25 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
     })
   }
 
-  console.log('hasMainTable', hasMainTable);
+  function handleColumnsChange(columns: Flow.FlowFormDataConfigColumn[]) {
+    console.log('handleColumnsChange', columns);
+    setItemClone(prev => {
+      const newItem = { ...prev };
+      set(newItem, 'dataConfig.main.columns', columns);
+      return newItem;
+    });
+    flowFormApi.update(item.id, {
+      dataConfig: {
+        ...item.dataConfig,
+        main: {
+          ...item.dataConfig?.main,
+          columns,
+        }
+      }
+    })
+  }
+
+  // console.log('hasMainTable', hasMainTable);
   return (
     <div className='fa-full fa-flex-row'>
       <div style={{ width: 300 }} className='fa-border-r fa-p12'>
@@ -63,6 +83,7 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
               }
               setTableName(itemClone?.dataConfig?.main?.tableName);
               flowFormApi.queryTableStructure({ tableName: clickTableName! }).then(res => {
+                resortColumnsByConfig(res.data.columns, item.dataConfig);
                 setTableInfo(res.data);
                 if (!res.data.exist) {
                   setIsMainTableCreated(false);
@@ -82,7 +103,9 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
 
       <FaFlexRestLayout>
         <div className='fa-p-16 fa-full'>
-          {tableInfo && tableInfo.exist ? <FormTableColumnTable tableInfo={tableInfo} /> : <Empty description="表不存在" />}
+          {tableInfo && tableInfo.exist ? (
+            <FormTableColumnTable item={itemClone} tableInfo={tableInfo} onColumnsChange={handleColumnsChange} />
+          ) : <Empty description="表不存在" />}
         </div>
       </FaFlexRestLayout>
     </div>
