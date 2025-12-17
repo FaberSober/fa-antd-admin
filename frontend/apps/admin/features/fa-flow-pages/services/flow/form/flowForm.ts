@@ -11,6 +11,9 @@ class Api extends BaseApi<Flow.FlowForm, number> {
   /** 查询表结构 */
   queryTableStructure = (data: {tableName: string}): Promise<Fa.Ret<Flow.TableInfoVo>> => this.post('queryTableStructure', data);
 
+  /** 新建列 */
+  createColumn = (data: {tableName: string, column: Flow.TableColumnVo}): Promise<Fa.Ret<boolean>> => this.post('createColumn', data);
+
 }
 
 export default new Api(GATE_APP.flow.form, 'flowForm');

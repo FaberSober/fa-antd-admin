@@ -14,6 +14,8 @@ public class TableInfoVo implements Serializable {
     /** 表注释 */
     private String tableComment;
 
+    private Boolean exist;
+
     private List<TableColumnVo> columns;
     
 }

@@ -4,6 +4,8 @@ import { FaFlexRestLayout } from '@fa/ui';
 import FormTableCreateModal from './FormTableCreateModal';
 import { flowFormApi } from '@features/fa-flow-pages/services';
 import { set } from 'lodash';
+import FormTableColumnTable from './FormTableColumnTable';
+import { Empty } from 'antd';
 
 export interface FormTableEditProps {
   item: Flow.FlowForm;
@@ -18,9 +20,13 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
   const [itemClone, setItemClone] = useState(item);
   const [tableName, setTableName] = useState<string>();
   const [tableInfo, setTableInfo] = useState<Flow.TableInfoVo>();
+  const [isMainTableCreated, setIsMainTableCreated] = useState<boolean>(false);
 
   useEffect(() => {
     setItemClone(item);
+    if (itemClone?.dataConfig?.main?.tableName) {
+      setIsMainTableCreated(true);
+    }
   }, [item]);
 
   const hasMainTable = itemClone?.dataConfig?.main?.tableName;
@@ -48,13 +54,7 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
   return (
     <div className='fa-full fa-flex-row'>
       <div style={{ width: 300 }} className='fa-border-r fa-p12'>
-        {!hasMainTable ? (
-          <FormTableCreateModal
-            addBtn
-            title='新增主表'
-            fetchFinish={handleCreateMainTableFinish}
-          />
-        ) : (
+        {hasMainTable && (
           <div className='fa-normal-btn'
             onClick={() =>{
               const clickTableName = itemClone?.dataConfig?.main?.tableName;
@@ -64,15 +64,25 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
               setTableName(itemClone?.dataConfig?.main?.tableName);
               flowFormApi.queryTableStructure({ tableName: clickTableName! }).then(res => {
                 setTableInfo(res.data);
+                if (!res.data.exist) {
+                  setIsMainTableCreated(false);
+                }
               });
             }}
           >{itemClone?.dataConfig?.main?.tableName}</div>
         )}
+        {!isMainTableCreated && (
+          <FormTableCreateModal
+            addBtn
+            title='新增主表'
+            fetchFinish={handleCreateMainTableFinish}
+          />
+        )}
       </div>
 
       <FaFlexRestLayout>
-        <div className='fa-p-16'>
-          表结构编辑区
+        <div className='fa-p-16 fa-full'>
+          {tableInfo && tableInfo.exist ? <FormTableColumnTable tableInfo={tableInfo} /> : <Empty description="表不存在" />}
         </div>
       </FaFlexRestLayout>
     </div>

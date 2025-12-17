@@ -422,6 +422,7 @@ namespace Flow {
   export interface TableInfoVo {
     tableName: string;
     tableComment: string;
+    exist: boolean;
     columns: TableColumnVo[];
   }
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.faber.api.flow.form.biz.FlowFormBiz;
 import com.faber.api.flow.form.entity.FlowForm;
+import com.faber.api.flow.form.vo.req.CreateColumnReqVo;
 import com.faber.api.flow.form.vo.req.CreateFormTableReqVo;
 import com.faber.api.flow.form.vo.ret.TableInfoVo;
 import com.faber.core.annotation.FaLogBiz;
@@ -50,6 +51,14 @@ public class FlowFormController extends BaseController<FlowFormBiz, FlowForm, In
         String tableName = MapUtil.getStr(reqVo, "tableName");
         TableInfoVo data = baseBiz.queryTableStructure(tableName);
         return ok(data);
+    }
+
+    @FaLogOpr(value = "新建列", crud = LogCrudEnum.C)
+    @RequestMapping(value = "/createColumn", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<Boolean> createColumn(@RequestBody CreateColumnReqVo reqVo) throws SQLException {
+        baseBiz.createColumn(reqVo);
+        return ok();
     }
 
 }
