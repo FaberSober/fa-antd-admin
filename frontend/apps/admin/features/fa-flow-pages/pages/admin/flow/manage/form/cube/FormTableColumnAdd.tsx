@@ -29,6 +29,7 @@ export default function FormTableColumnAdd({ tableName, onSuccess }: FormTableCo
       FaUtils.showResponse(res, '新增字段');
       onSuccess && onSuccess(fieldsValue.field);
       form.resetFields();
+      setDataType('')
     })
   }
 

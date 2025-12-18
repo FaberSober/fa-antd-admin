@@ -4,11 +4,12 @@ import { FaUtils } from '@fa/ui';
 import { Flow } from '@/types';
 
 interface FaFormState {
+  flowForm: Flow.FlowForm;
   formItems: Flow.FlowFormItem[];
   selectedFormItem?: Flow.FlowFormItem;
   initialized: boolean;
   // 初始化配置
-  initConfig: (config: any) => void;
+  init: (flowForm: Flow.FlowForm) => void;
   // 添加表单项
   addFormItem: (type: 'input' | 'row') => void;
   // 删除表单项
@@ -39,13 +40,15 @@ interface FaFormState {
 export const useFaFormStore = create<FaFormState>()(
   devtools<FaFormState>(
     (set, get) => ({
+      flowForm: {} as Flow.FlowForm,
       formItems: [],
       selectedFormItem: undefined,
       initialized: false,
 
-      initConfig: (config) =>
+      init: (flowForm) =>
         set(() => ({
-          formItems: config?.formItems || [],
+          flowForm,
+          formItems: flowForm?.config?.formItems || [],
           initialized: true,
         })),
 
@@ -211,6 +214,7 @@ export const useFaFormStore = create<FaFormState>()(
 
   clearFormItems: () =>
     set(() => ({
+      flowForm: {} as Flow.FlowForm,
       formItems: [],
       initialized: false,
     })),

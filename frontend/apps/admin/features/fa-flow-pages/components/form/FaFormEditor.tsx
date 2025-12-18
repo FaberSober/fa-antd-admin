@@ -1,22 +1,25 @@
-import { closestCenter, DndContext, DragEndEvent, KeyboardSensor, PointerSensor, pointerWithin, useSensor, useSensors } from '@dnd-kit/core';
+import { Flow } from '@/types';
+import { DndContext, DragEndEvent, KeyboardSensor, PointerSensor, pointerWithin, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { FaFlexRestLayout } from '@fa/ui';
+import { Button, Form } from 'antd';
 import { findIndex } from 'lodash';
+import { useEffect } from 'react';
+import FaFormShowModal from '../formShow/modal/FaFormShowModal';
 import { FaFormSortList } from './base-drag';
 import { Draggable } from './components/Draggable';
 import { Droppable } from './components/Droppable';
-import RowContainer from './components/RowContainer';
-import { useFaFormStore } from './stores/useFaFormStore';
-import { useEffect } from 'react';
-import { FaFlexRestLayout } from '@fa/ui';
-import { Button } from 'antd';
-import FaFormShowModal from './modal/FaFormShowModal';
-import { Flow } from '@/types';
+import FaFormEditorItem from './cube/FaFormEditorItem';
 import FormItemPanel from './panel/FormItemPanel';
+import { useFaFormStore } from './stores/useFaFormStore';
+import './index.scss';
+import clsx from 'clsx';
 
 
 const DROPPABLE_ID = 'form-canvas-area';
 
 export interface FaFormEditorProps {
+  flowForm: Flow.FlowForm;
   config?: Flow.FlowFormConfig;
   onChange?: (config: Flow.FlowFormConfig) => void;
   onClickItem?: (item: Flow.FlowFormItem) => void;
@@ -27,10 +30,10 @@ export interface FaFormEditorProps {
  * @author xu.pengfei
  * @date 2025-12-16 16:38:38
  */
-export default function FaFormEditor({ config, onChange, onClickItem }: FaFormEditorProps) {
+export default function FaFormEditor({ flowForm, config, onChange, onClickItem }: FaFormEditorProps) {
   const formItems = useFaFormStore((state) => state.formItems);
   const initialized = useFaFormStore((state) => state.initialized);
-  const initConfig = useFaFormStore((state) => state.initConfig);
+  const init = useFaFormStore((state) => state.init);
   const reorderFormItems = useFaFormStore((state) => state.reorderFormItems);
   const reorderRowChildren = useFaFormStore((state) => state.reorderRowChildren);
   const moveChildBetweenRows = useFaFormStore((state) => state.moveChildBetweenRows);
@@ -57,8 +60,8 @@ export default function FaFormEditor({ config, onChange, onClickItem }: FaFormEd
 
   // 初始化 store 和清理
   useEffect(() => {
-    console.log('FaFormEditor mounted', config);
-    initConfig(config);
+    console.log('FaFormEditor mounted', flowForm);
+    init(flowForm);
     return () => {
       console.log('FaFormEditor unmounted, clearing form items');
       clearFormItems();
@@ -228,49 +231,37 @@ export default function FaFormEditor({ config, onChange, onClickItem }: FaFormEd
 
           {/* form canvas */}
           <FaFlexRestLayout>
-            <Droppable className='fa-full-content' id={DROPPABLE_ID}>
-              <div className='fa-full-content' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <div style={{ width: 500 }}>
-                  <FaFormSortList
-                    list={formItems}
-                    renderItem={(i) => {
-                      if (i.type === 'input') {
+            <Form>
+              <Droppable className='fa-full-content' id={DROPPABLE_ID}>
+                <div className='fa-full-content' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <div style={{ width: 500 }}>
+                    <FaFormSortList
+                      list={formItems}
+                      renderItem={(i) => {
                         return (
-                          <div>
-                            这是一个输入框 - {i.id} - {i.name}
+                          <div className={clsx('fa-form-editor-item', i.id === selectedFormItem?.id && 'fa-form-editor-item-selected')} style={{ width: '100%' }}>
+                            <FaFormEditorItem formItem={i} onClickRowItem={handleClickItem} />
                           </div>
                         );
-                      } else if (i.type === 'row') {
-                        return (
-                          <div style={{ width: '100%' }}>
-                            <RowContainer row={i} onClickRowItem={handleClickItem} />
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div>
-                            未知组件 - {i.id}
-                          </div>
-                        );
-                      }
-                    }}
-                    // handle
-                    // onSortEnd={(l) => reorderFormItems(l)}
-                    itemStyle={{
-                      padding: 8,
-                      borderBottom: '1px solid #ccc',
-                      width: '100%',
-                    }}
-                    containerStyle={{}}
-                    type='vertical'
-                    vertical
-                    onClickItem={(item) => {
-                      handleClickItem(item)
-                    }}
-                  />
+                      }}
+                      // handle
+                      // onSortEnd={(l) => reorderFormItems(l)}
+                      itemStyle={{
+                        // padding: 8,
+                        // borderBottom: '1px solid #ccc',
+                        width: '100%',
+                      }}
+                      containerStyle={{}}
+                      type='vertical'
+                      vertical
+                      onClickItem={(item) => {
+                        handleClickItem(item)
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
-            </Droppable>
+              </Droppable>
+            </Form>
           </FaFlexRestLayout>
         </div>
 

@@ -1,0 +1,12 @@
+.fa-form-editor-item {
+  // width: 100%;
+  position: relative;
+  cursor: grab;
+  padding: 8px;
+  border: 1px dashed #ccc;
+}
+
+.fa-form-editor-item-selected {
+  background-color: #e6f7ff;
+  border: 1px solid #1890ff;
+}

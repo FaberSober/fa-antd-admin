@@ -70,6 +70,7 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
                 <FaFlexRestLayout>
                   {tab === 'form' && (
                     <FaFormEditor
+                      flowForm={itemClone}
                       config={itemClone?.config}
                       onChange={handleConfigChange}
                     />

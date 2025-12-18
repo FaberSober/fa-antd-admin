@@ -396,7 +396,9 @@ namespace Flow {
   export interface FlowFormItem {
     type: 'input' | 'row',
     id: string;
+    tableName?: string;
     name?: string;
+    label?: string;
     rules?: Array<Record<string, any>>;
     children?: FlowFormItem[];
   }

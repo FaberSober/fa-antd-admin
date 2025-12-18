@@ -1,7 +1,7 @@
 import type { Flow } from '@/types';
 import { DragModal, DragModalProps } from '@fa/ui';
 import { useState } from 'react';
-import { FaFormShow } from '../..';
+import FaFormShow from '../FaFormShow';
 
 
 export interface FaFormShowModalProps extends DragModalProps {

@@ -3,6 +3,9 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { FaUtils } from '@fa/ui';
 import React from 'react';
+import FaFormEditorItem from '../cube/FaFormEditorItem';
+import clsx from 'clsx';
+import { useFaFormStore } from '../stores/useFaFormStore';
 
 export interface RowItemProps {
   item: Flow.FlowFormItem;
@@ -17,14 +20,15 @@ export interface RowItemProps {
  */
 export default function RowItem({ item, rowId, onClickItem }: RowItemProps) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: item.id, data: { type: 'RowItem', rowId } });
+    const selectedFormItem = useFaFormStore((state) => state.selectedFormItem);
 
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
-    padding: '8px 12px',
-    backgroundColor: '#fff',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
+    // padding: '8px 12px',
+    // backgroundColor: '#fff',
+    // border: '1px solid #ddd',
+    // borderRadius: '4px',
     cursor: 'grab',
     flexShrink: 0,
     minWidth: 'fit-content',
@@ -34,9 +38,11 @@ export default function RowItem({ item, rowId, onClickItem }: RowItemProps) {
     <div ref={setNodeRef} style={style} onClick={(e) => {
       FaUtils.preventEvent(e)
       onClickItem?.(item)
-    }} {...attributes} {...listeners}>
-      {item.type === 'input' ? '输入框' : '行'}
-      <span style={{ fontSize: '12px', color: '#292424ff', marginLeft: '4px' }}> - {item.id} - {item.name}</span>
+    }}
+    className={clsx('fa-form-editor-item', item.id === selectedFormItem?.id && 'fa-form-editor-item-selected')}
+    {...attributes}
+    {...listeners}>
+      <FaFormEditorItem formItem={item} />
     </div>
   );
 }
