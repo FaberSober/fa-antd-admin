@@ -32,6 +32,15 @@ import com.faber.core.web.rest.BaseController;
 @RequestMapping("/api/flow/manage/flowProcess")
 public class FlowProcessController extends BaseController<FlowProcessBiz, FlowProcess, Integer> {
 
+
+    @FaLogOpr(value = "key查询", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/getByKey/{key}", method = RequestMethod.GET)
+    @ResponseBody
+    public Ret<FlowProcess> getByKey(@PathVariable String key) {
+        FlowProcess o = baseBiz.getByKey(key);
+        return ok(o);
+    }
+
     @FaLogOpr(value = "新增", crud = LogCrudEnum.C)
     @RequestMapping(value = "/publish", method = RequestMethod.POST)
     @ResponseBody

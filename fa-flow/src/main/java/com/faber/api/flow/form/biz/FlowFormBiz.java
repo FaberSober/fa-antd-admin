@@ -8,9 +8,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.faber.api.flow.form.entity.FlowForm;
 import com.faber.api.flow.form.mapper.FlowFormMapper;
 import com.faber.api.flow.form.vo.config.FlowFormDataConfig;
@@ -20,9 +18,9 @@ import com.faber.api.flow.form.vo.req.SaveFormDataReqVo;
 import com.faber.api.flow.form.vo.ret.TableColumnVo;
 import com.faber.api.flow.form.vo.ret.TableInfoVo;
 import com.faber.core.exception.BuzzException;
-import com.faber.core.utils.SqlUtils;
 import com.faber.core.web.biz.BaseBiz;
 
+import cn.hutool.db.sql.SqlExecutor;
 import jakarta.annotation.Resource;
 
 /**
@@ -62,7 +60,7 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> {
         );
 
         Connection conn = dataSource.getConnection();
-        SqlUtils.executeSql(conn, createTableSql);
+        SqlExecutor.execute(conn, createTableSql);
     }
 
     public TableInfoVo queryTableStructure(String tableName) throws SQLException {
@@ -72,6 +70,9 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> {
         List<TableColumnVo> columns = baseMapper.getTableColumns(tableName);
         tableInfo.setColumns(columns);
         tableInfo.setExist(!columns.isEmpty());
+
+        // TODO 后续可以修改为使用 Hutool 的 MetaUtil 来获取表结构
+        // Table tableMeta = MetaUtil.getTableMeta(dataSource, tableName);
 
         return tableInfo;
     }
@@ -114,7 +115,7 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> {
         String sql = sb.toString();
 
         Connection conn = dataSource.getConnection();
-        SqlUtils.executeSql(conn, sql);
+        SqlExecutor.execute(conn, sql);
     }
 
 
@@ -149,7 +150,7 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> {
         sb.append(";");
         String sql = sb.toString();
         Connection conn = dataSource.getConnection();
-        SqlUtils.executeSql(conn, sql);
+        SqlExecutor.execute(conn, sql);
     }
 
     public void deleteColumn(com.faber.api.flow.form.vo.req.DeleteColumnReqVo reqVo) throws SQLException {
@@ -164,7 +165,7 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> {
         String sql = String.format("ALTER TABLE `%s` DROP COLUMN `%s`;", tableName, columnName);
 
         Connection conn = dataSource.getConnection();
-        SqlUtils.executeSql(conn, sql);
+        SqlExecutor.execute(conn, sql);
     }
 
     public SaveFormDataReqVo saveFormData(SaveFormDataReqVo reqVo) throws SQLException {
@@ -204,8 +205,11 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> {
 
         String sql = sqlSb.append(fieldsSb.substring(0, fieldsSb.length() - 2)).append(") VALUES (")
                 .append(valuesSb.substring(0, valuesSb.length() - 2)).append(");").toString();
+
         Connection conn = dataSource.getConnection();
-        SqlUtils.executeSql(conn, sql);
+        Long mainTableId = SqlExecutor.executeForGeneratedKey(conn, sql);
+        reqVo.getFormData().put("id", mainTableId);
+        // 解析自增主键ID
 
         // TODO 保存子表数据
 

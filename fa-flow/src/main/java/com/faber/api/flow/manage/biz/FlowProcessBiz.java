@@ -39,6 +39,14 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
     @Resource
     FlowLongEngine flowLongEngine;
 
+    public FlowProcess getByKey(String key) {
+        return lambdaQuery()
+                .eq(FlowProcess::getProcessKey, key)
+                .orderByDesc(FlowProcess::getUpdTime)
+                .last("LIMIT 1")
+                .one();
+    }
+
     @Override
     public boolean save(FlowProcess entity) {
         // set default modelContent
