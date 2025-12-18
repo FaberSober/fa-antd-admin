@@ -3,17 +3,23 @@ package com.faber.api.flow.form.biz;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.faber.api.flow.form.entity.FlowForm;
 import com.faber.api.flow.form.mapper.FlowFormMapper;
+import com.faber.api.flow.form.vo.config.FlowFormDataConfig;
 import com.faber.api.flow.form.vo.req.CreateColumnReqVo;
 import com.faber.api.flow.form.vo.req.CreateFormTableReqVo;
+import com.faber.api.flow.form.vo.req.SaveFormDataReqVo;
 import com.faber.api.flow.form.vo.ret.TableColumnVo;
 import com.faber.api.flow.form.vo.ret.TableInfoVo;
+import com.faber.core.exception.BuzzException;
 import com.faber.core.utils.SqlUtils;
 import com.faber.core.web.biz.BaseBiz;
 
@@ -159,6 +165,51 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> {
 
         Connection conn = dataSource.getConnection();
         SqlUtils.executeSql(conn, sql);
+    }
+
+    public SaveFormDataReqVo saveFormData(SaveFormDataReqVo reqVo) throws SQLException {
+        FlowForm flowForm = getById(reqVo.getFormId());
+        if (flowForm == null) {
+            throw new BuzzException("表单不存在，formId=" + reqVo.getFormId());
+        }
+
+        // 拼接保存SQL
+        FlowFormDataConfig dataConfig = flowForm.getDataConfig();
+        String userId = getCurrentUserId();
+
+        // 保存主表数据
+        String mainTableName = dataConfig.getMain().getTableName();
+        Map<String, Object> mainData = reqVo.getFormData();
+
+        StringBuilder sqlSb = new StringBuilder();
+        StringBuilder fieldsSb = new StringBuilder();
+        StringBuilder valuesSb = new StringBuilder();
+        sqlSb.append("INSERT INTO `").append(mainTableName).append("` (");
+        for (FlowFormDataConfig.Column column : dataConfig.getMain().getColumns()) {
+            String field = column.getField();
+            if (mainData.containsKey(field)) {
+                fieldsSb.append("`").append(field).append("`, ");
+                valuesSb.append("'").append(mainData.get(field)).append("', ");
+            } else if (field.equals("crt_time") || field.equals("upd_time")) { // 处理基础业务字段：crt_time, crt_user, upd_time, upd_user, deleted
+                fieldsSb.append("`").append(field).append("`, ");
+                valuesSb.append("CURRENT_TIMESTAMP, ");
+            } else if (field.equals("crt_user") || field.equals("upd_user")) {
+                fieldsSb.append("`").append(field).append("`, ");
+                valuesSb.append("'").append(userId).append("', ");
+            } else if (field.equals("deleted")) {
+                fieldsSb.append("`").append(field).append("`, ");
+                valuesSb.append("false, ");
+            }
+        }
+
+        String sql = sqlSb.append(fieldsSb.substring(0, fieldsSb.length() - 2)).append(") VALUES (")
+                .append(valuesSb.substring(0, valuesSb.length() - 2)).append(");").toString();
+        Connection conn = dataSource.getConnection();
+        SqlUtils.executeSql(conn, sql);
+
+        // TODO 保存子表数据
+
+        return reqVo;
     }
 
 }

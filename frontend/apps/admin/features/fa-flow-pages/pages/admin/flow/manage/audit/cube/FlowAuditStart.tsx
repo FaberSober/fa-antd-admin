@@ -114,7 +114,12 @@ export default function FlowAuditStart() {
                                 {/* 自定义表单 */}
                                 {flow.formType === FlowEnums.FlowProcessFormType.CUSTOM && (
                                   <div>
-                                    <FaFlowForm formId={flow.formId} />
+                                    <FaFlowForm
+                                      formId={flow.formId}
+                                      form={form}
+                                      onSuccess={(fv) => handleFormSubmit(flow, fv)}
+                                      onLoadingChange={setFormLoading}
+                                    />
                                   </div>
                                 )}
                               </FaFlexRestLayout>

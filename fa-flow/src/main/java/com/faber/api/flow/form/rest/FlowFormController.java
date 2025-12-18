@@ -15,6 +15,7 @@ import com.faber.api.flow.form.entity.FlowForm;
 import com.faber.api.flow.form.vo.req.CreateColumnReqVo;
 import com.faber.api.flow.form.vo.req.CreateFormTableReqVo;
 import com.faber.api.flow.form.vo.req.DeleteColumnReqVo;
+import com.faber.api.flow.form.vo.req.SaveFormDataReqVo;
 import com.faber.api.flow.form.vo.ret.TableInfoVo;
 import com.faber.core.annotation.FaLogBiz;
 import com.faber.core.annotation.FaLogOpr;
@@ -76,6 +77,14 @@ public class FlowFormController extends BaseController<FlowFormBiz, FlowForm, In
     public Ret<Boolean> deleteColumn(@RequestBody DeleteColumnReqVo reqVo) throws SQLException {
         baseBiz.deleteColumn(reqVo);
         return ok();
+    }
+
+    @FaLogOpr(value = "保存数据", crud = LogCrudEnum.C)
+    @RequestMapping(value = "/saveFormData", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<SaveFormDataReqVo> saveFormData(@RequestBody SaveFormDataReqVo reqVo) throws SQLException {
+        SaveFormDataReqVo result = baseBiz.saveFormData(reqVo);
+        return ok(result);
     }
 
 }

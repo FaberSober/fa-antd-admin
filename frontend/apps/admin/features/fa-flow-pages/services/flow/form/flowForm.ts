@@ -2,6 +2,15 @@ import { GATE_APP } from '@/configs';
 import { BaseApi, Fa } from '@fa/ui';
 import { Flow } from '@/types';
 
+interface SaveFormDataReqVo {
+  formId: number,
+  formData: any,
+  childFormDataList?: Array<{
+    tableName: string,
+    formDataList: any[]
+  }>
+}
+
 /** ------------------------------------------ FLOW-流程表单 操作接口 ------------------------------------------ */
 class Api extends BaseApi<Flow.FlowForm, number> {
 
@@ -19,6 +28,9 @@ class Api extends BaseApi<Flow.FlowForm, number> {
 
   /** 删除列 */
   deleteColumn = (data: {tableName: string, column: string}): Promise<Fa.Ret<boolean>> => this.post('deleteColumn', data);
+
+  /** 保存数据 */
+  saveFormData = (data: SaveFormDataReqVo): Promise<Fa.Ret<boolean>> => this.post('saveFormData', data);
 
 }
 
