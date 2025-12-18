@@ -1,21 +1,20 @@
 package com.faber.api.flow.form.entity;
 
+import java.util.Map;
+
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.api.flow.form.vo.config.FlowFormDataConfig;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.bean.BaseDelEntity;
+import com.faber.core.config.mybatis.handler.UniversalJsonTypeHandler;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Date;
-import com.faber.core.config.mybatis.handler.UniversalJsonTypeHandler;
-import com.baomidou.mybatisplus.annotation.TableField;
-import java.util.Map;
-import java.math.BigDecimal;
 
 /**
  * FLOW-流程表单
@@ -69,5 +68,9 @@ public class FlowForm extends BaseDelEntity {
     @ExcelProperty("表单配置")
     @TableField(typeHandler = UniversalJsonTypeHandler.class)
     private Map<String, Object> config;
+
+    @ExcelProperty("列表配置")
+    @TableField(typeHandler = UniversalJsonTypeHandler.class)
+    private Map<String, Object> tableConfig;
 
 }

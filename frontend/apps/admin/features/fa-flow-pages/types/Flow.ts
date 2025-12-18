@@ -374,6 +374,8 @@ namespace Flow {
     dataConfig: FlowFormDataConfig;
     /** 表单配置 */
     config: FlowFormConfig;
+    /** 列表配置 */
+    tableConfig: any;
   }
 
   export interface FlowFormDataConfigColumn extends TableColumnVo {

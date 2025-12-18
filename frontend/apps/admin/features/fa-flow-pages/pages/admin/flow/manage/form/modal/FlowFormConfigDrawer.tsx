@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
 import FormTableEdit from '../cube/database/FormTableEdit';
 import TableShowDesign from '../cube/table/TableShowDesign';
+import { useFlowFormEditStore } from '../store/useFlowFormEditStore';
 
 export interface FlowFormConfigDrawerProps {
   item: Flow.FlowForm;
@@ -19,26 +20,34 @@ export interface FlowFormConfigDrawerProps {
  */
 export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps) {
   const [open, setOpen] = useState(false);
-  const [itemClone, setItemClone] = useState(item);
   const [tab, setTab] = useState('form');
+  const { flowForm, setFlowForm, clear } = useFlowFormEditStore()
 
   useEffect(() => {
-    setItemClone(item);
+    setFlowForm(item)
+    return () => {
+      clear()
+    }
   }, [item]);
 
   function handleConfigChange(config: any) {
     // compare with previous config
-    if (!isEqual(itemClone.config, config)) {
-      setItemClone({...itemClone, config});
+    if (!isEqual(flowForm?.config, config)) {
+      setFlowForm({...flowForm!, config});
       // config changed, update via API
-      flowFormApi.update(itemClone.id, { config }).then(() => {
+      flowFormApi.update(flowForm?.id, { config }).then(() => {
       });
     }
   }
 
+  function handleOpen() {
+    setOpen(true)
+    // setFlowForm(item)
+  }
+
   return (
     <span>
-      <FaHref onClick={() => setOpen(true)} text='配置' icon={<CalculatorOutlined />} />
+      <FaHref onClick={() => handleOpen()} text='配置' icon={<CalculatorOutlined />} />
       <Drawer
         title="配置表单"
         open={open}
@@ -53,7 +62,7 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
           </Space>
         )}
       >
-        {(open) && (
+        {(open) && flowForm && (
           <>
             <div className="fa-full">
               <div className="fa-full-content fa-flex-column fa-tabs">
@@ -72,8 +81,8 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
                 <FaFlexRestLayout>
                   {tab === 'form' && (
                     <FaFormEditor
-                      flowForm={itemClone}
-                      config={itemClone?.config}
+                      flowForm={item}
+                      config={item?.config}
                       onChange={handleConfigChange}
                     />
                   )}
@@ -81,7 +90,7 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
                     <FormTableEdit item={item} />
                   )}
                   {tab === 'table' && (
-                    <TableShowDesign item={item} />
+                    <TableShowDesign />
                   )}
                 </FaFlexRestLayout>
               </div>
