@@ -1,7 +1,7 @@
 import { Flow } from '@/types';
 import { Checkbox, Form, Input, InputNumber, Popconfirm, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { SHOW_PRECISION, SHOW_SCALE } from './utils';
+import { SHOW_PRECISION, SHOW_SCALE } from '../utils';
 import { flowFormApi } from '@/services';
 import { FaUtils } from '@fa/ui';
 

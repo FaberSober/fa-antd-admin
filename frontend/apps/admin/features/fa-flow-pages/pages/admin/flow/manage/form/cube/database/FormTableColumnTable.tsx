@@ -6,7 +6,7 @@ import { isNil, set } from 'lodash';
 import { useEffect, useState } from 'react';
 import FormTableColumnAdd from './FormTableColumnAdd';
 import FormTableColumnEdit from './FormTableColumnEdit';
-import { resortColumnsByConfig } from './utils';
+import { resortColumnsByConfig } from '../utils';
 
 
 export interface FormTableColumnTableProps {

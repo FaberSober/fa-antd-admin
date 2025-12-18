@@ -2,7 +2,7 @@ import { flowFormApi } from '@/services';
 import { FaUtils } from '@fa/ui';
 import { Checkbox, Form, Input, InputNumber, Select } from 'antd';
 import { useState } from 'react';
-import { SHOW_PRECISION, SHOW_SCALE } from './utils';
+import { SHOW_PRECISION, SHOW_SCALE } from '../utils';
 
 
 export interface FormTableColumnEditProps {

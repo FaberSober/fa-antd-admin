@@ -6,7 +6,8 @@ import { Flow } from '@features/fa-flow-pages/types';
 import { Button, Drawer, Space, Tabs } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
-import FormTableEdit from '../cube/FormTableEdit';
+import FormTableEdit from '../cube/database/FormTableEdit';
+import TableShowDesign from '../cube/table/TableShowDesign';
 
 export interface FlowFormConfigDrawerProps {
   item: Flow.FlowForm;
@@ -59,8 +60,9 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
                 <div>
                   <Tabs
                     items={[
-                      { key: 'form', label: '表单配置' },
-                      { key: 'database', label: '数据库' },
+                      { key: 'form', label: '表单设计' },
+                      { key: 'database', label: '数据库表' },
+                      { key: 'table', label: '列表设计' },
                     ]}
                     activeKey={tab}
                     onChange={setTab}
@@ -77,6 +79,9 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
                   )}
                   {tab === 'database' && (
                     <FormTableEdit item={item} />
+                  )}
+                  {tab === 'table' && (
+                    <TableShowDesign item={item} />
                   )}
                 </FaFlexRestLayout>
               </div>

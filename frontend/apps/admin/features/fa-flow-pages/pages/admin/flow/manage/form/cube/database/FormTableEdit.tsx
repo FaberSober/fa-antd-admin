@@ -6,7 +6,7 @@ import { flowFormApi } from '@features/fa-flow-pages/services';
 import { set } from 'lodash';
 import FormTableColumnTable from './FormTableColumnTable';
 import { Empty } from 'antd';
-import { resortColumnsByConfig } from './utils';
+import { resortColumnsByConfig } from '../utils';
 
 export interface FormTableEditProps {
   item: Flow.FlowForm;
