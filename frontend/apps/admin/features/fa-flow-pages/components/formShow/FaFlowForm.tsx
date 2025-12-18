@@ -1,10 +1,11 @@
 import { flowFormApi } from '@/services';
 import { Flow } from '@/types';
 import React, { useEffect, useState } from 'react';
-import { get, isNil } from 'lodash';
+import { each, get, isNil, set } from 'lodash';
 import { FaUtils, PageLoading } from '@fa/ui';
 import FaFormShow from './FaFormShow';
 import { FormInstance } from 'antd';
+import { getTableKeyMap } from './utils';
 
 export interface FaFlowFormProps<T = any> {
   formId: number;
@@ -24,19 +25,33 @@ export default function FaFlowForm({ formId, form, record, onLoadingChange, onSu
 
   useEffect(() => {
     form.setFieldsValue(getInitialValues())
-  }, [record]);
-
-  function getInitialValues() {
-    return {
-      // applyReason: get(record, 'applyReason'),
-    }
-  }
+  }, [record, flowForm]);
 
   useEffect(() => {
     flowFormApi.getById(formId).then((res) => {
       setFlowForm(res.data);
     });
   }, [formId]);
+
+  function getInitialValues() {
+    const initValues = {
+      ...(record||{}),
+    }
+    const mainTableMap = getTableKeyMap(flowForm?.dataConfig?.main)
+    // console.log('mainTableMap', mainTableMap)
+    if (flowForm && flowForm.config) {
+      each(flowForm.config.formItems, (fi) => {
+        // console.log('fi', fi)
+        const col = mainTableMap[fi.name!]
+        if (isNil(col)) return;
+        if (col.dataType === 'datetime') {
+          set(initValues, fi.name!, FaUtils.getDateFullStr(record[fi.name!]))
+        }
+      })
+    }
+    console.log('initValues', initValues)
+    return initValues
+  }
 
   /** 新增Item */
   function invokeInsertTask(params: any) {

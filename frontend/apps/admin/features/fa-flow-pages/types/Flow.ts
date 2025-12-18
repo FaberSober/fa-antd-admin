@@ -380,22 +380,22 @@ namespace Flow {
     sort: number;
   }
 
+  export interface FlowFormDataConfigTable {
+    tableName: string;
+    pkField: string;
+    comment: string;
+    columns: FlowFormDataConfigColumn[],
+  }
+
+  export interface FlowFormDataConfigSubTable extends FlowFormDataConfigTable {
+    fkField: string;
+  }
+
   export interface FlowFormDataConfig {
     /** 主表 */
-    main: {
-      tableName: string;
-      pkField: string;
-      comment: string;
-      columns: FlowFormDataConfigColumn[],
-    };
+    main: FlowFormDataConfigTable;
     /** 从表 */
-    subTables: Array<{
-      tableName: string;
-      pkField: string;
-      comment: string;
-      fkField: string;
-      columns: FlowFormDataConfigColumn[],
-    }>;
+    subTables: FlowFormDataConfigSubTable[];
   }
 
   export interface FlowFormItem {
