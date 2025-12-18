@@ -1,5 +1,6 @@
 import { Fa } from '@fa/ui';
 import FlwEnums from './FlwEnums';
+import FlowEnums from './FlowEnums';
 
 namespace Flow {
   /** FLOW-流程分类 */
@@ -42,6 +43,10 @@ namespace Flow {
     processState: number;
     /** 流程模型定义JSON内容 */
     modelContent: string;
+    /** 表单类型 */
+    formType: FlowEnums.FlowProcessFormType;
+    /** 自定义表单ID */
+    formId: number;
     /** 排序ID */
     sort: number;
   }

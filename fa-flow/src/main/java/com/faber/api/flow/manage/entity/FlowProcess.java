@@ -5,6 +5,7 @@ import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.faber.api.flow.manage.enums.FlowProcessFormTypeEnum;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.annotation.SqlEquals;
 import com.faber.core.annotation.SqlSearch;
@@ -72,6 +73,13 @@ public class FlowProcess extends BaseDelEntity {
 
     @ExcelProperty("流程模型定义JSON内容")
     private String modelContent;
+
+    @ExcelProperty("表单类型")
+    private FlowProcessFormTypeEnum formType;
+
+    @SqlEquals
+    @ExcelProperty("自定义表单ID")
+    private Integer formId;
 
     @ExcelProperty("排序ID")
     private Integer sort;

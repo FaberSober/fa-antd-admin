@@ -37,6 +37,8 @@ export default function FlowProcessEdit({item, onSuccess, viewOnly}: FlowProcess
       remark: get(item, 'remark'),
       useScope: get(item, 'useScope'),
       processState: get(item, 'processState'),
+      formType: get(item, 'formType'),
+      formId: get(item, 'formId'),
       sort: get(item, 'sort'),
     });
     // 设置扩展配置表单数据

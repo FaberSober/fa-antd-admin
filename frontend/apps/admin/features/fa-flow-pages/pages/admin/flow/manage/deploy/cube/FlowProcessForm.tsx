@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Input, InputNumber, Select, FormInstance } from 'antd';
-import { FaUtils } from '@fa/ui';
-import { FlowCatagoryCascader } from "@features/fa-flow-pages/components";
+import { DictEnumApiSelector, FaUtils } from '@fa/ui';
+import { FlowCatagoryCascader, FlowFormSelect } from "@features/fa-flow-pages/components";
 import { Flow } from '@/types';
 
 interface FlowProcessFormProps {
@@ -41,6 +41,14 @@ export default function FlowProcessForm({ form, initialValues, onFinish, readOnl
       <Form.Item name="instanceUrl" label="实例地址" rules={[{ required: false }]}>
         <Input placeholder="请输入实例地址" />
       </Form.Item>
+
+      <Form.Item name="formType" label="表单类型" rules={[{ required: true }]}>
+        <DictEnumApiSelector enumName='FlowProcessFormTypeEnum' placeholder="请选择表单类型" />
+      </Form.Item>
+      <Form.Item name="formId" label="自定义表单" rules={[{ required: false }]}>
+        <FlowFormSelect />
+      </Form.Item>
+
       <Form.Item name="remark" label="备注说明" rules={[{ required: false }]}>
         <Input placeholder="请输入备注说明" />
       </Form.Item>

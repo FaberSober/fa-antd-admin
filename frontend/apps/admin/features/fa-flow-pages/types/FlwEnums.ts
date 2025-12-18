@@ -1,4 +1,4 @@
-namespace FlowEnums {
+namespace FlwEnums {
 
   // ------------------------------------ Flow ------------------------------------
   /**
@@ -350,4 +350,4 @@ namespace FlowEnums {
 
 }
 
-export default FlowEnums;
+export default FlwEnums;
