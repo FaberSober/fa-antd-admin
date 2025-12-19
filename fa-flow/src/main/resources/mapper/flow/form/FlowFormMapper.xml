@@ -25,4 +25,8 @@
             ORDINAL_POSITION
     </select>
 
+    <select id="selectByDynamicSql" parameterType="map" resultType="map">
+        ${sql}
+    </select>
+
 </mapper>

@@ -5,6 +5,7 @@ import com.faber.core.config.mybatis.base.FaBaseMapper;
 import io.lettuce.core.dynamic.annotation.Param;
 
 import java.util.List;
+import java.util.Map;
 
 import com.faber.api.flow.form.entity.FlowForm;
 import com.faber.api.flow.form.vo.ret.TableColumnVo;
@@ -19,5 +20,7 @@ import com.faber.api.flow.form.vo.ret.TableColumnVo;
 public interface FlowFormMapper extends FaBaseMapper<FlowForm> {
 
     List<TableColumnVo> getTableColumns(@Param("tableName") String tableName);
+
+    List<Map<String, Object>> selectByDynamicSql(@Param("sql") String sql);
 	
 }

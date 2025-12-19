@@ -19,8 +19,11 @@ import com.faber.api.flow.form.vo.req.SaveFormDataReqVo;
 import com.faber.api.flow.form.vo.ret.TableInfoVo;
 import com.faber.core.annotation.FaLogBiz;
 import com.faber.core.annotation.FaLogOpr;
+import com.faber.core.annotation.LogNoRet;
 import com.faber.core.enums.LogCrudEnum;
 import com.faber.core.vo.msg.Ret;
+import com.faber.core.vo.msg.TableRet;
+import com.faber.core.vo.query.QueryParams;
 import com.faber.core.web.rest.BaseController;
 
 import cn.hutool.core.map.MapUtil;
@@ -85,6 +88,14 @@ public class FlowFormController extends BaseController<FlowFormBiz, FlowForm, In
     public Ret<SaveFormDataReqVo> saveFormData(@RequestBody SaveFormDataReqVo reqVo) throws SQLException {
         SaveFormDataReqVo result = baseBiz.saveFormData(reqVo);
         return ok(result);
+    }
+
+    @FaLogOpr(value = "分页查询自定义表单", crud = LogCrudEnum.R)
+    @LogNoRet
+    @RequestMapping(value = "/pageFormData", method = RequestMethod.POST)
+    @ResponseBody
+    public TableRet<Map<String, Object>> pageFormData(@RequestBody QueryParams query) {
+        return baseBiz.pageFormData(query);
     }
 
 }

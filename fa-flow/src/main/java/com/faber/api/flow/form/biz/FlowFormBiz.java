@@ -18,8 +18,13 @@ import com.faber.api.flow.form.vo.req.SaveFormDataReqVo;
 import com.faber.api.flow.form.vo.ret.TableColumnVo;
 import com.faber.api.flow.form.vo.ret.TableInfoVo;
 import com.faber.core.exception.BuzzException;
+import com.faber.core.vo.msg.TableRet;
+import com.faber.core.vo.query.QueryParams;
 import com.faber.core.web.biz.BaseBiz;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.db.sql.SqlExecutor;
 import jakarta.annotation.Resource;
 
@@ -214,6 +219,27 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> {
         // TODO 保存子表数据
 
         return reqVo;
+    }
+
+    /**
+     * 自定义表单分页查询
+     * @param query
+     * @return
+     */
+    public TableRet<Map<String, Object>> pageFormData(QueryParams query) {
+        if (query.getFlowFormId() == null) throw new BuzzException("FlowFormId is NULL.");
+        FlowForm flowForm = this.getById(query.getFlowFormId());
+        if (flowForm == null) throw new BuzzException("FlowForm Not Found." + query.getFlowFormId());
+        if (StrUtil.isEmpty(flowForm.getTableName())) throw new BuzzException("FlowForm Not Set TableName." + query.getFlowFormId());
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT * FROM ");
+        sb.append(flowForm.getTableName());
+        String sql = sb.toString();
+
+        PageInfo<Map<String, Object>> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
+            .doSelectPageInfo(() -> baseMapper.selectByDynamicSql(sql));
+        return new TableRet<>(info);
     }
 
 }

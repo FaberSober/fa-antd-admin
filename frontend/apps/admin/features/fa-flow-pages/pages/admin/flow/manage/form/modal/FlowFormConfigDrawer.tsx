@@ -35,7 +35,7 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
     if (!isEqual(flowForm?.config, config)) {
       setFlowForm({...flowForm!, config});
       // config changed, update via API
-      flowFormApi.update(flowForm?.id, { config }).then(() => {
+      flowFormApi.update(flowForm!.id, { config }).then(() => {
       });
     }
   }

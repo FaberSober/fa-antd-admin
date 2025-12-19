@@ -11,6 +11,10 @@ interface SaveFormDataReqVo {
   }>
 }
 
+interface QueryFormDataVo extends Fa.BasePageProps {
+  flowFormId: number;
+}
+
 /** ------------------------------------------ FLOW-流程表单 操作接口 ------------------------------------------ */
 class Api extends BaseApi<Flow.FlowForm, number> {
 
@@ -31,6 +35,9 @@ class Api extends BaseApi<Flow.FlowForm, number> {
 
   /** 保存数据 */
   saveFormData = (data: SaveFormDataReqVo): Promise<Fa.Ret<boolean>> => this.post('saveFormData', data);
+
+  /** 分页查询自定义表单 */
+  pageFormData = (params: QueryFormDataVo): Promise<Fa.Ret<Fa.Page<any>>> => this.post('pageFormData', params);
 
 }
 

@@ -5,6 +5,7 @@ import { AuthDelBtn, BaseBizTable, BaseTableUtils, clearForm, FaberTable, useDel
 import { Button, Form, Input, Space } from 'antd';
 import FlowFormConfigDrawer from './modal/FlowFormConfigDrawer';
 import FlowFormModal from './modal/FlowFormModal';
+import FlowFormViewDataDrawer from './modal/FlowFormViewDataDrawer';
 
 const serviceName = '流程表单';
 const biz = 'flow_form';
@@ -44,12 +45,13 @@ export default function FlowFormList() {
         dataIndex: 'menu',
         render: (_, r) => (
           <Space>
+            <FlowFormViewDataDrawer item={r} />
             <FlowFormConfigDrawer item={r} />
             <FlowFormModal editBtn title={`编辑${serviceName}信息`} record={r} fetchFinish={fetchPageList} />
             <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
           </Space>
         ),
-        width: 170,
+        width: 240,
         fixed: 'right',
         tcRequired: true,
         tcType: 'menu',
