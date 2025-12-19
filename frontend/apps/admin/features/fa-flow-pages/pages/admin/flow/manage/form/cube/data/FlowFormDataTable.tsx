@@ -1,6 +1,9 @@
 import { flowFormApi } from '@/services';
 import { Flow } from '@/types';
-import { useTableQueryParams } from '@fa/ui';
+import { SearchOutlined } from '@ant-design/icons';
+import { AuthDelBtn, BaseBizTable, BaseTableUtils, clearForm, FaberTable, useTableQueryParams } from '@fa/ui';
+import { Button, Form, Input, Space } from 'antd';
+import { each } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
 export interface FlowFormDataTableProps {
@@ -12,13 +15,77 @@ export interface FlowFormDataTableProps {
  * @date 2025-12-19 14:27:05
  */
 export default function FlowFormDataTable({ flowForm }: FlowFormDataTableProps) {
+  const [form] = Form.useForm();
 
   const {queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps} =
-    useTableQueryParams<any>(flowFormApi.pageFormData, { flowFormId: flowForm.id }, `FlowForm_${flowForm.no}`);
+    useTableQueryParams<any>(flowFormApi.pageFormData, { flowFormId: flowForm.id }, flowForm.name);
+
+  // const [handleDelete] = useDelete<number>(api.remove, fetchPageList, serviceName);
+  // const [exporting, fetchExportExcel] = useExport(api.exportExcel, queryParams);
+
+  function genColumns() {
+    const { sorter } = queryParams;
+    const columns = [
+      BaseTableUtils.genIndexColumn(paginationProps),
+    ] as FaberTable.ColumnsProp<any>[];
+
+    each(flowForm.dataConfig.main.columns, col => {
+      columns.push(BaseTableUtils.genSimpleSorterColumn(col.comment || col.field, col.field, 100, sorter))
+    })
+
+    columns.push(
+      BaseTableUtils.genTimeSorterColumn('创建时间', 'crtTime', 170, sorter),
+      {
+        title: '操作',
+        dataIndex: 'opr',
+        render: (_, r) => (
+          <Space>
+            {/* <AuthDelBtn handleDelete={() => handleDelete(r.id)} /> */}
+          </Space>
+        ),
+        width: 120,
+        fixed: 'right',
+        tcRequired: true,
+        tcType: 'menu',
+      },
+    );
+
+    return columns;
+  }
 
   return (
-    <div>
+    <div className="fa-full-content fa-flex-column fa-bg-white">
+      <div className="fa-flex-row-center fa-p8">
+        <div className="fa-h3">{flowForm.name}</div>
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+          <Form form={form} layout="inline" onFinish={setFormValues}>
+            <Form.Item name="name" label="姓名">
+              <Input placeholder="请输入姓名" allowClear />
+            </Form.Item>
 
+            <Space>
+              <Button htmlType="submit" loading={loading} icon={<SearchOutlined />}>查询</Button>
+              <Button onClick={() => clearForm(form)}>重置</Button>
+              {/* <StudentModal addBtn title={`新增${serviceName}信息`} fetchFinish={fetchPageList} />
+              <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button> */}
+            </Space>
+          </Form>
+        </div>
+      </div>
+
+      <BaseBizTable
+        rowKey="id"
+        biz={flowForm.no}
+        columns={genColumns()}
+        pagination={paginationProps}
+        loading={loading}
+        dataSource={list}
+        onChange={handleTableChange}
+        refreshList={() => fetchPageList()}
+        // batchDelete={(ids) => api.removeBatchByIds(ids)}
+        // onSceneChange={(v) => setSceneId(v)}
+        // onConditionChange={(cL) => setConditionList(cL)}
+      />
     </div>
   );
 }
