@@ -85,7 +85,7 @@ export default function FormTableColumnTable({ item, tableInfo, onColumnsChange 
             )}
             onSortEnd={l => updateColumnList(l)}
             itemStyle={{
-              padding: 4,
+              padding: 6,
               borderBottom: '1px solid var(--fa-border-color)',
             }}
             containerStyle={{
