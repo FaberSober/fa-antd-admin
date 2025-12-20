@@ -24,7 +24,6 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
   const { flowForm, setFlowForm, clear } = useFlowFormEditStore()
 
   useEffect(() => {
-    setFlowForm(item)
     return () => {
       clear()
     }
@@ -42,7 +41,7 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
 
   function handleOpen() {
     setOpen(true)
-    // setFlowForm(item)
+    setFlowForm(item)
   }
 
   return (

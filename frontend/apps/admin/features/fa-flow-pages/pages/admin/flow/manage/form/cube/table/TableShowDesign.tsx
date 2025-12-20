@@ -1,8 +1,9 @@
 import { Flow } from '@/types';
 import { FaFlexRestLayout } from '@fa/ui';
 import { Tabs } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import TableQuery from './TableQuery';
+import TableQueryList from './TableQueryList';
 
 export interface TableShowDesignProps {
 }
@@ -15,7 +16,8 @@ export default function TableShowDesign({ }: TableShowDesignProps) {
   return (
     <div className='fa-full-content fa-p12 fa-bg-grey fa-flex-row fa-gap12'>
       <FaFlexRestLayout className='fa-full-content fa-card'>
-
+        <div>查询字段</div>
+        <TableQueryList />
       </FaFlexRestLayout>
 
       <div style={{ width: 340 }} className='fa-card fa-p0 fa-tabs-block'>

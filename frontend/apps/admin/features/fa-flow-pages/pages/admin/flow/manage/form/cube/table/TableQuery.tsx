@@ -1,6 +1,6 @@
 import { Flow } from '@/types';
 import { Table } from 'antd';
-import { each } from 'lodash';
+import { each, get, set } from 'lodash';
 import React, { useMemo } from 'react';
 import { useFlowFormEditStore } from '../../store/useFlowFormEditStore';
 
@@ -12,7 +12,7 @@ export interface TableQueryProps {
  * @date 2025-12-18 21:00:01
  */
 export default function TableQuery({ }: TableQueryProps) {
-  const { flowForm, setFlowForm } = useFlowFormEditStore()
+  const { flowForm, updateFlowFormTableConfig } = useFlowFormEditStore()
 
   const datasource = useMemo(() => {
     const fields: Flow.FlowFormDataConfigColumn[] = []
@@ -22,6 +22,16 @@ export default function TableQuery({ }: TableQueryProps) {
       })
     }
     return fields;
+  }, [flowForm])
+
+  const selectedRowKeys = useMemo(() => {
+    console.log('TableQuery flowForm changed', flowForm)
+    const keys: string[] = []
+    const queryColumns = get(flowForm, 'tableConfig.query.columns', []);
+    each(queryColumns, col => {
+      keys.push(col.field)
+    })
+    return keys;
   }, [flowForm])
 
   console.log('TableQuery', 'flowForm', flowForm)
@@ -37,8 +47,22 @@ export default function TableQuery({ }: TableQueryProps) {
         size='small'
         rowSelection={{
           type: 'checkbox',
+          selectedRowKeys: selectedRowKeys,
           onChange: (selectedRowKeys, selectedRows) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            if (!flowForm) return;
+            const queryColumns: Flow.TableConfiQueryColumn[] = selectedRows.map((item, index) => {
+              return {
+                field: item.field,
+                label: item.comment||item.field,
+                queryType: 'like',
+                default: '',
+                multiple: false,
+                sort: index
+              }
+            })
+            set(flowForm, 'tableConfig.query.columns', queryColumns)
+            updateFlowFormTableConfig({ ...flowForm })
           },
         }}
         pagination={false}

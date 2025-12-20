@@ -375,7 +375,34 @@ namespace Flow {
     /** 表单配置 */
     config: FlowFormConfig;
     /** 列表配置 */
-    tableConfig: any;
+    tableConfig: FlowFormTableConfig;
+  }
+
+  export interface TableConfiQueryColumn {
+    field: string;
+    label: string;
+    queryType: 'eq'|'like'|'in';
+    default?: string;
+    multiple: boolean;
+    sort: number;
+  }
+
+  export interface TableConfiTableColumn {
+    filed: string;
+    label: string;
+    sorter: boolean; // 是否排序
+    fix: 'left'|'right'|'none',
+    width: number;
+    sort: number;
+  }
+
+  export interface FlowFormTableConfig {
+    query: {
+      columns: TableConfiQueryColumn[];
+    },
+    table: {
+      columns: TableConfiTableColumn[];
+    },
   }
 
   export interface FlowFormDataConfigColumn extends TableColumnVo {
