@@ -1,9 +1,10 @@
 import { Flow } from '@/types';
 import { FaFlexRestLayout } from '@fa/ui';
-import { Tabs } from 'antd';
+import { Divider, Tabs } from 'antd';
 import React, { useState } from 'react';
 import TableQuery from './TableQuery';
 import TableQueryList from './TableQueryList';
+import TableColumn from './TableColumn';
 
 export interface TableShowDesignProps {
 }
@@ -16,8 +17,10 @@ export default function TableShowDesign({ }: TableShowDesignProps) {
   return (
     <div className='fa-full-content fa-p12 fa-bg-grey fa-flex-row fa-gap12'>
       <FaFlexRestLayout className='fa-full-content fa-card'>
-        <div>查询字段</div>
+        <Divider>查询字段</Divider>
         <TableQueryList />
+
+        <Divider>列表字段</Divider>
       </FaFlexRestLayout>
 
       <div style={{ width: 340 }} className='fa-card fa-p0 fa-tabs-block'>
@@ -31,6 +34,7 @@ export default function TableShowDesign({ }: TableShowDesignProps) {
             {
               key: 'column',
               label: '列表字段',
+              children: <TableColumn />
             },
             {
               key: 'tableProps',
