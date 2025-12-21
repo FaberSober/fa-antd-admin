@@ -51,7 +51,7 @@ export default function TableQuery({ }: TableQueryProps) {
           onChange: (selectedRowKeys, selectedRows) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
             if (!flowForm) return;
-            const queryColumns: Flow.TableConfiQueryColumn[] = selectedRows.map((item, index) => {
+            const queryColumns: Flow.TableConfigQueryColumn[] = selectedRows.map((item, index) => {
               return {
                 field: item.field,
                 label: item.comment||item.field,

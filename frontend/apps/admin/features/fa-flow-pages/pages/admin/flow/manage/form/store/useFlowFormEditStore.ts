@@ -7,7 +7,8 @@ interface FlowFormEditState {
   flowForm: Flow.FlowForm | null;
   setFlowForm: (flowForm: Flow.FlowForm) => void;
   updateFlowFormTableConfig: (flowForm: Flow.FlowForm) => void;
-  updateFlowFormTableConfigColumn: (column: Flow.TableConfiQueryColumn) => void;
+  updateFlowFormTableConfigQueryColumn: (column: Flow.TableConfigQueryColumn) => void;
+  updateFlowFormTableConfigTableColumn: (column: Flow.TableConfigTableColumn) => void;
   clear: () => void;
 }
 
@@ -20,7 +21,7 @@ export const useFlowFormEditStore = create(
         flowFormApi.update(state.flowForm!.id, { tableConfig: flowForm.tableConfig })
         return { flowForm }
       }),
-      updateFlowFormTableConfigColumn: (column: Flow.TableConfiQueryColumn) => set((state) => {
+      updateFlowFormTableConfigQueryColumn: (column: Flow.TableConfigQueryColumn) => set((state) => {
         if (!state.flowForm) return {};
         const columns = state.flowForm.tableConfig?.query?.columns || [];
         const index = columns.findIndex(c => c.field === column.field);
@@ -32,6 +33,25 @@ export const useFlowFormEditStore = create(
             ...state.flowForm.tableConfig,
             query: {
               ...state.flowForm.tableConfig?.query,
+              columns,
+            },
+          },
+        };
+        flowFormApi.update(state.flowForm.id, { tableConfig: newFlowForm.tableConfig })
+        return { flowForm: newFlowForm }
+      }),
+      updateFlowFormTableConfigTableColumn: (column: Flow.TableConfigTableColumn) => set((state) => {
+        if (!state.flowForm) return {};
+        const columns = state.flowForm.tableConfig?.table?.columns || [];
+        const index = columns.findIndex(c => c.filed === column.filed);
+        if (index === -1) return {};
+        columns[index] = column;
+        const newFlowForm = {
+          ...state.flowForm,
+          tableConfig: {
+            ...state.flowForm.tableConfig,
+            table: {
+              ...state.flowForm.tableConfig?.table,
               columns,
             },
           },

@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import TableQuery from './TableQuery';
 import TableQueryList from './TableQueryList';
 import TableColumn from './TableColumn';
+import TableColumnList from './TableColumnList';
 
 export interface TableShowDesignProps {
 }
@@ -21,6 +22,7 @@ export default function TableShowDesign({ }: TableShowDesignProps) {
         <TableQueryList />
 
         <Divider>列表字段</Divider>
+        <TableColumnList />
       </FaFlexRestLayout>
 
       <div style={{ width: 340 }} className='fa-card fa-p0 fa-tabs-block'>

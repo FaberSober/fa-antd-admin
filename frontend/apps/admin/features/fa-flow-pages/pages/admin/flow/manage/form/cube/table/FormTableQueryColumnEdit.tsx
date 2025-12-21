@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { useFlowFormEditStore } from '../../store/useFlowFormEditStore';
 
 export interface FormTableQueryColumnEditProps {
-  column: Flow.TableConfiQueryColumn;
+  column: Flow.TableConfigQueryColumn;
   onSuccess?: () => void;
 }
 
@@ -14,7 +14,7 @@ export interface FormTableQueryColumnEditProps {
  */
 export default function FormTableQueryColumnEdit({ column, onSuccess }: FormTableQueryColumnEditProps) {
   const [form] = Form.useForm();
-    const { updateFlowFormTableConfigColumn } = useFlowFormEditStore()
+    const { updateFlowFormTableConfigQueryColumn } = useFlowFormEditStore()
 
   useEffect(() => {
     form.setFieldsValue({
@@ -28,7 +28,7 @@ export default function FormTableQueryColumnEdit({ column, onSuccess }: FormTabl
     <Form form={form} onFinish={onFinish} style={{flex: 1}}
       onValuesChange={(cv, av) => {
         const newColumn = {...column, ...av};
-        updateFlowFormTableConfigColumn(newColumn)
+        updateFlowFormTableConfigQueryColumn(newColumn)
       }}
     >
       <div className='fa-flex-1 fa-flex-row-center fa-gap6' style={{  }}>

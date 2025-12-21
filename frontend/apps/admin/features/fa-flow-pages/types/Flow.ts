@@ -378,7 +378,7 @@ namespace Flow {
     tableConfig: FlowFormTableConfig;
   }
 
-  export interface TableConfiQueryColumn {
+  export interface TableConfigQueryColumn {
     field: string;
     label: string;
     queryType: 'eq'|'like'|'in';
@@ -387,21 +387,21 @@ namespace Flow {
     sort: number;
   }
 
-  export interface TableConfiTableColumn {
+  export interface TableConfigTableColumn {
     filed: string;
     label: string;
     sorter: boolean; // 是否排序
     fix: 'left'|'right'|'none',
-    width: number;
+    width?: number;
     sort: number;
   }
 
   export interface FlowFormTableConfig {
     query: {
-      columns: TableConfiQueryColumn[];
+      columns: TableConfigQueryColumn[];
     },
     table: {
-      columns: TableConfiTableColumn[];
+      columns: TableConfigTableColumn[];
     },
   }
 

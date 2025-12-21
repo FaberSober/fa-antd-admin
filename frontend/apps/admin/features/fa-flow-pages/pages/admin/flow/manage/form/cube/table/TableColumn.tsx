@@ -51,13 +51,13 @@ export default function TableColumn({ }: TableColumnProps) {
           onChange: (selectedRowKeys, selectedRows) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
             if (!flowForm) return;
-            const tableColumns: Flow.TableConfiTableColumn[] = selectedRows.map((item, index) => {
+            const tableColumns: Flow.TableConfigTableColumn[] = selectedRows.map((item, index) => {
               return {
                 filed: item.field,
                 label: item.comment||item.field,
                 sorter: false,
                 fix: 'none',
-                width: 100,
+                width: undefined,
                 sort: index
               }
             })
