@@ -1,6 +1,7 @@
 import { Flow } from '@/types';
 import { Checkbox, Form, Input, Select } from 'antd';
 import React, { useEffect } from 'react';
+import { useFlowFormEditStore } from '../../store/useFlowFormEditStore';
 
 export interface FormTableQueryColumnEditProps {
   column: Flow.TableConfiQueryColumn;
@@ -13,6 +14,7 @@ export interface FormTableQueryColumnEditProps {
  */
 export default function FormTableQueryColumnEdit({ column, onSuccess }: FormTableQueryColumnEditProps) {
   const [form] = Form.useForm();
+    const { updateFlowFormTableConfigColumn } = useFlowFormEditStore()
 
   useEffect(() => {
     form.setFieldsValue({
@@ -25,9 +27,8 @@ export default function FormTableQueryColumnEdit({ column, onSuccess }: FormTabl
   return (
     <Form form={form} onFinish={onFinish} style={{flex: 1}}
       onValuesChange={(cv, av) => {
-        // if (av.dataType && av.dataType !== dataType) {
-        //   setDataType(av.dataType);
-        // }
+        const newColumn = {...column, ...av};
+        updateFlowFormTableConfigColumn(newColumn)
       }}
     >
       <div className='fa-flex-1 fa-flex-row-center fa-gap6' style={{  }}>
