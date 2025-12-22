@@ -1,11 +1,10 @@
-import { Flow } from '@/types';
 import { FaFlexRestLayout } from '@fa/ui';
 import { Divider, Tabs } from 'antd';
-import React, { useState } from 'react';
-import TableQuery from './TableQuery';
-import TableQueryList from './TableQueryList';
 import TableColumn from './TableColumn';
 import TableColumnList from './TableColumnList';
+import TableDetailPanel from './TableDetailPanel';
+import TableQuery from './TableQuery';
+import TableQueryList from './TableQueryList';
 
 export interface TableShowDesignProps {
 }
@@ -41,6 +40,7 @@ export default function TableShowDesign({ }: TableShowDesignProps) {
             {
               key: 'tableProps',
               label: '列表属性',
+              children: <TableDetailPanel />
             },
           ]}
           centered

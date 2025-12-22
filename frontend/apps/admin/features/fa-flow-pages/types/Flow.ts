@@ -402,7 +402,12 @@ namespace Flow {
     },
     table: {
       columns: TableConfigTableColumn[];
+      detail: FlowFormTableConfigDetail,
     },
+  }
+
+  export interface FlowFormTableConfigDetail {
+    type: 'normal' | 'leftTree' | 'editTable' | 'groupTable' | 'treeTable';
   }
 
   export interface FlowFormDataConfigColumn extends TableColumnVo {

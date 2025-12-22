@@ -9,6 +9,7 @@ interface FlowFormEditState {
   updateFlowFormTableConfig: (flowForm: Flow.FlowForm) => void;
   updateFlowFormTableConfigQueryColumn: (column: Flow.TableConfigQueryColumn) => void;
   updateFlowFormTableConfigTableColumn: (column: Flow.TableConfigTableColumn) => void;
+  updateFlowFormTableConfigTableDetail: (detail: Flow.FlowFormTableConfigDetail) => void;
   clear: () => void;
 }
 
@@ -54,6 +55,18 @@ export const useFlowFormEditStore = create(
               ...state.flowForm.tableConfig?.table,
               columns,
             },
+          },
+        };
+        flowFormApi.update(state.flowForm.id, { tableConfig: newFlowForm.tableConfig })
+        return { flowForm: newFlowForm }
+      }),
+      updateFlowFormTableConfigTableDetail: (detail: Flow.FlowFormTableConfigDetail) => set((state) => {
+        if (!state.flowForm) return {};
+        const newFlowForm = {
+          ...state.flowForm,
+          tableConfig: {
+            ...state.flowForm.tableConfig,
+            detail,
           },
         };
         flowFormApi.update(state.flowForm.id, { tableConfig: newFlowForm.tableConfig })
