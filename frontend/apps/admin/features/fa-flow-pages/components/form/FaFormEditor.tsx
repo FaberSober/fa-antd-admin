@@ -14,6 +14,9 @@ import FormItemPanel from './panel/FormItemPanel';
 import { useFaFormStore } from './stores/useFaFormStore';
 import './index.scss';
 import clsx from 'clsx';
+import ReactGridLayout, { useContainerWidth } from "react-grid-layout";
+import "react-grid-layout/css/styles.css";
+import "react-resizable/css/styles.css";
 
 
 const DROPPABLE_ID = 'form-canvas-area';
@@ -234,7 +237,7 @@ export default function FaFormEditor({ flowForm, config, onChange, onClickItem }
             <Form>
               <Droppable className='fa-full-content' id={DROPPABLE_ID}>
                 <div className='fa-full-content' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <div style={{ width: 500 }}>
+                  <div style={{ maxWidth: 800 }}>
                     <FaFormSortList
                       list={formItems}
                       renderItem={(i) => {
