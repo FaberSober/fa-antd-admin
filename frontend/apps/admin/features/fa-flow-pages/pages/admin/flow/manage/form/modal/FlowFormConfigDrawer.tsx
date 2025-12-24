@@ -12,13 +12,14 @@ import { useFlowFormEditStore } from '../store/useFlowFormEditStore';
 
 export interface FlowFormConfigDrawerProps {
   item: Flow.FlowForm;
+  refresh?: () => void;
 }
 
 /**
  * @author xu.pengfei
  * @date 2025-12-16 16:49:56
  */
-export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps) {
+export default function FlowFormConfigDrawer({ item, refresh }: FlowFormConfigDrawerProps) {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState('form');
   const { flowForm, setFlowForm, clear } = useFlowFormEditStore()
@@ -52,6 +53,7 @@ export default function FlowFormConfigDrawer({ item }: FlowFormConfigDrawerProps
         open={open}
         onClose={() => {
           setOpen(false)
+          refresh && refresh()
         }}
         size={window.document.body.clientWidth}
         resizable
