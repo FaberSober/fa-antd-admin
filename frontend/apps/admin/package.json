@@ -46,6 +46,7 @@
     "dayjs": "1.11.13",
     "district-data": "^0.0.17",
     "echarts": "6.0.0",
+    "echarts-gl": "2.0.8",
     "fa-cron-react-editor": "0.0.13",
     "file-saver": "2.0.5",
     "geo-types-cz": "1.0.4",
