@@ -1,8 +1,8 @@
 import { Flow } from '@/types';
 import { DndContext, DragEndEvent, KeyboardSensor, PointerSensor, pointerWithin, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import { FaFlexRestLayout } from '@fa/ui';
-import { Button, Form } from 'antd';
+import { FaFlexRestLayout, FaUtils } from '@fa/ui';
+import { Button, Form, Space } from 'antd';
 import { findIndex } from 'lodash';
 import { useEffect } from 'react';
 import FaFormShowModal from '../formShow/modal/FaFormShowModal';
@@ -43,6 +43,7 @@ export default function FaFormEditor({ flowForm, config, onChange, onClickItem }
   const moveChildFromRowToForm = useFaFormStore((state) => state.moveChildFromRowToForm);
   const moveFormItemToRow = useFaFormStore((state) => state.moveFormItemToRow);
   const addFormItem = useFaFormStore((state) => state.addFormItem);
+  const removeFormItem = useFaFormStore((state) => state.removeFormItem);
   const addChildToRow = useFaFormStore((state) => state.addChildToRow);
   const clearFormItems = useFaFormStore((state) => state.clearFormItems);
 
@@ -199,6 +200,15 @@ export default function FaFormEditor({ flowForm, config, onChange, onClickItem }
     onClickItem?.(item);
   }
 
+  function handleDeleteFormItem(item: Flow.FlowFormItem) {
+    console.log('删除表单项', item);
+    // 如果删除的项是已选中的项，则清除选择
+    if (selectedFormItem?.id === item.id) {
+      setSelectedFormItem(undefined);
+    }
+    removeFormItem(item.id);
+  }
+
   return (
     <DndContext
       sensors={sensors}
@@ -241,9 +251,19 @@ export default function FaFormEditor({ flowForm, config, onChange, onClickItem }
                     <FaFormSortList
                       list={formItems}
                       renderItem={(i) => {
+                        const selected = i.id === selectedFormItem?.id;
                         return (
-                          <div className={clsx('fa-form-editor-item', i.id === selectedFormItem?.id && 'fa-form-editor-item-selected')} style={{ width: '100%' }}>
+                          <div className={clsx('fa-form-editor-item', selected && 'fa-form-editor-item-selected')} style={{ width: '100%' }}>
                             <FaFormEditorItem formItem={i} onClickRowItem={handleClickItem} />
+
+                            {selected && (
+                              <Space style={{ position: 'absolute', top: -10, right: 10, zIndex: 999 }}>
+                                <Button danger size='small' onClick={(e) => {
+                                  FaUtils.preventEvent(e);
+                                  handleDeleteFormItem(i);
+                                }}>删除</Button>
+                              </Space>
+                            )}
                           </div>
                         );
                       }}
