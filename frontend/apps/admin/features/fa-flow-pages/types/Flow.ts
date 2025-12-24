@@ -1,6 +1,7 @@
 import { Fa } from '@fa/ui';
 import FlwEnums from './FlwEnums';
 import FlowEnums from './FlowEnums';
+import { Layout } from 'react-grid-layout';
 
 namespace Flow {
   /** FLOW-流程分类 */
@@ -432,8 +433,10 @@ namespace Flow {
     subTables: FlowFormDataConfigSubTable[];
   }
 
+  export type FlowFormItemType = 'input' | 'select' | 'datepicker' | 'textarea' | 'row';
+
   export interface FlowFormItem {
-    type: 'input' | 'row',
+    type: FlowFormItemType,
     id: string;
     tableName?: string;
     name?: string;
@@ -448,8 +451,12 @@ namespace Flow {
       name: string;
       description: string;
     };
+    /** 表单项布局 */
+    layout: Layout;
+    /** 表单项映射 */
+    formItemMap: Record<string, Flow.FlowFormItem>;
     /** 表单项列表 */
-    formItems: FlowFormItem[];
+    formItems?: FlowFormItem[];
   }
 
   // ------------------------------------------------- Database -------------------------------------------------

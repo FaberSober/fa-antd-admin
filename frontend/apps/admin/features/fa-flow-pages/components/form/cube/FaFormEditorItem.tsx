@@ -1,7 +1,7 @@
 import { Flow } from '@/types';
 import React from 'react';
 import RowContainer from '../components/RowContainer';
-import { Form, Input } from 'antd';
+import { DatePicker, Form, Input, Select } from 'antd';
 
 export interface FaFormEditorItemProps {
   formItem: Flow.FlowFormItem;
@@ -17,10 +17,13 @@ export default function FaFormEditorItem({ formItem, onClickRowItem }: FaFormEdi
   if (formItem.type === 'row') {
     return (<RowContainer row={formItem} onClickRowItem={onClickRowItem} />);
   }
-  if (formItem.type === 'input') {
+  if (['input', 'select', 'datepicker', 'textarea'].includes(formItem.type)) {
     return (
       <Form.Item label={formItem.label || '输入框'} name={formItem.name}>
-        <Input />
+        {formItem.type === 'input' && <Input /> }
+        {formItem.type === 'select' && <Select /> }
+        {formItem.type === 'datepicker' && <DatePicker /> }
+        {formItem.type === 'textarea' && <Input.TextArea rows={4} style={{ height: '100%', resize: 'none' }} /> }
       </Form.Item>
     )
   }

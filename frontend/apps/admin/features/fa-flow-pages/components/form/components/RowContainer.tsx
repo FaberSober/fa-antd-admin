@@ -25,9 +25,9 @@ export default function RowContainer({ row, onClickRowItem }: RowContainerProps)
 
   return (
     <div style={{ width: '100%' }}>
-      <div style={{ marginBottom: '8px', fontWeight: 'bold', fontSize: '14px' }}>
+      {/* <div style={{ marginBottom: '8px', fontWeight: 'bold', fontSize: '14px' }}>
         行 - {row.id}
-      </div>
+      </div> */}
 
       <Droppable
         id={`droppable-row-${row.id}`}

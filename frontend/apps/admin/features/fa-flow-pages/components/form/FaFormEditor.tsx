@@ -3,7 +3,7 @@ import { Flow } from '@/types';
 import { DndContext, DragEndEvent, KeyboardSensor, PointerSensor, pointerWithin, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { FaFlexRestLayout, FaUtils } from '@fa/ui';
-import { Button, Form, Space } from 'antd';
+import { Button, Form, Popconfirm, Space } from 'antd';
 import clsx from 'clsx';
 import { findIndex } from 'lodash';
 import { useEffect } from 'react';
@@ -17,6 +17,9 @@ import FaFormEditorItem from './cube/FaFormEditorItem';
 import './index.scss';
 import FormItemPanel from './panel/FormItemPanel';
 import { useFaFormStore } from './stores/useFaFormStore';
+import { CopyOutlined, DeleteOutlined } from '@ant-design/icons';
+import React from 'react';
+import { Layout } from 'react-grid-layout';
 
 
 const DROPPABLE_ID = 'form-canvas-area';
@@ -35,15 +38,19 @@ export interface FaFormEditorProps {
  */
 export default function FaFormEditor({ flowForm, config, onChange, onClickItem }: FaFormEditorProps) {
   const layout = useFaFormStore((state) => state.layout);
+  const formItemMap = useFaFormStore((state) => state.formItemMap);
   const formItems = useFaFormStore((state) => state.formItems);
   const initialized = useFaFormStore((state) => state.initialized);
   const init = useFaFormStore((state) => state.init);
+
+  const addFormItem = useFaFormStore((state) => state.addFormItem);
+  const setLayout = useFaFormStore((state) => state.setLayout);
+
   const reorderFormItems = useFaFormStore((state) => state.reorderFormItems);
   const reorderRowChildren = useFaFormStore((state) => state.reorderRowChildren);
   const moveChildBetweenRows = useFaFormStore((state) => state.moveChildBetweenRows);
   const moveChildFromRowToForm = useFaFormStore((state) => state.moveChildFromRowToForm);
   const moveFormItemToRow = useFaFormStore((state) => state.moveFormItemToRow);
-  const addFormItem = useFaFormStore((state) => state.addFormItem);
   const removeFormItem = useFaFormStore((state) => state.removeFormItem);
   const addChildToRow = useFaFormStore((state) => state.addChildToRow);
   const clearFormItems = useFaFormStore((state) => state.clearFormItems);
@@ -75,17 +82,22 @@ export default function FaFormEditor({ flowForm, config, onChange, onClickItem }
 
   useEffect(() => {
     console.log('config changed:', config);
-    const formItems = config?.formItems || [];
-    reorderFormItems(formItems);
   }, [config]);
 
   useEffect(() => {
-    console.log('formItems changed:', formItems);
+    console.log('layout changed:', layout, formItemMap);
     if (!initialized) {
       return;
     }
-    onChange?.({ formItems });
-  }, [formItems, initialized]);
+    onChange?.({
+      formConfig: {
+        name: '',
+        description: '',
+      },
+      layout,
+      formItemMap,
+    });
+  }, [layout, formItemMap, initialized]);
 
   function handleDragEnd(event: DragEndEvent) {
     console.log('拖拽结束', event);
@@ -221,13 +233,34 @@ export default function FaFormEditor({ flowForm, config, onChange, onClickItem }
         <div style={{ width: 300, borderRight: '1px solid #ccc'}} className='fa-flex-column'>
           <h1>表单组件</h1>
 
-          <div>
-            <Draggable id="input">
+          <div className='fa-flex-row fa-flex-wrap fa-gap12'>
+            {/* <div id="input" className='fa-normal-btn'>
               <div>Input</div>
-            </Draggable>
-            <Draggable id="row">
+            </div>
+            <div id="row" className='fa-normal-btn'>
               <div>Row</div>
-            </Draggable>
+            </div> */}
+
+            {['input', 'select', 'datepicker', 'textarea', 'row'].map((type) => (
+              <div
+                key={type}
+                draggable
+                unselectable="on"
+                onDragStart={(e) => {
+                  e.dataTransfer.setData('text/plain', type); // 携带字段类型
+                }}
+                style={{
+                  padding: 12,
+                  marginBottom: 8,
+                  background: '#fff',
+                  border: '1px solid #d9d9d9',
+                  cursor: 'move',
+                  userSelect: 'none',
+                }}
+              >
+                {type}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -237,38 +270,111 @@ export default function FaFormEditor({ flowForm, config, onChange, onClickItem }
           <div style={{ height: 40 }} className='fa-border-b fa-flex-row-center'>
             toolbar
             {config && (
-              <FaFormShowModal title="预览表单" config={config}>
-                <Button size="small">预览</Button>
-              </FaFormShowModal>
+              <Space>
+                <FaFormShowModal title="预览表单" config={config}>
+                  <Button size="small">预览</Button>
+                </FaFormShowModal>
+                <Popconfirm title="确定要清空表单吗？" onConfirm={() => clearFormItems()}>
+                  <Button size="small" danger>清空</Button>
+                </Popconfirm>
+              </Space>
             )}
           </div>
 
           {/* form canvas */}
           <FaFlexRestLayout>
             <Form>
-              <Droppable className='fa-full-content' id={DROPPABLE_ID}>
+              {/* <Droppable className='fa-full-content' id={DROPPABLE_ID}> */}
                 <div className='fa-full-content' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <div style={{ maxWidth: 800 }}>
-
-                    <FaGridLayout
-                      layout={layout}
-                      renderItem={(i) => {
+                  <FaGridLayout
+                    containerStyle={{ width: '100%', height: '100%', position: 'relative', background: 'var(--fa-bg-color)' }}
+                    style={{height: '100%'}}
+                    layout={layout}
+                    renderItem={(i) => {
+                      const formItem = formItemMap[i.i];
+                      if (formItem) {
+                        const selected = formItem.id === selectedFormItem?.id;
                         return (
-                            <div>
-                              {i.i}
-                            </div>
-                          );
-                      }}
-                      onLayoutChange={(layout) => {
-                        console.log('布局变化：', layout);
-                      }}
-                      rowHeight={20}
-                      cols={24}
-                      isDraggable
-                      isResizable
-                    />
+                          <div
+                            className={clsx('fa-form-editor-item', selected && 'fa-form-editor-item-selected')}
+                            style={{ width: '100%' }}
+                            onClick={(e) => {
+                              FaUtils.preventEvent(e);
+                              handleClickItem(formItem);
+                            }}
+                          >
+                            <FaFormEditorItem formItem={formItem} />
 
-                    <FaFormSortList
+                            {selected && (
+                              <Space style={{ position: 'absolute', top: -12, right: 10, zIndex: 999 }}>
+                                <Button size='small' onClick={(e) => {
+                                  FaUtils.preventEvent(e);
+                                }} shape="circle" icon={<CopyOutlined />} color="primary" variant="outlined" />
+                                <Button size='small' onClick={(e) => {
+                                  FaUtils.preventEvent(e);
+                                  handleDeleteFormItem(formItem);
+                                }} shape="circle" icon={<DeleteOutlined />} danger />
+                              </Space>
+                            )}
+                          </div>
+                        );
+                      }
+                      return (
+                        <div className='fa-form-editor-item'>
+                          {i.i} Not Found
+                        </div>
+                      );
+                    }}
+                    onLayoutChange={(layout) => {
+                      console.log('布局变化：', layout);
+                      // 如果有 __dropping__ 占位符，则不更新
+                      if (layout.some((item) => item.i === '__dropping__')) {
+                        return;
+                      }
+                      setLayout(layout);
+                    }}
+                    gridConfig={{
+                      cols: 24,
+                      rowHeight: 50,
+                      margin: [12, 12],
+                      containerPadding: [12, 12],
+                    }}
+                    dropConfig={{
+                      enabled: true,
+                      defaultItem: { w: 24, h: 1 }, // Default size (default: { w: 1, h: 1 })
+                      onDragOver: (e: DragEvent) => {
+                        console.log('拖拽悬停：', e);
+                      },
+                    }}
+                    droppingItem={{ i: '__dropping__', w: 24, h: 1, x: 0, y: 0 }} // 拖入时的占位大小
+                    onDrop={(layout, item, e: Event) => {
+                      // e.dataTransfer 可携带自定义数据（如字段类型）
+                      const fieldType:any = e.dataTransfer?.getData('text/plain') || '未知字段';
+                      console.log('放下项目：', layout, item, fieldType);
+                      setTimeout(() => {
+                        addFormItem(fieldType, item!, layout);
+                      }, 10)
+
+                      // const newItem: LayoutItem = {
+                      //   i: `item-${nextId}`,        // 唯一 key
+                      //   x: layoutItem.x,
+                      //   y: layoutItem.y,
+                      //   w: 12,                      // 默认占 12 格（半行）
+                      //   h: 2,                       // 高度，可根据需求调整
+                      // };
+
+                      // setLayout([...layout, newItem]);
+                      // setNextId(nextId + 1);
+
+                      // console.log('新增字段:', fieldType, newItem);
+                      // 这里可将 layout 保存到后端（SpringBoot + MyBatisPlus 存 JSON）
+                    }}
+                    isDraggable
+                    isResizable
+                  />
+
+                  {/* <div className='fa-flex-column' style={{ justifyContent: 'center' }}> */}
+                    {/* <FaFormSortList
                       list={formItems}
                       renderItem={(i) => {
                         const selected = i.id === selectedFormItem?.id;
@@ -300,10 +406,10 @@ export default function FaFormEditor({ flowForm, config, onChange, onClickItem }
                       onClickItem={(item) => {
                         handleClickItem(item)
                       }}
-                    />
-                  </div>
+                    /> */}
+                  {/* </div> */}
                 </div>
-              </Droppable>
+              {/* </Droppable> */}
             </Form>
           </FaFlexRestLayout>
         </div>

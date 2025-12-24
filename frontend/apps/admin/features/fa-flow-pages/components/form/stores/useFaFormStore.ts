@@ -1,19 +1,20 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { FaUtils } from '@fa/ui';
+import { Fa, FaUtils } from '@fa/ui';
 import { Flow } from '@/types';
-import { Layout } from 'react-grid-layout';
+import { Layout, LayoutItem } from 'react-grid-layout';
 
 interface FaFormState {
   flowForm: Flow.FlowForm;
   layout: Layout;
+  formItemMap: Record<string, Flow.FlowFormItem>;
   formItems: Flow.FlowFormItem[];
   selectedFormItem?: Flow.FlowFormItem;
   initialized: boolean;
   // 初始化配置
   init: (flowForm: Flow.FlowForm) => void;
   // 添加表单项
-  addFormItem: (type: 'input' | 'row') => void;
+  addFormItem: (type: 'input' | 'row', item: LayoutItem, layout: Layout) => void;
   // 删除表单项
   removeFormItem: (id: string) => void;
   // 更新表单项
@@ -35,6 +36,7 @@ interface FaFormState {
   // 清空表单
   clearFormItems: () => void;
 
+  setLayout: (layout: Layout) => void;
   setSelectedFormItem: (item?: Flow.FlowFormItem) => void;
   updateSelectedFormItem: (updates: Partial<Flow.FlowFormItem>) => void;
 }
@@ -44,6 +46,7 @@ export const useFaFormStore = create<FaFormState>()(
     (set, get) => ({
       flowForm: {} as Flow.FlowForm,
       layout: [],
+      formItemMap: {},
       formItems: [],
       selectedFormItem: undefined,
       initialized: false,
@@ -51,176 +54,210 @@ export const useFaFormStore = create<FaFormState>()(
       init: (flowForm) =>
         set(() => ({
           flowForm,
+          layout: flowForm?.config?.layout || [],
+          formItemMap: flowForm?.config?.formItemMap || {},
           formItems: flowForm?.config?.formItems || [],
           initialized: true,
         })),
 
-      addFormItem: (type) =>
+      addFormItem: (type, itemLayout, layout) =>
+        set((state) => {
+          const newItem: Flow.FlowFormItem = {
+            id: FaUtils.generateId(),
+            type,
+          };
+          const newFormItemMap = { ...state.formItemMap, [newItem.id]: newItem };
+          const h = ['row', 'textarea'].includes(type) ? 2 : 1;
+          const newLayout = [
+            ...layout.filter((l) => l.i !== itemLayout.i),
+            { ...itemLayout, h, i: newItem.id },
+          ];
+          console.log('添加表单项，更新布局：', newLayout);
+          return {
+            formItemMap: newFormItemMap,
+            layout: newLayout,
+          };
+        }),
+
+      removeFormItem: (id) =>
+        set((state) => {
+          const newFormItems = state.formItems.filter((item) => item.id !== id);
+          const newLayout = state.layout.filter((item) => item.i !== id);
+          const newFormItemMap = { ...state.formItemMap };
+          delete newFormItemMap[id];
+
+          return {
+            formItems: newFormItems,
+            layout: newLayout,
+            formItemMap: newFormItemMap,
+          };
+        }),
+
+      updateFormItem: (id, updates) =>
         set((state) => ({
-          formItems: [...state.formItems, { id: FaUtils.generateId(), type, children: [] }],
+          formItems: state.formItems.map((item) =>
+            item.id === id ? { ...item, ...updates } : item
+          ),
         })),
 
-  removeFormItem: (id) =>
-    set((state) => ({
-      formItems: state.formItems.filter((item) => item.id !== id),
-    })),
+      addChildToRow: (rowId, type) =>
+        set((state) => ({
+          formItems: state.formItems.map((item) =>
+            item.id === rowId && item.type === 'row'
+              ? {
+                  ...item,
+                  children: [
+                    ...(item.children || []),
+                    { id: FaUtils.generateId(), type, children: [] },
+                  ],
+                }
+              : item
+          ),
+        })),
 
-  updateFormItem: (id, updates) =>
-    set((state) => ({
-      formItems: state.formItems.map((item) =>
-        item.id === id ? { ...item, ...updates } : item
-      ),
-    })),
+      removeChildFromRow: (rowId, childId) =>
+        set((state) => ({
+          formItems: state.formItems.map((item) =>
+            item.id === rowId && item.type === 'row'
+              ? {
+                  ...item,
+                  children: (item.children || []).filter((child) => child.id !== childId),
+                }
+              : item
+          ),
+        })),
 
-  addChildToRow: (rowId, type) =>
-    set((state) => ({
-      formItems: state.formItems.map((item) =>
-        item.id === rowId && item.type === 'row'
-          ? {
-              ...item,
-              children: [
-                ...(item.children || []),
-                { id: FaUtils.generateId(), type, children: [] },
-              ],
-            }
-          : item
-      ),
-    })),
+      reorderFormItems: (items) =>
+        set(() => ({
+          formItems: items,
+        })),
 
-  removeChildFromRow: (rowId, childId) =>
-    set((state) => ({
-      formItems: state.formItems.map((item) =>
-        item.id === rowId && item.type === 'row'
-          ? {
-              ...item,
-              children: (item.children || []).filter((child) => child.id !== childId),
-            }
-          : item
-      ),
-    })),
+      reorderRowChildren: (rowId, children) =>
+        set((state) => ({
+          formItems: state.formItems.map((item) =>
+            item.id === rowId && item.type === 'row'
+              ? { ...item, children }
+              : item
+          ),
+        })),
 
-  reorderFormItems: (items) =>
-    set(() => ({
-      formItems: items,
-    })),
-
-  reorderRowChildren: (rowId, children) =>
-    set((state) => ({
-      formItems: state.formItems.map((item) =>
-        item.id === rowId && item.type === 'row'
-          ? { ...item, children }
-          : item
-      ),
-    })),
-
-  moveChildBetweenRows: (sourceRowId, targetRowId, childId) =>
-    set((state) => ({
-      formItems: state.formItems.map((item) => {
-        // 从源行删除子项
-        if (item.id === sourceRowId && item.type === 'row') {
-          return {
-            ...item,
-            children: (item.children || []).filter((child) => child.id !== childId),
-          };
-        }
-        // 到目标行添加子项
-        if (item.id === targetRowId && item.type === 'row') {
-          const childToMove = state.formItems
-            .find((sourceItem) => sourceItem.id === sourceRowId && sourceItem.type === 'row')
-            ?.children?.find((child) => child.id === childId);
-
-          if (childToMove) {
-            return {
-              ...item,
-              children: [...(item.children || []), childToMove],
-            };
-          }
-        }
-        return item;
-      }),
-    })),
-
-  moveChildFromRowToForm: (rowId, childId) =>
-    set((state) => ({
-      formItems: state.formItems.map((item) => {
-        // 从源行删除子项
-        if (item.id === rowId && item.type === 'row') {
-          const childToMove = item.children?.find((child) => child.id === childId);
-          if (childToMove) {
-            // 返回修改后的行（删除子项）
-            const newItem = {
-              ...item,
-              children: (item.children || []).filter((child) => child.id !== childId),
-            };
-            return newItem;
-          }
-        }
-        return item;
-      }).concat(
-        // 查找要移动的子项
-        state.formItems
-          .find((item) => item.id === rowId && item.type === 'row')
-          ?.children?.find((child) => child.id === childId) || null
-      ).filter((item): item is Flow.FlowFormItem => item !== null),
-    })),
-
-  moveFormItemToRow: (formItemId, rowId) =>
-    set((state) => {
-      // 查找要移动的表单项
-      const itemToMove = state.formItems.find((item) => item.id === formItemId);
-      if (!itemToMove) return state;
-
-      return {
-        formItems: state.formItems
-          .filter((item) => item.id !== formItemId) // 从表单顶层移除
-          .map((item) => {
-            // 添加到目标行
-            if (item.id === rowId && item.type === 'row') {
+      moveChildBetweenRows: (sourceRowId, targetRowId, childId) =>
+        set((state) => ({
+          formItems: state.formItems.map((item) => {
+            // 从源行删除子项
+            if (item.id === sourceRowId && item.type === 'row') {
               return {
                 ...item,
-                children: [...(item.children || []), itemToMove],
+                children: (item.children || []).filter((child) => child.id !== childId),
               };
+            }
+            // 到目标行添加子项
+            if (item.id === targetRowId && item.type === 'row') {
+              const childToMove = state.formItems
+                .find((sourceItem) => sourceItem.id === sourceRowId && sourceItem.type === 'row')
+                ?.children?.find((child) => child.id === childId);
+
+              if (childToMove) {
+                return {
+                  ...item,
+                  children: [...(item.children || []), childToMove],
+                };
+              }
             }
             return item;
           }),
-      };
-    }),
+        })),
 
-  setSelectedFormItem: (item) =>
-    set(() => ({
-      selectedFormItem: item,
-    })),
-  updateSelectedFormItem: (updates) =>
-    set((state) => {
-      // 如果没有选中项，直接返回
-      if (!state.selectedFormItem) return state;
-      // 在formItems中更新选中项
-      const updatedFormItems = state.formItems.map((item) => {
-        if (item.type === 'row' && item.children) {
+      moveChildFromRowToForm: (rowId, childId) =>
+        set((state) => ({
+          formItems: state.formItems.map((item) => {
+            // 从源行删除子项
+            if (item.id === rowId && item.type === 'row') {
+              const childToMove = item.children?.find((child) => child.id === childId);
+              if (childToMove) {
+                // 返回修改后的行（删除子项）
+                const newItem = {
+                  ...item,
+                  children: (item.children || []).filter((child) => child.id !== childId),
+                };
+                return newItem;
+              }
+            }
+            return item;
+          }).concat(
+            // 查找要移动的子项
+            state.formItems
+              .find((item) => item.id === rowId && item.type === 'row')
+              ?.children?.find((child) => child.id === childId) || null
+          ).filter((item): item is Flow.FlowFormItem => item !== null),
+        })),
+
+      moveFormItemToRow: (formItemId, rowId) =>
+        set((state) => {
+          // 查找要移动的表单项
+          const itemToMove = state.formItems.find((item) => item.id === formItemId);
+          if (!itemToMove) return state;
+
           return {
-            ...item,
-            children: item.children.map((child) =>
-              child.id === state.selectedFormItem!.id ? { ...child, ...updates } : child
-            ),
+            formItems: state.formItems
+              .filter((item) => item.id !== formItemId) // 从表单顶层移除
+              .map((item) => {
+                // 添加到目标行
+                if (item.id === rowId && item.type === 'row') {
+                  return {
+                    ...item,
+                    children: [...(item.children || []), itemToMove],
+                  };
+                }
+                return item;
+              }),
           };
-        }
-        if (item.id === state.selectedFormItem!.id) {
-          return { ...item, ...updates };
-        }
-        return item;
-      });
-      return {
-        formItems: updatedFormItems,
-        selectedFormItem: { ...state.selectedFormItem, ...updates },
-      };
-    }),
+        }),
 
-  clearFormItems: () =>
-    set(() => ({
-      flowForm: {} as Flow.FlowForm,
-      formItems: [],
-      initialized: false,
-    })),
+      setLayout: (layout) =>
+        set((state) => {
+          return {
+            layout,
+          };
+        }),
+
+      setSelectedFormItem: (item) =>
+        set(() => ({
+          selectedFormItem: item,
+        })),
+      updateSelectedFormItem: (updates) =>
+        set((state) => {
+          // 如果没有选中项，直接返回
+          if (!state.selectedFormItem) return state;
+          // 在formItems中更新选中项
+          const updatedFormItems = state.formItems.map((item) => {
+            if (item.type === 'row' && item.children) {
+              return {
+                ...item,
+                children: item.children.map((child) =>
+                  child.id === state.selectedFormItem!.id ? { ...child, ...updates } : child
+                ),
+              };
+            }
+            if (item.id === state.selectedFormItem!.id) {
+              return { ...item, ...updates };
+            }
+            return item;
+          });
+          return {
+            formItems: updatedFormItems,
+            selectedFormItem: { ...state.selectedFormItem, ...updates },
+          };
+        }),
+
+      clearFormItems: () =>
+        set(() => ({
+          initialized: false,
+          flowForm: {} as Flow.FlowForm,
+          layout: [],
+          formItemMap: {},
+          formItems: [],
+        })),
     }),
     { name: 'FaFormStore' }
   )
