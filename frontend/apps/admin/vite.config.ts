@@ -26,6 +26,7 @@ export default defineConfig(({ mode }) => {
       FaFrom: JSON.stringify(env.VITE_APP_FA_FROM),
       FaVersionCode: JSON.stringify(env.VITE_APP_FA_VERSION_CODE),
       FaVersionName: JSON.stringify(env.VITE_APP_FA_VERSION_NAME),
+      MapBoxPK: JSON.stringify(env.VITE_APP_MAPBOX_KEY),
     },
     plugins: [
       // importToCDN.default({
