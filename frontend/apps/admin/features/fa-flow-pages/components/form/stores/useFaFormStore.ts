@@ -2,9 +2,11 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { FaUtils } from '@fa/ui';
 import { Flow } from '@/types';
+import { Layout } from 'react-grid-layout';
 
 interface FaFormState {
   flowForm: Flow.FlowForm;
+  layout: Layout;
   formItems: Flow.FlowFormItem[];
   selectedFormItem?: Flow.FlowFormItem;
   initialized: boolean;
@@ -41,6 +43,7 @@ export const useFaFormStore = create<FaFormState>()(
   devtools<FaFormState>(
     (set, get) => ({
       flowForm: {} as Flow.FlowForm,
+      layout: [],
       formItems: [],
       selectedFormItem: undefined,
       initialized: false,

@@ -1,22 +1,22 @@
+import { FaGridLayout } from '@/components';
 import { Flow } from '@/types';
 import { DndContext, DragEndEvent, KeyboardSensor, PointerSensor, pointerWithin, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { FaFlexRestLayout, FaUtils } from '@fa/ui';
 import { Button, Form, Space } from 'antd';
+import clsx from 'clsx';
 import { findIndex } from 'lodash';
 import { useEffect } from 'react';
+import "react-grid-layout/css/styles.css";
+import "react-resizable/css/styles.css";
 import FaFormShowModal from '../formShow/modal/FaFormShowModal';
 import { FaFormSortList } from './base-drag';
 import { Draggable } from './components/Draggable';
 import { Droppable } from './components/Droppable';
 import FaFormEditorItem from './cube/FaFormEditorItem';
+import './index.scss';
 import FormItemPanel from './panel/FormItemPanel';
 import { useFaFormStore } from './stores/useFaFormStore';
-import './index.scss';
-import clsx from 'clsx';
-import ReactGridLayout, { useContainerWidth } from "react-grid-layout";
-import "react-grid-layout/css/styles.css";
-import "react-resizable/css/styles.css";
 
 
 const DROPPABLE_ID = 'form-canvas-area';
@@ -34,6 +34,7 @@ export interface FaFormEditorProps {
  * @date 2025-12-16 16:38:38
  */
 export default function FaFormEditor({ flowForm, config, onChange, onClickItem }: FaFormEditorProps) {
+  const layout = useFaFormStore((state) => state.layout);
   const formItems = useFaFormStore((state) => state.formItems);
   const initialized = useFaFormStore((state) => state.initialized);
   const init = useFaFormStore((state) => state.init);
@@ -248,6 +249,25 @@ export default function FaFormEditor({ flowForm, config, onChange, onClickItem }
               <Droppable className='fa-full-content' id={DROPPABLE_ID}>
                 <div className='fa-full-content' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <div style={{ maxWidth: 800 }}>
+
+                    <FaGridLayout
+                      layout={layout}
+                      renderItem={(i) => {
+                        return (
+                            <div>
+                              {i.i}
+                            </div>
+                          );
+                      }}
+                      onLayoutChange={(layout) => {
+                        console.log('布局变化：', layout);
+                      }}
+                      rowHeight={20}
+                      cols={24}
+                      isDraggable
+                      isResizable
+                    />
+
                     <FaFormSortList
                       list={formItems}
                       renderItem={(i) => {
