@@ -46,7 +46,7 @@ export default function FlowFormList() {
         render: (_, r) => (
           <Space>
             <FlowFormViewDataDrawer item={r} />
-            <FlowFormConfigDrawer item={r} refresh={fetchPageList} />
+            <FlowFormConfigDrawer itemId={r.id} refresh={fetchPageList} />
             <FlowFormModal editBtn title={`编辑${serviceName}信息`} record={r} fetchFinish={fetchPageList} />
             <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
           </Space>

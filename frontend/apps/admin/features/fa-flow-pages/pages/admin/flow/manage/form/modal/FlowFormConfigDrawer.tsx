@@ -2,16 +2,15 @@ import { flowFormApi } from '@/services';
 import { CalculatorOutlined } from '@ant-design/icons';
 import { FaFlexRestLayout, FaHref } from '@fa/ui';
 import { FaFormEditor } from '@features/fa-flow-pages/components';
-import { Flow } from '@features/fa-flow-pages/types';
 import { Button, Drawer, Space, Tabs } from 'antd';
-import React, { useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
+import { useEffect, useState } from 'react';
 import FormTableEdit from '../cube/database/FormTableEdit';
 import TableShowDesign from '../cube/table/TableShowDesign';
 import { useFlowFormEditStore } from '../store/useFlowFormEditStore';
 
 export interface FlowFormConfigDrawerProps {
-  item: Flow.FlowForm;
+  itemId: number;
   refresh?: () => void;
 }
 
@@ -19,7 +18,7 @@ export interface FlowFormConfigDrawerProps {
  * @author xu.pengfei
  * @date 2025-12-16 16:49:56
  */
-export default function FlowFormConfigDrawer({ item, refresh }: FlowFormConfigDrawerProps) {
+export default function FlowFormConfigDrawer({ itemId, refresh }: FlowFormConfigDrawerProps) {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState('form');
   const { flowForm, setFlowForm, clear } = useFlowFormEditStore()
@@ -28,7 +27,7 @@ export default function FlowFormConfigDrawer({ item, refresh }: FlowFormConfigDr
     return () => {
       clear()
     }
-  }, [item]);
+  }, [itemId]);
 
   function handleConfigChange(config: any) {
     // compare with previous config
@@ -42,7 +41,9 @@ export default function FlowFormConfigDrawer({ item, refresh }: FlowFormConfigDr
 
   function handleOpen() {
     setOpen(true)
-    setFlowForm(item)
+    flowFormApi.getById(itemId).then((res) => {
+      setFlowForm(res.data);
+    });
   }
 
   return (
@@ -53,6 +54,7 @@ export default function FlowFormConfigDrawer({ item, refresh }: FlowFormConfigDr
         open={open}
         onClose={() => {
           setOpen(false)
+          clear()
           refresh && refresh()
         }}
         size={window.document.body.clientWidth}

@@ -1,11 +1,12 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { Fa, FaUtils } from '@fa/ui';
+import { FaUtils } from '@fa/ui';
 import { Flow } from '@/types';
 import { Layout, LayoutItem } from 'react-grid-layout';
 
 interface FaFormState {
   flowForm: Flow.FlowForm;
+  config: Flow.FlowFormConfig;
   layout: Layout;
   formItemMap: Record<string, Flow.FlowFormItem>;
   formItems: Flow.FlowFormItem[];
@@ -45,6 +46,7 @@ export const useFaFormStore = create<FaFormState>()(
   devtools<FaFormState>(
     (set, get) => ({
       flowForm: {} as Flow.FlowForm,
+      config: {} as Flow.FlowFormConfig,
       layout: [],
       formItemMap: {},
       formItems: [],
@@ -54,6 +56,7 @@ export const useFaFormStore = create<FaFormState>()(
       init: (flowForm) =>
         set(() => ({
           flowForm,
+          config: flowForm?.config || {},
           layout: flowForm?.config?.layout || [],
           formItemMap: flowForm?.config?.formItemMap || {},
           formItems: flowForm?.config?.formItems || [],
@@ -76,6 +79,11 @@ export const useFaFormStore = create<FaFormState>()(
           return {
             formItemMap: newFormItemMap,
             layout: newLayout,
+            config: {
+              ...state.config,
+              layout: newLayout,
+              formItemMap: newFormItemMap,
+            },
           };
         }),
 
@@ -90,6 +98,11 @@ export const useFaFormStore = create<FaFormState>()(
             formItems: newFormItems,
             layout: newLayout,
             formItemMap: newFormItemMap,
+            config: {
+              ...state.config,
+              layout: newLayout,
+              formItemMap: newFormItemMap,
+            },
           };
         }),
 
