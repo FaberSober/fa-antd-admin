@@ -23,7 +23,7 @@ export default function FormTableColumnAdd({ tableName, onSuccess }: FormTableCo
       tableName,
       column: {
         ...fieldsValue,
-        nullable: fieldsValue.nullable ? 'YES' : 'NO',
+        nullable: fieldsValue.nullable ? 'NO' : 'YES',
       },
     }).then(res => {
       FaUtils.showResponse(res, '新增字段');

@@ -4,11 +4,12 @@ import { CopyOutlined, DeleteOutlined } from '@ant-design/icons';
 import { FaFlexRestLayout, FaUtils } from '@fa/ui';
 import { Button, Form, Popconfirm, Space } from 'antd';
 import clsx from 'clsx';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import FaFormShowModal from '../formShow/modal/FaFormShowModal';
 import FaFormEditorItem from './cube/FaFormEditorItem';
+import useFormConfig from './hooks/useFormConfig';
 import './index.scss';
 import FormItemPanel from './panel/FormItemPanel';
 import { useFaFormStore } from './stores/useFaFormStore';
@@ -35,6 +36,8 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
 
   const addFormItem = useFaFormStore((state) => state.addFormItem);
   const removeFormItem = useFaFormStore((state) => state.removeFormItem);
+  const clearConfig = useFaFormStore((state) => state.clearConfig);
+
   const clearFormItems = useFaFormStore((state) => state.clearFormItems);
 
   const setLayout = useFaFormStore((state) => state.setLayout);
@@ -42,12 +45,7 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
   const selectedFormItem = useFaFormStore((state) => state.selectedFormItem);
   const setSelectedFormItem = useFaFormStore((state) => state.setSelectedFormItem);
 
-  const layout = useMemo(() => {
-    return config?.layout || [];
-  }, [config]);
-  const formItemMap = useMemo(() => {
-    return config?.formItemMap || {};
-  }, [config]);
+  const {layout, formItemMap} = useFormConfig(config);
 
   // 初始化 store 和清理
   useEffect(() => {
@@ -68,7 +66,18 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
     if (!initialized) {
       return;
     }
-    onChange?.(config);
+    // 只保存layout的i,x,y,w,h字段，其他字段不需要保存
+    const filteredConfig = {
+      ...config,
+      layout: config.layout?.map((item) => ({
+        i: item.i,
+        x: item.x,
+        y: item.y,
+        w: item.w,
+        h: item.h,
+      })),
+    };
+    onChange?.(filteredConfig);
   }, [config, initialized]);
 
   function handleClickItem(item: Flow.FlowFormItem) {
@@ -125,7 +134,7 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
               <FaFormShowModal title="预览表单" config={config}>
                 <Button size="small">预览</Button>
               </FaFormShowModal>
-              <Popconfirm title="确定要清空表单吗？" onConfirm={() => clearFormItems()}>
+              <Popconfirm title="确定要清空表单吗？" onConfirm={() => clearConfig()}>
                 <Button size="small" danger>清空</Button>
               </Popconfirm>
             </Space>
@@ -197,7 +206,7 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
                   },
                 }}
                 droppingItem={{ i: '__dropping__', w: 24, h: 1, x: 0, y: 0 }} // 拖入时的占位大小
-                onDrop={(layout, item, e) => {
+                onDrop={(layout, item, e:any) => {
                   // e.dataTransfer 可携带自定义数据（如字段类型）
                   const fieldType:any = e.dataTransfer?.getData('text/plain') || '未知字段';
                   console.log('放下项目：', layout, item, fieldType);

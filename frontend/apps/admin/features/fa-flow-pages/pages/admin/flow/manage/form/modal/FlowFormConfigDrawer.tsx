@@ -84,13 +84,13 @@ export default function FlowFormConfigDrawer({ itemId, refresh }: FlowFormConfig
                 <FaFlexRestLayout>
                   {tab === 'form' && (
                     <FaFormEditor
-                      flowForm={item}
-                      config={item?.config}
+                      flowForm={flowForm}
+                      config={flowForm?.config}
                       onChange={handleConfigChange}
                     />
                   )}
                   {tab === 'database' && (
-                    <FormTableEdit item={item} />
+                    <FormTableEdit item={flowForm} />
                   )}
                   {tab === 'table' && (
                     <TableShowDesign />

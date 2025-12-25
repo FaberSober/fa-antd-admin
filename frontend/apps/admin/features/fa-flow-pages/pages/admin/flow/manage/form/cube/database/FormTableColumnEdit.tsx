@@ -26,7 +26,7 @@ export default function FormTableColumnEdit({ column, tableName, onSuccess }: Fo
     setDataType(column.dataType);
     form.setFieldsValue({
       ...column,
-      nullable: column.nullable === 'YES',
+      nullable: column.nullable === 'NO',
     });
   }, []);
 
@@ -35,7 +35,7 @@ export default function FormTableColumnEdit({ column, tableName, onSuccess }: Fo
       tableName,
       column: {
         ...fieldsValue,
-        nullable: fieldsValue.nullable ? 'YES' : 'NO',
+        nullable: fieldsValue.nullable ? 'NO' : 'YES',
       },
     }).then(res => {
       FaUtils.showResponse(res, '更新字段');
@@ -100,7 +100,9 @@ export default function FormTableColumnEdit({ column, tableName, onSuccess }: Fo
           )}
         </div>
         <div style={{ width: 40, textAlign: 'center' }}>
-          <Checkbox checked={isPk || column.nullable === 'YES'} disabled={isPk} />
+          <Form.Item name="nullable" valuePropName="checked" noStyle>
+            <Checkbox disabled={isPk} />
+          </Form.Item>
         </div>
         <div style={{ width: 200 }}>
           <Form.Item name="defaultValue" noStyle>

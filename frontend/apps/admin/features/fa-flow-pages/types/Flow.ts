@@ -455,8 +455,6 @@ namespace Flow {
     layout: Layout;
     /** 表单项映射 */
     formItemMap: Record<string, Flow.FlowFormItem>;
-    /** 表单项列表 */
-    formItems?: FlowFormItem[];
   }
 
   // ------------------------------------------------- Database -------------------------------------------------

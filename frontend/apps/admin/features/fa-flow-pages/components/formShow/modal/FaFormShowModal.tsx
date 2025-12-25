@@ -31,7 +31,7 @@ export default function FaFormShowModal({ children, config, ...props }: FaFormSh
         mask={false}
         {...props}
       >
-        <FaFormShow config={config} />
+        <FaFormShow config={config} style={{height: 600}} />
       </DragModal>
     </span>
   );
