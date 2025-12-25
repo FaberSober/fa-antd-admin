@@ -9,7 +9,6 @@ interface FaFormState {
   config: Flow.FlowFormConfig;
   layout: Layout;
   formItemMap: Record<string, Flow.FlowFormItem>;
-  formItems: Flow.FlowFormItem[];
   selectedFormItem?: Flow.FlowFormItem;
   initialized: boolean;
   // 初始化配置
@@ -49,7 +48,6 @@ export const useFaFormStore = create<FaFormState>()(
       config: {} as Flow.FlowFormConfig,
       layout: [],
       formItemMap: {},
-      formItems: [],
       selectedFormItem: undefined,
       initialized: false,
 
@@ -89,13 +87,11 @@ export const useFaFormStore = create<FaFormState>()(
 
       removeFormItem: (id) =>
         set((state) => {
-          const newFormItems = state.formItems.filter((item) => item.id !== id);
           const newLayout = state.layout.filter((item) => item.i !== id);
           const newFormItemMap = { ...state.formItemMap };
           delete newFormItemMap[id];
 
           return {
-            formItems: newFormItems,
             layout: newLayout,
             formItemMap: newFormItemMap,
             config: {
@@ -108,123 +104,34 @@ export const useFaFormStore = create<FaFormState>()(
 
       updateFormItem: (id, updates) =>
         set((state) => ({
-          formItems: state.formItems.map((item) =>
-            item.id === id ? { ...item, ...updates } : item
-          ),
         })),
 
       addChildToRow: (rowId, type) =>
         set((state) => ({
-          formItems: state.formItems.map((item) =>
-            item.id === rowId && item.type === 'row'
-              ? {
-                  ...item,
-                  children: [
-                    ...(item.children || []),
-                    { id: FaUtils.generateId(), type, children: [] },
-                  ],
-                }
-              : item
-          ),
         })),
 
       removeChildFromRow: (rowId, childId) =>
         set((state) => ({
-          formItems: state.formItems.map((item) =>
-            item.id === rowId && item.type === 'row'
-              ? {
-                  ...item,
-                  children: (item.children || []).filter((child) => child.id !== childId),
-                }
-              : item
-          ),
         })),
 
       reorderFormItems: (items) =>
         set(() => ({
-          formItems: items,
         })),
 
       reorderRowChildren: (rowId, children) =>
         set((state) => ({
-          formItems: state.formItems.map((item) =>
-            item.id === rowId && item.type === 'row'
-              ? { ...item, children }
-              : item
-          ),
         })),
 
       moveChildBetweenRows: (sourceRowId, targetRowId, childId) =>
         set((state) => ({
-          formItems: state.formItems.map((item) => {
-            // 从源行删除子项
-            if (item.id === sourceRowId && item.type === 'row') {
-              return {
-                ...item,
-                children: (item.children || []).filter((child) => child.id !== childId),
-              };
-            }
-            // 到目标行添加子项
-            if (item.id === targetRowId && item.type === 'row') {
-              const childToMove = state.formItems
-                .find((sourceItem) => sourceItem.id === sourceRowId && sourceItem.type === 'row')
-                ?.children?.find((child) => child.id === childId);
-
-              if (childToMove) {
-                return {
-                  ...item,
-                  children: [...(item.children || []), childToMove],
-                };
-              }
-            }
-            return item;
-          }),
         })),
 
       moveChildFromRowToForm: (rowId, childId) =>
         set((state) => ({
-          formItems: state.formItems.map((item) => {
-            // 从源行删除子项
-            if (item.id === rowId && item.type === 'row') {
-              const childToMove = item.children?.find((child) => child.id === childId);
-              if (childToMove) {
-                // 返回修改后的行（删除子项）
-                const newItem = {
-                  ...item,
-                  children: (item.children || []).filter((child) => child.id !== childId),
-                };
-                return newItem;
-              }
-            }
-            return item;
-          }).concat(
-            // 查找要移动的子项
-            state.formItems
-              .find((item) => item.id === rowId && item.type === 'row')
-              ?.children?.find((child) => child.id === childId) || null
-          ).filter((item): item is Flow.FlowFormItem => item !== null),
         })),
 
       moveFormItemToRow: (formItemId, rowId) =>
         set((state) => {
-          // 查找要移动的表单项
-          const itemToMove = state.formItems.find((item) => item.id === formItemId);
-          if (!itemToMove) return state;
-
-          return {
-            formItems: state.formItems
-              .filter((item) => item.id !== formItemId) // 从表单顶层移除
-              .map((item) => {
-                // 添加到目标行
-                if (item.id === rowId && item.type === 'row') {
-                  return {
-                    ...item,
-                    children: [...(item.children || []), itemToMove],
-                  };
-                }
-                return item;
-              }),
-          };
         }),
 
       setLayout: (layout) =>
@@ -242,23 +149,7 @@ export const useFaFormStore = create<FaFormState>()(
         set((state) => {
           // 如果没有选中项，直接返回
           if (!state.selectedFormItem) return state;
-          // 在formItems中更新选中项
-          const updatedFormItems = state.formItems.map((item) => {
-            if (item.type === 'row' && item.children) {
-              return {
-                ...item,
-                children: item.children.map((child) =>
-                  child.id === state.selectedFormItem!.id ? { ...child, ...updates } : child
-                ),
-              };
-            }
-            if (item.id === state.selectedFormItem!.id) {
-              return { ...item, ...updates };
-            }
-            return item;
-          });
           return {
-            formItems: updatedFormItems,
             selectedFormItem: { ...state.selectedFormItem, ...updates },
           };
         }),
@@ -267,9 +158,9 @@ export const useFaFormStore = create<FaFormState>()(
         set(() => ({
           initialized: false,
           flowForm: {} as Flow.FlowForm,
+          config: {} as Flow.FlowFormConfig,
           layout: [],
           formItemMap: {},
-          formItems: [],
         })),
     }),
     { name: 'FaFormStore' }
