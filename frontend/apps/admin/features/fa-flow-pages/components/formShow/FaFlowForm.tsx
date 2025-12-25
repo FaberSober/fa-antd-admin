@@ -24,7 +24,9 @@ export default function FaFlowForm({ formId, form, record, onLoadingChange, onSu
   const [flowForm, setFlowForm] = useState<Flow.FlowForm>();
 
   useEffect(() => {
-    form.setFieldsValue(getInitialValues())
+    if (record && flowForm) {
+      form.setFieldsValue(getInitialValues())
+    }
   }, [record, flowForm]);
 
   useEffect(() => {
@@ -40,12 +42,12 @@ export default function FaFlowForm({ formId, form, record, onLoadingChange, onSu
     const mainTableMap = getTableKeyMap(flowForm?.dataConfig?.main)
     // console.log('mainTableMap', mainTableMap)
     if (flowForm && flowForm.config) {
-      each(flowForm.config.formItems, (fi) => {
+      each(flowForm.config.formItemMap, (fi) => {
         // console.log('fi', fi)
         const col = mainTableMap[fi.name!]
         if (isNil(col)) return;
         if (col.dataType === 'datetime') {
-          set(initValues, fi.name!, FaUtils.getDateFullStr(record[fi.name!]))
+          set(initValues, fi.name!, FaUtils.getInitialKeyTimeValue(initValues, fi.name!))
         }
       })
     }
@@ -61,7 +63,7 @@ export default function FaFlowForm({ formId, form, record, onLoadingChange, onSu
       formData: params,
       childFormDataList: [],
     }).then((res) => {
-      // FaUtils.showResponse(res, '新增DEMO-请假流程');
+      // FaUtils.showResponse(res, '新增流程');
       if (onSuccess) onSuccess(res.data);
     }).finally(() => {
       onLoadingChange?.(false);
@@ -72,7 +74,7 @@ export default function FaFlowForm({ formId, form, record, onLoadingChange, onSu
   function invokeUpdateTask(params: any) {
     onLoadingChange?.(true);
     // api.update(params.id, params).then((res) => {
-    //   // FaUtils.showResponse(res, '更新DEMO-请假流程');
+    //   // FaUtils.showResponse(res, '更新流程');
     //   if (onSuccess) onSuccess(res.data);
     // }).finally(() => {
     //   onLoadingChange?.(false);
@@ -80,12 +82,8 @@ export default function FaFlowForm({ formId, form, record, onLoadingChange, onSu
   }
 
   function onFinish(fieldsValue: any) {
-    const values = {
-      ...fieldsValue,
-      applyDate: FaUtils.getDateStr000(fieldsValue.applyDate),
-      // leaveStartTime: FaUtils.getDateStr000(fieldsValue.leaveStartTime, 'YYYY-MM-DD HH:mm:00'),
-      // leaveEndTime: FaUtils.getDateStr000(fieldsValue.leaveEndTime, 'YYYY-MM-DD HH:mm:00'),
-    };
+    const values = FaUtils.formatDateValues(fieldsValue);
+    console.log('提交的values', values);
     if (record) {
       invokeUpdateTask({ ...record, ...values });
     } else {

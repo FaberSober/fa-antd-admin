@@ -99,13 +99,13 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess, type =
             <Splitter>
               <Splitter.Panel>
               <div className='fa-full fa-flex-column fa-pr12'>
-                <FlowFormView flwProcess={info.flwProcess} formValues={JSON.parse(info.formContent || '{}')} />
                 <Space>
                   <Button onClick={() => message.info('TODO')} icon={<CommentOutlined />}>评论</Button>
                   {type === 'audit' && taskId && <Button onClick={() => handlePass()} icon={<CheckOutlined />} type='primary'>同意</Button>}
                   {type === 'audit' && taskId && <Button onClick={() => handleReject()} icon={<CloseOutlined />} type='primary' danger>拒绝</Button>}
                   {type === 'claim' && taskId && <Button onClick={() => handleClaim()} icon={<CheckOutlined />} variant="solid" color="cyan">认领</Button>}
                 </Space>
+                <FlowFormView flwProcess={info.flwProcess} formValues={JSON.parse(info.formContent || '{}')} />
               </div>
               </Splitter.Panel>
 
