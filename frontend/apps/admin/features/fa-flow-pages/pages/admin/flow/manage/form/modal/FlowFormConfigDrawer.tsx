@@ -70,11 +70,16 @@ export default function FlowFormConfigDrawer({ itemId, refresh }: FlowFormConfig
             <Button type="primary" size="small" onClick={() => setOpen(false)}>保存</Button>
           </Space>
         )}
+        styles={{
+          body: {
+            background: 'var(--fa-bg-grey3)',
+          }
+        }}
       >
         {(open) && flowForm && (
           <>
             <div className="fa-full">
-              <div className="fa-full-content fa-flex-column fa-tabs">
+              <div className="fa-full-content-p12 fa-bg-grey fa-flex-column fa-tabs">
                 <div style={{position: 'fixed', top: 7, left: 'calc(50vw - 146px)' }}>
                   <Segmented
                     options={[

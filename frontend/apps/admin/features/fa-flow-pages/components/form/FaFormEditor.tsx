@@ -97,27 +97,9 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
   }
 
   return (
-    <div className='fa-full fa-flex-row'>
-      <div style={{ width: 300, borderRight: '1px solid var(--fa-border-color)'}} className='fa-flex-column fa-tabs-block'>
-        <Tabs
-          items={[
-            {
-              key: 'formitem',
-              label: '组件',
-              children: <FormItemDragPanel />,
-            },
-            {
-              key: 'code',
-              label: '源码',
-              children: <FormItemDragPanel />,
-            },
-          ]}
-          styles={{
-            content: {
-              padding: 12,
-            },
-          }}
-        />
+    <div className='fa-full fa-flex-row fa-gap12'>
+      <div style={{ width: 250 }} className='fa-flex-column fa-gap12 fa-scroll-auto-y'>
+        <FormItemDragPanel />
       </div>
 
       {/* right  */}

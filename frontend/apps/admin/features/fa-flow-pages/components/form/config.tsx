@@ -51,13 +51,13 @@ export const FaFormItems: Flow.FaFormItem[] = [
   },
   {
     type: 'datepicker',
-    name: '日期选择器',
+    name: '日期选择',
     icon: <div className="i-streamline-sharp:calendar-mark fa-form-item-icon"/>,
     group: 'formitem'
   },
   {
     type: 'timepicker',
-    name: '时间选择器',
+    name: '时间选择',
     icon: <div className="i-fluent:clock-16-regular fa-form-item-icon"/>,
     group: 'formitem'
   },
@@ -75,7 +75,7 @@ export const FaFormItems: Flow.FaFormItem[] = [
   },
   {
     type: 'colorpicker',
-    name: '颜色选择器',
+    name: '颜色选择',
     icon: <div className="i-material-symbols:palette-outline fa-form-item-icon"/>,
     group: 'formitem'
   },
