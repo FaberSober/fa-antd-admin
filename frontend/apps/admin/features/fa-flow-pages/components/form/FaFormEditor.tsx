@@ -2,7 +2,7 @@ import { FaGridLayout } from '@/components';
 import { Flow } from '@/types';
 import { CopyOutlined, DeleteOutlined } from '@ant-design/icons';
 import { FaFlexRestLayout, FaUtils } from '@fa/ui';
-import { Button, Form, Popconfirm, Space } from 'antd';
+import { Button, Form, Popconfirm, Space, Tabs } from 'antd';
 import clsx from 'clsx';
 import { useEffect } from 'react';
 import "react-grid-layout/css/styles.css";
@@ -11,8 +11,9 @@ import FaFormShowModal from '../formShow/modal/FaFormShowModal';
 import FaFormEditorItem from './cube/FaFormEditorItem';
 import useFormConfig from './hooks/useFormConfig';
 import './index.scss';
-import FormItemPanel from './panel/FormItemPanel';
+import FormItemPropertyPanel from './panel/FormItemPropertyPanel';
 import { useFaFormStore } from './stores/useFaFormStore';
+import FormItemDragPanel from './panel/FormItemDragPanel';
 
 
 export interface FaFormEditorProps {
@@ -97,31 +98,26 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
 
   return (
     <div className='fa-full fa-flex-row'>
-      <div style={{ width: 300, borderRight: '1px solid #ccc'}} className='fa-flex-column'>
-        <h1>表单组件</h1>
-
-        <div className='fa-flex-row fa-flex-wrap fa-gap12'>
-          {['input', 'select', 'datepicker', 'textarea', 'row'].map((type) => (
-            <div
-              key={type}
-              draggable
-              unselectable="on"
-              onDragStart={(e) => {
-                e.dataTransfer.setData('text/plain', type); // 携带字段类型
-              }}
-              style={{
-                padding: 12,
-                marginBottom: 8,
-                background: '#fff',
-                border: '1px solid #d9d9d9',
-                cursor: 'move',
-                userSelect: 'none',
-              }}
-            >
-              {type}
-            </div>
-          ))}
-        </div>
+      <div style={{ width: 300, borderRight: '1px solid var(--fa-border-color)'}} className='fa-flex-column fa-tabs-block'>
+        <Tabs
+          items={[
+            {
+              key: 'formitem',
+              label: '组件',
+              children: <FormItemDragPanel />,
+            },
+            {
+              key: 'code',
+              label: '源码',
+              children: <FormItemDragPanel />,
+            },
+          ]}
+          styles={{
+            content: {
+              padding: 12,
+            },
+          }}
+        />
       </div>
 
       {/* right  */}
@@ -225,7 +221,7 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
       <div style={{ width: 300 }} className='fa-border-l'>
         <h1>表单属性</h1>
 
-        <FormItemPanel />
+        <FormItemPropertyPanel />
       </div>
     </div>
   );

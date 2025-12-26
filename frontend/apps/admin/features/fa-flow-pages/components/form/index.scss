@@ -18,3 +18,27 @@
 .fa-form-editor-item .ant-form-item {
   margin: 0;
 }
+
+.fa-form-item-drag {
+  padding: 6px 10px;
+  border: 1px solid var(--fa-border-color);
+  border-radius: 4px;
+  cursor: move;
+  user-select: none;
+  background: transparent;
+  transition: all ease-in-out 0.3s;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.fa-form-item-drag:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.fa-form-item-icon {
+  height: 16px;
+  width: 16px;
+  margin-right: 6px;
+}

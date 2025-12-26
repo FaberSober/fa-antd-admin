@@ -7,14 +7,14 @@ import { Form, Input, Select } from 'antd';
  * @author xu.pengfei
  * @date 2025-12-17 15:01:10
  */
-export default function FormItemPanel() {
+export default function FormItemPropertyPanel() {
   const [form] = Form.useForm();
   const flowForm = useFaFormStore((state) => state.flowForm);
   const selectedFormItem = useFaFormStore((state) => state.selectedFormItem);
   const updateSelectedFormItem = useFaFormStore((state) => state.updateSelectedFormItem);
 
   useEffect(() => {
-    console.log('FormItemPanel selectedFormItem changed', selectedFormItem);
+    console.log('FormItemPropertyPanel selectedFormItem changed', selectedFormItem);
     form.setFieldsValue({
       tableName: selectedFormItem?.tableName,
       name: selectedFormItem?.name,

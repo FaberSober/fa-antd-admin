@@ -1,13 +1,14 @@
 import { flowFormApi } from '@/services';
-import { CalculatorOutlined } from '@ant-design/icons';
+import { CalculatorOutlined, DatabaseOutlined, FormOutlined, OrderedListOutlined } from '@ant-design/icons';
 import { FaFlexRestLayout, FaHref } from '@fa/ui';
 import { FaFormEditor } from '@features/fa-flow-pages/components';
-import { Button, Drawer, Space, Tabs } from 'antd';
+import { Button, Drawer, Segmented, Space, Tabs } from 'antd';
 import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 import FormTableEdit from '../cube/database/FormTableEdit';
 import TableShowDesign from '../cube/table/TableShowDesign';
 import { useFlowFormEditStore } from '../store/useFlowFormEditStore';
+
 
 export interface FlowFormConfigDrawerProps {
   itemId: number;
@@ -24,6 +25,11 @@ export default function FlowFormConfigDrawer({ itemId, refresh }: FlowFormConfig
   const { flowForm, setFlowForm, clear } = useFlowFormEditStore()
 
   useEffect(() => {
+    if (open) {
+      flowFormApi.getById(itemId).then((res) => {
+        setFlowForm(res.data);
+      });
+    }
     return () => {
       clear()
     }
@@ -69,14 +75,14 @@ export default function FlowFormConfigDrawer({ itemId, refresh }: FlowFormConfig
           <>
             <div className="fa-full">
               <div className="fa-full-content fa-flex-column fa-tabs">
-                <div>
-                  <Tabs
-                    items={[
-                      { key: 'form', label: '表单设计' },
-                      { key: 'database', label: '数据库表' },
-                      { key: 'table', label: '列表设计' },
+                <div style={{position: 'fixed', top: 7, left: 'calc(50vw - 146px)' }}>
+                  <Segmented
+                    options={[
+                      { value: 'form', label: <span><FormOutlined style={{marginRight: 4}} />表单设计</span> },
+                      { value: 'database', label: <span><DatabaseOutlined style={{marginRight: 4}} />数据库表</span> },
+                      { value: 'table', label: <span><OrderedListOutlined style={{marginRight: 4}} />列表设计</span> },
                     ]}
-                    activeKey={tab}
+                    value={tab}
                     onChange={setTab}
                   />
                 </div>

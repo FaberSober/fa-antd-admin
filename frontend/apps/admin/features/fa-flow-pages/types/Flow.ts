@@ -2,6 +2,7 @@ import { Fa } from '@fa/ui';
 import FlwEnums from './FlwEnums';
 import FlowEnums from './FlowEnums';
 import { Layout } from 'react-grid-layout';
+import React from 'react';
 
 namespace Flow {
   /** FLOW-流程分类 */
@@ -433,7 +434,6 @@ namespace Flow {
     subTables: FlowFormDataConfigSubTable[];
   }
 
-  export type FlowFormItemType = 'input' | 'select' | 'datepicker' | 'textarea' | 'row';
 
   export interface FlowFormItem {
     type: FlowFormItemType,
@@ -455,6 +455,16 @@ namespace Flow {
     layout: Layout;
     /** 表单项映射 */
     formItemMap: Record<string, Flow.FlowFormItem>;
+  }
+
+  // ------------------------------------------------- FormEditor -------------------------------------------------
+  export type FlowFormItemType = 'input' | 'inputnumber' | 'textarea' | 'switch' | 'radio' | 'checkbox' | 'select' | 'cascader' | 'datepicker' | 'timepicker' | 'fileupload' | 'imageupload' | 'colorpicker' | 'rating' | 'slider' | 'richtext' | 'link' | 'row';
+
+  export interface FaFormItem {
+    type: FlowFormItemType;
+    name: string;
+    icon: string|React.ReactNode;
+    group: 'formitem'|'layout'|'custom';
   }
 
   // ------------------------------------------------- Database -------------------------------------------------
