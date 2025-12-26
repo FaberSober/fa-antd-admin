@@ -14,6 +14,7 @@ import './index.scss';
 import FormItemPropertyPanel from './panel/FormItemPropertyPanel';
 import { useFaFormStore } from './stores/useFaFormStore';
 import FormItemDragPanel from './panel/FormItemDragPanel';
+import FormPropertyPanel from './panel/FormPropertyPanel';
 
 
 export interface FaFormEditorProps {
@@ -46,7 +47,7 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
   const selectedFormItem = useFaFormStore((state) => state.selectedFormItem);
   const setSelectedFormItem = useFaFormStore((state) => state.setSelectedFormItem);
 
-  const {layout, formItemMap} = useFormConfig(config);
+  const {layout, formItemMap, formConfig} = useFormConfig(config);
 
   // 初始化 store 和清理
   useEffect(() => {
@@ -103,10 +104,9 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
       </div>
 
       {/* right  */}
-      <div style={{ flex: 1, position: 'relative' }} className='fa-flex-column'>
+      <div style={{ flex: 1, position: 'relative' }} className='fa-flex-column fa-card-p0'>
         {/* toolbar */}
-        <div style={{ height: 40 }} className='fa-border-b fa-flex-row-center'>
-          toolbar
+        <div style={{ height: 40 }} className='fa-border-b fa-flex-row-center fa-gap12 fa-pl12 fa-pr12'>
           {config && (
             <Space>
               <FaFormShowModal title="预览表单" config={config}>
@@ -121,7 +121,7 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
 
         {/* form canvas */}
         <FaFlexRestLayout>
-          <Form>
+          <Form layout={formConfig.layout} labelCol={{ style: { width: formConfig.labelWidth } }} wrapperCol={{ style: {}}} >
             <div className='fa-full-content' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <FaGridLayout
                 containerStyle={{ width: '100%', height: '100%', position: 'relative', background: 'var(--fa-bg-color)' }}
@@ -200,10 +200,13 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
         </FaFlexRestLayout>
       </div>
 
-      <div style={{ width: 300 }} className='fa-border-l'>
-        <h1>表单属性</h1>
-
-        <FormItemPropertyPanel />
+      <div style={{ width: 300 }} className='fa-card-p0 fa-tabs-block'>
+        <Tabs
+          items={[
+            { key: 'formItemProperty', label: '控件属性', children: <FormItemPropertyPanel /> },
+            { key: 'formProperty', label: '表单属性', children: <FormPropertyPanel /> },
+          ]}
+        />
       </div>
     </div>
   );

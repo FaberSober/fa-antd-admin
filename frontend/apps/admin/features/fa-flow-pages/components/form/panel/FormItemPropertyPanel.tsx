@@ -45,11 +45,11 @@ export default function FormItemPropertyPanel() {
   }
 
   return (
-    <div>
-      <h3>选中项 ID: {selectedFormItem.id}</h3>
+    <div className='fa-flex-column fa-p12 fa-scroll-auto-y'>
+      <div className='fa-h3 fa-mb12'>选中项 ID: {selectedFormItem.id}</div>
 
       <div>
-        <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}
+        <Form form={form} styles={{ label: { width: 80 }}}
           onValuesChange={(cv, av) => {
             console.log('FormItemPanel form values changed', cv, av);
             // update label from name

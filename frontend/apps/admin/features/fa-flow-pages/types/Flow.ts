@@ -445,12 +445,16 @@ namespace Flow {
     children?: FlowFormItem[];
   }
 
+  export interface FlowFormProperty {
+    name: string;
+    description: string;
+    labelWidth: number;
+    layout: 'horizontal' | 'vertical' | 'inline';
+  }
+
   export interface FlowFormConfig {
     /** 表单配置 */
-    formConfig: {
-      name: string;
-      description: string;
-    };
+    formConfig: FlowFormProperty;
     /** 表单项布局 */
     layout: Layout;
     /** 表单项映射 */

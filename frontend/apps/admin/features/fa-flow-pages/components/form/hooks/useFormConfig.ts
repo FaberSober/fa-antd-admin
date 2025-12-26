@@ -8,6 +8,14 @@ export default function useFormConfig(config: Flow.FlowFormConfig) {
     const formItemMap = useMemo(() => {
       return config?.formItemMap || {};
     }, [config]);
+    const formConfig = useMemo(() => {
+      return config?.formConfig || {
+        name: '',
+        description: '',
+        labelWidth: 80,
+        layout: 'horizontal',
+      };
+    }, [config]);
 
-    return { layout, formItemMap };
+    return { layout, formItemMap, formConfig };
 }
