@@ -19,7 +19,7 @@ export default function FaFormShow({ config, ...props }: FaFormShowProps) {
   const {layout, formItemMap, formConfig} = useFormConfig(config);
 
   return (
-    <div>
+    <div className='fa-full fa-scroll-auto-y'>
       <Form layout={formConfig.layout} labelCol={{ style: { width: formConfig.labelWidth } }} wrapperCol={{ style: {}}} {...props}>
         {/* Render form items based on config */}
         <FaGridLayout

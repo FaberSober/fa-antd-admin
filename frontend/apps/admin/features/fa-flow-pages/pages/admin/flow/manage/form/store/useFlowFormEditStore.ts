@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 import type { Flow } from '@/types'
 import { flowFormApi } from '@/services';
+import { table } from 'console';
 
 interface FlowFormEditState {
   flowForm: Flow.FlowForm | null;
@@ -66,7 +67,10 @@ export const useFlowFormEditStore = create(
           ...state.flowForm,
           tableConfig: {
             ...state.flowForm.tableConfig,
-            detail,
+            table: {
+              ...state.flowForm.tableConfig?.table,
+              detail,
+            },
           },
         };
         flowFormApi.update(state.flowForm.id, { tableConfig: newFlowForm.tableConfig })

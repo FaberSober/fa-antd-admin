@@ -441,6 +441,7 @@ namespace Flow {
     tableName?: string;
     name?: string;
     label?: string;
+    placeholder?: string;
     rules?: Array<Record<string, any>>;
     children?: FlowFormItem[];
   }

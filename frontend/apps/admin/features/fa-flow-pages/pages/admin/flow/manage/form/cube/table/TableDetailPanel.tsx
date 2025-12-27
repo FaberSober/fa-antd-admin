@@ -16,7 +16,7 @@ export default function TableDetailPanel() {
   }, [flowForm]);
 
   return (
-    <Form form={form} layout='vertical' className='fa-p12'
+    <Form form={form} className='fa-p12'
       onValuesChange={(cv, av) => {
         updateFlowFormTableConfigTableDetail({...flowForm!.tableConfig!.table!.detail, ...av});
       }}

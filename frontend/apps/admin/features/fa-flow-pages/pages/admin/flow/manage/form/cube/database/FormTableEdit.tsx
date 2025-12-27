@@ -5,8 +5,10 @@ import FormTableCreateModal from './FormTableCreateModal';
 import { flowFormApi } from '@features/fa-flow-pages/services';
 import { set } from 'lodash';
 import FormTableColumnTable from './FormTableColumnTable';
-import { Empty } from 'antd';
+import { Button, Empty, Space } from 'antd';
 import { resortColumnsByConfig } from '../utils';
+import './FormTableEdit.scss';
+import clsx from 'clsx';
 
 export interface FormTableEditProps {
   item: Flow.FlowForm;
@@ -72,10 +74,10 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
 
   // console.log('hasMainTable', hasMainTable);
   return (
-    <div className='fa-full fa-flex-row'>
-      <div style={{ width: 300 }} className='fa-border-r fa-p12'>
+    <div className='fa-full fa-flex-row fa-gap12'>
+      <div style={{ width: 250 }} className='fa-card'>
         {hasMainTable && (
-          <div className='fa-normal-btn'
+          <div className={clsx('fa-form-table-item', tableName === itemClone?.dataConfig?.main?.tableName ? 'fa-form-table-item-active' : '')}
             onClick={() =>{
               const clickTableName = itemClone?.dataConfig?.main?.tableName;
               if (clickTableName === tableName) {
@@ -90,7 +92,10 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
                 }
               });
             }}
-          >{itemClone?.dataConfig?.main?.tableName}</div>
+          >
+            <div className="i-material-symbols:table fa-form-item-icon"/>
+            <span>{itemClone?.dataConfig?.main?.tableName}</span>
+          </div>
         )}
         {!isMainTableCreated && (
           <FormTableCreateModal
@@ -99,9 +104,13 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
             fetchFinish={handleCreateMainTableFinish}
           />
         )}
+        <Space className='fa-mt12'>
+          <Button>新增子表</Button>
+          <Button>关联子表</Button>
+        </Space>
       </div>
 
-      <FaFlexRestLayout>
+      <FaFlexRestLayout className="fa-full-content fa-card">
         <div className='fa-p-16 fa-full'>
           {tableInfo && tableInfo.exist ? (
             <FormTableColumnTable item={itemClone} tableInfo={tableInfo} onColumnsChange={handleColumnsChange} />

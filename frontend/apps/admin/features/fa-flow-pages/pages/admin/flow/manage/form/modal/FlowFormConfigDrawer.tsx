@@ -3,8 +3,8 @@ import { CalculatorOutlined, DatabaseOutlined, FormOutlined, OrderedListOutlined
 import { FaFlexRestLayout, FaHref } from '@fa/ui';
 import { FaFormEditor } from '@features/fa-flow-pages/components';
 import { Button, Drawer, Segmented, Space, Tabs } from 'antd';
-import { isEqual } from 'lodash';
-import { useEffect, useState } from 'react';
+import { debounce, isEqual } from 'lodash';
+import { useEffect, useMemo, useState } from 'react';
 import FormTableEdit from '../cube/database/FormTableEdit';
 import TableShowDesign from '../cube/table/TableShowDesign';
 import { useFlowFormEditStore } from '../store/useFlowFormEditStore';
@@ -35,13 +35,32 @@ export default function FlowFormConfigDrawer({ itemId, refresh }: FlowFormConfig
     }
   }, [itemId]);
 
+  // 1. 创建一个防抖的 API 更新函数
+  const debouncedApiUpdate = useMemo(
+    () =>
+      debounce((id: number, config: any) => {
+        flowFormApi.update(id, { config }).then(() => {
+          console.log('API updated');
+        });
+      }, 1000), // 设置 1 秒延迟
+    []
+  );
+
+  // 2. 在组件销毁时，取消防抖任务，防止内存泄漏或异常回调
+  useEffect(() => {
+    return () => debouncedApiUpdate.cancel();
+  }, [debouncedApiUpdate]);
+
   function handleConfigChange(config: any) {
+    if (!flowForm) return;
     // compare with previous config
     if (!isEqual(flowForm?.config, config)) {
+      // A. 立即更新本地 State，确保拖拽和输入框不卡顿
       setFlowForm({...flowForm!, config});
-      // config changed, update via API
-      flowFormApi.update(flowForm!.id, { config }).then(() => {
-      });
+
+      // B. 触发防抖 API 调用
+      // 注意：这里需要显式传入 id 和 config，不要直接在 debounce 内部闭包引用 flowForm
+      debouncedApiUpdate(flowForm.id, config);
     }
   }
 
@@ -92,7 +111,7 @@ export default function FlowFormConfigDrawer({ itemId, refresh }: FlowFormConfig
                   />
                 </div>
 
-                <FaFlexRestLayout>
+                <FaFlexRestLayout style={{ overflow: 'hidden' }}>
                   {tab === 'form' && (
                     <FaFormEditor
                       flowForm={flowForm}

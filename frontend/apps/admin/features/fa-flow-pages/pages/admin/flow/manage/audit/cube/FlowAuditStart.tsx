@@ -113,7 +113,7 @@ export default function FlowAuditStart() {
                                 {flow.processKey.startsWith('testLeave') && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} onLoadingChange={setFormLoading} />)}
                                 {/* 自定义表单 */}
                                 {flow.formType === FlowEnums.FlowProcessFormType.CUSTOM && (
-                                  <div>
+                                  <div className='fa-full-content'>
                                     <FaFlowForm
                                       formId={flow.formId}
                                       form={form}

@@ -125,7 +125,7 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
             <div className='fa-full-content' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <FaGridLayout
                 containerStyle={{ width: '100%', height: '100%', position: 'relative', background: 'var(--fa-bg-color)' }}
-                style={{height: '100%'}}
+                style={{height: '100%', overflow: 'auto'}}
                 layout={layout}
                 renderItem={(i) => {
                   const formItem = formItemMap[i.i];

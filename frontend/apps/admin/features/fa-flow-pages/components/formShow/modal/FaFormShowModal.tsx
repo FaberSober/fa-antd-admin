@@ -29,9 +29,10 @@ export default function FaFormShowModal({ children, config, ...props }: FaFormSh
         onCancel={() => setOpen(false)}
         width={800}
         mask={false}
+        style={{ top: 44 }}
         {...props}
       >
-        <FaFormShow config={config} style={{height: 600}} />
+        <FaFormShow config={config} style={{height: 'calc(100vh - 220px)'}} />
       </DragModal>
     </span>
   );

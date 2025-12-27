@@ -1,0 +1,18 @@
+.fa-form-table-item {
+  border-bottom: 1px solid var(--fa-border-color);
+  padding: 8px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all ease 0.2s;
+}
+
+.fa-form-table-item:hover {
+  background-color: var(--fa-bg-color-hover);
+}
+
+.fa-form-table-item-active {
+  background-color: var(--primary-color-light500);
+  border-color: var(--primary-color);
+}

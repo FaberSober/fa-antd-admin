@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo } from 'react';
 import { useFaFormStore } from '../stores/useFaFormStore';
 import { isNil } from 'lodash';
-import { Form, Input, Select } from 'antd';
+import { Empty, Form, Input, Select } from 'antd';
+import FormItemInputProperty from './item/FormItemInputProperty';
 
 /**
  * @author xu.pengfei
@@ -19,6 +20,7 @@ export default function FormItemPropertyPanel() {
       tableName: selectedFormItem?.tableName,
       name: selectedFormItem?.name,
       label: selectedFormItem?.label,
+      ...selectedFormItem,
     });
   }, [selectedFormItem]);
 
@@ -41,7 +43,7 @@ export default function FormItemPropertyPanel() {
   }, [flowForm]);
 
   if (isNil(selectedFormItem)) {
-    return <div>未选中任何表单项</div>;
+    return <Empty description="未选择表单项" className='fa-mt12' />;
   }
 
   return (
@@ -73,6 +75,8 @@ export default function FormItemPropertyPanel() {
             <Input />
             {/* TODO add button: sync label from name */}
           </Form.Item>
+
+          {selectedFormItem.type === 'input' && (<FormItemInputProperty />)}
         </Form>
       </div>
     </div>

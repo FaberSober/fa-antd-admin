@@ -50,7 +50,12 @@ export const useFaFormStore = create<FaFormState>()(
             type,
           };
           const newFormItemMap = { ...state.config.formItemMap, [newItem.id]: newItem };
-          const h = ['row', 'textarea'].includes(type) ? 2 : 1;
+          let h = 1;
+          if (['row', 'textarea', 'imageupload'].includes(type)) {
+            h = 2;
+          } else if (['richtext'].includes(type)) {
+            h = 3;
+          }
           const newLayout = [
             ...layout.filter((l) => l.i !== itemLayout.i),
             { ...itemLayout, h, i: newItem.id },
