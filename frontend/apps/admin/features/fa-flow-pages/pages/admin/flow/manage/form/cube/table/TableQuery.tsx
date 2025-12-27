@@ -18,7 +18,7 @@ export default function TableQuery({ }: TableQueryProps) {
     const fields: Flow.FlowFormDataConfigColumn[] = []
     if (flowForm && flowForm.dataConfig && flowForm.dataConfig.main && flowForm.dataConfig.main.columns) {
       each(flowForm.dataConfig.main.columns, col => {
-        fields.push(col)
+        fields.push({ ...col, table: flowForm.dataConfig.main.tableName })
       })
     }
     return fields;
@@ -53,7 +53,9 @@ export default function TableQuery({ }: TableQueryProps) {
             if (!flowForm) return;
             const queryColumns: Flow.TableConfigQueryColumn[] = selectedRows.map((item, index) => {
               return {
+                table: item.table,
                 field: item.field,
+                dataType: item.dataType,
                 label: item.comment||item.field,
                 queryType: 'like',
                 default: '',

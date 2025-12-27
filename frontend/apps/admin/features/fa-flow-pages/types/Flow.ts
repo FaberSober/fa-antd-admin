@@ -381,8 +381,11 @@ namespace Flow {
   }
 
   export interface TableConfigQueryColumn {
+    table: string;
     field: string;
     label: string;
+    /** 纯类型（如 varchar） */
+    dataType: string;
     queryType: 'eq'|'like'|'in';
     default?: string;
     multiple: boolean;
@@ -390,8 +393,11 @@ namespace Flow {
   }
 
   export interface TableConfigTableColumn {
-    filed: string;
+    table: string;
+    field: string;
     label: string;
+    /** 纯类型（如 varchar） */
+    dataType: string;
     sorter: boolean; // 是否排序
     fix: 'left'|'right'|'none',
     width?: number;
@@ -413,6 +419,7 @@ namespace Flow {
   }
 
   export interface FlowFormDataConfigColumn extends TableColumnVo {
+    table: string;
     sort: number;
   }
 

@@ -40,7 +40,7 @@ export default function FormTableColumnEdit({ column, onSuccess }: FormTableColu
         </div>
         {/* 字段 */}
         <div style={{ flex: 1 }}>
-          {column.filed}
+          {column.field}
         </div>
         {/* 排序 */}
         <div style={{ width: 100, textAlign: 'center' }}>

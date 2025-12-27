@@ -30,7 +30,7 @@ export default function TableColumnList({}: TableColumnListProps) {
       </div>
 
       <FaSortList
-        rowKey='filed'
+        rowKey='field'
         list={columns}
         renderItem={(i) => (
           <FormTableColumnEdit

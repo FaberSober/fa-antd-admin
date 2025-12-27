@@ -39,6 +39,9 @@ class Api extends BaseApi<Flow.FlowForm, number> {
   /** 分页查询自定义表单 */
   pageFormData = (params: QueryFormDataVo): Promise<Fa.Ret<Fa.Page<any>>> => this.post('pageFormData', params);
 
+  /** id删除 */
+  removeFormData = (id: any): Promise<Fa.Ret> => this.delete(`removeFormData/${id}`);
+
 }
 
 export default new Api(GATE_APP.flow.form, 'flowForm');

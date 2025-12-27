@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 import type { Flow } from '@/types'
 import { flowFormApi } from '@/services';
-import { table } from 'console';
+
 
 interface FlowFormEditState {
   flowForm: Flow.FlowForm | null;
@@ -45,7 +45,7 @@ export const useFlowFormEditStore = create(
       updateFlowFormTableConfigTableColumn: (column: Flow.TableConfigTableColumn) => set((state) => {
         if (!state.flowForm) return {};
         const columns = state.flowForm.tableConfig?.table?.columns || [];
-        const index = columns.findIndex(c => c.filed === column.filed);
+        const index = columns.findIndex(c => c.field === column.field);
         if (index === -1) return {};
         columns[index] = column;
         const newFlowForm = {

@@ -18,7 +18,7 @@ export default function TableColumn({ }: TableColumnProps) {
     const fields: Flow.FlowFormDataConfigColumn[] = []
     if (flowForm && flowForm.dataConfig && flowForm.dataConfig.main && flowForm.dataConfig.main.columns) {
       each(flowForm.dataConfig.main.columns, col => {
-        fields.push(col)
+        fields.push({ ...col, table: flowForm.dataConfig.main.tableName })
       })
     }
     return fields;
@@ -29,7 +29,7 @@ export default function TableColumn({ }: TableColumnProps) {
     const keys: string[] = []
     const tableColumns = get(flowForm, 'tableConfig.table.columns', []);
     each(tableColumns, col => {
-      keys.push(col.filed)
+      keys.push(col.field)
     })
     return keys;
   }, [flowForm])
@@ -53,7 +53,9 @@ export default function TableColumn({ }: TableColumnProps) {
             if (!flowForm) return;
             const tableColumns: Flow.TableConfigTableColumn[] = selectedRows.map((item, index) => {
               return {
-                filed: item.field,
+                table: item.table,
+                field: item.field,
+                dataType: item.dataType,
                 label: item.comment||item.field,
                 sorter: false,
                 fix: 'none',

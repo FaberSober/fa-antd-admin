@@ -1,10 +1,10 @@
 import { flowFormApi } from '@/services';
 import { Flow } from '@/types';
 import { SearchOutlined } from '@ant-design/icons';
-import { AuthDelBtn, BaseBizTable, BaseTableUtils, clearForm, FaberTable, useTableQueryParams } from '@fa/ui';
+import { AuthDelBtn, BaseBizTable, BaseTableUtils, clearForm, FaberTable, useDelete, useTableQueryParams } from '@fa/ui';
 import { Button, Form, Input, Space } from 'antd';
 import { each } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 export interface FlowFormDataTableProps {
   flowForm: Flow.FlowForm;
@@ -20,7 +20,7 @@ export default function FlowFormDataTable({ flowForm }: FlowFormDataTableProps) 
   const {queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps} =
     useTableQueryParams<any>(flowFormApi.pageFormData, { flowFormId: flowForm.id }, flowForm.name);
 
-  // const [handleDelete] = useDelete<number>(api.remove, fetchPageList, serviceName);
+  const [handleDelete] = useDelete<number>(flowFormApi.removeFormData, fetchPageList, flowForm.name);
   // const [exporting, fetchExportExcel] = useExport(api.exportExcel, queryParams);
 
   function genColumns() {
@@ -29,18 +29,18 @@ export default function FlowFormDataTable({ flowForm }: FlowFormDataTableProps) 
       BaseTableUtils.genIndexColumn(paginationProps),
     ] as FaberTable.ColumnsProp<any>[];
 
-    each(flowForm.dataConfig.main.columns, col => {
-      columns.push(BaseTableUtils.genSimpleSorterColumn(col.comment || col.field, col.field, 100, sorter))
+    each(flowForm.tableConfig.table.columns, col => {
+      columns.push(BaseTableUtils.genSimpleSorterColumn(col.label || col.field, col.field, col.width, sorter))
     })
 
     columns.push(
-      BaseTableUtils.genTimeSorterColumn('创建时间', 'crtTime', 170, sorter),
+      // BaseTableUtils.genTimeSorterColumn('创建时间', 'crtTime', 170, sorter),
       {
         title: '操作',
         dataIndex: 'opr',
         render: (_, r) => (
           <Space>
-            {/* <AuthDelBtn handleDelete={() => handleDelete(r.id)} /> */}
+            <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
           </Space>
         ),
         width: 120,
@@ -59,9 +59,13 @@ export default function FlowFormDataTable({ flowForm }: FlowFormDataTableProps) 
         <div className="fa-h3">{flowForm.name}</div>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <Form form={form} layout="inline" onFinish={setFormValues}>
-            <Form.Item name="name" label="姓名">
-              <Input placeholder="请输入姓名" allowClear />
-            </Form.Item>
+            {flowForm.tableConfig?.query?.columns?.map(col => {
+              return (
+                <Form.Item name={col.field} label={col.label} key={col.field}>
+                  <Input placeholder={`请输入${col.label}`} allowClear />
+                </Form.Item>
+              )
+            })}
 
             <Space>
               <Button htmlType="submit" loading={loading} icon={<SearchOutlined />}>查询</Button>
