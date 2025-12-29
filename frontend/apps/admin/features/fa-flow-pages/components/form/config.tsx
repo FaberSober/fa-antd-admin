@@ -1,5 +1,8 @@
 import { Flow } from "@/types";
 
+/**
+ * 通用表单组件列表
+ */
 export const FaFormItems: Flow.FaFormItem[] = [
   {
     type: 'input',
@@ -104,3 +107,21 @@ export const FaFormItems: Flow.FaFormItem[] = [
     group: 'formitem'
   },
 ]
+
+/**
+ * 业务表单组件列表
+ */
+export const FaFormItemsBiz: Flow.FaFormItem[] = [
+  {
+    type: 'biz_user_select',
+    name: '用户选择',
+    icon: <div className="i-material-symbols:person fa-form-item-icon"/>,
+    group: 'formitem'
+  },
+    {
+    type: 'biz_dept_select',
+    name: '部门选择',
+    icon: <div className="i-material-symbols:article-person-outline fa-form-item-icon"/>,
+    group: 'formitem'
+  },
+];
