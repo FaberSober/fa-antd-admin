@@ -84,7 +84,7 @@ export default function FlowTodo() {
         <Splitter.Panel>
           <div className="fa-flex-column fa-full fa-relative">
             {task && (
-              <div>
+              <div className="fa-full fa-relative">
                 <FlowInstanceDeal type="audit" instanceId={task.instanceId} taskId={task.taskId} onSuccess={() => refresh()} />
               </div>
             )}

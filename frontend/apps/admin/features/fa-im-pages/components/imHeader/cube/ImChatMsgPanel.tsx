@@ -563,7 +563,7 @@ export default function ImChatMsgPanel() {
                 <BaseDrawer
                   triggerDom={<Button type='text' icon={<EllipsisOutlined style={{fontSize: '24px'}} />}></Button>}
                   push={false}
-                  width={300}
+                  size={300}
                   title="聊天详情"
                 >
                   <ImChatDetail

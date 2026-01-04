@@ -470,7 +470,9 @@ namespace Flow {
   }
 
   // ------------------------------------------------- FormEditor -------------------------------------------------
-  export type FlowFormItemType = 'input' | 'inputnumber' | 'textarea' | 'switch' | 'radio' | 'checkbox' | 'select' | 'cascader' | 'datepicker' | 'timepicker' | 'fileupload' | 'imageupload' | 'colorpicker' | 'rating' | 'slider' | 'richtext' | 'link' | 'row';
+  export type FlowFormItemType = 'input' | 'inputnumber' | 'textarea' | 'switch' | 'radio' | 'checkbox' | 'select' | 'cascader' | 'datepicker' | 'timepicker' | 'fileupload' | 'imageupload' | 'colorpicker' | 'rating' | 'slider' | 'richtext' | 'link'
+                                  | 'biz_user_select' | 'biz_dept_select'
+                                  | 'row';
 
   export interface FaFormItem {
     type: FlowFormItemType;
