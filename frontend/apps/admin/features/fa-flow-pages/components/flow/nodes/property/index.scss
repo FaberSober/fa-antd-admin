@@ -1,0 +1,10 @@
+.fa-workflow-node-btn-cell {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 12px;
+
+  .ant-checkbox-wrapper {
+    width: 100px;
+  }
+}

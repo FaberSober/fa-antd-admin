@@ -1,14 +1,14 @@
-import React, { useMemo, useState } from 'react';
-import { Button, Form, Input, Space } from "antd";
 import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
-import { Flw } from "@features/fa-flow-pages/types";
 import { FaIcon } from '@fa/icons';
 import { BaseDrawer, FaFlexRestLayout, useOpen } from "@fa/ui";
-import AddNode from './AddNode';
+import { Flw } from "@features/fa-flow-pages/types";
+import { Button, Form, Input, Space, Tabs } from "antd";
+import { useMemo, useState } from 'react';
 import { useNode } from '../hooks';
-import { RbacRoleSelect } from "@features/fa-admin-pages/components";
-import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
-import { rbacRoleApi } from "@features/fa-admin-pages/services";
+import { useWorkFlowStore } from '../stores/useWorkFlowStore';
+import AddNode from './AddNode';
+import StartNodeBasicForm from './property/StartNodeBasicForm';
+import StartNodeAdvanceForm from "./property/StartNodeAdvanceForm";
 
 
 export interface PromoterProps {
@@ -17,6 +17,7 @@ export interface PromoterProps {
 }
 
 /**
+ * 流程节点-流程发起
  * @author xu.pengfei
  * @date 2025/8/19 20:22
  */
@@ -24,32 +25,11 @@ export default function Promoter({ node }: PromoterProps) {
   const [form] = Form.useForm();
   const [open, show, hide] = useOpen()
   const [loading, setLoading] = useState(false)
+  const [tab, setTab] = useState('basic');
 
-  const refreshNode = useWorkFlowStore(state => state.refreshNode);
   const readOnly = useWorkFlowStore(state => state.readOnly);
 
-  const { nodeCopy, setNodeCopy, updateNodeProps } = useNode(node)
-
-  async function onFinish(fieldsValue: any) {
-    try {
-      setLoading(true)
-      const res = await rbacRoleApi.getByIds(fieldsValue.nodeAssigneeIds);
-      const nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
-      const nodeNew = {
-        ...nodeCopy,
-        nodeAssigneeList,
-      }
-      setNodeCopy(nodeNew)
-      // 这里node是使用根config传来的节点引用，修改node内容，但不修改引用
-      Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
-      refreshNode();
-      setLoading(false)
-      hide()
-    } catch (e) {
-      console.error(e)
-      setLoading(false)
-    }
-  }
+  const { nodeCopy, updateNodeProps } = useNode(node)
 
   const text = useMemo(() => {
     if (nodeCopy.nodeAssigneeList && nodeCopy.nodeAssigneeList.length > 0) {
@@ -85,18 +65,32 @@ export default function Promoter({ node }: PromoterProps) {
           <Input value={nodeCopy.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)} />
         )}
       >
-        <Form form={form} layout="vertical" className="fa-flex-column fa-full" onFinish={onFinish} disabled={readOnly}>
+        <div className="fa-flex-column fa-full">
+          <Tabs
+            // 基础设置,高级设置,表单权限,流程事件,流程通知,超时处理
+            className='fa-tabs-block'
+            items={[
+              { key: 'basic', label: '基础设置' },
+              { key: 'advance', label: '高级设置' },
+              { key: 'formAuth', label: '表单权限' },
+              { key: 'flowEvent', label: '流程事件' },
+              { key: 'flowNotify', label: '流程通知' },
+              { key: 'overtime', label: '超时处理' },
+            ]}
+            accessKey={tab}
+            onChange={setTab}
+            size='small'
+          />
           <FaFlexRestLayout>
-            <Form.Item name="nodeAssigneeIds" label="发起角色" tooltip="谁可以发起此审批（不指定则默认所有人都可发起此审批）">
-              <RbacRoleSelect mode="multiple" />
-            </Form.Item>
+            {tab === 'basic' && (<StartNodeBasicForm node={node} />)}
+            {tab === 'advance' && (<StartNodeAdvanceForm node={node} />)}
           </FaFlexRestLayout>
 
           <Space>
-            <Button type="primary" icon={<SaveOutlined />} htmlType="submit" loading={loading} disabled={readOnly}>保存</Button>
+            <Button type="primary" icon={<SaveOutlined />} loading={loading} disabled={readOnly}>保存</Button>
             <Button onClick={() => hide()} icon={<RollbackOutlined />} disabled={readOnly}>取消</Button>
           </Space>
-        </Form>
+        </div>
       </BaseDrawer>
 
       <AddNode parentNode={node} />
