@@ -1,5 +1,5 @@
 import ZoomPanEditor from "@features/fa-flow-pages/components/flow/cubes/ZoomPanEditor";
-import { Flw } from "@features/fa-flow-pages/types";
+import { Flow, Flw } from "@features/fa-flow-pages/types";
 import { Tag } from 'antd';
 import clsx from 'clsx';
 import { useEffect } from 'react';
@@ -9,6 +9,8 @@ import { useWorkFlowStore } from './stores/useWorkFlowStore';
 
 
 export interface FaWorkFlowProps {
+  /** 流程配置 */
+  flowProcess: Flow.FlowProcess;
   /** 流程配置JSON */
   processModel: Flw.ProcessModel;
   onChange?: (processModel: Flw.ProcessModel) => void;
@@ -25,12 +27,26 @@ export interface FaWorkFlowProps {
  * @author xu.pengfei
  * @date 2025/8/19 17:34
  */
-export default function FaWorkFlow({ processModel, onChange, renderNodes, showLegends, readOnly = false }: FaWorkFlowProps) {
+export default function FaWorkFlow({ flowProcess, processModel, onChange, renderNodes, showLegends, readOnly = false }: FaWorkFlowProps) {
   // 从 Store 中获取设置方法和流程数据
+  const setFlowProcess = useWorkFlowStore(state => state.setFlowProcess);
   const setProcessModel = useWorkFlowStore(state => state.setProcessModel);
   const setExternalOnChange = useWorkFlowStore(state => state.setExternalOnChange);
   const setRenderNodes = useWorkFlowStore(state => state.setRenderNodes);
   const setReadOnly = useWorkFlowStore(state => state.setReadOnly);
+  const clear = useWorkFlowStore(state => state.clear);
+
+  // 清理 Store 数据，防止数据残留
+  useEffect(() => {
+    return () => {
+      console.log('FaWorkFlow unmount, clearing store data');
+      clear();
+    }
+  }, [clear]);
+
+  useEffect(() => {
+    setFlowProcess(flowProcess);
+  }, [flowProcess]);
 
   // 1. 同步外部传入的 processModel 到 Store (仅在 processModel 变化时执行)
   useEffect(() => {

@@ -9,6 +9,7 @@ import { useWorkFlowStore } from '../stores/useWorkFlowStore';
 import AddNode from './AddNode';
 import StartNodeBasicForm from './property/StartNodeBasicForm';
 import StartNodeAdvanceForm from "./property/StartNodeAdvanceForm";
+import NodeFormAuth from "./property/NodeFormAuth";
 
 
 export interface PromoterProps {
@@ -64,8 +65,9 @@ export default function Promoter({ node }: PromoterProps) {
         title={(
           <Input value={nodeCopy.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)} />
         )}
+        size={500}
       >
-        <div className="fa-flex-column fa-full">
+        <div className="fa-flex-column fa-full-content">
           <Tabs
             // 基础设置,高级设置,表单权限,流程事件,流程通知,超时处理
             className='fa-tabs-block'
@@ -80,10 +82,15 @@ export default function Promoter({ node }: PromoterProps) {
             accessKey={tab}
             onChange={setTab}
             size='small'
+            tabBarGutter={0}
+            styles={{
+              header: {marginBottom: 0}
+            }}
           />
           <FaFlexRestLayout>
             {tab === 'basic' && (<StartNodeBasicForm node={node} />)}
             {tab === 'advance' && (<StartNodeAdvanceForm node={node} />)}
+            {tab === 'formAuth' && (<NodeFormAuth node={node} />)}
           </FaFlexRestLayout>
 
           <Space>

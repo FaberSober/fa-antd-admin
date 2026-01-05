@@ -44,7 +44,7 @@ export default function StartNodeBasicForm({ node }: StartNodeBasicFormProps) {
   }
 
   return (
-    <Form form={form} layout="vertical" onFinish={onFinish} disabled={readOnly}>
+    <Form form={form} layout="vertical" onFinish={onFinish} disabled={readOnly} className='fa-p12'>
       <Form.Item name="nodeAssigneeIds" label="发起角色" tooltip="谁可以发起此审批（不指定则默认所有人都可发起此审批）">
         <RbacRoleSelect mode="multiple" />
       </Form.Item>

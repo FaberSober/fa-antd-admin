@@ -8,3 +8,36 @@
     width: 100px;
   }
 }
+
+.fa-form-auth-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 40px;
+}
+
+.fa-form-auth-header-tr {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  padding: 8px;
+  background: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background .3s ease;
+  color: #000000d9;
+  font-weight: 500;
+}
+
+.fa-form-auth-header-tr:not(:last-child):before {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 1px;
+  height: 1.6em;
+  background-color: #0000000f;
+  transform: translateY(-50%);
+  transition: background-color .3s;
+  content: "";
+}

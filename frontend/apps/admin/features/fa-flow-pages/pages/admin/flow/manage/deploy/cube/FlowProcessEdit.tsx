@@ -130,6 +130,7 @@ export default function FlowProcessEdit({item, onSuccess, viewOnly}: FlowProcess
         )}
         {current === 1 && (
           <FaWorkFlow
+            flowProcess={data}
             processModel={JSON.parse(data.modelContent)}
             onChange={v => setData(prev => ({ ...prev, modelContent: JSON.stringify(v) }))}
           />
