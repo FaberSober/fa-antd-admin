@@ -23,5 +23,11 @@ export default function useNode(node: Flw.Node, onNodeChange?: (n: Flw.Node) => 
     })
   }
 
-  return { nodeCopy, setNodeCopy, updateNodeProps }
+  function updateNode(values: Partial<Flw.Node>) {
+    setNodeCopy(prev => {
+      return { ...prev, ...values }
+    })
+  }
+
+  return { nodeCopy, setNodeCopy, updateNodeProps, updateNode }
 }

@@ -29,6 +29,7 @@ export default function Promoter({ node }: PromoterProps) {
   const [tab, setTab] = useState('basic');
 
   const readOnly = useWorkFlowStore(state => state.readOnly);
+  const refreshNode = useWorkFlowStore(state => state.refreshNode);
 
   const { nodeCopy, updateNodeProps } = useNode(node)
 
@@ -39,6 +40,12 @@ export default function Promoter({ node }: PromoterProps) {
       return "所有人"
     }
   }, [nodeCopy])
+
+  function handleSave() {
+    Object.assign(node, nodeCopy); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
+    refreshNode();
+    hide();
+  }
 
   function showDrawer() {
     show()
@@ -79,7 +86,7 @@ export default function Promoter({ node }: PromoterProps) {
               { key: 'flowNotify', label: '流程通知' },
               { key: 'overtime', label: '超时处理' },
             ]}
-            accessKey={tab}
+            activeKey={tab}
             onChange={setTab}
             size='small'
             tabBarGutter={0}
@@ -88,14 +95,14 @@ export default function Promoter({ node }: PromoterProps) {
             }}
           />
           <FaFlexRestLayout>
-            {tab === 'basic' && (<StartNodeBasicForm node={node} />)}
-            {tab === 'advance' && (<StartNodeAdvanceForm node={node} />)}
-            {tab === 'formAuth' && (<NodeFormAuth node={node} />)}
+            {tab === 'basic' && (<StartNodeBasicForm node={nodeCopy} />)}
+            {tab === 'advance' && (<StartNodeAdvanceForm node={nodeCopy} />)}
+            {tab === 'formAuth' && (<NodeFormAuth node={nodeCopy} onChange={ec => updateNodeProps('extendConfig', ec)} />)}
           </FaFlexRestLayout>
 
           <Space className="fa-p12 fa-border-t">
-            <Button type="primary" icon={<SaveOutlined />} loading={loading} disabled={readOnly}>保存</Button>
-            <Button onClick={() => hide()} icon={<RollbackOutlined />} disabled={readOnly}>取消</Button>
+            <Button onClick={handleSave} type="primary" icon={<SaveOutlined />} loading={loading} disabled={readOnly}>保存</Button>
+            <Button onClick={hide} icon={<RollbackOutlined />} disabled={readOnly}>取消</Button>
           </Space>
         </div>
       </BaseDrawer>

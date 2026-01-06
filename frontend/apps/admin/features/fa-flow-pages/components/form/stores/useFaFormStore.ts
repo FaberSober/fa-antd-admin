@@ -46,9 +46,9 @@ export const useFaFormStore = create<FaFormState>()(
       addFormItem: (type, itemLayout, layout) =>
         set((state) => {
           const newItem: Flow.FlowFormItem = {
-            id: FaUtils.generateId(),
+            id: type + '_' + layout.length + '_' + FaUtils.generateId(4),
             type,
-            label: type, // 这里要根据 type 设置默认 label
+            label: undefined, // 这里要根据 type 设置默认 label
           };
           const newFormItemMap = { ...state.config.formItemMap, [newItem.id]: newItem };
           let h = 1;

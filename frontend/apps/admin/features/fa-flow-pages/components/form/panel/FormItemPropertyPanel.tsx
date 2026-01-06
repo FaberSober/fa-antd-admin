@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo } from 'react';
 import { useFaFormStore } from '../stores/useFaFormStore';
-import { isNil } from 'lodash';
-import { Empty, Form, Input, Select } from 'antd';
+import { cloneDeep, isNil } from 'lodash';
+import { Button, Empty, Form, Input, Select, Space, Tag } from 'antd';
 import FormItemInputProperty from './item/FormItemInputProperty';
+import { SyncOutlined } from '@ant-design/icons';
+import { FaUtils } from '@fa/ui';
 
 /**
  * @author xu.pengfei
@@ -48,21 +50,25 @@ export default function FormItemPropertyPanel() {
 
   return (
     <div className='fa-flex-column fa-p12 fa-scroll-auto-y'>
-      <div className='fa-h3 fa-mb12'>选中项 ID: {selectedFormItem.id}</div>
+      <div className='fa-mb12'>
+        <Tag style={{fontSize: '13px'}} color='success' variant='solid' className='fa-hover' onClick={() => FaUtils.copyToClipboard(selectedFormItem.id)}>{selectedFormItem.id}</Tag>
+      </div>
 
       <div>
         <Form form={form} styles={{ label: { width: 80 }}}
+          // 1. 用户交互修改 → onValuesChange 自动同步 store
           onValuesChange={(cv, av) => {
             console.log('FormItemPanel form values changed', cv, av);
+            const avCopy = cloneDeep(av);
             // update label from name
             if (!av.label && cv.name) {
               const col = columnOptions.find(c => c.value === cv.name);
               if (col) {
-                av.label = col.label;
+                avCopy.label = col.label;
                 form.setFieldsValue({ label: col.label });
               }
             }
-            updateSelectedFormItem(av);
+            updateSelectedFormItem(avCopy);
           }}
         >
           <Form.Item name="tableName" label="数据库表" rules={[{ required: true }]}>
@@ -71,10 +77,19 @@ export default function FormItemPropertyPanel() {
           <Form.Item name="name" label="控件字段" rules={[{ required: true }]}>
             <Select options={columnOptions} />
           </Form.Item>
-          <Form.Item name="label" label="控件标题" rules={[{ required: true }]}>
-            <Input />
-            {/* TODO add button: sync label from name */}
-          </Form.Item>
+          <Space.Compact>
+            <Form.Item name="label" label="控件标题" rules={[{ required: true }]}>
+              <Input />
+            </Form.Item>
+            <Button icon={<SyncOutlined />} onClick={() => {
+              const col = columnOptions.find(c => c.value === form.getFieldValue('name'));
+              console.log('Sync label from name', col);
+              if (col) {
+                form.setFieldsValue({ label: col.label });
+                updateSelectedFormItem(form.getFieldsValue()); // 关键：手动同步，这里不会触发 onValuesChange
+              }
+            }}></Button>
+          </Space.Compact>
 
           {selectedFormItem.type === 'input' && (<FormItemInputProperty />)}
         </Form>

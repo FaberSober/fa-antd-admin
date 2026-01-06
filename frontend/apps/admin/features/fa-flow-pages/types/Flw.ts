@@ -116,18 +116,7 @@ namespace Flw {
      */
     approveSelf?: number;
     /** 扩展配置，用于存储表单权限、操作权限 等控制参数配置 */
-    extendConfig?: {
-      /** 表单权限 */
-      formAuth?: Record<string, {
-        /** 是否可见 */
-        visible: boolean;
-        /** 是否可编辑 */
-        editable: boolean;
-        /** 是否必填 */
-        required: boolean;
-      }>;
-      [key: string]: any;
-    };
+    extendConfig?: NodeExtendConfig;
     /** 子节点 */
     childNode?: Node;
     /** 父节点 */
@@ -142,6 +131,19 @@ namespace Flw {
      * 1，固定时长 2，自动计算
      */
     delayType?: number;
+  }
+
+  export interface NodeExtendConfig {
+    /** 表单权限 */
+    formAuth?: Record<string, {
+      /** 是否可见 */
+      view: boolean;
+      /** 是否可编辑 */
+      edit: boolean;
+      /** 是否必填 */
+      required: boolean;
+    }>;
+    [key: string]: any;
   }
 
   export interface ConditionNode {
