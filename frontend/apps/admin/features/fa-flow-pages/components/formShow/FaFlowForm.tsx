@@ -97,6 +97,7 @@ export default function FaFlowForm({ formId, form, flowNode, record, onLoadingCh
     <div className='fa-full-content'>
       <FaFormShow
         config={flowForm.config}
+        flowNode={flowNode}
         form={form}
         onFinish={onFinish}
         disabled={disabled}

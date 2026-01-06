@@ -21,6 +21,7 @@ import {
 import { UploadOutlined } from '@ant-design/icons';
 import { UploadFileLocal, UploadImgLocal } from '@fa/ui';
 import { DepartmentCascade, UserSearchSelect } from '@/components';
+import { get } from 'lodash';
 
 export interface FaFormEditorItemProps {
   formItem: Flow.FlowFormItem;
@@ -34,17 +35,23 @@ export interface FaFormEditorItemProps {
  */
 export default function FaFormEditorItem({ formItem, flowNode, onClickRowItem }: FaFormEditorItemProps) {
 
-  // get if viewable
-  const viewable = useMemo(() => {
-    if (!flowNode) return true;
-    return true;
+  const formItemConfig: Flw.NodeExtendConfigFormAuth = useMemo(() => {
+    const defaultConfig = { view: true, edit: true, required: false };
+    if (!flowNode) return defaultConfig;
+    const formAuth = flowNode.extendConfig?.formAuth || {};
+    const formItemAuth = formAuth[formItem.id || ''];
+    if (!formItemAuth) return defaultConfig;
+    return {
+      view: get(formItemAuth, 'view', true),
+      edit: get(formItemAuth, 'edit', true),
+      required: get(formItemAuth, 'required', false),
+    };
   }, [formItem, flowNode]);
+  // console.log('formItemConfig', formItem.name, flowNode, formItemConfig);
 
-  // get if editable
-  const editable = useMemo(() => {
-    if (!flowNode) return true;
-    return true;
-  }, [formItem, flowNode]);
+  const viewable = formItemConfig.view;
+  const editable = formItemConfig.edit;
+  const required = formItemConfig.required;
 
   if (!viewable) {
     return null;
@@ -56,11 +63,13 @@ export default function FaFormEditorItem({ formItem, flowNode, onClickRowItem }:
 
   return (
     <div>
-      <Form.Item label={formItem.label || '标签'} name={formItem.name}>
-        {formItem.type === 'input' && <Input placeholder={formItem.placeholder} />}
+      <Form.Item label={formItem.label || '标签'} name={formItem.name} rules={[{ required }]}>
+        {formItem.type === 'input' && (
+          <Input disabled={!editable} placeholder={formItem.placeholder} />
+        )}
         {/* 基础输入类组件 */}
         {formItem.type === 'inputnumber' && (
-          <InputNumber style={{ width: '100%' }} placeholder={formItem.placeholder} />
+          <InputNumber disabled={!editable} style={{ width: '100%' }} placeholder={formItem.placeholder} />
         )}
         {formItem.type === 'textarea' && (
           <Input.TextArea rows={4} placeholder={formItem.placeholder} style={{ height: '100%', resize: 'none' }} />

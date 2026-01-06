@@ -67,7 +67,7 @@ export default function FlowProcessList({ catagoryId }: FlowProcessListProps) {
       BaseTableUtils.genIdColumn('ID', 'id', 70, sorter),
       BaseTableUtils.genSimpleSorterColumn('流程分类', 'catagoryId', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('流程key', 'processKey', 100, sorter),
-      BaseTableUtils.genSimpleSorterColumn('流程', 'processName', 100, sorter),
+      BaseTableUtils.genSimpleSorterColumn('流程', 'processName', 150, sorter),
       // BaseTableUtils.genSimpleSorterColumn('图标', 'processIcon', 100, sorter),
       // BaseTableUtils.genSimpleSorterColumn('类型', 'processType', 100, sorter),
       {
