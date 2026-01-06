@@ -1,5 +1,5 @@
 import { flowCatagoryApi, flowProcessApi } from '@/services';
-import { Flow } from '@/types';
+import { Flow, Flw } from '@/types';
 import { ApartmentOutlined, FormOutlined } from '@ant-design/icons';
 import { BaseDrawer, BaseTree, FaFlexRestLayout, FaLazyContainer, FaUtils, useApiLoading } from '@fa/ui';
 import { FaFlowForm, FaWorkFlow } from '@features/fa-flow-pages/components';
@@ -77,6 +77,9 @@ export default function FlowAuditStart() {
           <div className="fa-flex-column fa-full fa-relative fa-plr12">
             <div className='fa-flex-row fa-flex-wrap fa-gap12'>
               {flows.map(flow => {
+                const processModel:Flw.ProcessModel = JSON.parse(flow.modelContent);
+                // get start node config
+                const startNode = processModel.nodeConfig;
                 return (
                   <div key={flow.id}>
                     <BaseDrawer
@@ -117,6 +120,7 @@ export default function FlowAuditStart() {
                                     <FaFlowForm
                                       formId={flow.formId}
                                       form={form}
+                                      flowNode={startNode}
                                       onSuccess={(fv) => handleFormSubmit(flow, fv)}
                                       onLoadingChange={setFormLoading}
                                     />
@@ -130,7 +134,7 @@ export default function FlowAuditStart() {
                             </div>
                           </FaLazyContainer>
                           <FaLazyContainer showCond={tab === 'workflow'}>
-                            <FaWorkFlow processModel={JSON.parse(flow.modelContent)} readOnly />
+                            <FaWorkFlow flowProcess={flow} processModel={JSON.parse(flow.modelContent)} readOnly />
                           </FaLazyContainer>
                         </FaFlexRestLayout>
 

@@ -1,5 +1,5 @@
 import { flowFormApi } from '@/services';
-import { Flow } from '@/types';
+import { Flow, Flw } from '@/types';
 import React, { useEffect, useState } from 'react';
 import { each, get, isNil, set } from 'lodash';
 import { FaUtils, PageLoading } from '@fa/ui';
@@ -10,6 +10,7 @@ import { getTableKeyMap } from './utils';
 export interface FaFlowFormProps<T = any> {
   formId: number;
   form: FormInstance<any>;
+  flowNode: Flw.Node;
   record?: T;
   onSuccess?: (record: T) => void;
   onLoadingChange?: (loading: boolean) => void;
@@ -20,7 +21,7 @@ export interface FaFlowFormProps<T = any> {
  * @author xu.pengfei
  * @date 2025-12-18 11:28:43
  */
-export default function FaFlowForm({ formId, form, record, onLoadingChange, onSuccess, disabled }: FaFlowFormProps) {
+export default function FaFlowForm({ formId, form, flowNode, record, onLoadingChange, onSuccess, disabled }: FaFlowFormProps) {
   const [flowForm, setFlowForm] = useState<Flow.FlowForm>();
 
   useEffect(() => {

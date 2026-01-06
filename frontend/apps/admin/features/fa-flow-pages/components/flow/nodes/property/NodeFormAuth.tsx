@@ -17,6 +17,7 @@ export interface NodeFormAuthProps {
  * @date 2026-01-05 10:12:14
  */
 export default function NodeFormAuth({ node, onChange }: NodeFormAuthProps) {
+  const readOnly = useWorkFlowStore(state => state.readOnly);
   const flowProcess = useWorkFlowStore(state => state.flowProcess);
   const [flowForm, setFlowForm] = useState<Flow.FlowForm>();
   const [formItems, setFormItems] = useState<Flow.FlowFormItem[]>([]);
@@ -35,6 +36,27 @@ export default function NodeFormAuth({ node, onChange }: NodeFormAuthProps) {
 
   const formAuth = node.extendConfig?.formAuth || {};
 
+  function processItemChecked(item: Flw.NodeExtendConfigFormAuth, perm: 'view' | 'edit' | 'required', checked: boolean) {
+    // 如果不可见，则自动取消可编辑和必填
+    if (perm === 'view' && !checked) {
+      item.edit = false;
+      item.required = false;
+    }
+    // 如果不可编辑，则自动取消必填
+    if (perm === 'edit' && !checked) {
+      item.required = false;
+    }
+    // 如果编辑，则自动可见
+    if (perm === 'edit' && checked) {
+      item.view = true;
+    }
+    // 如果必填，则自动可见和可编辑
+    if (perm === 'required' && checked) {
+      item.view = true;
+      item.edit = true;
+    }
+  }
+
   function handleCheckAllChange(perm: 'view' | 'edit' | 'required', checked: boolean) {
     formItems.forEach(item => {
       if (!formAuth[item.id]) {
@@ -45,6 +67,7 @@ export default function NodeFormAuth({ node, onChange }: NodeFormAuthProps) {
         };
       }
       formAuth[item.id][perm] = checked;
+      processItemChecked(formAuth[item.id], perm, checked);
     });
     // update node extendConfig
     node.extendConfig = {
@@ -64,6 +87,7 @@ export default function NodeFormAuth({ node, onChange }: NodeFormAuthProps) {
       };
     }
     formAuth[itemId][perm] = checked;
+    processItemChecked(formAuth[itemId], perm, checked);
     // update node extendConfig
     node.extendConfig = {
       ...node.extendConfig,
@@ -73,18 +97,31 @@ export default function NodeFormAuth({ node, onChange }: NodeFormAuthProps) {
     onChange && onChange(node.extendConfig!);
   }
 
+  // 全部查看
+  let allViewChecked = formItems.length > 0 && formItems.every(item => formAuth[item.id]?.view);
+  // 全部查看-半勾选
+  let allViewIndeterminate = formItems.some(item => formAuth[item.id]?.view) && !allViewChecked;
+  // 全部编辑
+  let allEditChecked = formItems.length > 0 && formItems.every(item => formAuth[item.id]?.edit);
+  // 全部编辑-半勾选
+  let allEditIndeterminate = formItems.some(item => formAuth[item.id]?.edit) && !allEditChecked;
+  // 全部必填
+  let allRequiredChecked = formItems.length > 0 && formItems.every(item => formAuth[item.id]?.required);
+  // 全部必填-半勾选
+  let allRequiredIndeterminate = formItems.some(item => formAuth[item.id]?.required) && !allRequiredChecked;
+
   return (
     <div className='fa-flex-column fa-full'>
       <div className='fa-form-auth-header'>
         <div className='fa-form-auth-header-tr' style={{flex: 1}}>表单字段</div>
         <div className='fa-form-auth-header-tr' style={{width: 80}}>
-          <Checkbox onChange={e => handleCheckAllChange('view', e.target.checked)}>查看</Checkbox>
+          <Checkbox disabled={readOnly} onChange={e => handleCheckAllChange('view', e.target.checked)} indeterminate={allViewIndeterminate} checked={allViewChecked}>查看</Checkbox>
         </div>
         <div className='fa-form-auth-header-tr' style={{width: 80}}>
-          <Checkbox onChange={e => handleCheckAllChange('edit', e.target.checked)}>编辑</Checkbox>
+          <Checkbox disabled={readOnly} onChange={e => handleCheckAllChange('edit', e.target.checked)} indeterminate={allEditIndeterminate} checked={allEditChecked}>编辑</Checkbox>
         </div>
         <div className='fa-form-auth-header-tr' style={{width: 80}}>
-          <Checkbox onChange={e => handleCheckAllChange('required', e.target.checked)}>必填</Checkbox>
+          <Checkbox disabled={readOnly} onChange={e => handleCheckAllChange('required', e.target.checked)} indeterminate={allRequiredIndeterminate} checked={allRequiredChecked}>必填</Checkbox>
         </div>
       </div>
       <FaFlexRestLayout>
@@ -98,13 +135,13 @@ export default function NodeFormAuth({ node, onChange }: NodeFormAuthProps) {
                 {item.label}
               </div>
               <div className='fa-form-auth-body-td' style={{width: 80}}>
-                <Checkbox checked={viewChecked} onChange={e => handleCheckChange(item.id, 'view', e.target.checked)}>查看</Checkbox>
+                <Checkbox disabled={readOnly} checked={viewChecked} onChange={e => handleCheckChange(item.id, 'view', e.target.checked)}>查看</Checkbox>
               </div>
               <div className='fa-form-auth-body-td' style={{width: 80}}>
-                <Checkbox checked={editChecked} onChange={e => handleCheckChange(item.id, 'edit', e.target.checked)}>编辑</Checkbox>
+                <Checkbox disabled={readOnly} checked={editChecked} onChange={e => handleCheckChange(item.id, 'edit', e.target.checked)}>编辑</Checkbox>
               </div>
               <div className='fa-form-auth-body-td' style={{width: 80}}>
-                <Checkbox checked={requiredChecked} onChange={e => handleCheckChange(item.id, 'required', e.target.checked)}>必填</Checkbox>
+                <Checkbox disabled={readOnly} checked={requiredChecked} onChange={e => handleCheckChange(item.id, 'required', e.target.checked)}>必填</Checkbox>
               </div>
           </div>
           )

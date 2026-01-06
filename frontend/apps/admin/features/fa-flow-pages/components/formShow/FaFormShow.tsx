@@ -1,5 +1,5 @@
 import { FaGridLayout } from '@/components';
-import { Flow } from '@/types';
+import { Flow, Flw } from '@/types';
 import { FaUtils } from '@fa/ui';
 import { Form, FormProps } from 'antd';
 import FaFormEditorItem from '../form/cube/FaFormEditorItem';
@@ -8,13 +8,14 @@ import './index.scss';
 
 export interface FaFormShowProps extends FormProps<any> {
   config: Flow.FlowFormConfig;
+  flowNode: Flw.Node;
 }
 
 /**
  * @author xu.pengfei
  * @date 2025-12-17 11:10:21
  */
-export default function FaFormShow({ config, ...props }: FaFormShowProps) {
+export default function FaFormShow({ config, flowNode, ...props }: FaFormShowProps) {
 
   const {layout, formItemMap, formConfig} = useFormConfig(config);
 
@@ -37,7 +38,7 @@ export default function FaFormShow({ config, ...props }: FaFormShowProps) {
                     FaUtils.preventEvent(e);
                   }}
                 >
-                  <FaFormEditorItem formItem={formItem} />
+                  <FaFormEditorItem formItem={formItem} flowNode={flowNode} />
                 </div>
               );
             }

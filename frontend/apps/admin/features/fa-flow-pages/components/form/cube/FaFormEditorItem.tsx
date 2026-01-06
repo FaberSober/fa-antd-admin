@@ -1,5 +1,5 @@
-import { Flow } from '@/types';
-import React from 'react';
+import { Flow, Flw } from '@/types';
+import React, { useMemo } from 'react';
 import RowContainer from '../components/RowContainer';
 import {
   DatePicker,
@@ -25,13 +25,30 @@ import { DepartmentCascade, UserSearchSelect } from '@/components';
 export interface FaFormEditorItemProps {
   formItem: Flow.FlowFormItem;
   onClickRowItem?: (item: Flow.FlowFormItem) => void;
+  flowNode?: Flw.Node;
 }
 
 /**
  * @author xu.pengfei
  * @date 2025-12-18 09:49:58
  */
-export default function FaFormEditorItem({ formItem, onClickRowItem }: FaFormEditorItemProps) {
+export default function FaFormEditorItem({ formItem, flowNode, onClickRowItem }: FaFormEditorItemProps) {
+
+  // get if viewable
+  const viewable = useMemo(() => {
+    if (!flowNode) return true;
+    return true;
+  }, [formItem, flowNode]);
+
+  // get if editable
+  const editable = useMemo(() => {
+    if (!flowNode) return true;
+    return true;
+  }, [formItem, flowNode]);
+
+  if (!viewable) {
+    return null;
+  }
 
   if (formItem.type === 'row') {
     return (<RowContainer row={formItem} onClickRowItem={onClickRowItem} />);

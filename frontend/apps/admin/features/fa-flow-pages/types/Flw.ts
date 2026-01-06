@@ -135,15 +135,17 @@ namespace Flw {
 
   export interface NodeExtendConfig {
     /** 表单权限 */
-    formAuth?: Record<string, {
-      /** 是否可见 */
-      view: boolean;
-      /** 是否可编辑 */
-      edit: boolean;
-      /** 是否必填 */
-      required: boolean;
-    }>;
+    formAuth?: Record<string, NodeExtendConfigFormAuth>;
     [key: string]: any;
+  }
+
+  export interface NodeExtendConfigFormAuth {
+    /** 是否可见 */
+    view: boolean;
+    /** 是否可编辑 */
+    edit: boolean;
+    /** 是否必填 */
+    required: boolean;
   }
 
   export interface ConditionNode {
