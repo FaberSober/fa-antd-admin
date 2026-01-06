@@ -116,7 +116,18 @@ namespace Flw {
      */
     approveSelf?: number;
     /** 扩展配置，用于存储表单权限、操作权限 等控制参数配置 */
-    extendConfig?: Record<string, any>;
+    extendConfig?: {
+      /** 表单权限 */
+      formAuth?: Record<string, {
+        /** 是否可见 */
+        visible: boolean;
+        /** 是否可编辑 */
+        editable: boolean;
+        /** 是否必填 */
+        required: boolean;
+      }>;
+      [key: string]: any;
+    };
     /** 子节点 */
     childNode?: Node;
     /** 父节点 */

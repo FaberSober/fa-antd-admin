@@ -24,7 +24,7 @@
   position: relative;
   padding: 8px;
   background: #fafafa;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--fa-border-color);
   transition: background .3s ease;
   color: #000000d9;
   font-weight: 500;
@@ -40,4 +40,21 @@
   transform: translateY(-50%);
   transition: background-color .3s;
   content: "";
+}
+
+.fa-form-auth-body-tr {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 40px;
+  border-bottom: 1px solid var(--fa-border-color);
+}
+
+.fa-form-auth-body-td {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  padding: 8px;
 }

@@ -93,7 +93,7 @@ export default function Promoter({ node }: PromoterProps) {
             {tab === 'formAuth' && (<NodeFormAuth node={node} />)}
           </FaFlexRestLayout>
 
-          <Space>
+          <Space className="fa-p12 fa-border-t">
             <Button type="primary" icon={<SaveOutlined />} loading={loading} disabled={readOnly}>保存</Button>
             <Button onClick={() => hide()} icon={<RollbackOutlined />} disabled={readOnly}>取消</Button>
           </Space>
