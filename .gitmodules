@@ -38,3 +38,11 @@
 	path = frontend/apps/admin/features/fa-app-pages
 	url = git@github.com:FaberSober/fa-app-pages.git
 	branch = main
+[submodule "fa-media"]
+	path = fa-media
+	url = git@github.com:FaberSober/fa-media.git
+	branch = main
+[submodule "frontend/apps/admin/features/fa-media-pages"]
+	path = frontend/apps/admin/features/fa-media-pages
+	url = git@github.com:FaberSober/fa-media-pages.git
+	branch = main
