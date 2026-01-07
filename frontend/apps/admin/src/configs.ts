@@ -4,6 +4,7 @@ import configApp from '@features/fa-app-pages/configs';
 import configDisk from '@features/fa-disk-pages/configs';
 import configFlow from '@features/fa-flow-pages/configs';
 import configIm from '@features/fa-im-pages/configs';
+import configMedia from '@features/fa-media-pages/configs';
 
 import { merge } from 'lodash';
 
@@ -42,7 +43,7 @@ const SITE_INFO: SITE_INFO_TYPES = {
   ADMIN_DEFAULT_LAYOUT: [{ h: 3, i: 'HelloBanner', w: 16, x: 0, y: 0, moved: false, static: false }],
 };
 
-const fullConfig: any = merge(configAdmin, configDemo, configDisk, configApp, configFlow, configIm);
+const fullConfig: any = merge(configAdmin, configDemo, configDisk, configApp, configFlow, configIm, configMedia);
 // console.log('fullConfig', fullConfig)
 
 /** -------------------------------- 网关配置 -------------------------------- */

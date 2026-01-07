@@ -8,4 +8,5 @@ export * from '@features/fa-app-pages/types';
 export * from '@features/fa-disk-pages/types';
 export * from '@features/fa-flow-pages/types';
 export * from '@features/fa-im-pages/types';
+export * from '@features/fa-media-pages/types';
 
