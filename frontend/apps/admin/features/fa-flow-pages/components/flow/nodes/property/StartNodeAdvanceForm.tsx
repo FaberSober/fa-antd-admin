@@ -19,7 +19,7 @@ export default function StartNodeAdvanceForm({ node }: StartNodeAdvanceFormProps
   const readOnly = useWorkFlowStore(state => state.readOnly);
 
   return (
-    <Form form={form} disabled={readOnly} className='fa-full-w' styles={{ label: {width: 90} }} className='fa-p12'>
+    <Form form={form} disabled={readOnly} className='fa-full-w fa-p12' styles={{ label: {width: 90} }}>
       <div>
         <div className='fa-text-b fa-mb12'>操作设置</div>
         <div>
