@@ -3,6 +3,7 @@ import FlwEnums from './FlwEnums';
 import FlowEnums from './FlowEnums';
 import { Layout } from 'react-grid-layout';
 import React from 'react';
+import Flw from './Flw';
 
 namespace Flow {
   /** FLOW-流程分类 */
@@ -71,9 +72,11 @@ namespace Flow {
     createTime: string; // ISO date string format
     /** Form Content - 表单内容 */
     formContent?: string;
+    currentTask: Flw.FlwTask;
     modelContent: string;
     /** Model Content - 模型内容 */
     flwProcess: Flow.FlwProcess;
+    flowProcess: FlowProcess;
     /** Render Nodes - 渲染节点 */
     renderNodes?: Record<string, '0' | '1'>;
     /** Process Approvals - 流程审批历史记录列表 */

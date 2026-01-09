@@ -9,9 +9,11 @@ import React, { useEffect, useState } from 'react';
 interface FlowFormViewProps {
   flwProcess: Flow.FlwProcess;
   formValues: any;
+  /** 当前节点 */
+  currentNode: string;
 }
 
-export default function FlowFormView({ flwProcess, formValues }: FlowFormViewProps) {
+export default function FlowFormView({ flwProcess, formValues, currentNode }: FlowFormViewProps) {
   const [form] = Form.useForm();
   const [flowProcess, setFlowProcess] = useState<Flow.FlowProcess>();
 

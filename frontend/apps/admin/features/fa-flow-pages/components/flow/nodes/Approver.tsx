@@ -76,6 +76,12 @@ export default function Approver({ node, parentNode }: ApproverProps) {
     refreshNode()
   }
 
+  function handleSave() {
+    Object.assign(node, nodeCopy); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
+    refreshNode();
+    hide();
+  }
+
   function showDrawer() {
     show()
   }
@@ -130,7 +136,7 @@ export default function Approver({ node, parentNode }: ApproverProps) {
           </FaFlexRestLayout>
 
           <Space className="fa-p12 fa-border-t">
-            <Button type="primary" icon={<SaveOutlined />} htmlType="submit" loading={loading} disabled={readOnly}>保存</Button>
+            <Button onClick={handleSave} type="primary" icon={<SaveOutlined />} loading={loading} disabled={readOnly}>保存</Button>
             <Button onClick={() => hide()} icon={<RollbackOutlined />}>取消</Button>
           </Space>
         </div>

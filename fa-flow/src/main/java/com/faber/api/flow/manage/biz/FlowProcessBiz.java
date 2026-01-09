@@ -125,7 +125,26 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
         return instance.orElse(null);
     }
 
-    public FlowApprovalInfo getApprovalInfoById(Long instanceId) {
+    /**
+     * 根据任务ID获取当前流程审批详情，主要用于审批任务，用户根据指定任务ID查看当前流程实例详情
+     * @param taskId
+     * @return
+     */
+    public FlowApprovalInfo getApprovalInfoByTaskId(Long taskId) {
+        FlwTask flwTask = flowLongEngine.queryService().getTask(taskId);
+        if (flwTask == null) {
+            return null;
+        }
+        Long instanceId = flwTask.getInstanceId();
+        return getApprovalInfoById(instanceId, taskId);
+    }
+
+    /**
+     * 获取当前流程审批详情
+     * @param instanceId 流程实例ID
+     * @return
+     */
+    public FlowApprovalInfo getApprovalInfoById(Long instanceId, Long taskId) {
         FlowApprovalInfo data = new FlowApprovalInfo();
 
         data.setInstanceId(instanceId);
@@ -133,6 +152,7 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
         FlwHisInstance flwHisInstance = flowLongEngine.queryService().getHistInstance(instanceId);
         FlwExtInstance flwExtInstance = flowLongEngine.queryService().getExtInstance(instanceId);
         FlwProcess flwProcess = flowLongEngine.processService().getProcessById(flwHisInstance.getProcessId());
+        FlowProcess flowProcess = this.getByKey(flwProcess.getProcessKey());
 
         // 获取当前流程实例的历史操作信息
         List<FlwHisTask> hisTasks = flowLongEngine.queryService().getHisTasksByInstanceId(instanceId).get();
@@ -148,6 +168,7 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
         data.setModelContent(flwExtInstance.getModelContent());
 
         data.setFlwProcess(flwProcess);
+        data.setFlowProcess(flowProcess);
 
         Map<String, Object> renderNodes = new HashMap<>();
 
@@ -160,6 +181,9 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
         // 渲染当前task
         for (FlwTask task : tasks) {
             renderNodes.put(task.getTaskKey(), "1");
+            if (taskId != null && task.getId().equals(taskId)) {
+                data.setCurrentTask(task);
+            }
         }
 
         data.setRenderNodes(renderNodes);

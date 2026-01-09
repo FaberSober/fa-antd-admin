@@ -4,7 +4,7 @@ import './index.scss';
 import { useWorkFlowStore } from '../../stores/useWorkFlowStore';
 import { flowFormApi } from '@/services';
 import { Checkbox } from 'antd';
-import { FaFlexRestLayout } from '@fa/ui';
+import { FaFlexRestLayout, PageLoading, useApiLoading } from '@fa/ui';
 
 
 export interface NodeFormAuthProps {
@@ -21,6 +21,8 @@ export default function NodeFormAuth({ node, onChange }: NodeFormAuthProps) {
   const flowProcess = useWorkFlowStore(state => state.flowProcess);
   const [flowForm, setFlowForm] = useState<Flow.FlowForm>();
   const [formItems, setFormItems] = useState<Flow.FlowFormItem[]>([]);
+
+  const loading = useApiLoading(flowFormApi.getUrl(`getById/${flowProcess?.formId}`));
 
   useEffect(() => {
     if (!flowProcess || !flowProcess.id) return;
@@ -110,6 +112,7 @@ export default function NodeFormAuth({ node, onChange }: NodeFormAuthProps) {
   // 全部必填-半勾选
   let allRequiredIndeterminate = formItems.some(item => formAuth[item.id]?.required) && !allRequiredChecked;
 
+  if (loading) return <PageLoading />;
   return (
     <div className='fa-flex-column fa-full'>
       <div className='fa-form-auth-header'>

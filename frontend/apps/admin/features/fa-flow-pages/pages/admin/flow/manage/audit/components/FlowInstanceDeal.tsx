@@ -12,7 +12,7 @@ import { useFlowAuditContext } from '../contexts/FlowAuditContext';
 
 interface FlowInstanceDealProps {
   instanceId: string;
-  taskId?: string;
+  taskId: string;
   onSuccess?: () => void;
   type?: 'audit' | 'view' | 'claim'; // 审批 or 查看 or 认领
 }
@@ -28,7 +28,7 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess, type =
 
   function getInfo() {
     // 获取流程实例详情
-    flowProcessApi.getApprovalInfoById(instanceId).then(res => {
+    flowProcessApi.getApprovalInfoByTaskId(taskId).then(res => {
       setInfo(res.data)
     })
   }
@@ -107,7 +107,7 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess, type =
                 </Space>
 
                 <FaFlexRestLayout>
-                  <FlowFormView flwProcess={info.flwProcess} formValues={JSON.parse(info.formContent || '{}')} />
+                  <FlowFormView flwProcess={info.flwProcess} formValues={JSON.parse(info.formContent || '{}')} currentNode={info.currentTask.taskKey} />
                 </FaFlexRestLayout>
               </div>
               </Splitter.Panel>
@@ -123,7 +123,7 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess, type =
           </div>
         </FaLazyContainer>
         <FaLazyContainer showCond={tab === 'workflow'}>
-          <FaWorkFlow processModel={JSON.parse(info.modelContent)} renderNodes={info.renderNodes} showLegends readOnly />
+          <FaWorkFlow flowProcess={info.flowProcess} processModel={JSON.parse(info.modelContent)} renderNodes={info.renderNodes} showLegends readOnly />
         </FaLazyContainer>
       </FaFlexRestLayout>
     </div>

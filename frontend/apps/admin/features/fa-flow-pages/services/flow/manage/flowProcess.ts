@@ -20,6 +20,9 @@ class Api extends BaseApi<Flow.FlowProcess, number> {
   /** 查看流程详情 */
   getApprovalInfoById = (instanceId: string): Promise<Fa.Ret<Flow.FlowApprovalInfo>> => this.get(`getApprovalInfoById/${instanceId}`);
 
+  /** 查看流程任务详情 */
+  getApprovalInfoByTaskId = (taskId: string): Promise<Fa.Ret<Flow.FlowApprovalInfo>> => this.get(`getApprovalInfoByTaskId/${taskId}`);
+
   // /** 启用流程 */
   // activeById = (id: number): Promise<Fa.Ret<boolean>> => this.get(`activeById/${id}`);
 

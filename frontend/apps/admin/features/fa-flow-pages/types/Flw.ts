@@ -182,6 +182,37 @@ namespace Flw {
     type?: string;
   }
 
+  export interface FlwTask {
+    /** 实例ID */
+    instanceId: number;
+    /** 父任务ID */
+    parentTaskId: number;
+    /** 任务名称 */
+    taskName: string;
+    /** 任务key */
+    taskKey: string;
+    /** 任务类型 */
+    taskType: number;
+    /** 执行类型 */
+    performType: number;
+    /** 任务关联的表单url */
+    actionUrl: string;
+    /** 变量（JSON字符串） */
+    variable: string;
+    /** 分配者ID */
+    assignorId: string;
+    /** 分配者名称 */
+    assignor: string;
+    /** 过期时间 */
+    expireTime: string;
+    /** 提醒时间 */
+    remindTime: string;
+    /** 提醒重复次数 */
+    remindRepeat?: number;
+    /** 是否已查看 */
+    viewed?: number;
+  }
+
 }
 
 export default Flw;

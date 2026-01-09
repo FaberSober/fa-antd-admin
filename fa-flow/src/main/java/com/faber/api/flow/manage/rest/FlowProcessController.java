@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -68,7 +69,15 @@ public class FlowProcessController extends BaseController<FlowProcessBiz, FlowPr
     @RequestMapping(value = "/getApprovalInfoById/{instanceId}", method = RequestMethod.GET)
     @ResponseBody
     public Ret<FlowApprovalInfo> getApprovalInfoById(@PathVariable Long instanceId) {
-        FlowApprovalInfo data = baseBiz.getApprovalInfoById(instanceId);
+        FlowApprovalInfo data = baseBiz.getApprovalInfoById(instanceId, null);
+        return ok(data);
+    }
+
+    @FaLogOpr(value = "查看流程任务详情", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/getApprovalInfoByTaskId/{taskId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Ret<FlowApprovalInfo> getApprovalInfoByTaskId(@PathVariable Long taskId) {
+        FlowApprovalInfo data = baseBiz.getApprovalInfoByTaskId(taskId);
         return ok(data);
     }
 
