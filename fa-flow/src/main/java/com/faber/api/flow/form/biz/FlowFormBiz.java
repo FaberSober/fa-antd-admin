@@ -235,6 +235,25 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT * FROM ");
         sb.append(flowForm.getTableName());
+        sb.append(" WHERE deleted = false ");
+
+        // 解析where条件
+        if (!query.getQuery().isEmpty()) {
+            for (Map.Entry<String, Object> entry : query.getQuery().entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                if (value == null) continue;
+                // TODO 支持更多查询操作符
+                // key驼峰转下划线
+                sb.append(" AND " + key + " LIKE '%" + value.toString() + "%' ");
+            }
+        }
+
+        // 解析sorter
+        if (!query.getSorter().isEmpty()) {
+            sb.append(" ORDER BY " + query.getSorter() + " ");
+        }
+
         String sql = sb.toString();
 
         PageInfo<Map<String, Object>> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
