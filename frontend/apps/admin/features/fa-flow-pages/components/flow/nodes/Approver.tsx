@@ -1,16 +1,15 @@
-import React, { useMemo, useState } from 'react';
-import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
-import { FaIcon } from "@fa/icons";
-import { Button, Checkbox, Divider, Form, Input, InputNumber, Radio, Space } from "antd";
-import AddNode from "@features/fa-flow-pages/components/flow/nodes/AddNode";
-import { BaseDrawer, FaFlexRestLayout, FaUtils, useOpen, UserSearchSelect } from '@fa/ui';
-import { NodeCloseBtn, NodeSetTypeSelect } from "@features/fa-flow-pages/components/flow/cubes";
-import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
-import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
 import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
-import { DepartmentCascade, RbacRoleSelect } from "@features/fa-admin-pages/components";
-import { departmentApi, rbacRoleApi, userApi } from "@features/fa-admin-pages/services";
-import { get } from 'lodash';
+import { FaIcon } from "@fa/icons";
+import { BaseDrawer, FaFlexRestLayout, useOpen } from '@fa/ui';
+import { NodeCloseBtn } from "@features/fa-flow-pages/components/flow/cubes";
+import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
+import AddNode from "@features/fa-flow-pages/components/flow/nodes/AddNode";
+import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
+import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
+import { Button, Input, Space, Tabs } from "antd";
+import { useMemo, useState } from 'react';
+import ApproverNodeBasicForm from './property/ApproverNodeBasicForm';
+import NodeFormAuth from './property/NodeFormAuth';
 
 const { NodeSetType } = FlwEnums;
 
@@ -26,9 +25,9 @@ export interface ApproverProps {
  * @date 2025/8/19 22:11
  */
 export default function Approver({ node, parentNode }: ApproverProps) {
-  const [form] = Form.useForm();
   const [open, show, hide] = useOpen()
   const [loading, setLoading] = useState(false)
+  const [tab, setTab] = useState('basic');
 
   const refreshNode = useWorkFlowStore(state => state.refreshNode);
   const readOnly = useWorkFlowStore(state => state.readOnly);
@@ -77,60 +76,8 @@ export default function Approver({ node, parentNode }: ApproverProps) {
     refreshNode()
   }
 
-  async function onFinish(fieldsValue: any) {
-    try {
-      setLoading(true)
-
-      let nodeAssigneeList: Flw.FlowActor[] = []
-      if (fieldsValue.setType === NodeSetType.specifyMembers) {
-        const res = await userApi.getByIds(fieldsValue.nodeAssigneeIds);
-        nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
-      } else if (fieldsValue.setType === NodeSetType.role) {
-        const res = await rbacRoleApi.getByIds(fieldsValue.nodeAssigneeIds);
-        nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
-      } else if (fieldsValue.setType === NodeSetType.department) {
-        const res = await departmentApi.getByIds(fieldsValue.nodeAssigneeIds);
-        nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
-      }
-
-      let nodeNew = {
-        ...nodeCopy,
-        setType: fieldsValue.setType,
-        nodeAssigneeList,
-      }
-
-      if (fieldsValue.setType === NodeSetType.code) {
-        nodeNew = {
-          ...nodeNew,
-          extendConfig: {
-            ...nodeNew.extendConfig,
-            nodeAssigneeCodePath: fieldsValue.nodeAssigneeCodePath,
-          }
-        }
-      }
-
-      setNodeCopy(nodeNew)
-      // 这里node是使用根config传来的节点引用，修改node内容，但不修改引用
-      Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
-      refreshNode();
-      setLoading(false)
-      hide()
-    } catch (e) {
-      console.error(e)
-      setLoading(false)
-    }
-  }
-
   function showDrawer() {
     show()
-    const initValues: any = {
-      ...nodeCopy,
-      nodeAssigneeIds: nodeCopy.nodeAssigneeList ? nodeCopy.nodeAssigneeList.map(item => item.id) : [],
-    }
-    if (initValues.setType === NodeSetType.code) {
-      initValues.nodeAssigneeCodePath = get(nodeCopy, 'extendConfig.nodeAssigneeCodePath')
-    }
-    form.setFieldsValue(initValues)
   }
 
   return (
@@ -153,122 +100,40 @@ export default function Approver({ node, parentNode }: ApproverProps) {
         title={(
           <Input value={nodeCopy.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)} />
         )}
+        size={500}
       >
-        <Form
-          form={form}
-          layout="vertical"
-          className="fa-flex-column fa-full"
-          onFinish={onFinish}
-          onValuesChange={(cv, av) => {
-            console.log('cv, av', cv, av)
-            if (FaUtils.hasAnyProp(cv, ['setType'])) {
-              setNodeCopy(prev => ({
-                ...prev,
-                ...av,
-                nodeAssigneeIds: [],
-              }))
-              form.setFieldsValue({ nodeAssigneeIds: [] })
-            }
-          }}
-          disabled={readOnly}
-        >
+        <div className="fa-flex-column fa-full-content">
+          <Tabs
+            // 基础设置,高级设置,表单权限,流程事件,流程通知,超时处理
+            className='fa-tabs-block'
+            items={[
+              { key: 'basic', label: '基础设置' },
+              { key: 'advance', label: '高级设置' },
+              { key: 'formAuth', label: '表单权限' },
+              { key: 'flowEvent', label: '流程事件' },
+              { key: 'flowNotify', label: '流程通知' },
+              { key: 'overtime', label: '超时处理' },
+            ]}
+            activeKey={tab}
+            onChange={setTab}
+            size='small'
+            tabBarGutter={0}
+            styles={{
+              header: {marginBottom: 0}
+            }}
+          />
+
           <FaFlexRestLayout>
-            <Form.Item name="setType" label="审批人员类型" rules={[{ required: true }]}>
-              <NodeSetTypeSelect />
-            </Form.Item>
-            {nodeCopy.setType === NodeSetType.specifyMembers && (
-              <Form.Item name="nodeAssigneeIds" label="审批人员" rules={[{ required: true }]}>
-                <UserSearchSelect mode="multiple" />
-              </Form.Item>
-            )}
-            {nodeCopy.setType === NodeSetType.supervisor && (
-              <Form.Item name="examineLevel" label="指定主管" rules={[{ required: true }]}>
-                <InputNumber style={{ width: 230 }} addonBefore="发起人的第" addonAfter="级主管" min={1} max={100} changeOnWheel />
-              </Form.Item>
-            )}
-            {nodeCopy.setType === NodeSetType.role && (
-              <Form.Item name="nodeAssigneeIds" label="选择角色" rules={[{ required: true }]}>
-                <RbacRoleSelect mode="multiple" />
-              </Form.Item>
-            )}
-            {nodeCopy.setType === NodeSetType.department && (
-              <Form.Item name="nodeAssigneeIds" label="选择部门" rules={[{ required: true }]}>
-                <DepartmentCascade multiple changeOnSelect={false} />
-              </Form.Item>
-            )}
-            {nodeCopy.setType === NodeSetType.initiatorSelected && (
-              <Form.Item name="selectMode" label="发起人自选">
-                <Radio.Group
-                  options={[
-                    { label: '自选一个人', value: 1 },
-                    { label: '自选多个人', value: 2 },
-                  ]}
-                />
-              </Form.Item>
-            )}
-            {nodeCopy.setType === NodeSetType.multiLevelSupervisors && (
-              <>
-                <Form.Item name="directorMode" label="连续主管审批终点">
-                  <Radio.Group
-                    options={[
-                      { label: '直到最上层主管', value: 0 },
-                      { label: '自定义审批终点', value: 1 },
-                    ]}
-                  />
-                </Form.Item>
-                {nodeCopy.directorMode === 1 && (
-                  <Form.Item name="directorLevel" label="指定主管" rules={[{ required: true }]}>
-                    <InputNumber style={{ width: 230 }} addonBefore="直到发起人的第" addonAfter="级主管" min={1} max={100} changeOnWheel />
-                  </Form.Item>
-                )}
-              </>
-            )}
-            {nodeCopy.setType === NodeSetType.code && (
-              <Form.Item name="nodeAssigneeCodePath" label="代码接口" rules={[{ required: true }]}>
-                <Input placeholder='请输入代码接口地址' />
-              </Form.Item>
-            )}
-
-            <Divider />
-
-            <Form.Item name="termAuto" valuePropName="checked">
-              <Checkbox>超时自动审批</Checkbox>
-            </Form.Item>
-            {nodeCopy.termAuto && (
-              <>
-                <Form.Item name="term" label="审批期限" tooltip="为 0 则不生效" rules={[{ required: true }]}>
-                  <InputNumber style={{ width: 230 }} addonAfter="小时" min={0} max={1000} changeOnWheel />
-                </Form.Item>
-                <Form.Item name="termMode" label="审批期限超时后执行">
-                  <Radio.Group
-                    options={[
-                      { label: '自动通过', value: 0 },
-                      { label: '自动拒绝', value: 1 },
-                    ]}
-                  />
-                </Form.Item>
-              </>
-            )}
-
-            <Divider />
-
-            <Form.Item name="examineMode" label="多人审批时审批方式" rules={[{ required: true }]}>
-              <Radio.Group
-                style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
-                options={[
-                  { label: '按顺序依次审批', value: 1 },
-                  { label: '会签 (可同时审批，每个人必须审批通过)', value: 2 },
-                  { label: '或签 (有一人审批通过即可)', value: 3 },
-                ]}
-              />
-            </Form.Item>
+            {tab === 'basic' && (<ApproverNodeBasicForm node={nodeCopy} />)}
+            {/* {tab === 'advance' && (<StartNodeAdvanceForm node={nodeCopy} />)} */}
+            {tab === 'formAuth' && (<NodeFormAuth node={nodeCopy} onChange={ec => updateNodeProps('extendConfig', ec)} />)}
           </FaFlexRestLayout>
 
-          <Space>
+          <Space className="fa-p12 fa-border-t">
             <Button type="primary" icon={<SaveOutlined />} htmlType="submit" loading={loading} disabled={readOnly}>保存</Button>
             <Button onClick={() => hide()} icon={<RollbackOutlined />}>取消</Button>
           </Space>
-        </Form>
+        </div>
       </BaseDrawer>
 
       <AddNode parentNode={node} />
