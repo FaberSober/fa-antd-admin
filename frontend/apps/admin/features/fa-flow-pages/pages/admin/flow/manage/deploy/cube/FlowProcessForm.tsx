@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, InputNumber, Select, FormInstance } from 'antd';
 import { DictEnumApiSelector, FaUtils } from '@fa/ui';
 import { FlowCatagoryCascader, FlowFormSelect } from "@features/fa-flow-pages/components";
-import { Flow } from '@/types';
+import { Flow, FlowEnums } from '@/types';
 
 interface FlowProcessFormProps {
   form?: FormInstance;
@@ -15,12 +15,23 @@ interface FlowProcessFormProps {
  * 流程基础信息表单组件
  */
 export default function FlowProcessForm({ form, initialValues, onFinish, readOnly }: FlowProcessFormProps) {
+  const [formType, setFormType] = useState<any>();
+
+  useEffect(() => {
+    setFormType(initialValues?.formType)
+  }, [initialValues]);
+
   return (
     <Form
       form={form}
       onFinish={onFinish}
       initialValues={initialValues}
       disabled={readOnly}
+      onValuesChange={(cv, av) => {
+        if (av.formType !== formType) {
+          setFormType(av.formType)
+        }
+      }}
       {...FaUtils.formItemFullLayout}
     >
       <Form.Item name="catagoryId" label="流程分类" rules={[{ required: true }]}>
@@ -45,9 +56,11 @@ export default function FlowProcessForm({ form, initialValues, onFinish, readOnl
       <Form.Item name="formType" label="表单类型" rules={[{ required: true }]}>
         <DictEnumApiSelector enumName='FlowProcessFormTypeEnum' placeholder="请选择表单类型" />
       </Form.Item>
-      <Form.Item name="formId" label="自定义表单" rules={[{ required: false }]}>
-        <FlowFormSelect />
-      </Form.Item>
+      {formType === FlowEnums.FlowProcessFormType.SYSTEM && (
+        <Form.Item name="formId" label="自定义表单" rules={[{ required: false }]}>
+          <FlowFormSelect />
+        </Form.Item>
+      )}
 
       <Form.Item name="remark" label="备注说明" rules={[{ required: false }]}>
         <Input placeholder="请输入备注说明" />

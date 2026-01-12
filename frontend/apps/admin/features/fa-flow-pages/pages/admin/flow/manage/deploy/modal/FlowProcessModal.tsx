@@ -1,5 +1,5 @@
 import { flowProcessApi as api } from '@/services';
-import { Flow, Flw, FlwEnums } from '@/types';
+import { Flow, FlowEnums, Flw, FlwEnums } from '@/types';
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { CommonModalProps, DragModal, FaHref, FaUtils, useApiLoading } from '@fa/ui';
 import { getNodeKey } from '@features/fa-flow-pages/components/flow/utils';
@@ -20,7 +20,7 @@ export default function FlowProcessModal({ children, title, record, fetchFinish,
   /** 新增Item */
   function invokeInsertTask(params: any) {
     api.save(params).then((res) => {
-      FaUtils.showResponse(res, '新增FLOW-流程定义');
+      FaUtils.showResponse(res, '新增流程定义');
       setOpen(false);
       if (fetchFinish) fetchFinish();
     })
@@ -29,7 +29,7 @@ export default function FlowProcessModal({ children, title, record, fetchFinish,
   /** 更新Item */
   function invokeUpdateTask(params: any) {
     api.update(params.id, params).then((res) => {
-      FaUtils.showResponse(res, '更新FLOW-流程定义');
+      FaUtils.showResponse(res, '更新流程定义');
       setOpen(false);
       if (fetchFinish) fetchFinish();
     })
@@ -93,6 +93,8 @@ export default function FlowProcessModal({ children, title, record, fetchFinish,
       processType: get(record, 'processType'),
       processVersion: get(record, 'processVersion'),
       instanceUrl: get(record, 'instanceUrl'),
+      formType: get(record, 'formType', FlowEnums.FlowProcessFormType.SYSTEM),
+      formId: get(record, 'formId'),
       remark: get(record, 'remark'),
       useScope: get(record, 'useScope'),
       processState: get(record, 'processState'),

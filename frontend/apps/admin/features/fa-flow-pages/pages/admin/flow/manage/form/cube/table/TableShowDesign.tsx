@@ -15,7 +15,7 @@ export interface TableShowDesignProps {
  */
 export default function TableShowDesign({ }: TableShowDesignProps) {
   return (
-    <div className='fa-full-content fa-p12 fa-bg-grey fa-flex-row fa-gap12'>
+    <div className='fa-full-content fa-bg-grey fa-flex-row fa-gap12'>
       <FaFlexRestLayout className='fa-full-content fa-card'>
         <Divider>查询字段</Divider>
         <TableQueryList />

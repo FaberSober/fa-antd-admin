@@ -2,6 +2,7 @@ package com.faber.api.flow.form.biz;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +19,10 @@ import com.faber.api.flow.form.vo.req.SaveFormDataReqVo;
 import com.faber.api.flow.form.vo.ret.TableColumnVo;
 import com.faber.api.flow.form.vo.ret.TableInfoVo;
 import com.faber.core.exception.BuzzException;
+import com.faber.core.service.FaFlowService;
 import com.faber.core.vo.msg.TableRet;
 import com.faber.core.vo.query.QueryParams;
+import com.faber.core.vo.utils.FaOption;
 import com.faber.core.web.biz.BaseBiz;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -36,7 +39,7 @@ import jakarta.annotation.Resource;
  * @date 2025-12-16 15:43:41
  */
 @Service
-public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> {
+public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaFlowService {
 
     @Resource DataSource dataSource;
 
@@ -259,6 +262,18 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> {
         PageInfo<Map<String, Object>> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
             .doSelectPageInfo(() -> baseMapper.selectByDynamicSql(sql));
         return new TableRet<>(info);
+    }
+
+    public List<FaOption<String>> getFlowMenuList() {
+        List<FlowForm> formList = lambdaQuery().orderByAsc(FlowForm::getSort).list();
+        List<FaOption<String>> list = new ArrayList<>();
+        for (FlowForm flowForm : formList) {
+            FaOption<String> option = new FaOption<String>();
+            option.setId("/admin/flow/view/form/" + flowForm.getId());
+            option.setName(flowForm.getName());
+            list.add(option);
+        }
+        return list;
     }
 
 }
