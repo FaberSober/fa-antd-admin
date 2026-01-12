@@ -1,6 +1,6 @@
 import { flowFormApi } from '@/services';
 import { Flow } from '@/types';
-import { DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { DownloadOutlined, EditOutlined, EyeOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { AuthDelBtn, BaseBizTable, BaseTableUtils, clearForm, FaberTable, FaHref, useDelete, useTableQueryParams } from '@fa/ui';
 import { Button, Form, Input, Space } from 'antd';
 import { each } from 'lodash';
@@ -31,7 +31,13 @@ export default function FlowFormDataTable({ flowForm }: FlowFormDataTableProps) 
     ] as FaberTable.ColumnsProp<any>[];
 
     each(flowForm.tableConfig.table.columns, col => {
-      columns.push(BaseTableUtils.genSimpleSorterColumn(col.label || col.field, col.field, col.width, sorter))
+      if ('date' === col.dataType) {
+        columns.push(BaseTableUtils.genDateSorterColumn(col.label || col.field, col.field, col.width, sorter))
+      } else if ('datetime' === col.dataType) {
+        columns.push(BaseTableUtils.genTimeSorterColumn(col.label || col.field, col.field, col.width, sorter))
+      } else {
+        columns.push(BaseTableUtils.genSimpleSorterColumn(col.label || col.field, col.field, col.width, sorter))
+      }
     })
 
     columns.push(
@@ -41,7 +47,7 @@ export default function FlowFormDataTable({ flowForm }: FlowFormDataTableProps) 
         dataIndex: 'opr',
         render: (_, r) => (
           <Space>
-            <FaHref text='编辑' icon={<EditOutlined />} />
+            <FaHref text='查看' icon={<EyeOutlined />} />
             <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
           </Space>
         ),
@@ -72,7 +78,7 @@ export default function FlowFormDataTable({ flowForm }: FlowFormDataTableProps) 
             <Space>
               <Button htmlType="submit" loading={loading} icon={<SearchOutlined />}>查询</Button>
               <Button onClick={() => clearForm(form)}>重置</Button>
-              <FlowFormAdd flowForm={flowForm} />
+              <FlowFormAdd flowForm={flowForm} onSuccess={fetchPageList} />
               {/* <Button icon={<DownloadOutlined />}>导出</Button> */}
             </Space>
           </Form>

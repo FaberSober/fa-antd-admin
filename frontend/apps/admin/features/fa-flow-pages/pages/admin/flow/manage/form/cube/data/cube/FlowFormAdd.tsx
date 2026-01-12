@@ -1,24 +1,27 @@
 import { flowProcessApi } from '@/services';
-import { Flow } from '@/types';
+import { Flow, Flw } from '@/types';
 import { ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
-import { FaFlexRestLayout } from '@fa/ui';
-import { FaWorkFlow } from '@features/fa-flow-pages/components';
-import { Button, Space, Tabs } from 'antd';
-import React, { ReactNode, useEffect, useState } from 'react';
+import { FaFlexRestLayout, FaUtils } from '@fa/ui';
+import { FaFlowFormCreate, FaWorkFlow } from '@features/fa-flow-pages/components';
+import { Button, Form, Space, Tabs } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 
 export interface FlowFormAddProps {
   flowForm: Flow.FlowForm;
+  onSuccess?: () => void;
 }
 
 /**
  * @author xu.pengfei
  * @date 2026-01-12 15:50:13
  */
-export default function FlowFormAdd({ flowForm }: FlowFormAddProps) {
+export default function FlowFormAdd({ flowForm, onSuccess }: FlowFormAddProps) {
   const [open, setOpen] = useState(false);
   const [flow, setFlow] = useState<Flow.FlowProcess>();
+  const [form] = Form.useForm();
+  const [formLoading, setFormLoading] = useState<boolean>(false);
 
   useEffect(() => {
     flowProcessApi.getById(flowForm.flowProcessId).then(res => {
@@ -27,7 +30,16 @@ export default function FlowFormAdd({ flowForm }: FlowFormAddProps) {
   }, [flowForm.flowProcessId]);
 
   function handleSubmit() {
-    setOpen(false);
+    form.submit();
+  }
+
+  function handleFormSubmit(flow: Flow.FlowProcess, formValues: any) {
+    // start flow
+    flowProcessApi.start({ processKey: flow.processKey, args: formValues }).then(res => {
+      FaUtils.showResponse(res, '发起流程');
+      handleClose();
+      onSuccess?.();
+    })
   }
 
   function handleAdd() {
@@ -38,6 +50,9 @@ export default function FlowFormAdd({ flowForm }: FlowFormAddProps) {
     setOpen(false);
   }
 
+  const processModel:Flw.ProcessModel = JSON.parse(flow ? flow.modelContent : '{}');
+  const startNode = processModel.nodeConfig;
+
   const content = open ? (
     <div className='fa-full-content fa-bg-white fa-flex-column fa-tabs' style={{ zIndex: 999 }}>
       {/* header */}
@@ -46,8 +61,8 @@ export default function FlowFormAdd({ flowForm }: FlowFormAddProps) {
         <div className='fa-h3'>新增</div>
         <div className='fa-flex-1' />
         <Space>
-          <Button onClick={handleSubmit} type='primary'>提交</Button>
-          <Button onClick={handleClose}>取消</Button>
+          <Button onClick={handleSubmit} type='primary' loading={formLoading}>提交</Button>
+          <Button onClick={handleClose} disabled={formLoading}>取消</Button>
         </Space>
       </div>
 
@@ -61,7 +76,15 @@ export default function FlowFormAdd({ flowForm }: FlowFormAddProps) {
               key: 'form',
               children: (
                 <div className='fa-full'>
-                  11
+                  {flow && (
+                    <FaFlowFormCreate
+                      form={form}
+                      flow={flow}
+                      startNode={startNode}
+                      onFormSubmit={handleFormSubmit}
+                      onLoadingChange={setFormLoading}
+                    />
+                  )}
                 </div>
               ),
             },

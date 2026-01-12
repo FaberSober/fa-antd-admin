@@ -2,12 +2,10 @@ import { flowCatagoryApi, flowProcessApi } from '@/services';
 import { Flow, Flw } from '@/types';
 import { ApartmentOutlined, FormOutlined } from '@ant-design/icons';
 import { BaseDrawer, BaseTree, FaFlexRestLayout, FaLazyContainer, FaUtils, useApiLoading } from '@fa/ui';
-import { FaFlowForm, FaWorkFlow } from '@features/fa-flow-pages/components';
-import DemoFlowLeaveForm from '@features/fa-flow-pages/pages/admin/demo/flow/form/leave/modal/DemoFlowLeaveForm';
+import { FaFlowFormCreate, FaWorkFlow } from '@features/fa-flow-pages/components';
 import { Button, Form, Segmented, Space, Splitter } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { useFlowAuditContext } from '../contexts/FlowAuditContext';
-import FlowEnums from '@features/fa-flow-pages/types/FlowEnums';
 
 
 export default function FlowAuditStart() {
@@ -112,20 +110,13 @@ export default function FlowAuditStart() {
                             <div className='fa-full-content fa-flex-column'>
                               发起流程：{flow.processName}
                               <FaFlexRestLayout>
-                                {/* 系统表单 */}
-                                {flow.processKey.startsWith('testLeave') && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => handleFormSubmit(flow, fv)} onLoadingChange={setFormLoading} />)}
-                                {/* 自定义表单 */}
-                                {flow.formType === FlowEnums.FlowProcessFormType.CUSTOM && (
-                                  <div className='fa-full-content'>
-                                    <FaFlowForm
-                                      formId={flow.formId}
-                                      form={form}
-                                      flowNode={startNode}
-                                      onSuccess={(fv) => handleFormSubmit(flow, fv)}
-                                      onLoadingChange={setFormLoading}
-                                    />
-                                  </div>
-                                )}
+                                <FaFlowFormCreate
+                                  form={form}
+                                  flow={flow}
+                                  startNode={startNode}
+                                  onFormSubmit={handleFormSubmit}
+                                  onLoadingChange={setFormLoading}
+                                />
                               </FaFlexRestLayout>
 
                               <Space>
