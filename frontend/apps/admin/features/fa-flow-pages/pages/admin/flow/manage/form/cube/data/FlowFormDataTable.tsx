@@ -1,10 +1,11 @@
 import { flowFormApi } from '@/services';
 import { Flow } from '@/types';
-import { SearchOutlined } from '@ant-design/icons';
-import { AuthDelBtn, BaseBizTable, BaseTableUtils, clearForm, FaberTable, useDelete, useTableQueryParams } from '@fa/ui';
+import { DownloadOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { AuthDelBtn, BaseBizTable, BaseTableUtils, clearForm, FaberTable, FaHref, useDelete, useTableQueryParams } from '@fa/ui';
 import { Button, Form, Input, Space } from 'antd';
 import { each } from 'lodash';
 import React from 'react';
+import FlowFormAdd from './cube/FlowFormAdd';
 
 export interface FlowFormDataTableProps {
   flowForm: Flow.FlowForm;
@@ -40,6 +41,7 @@ export default function FlowFormDataTable({ flowForm }: FlowFormDataTableProps) 
         dataIndex: 'opr',
         render: (_, r) => (
           <Space>
+            <FaHref text='编辑' icon={<EditOutlined />} />
             <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
           </Space>
         ),
@@ -70,8 +72,8 @@ export default function FlowFormDataTable({ flowForm }: FlowFormDataTableProps) 
             <Space>
               <Button htmlType="submit" loading={loading} icon={<SearchOutlined />}>查询</Button>
               <Button onClick={() => clearForm(form)}>重置</Button>
-              {/* <StudentModal addBtn title={`新增${serviceName}信息`} fetchFinish={fetchPageList} />
-              <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button> */}
+              <FlowFormAdd flowForm={flowForm} />
+              {/* <Button icon={<DownloadOutlined />}>导出</Button> */}
             </Space>
           </Form>
         </div>

@@ -5,7 +5,7 @@ import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { useApiLoading, DragModal, FaHref, FaUtils, CommonModalProps } from '@fa/ui';
 import { flowFormApi as api } from '@/services';
 import { Flow } from '@/types';
-import { FlowCatagoryCascader } from '@features/fa-flow-pages/components';
+import { FlowCatagoryCascader, FlowProcessSelect } from '@features/fa-flow-pages/components';
 
 
 /**
@@ -39,13 +39,13 @@ export default function FlowFormModal({ children, title, record, fetchFinish, ad
   function onFinish(fieldsValue: any) {
     const values = {
       ...fieldsValue,
-      config: {},
+      // config: {},
       // birthday: FaUtils.getDateStr000(fieldsValue.birthday),
     };
     if (record) {
       invokeUpdateTask({ ...record, ...values });
     } else {
-      invokeInsertTask({ ...values });
+      invokeInsertTask({ ...values, config: {} });
     }
   }
 
@@ -61,6 +61,7 @@ export default function FlowFormModal({ children, title, record, fetchFinish, ad
       tableName: get(record, 'tableName'),
       remark: get(record, 'remark'),
       config: get(record, 'config'),
+      flowProcessId: get(record, 'flowProcessId'),
       // birthday: FaUtils.getInitialKeyTimeValue(record, 'birthday'),
     }
   }
@@ -113,6 +114,9 @@ export default function FlowFormModal({ children, title, record, fetchFinish, ad
           </Form.Item>
           <Form.Item name="remark" label="备注" rules={[{ required: false }]}>
             <Input placeholder="请输入备注" />
+          </Form.Item>
+          <Form.Item name="flowProcessId" label="关联流程" rules={[{ required: false }]}>
+            <FlowProcessSelect />
           </Form.Item>
         </Form>
       </DragModal>

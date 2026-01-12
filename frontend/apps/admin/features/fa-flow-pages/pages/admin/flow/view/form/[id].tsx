@@ -28,7 +28,7 @@ export default function FlowFormViewPage() {
   if (flowForm === undefined) return <PageLoading />
 
   return (
-    <div>
+    <div className='fa-full-content'>
       <FlowFormDataTable flowForm={flowForm} />
     </div>
   )

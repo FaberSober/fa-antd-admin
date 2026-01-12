@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.api.flow.form.vo.config.FlowFormDataConfig;
 import com.faber.core.annotation.FaModalName;
+import com.faber.core.annotation.SqlEquals;
 import com.faber.core.bean.BaseDelEntity;
 import com.faber.core.config.mybatis.handler.UniversalJsonTypeHandler;
 
@@ -34,6 +35,7 @@ public class FlowForm extends BaseDelEntity {
     @TableId(type = IdType.AUTO)
     private Integer id;
 
+    @SqlEquals
     @ExcelProperty("流程分类ID")
     private Integer catagoryId;
 
@@ -43,9 +45,11 @@ public class FlowForm extends BaseDelEntity {
     @ExcelProperty("编码")
     private String no;
 
+    @SqlEquals
     @ExcelProperty("表单类型:1设计表单/2系统表单")
     private Integer type;
 
+    @SqlEquals
     @ExcelProperty("状态：1启用/2禁止")
     private Integer status;
 
@@ -72,5 +76,9 @@ public class FlowForm extends BaseDelEntity {
     @ExcelProperty("列表配置")
     @TableField(typeHandler = UniversalJsonTypeHandler.class)
     private Map<String, Object> tableConfig;
+
+    @SqlEquals
+    @ExcelProperty("流程ID")
+    private Integer flowProcessId;
 
 }

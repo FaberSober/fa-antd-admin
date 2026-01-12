@@ -56,7 +56,7 @@ export default function FlowProcessForm({ form, initialValues, onFinish, readOnl
       <Form.Item name="formType" label="表单类型" rules={[{ required: true }]}>
         <DictEnumApiSelector enumName='FlowProcessFormTypeEnum' placeholder="请选择表单类型" />
       </Form.Item>
-      {formType === FlowEnums.FlowProcessFormType.SYSTEM && (
+      {formType === FlowEnums.FlowProcessFormType.CUSTOM && (
         <Form.Item name="formId" label="自定义表单" rules={[{ required: false }]}>
           <FlowFormSelect />
         </Form.Item>

@@ -381,6 +381,8 @@ namespace Flow {
     config: FlowFormConfig;
     /** 列表配置 */
     tableConfig: FlowFormTableConfig;
+    /** 流程ID */
+    flowProcessId: number;
   }
 
   export interface TableConfigQueryColumn {
