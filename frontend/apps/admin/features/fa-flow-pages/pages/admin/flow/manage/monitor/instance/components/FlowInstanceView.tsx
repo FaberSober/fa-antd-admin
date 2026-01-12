@@ -6,7 +6,7 @@ import { FaWorkFlow, FaFlowTaskTimeline } from '@features/fa-flow-pages/componen
 import { Segmented } from 'antd';
 import { isNil } from 'lodash';
 import { useEffect, useState } from 'react';
-import FlowFormView from './FlowFormView';
+import FlowFormView from '../../../audit/components/FlowFormView';
 
 
 interface FlowInstanceViewProps {
@@ -47,10 +47,10 @@ export default function FlowInstanceView({ instance }: FlowInstanceViewProps) {
 
       <FaFlexRestLayout>
         <FaLazyContainer showCond={tab === 'form'}>
-          <FlowFormView flwProcess={info.flwProcess} formValues={JSON.parse(info.formContent || '{}')} />
+          <FlowFormView flwProcess={info.flwProcess} formValues={JSON.parse(info.formContent || '{}')} disabled />
         </FaLazyContainer>
         <FaLazyContainer showCond={tab === 'workflow'}>
-          <FaWorkFlow processModel={JSON.parse(info.modelContent)} renderNodes={info.renderNodes} showLegends />
+          <FaWorkFlow flowProcess={info.flowProcess} processModel={JSON.parse(info.modelContent)} renderNodes={info.renderNodes} showLegends />
         </FaLazyContainer>
         <FaLazyContainer showCond={tab === 'timeline'} style={{padding: 12}}>
           <FaFlowTaskTimeline processApprovals={info.processApprovals} />

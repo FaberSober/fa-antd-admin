@@ -27,26 +27,27 @@ export interface FaFormEditorItemProps {
   formItem: Flow.FlowFormItem;
   onClickRowItem?: (item: Flow.FlowFormItem) => void;
   flowNode?: Flw.Node;
+  disabled?: boolean;
 }
 
 /**
  * @author xu.pengfei
  * @date 2025-12-18 09:49:58
  */
-export default function FaFormEditorItem({ formItem, flowNode, onClickRowItem }: FaFormEditorItemProps) {
+export default function FaFormEditorItem({ formItem, flowNode, onClickRowItem, disabled }: FaFormEditorItemProps) {
 
   const formItemConfig: Flw.NodeExtendConfigFormAuth = useMemo(() => {
-    const defaultConfig = { view: true, edit: true, required: false };
+    const defaultConfig = { view: true, edit: disabled ? false : true, required: disabled ? false : false };
     if (!flowNode) return defaultConfig;
     const formAuth = flowNode.extendConfig?.formAuth || {};
     const formItemAuth = formAuth[formItem.id || ''];
     if (!formItemAuth) return defaultConfig;
     return {
       view: get(formItemAuth, 'view', true),
-      edit: get(formItemAuth, 'edit', true),
-      required: get(formItemAuth, 'required', false),
+      edit: disabled ? false : get(formItemAuth, 'edit', true),
+      required: disabled ? false : get(formItemAuth, 'required', false),
     };
-  }, [formItem, flowNode]);
+  }, [formItem, flowNode, disabled]);
   console.log('formItemConfig', formItem.name, flowNode, formItemConfig);
 
   const viewable = formItemConfig.view;

@@ -5,6 +5,7 @@ import { Form, Input, Splitter, Tag } from "antd";
 import { useRef, useState } from "react";
 import useBus from "use-bus";
 import FlowInstanceDeal from "../components/FlowInstanceDeal";
+import FlowInstanceView from "../components/FlowInstanceView";
 
 /**
  * 流程任务管理 - 我收到的任务组件
@@ -88,7 +89,7 @@ export default function FlowMyReceived() {
           <div className="fa-flex-column fa-full fa-relative">
             {task && (
               <div>
-                <FlowInstanceDeal instanceId={task.instanceId} taskId={task.taskId} onSuccess={() => refresh()} />
+                <FlowInstanceView instanceId={task.instanceId} taskId={task.taskId} onSuccess={() => refresh()} />
               </div>
             )}
           </div>

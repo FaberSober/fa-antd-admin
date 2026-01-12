@@ -10,10 +10,11 @@ interface FlowFormViewProps {
   flwProcess: Flow.FlwProcess;
   formValues: any;
   /** 当前节点 */
-  currentNode: string;
+  currentNode?: string;
+  disabled?: boolean;
 }
 
-export default function FlowFormView({ flwProcess, formValues, currentNode }: FlowFormViewProps) {
+export default function FlowFormView({ flwProcess, formValues, currentNode, disabled }: FlowFormViewProps) {
   const [form] = Form.useForm();
   const [flowProcess, setFlowProcess] = useState<Flow.FlowProcess>();
 
@@ -35,12 +36,13 @@ export default function FlowFormView({ flwProcess, formValues, currentNode }: Fl
       {/* 系统表单 */}
       {flwProcess.processKey.startsWith('testLeave') && (<DemoFlowLeaveForm form={form} record={formValues} disabled />)}
       {/* 自定义表单 */}
-      {flowProcess?.formType === FlowEnums.FlowProcessFormType.CUSTOM && flwNode && (
+      {flowProcess?.formType === FlowEnums.FlowProcessFormType.CUSTOM && (
         <FaFlowForm
           form={form}
           formId={formValues.formId}
           flowNode={flwNode}
           record={formValues.formData}
+          disabled={disabled}
           // onSuccess={(fv) => handleFormSubmit(flow, fv)}
           // onLoadingChange={setFormLoading}
         />

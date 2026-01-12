@@ -4,7 +4,7 @@ import { flowTaskApi } from "@features/fa-flow-pages/services";
 import { Form, Input, Splitter, Tag } from "antd";
 import { useRef, useState } from "react";
 import useBus from "use-bus";
-import FlowInstanceDeal from "../components/FlowInstanceDeal";
+import FlowInstanceView from "../components/FlowInstanceView";
 
 /**
  * 流程任务管理 - 我的申请组件
@@ -94,7 +94,7 @@ export default function FlowMyApplications() {
         <Splitter.Panel>
           <div className="fa-flex-column fa-full fa-relative">
             {instance && (
-              <FlowInstanceDeal instanceId={instance.instanceId} onSuccess={() => refresh()} />
+              <FlowInstanceView instanceId={instance.instanceId} onSuccess={() => refresh()} />
             )}
           </div>
         </Splitter.Panel>

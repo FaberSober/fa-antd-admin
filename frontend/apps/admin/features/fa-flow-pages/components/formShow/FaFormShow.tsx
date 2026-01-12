@@ -8,7 +8,7 @@ import './index.scss';
 
 export interface FaFormShowProps extends FormProps<any> {
   config: Flow.FlowFormConfig;
-  flowNode: Flw.Node;
+  flowNode?: Flw.Node;
 }
 
 /**
@@ -38,7 +38,7 @@ export default function FaFormShow({ config, flowNode, ...props }: FaFormShowPro
                     FaUtils.preventEvent(e);
                   }}
                 >
-                  <FaFormEditorItem formItem={formItem} flowNode={flowNode} />
+                  <FaFormEditorItem formItem={formItem} flowNode={flowNode} disabled={props.disabled} />
                 </div>
               );
             }

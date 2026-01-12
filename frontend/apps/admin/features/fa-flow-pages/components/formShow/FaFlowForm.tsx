@@ -10,7 +10,7 @@ import { getTableKeyMap } from './utils';
 export interface FaFlowFormProps<T = any> {
   formId: number;
   form: FormInstance<any>;
-  flowNode: Flw.Node;
+  flowNode?: Flw.Node;
   record?: T;
   onSuccess?: (record: T) => void;
   onLoadingChange?: (loading: boolean) => void;
