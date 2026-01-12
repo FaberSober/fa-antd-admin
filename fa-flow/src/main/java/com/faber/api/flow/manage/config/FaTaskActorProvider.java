@@ -107,40 +107,47 @@ public class FaTaskActorProvider extends GeneralTaskActorProvider {
 
         // 自定义代码处理逻辑
         if (FaNodeSetTypeExtend.code.eq(nodeModel.getSetType())) {
-            // 获取代码路径，形如："nodeAssigneeCodePath": "com.faber.api.flow.demo.flow.DemoLeaveTaskActorProvider#getTaskActorCase1"
-            String nodeAssigneeCodePath = MapUtil.getStr(nodeModel.getExtendConfig(), "nodeAssigneeCodePath");
-            if (StrUtil.isEmpty(nodeAssigneeCodePath)) {
-                throw new FlowLongException("节点【" + nodeModel.getNodeName() + "】自定义代码处理逻辑未指定，请联系管理员");
-            }
-            String[] codeSs = nodeAssigneeCodePath.split("#");
-            String className = codeSs[0];
-            String methodName = codeSs[1];
-            try {
-                // 1. 通过 Spring 拿到 Bean
-                Object clazzBean = SpringUtil.getBean(Class.forName(className));
-
-                // 2. 获取方法（方法名 + 参数类型）
-                Method method = clazzBean.getClass().getMethod(methodName, NodeModel.class, Execution.class);
-
-                // 3. 调用方法
-                @SuppressWarnings("unchecked")
-                List<FlwTaskActor> result = (List<FlwTaskActor>) method.invoke(clazzBean, nodeModel, execution);
-
-                return result;
-            } catch (ClassNotFoundException e) {
-                log.error(e.getMessage(), e);
-                throw new FlowLongException("节点【" + nodeModel.getNodeName() + "】自定义代码处理逻辑【" + className + "】未找到，请联系管理员");
-            } catch (NoSuchMethodException e) {
-                log.error(e.getMessage(), e);
-                throw new FlowLongException("节点【" + nodeModel.getNodeName() + "】自定义代码处理逻辑【" + className + "#" + methodName + "】的方法未找到，请联系管理员");
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-                throw new FlowLongException("节点【" + nodeModel.getNodeName() + "】自定义代码处理逻辑【" + className + "#" + methodName + "】的方法调用异常，请联系管理员" + e.getMessage());
-            }
-            
+            return getFlwTaskActorsByCode(nodeModel, execution, "");
         }
+
+        // 可以补充其他类型的处理逻辑……
         
         return super.getTaskActors(nodeModel, execution);
+    }
+
+    private static List<FlwTaskActor> getFlwTaskActorsByCode(NodeModel nodeModel, Execution execution,String nodeAssigneeCodePath) {
+        // 获取代码路径，形如："nodeAssigneeCodePath": "com.faber.api.flow.demo.flow.DemoLeaveTaskActorProvider#getTaskActorCase1"
+        if (StrUtil.isEmpty(nodeAssigneeCodePath)) {
+            nodeAssigneeCodePath = MapUtil.getStr(nodeModel.getExtendConfig(), "nodeAssigneeCodePath");
+        }
+        if (StrUtil.isEmpty(nodeAssigneeCodePath)) {
+            throw new FlowLongException("节点【" + nodeModel.getNodeName() + "】自定义代码处理逻辑未指定，请联系管理员");
+        }
+        String[] codeSs = nodeAssigneeCodePath.split("#");
+        String className = codeSs[0];
+        String methodName = codeSs[1];
+        try {
+            // 1. 通过 Spring 拿到 Bean
+            Object clazzBean = SpringUtil.getBean(Class.forName(className));
+
+            // 2. 获取方法（方法名 + 参数类型）
+            Method method = clazzBean.getClass().getMethod(methodName, NodeModel.class, Execution.class);
+
+            // 3. 调用方法
+            @SuppressWarnings("unchecked")
+            List<FlwTaskActor> result = (List<FlwTaskActor>) method.invoke(clazzBean, nodeModel, execution);
+
+            return result;
+        } catch (ClassNotFoundException e) {
+            log.error(e.getMessage(), e);
+            throw new FlowLongException("节点【" + nodeModel.getNodeName() + "】自定义代码处理逻辑【" + className + "】未找到，请联系管理员");
+        } catch (NoSuchMethodException e) {
+            log.error(e.getMessage(), e);
+            throw new FlowLongException("节点【" + nodeModel.getNodeName() + "】自定义代码处理逻辑【" + className + "#" + methodName + "】的方法未找到，请联系管理员");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new FlowLongException("节点【" + nodeModel.getNodeName() + "】自定义代码处理逻辑【" + className + "#" + methodName + "】的方法调用异常，请联系管理员" + e.getMessage());
+        }
     }
     
 }
