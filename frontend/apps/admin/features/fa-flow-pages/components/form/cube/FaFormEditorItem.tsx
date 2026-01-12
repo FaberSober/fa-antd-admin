@@ -47,7 +47,7 @@ export default function FaFormEditorItem({ formItem, flowNode, onClickRowItem }:
       required: get(formItemAuth, 'required', false),
     };
   }, [formItem, flowNode]);
-  // console.log('formItemConfig', formItem.name, flowNode, formItemConfig);
+  console.log('formItemConfig', formItem.name, flowNode, formItemConfig);
 
   const viewable = formItemConfig.view;
   const editable = formItemConfig.edit;
@@ -72,64 +72,64 @@ export default function FaFormEditorItem({ formItem, flowNode, onClickRowItem }:
           <InputNumber disabled={!editable} style={{ width: '100%' }} placeholder={formItem.placeholder} />
         )}
         {formItem.type === 'textarea' && (
-          <Input.TextArea rows={4} placeholder={formItem.placeholder} style={{ height: '100%', resize: 'none' }} />
+          <Input.TextArea disabled={!editable} rows={4} placeholder={formItem.placeholder} style={{ height: '100%', resize: 'none' }} />
         )}
         {/* 选择类组件 */}
         {formItem.type === 'select' && (
-          <Select placeholder={formItem.placeholder} />
+          <Select disabled={!editable} placeholder={formItem.placeholder} />
         )}
         {formItem.type === 'cascader' && (
-          <Cascader placeholder={formItem.placeholder} />
+          <Cascader disabled={!editable} placeholder={formItem.placeholder} />
         )}
         {formItem.type === 'checkbox' && (
-          <Checkbox>{formItem.placeholder || '勾选'}</Checkbox>
+          <Checkbox disabled={!editable}>{formItem.placeholder || '勾选'}</Checkbox>
         )}
         {formItem.type === 'radio' && (
-          <Radio.Group />
+          <Radio.Group disabled={!editable} />
         )}
         {/* 日期时间类组件 */}
         {formItem.type === 'datepicker' && (
-          <DatePicker style={{ width: '100%' }} />
+          <DatePicker disabled={!editable} style={{ width: '100%' }} />
         )}
         {formItem.type === 'timepicker' && (
-          <TimePicker style={{ width: '100%' }} />
+          <TimePicker disabled={!editable} style={{ width: '100%' }} />
         )}
         {/* 开关和评分 */}
         {formItem.type === 'switch' && (
-          <Switch />
+          <Switch disabled={!editable} />
         )}
         {formItem.type === 'rating' && (
-          <Rate />
+          <Rate disabled={!editable} />
         )}
         {/* 滑块 */}
         {formItem.type === 'slider' && (
-          <Slider style={{ width: '100%' }} />
+          <Slider disabled={!editable} style={{ width: '100%' }} />
         )}
         {/* 颜色选择 */}
         {formItem.type === 'colorpicker' && (
-          <ColorPicker showText />
+          <ColorPicker disabled={!editable} showText />
         )}
         {/* 文件上传 */}
         {formItem.type === 'fileupload' && (
-          <UploadFileLocal />
+          <UploadFileLocal disabled={!editable} />
         )}
         {formItem.type === 'imageupload' && (
-          <UploadImgLocal />
+          <UploadImgLocal disabled={!editable} />
         )}
         {/* 富文本和链接 */}
         {formItem.type === 'richtext' && (
-          <Input.TextArea rows={6} placeholder={formItem.placeholder || '请输入富文本内容'} />
+          <Input.TextArea disabled={!editable} rows={6} placeholder={formItem.placeholder || '请输入富文本内容'} />
         )}
         {formItem.type === 'link' && (
-          <Input placeholder={formItem.placeholder || '请输入链接地址'} type="url" />
+          <Input disabled={!editable} placeholder={formItem.placeholder || '请输入链接地址'} type="url" />
         )}
 
         {/* ------------------------------ 业务组件 ------------------------------ */}
         {formItem.type === 'biz_user_select' && (
-          <UserSearchSelect placeholder={formItem.placeholder || '请选择用户'} />
+          <UserSearchSelect disabled={!editable} placeholder={formItem.placeholder || '请选择用户'} />
         )}
         {formItem.type === 'biz_dept_select' && (
-          <DepartmentCascade placeholder={formItem.placeholder || '请选择部门'} />
+          <DepartmentCascade disabled={!editable} placeholder={formItem.placeholder || '请选择部门'} />
         )}
       </Form.Item>
     </div>
