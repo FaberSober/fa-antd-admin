@@ -37,7 +37,7 @@ export default function FlowProcessView({ item }: FlowProcessViewProps) {
           <FlowProcessEdit item={item} viewOnly />
         </FaLazyContainer>
         <FaLazyContainer showCond={tab === 'workflow'}>
-          <FaWorkFlow processModel={JSON.parse(item.modelContent)} readOnly />
+          <FaWorkFlow flowProcess={item} processModel={JSON.parse(item.modelContent)} readOnly />
         </FaLazyContainer>
       </FaFlexRestLayout>
     </div>
