@@ -9,6 +9,7 @@ import { Button, Empty, Space } from 'antd';
 import { resortColumnsByConfig } from '../utils';
 import './FormTableEdit.scss';
 import clsx from 'clsx';
+import FormTableSelectModal from './FormTableSelectModal';
 
 export interface FormTableEditProps {
   item: Flow.FlowForm;
@@ -34,14 +35,25 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
 
   const hasMainTable = itemClone?.dataConfig?.main?.tableName;
 
-  function handleCreateMainTableFinish(v: {tableName: string, comment: string}) {
+  async function handleSetMainTable(v: {tableName: string, comment: string}) {
     console.log('create table finish', v);
+
+    const res1 = await flowFormApi.queryTableStructure({ tableName: v.tableName });
+    const columns: Flow.FlowFormDataConfigColumn[] = res1.data.columns.map((col, index) => ({
+      ...col,
+      table: v.tableName,
+      sort: index,
+    }));
+
     setItemClone(prev => {
       const newItem = { ...prev };
       set(newItem, 'dataConfig.main.tableName', v.tableName);
       set(newItem, 'dataConfig.main.comment', v.comment);
+      set(newItem, 'dataConfig.main.columns', columns);
+      set(newItem, 'dataConfig.main.pkField', res1.data.pkField);
       return newItem;
     });
+
     flowFormApi.update(item.id, {
       tableName: v.tableName,
       dataConfig: {
@@ -49,6 +61,8 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
         main: {
           tableName: v.tableName,
           comment: v.comment,
+          columns,
+          pkField: res1.data.pkField,
         }
       }
     })
@@ -97,16 +111,19 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
             <span>{itemClone?.dataConfig?.main?.tableName}</span>
           </div>
         )}
-        {!isMainTableCreated && (
-          <FormTableCreateModal
-            addBtn
-            title='新增主表'
-            fetchFinish={handleCreateMainTableFinish}
-          />
-        )}
         <Space className='fa-mt12'>
-          <Button>新增子表</Button>
-          <Button>关联子表</Button>
+          {!isMainTableCreated && (
+            <FormTableCreateModal
+              addBtn
+              title='新增主表'
+              fetchFinish={handleSetMainTable}
+            />
+          )}
+          <FormTableSelectModal fetchFinish={handleSetMainTable}>
+            <Button>关联主表</Button>
+          </FormTableSelectModal>
+          {/* <Button>新增子表</Button> */}
+          {/* <Button>关联子表</Button> */}
         </Space>
       </div>
 

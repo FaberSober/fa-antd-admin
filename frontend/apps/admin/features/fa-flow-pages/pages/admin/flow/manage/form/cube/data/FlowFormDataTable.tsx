@@ -78,7 +78,7 @@ export default function FlowFormDataTable({ flowForm }: FlowFormDataTableProps) 
             <Space>
               <Button htmlType="submit" loading={loading} icon={<SearchOutlined />}>查询</Button>
               <Button onClick={() => clearForm(form)}>重置</Button>
-              <FlowFormAdd flowForm={flowForm} onSuccess={fetchPageList} />
+              {flowForm.flowProcessId && (<FlowFormAdd flowForm={flowForm} onSuccess={fetchPageList} />)}
               {/* <Button icon={<DownloadOutlined />}>导出</Button> */}
             </Space>
           </Form>

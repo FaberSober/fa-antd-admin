@@ -49,23 +49,25 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
     public void createFormTable(CreateFormTableReqVo reqVo) throws SQLException {
         // 校验表名必须以ff_开头
         String tableName = reqVo.getTableName();
+        String comment = reqVo.getComment();
         if (tableName == null || !tableName.startsWith("ff_")) {
             throw new IllegalArgumentException("表名必须以ff_开头");
         }
 
         // 创建基础表
-        String createTableSql = String.format(
-            "CREATE TABLE `%s` (\n" +
-            "  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',\n" +
-            "  `crt_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
-            "  `crt_user` varchar(32) NOT NULL COMMENT '创建用户ID',\n" +
-            "  `upd_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',\n" +
-            "  `upd_user` varchar(32) DEFAULT NULL COMMENT '更新用户ID',\n" +
-            "  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',\n" +
-            "  PRIMARY KEY (`id`)\n" +
-            ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
-            tableName
-        );
+            String createTableSql = String.format(
+                "CREATE TABLE `%s` (\n" +
+                "  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',\n" +
+                "  `crt_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
+                "  `crt_user` varchar(32) NOT NULL COMMENT '创建用户ID',\n" +
+                "  `upd_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',\n" +
+                "  `upd_user` varchar(32) DEFAULT NULL COMMENT '更新用户ID',\n" +
+                "  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',\n" +
+                "  PRIMARY KEY (`id`)\n" +
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='%s';",
+                tableName,
+                comment == null ? "" : comment.replace("'", "''")
+            );
 
         Connection conn = dataSource.getConnection();
         SqlExecutor.execute(conn, createTableSql);
@@ -78,6 +80,16 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
         List<TableColumnVo> columns = baseMapper.getTableColumns(tableName);
         tableInfo.setColumns(columns);
         tableInfo.setExist(!columns.isEmpty());
+
+        // 获取主键字段
+        String pkField = null;
+        for (TableColumnVo column : columns) {
+            if ("PRI".equalsIgnoreCase(column.getKey())) {
+                pkField = column.getField();
+                break;
+            }
+        }
+        tableInfo.setPkField(pkField);
 
         // TODO 后续可以修改为使用 Hutool 的 MetaUtil 来获取表结构
         // Table tableMeta = MetaUtil.getTableMeta(dataSource, tableName);

@@ -16,6 +16,13 @@ export default function FormItemPropertyPanel() {
   const selectedFormItem = useFaFormStore((state) => state.selectedFormItem);
   const updateSelectedFormItem = useFaFormStore((state) => state.updateSelectedFormItem);
 
+  const columns = useMemo(() => {
+    if (flowForm && flowForm.dataConfig && flowForm?.dataConfig?.main) {
+      return flowForm.dataConfig.main.columns || [];
+    }
+    return [];
+  }, [flowForm]);
+
   useEffect(() => {
     console.log('FormItemPropertyPanel selectedFormItem changed', selectedFormItem);
     form.setFieldsValue({
@@ -37,7 +44,7 @@ export default function FormItemPropertyPanel() {
   const columnOptions = useMemo(() => {
     const options = [];
     if (flowForm && flowForm.dataConfig && flowForm?.dataConfig?.main) {
-      for (const col of flowForm.dataConfig.main.columns) {
+      for (const col of columns) {
         options.push({ label: col.comment, value: col.field });
       }
     }

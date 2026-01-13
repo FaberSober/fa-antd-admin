@@ -36,6 +36,7 @@ export default function FormTableColumnTable({ item, tableInfo, onColumnsChange 
     });
     const columns: Flow.FlowFormDataConfigColumn[] = newList.map((col, index) => ({
       ...col,
+      table: tableInfo.tableName,
       sort: index,
     }));
     onColumnsChange?.(columns);
@@ -47,6 +48,7 @@ export default function FormTableColumnTable({ item, tableInfo, onColumnsChange 
       setTableInfoClone(res.data);
       onColumnsChange?.(res.data.columns.map((col, index) => ({
         ...col,
+        table: tableInfo.tableName,
         sort: index,
       })));
     });

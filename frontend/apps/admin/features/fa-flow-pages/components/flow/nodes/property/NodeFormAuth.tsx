@@ -25,7 +25,7 @@ export default function NodeFormAuth({ node, onChange }: NodeFormAuthProps) {
   const loading = useApiLoading(flowFormApi.getUrl(`getById/${flowProcess?.formId}`));
 
   useEffect(() => {
-    if (!flowProcess || !flowProcess.id) return;
+    if (!flowProcess || !flowProcess.id || !flowProcess.formId) return;
     // get dynamic form data
     flowFormApi.getById(flowProcess.formId).then(res => {
       setFlowForm(res.data);

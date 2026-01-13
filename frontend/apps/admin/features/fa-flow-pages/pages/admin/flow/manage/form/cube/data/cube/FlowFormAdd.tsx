@@ -24,6 +24,7 @@ export default function FlowFormAdd({ flowForm, onSuccess }: FlowFormAddProps) {
   const [formLoading, setFormLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    if (!flowForm.flowProcessId) return;
     flowProcessApi.getById(flowForm.flowProcessId).then(res => {
       setFlow(res.data)
     })
@@ -109,7 +110,7 @@ export default function FlowFormAdd({ flowForm, onSuccess }: FlowFormAddProps) {
 
   return (
     <div>
-      <Button onClick={handleAdd} icon={<PlusOutlined />}>新增</Button>
+      {flow && <Button onClick={handleAdd} icon={<PlusOutlined />}>新增</Button>}
 
       {content && createPortal(content, mountNode)}
     </div>
