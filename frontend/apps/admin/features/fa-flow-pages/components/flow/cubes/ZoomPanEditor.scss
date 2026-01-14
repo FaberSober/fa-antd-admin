@@ -4,6 +4,14 @@
   height: 100%;
   overflow: hidden;
   background: var(--el-bg-color);
+
+  &.cursor-grab {
+    cursor: grab;
+  }
+
+  &.cursor-grabbing {
+    cursor: grabbing;
+  }
 }
 
 .fa-zoom-pan-editor-minimap {

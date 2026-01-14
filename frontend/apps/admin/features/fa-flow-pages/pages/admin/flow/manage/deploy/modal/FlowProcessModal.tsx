@@ -130,6 +130,7 @@ export default function FlowProcessModal({ children, title, record, fetchFinish,
           form={form}
           onFinish={onFinish}
           initialValues={getInitialValues()}
+          type='create'
         />
       </DragModal>
     </span>

@@ -9,12 +9,13 @@ interface FlowProcessFormProps {
   initialValues?: Partial<Flow.FlowProcess>;
   onFinish?: (values: any) => void;
   readOnly?: boolean;
+  type: 'create' | 'edit';
 }
 
 /**
  * 流程基础信息表单组件
  */
-export default function FlowProcessForm({ form, initialValues, onFinish, readOnly }: FlowProcessFormProps) {
+export default function FlowProcessForm({ form, initialValues, onFinish, readOnly, type }: FlowProcessFormProps) {
   const [formType, setFormType] = useState<any>();
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export default function FlowProcessForm({ form, initialValues, onFinish, readOnl
         <FlowCatagoryCascader />
       </Form.Item>
       <Form.Item name="processKey" label="流程定义" tooltip="流程定义 key 唯一标识，已发起的流程实例不会随之变化" rules={[{ required: true }]}>
-        <Input placeholder="请输入流程定义 key 唯一标识" />
+        <Input placeholder="请输入流程定义 key 唯一标识" disabled={type === 'edit'} />
       </Form.Item>
       <Form.Item name="processName" label="流程名称" rules={[{ required: true }]}>
         <Input placeholder="请输入名称" />

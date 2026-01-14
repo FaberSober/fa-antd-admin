@@ -72,7 +72,7 @@ export default function Promoter({ node }: PromoterProps) {
         title={(
           <Input value={nodeCopy.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)} />
         )}
-        size={500}
+        size={600}
       >
         <div className="fa-flex-column fa-full-content">
           <Tabs

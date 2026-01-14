@@ -211,7 +211,7 @@ export default function ZoomPanEditor({
       <div className="fa-full-content">
         <div
           ref={containerRef}
-          className="fa-zoom-pan-editor-container"
+          className={`fa-zoom-pan-editor-container ${isSpacePressed ? (isDragging ? 'cursor-grabbing' : 'cursor-grab') : ''}`}
           onWheelCapture={handleWheel}
           onMouseDown={handleMouseDown}
         >

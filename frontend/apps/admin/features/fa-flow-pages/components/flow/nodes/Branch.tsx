@@ -43,12 +43,14 @@ export default function Branch({ node, parentNode }: BranchProps) {
   function delTerm(index: number) {
     nodeCopy.conditionNodes!.splice(index, 1)
     if (nodeCopy.conditionNodes!.length == 1) { // 只剩下一个条件节点，则将剩下的条件节点的条件下属子节点，移动到当前节点的子节点
-      if (nodeCopy.childNode) {
+      if (nodeCopy.childNode) { // 条件节点有后续子节点
         if (nodeCopy.conditionNodes![0].childNode) { // 剩下的最后一个条件节点，如果有条件下属子节点，则将该子节点设置为父节点的子节点
           parentNode.childNode = nodeCopy.conditionNodes![0].childNode
         } else { // 剩下的最后一个条件节点，如果没有条件下属子节点，则将整个条件节点的子节点，设置为父节点的子节点
           parentNode.childNode = nodeCopy.childNode;
         }
+      } else { // 没有后续子节点，则表示后续流程已经结束
+        parentNode.childNode = undefined;
       }
     }
     const nodeNew = { ...nodeCopy }

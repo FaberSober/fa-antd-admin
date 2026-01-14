@@ -25,7 +25,7 @@ export default function NodeSetTypeRadio({...props}: NodeSetTypeRadioProps) {
         { label: NodeSetTypeMap[NodeSetType.designatedCandidate], value: NodeSetType.designatedCandidate },
         { label: NodeSetTypeMap[NodeSetType.code], value: NodeSetType.code },
       ]}
-      className='fa-grid3'
+      className='fa-grid4'
       {...props}
     />
   )

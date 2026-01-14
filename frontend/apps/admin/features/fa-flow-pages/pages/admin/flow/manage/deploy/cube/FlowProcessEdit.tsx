@@ -129,6 +129,7 @@ export default function FlowProcessEdit({item, onSuccess, viewOnly}: FlowProcess
               }}
               initialValues={formInitialValues}
               readOnly={viewOnly}
+              type="edit"
             />
           </div>
         )}
