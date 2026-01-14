@@ -136,6 +136,23 @@ namespace Flw {
   export interface NodeExtendConfig {
     /** 表单权限 */
     formAuth?: Record<string, NodeExtendConfigFormAuth>;
+    /** ---------------------- 操作设置 ---------------------- */
+    btnSubmitValid: boolean; // 提交
+    btnSubmitText: string; // 提交
+    btnDraftValid: boolean; // 暂存
+    btnDraftText: string; // 暂存
+    btnRevokeValid: boolean; // 撤回
+    btnRevokeText: string; // 撤回
+    btnPressValid: boolean; // 催办
+    btnPressText: string; // 催办
+    btnPrintValid: boolean; // 打印
+    btnPrintText: string; // 打印
+    titleType: 0|1; // 标题设置
+    titleFormat: string; // 标题模板
+    errorRule: 1|2|3|4|5; // 异常处理
+    errorRuleUsers: string[]; // 指定异常处理用户IDs
+    btnSignValid: boolean; // 手写签名
+    btnCommentValid: boolean; // 意见填写
     [key: string]: any;
   }
 
