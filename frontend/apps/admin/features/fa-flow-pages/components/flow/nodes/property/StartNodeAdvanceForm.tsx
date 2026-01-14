@@ -16,6 +16,7 @@ export interface StartNodeAdvanceFormProps {
 export default function StartNodeAdvanceForm({ node }: StartNodeAdvanceFormProps) {
   const [form] = Form.useForm();
 
+  const refreshNode = useWorkFlowStore(state => state.refreshNode);
   const readOnly = useWorkFlowStore(state => state.readOnly);
 
   return (

@@ -22,14 +22,15 @@ export interface FormTableEditProps {
 export default function FormTableEdit({ item }: FormTableEditProps) {
 
   const [itemClone, setItemClone] = useState(item);
-  const [tableName, setTableName] = useState<string>();
-  const [tableInfo, setTableInfo] = useState<Flow.TableInfoVo>();
+  const [tableName, setTableName] = useState<string>(); // 选中查看的表
+  const [tableInfo, setTableInfo] = useState<Flow.TableInfoVo>(); // 选中表详细
   const [isMainTableCreated, setIsMainTableCreated] = useState<boolean>(false);
 
   useEffect(() => {
     setItemClone(item);
     if (itemClone?.dataConfig?.main?.tableName) {
       setIsMainTableCreated(true);
+      handleSelTable(itemClone?.dataConfig?.main?.tableName)
     }
   }, [item]);
 
@@ -86,26 +87,27 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
     })
   }
 
+  function handleSelTable(selTableName: string) {
+    if (selTableName === tableName) {
+      return;
+    }
+    setTableName(selTableName);
+    flowFormApi.queryTableStructure({ tableName: selTableName! }).then(res => {
+      resortColumnsByConfig(res.data.columns, item.dataConfig);
+      setTableInfo(res.data);
+      if (!res.data.exist) {
+        setIsMainTableCreated(false);
+      }
+    });
+  }
+
   // console.log('hasMainTable', hasMainTable);
   return (
     <div className='fa-full fa-flex-row fa-gap12'>
       <div style={{ width: 250 }} className='fa-card'>
         {hasMainTable && (
           <div className={clsx('fa-form-table-item', tableName === itemClone?.dataConfig?.main?.tableName ? 'fa-form-table-item-active' : '')}
-            onClick={() =>{
-              const clickTableName = itemClone?.dataConfig?.main?.tableName;
-              if (clickTableName === tableName) {
-                return;
-              }
-              setTableName(itemClone?.dataConfig?.main?.tableName);
-              flowFormApi.queryTableStructure({ tableName: clickTableName! }).then(res => {
-                resortColumnsByConfig(res.data.columns, item.dataConfig);
-                setTableInfo(res.data);
-                if (!res.data.exist) {
-                  setIsMainTableCreated(false);
-                }
-              });
-            }}
+            onClick={() => handleSelTable(itemClone?.dataConfig?.main?.tableName)}
           >
             <div className="i-material-symbols:table fa-form-item-icon"/>
             <span>{itemClone?.dataConfig?.main?.tableName}</span>
