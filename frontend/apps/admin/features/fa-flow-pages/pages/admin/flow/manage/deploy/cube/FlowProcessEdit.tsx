@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { get } from 'lodash';
 import { Flow } from '@/types';
 import { BaseDrawerContext, FaFlexRestLayout, FaUtils } from '@fa/ui';
@@ -26,8 +26,14 @@ export default function FlowProcessEdit({item, onSuccess, viewOnly}: FlowProcess
 
   useEffect(() => {
     setData({ ...item });
-    // 设置基础信息表单数据
-    form.setFieldsValue({
+    // 设置扩展配置表单数据
+    extendForm.setFieldsValue({
+      submitterPermission: get(item, 'submitterPermission', false),
+    });
+  }, [item, form, extendForm]);
+
+  const formInitialValues = useMemo(() => {
+    return {
       catagoryId: get(item, 'catagoryId'),
       processKey: get(item, 'processKey'),
       processName: get(item, 'processName'),
@@ -40,12 +46,8 @@ export default function FlowProcessEdit({item, onSuccess, viewOnly}: FlowProcess
       formType: get(item, 'formType'),
       formId: get(item, 'formId'),
       sort: get(item, 'sort'),
-    });
-    // 设置扩展配置表单数据
-    extendForm.setFieldsValue({
-      submitterPermission: get(item, 'submitterPermission', false),
-    });
-  }, [item, form, extendForm]);
+    }
+  }, [item]);
 
   async function handlePublish() {
     try {
@@ -91,10 +93,10 @@ export default function FlowProcessEdit({item, onSuccess, viewOnly}: FlowProcess
   }
 
   return (
-    <div className='fa-full fa-flex-column'>
+    <div className='fa-full-content fa-flex-column fa-bg-grey2'>
       <div>
         {!viewOnly && (
-          <div className='fa-flex-row-center fa-mb12'>
+          <div className='fa-flex-row-center fa-bg-white fa-p12'>
             <div style={{width: 100}}></div>
             <div className='fa-flex-1 fa-flex-center'>
               <Steps
@@ -109,21 +111,23 @@ export default function FlowProcessEdit({item, onSuccess, viewOnly}: FlowProcess
               />
             </div>
             <Space style={{width: 100}} className='fa-flex-row-end'>
-              <Button onClick={handlePublish} type='primary' icon={<SendOutlined />}>发布</Button>
+              <Button onClick={handlePublish} type='primary'>发布</Button>
+              <Button onClick={() => closeDrawer()}>取消</Button>
             </Space>
           </div>
         )}
       </div>
 
-      <FaFlexRestLayout>
+      <FaFlexRestLayout className='fa-full-content fa-flex-column'>
         {current === 0 && (
-          <div className='fa-full-content-p12'>
+          <div className='fa-bg-white fa-mt12 fa-mb12 fa-radius' style={{width: 700, height: '100%', overflow: 'auto', padding: 20, alignSelf: 'center'}}>
             <FlowProcessForm
               form={form}
               onFinish={(values) => {
                 setData(prev => ({ ...prev, ...values }));
                 message.success('基础信息已保存');
               }}
+              initialValues={formInitialValues}
               readOnly={viewOnly}
             />
           </div>
@@ -136,7 +140,7 @@ export default function FlowProcessEdit({item, onSuccess, viewOnly}: FlowProcess
           />
         )}
         {current === 2 && (
-          <div className='fa-full-content-p12'>
+          <div className='fa-bg-white fa-mt12 fa-mb12 fa-radius' style={{width: 700, height: '100%', overflow: 'auto', padding: 20, alignSelf: 'center'}}>
             <Form
               form={extendForm}
               onFinish={(values) => {

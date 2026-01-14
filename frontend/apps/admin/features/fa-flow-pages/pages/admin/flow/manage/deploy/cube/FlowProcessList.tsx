@@ -93,10 +93,13 @@ export default function FlowProcessList({ catagoryId }: FlowProcessListProps) {
             <FaHref icon={<OrderedListOutlined />} tooltip="版本管理" />
 
             <BaseDrawer
-              title={`编辑-${r.processName}`}
               triggerDom={<FaHref icon={<EditOutlined />} tooltip='编辑' />}
               size={document.body.clientWidth}
               push={false}
+              title={false}
+              styles={{
+                header: { display: 'none' }
+              }}
             >
               <FlowProcessEdit item={r} onSuccess={fetchPageList} />
             </BaseDrawer>
