@@ -10,14 +10,13 @@ import { each, get } from 'lodash';
 
 export interface NodeFormAuthProps {
   node: Flw.Node;
-  onChange?: (ec: Flw.NodeExtendConfig) => void;
 }
 
 /**
  * @author xu.pengfei
  * @date 2026-01-05 10:12:14
  */
-export default function NodeFormAuth({ node, onChange }: NodeFormAuthProps) {
+export default function NodeFormAuth({ node }: NodeFormAuthProps) {
   const readOnly = useWorkFlowStore(state => state.readOnly);
   const flowProcess = useWorkFlowStore(state => state.flowProcess);
   const [flowForm, setFlowForm] = useState<Flow.FlowForm>();

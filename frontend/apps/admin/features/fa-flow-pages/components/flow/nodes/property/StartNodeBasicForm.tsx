@@ -20,8 +20,6 @@ export default function StartNodeBasicForm({ node }: StartNodeBasicFormProps) {
   const updateNode = useWorkFlowStore(state => state.updateNode);
   const readOnly = useWorkFlowStore(state => state.readOnly);
 
-  const { nodeCopy, setNodeCopy } = useNode(node)
-
   useEffect(() => {
     form.setFieldsValue({
       nodeAssigneeIds: (node.nodeAssigneeList||[]).map(i => i.id),
@@ -33,10 +31,9 @@ export default function StartNodeBasicForm({ node }: StartNodeBasicFormProps) {
       const res = await rbacRoleApi.getByIds(fieldsValue.nodeAssigneeIds);
       const nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
       const nodeNew = {
-        ...nodeCopy,
+        ...node,
         nodeAssigneeList,
       }
-      setNodeCopy(nodeNew)
       updateNode(nodeNew);
     } catch (e) {
       console.error(e)

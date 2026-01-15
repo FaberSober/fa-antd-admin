@@ -10,6 +10,7 @@ import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
 import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
 import { FaArrUtils } from '@fa/ui';
 import { getNodeKey } from "@features/fa-flow-pages/components/flow/utils";
+import { cloneDeep } from 'lodash';
 
 
 export interface BranchProps {
@@ -23,39 +24,38 @@ export interface BranchProps {
  * @date 2025/8/19 22:19
  */
 export default function Branch({ node, parentNode }: BranchProps) {
-  const refreshNode = useWorkFlowStore(state => state.refreshNode);
-  const { nodeCopy, setNodeCopy, updateNodeProps } = useNode(node)
+  const updateNode = useWorkFlowStore(state => state.updateNode);
 
   function addTerm() {
-    let len = nodeCopy.conditionNodes!.length + 1
-    nodeCopy.conditionNodes!.push({
+    const nodeNew = cloneDeep(node)
+    let len = nodeNew.conditionNodes!.length + 1
+    nodeNew.conditionNodes!.push({
       nodeName: '条件' + len,
       nodeKey: getNodeKey(),
       type: 3,
       priorityLevel: len,
       conditionList: []
     })
-    const nodeNew = { ...nodeCopy }
-    Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
-    refreshNode();
+    updateNode(nodeNew);
   }
 
   function delTerm(index: number) {
-    nodeCopy.conditionNodes!.splice(index, 1)
-    if (nodeCopy.conditionNodes!.length == 1) { // 只剩下一个条件节点，则将剩下的条件节点的条件下属子节点，移动到当前节点的子节点
-      if (nodeCopy.childNode) { // 条件节点有后续子节点
-        if (nodeCopy.conditionNodes![0].childNode) { // 剩下的最后一个条件节点，如果有条件下属子节点，则将该子节点设置为父节点的子节点
-          parentNode.childNode = nodeCopy.conditionNodes![0].childNode
+    const nodeNew = cloneDeep(node)
+    nodeNew.conditionNodes!.splice(index, 1)
+    if (nodeNew.conditionNodes!.length == 1) { // 只剩下一个条件节点，则将剩下的条件节点的条件下属子节点，移动到当前节点的子节点
+      const parentNodeNew = cloneDeep(parentNode)
+      if (nodeNew.childNode) { // 条件节点有后续子节点
+        if (nodeNew.conditionNodes![0].childNode) { // 剩下的最后一个条件节点，如果有条件下属子节点，则将该子节点设置为父节点的子节点
+          parentNodeNew.childNode = nodeNew.conditionNodes![0].childNode
         } else { // 剩下的最后一个条件节点，如果没有条件下属子节点，则将整个条件节点的子节点，设置为父节点的子节点
-          parentNode.childNode = nodeCopy.childNode;
+          parentNodeNew.childNode = nodeNew.childNode;
         }
       } else { // 没有后续子节点，则表示后续流程已经结束
-        parentNode.childNode = undefined;
+        parentNodeNew.childNode = undefined;
       }
+      updateNode(parentNodeNew);
     }
-    const nodeNew = { ...nodeCopy }
-    Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
-    refreshNode();
+    updateNode(nodeNew);
   }
 
   /**
@@ -64,14 +64,12 @@ export default function Branch({ node, parentNode }: BranchProps) {
    * @param type -1-move left, 1-move right
    */
   function arrTransfer(index: number, type: number = 1) {
-    const conditionNodes = FaArrUtils.arrTransfer(nodeCopy.conditionNodes!, index, index + type).map((c, i) => ({ ...c, priorityLevel: i + 1 }))
+    const conditionNodes = FaArrUtils.arrTransfer(node.conditionNodes!, index, index + type).map((c, i) => ({ ...c, priorityLevel: i + 1 }))
     const nodeNew = {
-      ...nodeCopy,
+      ...node,
       conditionNodes,
     }
-    setNodeCopy(nodeNew)
-    Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
-    refreshNode();
+    updateNode(nodeNew)
   }
 
   function toText(nodeConfig: Flw.Node, index: number) {
@@ -119,11 +117,10 @@ export default function Branch({ node, parentNode }: BranchProps) {
                         elseNode={index === node.conditionNodes!.length - 1}
                         onSubmit={cn => {
                           const nodeNew = {
-                            ...nodeCopy,
-                            conditionNodes: nodeCopy.conditionNodes!.map((oi) => oi.nodeKey === cn.nodeKey ? cn : oi),
+                            ...node,
+                            conditionNodes: node.conditionNodes!.map((oi) => oi.nodeKey === cn.nodeKey ? cn : oi),
                           }
-                          Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
-                          refreshNode();
+                          updateNode(nodeNew);
                         }}
                       />
 

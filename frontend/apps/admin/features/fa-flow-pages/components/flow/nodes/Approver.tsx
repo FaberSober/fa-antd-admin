@@ -27,14 +27,11 @@ export interface ApproverProps {
  */
 export default function Approver({ node, parentNode }: ApproverProps) {
   const [open, show, hide] = useOpen()
-  const [loading, setLoading] = useState(false)
   const [tab, setTab] = useState('basic');
 
-  const refreshNode = useWorkFlowStore(state => state.refreshNode);
   const deleteNode = useWorkFlowStore(state => state.deleteNode); // 使用 Store 的 deleteNode
-  const updateNodeConfig = useWorkFlowStore(state => state.updateNodeConfig);
+  const updateNodeProps = useWorkFlowStore(state => state.updateNodeProps);
   const readOnly = useWorkFlowStore(state => state.readOnly);
-  const { nodeCopy, setNodeCopy, updateNodeProps } = useNode(node)
 
   function toText(nodeConfig: Flw.Node) {
     if (nodeConfig.setType === NodeSetType.specifyMembers) {
@@ -82,18 +79,6 @@ export default function Approver({ node, parentNode }: ApproverProps) {
     }
   }
 
-  function handleSave() {
-    setLoading(true);
-    updateNodeConfig((draft) => {
-      const targetNode = findNodeByKey(draft.nodeConfig, node.nodeKey!); // 查找并在 draft 上修改
-      if (targetNode) {
-        Object.assign(targetNode, nodeCopy); // 在 draft 上替换属性
-      }
-    });
-    setLoading(false);
-    hide();
-  }
-
   function showDrawer() {
     show()
   }
@@ -116,7 +101,7 @@ export default function Approver({ node, parentNode }: ApproverProps) {
         open={open}
         onClose={() => hide()}
         title={(
-          <Input value={nodeCopy.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)} />
+          <Input value={node.nodeName} variant="filled" onChange={e => updateNodeProps(node, 'nodeName', e.target.value)} />
         )}
         size={600}
       >
@@ -142,15 +127,10 @@ export default function Approver({ node, parentNode }: ApproverProps) {
           />
 
           <FaFlexRestLayout>
-            {tab === 'basic' && (<ApproverNodeBasicForm node={nodeCopy} />)}
+            {tab === 'basic' && (<ApproverNodeBasicForm node={node} />)}
             {/* {tab === 'advance' && (<StartNodeAdvanceForm node={nodeCopy} />)} */}
-            {tab === 'formAuth' && (<NodeFormAuth node={nodeCopy} onChange={ec => updateNodeProps('extendConfig', ec)} />)}
+            {tab === 'formAuth' && (<NodeFormAuth node={node} />)}
           </FaFlexRestLayout>
-
-          <Space className="fa-p12 fa-border-t">
-            <Button onClick={handleSave} type="primary" icon={<SaveOutlined />} loading={loading} disabled={readOnly}>保存</Button>
-            <Button onClick={() => hide()} icon={<RollbackOutlined />}>取消</Button>
-          </Space>
         </div>
       </BaseDrawer>
 

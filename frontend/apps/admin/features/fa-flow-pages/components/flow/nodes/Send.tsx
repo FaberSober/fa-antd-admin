@@ -1,14 +1,12 @@
-import React, { useMemo, useState } from 'react';
-import { Flw } from "@features/fa-flow-pages/types";
 import { FaIcon } from "@fa/icons";
-import { Button, Form, Input, Space } from "antd";
 import { BaseDrawer, FaFlexRestLayout, useOpen, UserSearchSelect } from '@fa/ui';
+import { userApi } from "@features/fa-admin-pages/services";
+import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
+import { Flw } from "@features/fa-flow-pages/types";
+import { Form, Input } from "antd";
+import { useMemo } from 'react';
 import { NodeCloseBtn } from '../cubes';
 import AddNode from './AddNode';
-import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
-import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
-import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
-import { userApi } from "@features/fa-admin-pages/services";
 
 
 export interface SendProps {
@@ -24,51 +22,47 @@ export interface SendProps {
 export default function Send({ node, parentNode }: SendProps) {
   const [form] = Form.useForm();
   const [open, show, hide] = useOpen()
-  const [loading, setLoading] = useState(false)
 
-  const refreshNode = useWorkFlowStore(state => state.refreshNode);
+  const updateNode = useWorkFlowStore(state => state.updateNode);
+  const deleteNode = useWorkFlowStore(state => state.deleteNode);
+  const updateNodeProps = useWorkFlowStore(state => state.updateNodeProps);
   const readOnly = useWorkFlowStore(state => state.readOnly);
-  const { nodeCopy, setNodeCopy, updateNodeProps } = useNode(node)
 
-  async function onFinish(fieldsValue: any) {
+  async function handleValuesChange(av: any) {
     try {
-      setLoading(true)
-      const res = await userApi.getByIds(fieldsValue.nodeAssigneeIds);
+      const res = await userApi.getByIds(av.nodeAssigneeIds);
       const nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
       const nodeNew = {
-        ...nodeCopy,
+        ...node,
         nodeAssigneeList,
       }
-      setNodeCopy(nodeNew)
-      // 这里node是使用根config传来的节点引用，修改node内容，但不修改引用
-      Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
-      refreshNode();
-      setLoading(false)
-      hide()
+      updateNode(nodeNew)
     } catch (e) {
       console.error(e)
-      setLoading(false)
     }
   }
 
   function showDrawer() {
     show()
     form.setFieldsValue({
-      nodeAssigneeIds: nodeCopy.nodeAssigneeList ? nodeCopy.nodeAssigneeList.map(item => item.id) : []
+      nodeAssigneeIds: node.nodeAssigneeList ? node.nodeAssigneeList.map(item => item.id) : []
     })
   }
 
   const text = useMemo(() => {
-    if (nodeCopy.nodeAssigneeList && nodeCopy.nodeAssigneeList.length > 0) {
-      return nodeCopy.nodeAssigneeList.map(item => item.name).join("、")
+    if (node.nodeAssigneeList && node.nodeAssigneeList.length > 0) {
+      return node.nodeAssigneeList.map(item => item.name).join("、")
     } else {
       return "所有人"
     }
-  }, [nodeCopy])
+  }, [node])
 
   function delNode() {
-    parentNode!.childNode = node.childNode
-    refreshNode()
+    if (parentNode) {
+      deleteNode(node); // 使用 Store 方法删除
+    } else {
+      // 根节点处理（如果需要）
+    }
   }
 
   return (
@@ -88,20 +82,19 @@ export default function Send({ node, parentNode }: SendProps) {
         open={open}
         onClose={() => hide()}
         title={(
-          <Input value={nodeCopy.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)} />
+          <Input value={node.nodeName} variant="filled" onChange={e => updateNodeProps(node, 'nodeName', e.target.value)} />
         )}
       >
-        <Form form={form} layout="vertical" className="fa-flex-column fa-full" onFinish={onFinish} disabled={readOnly}>
+        <Form form={form} layout="vertical" className="fa-flex-column fa-full" disabled={readOnly}
+          onValuesChange={(cv, av) => {
+            handleValuesChange(av)
+          }}
+        >
           <FaFlexRestLayout>
             <Form.Item name="nodeAssigneeIds" label="抄送人员" tooltip="抄送以站内信的形式发送给选定人员">
               <UserSearchSelect mode="multiple" />
             </Form.Item>
           </FaFlexRestLayout>
-
-          <Space>
-            <Button type="primary" icon={<SaveOutlined />} htmlType="submit" loading={loading} disabled={readOnly}>保存</Button>
-            <Button onClick={() => hide()} icon={<RollbackOutlined />} disabled={readOnly}>取消</Button>
-          </Space>
         </Form>
       </BaseDrawer>
 

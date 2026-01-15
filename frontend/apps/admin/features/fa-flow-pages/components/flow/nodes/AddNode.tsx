@@ -22,7 +22,7 @@ export interface AddNodeProps {
  * @date 2025/8/19 21:03
  */
 export default function AddNode({parentNode}: AddNodeProps) {
-  const refreshNode = useWorkFlowStore(state => state.refreshNode);
+  const updateNode = useWorkFlowStore(state => state.updateNode);
 
   function addType(type: FlwEnums.NodeType) {
     let node: Flw.Node;
@@ -83,10 +83,7 @@ export default function AddNode({parentNode}: AddNodeProps) {
         }
       } break
     }
-    parentNode.childNode = node!;
-    const nodeNew = { ...parentNode }
-    Object.assign(parentNode, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
-    refreshNode();
+    updateNode({ ...parentNode, childNode: node! });
   }
 
   return (

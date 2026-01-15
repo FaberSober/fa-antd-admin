@@ -22,7 +22,7 @@ interface WorkFlowState {
   refreshNode: () => void;
   deleteNode: (node: Flw.Node) => void;
   updateNodeProps: (node: Flw.Node, path: keyof Flw.Node | any, value: any) => void;
-  updateNode: (node: Flw.Node) => void;
+  updateNode: (node: Flw.Node | Flw.ConditionNode) => void;
   updateNodeConfig: (updater: (draft: Flw.ProcessModel) => void) => void;
   clear: () => void;
 
