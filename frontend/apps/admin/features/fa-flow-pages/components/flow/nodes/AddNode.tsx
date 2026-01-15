@@ -8,6 +8,9 @@ import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores
 
 const NodeType = FlwEnums.NodeType
 const NodeSetType = FlwEnums.NodeSetType
+const defaultExtendConfig: Flw.NodeExtendConfig = {
+  btnSubmitValid: true,
+}
 
 export interface AddNodeProps {
   /** 流程配置节点Node JSON */
@@ -40,6 +43,7 @@ export default function AddNode({parentNode}: AddNodeProps) {
           examineMode: 1,		//多人审批时审批方式
           directorMode: 0,	//连续主管审批方式
           childNode: parentNode.childNode,
+          extendConfig: defaultExtendConfig,
         };
       } break
       case NodeType.cc: {
@@ -49,7 +53,8 @@ export default function AddNode({parentNode}: AddNodeProps) {
           type: NodeType.cc,
           userSelectFlag: true,
           nodeAssigneeList: [],
-          childNode: parentNode.childNode
+          childNode: parentNode.childNode,
+          extendConfig: defaultExtendConfig,
         };
       } break
       case NodeType.conditionBranch: {
@@ -73,7 +78,8 @@ export default function AddNode({parentNode}: AddNodeProps) {
               conditionList: []
             }
           ],
-          childNode: parentNode.childNode
+          childNode: parentNode.childNode,
+          extendConfig: defaultExtendConfig,
         }
       } break
     }

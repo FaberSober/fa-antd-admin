@@ -10,6 +10,7 @@ import { Button, Input, Space, Tabs } from "antd";
 import { useMemo, useState } from 'react';
 import ApproverNodeBasicForm from './property/ApproverNodeBasicForm';
 import NodeFormAuth from './property/NodeFormAuth';
+import { findNodeByKey } from "../utils";
 
 const { NodeSetType } = FlwEnums;
 
@@ -30,6 +31,8 @@ export default function Approver({ node, parentNode }: ApproverProps) {
   const [tab, setTab] = useState('basic');
 
   const refreshNode = useWorkFlowStore(state => state.refreshNode);
+  const deleteNode = useWorkFlowStore(state => state.deleteNode); // 使用 Store 的 deleteNode
+  const updateNodeConfig = useWorkFlowStore(state => state.updateNodeConfig);
   const readOnly = useWorkFlowStore(state => state.readOnly);
   const { nodeCopy, setNodeCopy, updateNodeProps } = useNode(node)
 
@@ -72,13 +75,22 @@ export default function Approver({ node, parentNode }: ApproverProps) {
   const text = useMemo(() => toText(node), [node])
 
   function delNode() {
-    parentNode!.childNode = node.childNode
-    refreshNode()
+    if (parentNode) {
+      deleteNode(node); // 使用 Store 方法删除
+    } else {
+      // 根节点处理（如果需要）
+    }
   }
 
   function handleSave() {
-    Object.assign(node, nodeCopy); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
-    refreshNode();
+    setLoading(true);
+    updateNodeConfig((draft) => {
+      const targetNode = findNodeByKey(draft.nodeConfig, node.nodeKey!); // 查找并在 draft 上修改
+      if (targetNode) {
+        Object.assign(targetNode, nodeCopy); // 在 draft 上替换属性
+      }
+    });
+    setLoading(false);
     hide();
   }
 

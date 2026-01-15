@@ -4,7 +4,7 @@ import { BaseDrawer, FaFlexRestLayout, useOpen } from "@fa/ui";
 import { Flw } from "@features/fa-flow-pages/types";
 import { Button, Form, Input, Space, Tabs } from "antd";
 import { useMemo, useState } from 'react';
-import { useNode } from '../hooks';
+import { useNode, useNodeAssigneeText } from '../hooks';
 import { useWorkFlowStore } from '../stores/useWorkFlowStore';
 import AddNode from './AddNode';
 import StartNodeBasicForm from './property/StartNodeBasicForm';
@@ -25,32 +25,15 @@ export interface PromoterProps {
 export default function Promoter({ node }: PromoterProps) {
   const [form] = Form.useForm();
   const [open, show, hide] = useOpen()
-  const [loading, setLoading] = useState(false)
   const [tab, setTab] = useState('basic');
 
-  const readOnly = useWorkFlowStore(state => state.readOnly);
-  const refreshNode = useWorkFlowStore(state => state.refreshNode);
-
-  const { nodeCopy, updateNodeProps } = useNode(node)
-
-  const text = useMemo(() => {
-    if (nodeCopy.nodeAssigneeList && nodeCopy.nodeAssigneeList.length > 0) {
-      return nodeCopy.nodeAssigneeList.map(item => item.name).join("、")
-    } else {
-      return "所有人"
-    }
-  }, [nodeCopy])
-
-  function handleSave() {
-    Object.assign(node, nodeCopy); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
-    refreshNode();
-    hide();
-  }
+  const text = useNodeAssigneeText(node)
+  const updateNodeProps = useWorkFlowStore(state => state.updateNodeProps);
 
   function showDrawer() {
     show()
     form.setFieldsValue({
-      nodeAssigneeIds: nodeCopy.nodeAssigneeList ? nodeCopy.nodeAssigneeList.map(item => item.id) : []
+      nodeAssigneeIds: node.nodeAssigneeList ? node.nodeAssigneeList.map(item => item.id) : []
     })
   }
 
@@ -59,7 +42,7 @@ export default function Promoter({ node }: PromoterProps) {
       <div className="node-wrap-box start-node" onClick={showDrawer}>
         <div className="title">
           <FaIcon icon="fa-solid fa-user-large" />
-          <span>{nodeCopy.nodeName}</span>
+          <span>{node.nodeName}</span>
         </div>
         <div className="content">
           <span>{text}</span>
@@ -70,7 +53,7 @@ export default function Promoter({ node }: PromoterProps) {
         open={open}
         onClose={() => hide()}
         title={(
-          <Input value={nodeCopy.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)} />
+          <Input value={node.nodeName} variant="filled" onChange={e => updateNodeProps(node, 'nodeName', e.target.value)} />
         )}
         size={600}
       >
@@ -95,15 +78,15 @@ export default function Promoter({ node }: PromoterProps) {
             }}
           />
           <FaFlexRestLayout>
-            {tab === 'basic' && (<StartNodeBasicForm node={nodeCopy} />)}
-            {tab === 'advance' && (<StartNodeAdvanceForm node={nodeCopy} />)}
-            {tab === 'formAuth' && (<NodeFormAuth node={nodeCopy} onChange={ec => updateNodeProps('extendConfig', ec)} />)}
+            {tab === 'basic' && (<StartNodeBasicForm node={node} />)}
+            {tab === 'advance' && (<StartNodeAdvanceForm node={node} />)}
+            {tab === 'formAuth' && (<NodeFormAuth node={node} />)}
           </FaFlexRestLayout>
 
-          <Space className="fa-p12 fa-border-t">
-            <Button onClick={handleSave} type="primary" icon={<SaveOutlined />} loading={loading} disabled={readOnly}>保存</Button>
+          {/* <Space className="fa-p12 fa-border-t">
+            <Button onClick={handleSave} type="primary" icon={<SaveOutlined />} disabled={readOnly}>保存</Button>
             <Button onClick={hide} icon={<RollbackOutlined />} disabled={readOnly}>取消</Button>
-          </Space>
+          </Space> */}
         </div>
       </BaseDrawer>
 

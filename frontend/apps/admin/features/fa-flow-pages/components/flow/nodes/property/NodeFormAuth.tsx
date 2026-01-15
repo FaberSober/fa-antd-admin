@@ -1,10 +1,11 @@
 import { Flow, Flw } from '@/types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import './index.scss';
 import { useWorkFlowStore } from '../../stores/useWorkFlowStore';
 import { flowFormApi } from '@/services';
 import { Checkbox } from 'antd';
 import { FaFlexRestLayout, PageLoading, useApiLoading } from '@fa/ui';
+import { each, get } from 'lodash';
 
 
 export interface NodeFormAuthProps {
@@ -24,6 +25,8 @@ export default function NodeFormAuth({ node, onChange }: NodeFormAuthProps) {
 
   const loading = useApiLoading(flowFormApi.getUrl(`getById/${flowProcess?.formId}`));
 
+  const updateNode = useWorkFlowStore(state => state.updateNode);
+
   useEffect(() => {
     if (!flowProcess || !flowProcess.id || !flowProcess.formId) return;
     // get dynamic form data
@@ -34,9 +37,31 @@ export default function NodeFormAuth({ node, onChange }: NodeFormAuthProps) {
       }).filter(fi => fi);
       setFormItems(formItems || []);
     })
-  }, [flowProcess]);
+  }, [flowProcess.id]);
 
-  const formAuth = node.extendConfig?.formAuth || {};
+  const formAuth = useMemo(() => {
+    const map = node.extendConfig?.formAuth || {}
+    const mapNew: Record<string, Flw.NodeExtendConfigFormAuth> = {}
+    each(formItems, fi => {
+      mapNew[fi.id] = {
+        name: fi.label,
+        view: get(map, `${fi.id}.view`, false) as boolean,
+        edit: get(map, `${fi.id}.edit`, false) as boolean,
+        required: get(map, `${fi.id}.required`, false) as boolean,
+      }
+    })
+    return mapNew;
+  }, [node, formItems]);
+
+  function handleFormAuthChange(formAuthNew: Record<string, Flw.NodeExtendConfigFormAuth>) {
+    updateNode({
+      ...node,
+      extendConfig: {
+        ...node.extendConfig,
+        formAuth: formAuthNew,
+      }
+    })
+  }
 
   function processItemChecked(item: Flw.NodeExtendConfigFormAuth, perm: 'view' | 'edit' | 'required', checked: boolean) {
     // 如果不可见，则自动取消可编辑和必填
@@ -63,6 +88,7 @@ export default function NodeFormAuth({ node, onChange }: NodeFormAuthProps) {
     formItems.forEach(item => {
       if (!formAuth[item.id]) {
         formAuth[item.id] = {
+          name: item.label,
           view: false,
           edit: false,
           required: false,
@@ -71,13 +97,7 @@ export default function NodeFormAuth({ node, onChange }: NodeFormAuthProps) {
       formAuth[item.id][perm] = checked;
       processItemChecked(formAuth[item.id], perm, checked);
     });
-    // update node extendConfig
-    node.extendConfig = {
-      ...node.extendConfig,
-      formAuth,
-    };
-    console.log('Updated node extendConfig:', node.extendConfig);
-    onChange && onChange(node.extendConfig!);
+    handleFormAuthChange(formAuth)
   }
 
   function handleCheckChange(itemId: string, perm: 'view' | 'edit' | 'required', checked: boolean) {
@@ -90,13 +110,7 @@ export default function NodeFormAuth({ node, onChange }: NodeFormAuthProps) {
     }
     formAuth[itemId][perm] = checked;
     processItemChecked(formAuth[itemId], perm, checked);
-    // update node extendConfig
-    node.extendConfig = {
-      ...node.extendConfig,
-      formAuth,
-    };
-    console.log('Updated node extendConfig:', node.extendConfig);
-    onChange && onChange(node.extendConfig!);
+    handleFormAuthChange(formAuth)
   }
 
   // 全部查看

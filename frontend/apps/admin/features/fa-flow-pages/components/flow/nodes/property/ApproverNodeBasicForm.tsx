@@ -3,11 +3,11 @@ import { Checkbox, Divider, Form, Input, InputNumber, Radio } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useWorkFlowStore } from '../../stores/useWorkFlowStore';
 import { useNode } from '../../hooks';
-import { rbacRoleApi } from '@/services';
-import { FaUtils, UserSearchSelect } from '@fa/ui';
+import { departmentApi, rbacRoleApi, userApi } from '@/services';
+import { FaUtils, FormNumber, UserSearchSelect } from '@fa/ui';
 import { NodeSetTypeRadio, NodeSetTypeSelect } from '../../cubes';
 import { DepartmentCascade, RbacRoleSelect } from '@/components';
-import { get } from 'lodash';
+import { cloneDeep, get } from 'lodash';
 
 
 const { NodeSetType } = FlwEnums;
@@ -22,12 +22,11 @@ export interface ApproverNodeBasicFormProps {
  */
 export default function ApproverNodeBasicForm({ node }: ApproverNodeBasicFormProps) {
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false)
 
   const refreshNode = useWorkFlowStore(state => state.refreshNode);
   const readOnly = useWorkFlowStore(state => state.readOnly);
 
-  const { nodeCopy, setNodeCopy, updateNodeProps } = useNode(node)
+  const { nodeCopy, setNodeCopy } = useNode(node)
 
   useEffect(() => {
     const initValues: any = {
@@ -38,32 +37,46 @@ export default function ApproverNodeBasicForm({ node }: ApproverNodeBasicFormPro
       initValues.nodeAssigneeCodePath = get(nodeCopy, 'extendConfig.nodeAssigneeCodePath')
     }
     form.setFieldsValue(initValues)
-  }, [node]);
+  }, [nodeCopy, form]);
 
-  async function onFinish(fieldsValue: any) {
+  async function onChange(fieldsValue: any) {
     try {
-      setLoading(true)
-      const res = await rbacRoleApi.getByIds(fieldsValue.nodeAssigneeIds);
-      const nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
+      const { nodeAssigneeIds, ...restFv } = fieldsValue;
+
+      let nodeAssigneeList: Flw.FlowActor[] = []
+      if (nodeAssigneeIds && nodeAssigneeIds.length > 0) {
+        if (restFv.setType === NodeSetType.specifyMembers) {
+          const res = await userApi.getByIds(fieldsValue.nodeAssigneeIds);
+          nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
+        } else if (restFv.setType === NodeSetType.role) {
+          const res = await rbacRoleApi.getByIds(fieldsValue.nodeAssigneeIds);
+          nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
+        } else if (restFv.setType === NodeSetType.department) {
+          const res = await departmentApi.getByIds(fieldsValue.nodeAssigneeIds);
+          nodeAssigneeList = res.data.map(i => ({ id: i.id, name: i.name }))
+        }
+      }
+
       const nodeNew = {
         ...nodeCopy,
+        ...restFv,
         nodeAssigneeList,
       }
       setNodeCopy(nodeNew)
       // 这里node是使用根config传来的节点引用，修改node内容，但不修改引用
       Object.assign(node, nodeNew); // Object.assign(a, b); 会把 b 的属性复制到 a 上，不会改变 a 的引用。
+      console.log('node', node)
       refreshNode();
-      setLoading(false)
     } catch (e) {
-      console.error(e)
-      setLoading(false)
+      console.error(e);
     }
   }
 
   return (
-    <Form form={form} layout="vertical" onFinish={onFinish} disabled={readOnly} className='fa-p12'
+    <Form form={form} layout="vertical" disabled={readOnly} className='fa-p12'
       onValuesChange={(cv, av) => {
         console.log('cv, av', cv, av)
+        const avClone = cloneDeep(av)
         if (FaUtils.hasAnyProp(cv, ['setType'])) {
           setNodeCopy(prev => ({
             ...prev,
@@ -71,7 +84,9 @@ export default function ApproverNodeBasicForm({ node }: ApproverNodeBasicFormPro
             nodeAssigneeIds: [],
           }))
           form.setFieldsValue({ nodeAssigneeIds: [] })
+          avClone.nodeAssigneeIds = []
         }
+        onChange(avClone)
       }}
     >
       <Form.Item name="setType" label="审批人员类型" rules={[{ required: true }]}>
@@ -119,7 +134,7 @@ export default function ApproverNodeBasicForm({ node }: ApproverNodeBasicFormPro
           </Form.Item>
           {nodeCopy.directorMode === 1 && (
             <Form.Item name="directorLevel" label="指定主管" rules={[{ required: true }]}>
-              <InputNumber style={{ width: 230 }} addonBefore="直到发起人的第" addonAfter="级主管" min={1} max={100} changeOnWheel />
+              <FormNumber style={{ width: 230 }} addonBefore="直到发起人的第" addonAfter="级主管" min={1} max={100} changeOnWheel />
             </Form.Item>
           )}
         </>
@@ -138,7 +153,7 @@ export default function ApproverNodeBasicForm({ node }: ApproverNodeBasicFormPro
       {nodeCopy.termAuto && (
         <>
           <Form.Item name="term" label="审批期限" tooltip="为 0 则不生效" rules={[{ required: true }]}>
-            <InputNumber style={{ width: 230 }} addonAfter="小时" min={0} max={1000} changeOnWheel />
+            <FormNumber style={{ width: 230 }} addonAfter="小时" min={0} max={1000} changeOnWheel />
           </Form.Item>
           <Form.Item name="termMode" label="审批期限超时后执行">
             <Radio.Group
