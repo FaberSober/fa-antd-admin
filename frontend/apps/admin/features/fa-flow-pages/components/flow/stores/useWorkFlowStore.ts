@@ -3,7 +3,8 @@ import { Flow, Flw } from '@features/fa-flow-pages/types';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import { loopNode } from '../utils';
+import { findNodeByKey, loopNode } from '../utils';
+import { set as lodashSet } from 'lodash';
 
 
 // 1. 定义状态和方法结构
@@ -21,7 +22,7 @@ interface WorkFlowState {
   setExternalOnChange: (cb: ((v: Flw.ProcessModel) => void) | undefined) => void;
   refreshNode: () => void;
   deleteNode: (node: Flw.Node) => void;
-  updateNodeProps: (node: Flw.Node, path: keyof Flw.Node | any, value: any) => void;
+  updateNodeProps: (nodeKey: Flw.Node|Flw.ConditionNode, path: keyof Flw.Node | any, value: any) => void;
   updateNode: (node: Flw.Node | Flw.ConditionNode) => void;
   updateNodeConfig: (updater: (draft: Flw.ProcessModel) => void) => void;
   clear: () => void;
@@ -57,11 +58,11 @@ export const useWorkFlowStore = create<WorkFlowState>()(
         get().onChange?.(get().processModel);
       },
 
-      deleteNode: (node: Flw.Node) => {
+      deleteNode: (node) => {
         set((state) => {
           // loopNode 内部必须是修改 state.processModel.nodeConfig 的逻辑
           loopNode(state.processModel.nodeConfig, (n) => {
-            if (n.childNode?.nodeKey === node.nodeKey) {
+            if (n.childNode && n.childNode?.nodeKey === node.nodeKey) {
               n.childNode = n.childNode.childNode;
             }
           });
@@ -70,7 +71,7 @@ export const useWorkFlowStore = create<WorkFlowState>()(
         get().onChange?.(get().processModel);
       },
 
-      updateNode: (node: Flw.Node) => {
+      updateNode: (node) => {
         set((state) => {
           loopNode(state.processModel.nodeConfig, (n) => {
             if (n.nodeKey === node.nodeKey) {
@@ -81,13 +82,18 @@ export const useWorkFlowStore = create<WorkFlowState>()(
         get().onChange?.(get().processModel);
       },
 
-      updateNodeProps: (node: Flw.Node, path: keyof Flw.Node | any, value: any) => {
+      updateNodeProps: (node: Flw.Node|Flw.ConditionNode, path: keyof Flw.Node | any, value: any) => {
         set((state) => {
-          loopNode(state.processModel.nodeConfig, (n) => {
-            if (n.nodeKey === node.nodeKey) {
-              (n as any)[path] = value;
-            }
-          });
+          const foundNode: any = findNodeByKey(state.processModel.nodeConfig, node.nodeKey);
+          if (foundNode) {
+            // foundNode[path] = value; // immer，不支持conditionList[0][0].value语法
+            lodashSet(foundNode, path, value); // 使用 lodash 的 set 方法支持更复杂的路径语法
+          }
+          // loopNode(state.processModel.nodeConfig, (n) => {
+          //   if (n.nodeKey === node.nodeKey) {
+          //     (n as any)[path] = value;
+          //   }
+          // });
         });
         get().onChange?.(get().processModel);
       },

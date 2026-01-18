@@ -110,18 +110,12 @@ export default function Branch({ node, parentNode }: BranchProps) {
                       )}
 
                       <BranchNode
+                        parentNode={node}
                         node={cNode}
                         onDel={() => delTerm(index)}
                         conditionText={conditionText}
                         index={index}
                         elseNode={index === node.conditionNodes!.length - 1}
-                        onSubmit={cn => {
-                          const nodeNew = {
-                            ...node,
-                            conditionNodes: node.conditionNodes!.map((oi) => oi.nodeKey === cn.nodeKey ? cn : oi),
-                          }
-                          updateNode(nodeNew);
-                        }}
                       />
 
                       {/* move this condition to right */}

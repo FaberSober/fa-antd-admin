@@ -10,6 +10,7 @@ import clsx from 'clsx';
 
 
 export interface BranchNodeProps {
+  parentNode: Flw.Node;
   node: Flw.ConditionNode;
   index: number;
   elseNode?: boolean; // 是否为 else 节点
@@ -30,23 +31,25 @@ export default function BranchNode({ node, index, elseNode, onDel, conditionText
   const [open, show, hide] = useOpen()
   const [loading, setLoading] = useState(false)
 
-  const { nodeCopy, setNodeCopy, updateNodeProps } = useConditionNode(node)
+  const updateNode = useWorkFlowStore(state => state.updateNode);
+  const updateNodeProps = useWorkFlowStore(state => state.updateNodeProps);
+  // const { nodeCopy, setNodeCopy, updateNodeProps } = useConditionNode(node)
 
-  async function onFinish(fieldsValue: any) {
-    try {
-      setLoading(true)
+  // async function onFinish(fieldsValue: any) {
+  //   try {
+  //     setLoading(true)
 
-      if (onSubmit) {
-        onSubmit(nodeCopy)
-      }
+  //     if (onSubmit) {
+  //       onSubmit(nodeCopy)
+  //     }
 
-      setLoading(false)
-      hide()
-    } catch (e) {
-      console.error(e)
-      setLoading(false)
-    }
-  }
+  //     setLoading(false)
+  //     hide()
+  //   } catch (e) {
+  //     console.error(e)
+  //     setLoading(false)
+  //   }
+  // }
 
   function showDrawer() {
     if (elseNode) return;
@@ -74,21 +77,21 @@ export default function BranchNode({ node, index, elseNode, onDel, conditionText
         open={open}
         onClose={() => hide()}
         title={(
-          <Input value={nodeCopy.nodeName} variant="filled" onChange={e => updateNodeProps('nodeName', e.target.value)} />
+          <Input value={node.nodeName} variant="filled" onChange={e => updateNodeProps(node, 'nodeName', e.target.value)} />
         )}
       >
         <Form
           form={form}
           layout="vertical"
           className={clsx('fa-flex-column fa-full', readOnly && 'sc-workflow-design-readonly')}
-          onFinish={onFinish}
+          // onFinish={onFinish}
           disabled={readOnly}
         >
           <FaFlexRestLayout>
             <div className="fa-flex-column">
               <div className="top-tips">满足以下条件时进入当前分支</div>
 
-              {nodeCopy.conditionList?.map((conditionGroup, conditionGroupIdx) => {
+              {node.conditionList?.map((conditionGroup, conditionGroupIdx) => {
                 return (
                   <div key={conditionGroupIdx}>
                     {conditionGroupIdx !== 0 && <div className="or-branch-link-tip">或满足</div>}
@@ -99,7 +102,7 @@ export default function BranchNode({ node, index, elseNode, onDel, conditionText
 
                         <div
                           onClick={() => {
-                            updateNodeProps(`conditionList`, FaArrUtils.spliceAndReturnSelf(nodeCopy.conditionList!, conditionGroupIdx))
+                            updateNodeProps(node, `conditionList`, FaArrUtils.spliceAndReturnSelf([...node.conditionList!], conditionGroupIdx))
                           }}
                           className="fa-normal-btn fa-branch-cond-group-del">
                           <DeleteOutlined />
@@ -123,15 +126,15 @@ export default function BranchNode({ node, index, elseNode, onDel, conditionText
                               <div className="fa-flex-row" style={{ gap: 8 }}>
                                 <div style={{ width: 60 }} className="fa-flex-center">{idx === 0 ? '当' : '且'}</div>
                                 <Input style={{ flex: 1 }} value={condition.label} placeholder="描述" onChange={e => {
-                                  updateNodeProps(`conditionList.[${conditionGroupIdx}].[${idx}].label`, e.target.value)
+                                  updateNodeProps(node, `conditionList[${conditionGroupIdx}][${idx}].label`, e.target.value)
                                 }} />
                                 <Input style={{ flex: 1 }} value={condition.field} placeholder="条件字段" onChange={e => {
-                                  updateNodeProps(`conditionList.[${conditionGroupIdx}].[${idx}].field`, e.target.value)
+                                  updateNodeProps(node, `conditionList[${conditionGroupIdx}][${idx}].field`, e.target.value)
                                 }} />
                                 <Select
                                   style={{ flex: 1 }}
                                   value={condition.operator}
-                                  onChange={(v) => updateNodeProps(`conditionList.[${conditionGroupIdx}].[${idx}].operator`, v)}
+                                  onChange={(v) => updateNodeProps(node, `conditionList[${conditionGroupIdx}][${idx}].operator`, v)}
                                   options={[
                                     { value: '==', label: '等于' },
                                     { value: '!=', label: '不等于' },
@@ -145,13 +148,13 @@ export default function BranchNode({ node, index, elseNode, onDel, conditionText
                                   placeholder="运算符"
                                 />
                                 <Input style={{ flex: 1 }} value={condition.value} placeholder="值" onChange={e => {
-                                  updateNodeProps(`conditionList.[${conditionGroupIdx}].[${idx}].value`, e.target.value)
+                                  updateNodeProps(node, `conditionList[${conditionGroupIdx}][${idx}].value`, e.target.value)
                                 }} />
 
                                 <div style={{ width: 60 }} className="fa-flex-center">
                                   <div
                                     onClick={() => {
-                                      updateNodeProps(`conditionList.[${conditionGroupIdx}]`, FaArrUtils.spliceAndReturnSelf(conditionGroup, idx))
+                                      updateNodeProps(node, `conditionList[${conditionGroupIdx}]`, FaArrUtils.spliceAndReturnSelf([...conditionGroup], idx))
                                     }}
                                     className="fa-normal-btn fa-branch-cond-del-btn"
                                   >
@@ -167,7 +170,7 @@ export default function BranchNode({ node, index, elseNode, onDel, conditionText
                       <div className="sub-content">
                         <Button
                           onClick={() => {
-                            updateNodeProps(`conditionList.[${conditionGroupIdx}]`, [...conditionGroup, {
+                            updateNodeProps(node, `conditionList[${conditionGroupIdx}]`, [...conditionGroup, {
                               label: '',
                               field: '',
                               operator: '',
@@ -186,7 +189,7 @@ export default function BranchNode({ node, index, elseNode, onDel, conditionText
 
               <Button
                 onClick={() => {
-                  updateNodeProps('conditionList', [...nodeCopy.conditionList!, [{
+                  updateNodeProps(node, 'conditionList', [...node.conditionList!, [{
                     label: '',
                     field: '',
                     operator: '',
@@ -198,11 +201,6 @@ export default function BranchNode({ node, index, elseNode, onDel, conditionText
             </div>
 
           </FaFlexRestLayout>
-
-          <Space>
-            <Button type="primary" icon={<SaveOutlined />} htmlType="submit" loading={loading}>保存</Button>
-            <Button onClick={() => hide()} icon={<RollbackOutlined />}>取消</Button>
-          </Space>
         </Form>
       </BaseDrawer>
     </>

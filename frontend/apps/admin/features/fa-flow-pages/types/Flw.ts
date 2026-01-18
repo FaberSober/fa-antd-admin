@@ -34,7 +34,7 @@ namespace Flw {
     /** 节点名称 */
     nodeName?: string;
     /** 节点 key */
-    nodeKey?: string;
+    nodeKey: string;
     /** 调用外部流程 */
     callProcess?: string;
     /** 是否异步调用【例如：子流程该参数为 true 则为异步子流程】 */
