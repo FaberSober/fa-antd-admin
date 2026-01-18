@@ -1,12 +1,17 @@
 package com.faber.api.flow.manage.biz;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
 import com.aizuda.bpm.engine.FlowLongEngine;
 import com.aizuda.bpm.engine.core.FlowCreator;
 import com.aizuda.bpm.engine.core.enums.NodeSetType;
+import com.aizuda.bpm.engine.entity.FlwInstance;
 import com.aizuda.bpm.engine.entity.FlwTask;
 import com.aizuda.bpm.engine.model.NodeModel;
+import com.alibaba.fastjson2.JSONObject;
 import com.faber.api.flow.manage.mapper.FlowTaskFaMapper;
 import com.faber.api.flow.manage.vo.req.FlowTaskPageReqVo;
 import com.faber.api.flow.manage.vo.ret.FlowHisInstanceRet;
@@ -74,7 +79,11 @@ public class FlowTaskBiz {
 
     public void pass(Long taskId) {
         FlowCreator flowCreator = FlowCreator.of(BaseContextHandler.getUserId(), BaseContextHandler.getName());
-        flowLongEngine.executeTask(taskId, flowCreator);
+        FlwTask flwTask = flowLongEngine.queryService().getTask(taskId);
+        FlwInstance flwInstance = flowLongEngine.queryService().getInstance(flwTask.getInstanceId());
+        JSONObject vJsonObject = JSONObject.parse(flwInstance.getVariable());
+        JSONObject formData = vJsonObject.getJSONObject("formData");
+        flowLongEngine.executeTask(taskId, flowCreator, formData);
     }
 
     public void reject(Long taskId) {

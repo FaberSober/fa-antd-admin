@@ -73,11 +73,10 @@ export const useWorkFlowStore = create<WorkFlowState>()(
 
       updateNode: (node) => {
         set((state) => {
-          loopNode(state.processModel.nodeConfig, (n) => {
-            if (n.nodeKey === node.nodeKey) {
-              Object.assign(n, node);
-            }
-          });
+          const foundNode: any = findNodeByKey(state.processModel.nodeConfig, node.nodeKey);
+          if (foundNode) {
+            Object.assign(foundNode, node);
+          }
         });
         get().onChange?.(get().processModel);
       },
@@ -89,11 +88,6 @@ export const useWorkFlowStore = create<WorkFlowState>()(
             // foundNode[path] = value; // immer，不支持conditionList[0][0].value语法
             lodashSet(foundNode, path, value); // 使用 lodash 的 set 方法支持更复杂的路径语法
           }
-          // loopNode(state.processModel.nodeConfig, (n) => {
-          //   if (n.nodeKey === node.nodeKey) {
-          //     (n as any)[path] = value;
-          //   }
-          // });
         });
         get().onChange?.(get().processModel);
       },

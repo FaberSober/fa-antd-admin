@@ -6,7 +6,6 @@ import AddNode from './AddNode';
 import '../styles/Branch.scss'
 import NodeWrap from "@features/fa-flow-pages/components/flow/NodeWrap";
 import BranchNode from "@features/fa-flow-pages/components/flow/nodes/BranchNode";
-import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
 import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
 import { FaArrUtils } from '@fa/ui';
 import { getNodeKey } from "@features/fa-flow-pages/components/flow/utils";
