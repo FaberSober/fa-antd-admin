@@ -37,6 +37,7 @@
     "@turf/turf": "7.3.1",
     "@types/mapbox-gl": "3.4.1",
     "@uiw/react-amap": "7.1.9",
+    "@uiw/react-json-view": "2.0.0-alpha.40",
     "@visactor/react-vtable": "1.19.5",
     "@visactor/vtable": "1.19.5",
     "@visactor/vtable-editors": "1.19.5",

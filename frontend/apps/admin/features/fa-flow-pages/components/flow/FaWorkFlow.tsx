@@ -1,11 +1,14 @@
 import ZoomPanEditor from "@features/fa-flow-pages/components/flow/cubes/ZoomPanEditor";
 import { Flow, Flw } from "@features/fa-flow-pages/types";
-import { Tag } from 'antd';
+import { Button, Space, Tag } from 'antd';
 import clsx from 'clsx';
 import { useEffect } from 'react';
 import './index.scss';
 import NodeWrap from './NodeWrap';
 import { useWorkFlowStore } from './stores/useWorkFlowStore';
+import { BaseDrawer } from "@fa/ui";
+import JsonView from '@uiw/react-json-view';
+import { lightTheme } from '@uiw/react-json-view/light';
 
 
 export interface FaWorkFlowProps {
@@ -80,6 +83,16 @@ export default function FaWorkFlow({ flowProcess, processModel, onChange, render
           <Tag color="processing">执行中</Tag>
           <Tag color="default">未执行</Tag>
         </div>
+      )}
+      toolbar={(
+        <Space>
+          <BaseDrawer triggerDom={<Button>查看JSON</Button>} title="流程配置JSON" size={600}>
+            <JsonView
+              value={processModel}
+              style={lightTheme}
+            />
+          </BaseDrawer>
+        </Space>
       )}
     >
       <div className={clsx('sc-workflow-design', readOnly && 'sc-workflow-design-readonly')}>

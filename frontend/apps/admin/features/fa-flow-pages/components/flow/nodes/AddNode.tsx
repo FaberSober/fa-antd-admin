@@ -8,9 +8,7 @@ import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores
 
 const NodeType = FlwEnums.NodeType
 const NodeSetType = FlwEnums.NodeSetType
-const defaultExtendConfig: Flw.NodeExtendConfig = {
-  btnSubmitValid: true,
-}
+
 
 export interface AddNodeProps {
   /** 流程配置节点Node JSON */
@@ -43,7 +41,9 @@ export default function AddNode({parentNode}: AddNodeProps) {
           examineMode: 1,		//多人审批时审批方式
           directorMode: 0,	//连续主管审批方式
           childNode: parentNode.childNode,
-          extendConfig: defaultExtendConfig,
+          extendConfig: {
+            btnSubmitValid: true,
+          },
         };
       } break
       case NodeType.cc: {
@@ -54,14 +54,14 @@ export default function AddNode({parentNode}: AddNodeProps) {
           userSelectFlag: true,
           nodeAssigneeList: [],
           childNode: parentNode.childNode,
-          extendConfig: defaultExtendConfig,
+          extendConfig: {},
         };
       } break
       case NodeType.conditionBranch: {
         node = {
           nodeName: "条件路由",
           nodeKey: getNodeKey(),
-          type: 4,
+          type: NodeType.conditionBranch,
           conditionNodes: [
             {
               nodeName: "条件1",
@@ -79,7 +79,32 @@ export default function AddNode({parentNode}: AddNodeProps) {
             }
           ],
           childNode: parentNode.childNode,
-          extendConfig: defaultExtendConfig,
+          extendConfig: {},
+        }
+      } break
+      case NodeType.parallelBranch: {
+        node = {
+          nodeName: "并行分支",
+          nodeKey: getNodeKey(),
+          type: NodeType.parallelBranch,
+          parallelNodes: [
+            {
+              nodeName: "条件1",
+              nodeKey: getNodeKey(),
+              type: 3,
+              priorityLevel: 1,
+              conditionMode: 1,
+            },
+            {
+              nodeName: "条件2",
+              nodeKey: getNodeKey(),
+              type: 3,
+              priorityLevel: 2,
+              conditionMode: 1,
+            }
+          ],
+          childNode: parentNode.childNode,
+          extendConfig: {},
         }
       } break
     }
@@ -103,6 +128,10 @@ export default function AddNode({parentNode}: AddNodeProps) {
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.conditionBranch)}>
                 <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#15BC83'}} />} />
                 <div>条件分支</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.parallelBranch)}>
+                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#ec1b08'}} />} />
+                <div>并行分支</div>
               </div>
             </div>
           )}

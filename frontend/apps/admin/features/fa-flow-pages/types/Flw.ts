@@ -93,7 +93,7 @@ namespace Flw {
     /** 条件节点列表 */
     conditionNodes?: ConditionNode[];
     /** 并行节点 */
-    parallelNodes?: Node[];
+    parallelNodes?: ParallelNode[];
     /** 包容节点 */
     inclusiveNodes?: ConditionNode[];
     /** 路由节点 */
@@ -184,6 +184,26 @@ namespace Flw {
      * 外层 Array 为条件组或关系、内层 Array 为具体条件且关系
      */
     conditionList: Array<Array<NodeExpression>>;
+    /** 子节点 */
+    childNode?: Node;
+  }
+
+  export interface ParallelNode {
+    /** 节点名称 */
+    nodeName: string;
+    /** 节点 key */
+    nodeKey: string;
+    /** 节点类型 */
+    type: number;
+    /** 优先级 */
+    priorityLevel: number;
+    /**
+     * 并行分支条件模式
+     * 1，全部执行 2，执行部分分支（需配置分支执行数量） 3，按权重执行（需配置权重值）
+     */
+    conditionMode: number;
+    /** 并行分支条件值 */
+    conditionValue?: number;
     /** 子节点 */
     childNode?: Node;
   }
