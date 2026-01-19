@@ -78,11 +78,11 @@ export default function FaWorkFlow({ flowProcess, processModel, onChange, render
   return (
     <ZoomPanEditor
       leftTop={showLegends && (
-        <div className="fa-flex-row">
-          <Tag color="success">已执行</Tag>
-          <Tag color="processing">执行中</Tag>
-          <Tag color="default">未执行</Tag>
-        </div>
+        <Space className="fa-flex-row">
+          <Tag color="#52c41a" variant="solid">已执行</Tag>
+          <Tag color="#faad14" variant="solid">执行中</Tag>
+          <Tag color="#909399" variant="solid">未执行</Tag>
+        </Space>
       )}
       toolbar={(
         <Space>

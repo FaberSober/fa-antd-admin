@@ -6,11 +6,11 @@ import { FaFlowFormCreate, FaWorkFlow } from '@features/fa-flow-pages/components
 import { Button, Form, Segmented, Space, Splitter } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { useFlowAuditContext } from '../contexts/FlowAuditContext';
+import {dispatch} from 'use-bus'
 
 
 export default function FlowAuditStart() {
   const { refreshCount } = useFlowAuditContext();
-  const drawerRef = useRef<any>(null);
   const [form] = Form.useForm();
 
   const [cata, setCata] = useState<Flow.FlowCatagory>();
@@ -44,7 +44,7 @@ export default function FlowAuditStart() {
     // start flow
     flowProcessApi.start({ processKey: flow.processKey, args: formValues }).then(res => {
       FaUtils.showResponse(res, '发起流程');
-      drawerRef.current?.close();
+      dispatch({ type: '@@action/CLOSE_DRAWER' })
       // 成功提交审批流程后，刷新任务数量统计
       refreshCount();
     })
@@ -81,7 +81,6 @@ export default function FlowAuditStart() {
                 return (
                   <div key={flow.id}>
                     <BaseDrawer
-                      ref={drawerRef}
                       triggerDom={(
                         <div className='fa-card fa-hover' style={{ width: 160, height: 100, padding: 12 }}>
                           <div className='fa-h3'>{flow.processName}</div>

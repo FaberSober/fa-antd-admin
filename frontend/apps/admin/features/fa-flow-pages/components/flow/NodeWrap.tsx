@@ -1,8 +1,7 @@
-import React, { useMemo } from 'react';
 import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
-import { Approver, Branch, Parallel, Promoter, Send } from "./nodes";
 import { isNil } from "lodash";
-import { useWorkFlowStore } from './stores/useWorkFlowStore';
+import { useNodeCls } from './hooks';
+import { Approver, Branch, Parallel, Promoter, Send } from "./nodes";
 
 
 export interface NodeWrapProps {
@@ -16,20 +15,9 @@ export interface NodeWrapProps {
  * @date 2025/8/19 20:12
  */
 export default function NodeWrap({ node, parentNode }: NodeWrapProps) {
-  const renderNodes = useWorkFlowStore(state => state.renderNodes);
 
   // 判断节点类型,运行中不同类型的task节点状态,展示不同的颜色
-  const cls = useMemo(() => {
-    if (isNil(node) || isNil(renderNodes)) return "fa-workflow-node-idle";
-    if (node.type === FlwEnums.NodeType.conditionBranch) return "";
-    if (renderNodes[node.nodeKey || ''] === '0') {
-      return 'fa-workflow-node-done'
-    } else if (renderNodes[node.nodeKey || ''] === '1') {
-      return 'fa-workflow-node-active'
-    }
-    return "fa-workflow-node-idle";
-  }, [node])
-
+  const cls = useNodeCls(node)
 
   if (isNil(node)) return null;
   return (
