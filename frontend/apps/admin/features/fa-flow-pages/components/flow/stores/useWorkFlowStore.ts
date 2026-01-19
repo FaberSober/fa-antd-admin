@@ -22,8 +22,8 @@ interface WorkFlowState {
   setExternalOnChange: (cb: ((v: Flw.ProcessModel) => void) | undefined) => void;
   refreshNode: () => void;
   deleteNode: (node: Flw.Node) => void;
-  updateNodeProps: (nodeKey: Flw.Node|Flw.ConditionNode, path: keyof Flw.Node | any, value: any) => void;
-  updateNode: (node: Flw.Node | Flw.ConditionNode) => void;
+  updateNodeProps: (node: Flw.ParentNode, path: keyof Flw.Node | any, value: any) => void;
+  updateNode: (node: Flw.ParentNode) => void;
   updateNodeConfig: (updater: (draft: Flw.ProcessModel) => void) => void;
   clear: () => void;
 
@@ -81,7 +81,7 @@ export const useWorkFlowStore = create<WorkFlowState>()(
         get().onChange?.(get().processModel);
       },
 
-      updateNodeProps: (node: Flw.Node|Flw.ConditionNode, path: keyof Flw.Node | any, value: any) => {
+      updateNodeProps: (node: Flw.ParentNode, path: keyof Flw.Node | any, value: any) => {
         set((state) => {
           const foundNode: any = findNodeByKey(state.processModel.nodeConfig, node.nodeKey);
           if (foundNode) {

@@ -12,7 +12,7 @@ import AddNode from './AddNode';
 export interface SendProps {
   /** 流程配置节点Node JSON */
   node: Flw.Node;
-  parentNode?: Flw.Node | Flw.ConditionNode;
+  parentNode?: Flw.ParentNode;
 }
 
 /**

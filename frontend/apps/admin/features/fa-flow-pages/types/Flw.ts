@@ -21,6 +21,8 @@ namespace Flw {
     name: string;
   }
 
+  export type ParentNode = Node | ConditionNode | ParallelNode
+
   /** FLOW-Node */
   export interface Node extends Record<any, any> {
     /**

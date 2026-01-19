@@ -1,5 +1,6 @@
 export { default as AddNode } from './AddNode'
 export { default as Approver } from './Approver'
 export { default as Branch } from './Branch'
+export { default as Parallel } from './Parallel'
 export { default as Promoter } from './Promoter'
 export { default as Send } from './Send'

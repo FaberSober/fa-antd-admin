@@ -18,7 +18,7 @@ const { NodeSetType } = FlwEnums;
 export interface ApproverProps {
   /** 流程配置节点Node JSON */
   node: Flw.Node;
-  parentNode?: Flw.Node | Flw.ConditionNode;
+  parentNode?: Flw.ParentNode;
 }
 
 /**

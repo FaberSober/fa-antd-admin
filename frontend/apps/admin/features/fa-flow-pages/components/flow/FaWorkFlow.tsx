@@ -90,6 +90,7 @@ export default function FaWorkFlow({ flowProcess, processModel, onChange, render
             <JsonView
               value={processModel}
               style={lightTheme}
+              collapsed={1}
             />
           </BaseDrawer>
         </Space>

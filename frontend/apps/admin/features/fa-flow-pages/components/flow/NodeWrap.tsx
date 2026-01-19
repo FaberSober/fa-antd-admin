@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
-import { Approver, Branch, Promoter, Send } from "./nodes";
+import { Approver, Branch, Parallel, Promoter, Send } from "./nodes";
 import { isNil } from "lodash";
 import { useWorkFlowStore } from './stores/useWorkFlowStore';
 
@@ -8,7 +8,7 @@ import { useWorkFlowStore } from './stores/useWorkFlowStore';
 export interface NodeWrapProps {
   /** 流程配置节点Node JSON */
   node?: Flw.Node;
-  parentNode?: Flw.Node | Flw.ConditionNode;
+  parentNode?: Flw.ParentNode;
 }
 
 /**
@@ -38,6 +38,7 @@ export default function NodeWrap({ node, parentNode }: NodeWrapProps) {
       {node.type === FlwEnums.NodeType.approval && <Approver node={node} parentNode={parentNode} />}
       {node.type === FlwEnums.NodeType.cc && <Send node={node} parentNode={parentNode} />}
       {node.type === FlwEnums.NodeType.conditionBranch && <Branch node={node} parentNode={parentNode!} />}
+      {node.type === FlwEnums.NodeType.parallelBranch && <Parallel node={node} parentNode={parentNode!} />}
 
       {node.childNode && <NodeWrap node={node.childNode} parentNode={node} />}
     </div>

@@ -12,7 +12,7 @@ const NodeSetType = FlwEnums.NodeSetType
 
 export interface AddNodeProps {
   /** 流程配置节点Node JSON */
-  parentNode: Flw.Node | Flw.ConditionNode;
+  parentNode: Flw.ParentNode;
 }
 
 /**
@@ -89,14 +89,14 @@ export default function AddNode({parentNode}: AddNodeProps) {
           type: NodeType.parallelBranch,
           parallelNodes: [
             {
-              nodeName: "条件1",
+              nodeName: "分支1",
               nodeKey: getNodeKey(),
               type: 3,
               priorityLevel: 1,
               conditionMode: 1,
             },
             {
-              nodeName: "条件2",
+              nodeName: "分支2",
               nodeKey: getNodeKey(),
               type: 3,
               priorityLevel: 2,
