@@ -5,46 +5,49 @@ import { LeftOutlined, PlusOutlined, RightOutlined } from "@ant-design/icons";
 import AddNode from './AddNode';
 import '../styles/Branch.scss'
 import NodeWrap from "@features/fa-flow-pages/components/flow/NodeWrap";
-import ParallelNode from "@features/fa-flow-pages/components/flow/nodes/ParallelNode";
 import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
 import { FaArrUtils } from '@fa/ui';
 import { getNodeKey } from "@features/fa-flow-pages/components/flow/utils";
 import { cloneDeep } from 'lodash';
+import InclusiveNode from './InclusiveNode';
 
-export interface ParallelProps {
+
+export interface InclusiveProps {
+  /** 流程配置节点Node JSON */
   node: Flw.Node;
   parentNode: Flw.ParentNode;
 }
 
 /**
- * 并行分支
+ * 包容分支
  * @author xu.pengfei
- * @date 2026-01-19 13:57:13
+ * @date 2026/01/19 16:00
  */
-export default function Parallel({ node, parentNode }: ParallelProps) {
+export default function Inclusive({ node, parentNode }: InclusiveProps) {
   const updateNode = useWorkFlowStore(state => state.updateNode);
 
   function addTerm() {
     const nodeNew = cloneDeep(node)
-    let len = nodeNew.parallelNodes!.length + 1
-    nodeNew.parallelNodes!.push({
+    let len = nodeNew.inclusiveNodes!.length + 1
+    nodeNew.inclusiveNodes!.push({
       nodeName: '条件' + len,
       nodeKey: getNodeKey(),
-      type: FlwEnums.NodeType.parallelBranch,
+      type: FlwEnums.NodeType.conditionBranch,
       priorityLevel: len,
       conditionMode: 1,
+      conditionList: []
     })
     updateNode(nodeNew);
   }
 
   function delTerm(index: number) {
     const nodeNew = cloneDeep(node)
-    nodeNew.parallelNodes!.splice(index, 1)
-    if (nodeNew.parallelNodes!.length == 1) { // 只剩下一个条件节点，则将剩下的条件节点的条件下属子节点，移动到当前节点的子节点
+    nodeNew.inclusiveNodes!.splice(index, 1)
+    if (nodeNew.inclusiveNodes!.length == 1) { // 只剩下一个条件节点，则将剩下的条件节点的条件下属子节点，移动到当前节点的子节点
       const parentNodeNew = cloneDeep(parentNode)
       if (nodeNew.childNode) { // 条件节点有后续子节点
-        if (nodeNew.parallelNodes![0].childNode) { // 剩下的最后一个条件节点，如果有条件下属子节点，则将该子节点设置为父节点的子节点
-          parentNodeNew.childNode = nodeNew.parallelNodes![0].childNode
+        if (nodeNew.inclusiveNodes![0].childNode) { // 剩下的最后一个条件节点，如果有条件下属子节点，则将该子节点设置为父节点的子节点
+          parentNodeNew.childNode = nodeNew.inclusiveNodes![0].childNode
         } else { // 剩下的最后一个条件节点，如果没有条件下属子节点，则将整个条件节点的子节点，设置为父节点的子节点
           parentNodeNew.childNode = nodeNew.childNode;
         }
@@ -62,12 +65,28 @@ export default function Parallel({ node, parentNode }: ParallelProps) {
    * @param type -1-move left, 1-move right
    */
   function arrTransfer(index: number, type: number = 1) {
-    const parallelNodes = FaArrUtils.arrTransfer(node.parallelNodes!, index, index + type).map((c, i) => ({ ...c, priorityLevel: i + 1 }))
+    const inclusiveNodes = FaArrUtils.arrTransfer(node.inclusiveNodes!, index, index + type).map((c, i) => ({ ...c, priorityLevel: i + 1 }))
     const nodeNew = {
       ...node,
-      parallelNodes,
+      inclusiveNodes,
     }
     updateNode(nodeNew)
+  }
+
+  function toText(nodeConfig: Flw.Node, index: number) {
+    const { conditionList } = nodeConfig.inclusiveNodes![index]
+    if (conditionList && conditionList.length === 1) {
+      const text = conditionList.map((conditionGroup) => conditionGroup.map((item) => `${item.label}${item.operator}${item.value}`)).join(' 和 ')
+      return text
+    } else if (conditionList && conditionList.length > 1) {
+      return conditionList.length + '个条件，或满足'
+    } else {
+      if (index === nodeConfig.inclusiveNodes!.length - 1) {
+        return '其他条件进入此流程'
+      } else {
+        return false
+      }
+    }
   }
 
   return (
@@ -77,30 +96,31 @@ export default function Parallel({ node, parentNode }: ParallelProps) {
           <Button onClick={addTerm} shape="round" icon={<PlusOutlined />} className="add-branch">添加条件</Button>
 
           {/* loop condition */}
-          {node.parallelNodes && node.parallelNodes.map((cNode, index) => {
-            const conditionText = '并行任务（同时进行）';
+          {node.inclusiveNodes && node.inclusiveNodes.map((cNode, index) => {
+            const conditionText = toText(node, index);
             return (
               <div className="col-box" key={cNode.nodeKey}>
                 <div className="condition-node">
                   <div className="condition-node-box">
                     <div className="auto-judge">
                       {/* move this condition to left */}
-                      {index !== 0 && index < node.parallelNodes!.length - 1 && (
+                      {index !== 0 && index < node.inclusiveNodes!.length - 1 && (
                         <div className="sort-left" onClick={() => arrTransfer(index, -1)}>
                           <LeftOutlined />
                         </div>
                       )}
 
-                      <ParallelNode
+                      <InclusiveNode
                         parentNode={node}
                         node={cNode}
                         onDel={() => delTerm(index)}
                         conditionText={conditionText}
                         index={index}
+                        elseNode={index === node.inclusiveNodes!.length - 1}
                       />
 
                       {/* move this condition to right */}
-                      {index < node.parallelNodes!.length - 2 && node.parallelNodes!.length > 2 && (
+                      {index < node.inclusiveNodes!.length - 2 && node.inclusiveNodes!.length > 2 && (
                         <div className="sort-right" onClick={() => arrTransfer(index)}>
                           <RightOutlined />
                         </div>
@@ -117,8 +137,8 @@ export default function Parallel({ node, parentNode }: ParallelProps) {
                 {index === 0 && <div className="top-left-cover-line" />}
                 {index === 0 && <div className="bottom-left-cover-line" />}
 
-                {index === node.parallelNodes!.length - 1 && <div className="top-right-cover-line" />}
-                {index === node.parallelNodes!.length - 1 && <div className="bottom-right-cover-line" />}
+                {index === node.inclusiveNodes!.length - 1 && <div className="top-right-cover-line" />}
+                {index === node.inclusiveNodes!.length - 1 && <div className="bottom-right-cover-line" />}
               </div>
             )
           })}

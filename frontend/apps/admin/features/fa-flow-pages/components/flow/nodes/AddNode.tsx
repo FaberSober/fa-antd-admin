@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
 import { Button, Popover } from 'antd';
 import { PlusOutlined } from "@ant-design/icons";
@@ -21,6 +21,7 @@ export interface AddNodeProps {
  */
 export default function AddNode({parentNode}: AddNodeProps) {
   const updateNode = useWorkFlowStore(state => state.updateNode);
+  const [open, setOpen] = useState(false);
 
   function addType(type: FlwEnums.NodeType) {
     let node: Flw.Node;
@@ -66,16 +67,18 @@ export default function AddNode({parentNode}: AddNodeProps) {
             {
               nodeName: "条件1",
               nodeKey: getNodeKey(),
-              type: 3,
+              type: NodeType.conditionNode,
               priorityLevel: 1,
-              conditionList: []
+              conditionMode: 1,
+              conditionList: [],
             },
             {
               nodeName: "条件2",
               nodeKey: getNodeKey(),
-              type: 3,
+              type: NodeType.conditionNode,
               priorityLevel: 2,
-              conditionList: []
+              conditionMode: 2,
+              conditionList: [],
             }
           ],
           childNode: parentNode.childNode,
@@ -91,14 +94,14 @@ export default function AddNode({parentNode}: AddNodeProps) {
             {
               nodeName: "分支1",
               nodeKey: getNodeKey(),
-              type: 3,
+              type: NodeType.conditionNode,
               priorityLevel: 1,
               conditionMode: 1,
             },
             {
               nodeName: "分支2",
               nodeKey: getNodeKey(),
-              type: 3,
+              type: NodeType.conditionNode,
               priorityLevel: 2,
               conditionMode: 1,
             }
@@ -107,8 +110,36 @@ export default function AddNode({parentNode}: AddNodeProps) {
           extendConfig: {},
         }
       } break
+      case NodeType.inclusiveBranch: {
+        node = {
+          nodeName: "包容分支",
+          nodeKey: getNodeKey(),
+          type: NodeType.inclusiveBranch,
+          inclusiveNodes: [
+            {
+              nodeName: "包容条件1",
+              nodeKey: getNodeKey(),
+              type: NodeType.conditionNode,
+              priorityLevel: 1,
+              conditionMode: 1,
+              conditionList: [],
+            },
+            {
+              nodeName: "包容条件2",
+              nodeKey: getNodeKey(),
+              type: NodeType.conditionNode,
+              priorityLevel: 2,
+              conditionMode: 2,
+              conditionList: [],
+            }
+          ],
+          childNode: parentNode.childNode,
+          extendConfig: {},
+        }
+      } break
     }
     updateNode({ ...parentNode, childNode: node! });
+    setOpen(false);
   }
 
   return (
@@ -116,7 +147,7 @@ export default function AddNode({parentNode}: AddNodeProps) {
       <div className="add-node-btn">
         <Popover
           content={(
-            <div className="add-node-popover-body fa-flex-row">
+            <div className="add-node-popover-body fa-grid4">
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.approval)}>
                 <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#ff943e'}} />} />
                 <div>审批节点</div>
@@ -133,11 +164,17 @@ export default function AddNode({parentNode}: AddNodeProps) {
                 <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#ec1b08'}} />} />
                 <div>并行分支</div>
               </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.inclusiveBranch)}>
+                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#ec1b08'}} />} />
+                <div>包容分支</div>
+              </div>
             </div>
           )}
           title="添加节点"
           trigger="click"
           placement="rightTop"
+          open={open}
+          onOpenChange={setOpen}
         >
           <Button shape="circle" icon={<PlusOutlined />} />
         </Popover>

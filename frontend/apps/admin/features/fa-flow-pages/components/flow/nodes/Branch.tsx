@@ -5,7 +5,7 @@ import { LeftOutlined, PlusOutlined, RightOutlined } from "@ant-design/icons";
 import AddNode from './AddNode';
 import '../styles/Branch.scss'
 import NodeWrap from "@features/fa-flow-pages/components/flow/NodeWrap";
-import BranchNode from "@features/fa-flow-pages/components/flow/nodes/BranchNode";
+import BranchNode from "./BranchNode";
 import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
 import { FaArrUtils } from '@fa/ui';
 import { getNodeKey } from "@features/fa-flow-pages/components/flow/utils";
@@ -19,6 +19,7 @@ export interface BranchProps {
 }
 
 /**
+ * 条件分支
  * @author xu.pengfei
  * @date 2025/8/19 22:19
  */
@@ -33,6 +34,7 @@ export default function Branch({ node, parentNode }: BranchProps) {
       nodeKey: getNodeKey(),
       type: FlwEnums.NodeType.conditionBranch,
       priorityLevel: len,
+      conditionMode: 1,
       conditionList: []
     })
     updateNode(nodeNew);

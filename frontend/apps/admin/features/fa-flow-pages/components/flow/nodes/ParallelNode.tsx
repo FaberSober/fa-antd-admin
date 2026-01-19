@@ -8,7 +8,7 @@ import { useWorkFlowStore } from '../stores/useWorkFlowStore';
 
 export interface ParallelNodeProps {
   parentNode: Flw.Node;
-  node: Flw.ParallelNode;
+  node: Flw.ConditionNode;
   index: number;
   onDel?: () => void;
   conditionText: string | ReactNode;

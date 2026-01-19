@@ -4,11 +4,11 @@ import { NodeCloseBtn } from "@features/fa-flow-pages/components/flow/cubes";
 import { Flw } from "@features/fa-flow-pages/types";
 import { Button, Form, Input, Select } from "antd";
 import clsx from 'clsx';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { useWorkFlowStore } from '../stores/useWorkFlowStore';
 
 
-export interface BranchNodeProps {
+export interface InclusiveNodeProps {
   parentNode: Flw.Node;
   node: Flw.ConditionNode;
   index: number;
@@ -19,11 +19,10 @@ export interface BranchNodeProps {
 
 /**
  * BranchNode
- * TODO add drag sort branch condition
  * @author xu.pengfei
- * @date 2025/8/21 17:08
+ * @date 2026/01/19 16:00
  */
-export default function BranchNode({ node, index, elseNode, onDel, conditionText }: BranchNodeProps) {
+export default function InclusiveNode({ node, index, elseNode, onDel, conditionText }: InclusiveNodeProps) {
   const readOnly = useWorkFlowStore(state => state.readOnly);
   const [form] = Form.useForm();
   const [open, show, hide] = useOpen()
