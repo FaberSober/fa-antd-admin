@@ -8,7 +8,7 @@ import { FormInstance } from 'antd';
 import { getTableKeyMap } from './utils';
 
 export interface FaFlowFormProps<T = any> {
-  formId: number;
+  formId: any;
   form: FormInstance<any>;
   flowNode?: Flw.Node;
   record?: T;
@@ -31,9 +31,11 @@ export default function FaFlowForm({ formId, form, flowNode, record, onLoadingCh
   }, [record, flowForm]);
 
   useEffect(() => {
-    flowFormApi.getById(formId).then((res) => {
-      setFlowForm(res.data);
-    });
+    if (formId) {
+      flowFormApi.getById(formId).then((res) => {
+        setFlowForm(res.data);
+      });
+    }
   }, [formId]);
 
   function getInitialValues() {
@@ -65,7 +67,12 @@ export default function FaFlowForm({ formId, form, flowNode, record, onLoadingCh
       childFormDataList: [],
     }).then((res) => {
       // FaUtils.showResponse(res, '新增流程');
-      if (onSuccess) onSuccess(res.data);
+      const {formId, formData, childFormDataList} = res.data;
+      if (onSuccess) onSuccess({
+        '_formId': formId,
+        ...formData,
+        childFormDataList,
+      });
     }).finally(() => {
       onLoadingChange?.(false);
     })
@@ -95,13 +102,15 @@ export default function FaFlowForm({ formId, form, flowNode, record, onLoadingCh
   if (isNil(flowForm)) return <PageLoading />;
   return (
     <div className='fa-full-content'>
-      <FaFormShow
-        config={flowForm.config}
-        flowNode={flowNode}
-        form={form}
-        onFinish={onFinish}
-        disabled={disabled}
-      />
+      {formId && (
+        <FaFormShow
+          config={flowForm.config}
+          flowNode={flowNode}
+          form={form}
+          onFinish={onFinish}
+          disabled={disabled}
+        />
+      )}
     </div>
   );
 }

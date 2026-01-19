@@ -82,8 +82,8 @@ public class FlowTaskBiz {
         FlwTask flwTask = flowLongEngine.queryService().getTask(taskId);
         FlwInstance flwInstance = flowLongEngine.queryService().getInstance(flwTask.getInstanceId());
         JSONObject vJsonObject = JSONObject.parse(flwInstance.getVariable());
-        JSONObject formData = vJsonObject.getJSONObject("formData");
-        flowLongEngine.executeTask(taskId, flowCreator, formData);
+        // JSONObject formData = vJsonObject.getJSONObject("formData");
+        flowLongEngine.executeTask(taskId, flowCreator, vJsonObject);
     }
 
     public void reject(Long taskId) {

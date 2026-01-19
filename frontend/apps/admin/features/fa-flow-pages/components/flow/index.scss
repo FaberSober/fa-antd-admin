@@ -541,16 +541,24 @@ body {
 }
 
 // --------------------------------- workflow show css ---------------------------------
-.fa-workflow-node-done .title {
-  background: #52c41a;
+.fa-workflow-node-idle {
+  --node-title-bg: #909399;
 }
 
-.fa-workflow-node-active .title {
-  background: #faad14;
+.fa-workflow-node-active {
+  --node-title-bg: #faad14;
 }
 
-.fa-workflow-node-idle .title {
-  background: #909399;
+.fa-workflow-node-done {
+  --node-title-bg: #52c41a;
+}
+
+.fa-workflow-node-error {
+  --node-title-bg: #ff4d4f;
+}
+
+.fa-workflow-node .title {
+  background: var(--node-title-bg, #909399);
 }
 
 // --------------------------------- workflow readonly ---------------------------------

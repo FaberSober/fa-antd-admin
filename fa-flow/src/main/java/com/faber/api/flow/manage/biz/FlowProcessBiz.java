@@ -112,6 +112,7 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
     }
 
     public boolean start(FlowProcessStartReqVo reqVo) {
+        // Map<String, Object> args = (Map<String, Object>) reqVo.getArgs().get("formData");
         FlowCreator flowCreator = FlowCreator.of(getCurrentUserId(), BaseContextHandler.getName());
         flowLongEngine.startInstanceByProcessKey(reqVo.getProcessKey(), null, flowCreator, reqVo.getArgs());
 

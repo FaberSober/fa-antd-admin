@@ -2,6 +2,7 @@ import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
 import { isNil } from "lodash";
 import { useNodeCls } from './hooks';
 import { Approver, Branch, Parallel, Inclusive, Promoter, Send } from "./nodes";
+import clsx from 'clsx';
 
 
 export interface NodeWrapProps {
@@ -21,7 +22,7 @@ export default function NodeWrap({ node, parentNode }: NodeWrapProps) {
 
   if (isNil(node)) return null;
   return (
-    <div className={cls}>
+    <div className={clsx('fa-workflow-node', cls)}>
       {node.type === FlwEnums.NodeType.major && <Promoter node={node} />}
       {node.type === FlwEnums.NodeType.approval && <Approver node={node} parentNode={parentNode} />}
       {node.type === FlwEnums.NodeType.cc && <Send node={node} parentNode={parentNode} />}

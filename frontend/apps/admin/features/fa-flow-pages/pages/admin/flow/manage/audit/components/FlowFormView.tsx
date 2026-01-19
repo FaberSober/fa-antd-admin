@@ -39,9 +39,9 @@ export default function FlowFormView({ flwProcess, formValues, currentNode, disa
       {flowProcess?.formType === FlowEnums.FlowProcessFormType.CUSTOM && (
         <FaFlowForm
           form={form}
-          formId={formValues.formId}
+          formId={formValues['_formId']}
           flowNode={flwNode}
-          record={formValues.formData}
+          record={formValues}
           disabled={disabled}
           // onSuccess={(fv) => handleFormSubmit(flow, fv)}
           // onLoadingChange={setFormLoading}
