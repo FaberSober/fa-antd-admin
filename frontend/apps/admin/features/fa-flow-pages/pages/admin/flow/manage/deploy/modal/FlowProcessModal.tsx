@@ -54,28 +54,9 @@ export default function FlowProcessModal({ children, title, record, fetchFinish,
             "nodeKey": getNodeKey(),
             "type": FlwEnums.NodeType.major,
             "childNode": {
-              "nodeName": "审核人",
+              "nodeName": "结束",
               "nodeKey": getNodeKey(),
-              // "callProcess": null,
-              "type": FlwEnums.NodeType.approval,
-              "setType": FlwEnums.NodeSetType.specifyMembers,
-              "nodeAssigneeList": [
-                {
-                  "id": "1",
-                  "name": "超级管理员"
-                }
-              ],
-              "examineLevel": 1,
-              "directorLevel": 1,
-              "selectMode": 1,
-              "termAuto": false,
-              "term": 0,
-              "termMode": 1,
-              "examineMode": 2,
-              "directorMode": 0,
-              "typeOfApprove": 1,
-              "remind": false,
-              "approveSelf": 1
+              "type": FlwEnums.NodeType.end,
             }
           }
         } as Flw.ProcessModel),

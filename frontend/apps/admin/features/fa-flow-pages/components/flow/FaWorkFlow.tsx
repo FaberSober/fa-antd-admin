@@ -99,11 +99,6 @@ export default function FaWorkFlow({ flowProcess, processModel, onChange, render
       <div className={clsx('sc-workflow-design', readOnly && 'sc-workflow-design-readonly')}>
         <div className="box-scale">
           <NodeWrap node={processModel.nodeConfig} />
-
-          <div className="end-node">
-            <div className="end-node-circle"></div>
-            <div className="end-node-text">流程结束</div>
-          </div>
         </div>
       </div>
     </ZoomPanEditor>

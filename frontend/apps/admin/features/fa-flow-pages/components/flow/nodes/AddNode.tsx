@@ -155,6 +155,14 @@ export default function AddNode({parentNode}: AddNodeProps) {
           extendConfig: {},
         }
       } break
+      case NodeType.end: {
+        node = {
+          nodeName: "结束",
+          nodeKey: getNodeKey(),
+          type: NodeType.end,
+          extendConfig: {},
+        }
+      } break
     }
     updateNode({ ...parentNode, childNode: node! });
     setOpen(false);
@@ -193,6 +201,10 @@ export default function AddNode({parentNode}: AddNodeProps) {
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.autoReject)}>
                 <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#e02020'}} />} />
                 <div>自动拒绝</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.end)}>
+                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#e02020'}} />} />
+                <div>结束</div>
               </div>
             </div>
           )}
