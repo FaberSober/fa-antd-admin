@@ -1,7 +1,7 @@
 import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
 import { isNil } from "lodash";
 import { useNodeCls } from './hooks';
-import { Approver, Branch, Parallel, Inclusive, Promoter, Send } from "./nodes";
+import { Approver, Branch, Parallel, Inclusive, Promoter, Send, AutoPass, AutoReject } from "./nodes";
 import clsx from 'clsx';
 
 
@@ -24,11 +24,13 @@ export default function NodeWrap({ node, parentNode }: NodeWrapProps) {
   return (
     <div className={clsx('fa-workflow-node', cls)}>
       {node.type === FlwEnums.NodeType.major && <Promoter node={node} />}
-      {node.type === FlwEnums.NodeType.approval && <Approver node={node} parentNode={parentNode} />}
-      {node.type === FlwEnums.NodeType.cc && <Send node={node} parentNode={parentNode} />}
+      {node.type === FlwEnums.NodeType.approval && <Approver node={node} parentNode={parentNode!} />}
+      {node.type === FlwEnums.NodeType.cc && <Send node={node} parentNode={parentNode!} />}
       {node.type === FlwEnums.NodeType.conditionBranch && <Branch node={node} parentNode={parentNode!} />}
       {node.type === FlwEnums.NodeType.parallelBranch && <Parallel node={node} parentNode={parentNode!} />}
       {node.type === FlwEnums.NodeType.inclusiveBranch && <Inclusive node={node} parentNode={parentNode!} />}
+      {node.type === FlwEnums.NodeType.autoPass && <AutoPass node={node} parentNode={parentNode!} />}
+      {node.type === FlwEnums.NodeType.autoReject && <AutoReject node={node} parentNode={parentNode!} />}
 
       {node.childNode && <NodeWrap node={node.childNode} parentNode={node} />}
     </div>

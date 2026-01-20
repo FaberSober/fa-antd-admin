@@ -12,18 +12,12 @@ import { cloneDeep } from 'lodash';
 import InclusiveNode from './InclusiveNode';
 
 
-export interface InclusiveProps {
-  /** 流程配置节点Node JSON */
-  node: Flw.Node;
-  parentNode: Flw.ParentNode;
-}
-
 /**
  * 包容分支
  * @author xu.pengfei
  * @date 2026/01/19 16:00
  */
-export default function Inclusive({ node, parentNode }: InclusiveProps) {
+export default function Inclusive({ node, parentNode }: Flw.BasicNodeProps) {
   const updateNode = useWorkFlowStore(state => state.updateNode);
 
   function addTerm() {

@@ -1,37 +1,27 @@
-import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
 import { FaIcon } from "@fa/icons";
 import { BaseDrawer, FaFlexRestLayout, useOpen } from '@fa/ui';
 import { NodeCloseBtn } from "@features/fa-flow-pages/components/flow/cubes";
-import { useNode } from "@features/fa-flow-pages/components/flow/hooks";
 import AddNode from "@features/fa-flow-pages/components/flow/nodes/AddNode";
 import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
 import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
-import { Button, Input, Space, Tabs } from "antd";
+import { Input, Tabs } from "antd";
 import { useMemo, useState } from 'react';
+import { useDelNode } from "../hooks";
 import ApproverNodeBasicForm from './property/ApproverNodeBasicForm';
 import NodeFormAuth from './property/NodeFormAuth';
-import { findNodeByKey } from "../utils";
 
 const { NodeSetType } = FlwEnums;
-
-
-export interface ApproverProps {
-  /** 流程配置节点Node JSON */
-  node: Flw.Node;
-  parentNode?: Flw.ParentNode;
-}
 
 /**
  * @author xu.pengfei
  * @date 2025/8/19 22:11
  */
-export default function Approver({ node, parentNode }: ApproverProps) {
+export default function Approver({ node, parentNode }: Flw.BasicNodeProps) {
   const [open, show, hide] = useOpen()
   const [tab, setTab] = useState('basic');
 
-  const deleteNode = useWorkFlowStore(state => state.deleteNode); // 使用 Store 的 deleteNode
   const updateNodeProps = useWorkFlowStore(state => state.updateNodeProps);
-  const readOnly = useWorkFlowStore(state => state.readOnly);
+  const { delNode } = useDelNode(node, parentNode);
 
   function toText(nodeConfig: Flw.Node) {
     if (nodeConfig.setType === NodeSetType.specifyMembers) {
@@ -70,14 +60,6 @@ export default function Approver({ node, parentNode }: ApproverProps) {
   }
 
   const text = useMemo(() => toText(node), [node])
-
-  function delNode() {
-    if (parentNode) {
-      deleteNode(node); // 使用 Store 方法删除
-    } else {
-      // 根节点处理（如果需要）
-    }
-  }
 
   function showDrawer() {
     show()

@@ -137,6 +137,24 @@ export default function AddNode({parentNode}: AddNodeProps) {
           extendConfig: {},
         }
       } break
+      case NodeType.autoPass: {
+        node = {
+          nodeName: "自动通过",
+          nodeKey: getNodeKey(),
+          type: NodeType.autoPass,
+          childNode: parentNode.childNode,
+          extendConfig: {},
+        }
+      } break
+      case NodeType.autoReject: {
+        node = {
+          nodeName: "自动拒绝",
+          nodeKey: getNodeKey(),
+          type: NodeType.autoReject,
+          childNode: parentNode.childNode,
+          extendConfig: {},
+        }
+      } break
     }
     updateNode({ ...parentNode, childNode: node! });
     setOpen(false);
@@ -167,6 +185,14 @@ export default function AddNode({parentNode}: AddNodeProps) {
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.inclusiveBranch)}>
                 <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#ec1b08'}} />} />
                 <div>包容分支</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.autoPass)}>
+                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#78C06E'}} />} />
+                <div>自动通过</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.autoReject)}>
+                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#e02020'}} />} />
+                <div>自动拒绝</div>
               </div>
             </div>
           )}

@@ -11,17 +11,13 @@ import { FaArrUtils } from '@fa/ui';
 import { getNodeKey } from "@features/fa-flow-pages/components/flow/utils";
 import { cloneDeep } from 'lodash';
 
-export interface ParallelProps {
-  node: Flw.Node;
-  parentNode: Flw.ParentNode;
-}
 
 /**
  * 并行分支
  * @author xu.pengfei
  * @date 2026-01-19 13:57:13
  */
-export default function Parallel({ node, parentNode }: ParallelProps) {
+export default function Parallel({ node, parentNode }: Flw.BasicNodeProps) {
   const updateNode = useWorkFlowStore(state => state.updateNode);
 
   function addTerm() {

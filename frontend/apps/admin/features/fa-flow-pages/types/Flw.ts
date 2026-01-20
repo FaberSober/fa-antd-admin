@@ -240,6 +240,14 @@ namespace Flw {
     viewed?: number;
   }
 
+
+  // ------------------------------------------------- WorkflowEditor -------------------------------------------------
+  export interface BasicNodeProps {
+    /** 流程配置节点Node JSON */
+    node: Flw.Node;
+    parentNode: Flw.ParentNode;
+  }
+
 }
 
 export default Flw;

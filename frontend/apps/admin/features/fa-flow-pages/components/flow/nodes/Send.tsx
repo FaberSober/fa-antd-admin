@@ -7,26 +7,22 @@ import { Form, Input } from "antd";
 import { useMemo } from 'react';
 import { NodeCloseBtn } from '../cubes';
 import AddNode from './AddNode';
+import { useDelNode } from "../hooks";
 
-
-export interface SendProps {
-  /** 流程配置节点Node JSON */
-  node: Flw.Node;
-  parentNode?: Flw.ParentNode;
-}
 
 /**
  * @author xu.pengfei
  * @date 2025/8/19 22:11
  */
-export default function Send({ node, parentNode }: SendProps) {
+export default function Send({ node, parentNode }: Flw.BasicNodeProps) {
   const [form] = Form.useForm();
   const [open, show, hide] = useOpen()
 
   const updateNode = useWorkFlowStore(state => state.updateNode);
-  const deleteNode = useWorkFlowStore(state => state.deleteNode);
   const updateNodeProps = useWorkFlowStore(state => state.updateNodeProps);
   const readOnly = useWorkFlowStore(state => state.readOnly);
+
+  const { delNode } = useDelNode(node, parentNode);
 
   async function handleValuesChange(av: any) {
     try {
@@ -56,14 +52,6 @@ export default function Send({ node, parentNode }: SendProps) {
       return "所有人"
     }
   }, [node])
-
-  function delNode() {
-    if (parentNode) {
-      deleteNode(node); // 使用 Store 方法删除
-    } else {
-      // 根节点处理（如果需要）
-    }
-  }
 
   return (
     <div className="node-wrap">

@@ -12,18 +12,12 @@ import { getNodeKey } from "@features/fa-flow-pages/components/flow/utils";
 import { cloneDeep } from 'lodash';
 
 
-export interface BranchProps {
-  /** 流程配置节点Node JSON */
-  node: Flw.Node;
-  parentNode: Flw.ParentNode;
-}
-
 /**
  * 条件分支
  * @author xu.pengfei
  * @date 2025/8/19 22:19
  */
-export default function Branch({ node, parentNode }: BranchProps) {
+export default function Branch({ node, parentNode }: Flw.BasicNodeProps) {
   const updateNode = useWorkFlowStore(state => state.updateNode);
 
   function addTerm() {
