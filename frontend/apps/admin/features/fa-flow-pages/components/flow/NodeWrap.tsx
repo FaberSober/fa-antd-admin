@@ -1,7 +1,7 @@
 import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
 import { isNil } from "lodash";
 import { useNodeCls } from './hooks';
-import { Approver, Branch, Parallel, Inclusive, Promoter, Send, AutoPass, AutoReject, End, Timer } from "./nodes";
+import { Approver, Branch, Parallel, Inclusive, Promoter, Send, AutoPass, AutoReject, End, Timer, Trigger } from "./nodes";
 import clsx from 'clsx';
 
 
@@ -30,6 +30,7 @@ export default function NodeWrap({ node, parentNode }: NodeWrapProps) {
       {node.type === FlwEnums.NodeType.parallelBranch && <Parallel node={node} parentNode={parentNode!} />}
       {node.type === FlwEnums.NodeType.inclusiveBranch && <Inclusive node={node} parentNode={parentNode!} />}
       {node.type === FlwEnums.NodeType.timer && <Timer node={node} parentNode={parentNode!} />}
+      {node.type === FlwEnums.NodeType.trigger && <Trigger node={node} parentNode={parentNode!} />}
       {node.type === FlwEnums.NodeType.autoPass && <AutoPass node={node} parentNode={parentNode!} />}
       {node.type === FlwEnums.NodeType.autoReject && <AutoReject node={node} parentNode={parentNode!} />}
       {node.type === FlwEnums.NodeType.end && <End node={node} parentNode={parentNode!} />}

@@ -11,11 +11,11 @@ import AddNode from './AddNode';
 
 
 /**
- * 延迟等待
+ * 触发器
  * @author xu.pengfei
  * @date 2025/8/19 22:11
  */
-export default function Timer({ node, parentNode }: Flw.BasicNodeProps) {
+export default function Trigger({ node, parentNode }: Flw.BasicNodeProps) {
   const [form] = Form.useForm();
   const [open, show, hide] = useOpen()
 
@@ -37,9 +37,12 @@ export default function Timer({ node, parentNode }: Flw.BasicNodeProps) {
     const nodeNew = {
       ...node,
       delayType: av.delayType,
+      triggerType: av.triggerType,
       extendConfig: {
         ...node.extendConfig,
         time,
+        args: av.args,
+        trigger: av.trigger,
       },
     }
     updateNode(nodeNew)
@@ -49,7 +52,10 @@ export default function Timer({ node, parentNode }: Flw.BasicNodeProps) {
     show()
     const time = get(node, 'extendConfig.time'); // 形如：1:m 或 17:02:53
     form.setFieldsValue({
+      triggerType: node.triggerType,
       delayType: node.delayType,
+      args: get(node, 'extendConfig.args'),
+      trigger: get(node, 'extendConfig.trigger'),
       timeNum: time ? parseInt(time) : undefined,
       timeType: time ? time.replace(/^\d+:/, '') : undefined,
       timeCal: node.delayType === FlwEnums.NodeDelayType.CAL ? get(node, 'extendConfig.time') : undefined,
@@ -57,6 +63,9 @@ export default function Timer({ node, parentNode }: Flw.BasicNodeProps) {
   }
 
   const text = useMemo(() => {
+    if (node.triggerType === FlwEnums.NodeTriggerType.IMMEDIATE) {
+      return `立即执行`;
+    }
     const time = get(node, 'extendConfig.time');
     if (node.delayType === FlwEnums.NodeDelayType.FIXED) {
       return `等待${time}`;
@@ -91,48 +100,78 @@ export default function Timer({ node, parentNode }: Flw.BasicNodeProps) {
             handleValuesChange(av)
           }}
         >
-          <div style={{ marginBottom: 12 }}>延时时间</div>
+          <div style={{ marginBottom: 12 }}>触发方式</div>
           <div style={{ marginBottom: 12 }}>
-            <Form.Item name="delayType" noStyle>
+            <Form.Item name="triggerType" noStyle>
               <Radio.Group
                 options={[
-                  { label: '固定时长', value: FlwEnums.NodeDelayType.FIXED },
-                  { label: '自动计算', value: FlwEnums.NodeDelayType.CAL },
+                  { label: '立即执行', value: FlwEnums.NodeTriggerType.IMMEDIATE },
+                  { label: '延迟执行', value: FlwEnums.NodeTriggerType.DELAY },
                 ]}
-                optionType="button"
-                buttonStyle="solid"
               />
             </Form.Item>
           </div>
 
-          {node.delayType === FlwEnums.NodeDelayType.FIXED && (
-            <Space.Compact className="fa-flex-row-center">
-              <Form.Item name="timeNum" noStyle>
-                <InputNumber min={0} />
-              </Form.Item>
-              <Form.Item name="timeType" noStyle>
-                <Select
-                  options={[
-                    { label: '天', value: 'd' },
-                    { label: '小时', value: 'h' },
-                    { label: '分钟', value: 'm' },
-                  ]}
-                  style={{width:80}}
-                />
-              </Form.Item>
-              <div className="fa-ml12">后进入下一步</div>
-            </Space.Compact>
+          {node.triggerType === FlwEnums.NodeTriggerType.DELAY && (
+            <>
+              <div style={{ marginBottom: 12 }}>延时时间</div>
+              <div style={{ marginBottom: 12 }}>
+                <Form.Item name="delayType" noStyle>
+                  <Radio.Group
+                    options={[
+                      { label: '固定时长', value: FlwEnums.NodeDelayType.FIXED },
+                      { label: '自动计算', value: FlwEnums.NodeDelayType.CAL },
+                    ]}
+                    optionType="button"
+                    buttonStyle="solid"
+                  />
+                </Form.Item>
+              </div>
+
+              {node.delayType === FlwEnums.NodeDelayType.FIXED && (
+                <Space.Compact className="fa-flex-row-center">
+                  <Form.Item name="timeNum" noStyle>
+                    <InputNumber min={0} />
+                  </Form.Item>
+                  <Form.Item name="timeType" noStyle>
+                    <Select
+                      options={[
+                        { label: '天', value: 'd' },
+                        { label: '小时', value: 'h' },
+                        { label: '分钟', value: 'm' },
+                      ]}
+                      style={{width:80}}
+                    />
+                  </Form.Item>
+                  <div className="fa-ml12">后进入下一步</div>
+                </Space.Compact>
+              )}
+
+              {node.delayType === FlwEnums.NodeDelayType.CAL && (
+                <div className="fa-flex-row-center">
+                  <div className="fa-mr12">至当天</div>
+                  <Form.Item name="timeCal" noStyle>
+                    <TimePicker />
+                  </Form.Item>
+                  <div className="fa-ml12">后进入下一步</div>
+                </div>
+              )}
+            </>
           )}
 
-          {node.delayType === FlwEnums.NodeDelayType.CAL && (
-            <div className="fa-flex-row-center">
-              <div className="fa-mr12">至当天</div>
-              <Form.Item name="timeCal" noStyle>
-                <TimePicker />
-              </Form.Item>
-              <div className="fa-ml12">后进入下一步</div>
-            </div>
-          )}
+          <div style={{ marginBottom: 12 }}>执行参数</div>
+          <div style={{ marginBottom: 12 }}>
+            <Form.Item name="args" noStyle>
+              <Input.TextArea placeholder="传递给trigger类的json格式参数" />
+            </Form.Item>
+          </div>
+
+          <div style={{ marginBottom: 12 }}>执行Class</div>
+          <div style={{ marginBottom: 12 }}>
+            <Form.Item name="trigger" noStyle>
+              <Input placeholder="必填项，接口TaskTrigger实现class；如果不配置，调用全局实现子类" />
+            </Form.Item>
+          </div>
         </Form>
       </BaseDrawer>
 

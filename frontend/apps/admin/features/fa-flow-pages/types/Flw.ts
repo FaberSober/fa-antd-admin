@@ -127,7 +127,7 @@ namespace Flw {
      * 触发器类型
      * 1，立即执行 2，延迟执行
      */
-    triggerType?: number;
+    triggerType?: FlwEnums.NodeTriggerType;
     /**
      * 延时处理类型，具体时间 extendConfig 配置 time 属性
      * 1，固定时长: "time": "1:m"

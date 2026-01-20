@@ -142,10 +142,25 @@ export default function AddNode({parentNode}: AddNodeProps) {
           nodeName: "延迟等待",
           nodeKey: getNodeKey(),
           type: NodeType.timer,
-          delayType: FlwEnums.NodeDelayType.FIXED,
+          delayType: FlwEnums.NodeDelayType.FIXED, // 延时处理类型 1，固定时长 2，自动计算
           childNode: parentNode.childNode,
           extendConfig: {
             time: "1:m",
+          },
+        }
+      } break
+      case NodeType.trigger: {
+        node = {
+          nodeName: "触发器",
+          nodeKey: getNodeKey(),
+          type: NodeType.trigger,
+          triggerType: FlwEnums.NodeTriggerType.IMMEDIATE, // 触发器类型 1，立即执行 2，延迟执行
+          delayType: FlwEnums.NodeDelayType.FIXED, // 延时处理类型 1，固定时长 2，自动计算
+          childNode: parentNode.childNode,
+          extendConfig: {
+            // time: "1:m",
+            // args: "{}",
+            trigger: "", // 实现TaskTrigger的class类路径，如：test.mysql.TaskTriggerImpl
           },
         }
       } break
@@ -209,6 +224,10 @@ export default function AddNode({parentNode}: AddNodeProps) {
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.timer)}>
                 <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#F5222D'}} />} />
                 <div>延迟等待</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.trigger)}>
+                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#F5222D'}} />} />
+                <div>触发器</div>
               </div>
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.autoPass)}>
                 <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#78C06E'}} />} />

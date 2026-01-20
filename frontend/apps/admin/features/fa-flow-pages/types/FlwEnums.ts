@@ -191,6 +191,13 @@ namespace FlwEnums {
     CAL = 2,
   }
 
+  export enum NodeTriggerType {
+    /** 1，立即执行 */
+    IMMEDIATE = 1,
+    /** 2，延迟执行 */
+    DELAY = 2,
+  }
+
   /**
    * {@link com.aizuda.bpm.engine.core.enums.TaskEventType}
    * 任务事件类型枚举
