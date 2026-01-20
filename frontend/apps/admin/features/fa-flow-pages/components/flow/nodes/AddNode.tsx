@@ -28,7 +28,7 @@ export default function AddNode({parentNode}: AddNodeProps) {
     switch (type) {
       case NodeType.approval: {
         node = {
-          nodeName: "审核人",
+          nodeName: "审核",
           nodeKey: getNodeKey(),
           type: NodeType.approval,			//节点类型
           setType: NodeSetType.specifyMembers,			//审核人类型 1，选择成员 3，选择角色
@@ -137,6 +137,16 @@ export default function AddNode({parentNode}: AddNodeProps) {
           extendConfig: {},
         }
       } break
+      case NodeType.routeBranch: {
+        node = {
+          nodeName: "路由分支",
+          nodeKey: getNodeKey(),
+          type: NodeType.routeBranch,
+          routeNodes: [],
+          childNode: parentNode.childNode,
+          extendConfig: {},
+        }
+      } break
       case NodeType.timer: {
         node = {
           nodeName: "延迟等待",
@@ -220,6 +230,10 @@ export default function AddNode({parentNode}: AddNodeProps) {
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.inclusiveBranch)}>
                 <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#ec1b08'}} />} />
                 <div>包容分支</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.routeBranch)}>
+                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#ec1b08'}} />} />
+                <div>路由分支</div>
               </div>
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.timer)}>
                 <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#F5222D'}} />} />
