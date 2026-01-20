@@ -184,6 +184,13 @@ namespace FlwEnums {
     [NodeSetType.code]: '代码接口指定',
   }
 
+  export enum NodeDelayType {
+    /** 固定时长: "time": "1:m" */
+    FIXED = 1,
+    /** 自动计算: "time": "17:02:53" */
+    CAL = 2,
+  }
+
   /**
    * {@link com.aizuda.bpm.engine.core.enums.TaskEventType}
    * 任务事件类型枚举

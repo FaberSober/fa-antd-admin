@@ -137,6 +137,18 @@ export default function AddNode({parentNode}: AddNodeProps) {
           extendConfig: {},
         }
       } break
+      case NodeType.timer: {
+        node = {
+          nodeName: "延迟等待",
+          nodeKey: getNodeKey(),
+          type: NodeType.timer,
+          delayType: FlwEnums.NodeDelayType.FIXED,
+          childNode: parentNode.childNode,
+          extendConfig: {
+            time: "1:m",
+          },
+        }
+      } break
       case NodeType.autoPass: {
         node = {
           nodeName: "自动通过",
@@ -193,6 +205,10 @@ export default function AddNode({parentNode}: AddNodeProps) {
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.inclusiveBranch)}>
                 <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#ec1b08'}} />} />
                 <div>包容分支</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.timer)}>
+                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#F5222D'}} />} />
+                <div>延迟等待</div>
               </div>
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.autoPass)}>
                 <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#78C06E'}} />} />

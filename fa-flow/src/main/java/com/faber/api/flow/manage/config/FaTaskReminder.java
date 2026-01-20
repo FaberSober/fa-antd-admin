@@ -1,0 +1,27 @@
+package com.faber.api.flow.manage.config;
+
+import com.aizuda.bpm.engine.TaskReminder;
+import com.aizuda.bpm.engine.assist.DateUtils;
+import com.aizuda.bpm.engine.core.FlowLongContext;
+import com.aizuda.bpm.engine.entity.FlwTask;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+
+/**
+ * 注入自定义任务提醒处理类
+ * 注解 EnableScheduling 必须启动
+ */
+@Component
+@EnableScheduling
+public class FaTaskReminder implements TaskReminder {
+
+    @Override
+    public Date remind(FlowLongContext context, Long instanceId, FlwTask currentTask) {
+        System.out.println("测试提醒：" + instanceId);
+
+        // 一天后继续提醒，直到用户处理完
+        return DateUtils.toDate(DateUtils.now().plusDays(1));
+    }
+}

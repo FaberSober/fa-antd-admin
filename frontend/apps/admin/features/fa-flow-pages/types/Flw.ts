@@ -129,10 +129,11 @@ namespace Flw {
      */
     triggerType?: number;
     /**
-     * 延时处理类型
-     * 1，固定时长 2，自动计算
+     * 延时处理类型，具体时间 extendConfig 配置 time 属性
+     * 1，固定时长: "time": "1:m"
+     * 2，自动计算: "time": "17:02:53"
      */
-    delayType?: number;
+    delayType?: FlwEnums.NodeDelayType;
   }
 
   export interface NodeExtendConfig {
