@@ -2,11 +2,12 @@ import { FaIcon } from "@fa/icons";
 import { BaseDrawer, useOpen } from '@fa/ui';
 import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
 import { Flw } from "@features/fa-flow-pages/types";
-import { Input } from "antd";
+import { Button, Input } from "antd";
 import { useMemo } from 'react';
 import { NodeCloseBtn } from '../cubes';
 import { useDelNode } from "../hooks";
 import AddNode from './AddNode';
+import { PlusOutlined } from "@ant-design/icons";
 
 
 /**
@@ -52,6 +53,9 @@ export default function Route({ node, parentNode }: Flw.BasicNodeProps) {
           <Input value={node.nodeName} variant="filled" onChange={e => updateNodeProps(node, 'nodeName', e.target.value)} />
         )}
       >
+        <div className="fa-flex-column">
+          <Button icon={<PlusOutlined />}>添加路由分支</Button>
+        </div>
       </BaseDrawer>
 
       <AddNode parentNode={node} />
