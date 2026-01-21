@@ -64,7 +64,7 @@ export default function BranchNode({ node, index, elseNode, onDel, conditionText
           disabled={readOnly}
         >
           <FaFlexRestLayout>
-            <div className="fa-flex-column">
+            <div className="fa-flex-column fa-gap12">
               <div className="top-tips">满足以下条件时进入当前分支</div>
 
               {node.conditionList?.map((conditionGroup, conditionGroupIdx) => {
