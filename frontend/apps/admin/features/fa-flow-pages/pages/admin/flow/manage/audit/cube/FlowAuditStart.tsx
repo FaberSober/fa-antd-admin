@@ -72,8 +72,8 @@ export default function FlowAuditStart() {
 
         {/* 右侧面板 */}
         <Splitter.Panel>
-          <div className="fa-flex-column fa-full fa-relative fa-plr12">
-            <div className='fa-flex-row fa-flex-wrap fa-gap12'>
+          <div className="fa-flex-column fa-full fa-relative fa-pl12">
+            <div className='fa-gap12' style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', width: '100%' }}>
               {flows.map(flow => {
                 const processModel:Flw.ProcessModel = JSON.parse(flow.modelContent);
                 // get start node config
@@ -82,7 +82,7 @@ export default function FlowAuditStart() {
                   <div key={flow.id}>
                     <BaseDrawer
                       triggerDom={(
-                        <div className='fa-card fa-hover' style={{ width: 160, height: 100, padding: 12 }}>
+                        <div className='fa-card fa-hover' style={{ width: '100%', height: 100, padding: 12 }}>
                           <div className='fa-h3'>{flow.processName}</div>
                           <div className='fa-text-small fa-text-light100'>{flow.remark}</div>
                         </div>
