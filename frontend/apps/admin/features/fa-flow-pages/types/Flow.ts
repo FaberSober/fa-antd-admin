@@ -265,7 +265,7 @@ namespace Flow {
     /** 实例ID - Instance ID */
     instanceId: string;
     /** 实例状态 - Instance State */
-    instanceState: number;
+    instanceState: FlwEnums.InstanceStateEnum;
     /** 创建人ID - Create ID */
     createId: string;
     /** 创建人名称 - Create By */

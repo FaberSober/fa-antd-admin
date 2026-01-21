@@ -4,7 +4,6 @@ import { flowTaskApi } from "@features/fa-flow-pages/services";
 import { Form, Input, Splitter, Tag } from "antd";
 import { useRef, useState } from "react";
 import useBus from "use-bus";
-import FlowInstanceDeal from "../components/FlowInstanceDeal";
 import FlowInstanceView from "../components/FlowInstanceView";
 
 /**
@@ -54,7 +53,7 @@ export default function FlowMyApproved() {
                       <div className="fa-flex-row-center">
                         <div className="fa-flex-1">{item.processName}</div>
                         <div>
-                          <Tag color="green">已审批</Tag>
+                          <Tag color="green" variant="outlined">已审批</Tag>
                         </div>
                       </div>
 

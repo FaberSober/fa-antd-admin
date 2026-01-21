@@ -53,7 +53,7 @@ export default function FlowPendingClaim() {
                       <div className="fa-flex-row-center">
                         <div className="fa-flex-1">{item.processName}</div>
                         <div>
-                          <Tag color="orange">待认领</Tag>
+                          <Tag color="orange" variant="outlined">待认领</Tag>
                         </div>
                       </div>
 

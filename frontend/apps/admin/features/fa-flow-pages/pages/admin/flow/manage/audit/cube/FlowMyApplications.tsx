@@ -60,7 +60,7 @@ export default function FlowMyApplications() {
                       <div className="fa-flex-row-center">
                         <div className='fa-flex-1'>{item.processName}</div>
                         <div>
-                          <Tag>{FlwEnums.InstanceStateEnumMap[item.instanceState as FlwEnums.InstanceStateEnum]}</Tag>
+                          <Tag variant="outlined" color={FlwEnums.InstanceStateEnumColor[item.instanceState]}>{FlwEnums.InstanceStateEnumMap[item.instanceState]}</Tag>
                         </div>
                       </div>
 

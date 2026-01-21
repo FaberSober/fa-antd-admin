@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
 import { Button, Popover } from 'antd';
-import { PlusOutlined } from "@ant-design/icons";
-import { FaIcon } from "@fa/icons";
+import { CheckCircleOutlined, ClockCircleOutlined, CloseCircleOutlined, PlusOutlined, StopOutlined } from "@ant-design/icons";
+import { FaIcon, FaIconBranch, FaIconInclusive, FaIconRoute, FaIconSend, FaIconSlider, FaIconTrigger } from "@fa/icons";
 import { getNodeKey } from "@features/fa-flow-pages/components/flow/utils";
 import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
 
@@ -216,43 +216,43 @@ export default function AddNode({parentNode}: AddNodeProps) {
                 <div>审批节点</div>
               </div>
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.cc)}>
-                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#3296fa'}} />} />
+                <Button shape="circle" icon={<FaIconSend style={{color: '#3296fa'}} />} />
                 <div>抄送节点</div>
               </div>
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.conditionBranch)}>
-                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#15BC83'}} />} />
+                <Button shape="circle" icon={<FaIconBranch style={{color: '#15BC83'}} />} />
                 <div>条件分支</div>
               </div>
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.parallelBranch)}>
-                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#ec1b08'}} />} />
+                <Button shape="circle" icon={<FaIconSlider style={{color: '#626aef'}} />} />
                 <div>并行分支</div>
               </div>
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.inclusiveBranch)}>
-                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#ec1b08'}} />} />
+                <Button shape="circle" icon={<FaIconInclusive style={{color: '#345da2'}} />} />
                 <div>包容分支</div>
               </div>
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.routeBranch)}>
-                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#ec1b08'}} />} />
+                <Button shape="circle" icon={<FaIconRoute style={{color: '#f95166'}} />} />
                 <div>路由分支</div>
               </div>
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.timer)}>
-                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#F5222D'}} />} />
+                <Button shape="circle" icon={<ClockCircleOutlined style={{color: '#ec1b08'}} />} />
                 <div>延迟等待</div>
               </div>
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.trigger)}>
-                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#F5222D'}} />} />
+                <Button shape="circle" icon={<FaIconTrigger style={{color: '#2bb58b'}} />} />
                 <div>触发器</div>
               </div>
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.autoPass)}>
-                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#78C06E'}} />} />
+                <Button shape="circle" icon={<CheckCircleOutlined style={{color: '#78C06E'}} />} />
                 <div>自动通过</div>
               </div>
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.autoReject)}>
-                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#e02020'}} />} />
+                <Button shape="circle" icon={<CloseCircleOutlined style={{color: '#e02020'}} />} />
                 <div>自动拒绝</div>
               </div>
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.end)}>
-                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#e02020'}} />} />
+                <Button shape="circle" icon={<StopOutlined style={{color: '#e02020'}} />} />
                 <div>结束</div>
               </div>
             </div>

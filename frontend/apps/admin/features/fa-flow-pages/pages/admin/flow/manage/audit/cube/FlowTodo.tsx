@@ -50,7 +50,7 @@ export default function FlowTodo() {
                       <div className="fa-flex-row-center">
                         <div className="fa-flex-1">{item.processName}</div>
                         <div>
-                          <Tag>{FlwEnums.TaskStateMap[item.instanceState as FlwEnums.TaskState]}</Tag>
+                          <Tag variant="outlined">{FlwEnums.TaskStateMap[item.instanceState as FlwEnums.TaskState]}</Tag>
                         </div>
                       </div>
 

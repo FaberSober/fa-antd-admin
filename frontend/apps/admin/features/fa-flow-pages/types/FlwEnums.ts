@@ -362,6 +362,21 @@ namespace FlwEnums {
     [InstanceStateEnum.AUTO_REJECT]: '自动拒绝',
   }
 
+
+  export const InstanceStateEnumColor: Record<InstanceStateEnum, string> = {
+    [InstanceStateEnum.DESTROY]: '#8c8c8c',        // 灰色 - 作废
+    [InstanceStateEnum.SUSPEND]: '#faad14',        // 金色 - 已暂停
+    [InstanceStateEnum.SAVE_AS_DRAFT]: '#1890ff', // 蓝色 - 暂存待审
+    [InstanceStateEnum.ACTIVE]: '#faad14',         // 金色 - 审批中
+    [InstanceStateEnum.COMPLETE]: '#52c41a',       // 绿色 - 审批通过
+    [InstanceStateEnum.REJECT]: '#ff4d4f',         // 红色 - 审批拒绝
+    [InstanceStateEnum.REVOKE]: '#ff7a45',         // 橙色 - 撤销审批
+    [InstanceStateEnum.TIMEOUT]: '#ff4d4f',        // 红色 - 超时结束
+    [InstanceStateEnum.TERMINATE]: '#ff4d4f',      // 红色 - 强制终止
+    [InstanceStateEnum.AUTO_PASS]: '#52c41a',      // 绿色 - 自动通过
+    [InstanceStateEnum.AUTO_REJECT]: '#ff4d4f',    // 红色 - 自动拒绝
+  }
+
 }
 
 export default FlwEnums;
