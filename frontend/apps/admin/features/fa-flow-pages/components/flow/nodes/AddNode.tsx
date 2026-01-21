@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
 import { Button, Popover } from 'antd';
 import { CheckCircleOutlined, ClockCircleOutlined, CloseCircleOutlined, PlusOutlined, StopOutlined } from "@ant-design/icons";
-import { FaIcon, FaIconBranch, FaIconInclusive, FaIconRoute, FaIconSend, FaIconSlider, FaIconTrigger } from "@fa/icons";
+import { FaIcon, FaIconBranch, FaIconInclusive, FaIconRoute, FaIconSend, FaIconSlider, FaIconSubFlow, FaIconTrigger } from "@fa/icons";
 import { getNodeKey } from "@features/fa-flow-pages/components/flow/utils";
 import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
 
@@ -174,6 +174,16 @@ export default function AddNode({parentNode}: AddNodeProps) {
           },
         }
       } break
+      case NodeType.callProcess: {
+        node = {
+          nodeName: "子流程",
+          nodeKey: getNodeKey(),
+          type: NodeType.callProcess,
+          callAsync: true,
+          childNode: parentNode.childNode,
+          extendConfig: {},
+        }
+      } break
       case NodeType.autoPass: {
         node = {
           nodeName: "自动通过",
@@ -242,6 +252,10 @@ export default function AddNode({parentNode}: AddNodeProps) {
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.trigger)}>
                 <Button shape="circle" icon={<FaIconTrigger style={{color: '#2bb58b'}} />} />
                 <div>触发器</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.callProcess)}>
+                <Button shape="circle" icon={<FaIconSubFlow style={{color: '#9260FA'}} />} />
+                <div>子流程</div>
               </div>
               <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.autoPass)}>
                 <Button shape="circle" icon={<CheckCircleOutlined style={{color: '#78C06E'}} />} />

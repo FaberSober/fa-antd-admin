@@ -86,11 +86,11 @@ export default function FaWorkFlow({ flowProcess, processModel, onChange, render
       )}
       toolbar={(
         <Space>
-          <BaseDrawer triggerDom={<Button>查看JSON</Button>} title="流程配置JSON" size={600}>
+          <BaseDrawer triggerDom={<Button>查看JSON</Button>} title="流程配置JSON" size={600} forceRender>
             <JsonView
               value={processModel}
               style={lightTheme}
-              collapsed={1}
+              collapsed={3}
             />
           </BaseDrawer>
         </Space>
