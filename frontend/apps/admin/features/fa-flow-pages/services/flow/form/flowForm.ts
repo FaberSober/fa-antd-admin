@@ -42,6 +42,12 @@ class Api extends BaseApi<Flow.FlowForm, number> {
   /** id删除 */
   removeFormData = (id: any): Promise<Fa.Ret> => this.delete(`removeFormData/${id}`);
 
+  /** 删除数据 */
+  removeFormDataById = (flowFormId: number, id: any): Promise<Fa.Ret> => this.delete(`removeFormDataById/${flowFormId}/${id}`);
+
+  /** 批量删除数据 */
+  removeFormDataByIds = (flowFormId: number, ids: any[]): Promise<Fa.Ret> => this.post(`removeFormDataByIds/${flowFormId}`, ids);
+
 }
 
 export default new Api(GATE_APP.flow.form, 'flowForm');

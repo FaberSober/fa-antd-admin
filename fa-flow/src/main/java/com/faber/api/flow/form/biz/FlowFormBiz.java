@@ -3,12 +3,14 @@ package com.faber.api.flow.form.biz;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.faber.api.flow.form.entity.FlowForm;
 import com.faber.api.flow.form.mapper.FlowFormMapper;
@@ -265,7 +267,7 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
         }
 
         // 解析sorter
-        if (!query.getSorter().isEmpty()) {
+        if (StrUtil.isNotEmpty(query.getSorter())) {
             sb.append(" ORDER BY " + query.getSorter() + " ");
         }
 
@@ -274,6 +276,49 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
         PageInfo<Map<String, Object>> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
             .doSelectPageInfo(() -> baseMapper.selectByDynamicSql(sql));
         return new TableRet<>(info);
+    }
+
+    public void removeFormDataById(Integer flowFormId, String id) throws SQLException {
+        this.removeFormDataByIds(flowFormId, Arrays.asList(id));
+    }
+
+    public void removeFormDataByIds(Integer flowFormId, List<String> ids) throws SQLException {
+        if (ids == null || ids.isEmpty()) {
+            throw new BuzzException("ids is NULL.");
+        }
+        // 查询流程表单配置
+        FlowForm flowForm = getById(flowFormId);
+        if (flowForm == null) {
+            throw new BuzzException("表单不存在，formId=" + flowFormId);
+        }
+
+        FlowFormDataConfig dataConfig = flowForm.getDataConfig();
+        if (dataConfig == null || dataConfig.getMain() == null) {
+            throw new BuzzException("表单数据配置不存在，formId=" + flowFormId);
+        }
+
+        String mainTableName = dataConfig.getMain().getTableName();
+        if (StrUtil.isEmpty(mainTableName)) {
+            throw new BuzzException("表单主表名称不存在，formId=" + flowFormId);
+        }
+
+        // 组装删除SQL（软删除）
+        String sql = String.format(
+            "UPDATE `%s` SET deleted = true, upd_time = CURRENT_TIMESTAMP, upd_user = '%s' WHERE id IN (%s) AND deleted = false",
+            mainTableName,
+            getCurrentUserId(),
+            String.join(",", ids)
+        );
+
+        // 执行删除SQL
+        Connection conn = dataSource.getConnection();
+        int affectedRows = SqlExecutor.execute(conn, sql);
+        
+        if (affectedRows == 0) {
+            throw new BuzzException("数据不存在或已被删除，id=" + ids);
+        }
+
+        // TODO 删除子表数据
     }
 
     public List<FaOption<String>> getFlowMenuList() {

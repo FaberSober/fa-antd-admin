@@ -21,7 +21,7 @@ export default function FlowFormDataTable({ flowForm }: FlowFormDataTableProps) 
   const {queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps} =
     useTableQueryParams<any>(flowFormApi.pageFormData, { flowFormId: flowForm.id }, flowForm.name);
 
-  const [handleDelete] = useDelete<number>(flowFormApi.removeFormData, fetchPageList, flowForm.name);
+  const [handleDelete] = useDelete<number>((id) => flowFormApi.removeFormDataById(flowForm.id, id), fetchPageList, flowForm.name);
   // const [exporting, fetchExportExcel] = useExport(api.exportExcel, queryParams);
 
   function genColumns() {
