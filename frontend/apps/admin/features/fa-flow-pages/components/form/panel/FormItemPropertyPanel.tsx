@@ -5,6 +5,8 @@ import { Button, Empty, Form, Input, Select, Space, Tag } from 'antd';
 import FormItemInputProperty from './item/FormItemInputProperty';
 import { SyncOutlined } from '@ant-design/icons';
 import { FaUtils } from '@fa/ui';
+import { FaFormItemsFieldTypes } from '../config';
+import FormItemDecoTextProperty from './item/FormItemDecoTextProperty';
 
 /**
  * @author xu.pengfei
@@ -55,6 +57,9 @@ export default function FormItemPropertyPanel() {
     return <Empty description="未选择表单项" className='fa-mt12' />;
   }
 
+  // 判断是否绑定数据库的字段
+  const isFieldItem = FaFormItemsFieldTypes.includes(selectedFormItem?.type);
+
   return (
     <div className='fa-flex-column fa-p12 fa-scroll-auto-y'>
       <div className='fa-mb12'>
@@ -78,27 +83,33 @@ export default function FormItemPropertyPanel() {
             updateSelectedFormItem(avCopy);
           }}
         >
-          <Form.Item name="tableName" label="数据库表" rules={[{ required: true }]}>
-            <Select options={tableOptions} />
-          </Form.Item>
-          <Form.Item name="name" label="控件字段" rules={[{ required: true }]}>
-            <Select options={columnOptions} />
-          </Form.Item>
-          <Space.Compact>
-            <Form.Item name="label" label="控件标题" rules={[{ required: true }]}>
-              <Input />
-            </Form.Item>
-            <Button icon={<SyncOutlined />} onClick={() => {
-              const col = columnOptions.find(c => c.value === form.getFieldValue('name'));
-              console.log('Sync label from name', col);
-              if (col) {
-                form.setFieldsValue({ label: col.label });
-                updateSelectedFormItem(form.getFieldsValue()); // 关键：手动同步，这里不会触发 onValuesChange
-              }
-            }}></Button>
-          </Space.Compact>
+          {isFieldItem && (
+            <>
+              <Form.Item name="tableName" label="数据库表" rules={[{ required: true }]}>
+                <Select options={tableOptions} />
+              </Form.Item>
+              <Form.Item name="name" label="控件字段" rules={[{ required: true }]}>
+                <Select options={columnOptions} />
+              </Form.Item>
+              <Space.Compact>
+                <Form.Item name="label" label="控件标题" rules={[{ required: true }]}>
+                  <Input />
+                </Form.Item>
+                <Button icon={<SyncOutlined />} onClick={() => {
+                  const col = columnOptions.find(c => c.value === form.getFieldValue('name'));
+                  console.log('Sync label from name', col);
+                  if (col) {
+                    form.setFieldsValue({ label: col.label });
+                    updateSelectedFormItem(form.getFieldsValue()); // 关键：手动同步，这里不会触发 onValuesChange
+                  }
+                }}></Button>
+              </Space.Compact>
+            </>
+          )}
 
           {selectedFormItem.type === 'input' && (<FormItemInputProperty />)}
+
+          {selectedFormItem.type === 'deco_text' && (<FormItemDecoTextProperty />)}
         </Form>
       </div>
     </div>

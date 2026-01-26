@@ -456,6 +456,16 @@ namespace Flow {
     placeholder?: string;
     rules?: Array<Record<string, any>>;
     children?: FlowFormItem[];
+    
+    // Decorator text properties (deco_text component)
+    content?: string;
+    deco_lineHeight?: number;
+    deco_fontSize?: number;
+    deco_textAlign?: 'left' | 'center' | 'right';
+    deco_color?: string;
+    deco_fontWeight?: boolean;
+    deco_fontStyle?: boolean;
+    deco_textDecoration?: 'none' | 'underline' | 'line-through' | 'overline';
   }
 
   export interface FlowFormProperty {
@@ -477,6 +487,7 @@ namespace Flow {
   // ------------------------------------------------- FormEditor -------------------------------------------------
   export type FlowFormItemType = 'input' | 'inputnumber' | 'textarea' | 'switch' | 'radio' | 'checkbox' | 'select' | 'cascader' | 'datepicker' | 'timepicker' | 'fileupload' | 'imageupload' | 'colorpicker' | 'rating' | 'slider' | 'richtext' | 'link'
                                   | 'biz_user_select' | 'biz_dept_select'
+                                  | 'deco_text' | 'deco_href' | 'deco_hr' | 'deco_alert'
                                   | 'row';
 
   export interface FaFormItem {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaFormItems, FaFormItemsBiz } from '../config';
+import { FaFormItems, FaFormItemsBiz, FaFormItemsDecorator } from '../config';
 
 /**
  * @author xu.pengfei
@@ -29,10 +29,30 @@ export default function FormItemDragPanel() {
         </div>
       </div>
 
-      <div className='fa-card'>
+      <div className='fa-card fa-mb12'>
         <div className='fa-h3 fa-mb12'>业务控件</div>
         <div className='fa-grid2 fa-gap12'>
           {FaFormItemsBiz.map((item) => (
+            <div
+              key={item.type}
+              draggable
+              unselectable="on"
+              onDragStart={(e) => {
+                e.dataTransfer.setData('text/plain', item.type); // 携带字段类型
+              }}
+              className='fa-form-item-drag'
+            >
+              {item.icon}
+              <span>{item.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className='fa-card fa-mb12'>
+        <div className='fa-h3 fa-mb12'>展示控件</div>
+        <div className='fa-grid2 fa-gap12'>
+          {FaFormItemsDecorator.map((item) => (
             <div
               key={item.type}
               draggable

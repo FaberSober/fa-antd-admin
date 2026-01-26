@@ -22,6 +22,8 @@ import { UploadOutlined } from '@ant-design/icons';
 import { UploadFileLocal, UploadImgLocal } from '@fa/ui';
 import { DepartmentCascade, UserSearchSelect } from '@/components';
 import { get } from 'lodash';
+import { FaFormItemsDecoratorTypes } from '../config';
+import FaFormItemDecoText from './item/FaFormItemDecoText';
 
 export interface FaFormEditorItemProps {
   formItem: Flow.FlowFormItem;
@@ -50,9 +52,11 @@ export default function FaFormEditorItem({ formItem, flowNode, onClickRowItem, d
   }, [formItem, flowNode, disabled]);
   console.log('formItemConfig', formItem.name, flowNode, formItemConfig);
 
-  const viewable = formItemConfig.view;
-  const editable = formItemConfig.edit;
-  const required = formItemConfig.required;
+  const isShowComponent = FaFormItemsDecoratorTypes.includes(formItem.type);
+
+  const viewable = isShowComponent || formItemConfig.view;
+  const editable = !isShowComponent && formItemConfig.edit;
+  const required = !isShowComponent && formItemConfig.required;
 
   if (!viewable) {
     return null;
@@ -60,6 +64,15 @@ export default function FaFormEditorItem({ formItem, flowNode, onClickRowItem, d
 
   if (formItem.type === 'row') {
     return (<RowContainer row={formItem} onClickRowItem={onClickRowItem} />);
+  }
+
+  if (isShowComponent) {
+    return (
+      <div>
+        {/* ------------------------------ 展示组件 ------------------------------ */}
+        <FaFormItemDecoText formItem={formItem} />
+      </div>
+    )
   }
 
   return (

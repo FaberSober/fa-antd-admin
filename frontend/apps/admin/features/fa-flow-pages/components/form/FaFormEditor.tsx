@@ -1,7 +1,7 @@
 import { FaGridLayout } from '@/components';
 import { Flow } from '@/types';
 import { CopyOutlined, DeleteOutlined } from '@ant-design/icons';
-import { FaFlexRestLayout, FaUtils } from '@fa/ui';
+import { BaseDrawer, FaFlexRestLayout, FaUtils } from '@fa/ui';
 import { Button, Form, Popconfirm, Space, Tabs } from 'antd';
 import clsx from 'clsx';
 import { useEffect } from 'react';
@@ -15,6 +15,8 @@ import FormItemPropertyPanel from './panel/FormItemPropertyPanel';
 import { useFaFormStore } from './stores/useFaFormStore';
 import FormItemDragPanel from './panel/FormItemDragPanel';
 import FormPropertyPanel from './panel/FormPropertyPanel';
+import JsonView from '@uiw/react-json-view';
+import { lightTheme } from '@uiw/react-json-view/light';
 
 
 export interface FaFormEditorProps {
@@ -112,6 +114,13 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
               <FaFormShowModal title="预览表单" config={config}>
                 <Button size="small">预览</Button>
               </FaFormShowModal>
+              <BaseDrawer triggerDom={<Button size="small">查看JSON</Button>} title="流程配置JSON" size={600} forceRender push={false}>
+                <JsonView
+                  value={config}
+                  style={lightTheme}
+                  collapsed={3}
+                />
+              </BaseDrawer>
               <Popconfirm title="确定要清空表单吗？" onConfirm={() => clearConfig()}>
                 <Button size="small" danger>清空</Button>
               </Popconfirm>
@@ -144,9 +153,10 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
 
                         {selected && (
                           <Space style={{ position: 'absolute', top: -12, right: 10, zIndex: 999 }}>
-                            <Button size='small' onClick={(e) => {
+                            {/* TODO COPY BUTTON */}
+                            {/* <Button size='small' onClick={(e) => {
                               FaUtils.preventEvent(e);
-                            }} shape="circle" icon={<CopyOutlined />} color="primary" variant="outlined" />
+                            }} shape="circle" icon={<CopyOutlined />} color="primary" variant="outlined" /> */}
                             <Button size='small' onClick={(e) => {
                               FaUtils.preventEvent(e);
                               handleDeleteFormItem(formItem);
@@ -200,7 +210,7 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
         </FaFlexRestLayout>
       </div>
 
-      <div style={{ width: 300 }} className='fa-card-p0 fa-tabs-block'>
+      <div style={{ width: 320 }} className='fa-card-p0 fa-tabs-block'>
         <Tabs
           items={[
             { key: 'formItemProperty', label: '控件属性', children: <FormItemPropertyPanel /> },

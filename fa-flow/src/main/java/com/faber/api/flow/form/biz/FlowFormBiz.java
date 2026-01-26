@@ -32,6 +32,7 @@ import com.github.pagehelper.PageInfo;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.db.sql.SqlExecutor;
 import jakarta.annotation.Resource;
+import lombok.Cleanup;
 
 /**
  * FLOW-流程表单
@@ -71,7 +72,7 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
                 comment == null ? "" : comment.replace("'", "''")
             );
 
-        Connection conn = dataSource.getConnection();
+        @Cleanup Connection conn = dataSource.getConnection();
         SqlExecutor.execute(conn, createTableSql);
     }
 
@@ -136,7 +137,7 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
 
         String sql = sb.toString();
 
-        Connection conn = dataSource.getConnection();
+        @Cleanup Connection conn = dataSource.getConnection();
         SqlExecutor.execute(conn, sql);
     }
 
@@ -171,7 +172,7 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
         }
         sb.append(";");
         String sql = sb.toString();
-        Connection conn = dataSource.getConnection();
+        @Cleanup Connection conn = dataSource.getConnection();
         SqlExecutor.execute(conn, sql);
     }
 
@@ -186,7 +187,7 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
 
         String sql = String.format("ALTER TABLE `%s` DROP COLUMN `%s`;", tableName, columnName);
 
-        Connection conn = dataSource.getConnection();
+        @Cleanup Connection conn = dataSource.getConnection();
         SqlExecutor.execute(conn, sql);
     }
 
@@ -228,7 +229,7 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
         String sql = sqlSb.append(fieldsSb.substring(0, fieldsSb.length() - 2)).append(") VALUES (")
                 .append(valuesSb.substring(0, valuesSb.length() - 2)).append(");").toString();
 
-        Connection conn = dataSource.getConnection();
+        @Cleanup Connection conn = dataSource.getConnection();
         Long mainTableId = SqlExecutor.executeForGeneratedKey(conn, sql);
         reqVo.getFormData().put("id", mainTableId);
         // 解析自增主键ID
@@ -311,7 +312,7 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
         );
 
         // 执行删除SQL
-        Connection conn = dataSource.getConnection();
+        @Cleanup Connection conn = dataSource.getConnection();
         int affectedRows = SqlExecutor.execute(conn, sql);
         
         if (affectedRows == 0) {
