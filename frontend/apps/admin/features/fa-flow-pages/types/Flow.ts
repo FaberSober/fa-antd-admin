@@ -476,6 +476,13 @@ namespace Flow {
     deco_hrStyle?: 'solid' | 'dashed' | 'dotted';
     deco_hrMarginTop?: number;
     deco_hrMarginBottom?: number;
+    
+    // Decorator alert properties (deco_alert component)
+    deco_alertType?: 'success' | 'info' | 'warning' | 'error';
+    deco_alertShowIcon?: boolean;
+    deco_alertClosable?: boolean;
+    deco_alertBanner?: boolean;
+    deco_alertDescription?: string;
   }
 
   export interface FlowFormProperty {

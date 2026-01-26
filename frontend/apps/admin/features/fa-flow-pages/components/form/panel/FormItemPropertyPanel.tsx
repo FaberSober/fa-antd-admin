@@ -9,6 +9,7 @@ import { FaFormItemsFieldTypes } from '../config';
 import FormItemDecoTextProperty from './item/FormItemDecoTextProperty';
 import FormItemDecoHrefProperty from './item/FormItemDecoHrefProperty';
 import FormItemDecoHrProperty from './item/FormItemDecoHrProperty';
+import FormItemDecoAlertProperty from './item/FormItemDecoAlertProperty';
 
 /**
  * @author xu.pengfei
@@ -114,6 +115,7 @@ export default function FormItemPropertyPanel() {
           {selectedFormItem.type === 'deco_text' && (<FormItemDecoTextProperty />)}
           {selectedFormItem.type === 'deco_href' && (<FormItemDecoHrefProperty />)}
           {selectedFormItem.type === 'deco_hr' && (<FormItemDecoHrProperty />)}
+          {selectedFormItem.type === 'deco_alert' && (<FormItemDecoAlertProperty />)}
         </Form>
       </div>
     </div>
