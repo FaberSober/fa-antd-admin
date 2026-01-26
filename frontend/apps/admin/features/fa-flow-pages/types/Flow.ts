@@ -469,6 +469,13 @@ namespace Flow {
     
     // Decorator href properties (deco_href component)
     deco_href?: string;
+    
+    // Decorator hr properties (deco_hr component)
+    deco_hrColor?: string;
+    deco_hrThickness?: number;
+    deco_hrStyle?: 'solid' | 'dashed' | 'dotted';
+    deco_hrMarginTop?: number;
+    deco_hrMarginBottom?: number;
   }
 
   export interface FlowFormProperty {

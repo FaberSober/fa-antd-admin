@@ -25,6 +25,7 @@ import { get } from 'lodash';
 import { FaFormItemsDecoratorTypes } from '../config';
 import FaFormItemDecoText from './item/FaFormItemDecoText';
 import FaFormItemDecoHref from './item/FaFormItemDecoHref';
+import FaFormItemDecoHr from './item/FaFormItemDecoHr';
 
 export interface FaFormEditorItemProps {
   formItem: Flow.FlowFormItem;
@@ -73,6 +74,8 @@ export default function FaFormEditorItem({ formItem, flowNode, onClickRowItem, d
         {/* ------------------------------ 展示组件 ------------------------------ */}
         {formItem.type === 'deco_text' && (<FaFormItemDecoText formItem={formItem} />)}
         {formItem.type === 'deco_href' && (<FaFormItemDecoHref formItem={formItem} />)}
+        {formItem.type === 'deco_hr' && (<FaFormItemDecoHr formItem={formItem} />)}
+        {formItem.type === 'deco_alert' && (<div />)}
       </div>
     )
   }
