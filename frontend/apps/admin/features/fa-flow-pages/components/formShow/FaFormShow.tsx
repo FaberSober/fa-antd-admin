@@ -35,7 +35,7 @@ export default function FaFormShow({ config, flowNode, ...props }: FaFormShowPro
                   className='fa-form-show-item'
                   style={{ width: '100%' }}
                   onClick={(e) => {
-                    FaUtils.preventEvent(e);
+                    // FaUtils.preventEvent(e);
                   }}
                 >
                   <FaFormEditorItem formItem={formItem} flowNode={flowNode} disabled={props.disabled} />
