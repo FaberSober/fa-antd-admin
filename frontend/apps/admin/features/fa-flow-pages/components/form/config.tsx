@@ -100,12 +100,12 @@ export const FaFormItems: Flow.FaFormItem[] = [
     icon: <div className="i-material-symbols:inbox-text-asterisk-outline-sharp fa-form-item-icon"/>,
     group: 'formitem'
   },
-  {
-    type: 'link',
-    name: '链接',
-    icon: <div className="i-material-symbols:link fa-form-item-icon"/>,
-    group: 'formitem'
-  },
+  // {
+  //   type: 'link',
+  //   name: '链接',
+  //   icon: <div className="i-material-symbols:link fa-form-item-icon"/>,
+  //   group: 'formitem'
+  // },
 ]
 
 /**

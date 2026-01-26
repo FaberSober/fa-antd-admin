@@ -7,6 +7,7 @@ import { SyncOutlined } from '@ant-design/icons';
 import { FaUtils } from '@fa/ui';
 import { FaFormItemsFieldTypes } from '../config';
 import FormItemDecoTextProperty from './item/FormItemDecoTextProperty';
+import FormItemDecoHrefProperty from './item/FormItemDecoHrefProperty';
 
 /**
  * @author xu.pengfei
@@ -110,6 +111,7 @@ export default function FormItemPropertyPanel() {
           {selectedFormItem.type === 'input' && (<FormItemInputProperty />)}
 
           {selectedFormItem.type === 'deco_text' && (<FormItemDecoTextProperty />)}
+          {selectedFormItem.type === 'deco_href' && (<FormItemDecoHrefProperty />)}
         </Form>
       </div>
     </div>

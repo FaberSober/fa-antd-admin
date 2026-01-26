@@ -466,6 +466,9 @@ namespace Flow {
     deco_fontWeight?: boolean;
     deco_fontStyle?: boolean;
     deco_textDecoration?: 'none' | 'underline' | 'line-through' | 'overline';
+    
+    // Decorator href properties (deco_href component)
+    deco_href?: string;
   }
 
   export interface FlowFormProperty {
