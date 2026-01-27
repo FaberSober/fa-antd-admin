@@ -17,6 +17,7 @@ import FormItemDragPanel from './panel/FormItemDragPanel';
 import FormPropertyPanel from './panel/FormPropertyPanel';
 import JsonView from '@uiw/react-json-view';
 import { lightTheme } from '@uiw/react-json-view/light';
+import FaFormCanvas from './FaFormCanvas';
 
 
 export interface FaFormEditorProps {
@@ -49,7 +50,7 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
   const selectedFormItem = useFaFormStore((state) => state.selectedFormItem);
   const setSelectedFormItem = useFaFormStore((state) => state.setSelectedFormItem);
 
-  const {layout, formItemMap, formConfig} = useFormConfig(config);
+  const {layout, formItemMap, formConfig, items} = useFormConfig(config);
 
   // 初始化 store 和清理
   useEffect(() => {
@@ -132,9 +133,19 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
         <FaFlexRestLayout>
           <Form layout={formConfig.layout} labelCol={{ style: { width: formConfig.labelWidth } }} wrapperCol={{ style: {}}} >
             <div className='fa-full-content' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <FaGridLayout
+              <FaFormCanvas
+                // items={items}
+                // onChange={(items) => {
+                //   setFormConfig({
+                //     ...formConfig,
+                //     items,
+                //   });
+                // }}
+              />
+
+              {/* <FaGridLayout
                 containerStyle={{ width: '100%', height: '100%', position: 'relative', background: 'var(--fa-bg-color)' }}
-                style={{height: '100%', overflow: 'auto'}}
+                style={{height: '100%', overflow: 'auto', display: 'none'}}
                 layout={layout}
                 renderItem={(i) => {
                   const formItem = formItemMap[i.i];
@@ -153,10 +164,10 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
 
                         {selected && (
                           <Space style={{ position: 'absolute', top: -12, right: 10, zIndex: 999 }}>
-                            {/* TODO COPY BUTTON */}
-                            {/* <Button size='small' onClick={(e) => {
+                            /* TODO COPY BUTTON */
+                            /* <Button size='small' onClick={(e) => {
                               FaUtils.preventEvent(e);
-                            }} shape="circle" icon={<CopyOutlined />} color="primary" variant="outlined" /> */}
+                            }} shape="circle" icon={<CopyOutlined />} color="primary" variant="outlined" /> *
                             <Button size='small' onClick={(e) => {
                               FaUtils.preventEvent(e);
                               handleDeleteFormItem(formItem);
@@ -204,7 +215,7 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
                 }}
                 isDraggable
                 isResizable
-              />
+              /> */}
             </div>
           </Form>
         </FaFlexRestLayout>

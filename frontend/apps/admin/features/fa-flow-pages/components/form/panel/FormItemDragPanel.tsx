@@ -7,6 +7,12 @@ import { FaFormItems, FaFormItemsBiz, FaFormItemsDecorator } from '../config';
  */
 export default function FormItemDragPanel() {
 
+  // 处理从左侧面板拖动组件
+  function handleDragStartFromPanel(e: React.DragEvent<HTMLElement>, componentType: string) {
+    e.dataTransfer.setData('componentType', componentType);
+    e.dataTransfer.effectAllowed = 'copy';
+  };
+
   return (
     <div>
       <div className='fa-card fa-mb12'>
@@ -18,7 +24,7 @@ export default function FormItemDragPanel() {
               draggable
               unselectable="on"
               onDragStart={(e) => {
-                e.dataTransfer.setData('text/plain', item.type); // 携带字段类型
+                handleDragStartFromPanel(e, item.type);
               }}
               className='fa-form-item-drag'
             >
@@ -38,7 +44,7 @@ export default function FormItemDragPanel() {
               draggable
               unselectable="on"
               onDragStart={(e) => {
-                e.dataTransfer.setData('text/plain', item.type); // 携带字段类型
+                handleDragStartFromPanel(e, item.type);
               }}
               className='fa-form-item-drag'
             >
@@ -58,7 +64,7 @@ export default function FormItemDragPanel() {
               draggable
               unselectable="on"
               onDragStart={(e) => {
-                e.dataTransfer.setData('text/plain', item.type); // 携带字段类型
+                handleDragStartFromPanel(e, item.type);
               }}
               className='fa-form-item-drag'
             >
