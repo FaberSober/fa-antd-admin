@@ -34,17 +34,18 @@ export default function FaFormCanvas({ }: FaFormCanvasProps) {
     
     // 在这里处理添加新组件的逻辑
     let md = 12;
-    if (['deco_hr', 'deco_alert', 'deco_text'].includes(componentType)) {
+    if (['deco_hr', 'deco_alert', 'deco_text', 'container_row'].includes(componentType)) {
       md = 24;
     }
+    const nextIndex = items.length + 1
     updateFormItems([
+      ...items,
       {
-        id: componentType + '_' + items.length + '_' + FaUtils.generateId(4),
+        id: componentType + '_' + nextIndex + '_' + FaUtils.generateId(4),
         type: componentType,
-        label: '新组件',
+        label: '新组件' + nextIndex,
         md,
       },
-      ...items,
     ]);
   }
   

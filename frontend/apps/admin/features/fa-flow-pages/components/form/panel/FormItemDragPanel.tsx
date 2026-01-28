@@ -84,7 +84,7 @@ export default function FormItemDragPanel() {
               draggable
               unselectable="on"
               onDragStart={(e) => {
-                e.dataTransfer.setData('text/plain', item.type); // 携带字段类型
+                handleDragStartFromPanel(e, item.type);
               }}
               className='fa-form-item-drag'
             >

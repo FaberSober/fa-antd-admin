@@ -9,10 +9,15 @@ interface FaFormState {
   config: Flow.FlowFormConfig;
   selectedFormItem?: Flow.FlowFormItem;
   initialized: boolean;
+  // 拖拽状态
+  draggedId: string | null;
+  dragOverId: string | null;
+  // 选中的表单项 ID
+  selectedItemId: string | null;
   // 初始化配置
   init: (flowForm: Flow.FlowForm) => void;
   // 添加表单项
-  addFormItem: (type: 'input' | 'row', item: LayoutItem, layout: Layout) => void;
+  addFormItem: (type: Flow.FlowFormItemType, item: LayoutItem, layout: Layout) => void;
   // 删除表单项
   removeFormItem: (id: string) => void;
   // 更新表单项
@@ -28,6 +33,11 @@ interface FaFormState {
   setLayout: (layout: Layout) => void;
   setSelectedFormItem: (item?: Flow.FlowFormItem) => void;
   updateSelectedFormItem: (updates: Partial<Flow.FlowFormItem>) => void;
+  // 设置拖拽状态
+  setDraggedId: (id: string | null) => void;
+  setDragOverId: (id: string | null) => void;
+  // 设置选中的表单项 ID
+  setSelectedItemId: (id: string | null) => void;
 }
 
 export const useFaFormStore = create<FaFormState>()(
@@ -37,6 +47,9 @@ export const useFaFormStore = create<FaFormState>()(
       config: {} as Flow.FlowFormConfig,
       selectedFormItem: undefined,
       initialized: false,
+      draggedId: null,
+      dragOverId: null,
+      selectedItemId: null,
 
       init: (flowForm) =>
         set(() => ({
@@ -167,6 +180,21 @@ export const useFaFormStore = create<FaFormState>()(
           config: {} as Flow.FlowFormConfig,
           layout: [],
           formItemMap: {},
+        })),
+
+      setDraggedId: (id) =>
+        set(() => ({
+          draggedId: id,
+        })),
+
+      setDragOverId: (id) =>
+        set(() => ({
+          dragOverId: id,
+        })),
+
+      setSelectedItemId: (id) =>
+        set(() => ({
+          selectedItemId: id,
         })),
     }),
     { name: 'FaFormStore' }

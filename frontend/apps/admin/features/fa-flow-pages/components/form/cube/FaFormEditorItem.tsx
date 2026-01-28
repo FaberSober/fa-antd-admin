@@ -1,36 +1,32 @@
+import { DepartmentCascade, UserSearchSelect } from '@/components';
 import { Flow, Flw } from '@/types';
-import React, { useMemo } from 'react';
-import RowContainer from '../components/RowContainer';
+import { UploadFileLocal, UploadImgLocal } from '@fa/ui';
 import {
+  Cascader,
+  Checkbox,
+  ColorPicker,
   DatePicker,
   Form,
   Input,
-  Select,
   InputNumber,
-  Switch,
   Radio,
-  Checkbox,
-  Cascader,
-  TimePicker,
-  Upload,
-  ColorPicker,
   Rate,
+  Select,
   Slider,
-  Button,
+  Switch,
+  TimePicker
 } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
-import { UploadFileLocal, UploadImgLocal } from '@fa/ui';
-import { DepartmentCascade, UserSearchSelect } from '@/components';
 import { get } from 'lodash';
+import { useMemo } from 'react';
 import { FaFormItemsDecoratorTypes } from '../config';
-import FaFormItemDecoText from './item/FaFormItemDecoText';
-import FaFormItemDecoHref from './item/FaFormItemDecoHref';
-import FaFormItemDecoHr from './item/FaFormItemDecoHr';
+import FaFormDragLayout from '../FaFormDragLayout';
 import FaFormItemDecoAlert from './item/FaFormItemDecoAlert';
+import FaFormItemDecoHr from './item/FaFormItemDecoHr';
+import FaFormItemDecoHref from './item/FaFormItemDecoHref';
+import FaFormItemDecoText from './item/FaFormItemDecoText';
 
 export interface FaFormEditorItemProps {
   formItem: Flow.FlowFormItem;
-  onClickRowItem?: (item: Flow.FlowFormItem) => void;
   flowNode?: Flw.Node;
   disabled?: boolean;
 }
@@ -39,7 +35,7 @@ export interface FaFormEditorItemProps {
  * @author xu.pengfei
  * @date 2025-12-18 09:49:58
  */
-export default function FaFormEditorItem({ formItem, flowNode, onClickRowItem, disabled }: FaFormEditorItemProps) {
+export default function FaFormEditorItem({ formItem, flowNode, disabled }: FaFormEditorItemProps) {
 
   const formItemConfig: Flw.NodeExtendConfigFormAuth = useMemo(() => {
     const defaultConfig = { view: true, edit: disabled ? false : true, required: disabled ? false : false };
@@ -53,7 +49,7 @@ export default function FaFormEditorItem({ formItem, flowNode, onClickRowItem, d
       required: disabled ? false : get(formItemAuth, 'required', false),
     };
   }, [formItem, flowNode, disabled]);
-  console.log('formItemConfig', formItem.name, flowNode, formItemConfig);
+  // console.log('formItemConfig', formItem.name, flowNode, formItemConfig);
 
   const isShowComponent = FaFormItemsDecoratorTypes.includes(formItem.type);
 
@@ -66,7 +62,15 @@ export default function FaFormEditorItem({ formItem, flowNode, onClickRowItem, d
   }
 
   if (formItem.type === 'container_row') {
-    return (<RowContainer row={formItem} onClickRowItem={onClickRowItem} />);
+    return (
+      <FaFormDragLayout
+        parentId={formItem.id}
+        items={formItem.children || []}
+        onChange={(items) => {
+          formItem.children = items;
+        }}
+      />
+    );
   }
 
   if (isShowComponent) {
