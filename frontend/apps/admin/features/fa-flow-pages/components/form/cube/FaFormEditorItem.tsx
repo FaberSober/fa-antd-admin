@@ -26,18 +26,21 @@ import FaFormItemDecoAlert from './item/FaFormItemDecoAlert';
 import FaFormItemDecoHr from './item/FaFormItemDecoHr';
 import FaFormItemDecoHref from './item/FaFormItemDecoHref';
 import FaFormItemDecoText from './item/FaFormItemDecoText';
+import FaFormShowLayout from '../../formShow/FaFormShowLayout';
 
 export interface FaFormEditorItemProps {
   formItem: Flow.FlowFormItem;
   flowNode?: Flw.Node;
   disabled?: boolean;
+  /** 是否为展示模式 */
+  showMode?: boolean;
 }
 
 /**
  * @author xu.pengfei
  * @date 2025-12-18 09:49:58
  */
-export default function FaFormEditorItem({ formItem, flowNode, disabled }: FaFormEditorItemProps) {
+export default function FaFormEditorItem({ formItem, flowNode, disabled, showMode }: FaFormEditorItemProps) {
 
   const formItemConfig: Flw.NodeExtendConfigFormAuth = useMemo(() => {
     const defaultConfig = { view: true, edit: disabled ? false : true, required: disabled ? false : false };
@@ -66,6 +69,18 @@ export default function FaFormEditorItem({ formItem, flowNode, disabled }: FaFor
   if (formItem.type === 'container_row') {
     const updateFormItemChildren = useFaFormStore((state) => state.updateFormItemChildren);
     
+    // 展示模式:使用 FaFormShowLayout
+    if (showMode) {
+      return (
+        <FaFormShowLayout
+          items={formItem.children || []}
+          flowNode={flowNode}
+          disabled={disabled}
+        />
+      );
+    }
+    
+    // 编辑模式:使用 FaFormDragLayout
     return (
       <FaFormDragLayout
         parentId={formItem.id}
