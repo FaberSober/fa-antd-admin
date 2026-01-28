@@ -50,3 +50,27 @@ export function updateFormItemById(
     return item;
   });
 }
+
+/**
+ * 递归删除表单项
+ * @param items 表单项数组
+ * @param id 要删除的表单项 ID
+ * @returns 删除后的表单项数组
+ */
+export function removeFormItemById(
+  items: Flow.FlowFormItem[],
+  id: string
+): Flow.FlowFormItem[] {
+  return items
+    .filter((item) => item.id !== id)
+    .map((item) => {
+      // 如果有 children,递归删除
+      if (item.children && item.children.length > 0) {
+        return {
+          ...item,
+          children: removeFormItemById(item.children, id),
+        };
+      }
+      return item;
+    });
+}

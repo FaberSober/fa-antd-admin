@@ -4,6 +4,7 @@ import React from 'react';
 import FaFormEditorItem from './cube/FaFormEditorItem';
 import { FaUtils } from '@fa/ui';
 import { useFaFormStore } from './stores/useFaFormStore';
+import { findFormItemById, removeFormItemById } from './utils';
 
 export interface FaFormDragLayoutProps {
   parentId?: string;
@@ -11,13 +12,19 @@ export interface FaFormDragLayoutProps {
   items: Flow.FlowFormItem[];
   onChange?: (items: Flow.FlowFormItem[]) => void;
   header?: React.ReactNode;
+  /** 是否是根节点 */
+  root?: boolean;
+  /** 是否允许拖入 */
+  allowIn?: boolean;
+  /** 是否允许拖出 */
+  allowOut?: boolean;
 }
 
 /**
  * @author xu.pengfei
  * @date 2026-01-27 20:47:30
  */
-export default function FaFormDragLayout({ parentId, items, onChange, header }: FaFormDragLayoutProps) {
+export default function FaFormDragLayout({ parentId, items, onChange, header, root = false, allowIn = false, allowOut = false }: FaFormDragLayoutProps) {
   // 从 store 中获取拖拽状态
   const draggedId = useFaFormStore((state) => state.draggedId);
   const dragOverId = useFaFormStore((state) => state.dragOverId);
@@ -26,6 +33,12 @@ export default function FaFormDragLayout({ parentId, items, onChange, header }: 
   // 从 store 中获取选中状态
   const selectedItemId = useFaFormStore((state) => state.selectedItemId);
   const setSelectedItemId = useFaFormStore((state) => state.setSelectedItemId);
+  // 从 store 中获取 drop 处理标记
+  const isDropHandling = useFaFormStore((state) => state.isDropHandling);
+  const setIsDropHandling = useFaFormStore((state) => state.setIsDropHandling);
+  // 获取全局 config 用于查找跳过层级的项
+  const config = useFaFormStore((state) => state.config);
+  const updateFormItems = useFaFormStore((state) => state.updateFormItems);
 
   // 生成唯一 ID
   const generateId = (type: string) => {
@@ -40,6 +53,13 @@ export default function FaFormDragLayout({ parentId, items, onChange, header }: 
 
   // 拖动开始
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>, id: string) => {
+    // 检查是否允许拖出
+    if (!allowOut) {
+      console.log('FaFormDragLayout handleDragStart - 不允许拖出', parentId || 'root');
+      e.preventDefault();
+      return;
+    }
+
     e.stopPropagation();
     setDraggedId(id);
     e.dataTransfer.effectAllowed = 'move';
@@ -114,13 +134,29 @@ export default function FaFormDragLayout({ parentId, items, onChange, header }: 
     e.preventDefault();
     e.stopPropagation();
 
+    // 检查是否正在处理其他 drop 事件
+    if (isDropHandling) {
+      console.log('FaFormDragLayout handleDrop - 已有 drop 事件正在处理,跳过', parentId);
+      return;
+    }
+
     const componentType = e.dataTransfer.getData('componentType');
-    console.log('FaFormDragLayout handleDrop - componentType:', componentType, 'parentId', parentId);
+    console.log('FaFormDragLayout handleDrop - componentType:', componentType, 'draggedId:', draggedId, 'parentId', parentId, 'id', id);
 
     // 如果是从外部拖入新组件(draggedId 为 null 表示不是内部拖拽)
     if (componentType && draggedId === null) {
+      // 检查是否允许拖入
+      if (!allowIn) {
+        console.log('FaFormDragLayout handleDrop - 不允许拖入', parentId || 'root');
+        setTimeout(() => setIsDropHandling(false), 100);
+        return;
+      }
+
       const targetIndex = items.findIndex(item => item.id === id);
       if (targetIndex === -1) return;
+
+      // 标记开始处理
+      setIsDropHandling(true);
 
       const nextIndex = items.length + 1
       const newItem: Flow.FlowFormItem = {
@@ -135,8 +171,61 @@ export default function FaFormDragLayout({ parentId, items, onChange, header }: 
       newConfig.splice(targetIndex + 1, 0, newItem);
 
       onChange?.(newConfig);
+
+      // 延迟重置标记,给事件传播留出时间
+      setTimeout(() => setIsDropHandling(false), 100);
     }
-    // 内部拖拽排序已经在 dragOver 中处理
+    // 如果有 draggedId,检查是否是跨层级拖拽
+    else if (draggedId) {
+      const draggedItemIndex = items.findIndex(item => item.id === draggedId);
+      
+      // 如果在当前 items 中找不到,说明是跨层级拖拽
+      if (draggedItemIndex === -1) {
+        console.log('FaFormDragLayout handleDrop - 检测到跨层级拖拽', draggedId);
+        
+        // 检查是否允许拖入
+        if (!allowIn) {
+          console.log('FaFormDragLayout handleDrop - 不允许跨层级拖入', parentId || 'root');
+          return;
+        }
+        
+        // 标记开始处理
+        setIsDropHandling(true);
+
+        // 从全局 config 中查找被拖拽的项
+        const draggedItem = findFormItemById(config.items || [], draggedId);
+        if (draggedItem) {
+          const targetIndex = items.findIndex(item => item.id === id);
+          if (targetIndex === -1) {
+            setTimeout(() => setIsDropHandling(false), 100);
+            return;
+          }
+
+          // 从全局 config 中删除原项
+          const newGlobalItems = removeFormItemById(config.items || [], draggedId);
+          
+          // 在当前层级添加
+          const newLocalItems = [...items];
+          newLocalItems.splice(targetIndex + 1, 0, draggedItem);
+
+          // 更新全局 config
+          updateFormItems(newGlobalItems);
+          
+          // 更新当前层级(如果有 parentId,需要通过 onChange 更新父容器)
+          onChange?.(newLocalItems);
+
+          console.log('FaFormDragLayout handleDrop - 跨层级拖拽完成', {
+            from: '内层容器',
+            to: parentId || '根容器',
+            item: draggedItem
+          });
+        }
+
+        // 延迟重置标记
+        setTimeout(() => setIsDropHandling(false), 100);
+      }
+      // 否则是同层级拖拽,已经在 dragOver 中处理
+    }
   };
 
   // 拖动结束
@@ -146,7 +235,7 @@ export default function FaFormDragLayout({ parentId, items, onChange, header }: 
   };
 
   // 处理空容器的拖入
-  const handleContainerDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleEmptyContainerDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     const componentType = e.dataTransfer.getData('componentType');
@@ -155,13 +244,29 @@ export default function FaFormDragLayout({ parentId, items, onChange, header }: 
     }
   };
 
-  const handleContainerDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleEmptyContainerDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
+    // 检查是否正在处理其他 drop 事件
+    if (isDropHandling) {
+      console.log('FaFormDragLayout handleEmptyContainerDrop - 已有 drop 事件正在处理,跳过', parentId);
+      return;
+    }
+
     const componentType = e.dataTransfer.getData('componentType');
-    console.log('FaFormDragLayout handleContainerDrop - componentType:', componentType, 'parentId', parentId);
+    console.log('FaFormDragLayout handleEmptyContainerDrop - componentType:', componentType, 'parentId', parentId);
     if (componentType) {
+      // 检查是否允许拖入
+      if (!allowIn) {
+        console.log('FaFormDragLayout handleEmptyContainerDrop - 不允许拖入', parentId || 'root');
+        setTimeout(() => setIsDropHandling(false), 100);
+        return;
+      }
+
+      // 标记开始处理
+      setIsDropHandling(true);
+
       const nextIndex = items.length + 1
       const newItem: Flow.FlowFormItem = {
         id: generateId(componentType),
@@ -173,6 +278,9 @@ export default function FaFormDragLayout({ parentId, items, onChange, header }: 
 
       onChange?.([newItem]);
       setDragOverId(null);
+
+      // 延迟重置标记,给事件传播留出时间
+      setTimeout(() => setIsDropHandling(false), 100);
     }
   };
 
@@ -181,8 +289,72 @@ export default function FaFormDragLayout({ parentId, items, onChange, header }: 
     setDragOverId(null);
   };
 
+  // Row 拖拽处理(仅在嵌套容器中启用)
+  const handleRowDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    // 仅在 parentId 有值时处理
+    if (!parentId) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+    const componentType = e.dataTransfer.getData('componentType');
+    if (componentType) {
+      setDragOverId('row-container');
+    }
+  };
+
+  const handleRowDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    // 仅在 parentId 有值时处理
+    if (!parentId) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    // 检查是否正在处理其他 drop 事件
+    if (isDropHandling) {
+      console.log('FaFormDragLayout handleRowDrop - 已有 drop 事件正在处理,跳过', parentId);
+      return;
+    }
+
+    const componentType = e.dataTransfer.getData('componentType');
+    console.log('FaFormDragLayout handleRowDrop - componentType:', componentType, 'parentId', parentId);
+    if (componentType) {
+      // 检查是否允许拖入
+      if (!allowIn) {
+        console.log('FaFormDragLayout handleRowDrop - 不允许拖入', parentId || 'root');
+        setTimeout(() => setIsDropHandling(false), 100);
+        return;
+      }
+
+      // 标记开始处理
+      setIsDropHandling(true);
+
+      const nextIndex = items.length + 1;
+      const newItem: Flow.FlowFormItem = {
+        id: generateId(componentType),
+        type: componentType as Flow.FlowFormItemType,
+        md: componentType === 'container_row' ? 24 : 12,
+        label: '新组件' + nextIndex,
+        children: componentType === 'container_row' ? [] : undefined,
+      };
+
+      // 添加到末尾
+      onChange?.([...items, newItem]);
+      setDragOverId(null);
+
+      // 延迟重置标记,给事件传播留出时间
+      setTimeout(() => setIsDropHandling(false), 100);
+    }
+  };
+
   return (
-    <Row gutter={0} style={{ }}>
+    <Row 
+      gutter={0} 
+      style={{ }}
+      {...(parentId ? {
+        onDragOver: handleRowDragOver,
+        onDrop: handleRowDrop,
+      } : {})}
+    >
       {header}
       {items.length === 0 ? (
         <div
@@ -197,8 +369,8 @@ export default function FaFormDragLayout({ parentId, items, onChange, header }: 
             color: '#999',
             transition: 'all 0.2s',
           }}
-          onDragOver={handleContainerDragOver}
-          onDrop={handleContainerDrop}
+          onDragOver={handleEmptyContainerDragOver}
+          onDrop={handleEmptyContainerDrop}
           onDragLeave={handleEmptyContainerDragLeave}
         >
           拖入组件到此处

@@ -55,7 +55,7 @@ export default function FaFormCanvas({ }: FaFormCanvasProps) {
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
-      <FaFormDragLayout items={items} onChange={updateFormItems} />
+      <FaFormDragLayout items={items} onChange={updateFormItems} root allowIn allowOut={false} />
     </div>
   );
 }

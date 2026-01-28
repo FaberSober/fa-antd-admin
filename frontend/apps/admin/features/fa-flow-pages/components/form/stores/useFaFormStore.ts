@@ -15,6 +15,8 @@ interface FaFormState {
   dragOverId: string | null;
   // 选中的表单项 ID
   selectedItemId: string | null;
+  // drop 事件处理标记,用于防止嵌套容器重复处理
+  isDropHandling: boolean;
   // 初始化配置
   init: (flowForm: Flow.FlowForm) => void;
   // 添加表单项
@@ -41,6 +43,8 @@ interface FaFormState {
   setDragOverId: (id: string | null) => void;
   // 设置选中的表单项 ID
   setSelectedItemId: (id: string | null) => void;
+  // 设置 drop 事件处理标记
+  setIsDropHandling: (isHandling: boolean) => void;
 }
 
 export const useFaFormStore = create<FaFormState>()(
@@ -53,6 +57,7 @@ export const useFaFormStore = create<FaFormState>()(
       draggedId: null,
       dragOverId: null,
       selectedItemId: null,
+      isDropHandling: false,
 
       init: (flowForm) =>
         set(() => ({
@@ -236,6 +241,11 @@ export const useFaFormStore = create<FaFormState>()(
             selectedFormItem: foundItem,
           };
         }),
+
+      setIsDropHandling: (isHandling) =>
+        set(() => ({
+          isDropHandling: isHandling,
+        })),
     }),
     { name: 'FaFormStore' }
   )

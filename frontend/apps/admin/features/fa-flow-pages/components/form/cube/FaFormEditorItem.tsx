@@ -78,6 +78,9 @@ export default function FaFormEditorItem({ formItem, flowNode, disabled }: FaFor
             <div className="text-sm font-medium">{formItem.label || '标签'}</div>
           </Col>
         }
+        root={false}
+        allowIn={true}
+        allowOut={true}
       />
     );
   }
