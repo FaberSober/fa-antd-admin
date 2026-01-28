@@ -17,6 +17,8 @@ interface FaFormState {
   removeFormItem: (id: string) => void;
   // 更新表单项
   updateFormItem: (id: string, item: Partial<Flow.FlowFormItem>) => void;
+  // 更新表单项
+  updateFormItems: (items: Flow.FlowFormItem[]) => void;
   // 更新表单配置
   updateFormConfig: (config: Partial<Flow.FlowFormProperty>) => void;
   // 清空配置
@@ -96,6 +98,14 @@ export const useFaFormStore = create<FaFormState>()(
             },
           },
         })),
+      
+      updateFormItems: (items) =>
+        set((state) => ({
+          config: {
+            ...state.config,
+            items,
+          },
+        })),
 
       updateFormConfig: (configUpdates) =>
         set((state) => ({
@@ -146,6 +156,7 @@ export const useFaFormStore = create<FaFormState>()(
             ...state.config,
             layout: [],
             formItemMap: {},
+            items: [],
           },
         })),
 

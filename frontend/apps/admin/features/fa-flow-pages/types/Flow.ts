@@ -456,6 +456,9 @@ namespace Flow {
     placeholder?: string;
     rules?: Array<Record<string, any>>;
     children?: FlowFormItem[];
+
+    // 布局属性
+    md?: number;
     
     // Decorator text properties (deco_text component)
     content?: string;
@@ -499,6 +502,8 @@ namespace Flow {
     layout: Layout;
     /** 表单项映射 */
     formItemMap: Record<string, Flow.FlowFormItem>;
+    /** 表单布局 */
+    items: Flow.FlowFormItem[];
   }
 
   // ------------------------------------------------- FormEditor -------------------------------------------------

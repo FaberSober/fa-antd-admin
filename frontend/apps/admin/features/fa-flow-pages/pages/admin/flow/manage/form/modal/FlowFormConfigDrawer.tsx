@@ -94,6 +94,7 @@ export default function FlowFormConfigDrawer({ itemId, refresh }: FlowFormConfig
             background: 'var(--fa-bg-grey3)',
           }
         }}
+        push={false}
       >
         {(open) && flowForm && (
           <>
