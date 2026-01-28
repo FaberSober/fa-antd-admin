@@ -63,11 +63,11 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
   }, []);
 
   useEffect(() => {
-    console.log('outConfig changed:', outConfig);
+    // console.log('outConfig changed:', outConfig);
   }, [outConfig]);
 
   useEffect(() => {
-    console.log('config changed:', config);
+    // console.log('config changed:', config);
     if (!initialized) {
       return;
     }

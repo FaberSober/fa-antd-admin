@@ -3,7 +3,7 @@ import { devtools } from 'zustand/middleware';
 import { FaUtils } from '@fa/ui';
 import { Flow } from '@/types';
 import { Layout, LayoutItem } from 'react-grid-layout';
-import { findFormItemById } from '../utils';
+import { findFormItemById, updateFormItemById } from '../utils';
 
 interface FaFormState {
   flowForm: Flow.FlowForm;
@@ -25,6 +25,8 @@ interface FaFormState {
   updateFormItem: (id: string, item: Partial<Flow.FlowFormItem>) => void;
   // 更新表单项
   updateFormItems: (items: Flow.FlowFormItem[]) => void;
+  // 更新表单项的 children
+  updateFormItemChildren: (id: string, children: Flow.FlowFormItem[]) => void;
   // 更新表单配置
   updateFormConfig: (config: Partial<Flow.FlowFormProperty>) => void;
   // 清空配置
@@ -121,6 +123,22 @@ export const useFaFormStore = create<FaFormState>()(
           },
         })),
 
+      updateFormItemChildren: (id, children) =>
+        set((state) => {
+          const updatedItems = updateFormItemById(
+            state.config.items || [],
+            id,
+            { children }
+          );
+
+          return {
+            config: {
+              ...state.config,
+              items: updatedItems,
+            },
+          };
+        }),
+
       updateFormConfig: (configUpdates) =>
         set((state) => ({
           config: {
@@ -152,9 +170,18 @@ export const useFaFormStore = create<FaFormState>()(
           // 如果没有选中项，直接返回
           if (!state.selectedFormItem) return state;
           const newSelectedFormItem = { ...state.selectedFormItem, ...updates };
+          
+          // 更新 config.items 中的对应项
+          const updatedItems = updateFormItemById(
+            state.config.items || [],
+            state.selectedFormItem.id,
+            updates
+          );
+
           return {
             config: {
               ...state.config,
+              items: updatedItems,
               formItemMap: {
                 ...state.config.formItemMap,
                 [state.selectedFormItem.id]: newSelectedFormItem,

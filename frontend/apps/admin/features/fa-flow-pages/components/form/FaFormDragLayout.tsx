@@ -115,16 +115,19 @@ export default function FaFormDragLayout({ parentId, items, onChange, header }: 
     e.stopPropagation();
 
     const componentType = e.dataTransfer.getData('componentType');
+    console.log('FaFormDragLayout handleDrop - componentType:', componentType, 'parentId', parentId);
 
     // 如果是从外部拖入新组件(draggedId 为 null 表示不是内部拖拽)
     if (componentType && draggedId === null) {
       const targetIndex = items.findIndex(item => item.id === id);
       if (targetIndex === -1) return;
 
+      const nextIndex = items.length + 1
       const newItem: Flow.FlowFormItem = {
         id: generateId(componentType),
         type: componentType as Flow.FlowFormItemType,
         md: componentType === 'row' ? 24 : 12,
+        label: '新组件' + nextIndex,
         children: componentType === 'row' ? [] : undefined,
       };
 
@@ -143,7 +146,7 @@ export default function FaFormDragLayout({ parentId, items, onChange, header }: 
   };
 
   // 处理空容器的拖入
-  const handleEmptyContainerDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleContainerDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     const componentType = e.dataTransfer.getData('componentType');
@@ -152,16 +155,19 @@ export default function FaFormDragLayout({ parentId, items, onChange, header }: 
     }
   };
 
-  const handleEmptyContainerDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleContainerDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
     const componentType = e.dataTransfer.getData('componentType');
+    console.log('FaFormDragLayout handleContainerDrop - componentType:', componentType, 'parentId', parentId);
     if (componentType) {
+      const nextIndex = items.length + 1
       const newItem: Flow.FlowFormItem = {
         id: generateId(componentType),
         type: componentType as Flow.FlowFormItemType,
         md: componentType === 'container_row' ? 24 : 12,
+        label: '新组件' + nextIndex,
         children: componentType === 'container_row' ? [] : undefined,
       };
 
@@ -191,8 +197,8 @@ export default function FaFormDragLayout({ parentId, items, onChange, header }: 
             color: '#999',
             transition: 'all 0.2s',
           }}
-          onDragOver={handleEmptyContainerDragOver}
-          onDrop={handleEmptyContainerDrop}
+          onDragOver={handleContainerDragOver}
+          onDrop={handleContainerDrop}
           onDragLeave={handleEmptyContainerDragLeave}
         >
           拖入组件到此处

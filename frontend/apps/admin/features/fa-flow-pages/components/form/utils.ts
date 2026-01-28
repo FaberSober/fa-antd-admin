@@ -22,3 +22,31 @@ export function findFormItemById(
   }
   return undefined;
 }
+
+/**
+ * 递归更新表单项
+ * @param items 表单项数组
+ * @param id 要更新的表单项 ID
+ * @param updates 要更新的属性
+ * @returns 更新后的表单项数组
+ */
+export function updateFormItemById(
+  items: Flow.FlowFormItem[],
+  id: string,
+  updates: Partial<Flow.FlowFormItem>
+): Flow.FlowFormItem[] {
+  return items.map((item) => {
+    if (item.id === id) {
+      // 找到目标项,合并更新
+      return { ...item, ...updates };
+    }
+    // 如果有 children,递归更新
+    if (item.children && item.children.length > 0) {
+      return {
+        ...item,
+        children: updateFormItemById(item.children, id, updates),
+      };
+    }
+    return item;
+  });
+}

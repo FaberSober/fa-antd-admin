@@ -30,7 +30,7 @@ export default function FaFormCanvas({ }: FaFormCanvasProps) {
     FaUtils.preventEvent(e);
     // 获取从 FormItemDragPanel 拖动过来的组件类型
     const componentType = e.dataTransfer.getData('componentType') as Flow.FlowFormItemType;
-    console.log('handleDrop - componentType:', componentType);
+    console.log('FaFormCanvas handleDrop - componentType:', componentType);
     
     // 在这里处理添加新组件的逻辑
     let md = 12;

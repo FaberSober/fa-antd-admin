@@ -8,7 +8,7 @@ import React from 'react';
 export default function FormItemInputProperty() {
   return (
     <div>
-      <Form.Item name="placeholder" label="占位符" rules={[{ required: true }]}>
+      <Form.Item name="placeholder" label="占位符" rules={[{ required: false }]}>
         <Input />
       </Form.Item>
     </div>

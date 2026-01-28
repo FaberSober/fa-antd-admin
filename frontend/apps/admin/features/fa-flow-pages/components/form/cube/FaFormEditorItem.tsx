@@ -21,6 +21,7 @@ import { get } from 'lodash';
 import { useMemo } from 'react';
 import { FaFormItemsDecoratorTypes } from '../config';
 import FaFormDragLayout from '../FaFormDragLayout';
+import { useFaFormStore } from '../stores/useFaFormStore';
 import FaFormItemDecoAlert from './item/FaFormItemDecoAlert';
 import FaFormItemDecoHr from './item/FaFormItemDecoHr';
 import FaFormItemDecoHref from './item/FaFormItemDecoHref';
@@ -63,12 +64,14 @@ export default function FaFormEditorItem({ formItem, flowNode, disabled }: FaFor
   }
 
   if (formItem.type === 'container_row') {
+    const updateFormItemChildren = useFaFormStore((state) => state.updateFormItemChildren);
+    
     return (
       <FaFormDragLayout
         parentId={formItem.id}
         items={formItem.children || []}
         onChange={(items) => {
-          formItem.children = items;
+          updateFormItemChildren(formItem.id, items);
         }}
         header={
           <Col md={24} style={{ padding: '0 6px' }}>
