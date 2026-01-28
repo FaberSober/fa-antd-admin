@@ -116,13 +116,13 @@ export const FaFormItemsBiz: Flow.FaFormItem[] = [
     type: 'biz_user_select',
     name: '用户选择',
     icon: <div className="i-material-symbols:person fa-form-item-icon"/>,
-    group: 'formitem'
+    group: 'custom'
   },
     {
     type: 'biz_dept_select',
     name: '部门选择',
     icon: <div className="i-material-symbols:article-person-outline fa-form-item-icon"/>,
-    group: 'formitem'
+    group: 'custom'
   },
 ];
 
@@ -140,26 +140,38 @@ export const FaFormItemsDecorator: Flow.FaFormItem[] = [
     type: 'deco_text',
     name: '文本',
     icon: <div className="i-material-symbols:text-snippet-outline-rounded fa-form-item-icon"/>,
-    group: 'formitem'
+    group: 'decorator'
   },
   {
     type: 'deco_href',
     name: '超链接',
     icon: <div className="i-material-symbols:link fa-form-item-icon"/>,
-    group: 'formitem'
+    group: 'decorator'
   },
   {
     type: 'deco_hr',
     name: '分隔线',
     icon: <div className="i-material-symbols:horizontal-rule fa-form-item-icon"/>,
-    group: 'formitem'
+    group: 'decorator'
   },
   {
     type: 'deco_alert',
     name: '提示信息',
     icon: <div className="i-material-symbols:info-outline fa-form-item-icon"/>,
-    group: 'formitem'
+    group: 'decorator'
   },
 ];
 
 export const FaFormItemsDecoratorTypes = FaFormItemsDecorator.map(i => i.type)
+
+/**
+ * 容器表单组件列表
+ */
+export const FaFormItemsContainer: Flow.FaFormItem[] = [
+  {
+    type: 'container_row',
+    name: '行容器',
+    icon: <div className="i-material-symbols:person fa-form-item-icon"/>,
+    group: 'container'
+  },
+];

@@ -65,7 +65,7 @@ export default function FaFormEditorItem({ formItem, flowNode, onClickRowItem, d
     return null;
   }
 
-  if (formItem.type === 'row') {
+  if (formItem.type === 'container_row') {
     return (<RowContainer row={formItem} onClickRowItem={onClickRowItem} />);
   }
 

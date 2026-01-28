@@ -505,13 +505,13 @@ namespace Flow {
   export type FlowFormItemType = 'input' | 'inputnumber' | 'textarea' | 'switch' | 'radio' | 'checkbox' | 'select' | 'cascader' | 'datepicker' | 'timepicker' | 'fileupload' | 'imageupload' | 'colorpicker' | 'rating' | 'slider' | 'richtext' | 'link'
                                   | 'biz_user_select' | 'biz_dept_select'
                                   | 'deco_text' | 'deco_href' | 'deco_hr' | 'deco_alert'
-                                  | 'row';
+                                  | 'container_row';
 
   export interface FaFormItem {
     type: FlowFormItemType;
     name: string;
     icon: string|React.ReactNode;
-    group: 'formitem'|'layout'|'custom';
+    group: 'formitem'|'container'|'custom'|'decorator';
   }
 
   // ------------------------------------------------- Database -------------------------------------------------
