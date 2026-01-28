@@ -10,13 +10,14 @@ export interface FaFormDragLayoutProps {
   /** 表单布局 */
   items: Flow.FlowFormItem[];
   onChange?: (items: Flow.FlowFormItem[]) => void;
+  header?: React.ReactNode;
 }
 
 /**
  * @author xu.pengfei
  * @date 2026-01-27 20:47:30
  */
-export default function FaFormDragLayout({ parentId, items, onChange }: FaFormDragLayoutProps) {
+export default function FaFormDragLayout({ parentId, items, onChange, header }: FaFormDragLayoutProps) {
   // 从 store 中获取拖拽状态
   const draggedId = useFaFormStore((state) => state.draggedId);
   const dragOverId = useFaFormStore((state) => state.dragOverId);
@@ -176,6 +177,7 @@ export default function FaFormDragLayout({ parentId, items, onChange }: FaFormDr
 
   return (
     <Row gutter={0} style={{ }}>
+      {header}
       {items.length === 0 ? (
         <div
           style={{

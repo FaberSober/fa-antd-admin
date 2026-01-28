@@ -3,6 +3,7 @@ import { devtools } from 'zustand/middleware';
 import { FaUtils } from '@fa/ui';
 import { Flow } from '@/types';
 import { Layout, LayoutItem } from 'react-grid-layout';
+import { findFormItemById } from '../utils';
 
 interface FaFormState {
   flowForm: Flow.FlowForm;
@@ -193,9 +194,21 @@ export const useFaFormStore = create<FaFormState>()(
         })),
 
       setSelectedItemId: (id) =>
-        set(() => ({
-          selectedItemId: id,
-        })),
+        set((state) => {
+          if (!id) {
+            return {
+              selectedItemId: null,
+              selectedFormItem: undefined,
+            };
+          }
+
+          const foundItem = findFormItemById(state.config.items || [], id);
+
+          return {
+            selectedItemId: id,
+            selectedFormItem: foundItem,
+          };
+        }),
     }),
     { name: 'FaFormStore' }
   )

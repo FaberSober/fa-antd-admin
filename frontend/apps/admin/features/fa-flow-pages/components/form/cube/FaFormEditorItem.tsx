@@ -4,6 +4,7 @@ import { UploadFileLocal, UploadImgLocal } from '@fa/ui';
 import {
   Cascader,
   Checkbox,
+  Col,
   ColorPicker,
   DatePicker,
   Form,
@@ -69,6 +70,11 @@ export default function FaFormEditorItem({ formItem, flowNode, disabled }: FaFor
         onChange={(items) => {
           formItem.children = items;
         }}
+        header={
+          <Col md={24} style={{ padding: '0 6px' }}>
+            <div className="text-sm font-medium">{formItem.label || '标签'}</div>
+          </Col>
+        }
       />
     );
   }
