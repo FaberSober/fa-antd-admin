@@ -3,7 +3,7 @@ import { devtools } from 'zustand/middleware';
 import { FaUtils } from '@fa/ui';
 import { Flow } from '@/types';
 import { Layout, LayoutItem } from 'react-grid-layout';
-import { findFormItemById, updateFormItemById } from '../utils';
+import { findFormItemById, updateFormItemById, removeFormItemById } from '../utils';
 
 interface FaFormState {
   flowForm: Flow.FlowForm;
@@ -100,11 +100,15 @@ export const useFaFormStore = create<FaFormState>()(
           const newFormItemMap = { ...state.config.formItemMap };
           delete newFormItemMap[id];
 
+          // 删除 items 中的条目
+          const newItems = removeFormItemById(state.config.items || [], id);
+
           return {
             config: {
               ...state.config,
               layout: newLayout,
               formItemMap: newFormItemMap,
+              items: newItems,
             },
           };
         }),

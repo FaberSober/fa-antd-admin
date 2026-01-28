@@ -1,10 +1,11 @@
 import { Flow } from '@features/fa-flow-pages/types';
-import { Col, Row } from 'antd';
+import { Button, Col, Row, Space } from 'antd';
 import React from 'react';
 import FaFormEditorItem from './cube/FaFormEditorItem';
 import { FaUtils } from '@fa/ui';
 import { useFaFormStore } from './stores/useFaFormStore';
 import { findFormItemById, removeFormItemById } from './utils';
+import { CopyOutlined, DeleteOutlined } from '@ant-design/icons';
 
 export interface FaFormDragLayoutProps {
   parentId?: string;
@@ -39,6 +40,7 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
   // 获取全局 config 用于查找跳过层级的项
   const config = useFaFormStore((state) => state.config);
   const updateFormItems = useFaFormStore((state) => state.updateFormItems);
+  const removeFormItem = useFaFormStore((state) => state.removeFormItem);
 
   // 生成唯一 ID
   const generateId = (type: string) => {
@@ -54,11 +56,11 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
   // 拖动开始
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>, id: string) => {
     // 检查是否允许拖出
-    if (!allowOut) {
-      console.log('FaFormDragLayout handleDragStart - 不允许拖出', parentId || 'root');
-      e.preventDefault();
-      return;
-    }
+    // if (!allowOut) {
+    //   console.log('FaFormDragLayout handleDragStart - 不允许拖出', parentId || 'root');
+    //   e.preventDefault();
+    //   return;
+    // }
 
     e.stopPropagation();
     setDraggedId(id);
@@ -417,6 +419,19 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
               >
                 <FaFormEditorItem formItem={item} />
               </div>
+
+              {/* 操作按钮 */}
+              {isSelected && (
+                <Space style={{ position: 'absolute', top: 0, right: 10, zIndex: 999 }}>
+                  {/* <Button size='small' onClick={(e) => {
+                    FaUtils.preventEvent(e);
+                  }} shape="circle" icon={<CopyOutlined />} color="primary" variant="outlined" /> */}
+                  <Button size='small' onClick={(e) => {
+                    FaUtils.preventEvent(e);
+                    removeFormItem(item.id);
+                  }} shape="circle" icon={<DeleteOutlined />} danger />
+                </Space>
+              )}
             </Col>
           );
         })
