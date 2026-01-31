@@ -74,21 +74,51 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
   }
 
   function handleColumnsChange(columns: Flow.FlowFormDataConfigColumn[]) {
-    console.log('handleColumnsChange', columns);
-    setItemClone(prev => {
-      const newItem = { ...prev };
-      set(newItem, 'dataConfig.main.columns', columns);
-      return newItem;
-    });
-    flowFormApi.update(item.id, {
-      dataConfig: {
-        ...item.dataConfig,
-        main: {
-          ...item.dataConfig?.main,
-          columns,
+    console.log('handleColumnsChange', columns, 'tableName', tableName);
+    
+    // 判断当前选中的是主表还是子表
+    const isMainTable = tableName === itemClone?.dataConfig?.main?.tableName;
+    
+    if (isMainTable) {
+      // 更新主表配置
+      setItemClone(prev => {
+        const newItem = { ...prev };
+        set(newItem, 'dataConfig.main.columns', columns);
+        return newItem;
+      });
+      
+      flowFormApi.update(item.id, {
+        dataConfig: {
+          ...item.dataConfig,
+          main: {
+            ...item.dataConfig?.main,
+            columns,
+          }
         }
-      }
-    })
+      });
+    } else {
+      // 更新子表配置
+      const linkTable = linkTables.find(t => t.tableName === tableName);
+      if (!linkTable) return;
+      
+      const updatedDataConfig = {
+        ...linkTable.dataConfig,
+        columns,
+      };
+      
+      // 更新本地状态
+      setLinkTables(prev => prev.map(t => 
+        t.id === linkTable.id 
+          ? { ...t, dataConfig: updatedDataConfig }
+          : t
+      ));
+      
+      // 更新服务器数据
+      flowFormTableApi.update(linkTable.id, {
+        ...linkTable,
+        dataConfig: updatedDataConfig,
+      });
+    }
   }
 
   function handleSelTable(selTableName: string) {

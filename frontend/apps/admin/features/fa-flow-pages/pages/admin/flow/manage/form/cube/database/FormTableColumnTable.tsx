@@ -1,7 +1,7 @@
 import { flowFormApi } from '@/services';
 import { Flow } from '@/types';
 import { FaFlexRestLayout, FaSortList, useApiLoading } from '@fa/ui';
-import { Spin } from 'antd';
+import { Button, Space, Spin } from 'antd';
 import { isNil, set } from 'lodash';
 import { useEffect, useState } from 'react';
 import FormTableColumnAdd from './FormTableColumnAdd';
@@ -42,22 +42,36 @@ export default function FormTableColumnTable({ item, tableInfo, onColumnsChange 
     onColumnsChange?.(columns);
   }
 
-  function refresh() {
+  function refresh(callback?: (columns: Flow.FlowFormDataConfigColumn[]) => void) {
     flowFormApi.queryTableStructure({ tableName: tableInfo.tableName }).then(res => {
       resortColumnsByConfig(res.data.columns, item.dataConfig);
       setTableInfoClone(res.data);
-      onColumnsChange?.(res.data.columns.map((col, index) => ({
+      const columns: Flow.FlowFormDataConfigColumn[] = res.data.columns.map((col, index) => ({
         ...col,
         table: tableInfo.tableName,
         sort: index,
-      })));
+      }));
+      callback?.(columns);
     });
   }
 
-  console.log('isNil(0)', isNil(0))
   const loading = useApiLoading(flowFormApi.getUrl('queryTableStructure'));
   return (
     <div className='fa-flex-column fa-full'>
+      <Space className='fa-mb12'>
+        <Button onClick={() => refresh()}>刷新</Button>
+        <Button 
+          type="primary"
+          onClick={() => {
+            // 同步：将数据库表结构同步到配置中（不保持排序）
+            refresh((columns) => {
+              onColumnsChange?.(columns);
+            });
+          }}
+        >
+          同步
+        </Button>
+      </Space>
       {/* header */}
       <div className='fa-flex-row-center fa-gap6' style={{ fontSize: 14, fontWeight: 'bold', padding: '8px 4px', borderBottom: '1px solid #ccc' }}>
         <div style={{ width: 120 }}>字段名</div>
@@ -98,7 +112,7 @@ export default function FormTableColumnTable({ item, tableInfo, onColumnsChange 
           />
           <FormTableColumnAdd
             tableName={tableInfo.tableName}
-            onSuccess={refresh}
+            onSuccess={() => refresh()}
           />
         </Spin>
       </FaFlexRestLayout>
