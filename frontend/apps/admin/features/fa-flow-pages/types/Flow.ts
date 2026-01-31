@@ -385,6 +385,27 @@ namespace Flow {
     flowProcessId: number;
   }
 
+  /** FLOW-流程表单关联表 */
+  export interface FlowFormTable extends Fa.BaseDelEntity {
+    /** ID */
+    id: number;
+    /** 流程表单ID */
+    flowFormId: number;
+    /** 排序ID */
+    sort: number;
+    /** 表名 */
+    tableName: string;
+    /** 数据库配置 */
+    dataConfig: any;
+    /** 备注 */
+    remark: string;
+    /** 外键字段 */
+    foreignKey: string;
+    /** 关联主键 */
+    referenceKey: string;
+  }
+
+
   export interface TableConfigQueryColumn {
     table: string;
     field: string;

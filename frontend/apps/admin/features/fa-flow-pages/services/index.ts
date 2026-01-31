@@ -9,6 +9,7 @@ export { default as flwHisInstanceApi } from './flow/core/flwHisInstance';
 
 // ------------------------------------- Form -------------------------------------
 export { default as flowFormApi } from './flow/form/flowForm';
+export { default as flowFormTableApi } from './flow/form/flowFormTable';
 
 // ------------------------------------- Demo -------------------------------------
 export { default as demoFlowLeaveApi } from './flow/demo/demoFlowLeave';
