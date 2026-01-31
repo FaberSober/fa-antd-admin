@@ -33,13 +33,9 @@ export default function FaFormEditor({ flowForm, config:outConfig, onChange, onC
   const initialized = useFaFormStore((state) => state.initialized);
   const init = useFaFormStore((state) => state.init);
 
-  const removeFormItem = useFaFormStore((state) => state.removeFormItem);
   const clearConfig = useFaFormStore((state) => state.clearConfig);
 
   const clearFormItems = useFaFormStore((state) => state.clearFormItems);
-
-  const selectedFormItem = useFaFormStore((state) => state.selectedFormItem);
-  const setSelectedFormItem = useFaFormStore((state) => state.setSelectedFormItem);
 
   const {formConfig} = useFormConfig(config);
 

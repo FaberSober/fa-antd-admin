@@ -6,6 +6,7 @@ import { FaUtils } from '@fa/ui';
 import { useFaFormStore } from './stores/useFaFormStore';
 import { findFormItemById, removeFormItemById } from './utils';
 import { CopyOutlined, DeleteOutlined } from '@ant-design/icons';
+import { isContainer } from './config';
 
 export interface FaFormDragLayoutProps {
   parentId?: string;
@@ -51,6 +52,9 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
   const handleItemClick = (e: React.MouseEvent<HTMLDivElement>, id: string) => {
     e.stopPropagation();
     setSelectedItemId(id);
+    // 清空拖动状态,移除拖动过程中的样式
+    setDraggedId(null);
+    setDragOverId(null);
   };
 
   // 拖动开始
@@ -264,7 +268,7 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
       return;
     }
 
-    const componentType = e.dataTransfer.getData('componentType');
+    const componentType = e.dataTransfer.getData('componentType') as Flow.FlowFormItemType;
     console.log('FaFormDragLayout handleEmptyContainerDrop - componentType:', componentType, 'parentId', parentId);
     if (componentType) {
       // 检查是否允许拖入
@@ -280,10 +284,10 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
       const nextIndex = items.length + 1
       const newItem: Flow.FlowFormItem = {
         id: generateId(componentType),
-        type: componentType as Flow.FlowFormItemType,
-        md: componentType === 'container_row' ? 24 : 12,
+        type: componentType,
+        md: isContainer(componentType) ? 24 : 12,
         label: '新组件' + nextIndex,
-        children: componentType === 'container_row' ? [] : undefined,
+        children: isContainer(componentType) ? [] : undefined,
       };
 
       onChange?.([newItem]);
@@ -328,7 +332,7 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
       return;
     }
 
-    const componentType = e.dataTransfer.getData('componentType');
+    const componentType = e.dataTransfer.getData('componentType') as Flow.FlowFormItemType;
     console.log('FaFormDragLayout handleRowDrop - componentType:', componentType, 'parentId', parentId);
     if (componentType) {
       // 检查是否允许拖入
@@ -344,10 +348,10 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
       const nextIndex = items.length + 1;
       const newItem: Flow.FlowFormItem = {
         id: generateId(componentType),
-        type: componentType as Flow.FlowFormItemType,
-        md: componentType === 'container_row' ? 24 : 12,
+        type: componentType,
+        md: isContainer(componentType) ? 24 : 12,
         label: '新组件' + nextIndex,
-        children: componentType === 'container_row' ? [] : undefined,
+        children: isContainer(componentType) ? [] : undefined,
       };
 
       // 添加到末尾

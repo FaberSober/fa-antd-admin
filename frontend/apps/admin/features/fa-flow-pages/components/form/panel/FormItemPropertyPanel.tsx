@@ -10,6 +10,7 @@ import FormItemDecoTextProperty from './item/FormItemDecoTextProperty';
 import FormItemDecoHrefProperty from './item/FormItemDecoHrefProperty';
 import FormItemDecoHrProperty from './item/FormItemDecoHrProperty';
 import FormItemDecoAlertProperty from './item/FormItemDecoAlertProperty';
+import FormItemHighSubtableProperty from './item/FormItemHighSubtableProperty';
 
 /**
  * @author xu.pengfei
@@ -114,6 +115,8 @@ export default function FormItemPropertyPanel() {
           )}
 
           {selectedFormItem.type === 'input' && (<FormItemInputProperty />)}
+
+          {selectedFormItem.type === 'high_subtable' && (<FormItemHighSubtableProperty />)}
 
           {selectedFormItem.type === 'deco_text' && (<FormItemDecoTextProperty />)}
           {selectedFormItem.type === 'deco_href' && (<FormItemDecoHrefProperty />)}

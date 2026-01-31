@@ -530,6 +530,7 @@ namespace Flow {
   // ------------------------------------------------- FormEditor -------------------------------------------------
   export type FlowFormItemType = 'input' | 'inputnumber' | 'textarea' | 'switch' | 'radio' | 'checkbox' | 'select' | 'cascader' | 'datepicker' | 'timepicker' | 'fileupload' | 'imageupload' | 'colorpicker' | 'rating' | 'slider' | 'richtext' | 'link'
                                   | 'biz_user_select' | 'biz_dept_select'
+                                  | 'high_subtable'
                                   | 'deco_text' | 'deco_href' | 'deco_hr' | 'deco_alert'
                                   | 'container_row';
 

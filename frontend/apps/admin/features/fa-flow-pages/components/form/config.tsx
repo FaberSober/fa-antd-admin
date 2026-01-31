@@ -132,6 +132,20 @@ export const FaFormItemsFieldTypes = [
   ...FaFormItemsBiz.map(i => i.type),
 ]
 
+
+/**
+ * 高级表单组件列表
+ */
+export const FaFormItemsHigh: Flow.FaFormItem[] = [
+  {
+    type: 'high_subtable',
+    name: '设计子表',
+    icon: <div className="i-material-symbols:table fa-form-item-icon"/>,
+    group: 'container'
+  },
+];
+
+
 /**
  * 展示表单组件列表
  */
@@ -175,3 +189,10 @@ export const FaFormItemsContainer: Flow.FaFormItem[] = [
     group: 'container'
   },
 ];
+
+export function isContainer(type: Flow.FlowFormItemType) {
+  return [
+    ...FaFormItemsContainer.map(i => i.type),
+    ...FaFormItemsHigh.map(i => i.type),
+  ].includes(type)
+}

@@ -34,7 +34,7 @@ export default function FaFormCanvas({ }: FaFormCanvasProps) {
     
     // 在这里处理添加新组件的逻辑
     let md = 12;
-    if (['deco_hr', 'deco_alert', 'deco_text', 'container_row'].includes(componentType)) {
+    if (['deco_hr', 'deco_alert', 'deco_text', 'container_row', 'high_subtable'].includes(componentType)) {
       md = 24;
     }
     const nextIndex = items.length + 1

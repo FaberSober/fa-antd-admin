@@ -66,6 +66,40 @@ export default function FaFormEditorItem({ formItem, flowNode, disabled, showMod
     return null;
   }
 
+  if (formItem.type === 'high_subtable') {
+    const updateFormItemChildren = useFaFormStore((state) => state.updateFormItemChildren);
+    
+    // 展示模式:使用 FaFormShowLayout
+    if (showMode) {
+      return (
+        <FaFormShowLayout
+          items={formItem.children || []}
+          flowNode={flowNode}
+          disabled={disabled}
+        />
+      );
+    }
+    
+    // 编辑模式:使用 FaFormDragLayout
+    return (
+      <FaFormDragLayout
+        parentId={formItem.id}
+        items={formItem.children || []}
+        onChange={(items) => {
+          updateFormItemChildren(formItem.id, items);
+        }}
+        header={
+          <Col md={24} style={{ padding: '0 6px' }}>
+            <div className="text-sm font-medium">{formItem.label || '标签'}</div>
+          </Col>
+        }
+        root={false}
+        allowIn={false}
+        allowOut={false}
+      />
+    );
+  }
+
   if (formItem.type === 'container_row') {
     const updateFormItemChildren = useFaFormStore((state) => state.updateFormItemChildren);
     
