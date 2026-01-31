@@ -1,6 +1,6 @@
 import { Flow } from '@features/fa-flow-pages/types';
 import React, { useEffect, useState } from 'react';
-import { FaFlexRestLayout } from '@fa/ui';
+import { BaseDrawer, FaFlexRestLayout } from '@fa/ui';
 import FormTableCreateModal from './FormTableCreateModal';
 import { flowFormApi } from '@features/fa-flow-pages/services';
 import { set } from 'lodash';
@@ -10,6 +10,7 @@ import { resortColumnsByConfig } from '../utils';
 import './FormTableEdit.scss';
 import clsx from 'clsx';
 import FormTableSelectModal from './FormTableSelectModal';
+import FormTableLink from './FormTableLink';
 
 export interface FormTableEditProps {
   item: Flow.FlowForm;
@@ -101,6 +102,10 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
     });
   }
 
+  function handleGetLinkTables() {
+    
+  }
+
   // console.log('hasMainTable', hasMainTable);
   return (
     <div className='fa-full fa-flex-row fa-gap12'>
@@ -124,6 +129,9 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
           <FormTableSelectModal fetchFinish={handleSetMainTable}>
             <Button>关联主表</Button>
           </FormTableSelectModal>
+          <BaseDrawer triggerDom={<Button>关联子表</Button>} size={800}>
+            <FormTableLink item={itemClone} onRefresh={handleGetLinkTables} />
+          </BaseDrawer>
           {/* <Button>新增子表</Button> */}
           {/* <Button>关联子表</Button> */}
         </Space>

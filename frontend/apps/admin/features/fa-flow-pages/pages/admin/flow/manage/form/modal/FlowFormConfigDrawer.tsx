@@ -21,7 +21,7 @@ export interface FlowFormConfigDrawerProps {
  */
 export default function FlowFormConfigDrawer({ itemId, refresh }: FlowFormConfigDrawerProps) {
   const [open, setOpen] = useState(false);
-  const [tab, setTab] = useState('form');
+  const [tab, setTab] = useState('database');
   const { flowForm, setFlowForm, clear } = useFlowFormEditStore()
 
   useEffect(() => {
@@ -103,8 +103,8 @@ export default function FlowFormConfigDrawer({ itemId, refresh }: FlowFormConfig
                 <div style={{position: 'fixed', top: 7, left: 'calc(50vw - 146px)' }}>
                   <Segmented
                     options={[
-                      { value: 'form', label: <span><FormOutlined style={{marginRight: 4}} />表单设计</span> },
                       { value: 'database', label: <span><DatabaseOutlined style={{marginRight: 4}} />数据库表</span> },
+                      { value: 'form', label: <span><FormOutlined style={{marginRight: 4}} />表单设计</span> },
                       { value: 'table', label: <span><OrderedListOutlined style={{marginRight: 4}} />列表设计</span> },
                     ]}
                     value={tab}
@@ -113,15 +113,15 @@ export default function FlowFormConfigDrawer({ itemId, refresh }: FlowFormConfig
                 </div>
 
                 <FaFlexRestLayout style={{ overflow: 'hidden' }}>
+                  {tab === 'database' && (
+                    <FormTableEdit item={flowForm} />
+                  )}
                   {tab === 'form' && (
                     <FaFormEditor
                       flowForm={flowForm}
                       config={flowForm?.config}
                       onChange={handleConfigChange}
                     />
-                  )}
-                  {tab === 'database' && (
-                    <FormTableEdit item={flowForm} />
                   )}
                   {tab === 'table' && (
                     <TableShowDesign />
