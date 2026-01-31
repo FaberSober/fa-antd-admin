@@ -173,6 +173,10 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
       newConfig.splice(targetIndex + 1, 0, newItem);
 
       onChange?.(newConfig);
+      
+      // 重置拖动状态
+      setDraggedId(null);
+      setDragOverId(null);
 
       // 延迟重置标记,给事件传播留出时间
       setTimeout(() => setIsDropHandling(false), 100);
@@ -222,6 +226,10 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
             item: draggedItem
           });
         }
+        
+        // 重置拖动状态
+        setDraggedId(null);
+        setDragOverId(null);
 
         // 延迟重置标记
         setTimeout(() => setIsDropHandling(false), 100);
@@ -279,6 +287,9 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
       };
 
       onChange?.([newItem]);
+      
+      // 重置拖动状态
+      setDraggedId(null);
       setDragOverId(null);
 
       // 延迟重置标记,给事件传播留出时间
@@ -341,6 +352,9 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
 
       // 添加到末尾
       onChange?.([...items, newItem]);
+      
+      // 重置拖动状态
+      setDraggedId(null);
       setDragOverId(null);
 
       // 延迟重置标记,给事件传播留出时间

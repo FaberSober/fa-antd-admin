@@ -20,6 +20,9 @@ export default function FormItemPropertyPanel() {
   const flowForm = useFaFormStore((state) => state.flowForm);
   const selectedFormItem = useFaFormStore((state) => state.selectedFormItem);
   const updateSelectedFormItem = useFaFormStore((state) => state.updateSelectedFormItem);
+  
+  // 监听 tableName 字段的值
+  const tableName = Form.useWatch('tableName', form);
 
   const columns = useMemo(() => {
     if (flowForm && flowForm.dataConfig && flowForm?.dataConfig?.main) {
@@ -76,7 +79,7 @@ export default function FormItemPropertyPanel() {
             console.log('FormItemPanel form values changed', cv, av);
             const avCopy = cloneDeep(av);
             // update label from name
-            if (!av.label && cv.name) {
+            if ((!av.label || av.label.startsWith('新组件')) && cv.name) {
               const col = columnOptions.find(c => c.value === cv.name);
               if (col) {
                 avCopy.label = col.label;
@@ -89,14 +92,14 @@ export default function FormItemPropertyPanel() {
           {isFieldItem && (
             <>
               <Form.Item name="tableName" label="数据库表" rules={[{ required: true }]}>
-                <Select options={tableOptions} />
+                <Select options={tableOptions} allowClear />
               </Form.Item>
               <Form.Item name="name" label="控件字段" rules={[{ required: true }]}>
-                <Select options={columnOptions} />
+                <Select options={columnOptions} disabled={!tableName} allowClear />
               </Form.Item>
               <Space.Compact>
                 <Form.Item name="label" label="控件标题" rules={[{ required: true }]}>
-                  <Input />
+                  <Input allowClear />
                 </Form.Item>
                 <Button icon={<SyncOutlined />} onClick={() => {
                   const col = columnOptions.find(c => c.value === form.getFieldValue('name'));
