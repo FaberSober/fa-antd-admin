@@ -2,7 +2,7 @@ import { Flow } from '@features/fa-flow-pages/types';
 import React, { useEffect, useState } from 'react';
 import { BaseDrawer, FaFlexRestLayout } from '@fa/ui';
 import FormTableCreateModal from './FormTableCreateModal';
-import { flowFormApi } from '@features/fa-flow-pages/services';
+import { flowFormApi, flowFormTableApi } from '@features/fa-flow-pages/services';
 import { set } from 'lodash';
 import FormTableColumnTable from './FormTableColumnTable';
 import { Button, Empty, Space } from 'antd';
@@ -26,6 +26,7 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
   const [tableName, setTableName] = useState<string>(); // 选中查看的表
   const [tableInfo, setTableInfo] = useState<Flow.TableInfoVo>(); // 选中表详细
   const [isMainTableCreated, setIsMainTableCreated] = useState<boolean>(false);
+  const [linkTables, setLinkTables] = useState<Flow.FlowFormTable[]>([]); // 关联子表列表
 
   useEffect(() => {
     setItemClone(item);
@@ -33,6 +34,8 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
       setIsMainTableCreated(true);
       handleSelTable(itemClone?.dataConfig?.main?.tableName)
     }
+    // 加载关联子表列表
+    handleGetLinkTables();
   }, [item]);
 
   const hasMainTable = itemClone?.dataConfig?.main?.tableName;
@@ -103,13 +106,29 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
   }
 
   function handleGetLinkTables() {
+    if (!item?.id) return;
     
+    flowFormTableApi.list({ query: { flowFormId: item.id }, sorter: "sort asc" })
+      .then((res) => {
+        setLinkTables(res.data || []);
+      });
   }
 
   // console.log('hasMainTable', hasMainTable);
   return (
     <div className='fa-full fa-flex-row fa-gap12'>
       <div style={{ width: 250 }} className='fa-card'>
+        <Space className='fa-mb12'>
+          <FormTableSelectModal fetchFinish={handleSetMainTable}>
+            <Button>关联主表</Button>
+          </FormTableSelectModal>
+          <BaseDrawer triggerDom={<Button>关联子表</Button>} size={1200}>
+            <FormTableLink item={itemClone} onRefresh={handleGetLinkTables} />
+          </BaseDrawer>
+          {/* 展示关联子表list */}
+        </Space>
+
+        <div className="fa-mb8" style={{ fontSize: 12, color: '#999' }}>主表</div>
         {hasMainTable && (
           <div className={clsx('fa-form-table-item', tableName === itemClone?.dataConfig?.main?.tableName ? 'fa-form-table-item-active' : '')}
             onClick={() => handleSelTable(itemClone?.dataConfig?.main?.tableName)}
@@ -118,23 +137,23 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
             <span>{itemClone?.dataConfig?.main?.tableName}</span>
           </div>
         )}
-        <Space className='fa-mt12'>
-          {!isMainTableCreated && (
-            <FormTableCreateModal
-              addBtn
-              title='新增主表'
-              fetchFinish={handleSetMainTable}
-            />
-          )}
-          <FormTableSelectModal fetchFinish={handleSetMainTable}>
-            <Button>关联主表</Button>
-          </FormTableSelectModal>
-          <BaseDrawer triggerDom={<Button>关联子表</Button>} size={800}>
-            <FormTableLink item={itemClone} onRefresh={handleGetLinkTables} />
-          </BaseDrawer>
-          {/* <Button>新增子表</Button> */}
-          {/* <Button>关联子表</Button> */}
-        </Space>
+        
+        {/* 关联子表列表 */}
+        {linkTables.length > 0 && (
+          <div className="fa-mt12">
+            <div className="fa-mb8" style={{ fontSize: 12, color: '#999' }}>关联子表</div>
+            {linkTables.map((linkTable) => (
+              <div
+                key={linkTable.id}
+                className={clsx('fa-form-table-item', tableName === linkTable.tableName ? 'fa-form-table-item-active' : '')}
+                onClick={() => handleSelTable(linkTable.tableName)}
+              >
+                <div className="i-material-symbols:table-rows fa-form-item-icon" />
+                <span>{linkTable.tableName}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <FaFlexRestLayout className="fa-full-content fa-card">

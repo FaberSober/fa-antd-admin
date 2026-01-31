@@ -4,6 +4,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { BaseBizTable, BaseTableUtils, DragModal, DragModalProps, useTableQueryParams, FaberTable, clearForm } from '@fa/ui';
 import { Button, Form, Input, Space } from 'antd';
 import { useState } from 'react';
+import FormTableCreateModal from './FormTableCreateModal';
 
 
 export interface FormTableSelectModalProps extends DragModalProps {
@@ -76,6 +77,20 @@ export default function FormTableSelectModal({ children, fetchFinish, ...props }
                     查询
                   </Button>
                   <Button onClick={() => clearForm(form)}>重置</Button>
+                  <FormTableCreateModal 
+                    title="新建数据表"
+                    fetchFinish={(newTable) => {
+                      // 刷新表格列表
+                      fetchPageList();
+                      // 自动选中新创建的表
+                      setSelItem({
+                        tableName: newTable.tableName,
+                        tableComment: newTable.comment,
+                      } as Generator.TableVo);
+                    }}
+                  >
+                    <Button type="primary">新建</Button>
+                  </FormTableCreateModal>
                 </Space>
               </Form>
             </div>
