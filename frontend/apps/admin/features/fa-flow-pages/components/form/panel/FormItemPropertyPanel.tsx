@@ -5,7 +5,7 @@ import { Button, Empty, Form, Input, Select, Space, Tag } from 'antd';
 import FormItemInputProperty from './item/FormItemInputProperty';
 import { SyncOutlined } from '@ant-design/icons';
 import { FaUtils } from '@fa/ui';
-import { FaFormItemsFieldTypes } from '../config';
+import { FaFormItemsFieldTypes, FaFormItemTypeOptions } from '../config';
 import FormItemDecoTextProperty from './item/FormItemDecoTextProperty';
 import FormItemDecoHrefProperty from './item/FormItemDecoHrefProperty';
 import FormItemDecoHrProperty from './item/FormItemDecoHrProperty';
@@ -90,6 +90,9 @@ export default function FormItemPropertyPanel() {
             updateSelectedFormItem(avCopy);
           }}
         >
+          <Form.Item name="type" label="控件类型" rules={[{ required: true }]}>
+            <Select options={FaFormItemTypeOptions} allowClear disabled />
+          </Form.Item>
           {isFieldItem && (
             <>
               <Form.Item name="tableName" label="数据库表" rules={[{ required: true }]}>

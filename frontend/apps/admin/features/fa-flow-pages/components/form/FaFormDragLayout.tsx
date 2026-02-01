@@ -1,5 +1,5 @@
 import { Flow } from '@features/fa-flow-pages/types';
-import { Button, Col, Row, Space } from 'antd';
+import { Button, Col, message, Row, Space } from 'antd';
 import React from 'react';
 import FaFormEditorItem from './cube/FaFormEditorItem';
 import { FaUtils } from '@fa/ui';
@@ -60,11 +60,11 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
   // 拖动开始
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>, id: string) => {
     // 检查是否允许拖出
-    // if (!allowOut) {
-    //   console.log('FaFormDragLayout handleDragStart - 不允许拖出', parentId || 'root');
-    //   e.preventDefault();
-    //   return;
-    // }
+    if (parentId && !allowOut) {
+      console.log('FaFormDragLayout handleDragStart - 不允许拖出', parentId || 'root');
+      e.preventDefault();
+      return;
+    }
 
     e.stopPropagation();
     setDraggedId(id);
@@ -147,15 +147,20 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
     }
 
     const componentType = e.dataTransfer.getData('componentType');
-    console.log('FaFormDragLayout handleDrop - componentType:', componentType, 'draggedId:', draggedId, 'parentId', parentId, 'id', id);
+    const isInternalDrag = e.dataTransfer.getData('internalDrag') === 'true';
+    console.log('FaFormDragLayout handleDrop - componentType:', componentType, 'draggedId:', draggedId, 'parentId', parentId, 'id', id, 'isInternalDrag', isInternalDrag);
 
     // 如果是从外部拖入新组件(draggedId 为 null 表示不是内部拖拽)
     if (componentType && draggedId === null) {
       // 检查是否允许拖入
-      if (!allowIn) {
-        console.log('FaFormDragLayout handleDrop - 不允许拖入', parentId || 'root');
-        setTimeout(() => setIsDropHandling(false), 100);
-        return;
+      // 1. 如果是从组件面板拖入(isInternalDrag=false),均可以拖入
+      // 2. 如果是内部拖动调整排序(isInternalDrag=true),则根据 allowIn 判断是否可以拖入
+      if (!root) {
+        if (parentId && isInternalDrag && !allowIn) {
+          console.log('FaFormDragLayout handleDrop - 不允许拖入', parentId || 'root');
+          setTimeout(() => setIsDropHandling(false), 100);
+          return;
+        }
       }
 
       const targetIndex = items.findIndex(item => item.id === id);
@@ -269,10 +274,14 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
     }
 
     const componentType = e.dataTransfer.getData('componentType') as Flow.FlowFormItemType;
-    console.log('FaFormDragLayout handleEmptyContainerDrop - componentType:', componentType, 'parentId', parentId);
+    const isInternalDrag = e.dataTransfer.getData('internalDrag') === 'true';
+    console.log('FaFormDragLayout handleEmptyContainerDrop - componentType:', componentType, 'parentId', parentId, 'isInternalDrag', isInternalDrag);
     if (componentType) {
       // 检查是否允许拖入
-      if (!allowIn) {
+      // 1. 如果是从组件面板拖入(isInternalDrag=false),均可以拖入
+      // 2. 如果是内部拖动调整排序(isInternalDrag=true),则根据 allowIn 判断是否可以拖入
+      if (parentId && isInternalDrag && !allowIn) {
+        message.warning('不允许拖入');
         console.log('FaFormDragLayout handleEmptyContainerDrop - 不允许拖入', parentId || 'root');
         setTimeout(() => setIsDropHandling(false), 100);
         return;
@@ -333,10 +342,14 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
     }
 
     const componentType = e.dataTransfer.getData('componentType') as Flow.FlowFormItemType;
-    console.log('FaFormDragLayout handleRowDrop - componentType:', componentType, 'parentId', parentId);
+    const isInternalDrag = e.dataTransfer.getData('internalDrag') === 'true';
+    console.log('FaFormDragLayout handleRowDrop - componentType:', componentType, 'parentId', parentId, 'isInternalDrag', isInternalDrag);
     if (componentType) {
       // 检查是否允许拖入
-      if (!allowIn) {
+      // 1. 如果是从组件面板拖入(isInternalDrag=false),均可以拖入
+      // 2. 如果是内部拖动调整排序(isInternalDrag=true),则根据 allowIn 判断是否可以拖入
+      if (isInternalDrag && !allowIn) {
+        message.warning('不允许拖入');
         console.log('FaFormDragLayout handleRowDrop - 不允许拖入', parentId || 'root');
         setTimeout(() => setIsDropHandling(false), 100);
         return;

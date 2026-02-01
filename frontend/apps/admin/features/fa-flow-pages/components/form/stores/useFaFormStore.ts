@@ -68,46 +68,21 @@ export const useFaFormStore = create<FaFormState>()(
 
       addFormItem: (type, itemLayout, layout) =>
         set((state) => {
-          const newItem: Flow.FlowFormItem = {
-            id: type + '_' + layout.length + '_' + FaUtils.generateId(4),
-            type,
-            label: undefined, // 这里要根据 type 设置默认 label
-          };
-          const newFormItemMap = { ...state.config.formItemMap, [newItem.id]: newItem };
-          let h = 1;
-          if (['row', 'textarea', 'imageupload'].includes(type)) {
-            h = 2;
-          } else if (['richtext'].includes(type)) {
-            h = 3;
-          }
-          const newLayout = [
-            ...layout.filter((l) => l.i !== itemLayout.i),
-            { ...itemLayout, h, i: newItem.id },
-          ];
-          console.log('添加表单项，更新布局：', newLayout);
           return {
             config: {
               ...state.config,
-              layout: newLayout,
-              formItemMap: newFormItemMap,
             },
           };
         }),
 
       removeFormItem: (id) =>
         set((state) => {
-          const newLayout = state.config.layout.filter((item) => item.i !== id);
-          const newFormItemMap = { ...state.config.formItemMap };
-          delete newFormItemMap[id];
-
           // 删除 items 中的条目
           const newItems = removeFormItemById(state.config.items || [], id);
 
           return {
             config: {
               ...state.config,
-              layout: newLayout,
-              formItemMap: newFormItemMap,
               items: newItems,
             },
           };
@@ -191,10 +166,6 @@ export const useFaFormStore = create<FaFormState>()(
             config: {
               ...state.config,
               items: updatedItems,
-              formItemMap: {
-                ...state.config.formItemMap,
-                [state.selectedFormItem.id]: newSelectedFormItem,
-              },
             },
             selectedFormItem: newSelectedFormItem,
           };

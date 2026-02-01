@@ -196,3 +196,17 @@ export function isContainer(type: Flow.FlowFormItemType) {
     ...FaFormItemsHigh.map(i => i.type),
   ].includes(type)
 }
+
+/**
+ * 所有控件类型选项列表(用于 Select 组件)
+ */
+export const FaFormItemTypeOptions = [
+  ...FaFormItems,
+  ...FaFormItemsBiz,
+  ...FaFormItemsHigh,
+  ...FaFormItemsDecorator,
+  ...FaFormItemsContainer,
+].map(item => ({
+  label: item.name,
+  value: item.type,
+}));
