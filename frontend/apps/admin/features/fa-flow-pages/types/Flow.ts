@@ -481,6 +481,9 @@ namespace Flow {
     // 布局属性
     md?: number;
     
+    // High subtable properties (high_subtable component)
+    subtable_tableName?: string;
+    
     // Decorator text properties (deco_text component)
     content?: string;
     deco_lineHeight?: number;

@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useFaFormStore } from '../stores/useFaFormStore';
+import { findParentFormItem } from '../utils';
 import { cloneDeep, isNil } from 'lodash';
 import { Button, Empty, Form, Input, Select, Space, Tag } from 'antd';
 import FormItemInputProperty from './item/FormItemInputProperty';
@@ -11,6 +12,7 @@ import FormItemDecoHrefProperty from './item/FormItemDecoHrefProperty';
 import FormItemDecoHrProperty from './item/FormItemDecoHrProperty';
 import FormItemDecoAlertProperty from './item/FormItemDecoAlertProperty';
 import FormItemHighSubtableProperty from './item/FormItemHighSubtableProperty';
+import { flowFormApi } from '@features/fa-flow-pages/services';
 
 /**
  * @author xu.pengfei
@@ -21,16 +23,10 @@ export default function FormItemPropertyPanel() {
   const flowForm = useFaFormStore((state) => state.flowForm);
   const selectedFormItem = useFaFormStore((state) => state.selectedFormItem);
   const updateSelectedFormItem = useFaFormStore((state) => state.updateSelectedFormItem);
+  const config = useFaFormStore((state) => state.config);
   
   // 监听 tableName 字段的值
   const tableName = Form.useWatch('tableName', form);
-
-  const columns = useMemo(() => {
-    if (flowForm && flowForm.dataConfig && flowForm?.dataConfig?.main) {
-      return flowForm.dataConfig.main.columns || [];
-    }
-    return [];
-  }, [flowForm]);
 
   useEffect(() => {
     console.log('FormItemPropertyPanel selectedFormItem changed', selectedFormItem);
@@ -50,15 +46,52 @@ export default function FormItemPropertyPanel() {
     return options;
   }, [flowForm]);
 
-  const columnOptions = useMemo(() => {
-    const options = [];
-    if (flowForm && flowForm.dataConfig && flowForm?.dataConfig?.main) {
-      for (const col of columns) {
-        options.push({ label: col.comment, value: col.field });
+  // 动态获取列信息
+  const [columnOptions, setColumnOptions] = useState<Array<{label: string, value: string}>>([]);
+
+  // 监听 tableName 变化,调用接口获取列信息
+  useEffect(() => {
+    if (tableName) {
+      flowFormApi.queryTableStructure({ tableName }).then(res => {
+        if (res.data && res.data.columns) {
+          const options = res.data.columns.map(col => ({
+            label: col.comment,
+            value: col.field,
+          }));
+          setColumnOptions(options);
+        } else {
+          setColumnOptions([]);
+        }
+      }).catch(() => {
+        setColumnOptions([]);
+      });
+    } else {
+      setColumnOptions([]);
+    }
+  }, [tableName]);
+
+  // 查找父节点
+  const parentFormItem = useMemo(() => {
+    if (!selectedFormItem?.id || !config.items) return undefined;
+    return findParentFormItem(config.items, selectedFormItem.id);
+  }, [selectedFormItem?.id, config.items]);
+
+  // 判断父节点是否为设计子表
+  const isParentSubtable = parentFormItem?.type === 'high_subtable';
+  
+  // 如果父节点是设计子表,则 tableName 为父节点的 subtable_tableName
+  const subtableTableName = isParentSubtable ? parentFormItem?.subtable_tableName : undefined;
+  
+  // 监听父节点变化,自动设置 tableName
+  useEffect(() => {
+    if (isParentSubtable && subtableTableName && selectedFormItem) {
+      form.setFieldValue('tableName', subtableTableName);
+      // 同步到 store
+      if (selectedFormItem.tableName !== subtableTableName) {
+        updateSelectedFormItem({ tableName: subtableTableName });
       }
     }
-    return options;
-  }, [flowForm]);
+  }, [isParentSubtable, subtableTableName, selectedFormItem?.id]);
 
   if (isNil(selectedFormItem)) {
     return <Empty description="未选择表单项" className='fa-mt12' />;
@@ -96,7 +129,7 @@ export default function FormItemPropertyPanel() {
           {isFieldItem && (
             <>
               <Form.Item name="tableName" label="数据库表" rules={[{ required: true }]}>
-                <Select options={tableOptions} allowClear />
+                <Select options={tableOptions} allowClear disabled={isParentSubtable} />
               </Form.Item>
               <Form.Item name="name" label="控件字段" rules={[{ required: true }]}>
                 <Select options={columnOptions} disabled={!tableName} allowClear />
