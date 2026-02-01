@@ -27,6 +27,7 @@ import FaFormItemDecoHr from './item/FaFormItemDecoHr';
 import FaFormItemDecoHref from './item/FaFormItemDecoHref';
 import FaFormItemDecoText from './item/FaFormItemDecoText';
 import FaFormShowLayout from '../../formShow/FaFormShowLayout';
+import FaFormSubTable from './item/FaFormSubTable';
 
 export interface FaFormEditorItemProps {
   formItem: Flow.FlowFormItem;
@@ -72,10 +73,8 @@ export default function FaFormEditorItem({ formItem, flowNode, disabled, showMod
     // 展示模式:使用 FaFormShowLayout
     if (showMode) {
       return (
-        <FaFormShowLayout
-          items={formItem.children || []}
-          flowNode={flowNode}
-          disabled={disabled}
+        <FaFormSubTable
+          formItem={formItem}
         />
       );
     }
