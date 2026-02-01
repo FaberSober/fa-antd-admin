@@ -522,9 +522,9 @@ namespace Flow {
   export interface FlowFormConfig {
     /** 表单配置 */
     formConfig: FlowFormProperty;
-    /** 表单项布局 */
+    /** 表单项布局，已废弃，请使用items */
     layout: Layout;
-    /** 表单项映射 */
+    /** 表单项映射，已废弃，请使用items */
     formItemMap: Record<string, Flow.FlowFormItem>;
     /** 表单布局 */
     items: Flow.FlowFormItem[];

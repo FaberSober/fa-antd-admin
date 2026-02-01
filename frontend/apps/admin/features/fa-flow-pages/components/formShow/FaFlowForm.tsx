@@ -45,7 +45,7 @@ export default function FaFlowForm({ formId, form, flowNode, record, onLoadingCh
     const mainTableMap = getTableKeyMap(flowForm?.dataConfig?.main)
     // console.log('mainTableMap', mainTableMap)
     if (flowForm && flowForm.config) {
-      each(flowForm.config.formItemMap, (fi) => {
+      each(flowForm.config.items, (fi) => {
         // console.log('fi', fi)
         const col = mainTableMap[fi.name!]
         if (isNil(col)) return;
