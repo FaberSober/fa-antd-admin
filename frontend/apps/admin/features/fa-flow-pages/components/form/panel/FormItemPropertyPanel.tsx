@@ -46,6 +46,10 @@ export default function FormItemPropertyPanel() {
     let tableName = selectedFormItem?.tableName;
     if (isParentSubtable && subtableTableName) {
       tableName = subtableTableName;
+      // 同步到 store
+      if (selectedFormItem?.tableName !== subtableTableName) {
+        updateSelectedFormItem({ tableName: subtableTableName });
+      }
     }
     form.setFieldsValue({
       tableName: tableName,
@@ -53,10 +57,6 @@ export default function FormItemPropertyPanel() {
       label: selectedFormItem?.label,
       ...selectedFormItem,
     });
-    // 同步到 store
-    if (selectedFormItem?.tableName !== subtableTableName) {
-      updateSelectedFormItem({ tableName: subtableTableName });
-    }
   }, [selectedFormItem, isParentSubtable, subtableTableName]);
 
   const tableOptions = useMemo(() => {
