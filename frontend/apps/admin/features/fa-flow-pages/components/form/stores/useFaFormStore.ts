@@ -85,6 +85,9 @@ export const useFaFormStore = create<FaFormState>()(
               ...state.config,
               items: newItems,
             },
+            // 删除后清空选中状态
+            selectedItemId: null,
+            selectedFormItem: undefined,
           };
         }),
 

@@ -28,15 +28,36 @@ export default function FormItemPropertyPanel() {
   // 监听 tableName 字段的值
   const tableName = Form.useWatch('tableName', form);
 
+  // 查找父节点
+  const parentFormItem = useMemo(() => {
+    if (!selectedFormItem?.id || !config.items) return undefined;
+    return findParentFormItem(config.items, selectedFormItem.id);
+  }, [selectedFormItem?.id, config.items]);
+
+  // 判断父节点是否为设计子表
+  const isParentSubtable = parentFormItem?.type === 'high_subtable';
+  
+  // 如果父节点是设计子表,则 tableName 为父节点的 subtable_tableName
+  const subtableTableName = isParentSubtable ? parentFormItem?.subtable_tableName : undefined;
+
   useEffect(() => {
     console.log('FormItemPropertyPanel selectedFormItem changed', selectedFormItem);
+    if (!selectedFormItem) return;
+    let tableName = selectedFormItem?.tableName;
+    if (isParentSubtable && subtableTableName) {
+      tableName = subtableTableName;
+    }
     form.setFieldsValue({
-      tableName: selectedFormItem?.tableName,
+      tableName: tableName,
       name: selectedFormItem?.name,
       label: selectedFormItem?.label,
       ...selectedFormItem,
     });
-  }, [selectedFormItem]);
+    // 同步到 store
+    if (selectedFormItem?.tableName !== subtableTableName) {
+      updateSelectedFormItem({ tableName: subtableTableName });
+    }
+  }, [selectedFormItem, isParentSubtable, subtableTableName]);
 
   const tableOptions = useMemo(() => {
     const options = [];
@@ -58,7 +79,19 @@ export default function FormItemPropertyPanel() {
             label: col.comment,
             value: col.field,
           }));
-          setColumnOptions(options);
+          
+          // 将系统字段移到尾部
+          const systemFields = ['crt_time', 'crt_user', 'upd_time', 'upd_user', 'deleted'];
+          const sortedOptions = options.sort((a, b) => {
+            const aIsSystem = systemFields.includes(a.value);
+            const bIsSystem = systemFields.includes(b.value);
+            
+            if (aIsSystem && !bIsSystem) return 1;  // a 是系统字段,排后面
+            if (!aIsSystem && bIsSystem) return -1; // b 是系统字段,排后面
+            return 0; // 保持原有顺序
+          });
+          
+          setColumnOptions(sortedOptions);
         } else {
           setColumnOptions([]);
         }
@@ -69,29 +102,6 @@ export default function FormItemPropertyPanel() {
       setColumnOptions([]);
     }
   }, [tableName]);
-
-  // 查找父节点
-  const parentFormItem = useMemo(() => {
-    if (!selectedFormItem?.id || !config.items) return undefined;
-    return findParentFormItem(config.items, selectedFormItem.id);
-  }, [selectedFormItem?.id, config.items]);
-
-  // 判断父节点是否为设计子表
-  const isParentSubtable = parentFormItem?.type === 'high_subtable';
-  
-  // 如果父节点是设计子表,则 tableName 为父节点的 subtable_tableName
-  const subtableTableName = isParentSubtable ? parentFormItem?.subtable_tableName : undefined;
-  
-  // 监听父节点变化,自动设置 tableName
-  useEffect(() => {
-    if (isParentSubtable && subtableTableName && selectedFormItem) {
-      form.setFieldValue('tableName', subtableTableName);
-      // 同步到 store
-      if (selectedFormItem.tableName !== subtableTableName) {
-        updateSelectedFormItem({ tableName: subtableTableName });
-      }
-    }
-  }, [isParentSubtable, subtableTableName, selectedFormItem?.id]);
 
   if (isNil(selectedFormItem)) {
     return <Empty description="未选择表单项" className='fa-mt12' />;
