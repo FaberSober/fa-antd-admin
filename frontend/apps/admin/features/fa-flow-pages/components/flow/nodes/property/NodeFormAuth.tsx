@@ -6,6 +6,7 @@ import { flowFormApi } from '@/services';
 import { Checkbox } from 'antd';
 import { FaFlexRestLayout, PageLoading, useApiLoading } from '@fa/ui';
 import { each, get } from 'lodash';
+import { FaFormItemsFieldTypes, FaFormItemsDecoratorTypes } from '@features/fa-flow-pages/components/form/config';
 
 
 export interface NodeFormAuthProps {
@@ -31,10 +32,44 @@ export default function NodeFormAuth({ node }: NodeFormAuthProps) {
     // get dynamic form data
     flowFormApi.getById(flowProcess.formId).then(res => {
       setFlowForm(res.data);
-      const formItems = res.data.config?.layout.map(l => {
-        return res.data.config?.formItemMap[l.i];
-      }).filter(fi => fi);
-      setFormItems(formItems || []);
+      
+      // 递归收集表单项
+      const collectFormItems = (items: Flow.FlowFormItem[]): Flow.FlowFormItem[] => {
+        const result: Flow.FlowFormItem[] = [];
+        
+        items.forEach(item => {
+          // 1. 业务表单组件:添加到列表
+          if (FaFormItemsFieldTypes.includes(item.type)) {
+            result.push(item);
+          }
+          // 2. 设计子表:向下读取一层,将子表下的字段追加到列表
+          else if (item.type === 'high_subtable' && item.children) {
+            item.children.forEach(child => {
+              if (FaFormItemsFieldTypes.includes(child.type)) {
+                // 为子表的子项添加子表名称前缀
+                result.push({
+                  ...child,
+                  label: `[${item.label}]-${child.label}`,
+                });
+              }
+            });
+          }
+          // 3. 装饰类:不添加到列表
+          else if (FaFormItemsDecoratorTypes.includes(item.type)) {
+            // 跳过装饰类组件
+          }
+          // 4. 容器:递归处理 children
+          else if (item.children) {
+            const childItems = collectFormItems(item.children);
+            result.push(...childItems);
+          }
+        });
+        
+        return result;
+      };
+      
+      const formItems = collectFormItems(res.data.config?.items || []);
+      setFormItems(formItems);
     })
   }, [flowProcess.id]);
 
