@@ -33,6 +33,9 @@ export default function FormItemHighSubtableProperty() {
       <Form.Item name="label" label="控件标题" rules={[{ required: true }]}>
         <Input allowClear />
       </Form.Item>
+      <Form.Item name="name" label="控件字段" rules={[{ required: true }]}>
+        <Input allowClear />
+      </Form.Item>
       <Form.Item name="subtable_tableName" label="关联子表" rules={[{ required: true }]}>
         <Select
           placeholder="选择关联子表"

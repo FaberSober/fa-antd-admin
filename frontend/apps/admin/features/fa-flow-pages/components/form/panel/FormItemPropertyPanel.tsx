@@ -76,7 +76,7 @@ export default function FormItemPropertyPanel() {
       flowFormApi.queryTableStructure({ tableName }).then(res => {
         if (res.data && res.data.columns) {
           const options = res.data.columns.map(col => ({
-            label: col.comment,
+            label: `${col.field}(${col.comment})`,
             value: col.field,
           }));
           

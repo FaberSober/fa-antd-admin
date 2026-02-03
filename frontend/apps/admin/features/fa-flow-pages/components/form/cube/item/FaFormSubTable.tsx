@@ -2,21 +2,31 @@ import { Flow } from '@/types';
 import { DepartmentCascade, UserSearchSelect } from '@/components';
 import { Button, Cascader, Checkbox, ColorPicker, DatePicker, Input, InputNumber, Popconfirm, Radio, Rate, Select, Slider, Switch, Table, TimePicker } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 
 
 export interface FaFormSubTableProps {
-  formItem: Flow.FlowFormItem
+  formItem: Flow.FlowFormItem;
+  /** Form表单传入的数值 */
+  value?: any[];
+  /** 更新Form表单数值 */
+  onChange?: (v: any[]) => void;
 }
 
 /**
  * @author xu.pengfei
  * @date 2026-02-01 20:38:53
  */
-export default function FaFormSubTable({ formItem }: FaFormSubTableProps) {
+export default function FaFormSubTable({ formItem, value, onChange }: FaFormSubTableProps) {
   // 数据源状态
   const [dataSource, setDataSource] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (value) {
+      setDataSource(value);
+    }
+  }, [value]);
 
   // 添加行
   const handleAdd = () => {
@@ -31,12 +41,14 @@ export default function FaFormSubTable({ formItem }: FaFormSubTableProps) {
     });
     
     setDataSource([...dataSource, newRow]);
+    onChange?.([...dataSource, newRow]);
   };
 
   // 删除行
   const handleDelete = (index: number) => {
     const newData = dataSource.filter((_, i) => i !== index);
     setDataSource(newData);
+    onChange?.(newData);
   };
 
   // 更新单元格数据
@@ -44,6 +56,7 @@ export default function FaFormSubTable({ formItem }: FaFormSubTableProps) {
     const newData = [...dataSource];
     newData[index][fieldName] = value;
     setDataSource(newData);
+    onChange?.(newData);
   };
 
   // 根据字段类型渲染可编辑单元格

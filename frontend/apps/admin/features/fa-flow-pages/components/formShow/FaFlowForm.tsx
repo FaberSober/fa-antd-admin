@@ -64,14 +64,14 @@ export default function FaFlowForm({ formId, form, flowNode, record, onLoadingCh
     flowFormApi.saveFormData({
       formId,
       formData: params,
-      childFormDataList: [],
+      // childFormDataList: [],
     }).then((res) => {
       // FaUtils.showResponse(res, '新增流程');
-      const {formId, formData, childFormDataList} = res.data;
+      const {formId, formData} = res.data;
       if (onSuccess) onSuccess({
         '_formId': formId,
         ...formData,
-        childFormDataList,
+        // childFormDataList,
       });
     }).finally(() => {
       onLoadingChange?.(false);

@@ -5,10 +5,10 @@ import { Flow } from '@/types';
 interface SaveFormDataReqVo {
   formId: number,
   formData: any,
-  childFormDataList?: Array<{
-    tableName: string,
-    formDataList: any[]
-  }>
+  // childFormDataList?: Array<{
+  //   tableName: string,
+  //   formDataList: any[]
+  // }>
 }
 
 interface QueryFormDataVo extends Fa.BasePageProps {
@@ -34,7 +34,7 @@ class Api extends BaseApi<Flow.FlowForm, number> {
   deleteColumn = (data: {tableName: string, column: string}): Promise<Fa.Ret<boolean>> => this.post('deleteColumn', data);
 
   /** 保存数据 */
-  saveFormData = (data: SaveFormDataReqVo): Promise<Fa.Ret<{formId: any, formData: any, childFormDataList: any[]}>> => this.post('saveFormData', data);
+  saveFormData = (data: SaveFormDataReqVo): Promise<Fa.Ret<{formId: any, formData: any}>> => this.post('saveFormData', data);
 
   /** 分页查询自定义表单 */
   pageFormData = (params: QueryFormDataVo): Promise<Fa.Ret<Fa.Page<any>>> => this.post('pageFormData', params);

@@ -73,29 +73,31 @@ export default function FaFormEditorItem({ formItem, flowNode, disabled, showMod
     // 展示模式:使用 FaFormShowLayout
     if (showMode) {
       return (
-        <FaFormSubTable
-          formItem={formItem}
-        />
+        <Form.Item name={formItem.name}>
+          <FaFormSubTable formItem={formItem} />
+        </Form.Item>
       );
     }
     
     // 编辑模式:使用 FaFormDragLayout
     return (
-      <FaFormDragLayout
-        parentId={formItem.id}
-        items={formItem.children || []}
-        onChange={(items) => {
-          updateFormItemChildren(formItem.id, items);
-        }}
-        header={
-          <Col md={24} style={{ padding: '0 6px' }}>
-            <div className="text-sm font-medium">{formItem.label || '标签'}</div>
-          </Col>
-        }
-        root={false}
-        allowIn={false}
-        allowOut={false}
-      />
+      <Form.Item name={formItem.name}>
+        <FaFormDragLayout
+          parentId={formItem.id}
+          items={formItem.children || []}
+          onChange={(items) => {
+            updateFormItemChildren(formItem.id, items);
+          }}
+          header={
+            <Col md={24} style={{ padding: '0 6px' }}>
+              <div className="text-sm font-medium">{formItem.label || '标签'}</div>
+            </Col>
+          }
+          root={false}
+          allowIn={false}
+          allowOut={false}
+        />
+      </Form.Item>
     );
   }
 

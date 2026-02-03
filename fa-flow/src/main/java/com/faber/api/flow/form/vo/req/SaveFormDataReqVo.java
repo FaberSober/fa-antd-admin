@@ -13,12 +13,12 @@ public class SaveFormDataReqVo implements Serializable {
 
     private Map<String, Object> formData;
     
-    private List<SaveChildFormData> childFormDataList;
+    // private List<SaveChildFormData> childFormDataList;
 
-    @Data
-    public static class SaveChildFormData implements Serializable {
-        private String tableName;
-        private List<Map<String, Object>> formDataList;
-    }
+    // @Data
+    // public static class SaveChildFormData implements Serializable {
+    //     private String tableName;
+    //     private List<Map<String, Object>> formDataList;
+    // }
 
 }

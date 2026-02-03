@@ -10,10 +10,10 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.faber.api.flow.form.entity.FlowForm;
 import com.faber.api.flow.form.mapper.FlowFormMapper;
+import com.faber.api.flow.form.vo.config.FlowFormConfig;
 import com.faber.api.flow.form.vo.config.FlowFormDataConfig;
 import com.faber.api.flow.form.vo.req.CreateColumnReqVo;
 import com.faber.api.flow.form.vo.req.CreateFormTableReqVo;
@@ -31,6 +31,7 @@ import com.github.pagehelper.PageInfo;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.db.sql.SqlExecutor;
+import cn.hutool.json.JSONUtil;
 import jakarta.annotation.Resource;
 import lombok.Cleanup;
 
@@ -196,6 +197,12 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
         if (flowForm == null) {
             throw new BuzzException("表单不存在，formId=" + reqVo.getFormId());
         }
+
+        // TODO 解析表单布局，获取子表配置
+        Map<String, Object> configMap = flowForm.getConfig();
+        FlowFormConfig flowFormConfig = JSONUtil.toBean(JSONUtil.toJsonStr(configMap), FlowFormConfig.class);
+
+        // TODO 提取子表数据
 
         // 拼接保存SQL
         FlowFormDataConfig dataConfig = flowForm.getDataConfig();
