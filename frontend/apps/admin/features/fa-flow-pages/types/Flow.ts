@@ -486,30 +486,30 @@ namespace Flow {
     
     // Decorator text properties (deco_text component)
     content?: string;
-    deco_lineHeight?: number;
-    deco_fontSize?: number;
-    deco_textAlign?: 'left' | 'center' | 'right';
-    deco_color?: string;
-    deco_fontWeight?: boolean;
-    deco_fontStyle?: boolean;
-    deco_textDecoration?: 'none' | 'underline' | 'line-through' | 'overline';
+    decoLineHeight?: number;
+    decoFontSize?: number;
+    decoTextAlign?: 'left' | 'center' | 'right';
+    decoColor?: string;
+    decoFontWeight?: boolean;
+    decoFontStyle?: boolean;
+    decoTextDecoration?: 'none' | 'underline' | 'line-through' | 'overline';
     
     // Decorator href properties (deco_href component)
-    deco_href?: string;
+    decoHref?: string;
     
     // Decorator hr properties (deco_hr component)
-    deco_hrColor?: string;
-    deco_hrThickness?: number;
-    deco_hrStyle?: 'solid' | 'dashed' | 'dotted';
-    deco_hrMarginTop?: number;
-    deco_hrMarginBottom?: number;
+    decoHrColor?: string;
+    decoHrThickness?: number;
+    decoHrStyle?: 'solid' | 'dashed' | 'dotted';
+    decoHrMarginTop?: number;
+    decoHrMarginBottom?: number;
     
     // Decorator alert properties (deco_alert component)
-    deco_alertType?: 'success' | 'info' | 'warning' | 'error';
-    deco_alertShowIcon?: boolean;
-    deco_alertClosable?: boolean;
-    deco_alertBanner?: boolean;
-    deco_alertDescription?: string;
+    decoAlertType?: 'success' | 'info' | 'warning' | 'error';
+    decoAlertShowIcon?: boolean;
+    decoAlertClosable?: boolean;
+    decoAlertBanner?: boolean;
+    decoAlertDescription?: string;
   }
 
   export interface FlowFormProperty {

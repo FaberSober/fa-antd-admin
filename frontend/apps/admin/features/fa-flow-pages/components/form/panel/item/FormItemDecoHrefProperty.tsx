@@ -12,19 +12,19 @@ export default function FormItemDecoHrefProperty() {
         <Input placeholder="请输入链接文本" />
       </Form.Item>
 
-      <Form.Item name="deco_href" label="链接地址" rules={[{ required: true }]}>
+      <Form.Item name="decoHref" label="链接地址" rules={[{ required: true }]}>
         <Input placeholder="https://example.com" />
       </Form.Item>
 
-      <Form.Item name="deco_lineHeight" label="行高">
+      <Form.Item name="decoLineHeight" label="行高">
         <InputNumber min={1} max={10} step={0.1} placeholder="1.5" style={{ width: '100%' }} />
       </Form.Item>
 
-      <Form.Item name="deco_fontSize" label="字体大小">
+      <Form.Item name="decoFontSize" label="字体大小">
         <InputNumber min={12} max={72} placeholder="14" addonAfter="px" style={{ width: '100%' }} />
       </Form.Item>
 
-      <Form.Item name="deco_textAlign" label="对齐方式">
+      <Form.Item name="decoTextAlign" label="对齐方式">
         <Radio.Group optionType="button" buttonStyle="solid">
           <Radio value="left">左对齐</Radio>
           <Radio value="center">居中</Radio>
@@ -32,19 +32,19 @@ export default function FormItemDecoHrefProperty() {
         </Radio.Group>
       </Form.Item>
 
-      <Form.Item name="deco_color" label="字体颜色" getValueFromEvent={(color) => color.toHexString()}>
+      <Form.Item name="decoColor" label="字体颜色" getValueFromEvent={(color) => color.toHexString()}>
         <ColorPicker showText format="hex" />
       </Form.Item>
 
-      <Form.Item name="deco_fontWeight" label="是否加粗" valuePropName="checked">
+      <Form.Item name="decoFontWeight" label="是否加粗" valuePropName="checked">
         <Checkbox>加粗</Checkbox>
       </Form.Item>
 
-      <Form.Item name="deco_fontStyle" label="是否斜体" valuePropName="checked">
+      <Form.Item name="decoFontStyle" label="是否斜体" valuePropName="checked">
         <Checkbox>斜体</Checkbox>
       </Form.Item>
 
-      <Form.Item name="deco_textDecoration" label="下划线样式">
+      <Form.Item name="decoTextDecoration" label="下划线样式">
         <Select
           placeholder="选择下划线样式"
           allowClear

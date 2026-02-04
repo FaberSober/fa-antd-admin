@@ -49,60 +49,60 @@ public class FlowFormItem implements Serializable {
     private String content;
     
     /** 行高 */
-    private Integer deco_lineHeight;
+    private Integer decoLineHeight;
     
     /** 字体大小 */
-    private Integer deco_fontSize;
+    private Integer decoFontSize;
     
     /** 文本对齐方式: left/center/right */
-    private String deco_textAlign;
+    private String decoTextAlign;
     
     /** 文本颜色 */
-    private String deco_color;
+    private String decoColor;
     
     /** 是否加粗 */
-    private Boolean deco_fontWeight;
+    private Boolean decoFontWeight;
     
     /** 是否斜体 */
-    private Boolean deco_fontStyle;
+    private Boolean decoFontStyle;
     
     /** 文本装饰: none/underline/line-through/overline */
-    private String deco_textDecoration;
+    private String decoTextDecoration;
     
     // -------------------- 装饰链接属性 (deco_href) --------------------
     /** 链接地址 */
-    private String deco_href;
+    private String decoHref;
     
     // -------------------- 装饰分割线属性 (deco_hr) --------------------
     /** 分割线颜色 */
-    private String deco_hrColor;
+    private String decoHrColor;
     
     /** 分割线粗细 */
-    private Integer deco_hrThickness;
+    private Integer decoHrThickness;
     
     /** 分割线样式: solid/dashed/dotted */
-    private String deco_hrStyle;
+    private String decoHrStyle;
     
     /** 上边距 */
-    private Integer deco_hrMarginTop;
+    private Integer decoHrMarginTop;
     
     /** 下边距 */
-    private Integer deco_hrMarginBottom;
+    private Integer decoHrMarginBottom;
     
     // -------------------- 装饰提示框属性 (deco_alert) --------------------
     /** 提示框类型: success/info/warning/error */
-    private String deco_alertType;
+    private String decoAlertType;
     
     /** 是否显示图标 */
-    private Boolean deco_alertShowIcon;
+    private Boolean decoAlertShowIcon;
     
     /** 是否可关闭 */
-    private Boolean deco_alertClosable;
+    private Boolean decoAlertClosable;
     
     /** 是否为横幅模式 */
-    private Boolean deco_alertBanner;
+    private Boolean decoAlertBanner;
     
     /** 辅助性文字介绍 */
-    private String deco_alertDescription;
+    private String decoAlertDescription;
     
 }

@@ -19,37 +19,37 @@ export default function FaFormItemDecoHr({ formItem }: FaFormItemDecoHrProps) {
     };
 
     // 分割线颜色
-    if (formItem.deco_hrColor) {
-      baseStyle.borderTopColor = formItem.deco_hrColor;
+    if (formItem.decoHrColor) {
+      baseStyle.borderTopColor = formItem.decoHrColor;
     }
 
     // 分割线粗细
-    if (formItem.deco_hrThickness) {
-      baseStyle.borderTopWidth = `${formItem.deco_hrThickness}px`;
+    if (formItem.decoHrThickness) {
+      baseStyle.borderTopWidth = `${formItem.decoHrThickness}px`;
     }
 
     // 分割线样式
-    if (formItem.deco_hrStyle) {
-      baseStyle.borderTopStyle = formItem.deco_hrStyle;
+    if (formItem.decoHrStyle) {
+      baseStyle.borderTopStyle = formItem.decoHrStyle;
     }
 
     // 上边距
-    if (formItem.deco_hrMarginTop !== undefined) {
-      baseStyle.marginTop = `${formItem.deco_hrMarginTop}px`;
+    if (formItem.decoHrMarginTop !== undefined) {
+      baseStyle.marginTop = `${formItem.decoHrMarginTop}px`;
     }
 
     // 下边距
-    if (formItem.deco_hrMarginBottom !== undefined) {
-      baseStyle.marginBottom = `${formItem.deco_hrMarginBottom}px`;
+    if (formItem.decoHrMarginBottom !== undefined) {
+      baseStyle.marginBottom = `${formItem.decoHrMarginBottom}px`;
     }
 
     return baseStyle;
   }, [
-    formItem.deco_hrColor,
-    formItem.deco_hrThickness,
-    formItem.deco_hrStyle,
-    formItem.deco_hrMarginTop,
-    formItem.deco_hrMarginBottom,
+    formItem.decoHrColor,
+    formItem.decoHrThickness,
+    formItem.decoHrStyle,
+    formItem.decoHrMarginTop,
+    formItem.decoHrMarginBottom,
   ]);
 
   return <hr style={style} />;

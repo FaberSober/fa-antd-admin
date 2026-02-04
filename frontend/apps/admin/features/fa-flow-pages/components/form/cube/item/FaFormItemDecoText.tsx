@@ -15,49 +15,49 @@ export default function FaFormItemDecoText({ formItem }: FaFormItemDecoTextProps
     const baseStyle: CSSProperties = {};
 
     // 行高
-    if (formItem.deco_lineHeight) {
-      baseStyle.lineHeight = formItem.deco_lineHeight;
+    if (formItem.decoLineHeight) {
+      baseStyle.lineHeight = formItem.decoLineHeight;
     }
 
     // 字体大小
-    if (formItem.deco_fontSize) {
-      baseStyle.fontSize = `${formItem.deco_fontSize}px`;
+    if (formItem.decoFontSize) {
+      baseStyle.fontSize = `${formItem.decoFontSize}px`;
     }
 
     // 对齐方式
-    if (formItem.deco_textAlign) {
-      baseStyle.textAlign = formItem.deco_textAlign;
+    if (formItem.decoTextAlign) {
+      baseStyle.textAlign = formItem.decoTextAlign;
     }
 
     // 字体颜色
-    if (formItem.deco_color) {
-      baseStyle.color = formItem.deco_color;
+    if (formItem.decoColor) {
+      baseStyle.color = formItem.decoColor;
     }
 
     // 是否加粗
-    if (formItem.deco_fontWeight) {
+    if (formItem.decoFontWeight) {
       baseStyle.fontWeight = 'bold';
     }
 
     // 是否斜体
-    if (formItem.deco_fontStyle) {
+    if (formItem.decoFontStyle) {
       baseStyle.fontStyle = 'italic';
     }
 
     // 下划线样式
-    if (formItem.deco_textDecoration) {
-      baseStyle.textDecoration = formItem.deco_textDecoration;
+    if (formItem.decoTextDecoration) {
+      baseStyle.textDecoration = formItem.decoTextDecoration;
     }
 
     return baseStyle;
   }, [
-    formItem.deco_lineHeight,
-    formItem.deco_fontSize,
-    formItem.deco_textAlign,
-    formItem.deco_color,
-    formItem.deco_fontWeight,
-    formItem.deco_fontStyle,
-    formItem.deco_textDecoration,
+    formItem.decoLineHeight,
+    formItem.decoFontSize,
+    formItem.decoTextAlign,
+    formItem.decoColor,
+    formItem.decoFontWeight,
+    formItem.decoFontStyle,
+    formItem.decoTextDecoration,
   ]);
 
   // 如果没有内容，显示占位文本

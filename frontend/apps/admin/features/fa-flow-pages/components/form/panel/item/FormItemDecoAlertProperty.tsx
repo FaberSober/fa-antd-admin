@@ -12,7 +12,7 @@ export default function FormItemDecoAlertProperty() {
         <Input.TextArea rows={3} placeholder="请输入提示内容" />
       </Form.Item>
 
-      <Form.Item name="deco_alertType" label="提示类型">
+      <Form.Item name="decoAlertType" label="提示类型">
         <Select
           placeholder="选择提示类型"
           options={[
@@ -24,7 +24,7 @@ export default function FormItemDecoAlertProperty() {
         />
       </Form.Item>
 
-      <Form.Item name="deco_alertShowIcon" label="显示图标" valuePropName="checked">
+      <Form.Item name="decoAlertShowIcon" label="显示图标" valuePropName="checked">
         <Select
           placeholder="是否显示图标"
           options={[
@@ -34,7 +34,7 @@ export default function FormItemDecoAlertProperty() {
         />
       </Form.Item>
 
-      <Form.Item name="deco_alertClosable" label="可关闭" valuePropName="checked">
+      <Form.Item name="decoAlertClosable" label="可关闭" valuePropName="checked">
         <Select
           placeholder="是否可关闭"
           options={[
@@ -44,7 +44,7 @@ export default function FormItemDecoAlertProperty() {
         />
       </Form.Item>
 
-      <Form.Item name="deco_alertBanner" label="顶部公告" valuePropName="checked">
+      <Form.Item name="decoAlertBanner" label="顶部公告" valuePropName="checked">
         <Select
           placeholder="是否为顶部公告样式"
           options={[
@@ -54,7 +54,7 @@ export default function FormItemDecoAlertProperty() {
         />
       </Form.Item>
 
-      <Form.Item name="deco_alertDescription" label="辅助描述">
+      <Form.Item name="decoAlertDescription" label="辅助描述">
         <Input.TextArea rows={2} placeholder="可选的辅助描述文字" />
       </Form.Item>
     </div>

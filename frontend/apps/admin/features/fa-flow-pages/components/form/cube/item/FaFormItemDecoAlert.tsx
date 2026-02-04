@@ -14,11 +14,11 @@ export interface FaFormItemDecoAlertProps {
 export default function FaFormItemDecoAlert({ formItem }: FaFormItemDecoAlertProps) {
   // 如果没有内容，显示占位文本
   const message = formItem.content || '请输入提示内容';
-  const type = formItem.deco_alertType || 'info';
-  const showIcon = formItem.deco_alertShowIcon !== false; // 默认显示图标
-  const closable = formItem.deco_alertClosable || false;
-  const banner = formItem.deco_alertBanner || false;
-  const description = formItem.deco_alertDescription;
+  const type = formItem.decoAlertType || 'info';
+  const showIcon = formItem.decoAlertShowIcon !== false; // 默认显示图标
+  const closable = formItem.decoAlertClosable || false;
+  const banner = formItem.decoAlertBanner || false;
+  const description = formItem.decoAlertDescription;
 
   return (
     <Alert
