@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
 
 /**
  * 表列信息
  */
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TableColumnVo implements Serializable {
     
     private static final long serialVersionUID = 1L;

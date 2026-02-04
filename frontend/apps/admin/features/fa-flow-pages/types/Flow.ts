@@ -396,7 +396,7 @@ namespace Flow {
     /** 表名 */
     tableName: string;
     /** 数据库配置 */
-    dataConfig: any;
+    dataConfig: FlowFormDataConfigTable;
     /** 备注 */
     remark: string;
     /** 外键字段 */
@@ -463,8 +463,6 @@ namespace Flow {
   export interface FlowFormDataConfig {
     /** 主表 */
     main: FlowFormDataConfigTable;
-    /** 从表 */
-    subTables: FlowFormDataConfigSubTable[];
   }
 
 

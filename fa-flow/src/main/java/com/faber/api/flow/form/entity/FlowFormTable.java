@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.faber.api.flow.form.vo.config.FlowFormDataConfig;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.annotation.SqlEquals;
 import com.faber.core.bean.BaseDelEntity;
@@ -42,7 +43,7 @@ public class FlowFormTable extends BaseDelEntity {
 
     @ExcelProperty("数据库配置")
     @TableField(typeHandler = UniversalJsonTypeHandler.class)
-    private Object dataConfig;
+    private FlowFormDataConfig.Table dataConfig;
 
     @ExcelProperty("备注")
     private String remark;

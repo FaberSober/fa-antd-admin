@@ -15,4 +15,11 @@ import com.faber.core.web.biz.BaseBiz;
 @Service
 public class FlowFormTableBiz extends BaseBiz<FlowFormTableMapper, FlowFormTable> {
 
+    public FlowFormTable getLinkTable(Integer flowFormId, String tableName) {
+        return this.lambdaQuery()
+                .eq(FlowFormTable::getFlowFormId, flowFormId)
+                .eq(FlowFormTable::getTableName, tableName)
+                .one();
+    }
+
 }

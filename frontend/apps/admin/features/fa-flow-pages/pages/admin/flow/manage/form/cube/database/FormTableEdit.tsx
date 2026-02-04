@@ -81,28 +81,36 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
     
     if (isMainTable) {
       // 更新主表配置
+      if (!tableInfo) return;
+      
+      const updatedMainConfig: Flow.FlowFormDataConfigTable = {
+        tableName: tableInfo.tableName,
+        pkField: tableInfo.pkField,
+        comment: tableInfo.tableComment || item.dataConfig?.main?.comment || '',
+        columns,
+      };
+      
       setItemClone(prev => {
         const newItem = { ...prev };
-        set(newItem, 'dataConfig.main.columns', columns);
+        set(newItem, 'dataConfig.main', updatedMainConfig);
         return newItem;
       });
       
       flowFormApi.update(item.id, {
         dataConfig: {
           ...item.dataConfig,
-          main: {
-            ...item.dataConfig?.main,
-            columns,
-          }
+          main: updatedMainConfig,
         }
       });
     } else {
       // 更新子表配置
       const linkTable = linkTables.find(t => t.tableName === tableName);
-      if (!linkTable) return;
+      if (!linkTable || !tableInfo) return;
       
-      const updatedDataConfig = {
-        ...linkTable.dataConfig,
+      const updatedDataConfig: Flow.FlowFormDataConfigTable = {
+        tableName: tableInfo.tableName,
+        pkField: tableInfo.pkField,
+        comment: tableInfo.tableComment || linkTable.dataConfig?.comment || '',
         columns,
       };
       

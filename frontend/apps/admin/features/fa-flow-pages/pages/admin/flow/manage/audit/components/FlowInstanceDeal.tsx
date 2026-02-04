@@ -99,7 +99,7 @@ export default function FlowInstanceDeal({ instanceId, taskId, onSuccess, type =
             <Splitter>
               <Splitter.Panel>
               <div className='fa-full fa-flex-column fa-pr12 fa-relative'>
-                <Space>
+                <Space className='fa-mb12'>
                   <Button onClick={() => message.info('TODO')} icon={<CommentOutlined />}>评论</Button>
                   {type === 'audit' && taskId && <Button onClick={() => handlePass()} icon={<CheckOutlined />} type='primary'>同意</Button>}
                   {type === 'audit' && taskId && <Button onClick={() => handleReject()} icon={<CloseOutlined />} type='primary' danger>拒绝</Button>}

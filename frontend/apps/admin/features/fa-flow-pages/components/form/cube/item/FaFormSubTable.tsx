@@ -4,6 +4,7 @@ import { Button, Cascader, Checkbox, ColorPicker, DatePicker, Input, InputNumber
 import type { ColumnsType } from 'antd/es/table';
 import React, { useEffect, useMemo, useState } from 'react';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { FaUtils } from '@fa/ui';
 
 
 export interface FaFormSubTableProps {
@@ -31,7 +32,7 @@ export default function FaFormSubTable({ formItem, value, onChange }: FaFormSubT
   // 添加行
   const handleAdd = () => {
     const newRow: any = {
-      key: Date.now(), // 使用时间戳作为唯一key
+      _key: FaUtils.uuid(), // 使用uuid作为唯一key
     };
     
     // 为每个子字段初始化空值
@@ -167,6 +168,7 @@ export default function FaFormSubTable({ formItem, value, onChange }: FaFormSubT
         dataSource={dataSource}
         pagination={false}
         size="small"
+        rowKey="_key"
       />
 
       <Button 
