@@ -414,7 +414,10 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
 
         // 判断是否有flow_instance_id字段，如果有，sql增加和flw_his_instance的关联查询
         String tableName = flowForm.getTableName();
-        boolean hasFlowInstanceIdField = hasFlowInstanceIdField(tableName);
+        boolean hasFlowInstanceIdField = false;
+        if (flowForm.getFlowProcessId() != null) {
+            hasFlowInstanceIdField = hasFlowInstanceIdField(tableName);
+        }
 
         StringBuilder sb = new StringBuilder();
         

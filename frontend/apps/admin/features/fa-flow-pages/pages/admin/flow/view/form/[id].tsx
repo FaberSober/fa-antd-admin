@@ -4,6 +4,7 @@ import { PageLoading } from '@fa/ui';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import FlowFormDataTable from '../../manage/form/cube/data/FlowFormDataTable';
+import FormSimpleTable from './simpleTable/FormSimpleTable';
 
 
 /**
@@ -29,7 +30,10 @@ export default function FlowFormViewPage() {
 
   return (
     <div className='fa-full-content'>
-      <FlowFormDataTable flowForm={flowForm} />
+      {/* 流程类型表格 */}
+      {flowForm.flowProcessId && <FlowFormDataTable flowForm={flowForm} />}
+      {/* 普通类型表格 */}
+      {!flowForm.flowProcessId && <FormSimpleTable flowForm={flowForm} />}
     </div>
   )
 }
