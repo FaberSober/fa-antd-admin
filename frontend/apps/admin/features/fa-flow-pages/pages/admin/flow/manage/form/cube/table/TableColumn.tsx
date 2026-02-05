@@ -20,6 +20,21 @@ export default function TableColumn({ }: TableColumnProps) {
       each(flowForm.dataConfig.main.columns, col => {
         fields.push({ ...col, table: flowForm.dataConfig.main.tableName })
       })
+      fields.push({
+        field: 'current_node_name',
+        type: 'varchar(255)',
+        dataType: 'varchar',
+        length: 255,
+        precision: 0,
+        scale: 0,
+        nullable: 'NO',
+        defaultValue: '',
+        key: '',
+        extra: '',
+        comment: '当前节点名称',
+        table: flowForm.dataConfig.main.tableName,
+        sort: fields.length,
+      })
       const tailFields = ['flow_instance_id', 'tenant_id', 'crt_time', 'crt_user', 'upd_time', 'upd_user', 'deleted'];
       fields.sort((a, b) => {
         const indexA = tailFields.indexOf(a.field);

@@ -6,6 +6,7 @@ import { Button, Form, Input, Space } from 'antd';
 import { each } from 'lodash';
 import React from 'react';
 import FlowFormAdd from './cube/FlowFormAdd';
+import FlowFormView from './cube/FlowFormView';
 
 export interface FlowFormDataTableProps {
   flowForm: Flow.FlowForm;
@@ -48,7 +49,9 @@ export default function FlowFormDataTable({ flowForm }: FlowFormDataTableProps) 
         dataIndex: 'opr',
         render: (_, r) => (
           <Space>
-            <FaHref text='查看' icon={<EyeOutlined />} />
+            <FlowFormView flowForm={flowForm} record={r}>
+              <FaHref text='查看' icon={<EyeOutlined />} />
+            </FlowFormView>
             <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
           </Space>
         ),

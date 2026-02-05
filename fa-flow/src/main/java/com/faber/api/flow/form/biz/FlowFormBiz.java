@@ -401,12 +401,28 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
         if (flowForm == null) throw new BuzzException("FlowForm Not Found." + query.getFlowFormId());
         if (StrUtil.isEmpty(flowForm.getTableName())) throw new BuzzException("FlowForm Not Set TableName." + query.getFlowFormId());
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("SELECT * FROM ");
-        sb.append(flowForm.getTableName());
-        sb.append(" WHERE deleted = false ");
+        // 判断是否有flow_instance_id字段，如果有，sql增加和flw_his_instance的关联查询
+        String tableName = flowForm.getTableName();
+        boolean hasFlowInstanceIdField = hasFlowInstanceIdField(tableName);
 
-        // 解析where条件
+        StringBuilder sb = new StringBuilder();
+        
+        // 有flow_instance_id字段，使用关联查询
+        sb.append("SELECT t.* ");
+
+        if (hasFlowInstanceIdField) {
+            sb.append(", fhi.current_node_name, fhi.current_node_key, fhi.instance_state ");
+        }
+
+        sb.append("FROM " + tableName + " t ");
+
+        if (hasFlowInstanceIdField) {
+            sb.append("LEFT JOIN flw_his_instance fhi ON t.flow_instance_id = fhi.id ");
+        }
+        
+        sb.append("WHERE t.deleted = false ");
+        
+        // 解析where条件（需要加t.前缀）
         if (!query.getQuery().isEmpty()) {
             for (Map.Entry<String, Object> entry : query.getQuery().entrySet()) {
                 String key = entry.getKey();
@@ -414,13 +430,13 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
                 if (value == null) continue;
                 // TODO 支持更多查询操作符
                 // key驼峰转下划线
-                sb.append(" AND " + key + " LIKE '%" + value.toString() + "%' ");
+                sb.append(" AND t." + key + " LIKE '%" + value.toString() + "%' ");
             }
         }
-
-        // 解析sorter
+        
+        // 解析sorter（需要加t.前缀）
         if (StrUtil.isNotEmpty(query.getSorter())) {
-            sb.append(" ORDER BY " + query.getSorter() + " ");
+            sb.append(" ORDER BY t." + query.getSorter() + " ");
         }
 
         String sql = sb.toString();
@@ -483,6 +499,24 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
             list.add(option);
         }
         return list;
+    }
+
+    /**
+     * 判断表是否有flow_instance_id字段
+     * @param tableName 表名
+     * @return 是否有flow_instance_id字段
+     */
+    private boolean hasFlowInstanceIdField(String tableName) {
+        try {
+            TableInfoVo tableInfo = queryTableStructure(tableName);
+            if (tableInfo.getExist() != null && tableInfo.getExist()) {
+                return tableInfo.getColumns().stream()
+                        .anyMatch(column -> "flow_instance_id".equals(column.getField()));
+            }
+        } catch (SQLException e) {
+            // 查询表结构失败，返回false
+        }
+        return false;
     }
 
 }

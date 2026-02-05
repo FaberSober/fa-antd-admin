@@ -1,13 +1,12 @@
-import { flowProcessApi, flowTaskApi } from '@/services';
+import { flowProcessApi } from '@/services';
 import { Flow } from '@/types';
-import { ApartmentOutlined, CheckOutlined, CloseOutlined, CommentOutlined, FormOutlined, HistoryOutlined } from '@ant-design/icons';
-import { FaFlexRestLayout, FaLazyContainer, FaUtils, PageLoading } from '@fa/ui';
-import { FaWorkFlow, FaFlowTaskTimeline } from '@features/fa-flow-pages/components';
-import { Button, message, Modal, Segmented, Space, Splitter, Typography } from 'antd';
+import { ApartmentOutlined, FormOutlined } from '@ant-design/icons';
+import { FaFlexRestLayout, FaLazyContainer, PageLoading } from '@fa/ui';
+import { FaFlowTaskTimeline, FaWorkFlow } from '@features/fa-flow-pages/components';
+import { Segmented, Splitter, Typography } from 'antd';
 import { isNil } from 'lodash';
 import { useEffect, useState } from 'react';
 import FlowFormView from './FlowFormView';
-import { useFlowAuditContext } from '../contexts/FlowAuditContext';
 
 
 interface FlowInstanceViewProps {
@@ -18,7 +17,6 @@ interface FlowInstanceViewProps {
 }
 
 export default function FlowInstanceView({ instanceId, onSuccess, type = 'view' }: FlowInstanceViewProps) {
-  const { refreshCount } = useFlowAuditContext();
   const [tab, setTab] = useState('form');
   const [info, setInfo] = useState<Flow.FlowApprovalInfo>()
 
@@ -35,7 +33,7 @@ export default function FlowInstanceView({ instanceId, onSuccess, type = 'view' 
 
   if (isNil(info)) return <PageLoading />
   return (
-    <div className='fa-full-content-p12 fa-flex-column' style={{right: 0}}>
+    <div className='fa-full-content-p12 fa-flex-column'>
       <div className='fa-mb12'>
         <Segmented
           options={[

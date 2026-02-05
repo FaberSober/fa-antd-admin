@@ -30,80 +30,84 @@ export default function FlowFormAdd({ flowForm, onSuccess }: FlowFormAddProps) {
     })
   }, [flowForm.flowProcessId]);
 
-  function handleSubmit() {
+  const handleSubmit = React.useCallback(() => {
     form.submit();
-  }
+  }, [form]);
 
-  function handleFormSubmit(flow: Flow.FlowProcess, formValues: any) {
+  const handleFormSubmit = React.useCallback((flow: Flow.FlowProcess, formValues: any) => {
     // start flow
-    flowProcessApi.start({ processKey: flow.processKey, args: formValues }).then(res => {
+    flowProcessApi.start({ processId: flow.id, processKey: flow.processKey, args: formValues }).then(res => {
       FaUtils.showResponse(res, '发起流程');
-      handleClose();
+      setOpen(false);
       onSuccess?.();
     })
-  }
+  }, [onSuccess]);
 
-  function handleAdd() {
+  const handleAdd = React.useCallback(() => {
     setOpen(true);
-  }
+  }, []);
 
-  function handleClose() {
+  const handleClose = React.useCallback(() => {
     setOpen(false);
-  }
+  }, []);
 
   const processModel:Flw.ProcessModel = JSON.parse(flow ? flow.modelContent : '{}');
   const startNode = processModel.nodeConfig;
 
-  const content = open ? (
-    <div className='fa-full-content fa-bg-white fa-flex-column fa-tabs' style={{ zIndex: 999 }}>
-      {/* header */}
-      <div className='fa-flex-row-center fa-border-b fa-p12'>
-        <Button color="default" variant="text" onClick={handleClose} icon={<ArrowLeftOutlined />} />
-        <div className='fa-h3'>新增</div>
-        <div className='fa-flex-1' />
-        <Space>
-          <Button onClick={handleSubmit} type='primary' loading={formLoading}>提交</Button>
-          <Button onClick={handleClose} disabled={formLoading}>取消</Button>
-        </Space>
-      </div>
+  const content = React.useMemo(() => {
+    if (!open) return null;
+    
+    return (
+      <div className='fa-full-content fa-bg-white fa-flex-column fa-tabs' style={{ zIndex: 999 }}>
+        {/* header */}
+        <div className='fa-flex-row-center fa-border-b fa-p12'>
+          <Button color="default" variant="text" onClick={handleClose} icon={<ArrowLeftOutlined />} />
+          <div className='fa-h3'>新增</div>
+          <div className='fa-flex-1' />
+          <Space>
+            <Button onClick={handleSubmit} type='primary' loading={formLoading}>提交</Button>
+            <Button onClick={handleClose} disabled={formLoading}>取消</Button>
+          </Space>
+        </div>
 
-      {/* body */}
-      <FaFlexRestLayout>
-        <Tabs
-          className=''
-          items={[
-            {
-              label: '表单信息',
-              key: 'form',
-              children: (
-                <div className='fa-full fa-p12'>
-                  {flow && (
-                    <FaFlowFormCreate
-                      form={form}
-                      flow={flow}
-                      startNode={startNode}
-                      onFormSubmit={handleFormSubmit}
-                      onLoadingChange={setFormLoading}
-                    />
-                  )}
-                </div>
-              ),
-            },
-            {
-              label: '流程信息',
-              key: 'workflow',
-              children: (
-                <div className='fa-full'>
-                  {flow && <FaWorkFlow flowProcess={flow} processModel={JSON.parse(flow.modelContent)} readOnly />}
-                </div>
-              ),
-            },
-          ]}
-          tabBarStyle={{ paddingLeft: 12 }}
-        />
-      </FaFlexRestLayout>
-    </div>
-  ) : null
+        {/* body */}
+        <FaFlexRestLayout>
+          <Tabs
+            className=''
+            items={[
+              {
+                label: '表单信息',
+                key: 'form',
+                children: (
+                  <div className='fa-full fa-p12'>
+                    {flow && (
+                      <FaFlowFormCreate
+                        form={form}
+                        flow={flow}
+                        startNode={startNode}
+                        onFormSubmit={handleFormSubmit}
+                        onLoadingChange={setFormLoading}
+                      />
+                    )}
+                  </div>
+                ),
+              },
+              {
+                label: '流程信息',
+                key: 'workflow',
+                children: (
+                  <div className='fa-full'>
+                    {flow && <FaWorkFlow flowProcess={flow} processModel={JSON.parse(flow.modelContent)} readOnly />}
+                  </div>
+                ),
+              },
+            ]}
+            tabBarStyle={{ paddingLeft: 12 }}
+          />
+        </FaFlexRestLayout>
+      </div>
+    );
+  }, [open, flow, formLoading, form, startNode, handleClose, handleSubmit, handleFormSubmit]);
 
   // 重点在这里 ↓↓↓
   const mountNode = document.querySelector('.fa-main')!;

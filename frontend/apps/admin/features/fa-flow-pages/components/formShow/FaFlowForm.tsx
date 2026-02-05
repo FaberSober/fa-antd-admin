@@ -61,7 +61,10 @@ export default function FaFlowForm({ formId, form, flowNode, record, onLoadingCh
   /** 新增Item */
   function invokeInsertTask(params: any) {
     // onLoadingChange?.(true);
-    onSuccess?.(params)
+    onSuccess?.({
+      '_formId': formId,
+      ...params,
+    })
     // flowFormApi.saveFormData({
     //   formId,
     //   formData: params,
