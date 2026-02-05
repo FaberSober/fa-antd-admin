@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.faber.api.flow.form.enums.FlowFormStatusEnum;
+import com.faber.api.flow.form.enums.FlowFormTypeEnum;
 import com.faber.api.flow.form.vo.config.FlowFormDataConfig;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.annotation.SqlEquals;
@@ -47,11 +49,11 @@ public class FlowForm extends BaseDelEntity {
 
     @SqlEquals
     @ExcelProperty("表单类型:1设计表单/2系统表单")
-    private Integer type;
+    private FlowFormTypeEnum type;
 
     @SqlEquals
     @ExcelProperty("状态：1启用/2禁止")
-    private Integer status;
+    private FlowFormStatusEnum status;
 
     @ExcelProperty("排序ID")
     private Integer sort;
@@ -80,5 +82,11 @@ public class FlowForm extends BaseDelEntity {
     @SqlEquals
     @ExcelProperty("流程ID")
     private Integer flowProcessId;
+
+
+    // ---------------------- show cols ----------------------
+    @TableField(exist = false)
+    @ExcelProperty("流程分类")
+    private String catagoryName;
 
 }

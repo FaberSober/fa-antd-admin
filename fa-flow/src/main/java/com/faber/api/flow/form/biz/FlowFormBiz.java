@@ -23,6 +23,8 @@ import com.faber.api.flow.form.vo.req.CreateFormTableReqVo;
 import com.faber.api.flow.form.vo.req.SaveFormDataReqVo;
 import com.faber.api.flow.form.vo.ret.TableColumnVo;
 import com.faber.api.flow.form.vo.ret.TableInfoVo;
+import com.faber.api.flow.manage.biz.FlowCatagoryBiz;
+import com.faber.api.flow.manage.entity.FlowCatagory;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.service.FaFlowService;
 import com.faber.core.vo.msg.TableRet;
@@ -53,9 +55,18 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
 
     @Resource DataSource dataSource;
     @Resource FlowFormTableBiz flowFormTableBiz;
+    @Resource FlowCatagoryBiz flowCatagoryBiz;
 
     private static final List<String> DATA_TYPES_LENGTH = List.of("varchar", "int", "bigint");
     private static final List<String> DATA_TYPES_PRECISION = List.of("decimal", "numeric");
+
+    @Override
+    public void decorateOne(FlowForm i) {
+        FlowCatagory flowCatagory = flowCatagoryBiz.getByIdWithCache(i.getCatagoryId());
+        if (flowCatagory != null) {
+            i.setCatagoryName(flowCatagory.getName());
+        }
+    }
 
     public void createFormTable(CreateFormTableReqVo reqVo) throws SQLException {
         // 校验表名必须以ff_开头

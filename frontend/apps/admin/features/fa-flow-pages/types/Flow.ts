@@ -384,6 +384,9 @@ namespace Flow {
     tableConfig: FlowFormTableConfig;
     /** 流程ID */
     flowProcessId: number;
+    // ---------------------- show cols ----------------------
+    /** 流程分类 */
+    catagoryName: string;
   }
 
   /** FLOW-流程表单关联表 */

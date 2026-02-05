@@ -16,7 +16,7 @@ const biz = 'flow_form';
 export default function FlowFormList() {
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, paginationProps } =
+  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps } =
           useTableQueryParams<Flow.FlowForm>(api.page, {}, serviceName)
 
   const [handleDelete] = useDelete<number>(api.remove, fetchPageList, serviceName)
@@ -28,11 +28,14 @@ export default function FlowFormList() {
     const { sorter } = queryParams;
     return [
       BaseTableUtils.genIdColumn('ID', 'id', 70, sorter),
-      BaseTableUtils.genSimpleSorterColumn('流程分类', 'catagoryId', 100, sorter),
+      {
+        ...BaseTableUtils.genSimpleSorterColumn('流程分类', 'catagoryId', 100, sorter),
+        render: (text, record) => record.catagoryName,
+      },
       BaseTableUtils.genSimpleSorterColumn('名称', 'name', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('编码', 'no', 100, sorter),
-      BaseTableUtils.genSimpleSorterColumn('表单类型', 'type', 100, sorter),
-      BaseTableUtils.genSimpleSorterColumn('状态', 'status', 100, sorter),
+      BaseTableUtils.genEnumSorterColumn('表单类型', 'type', 100, sorter, dicts),
+      BaseTableUtils.genEnumSorterColumn('状态', 'status', 100, sorter, dicts),
       BaseTableUtils.genSimpleSorterColumn('排序', 'sort', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('图标', 'icon', 100, sorter),
       BaseTableUtils.genSimpleSorterColumn('表名', 'tableName', 150, sorter),

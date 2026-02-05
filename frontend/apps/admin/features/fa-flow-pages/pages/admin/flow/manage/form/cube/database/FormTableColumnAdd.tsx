@@ -125,7 +125,7 @@ export default function FormTableColumnAdd({ tableName, onSuccess }: FormTableCo
         </div>
         {/* comment */}
         <div style={{ flex: 1 }}>
-          <Form.Item name="comment" noStyle>
+          <Form.Item name="comment" noStyle rules={[{ required: true }]}>
             <Input variant="filled" />
           </Form.Item>
         </div>

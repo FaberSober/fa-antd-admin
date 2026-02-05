@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { get } from 'lodash';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, InputNumber } from 'antd';
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { useApiLoading, DragModal, FaHref, FaUtils, CommonModalProps } from '@fa/ui';
+import { useApiLoading, DragModal, FaHref, FaUtils, CommonModalProps, DictEnumApiSelector } from '@fa/ui';
 import { flowFormApi as api } from '@/services';
 import { Flow } from '@/types';
 import { FlowCatagoryCascader, FlowProcessSelect } from '@features/fa-flow-pages/components';
@@ -98,13 +98,13 @@ export default function FlowFormModal({ children, title, record, fetchFinish, ad
             <Input placeholder="请输入编码" />
           </Form.Item>
           <Form.Item name="type" label="表单类型" rules={[{ required: true }]}>
-            <Input placeholder="请输入表单类型" />
+            <DictEnumApiSelector enumName="FlowFormTypeEnum" />
           </Form.Item>
           <Form.Item name="status" label="状态" rules={[{ required: true }]}>
-            <Input placeholder="请输入状态" />
+            <DictEnumApiSelector enumName="FlowFormStatusEnum" />
           </Form.Item>
           <Form.Item name="sort" label="排序" rules={[{ required: true }]}>
-            <Input placeholder="请输入排序" />
+            <InputNumber placeholder="请输入排序" />
           </Form.Item>
           <Form.Item name="icon" label="图标" rules={[{ required: false }]}>
             <Input placeholder="请输入图标" />

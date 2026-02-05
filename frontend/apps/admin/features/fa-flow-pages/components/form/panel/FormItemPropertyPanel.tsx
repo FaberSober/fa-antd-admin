@@ -68,7 +68,7 @@ export default function FormItemPropertyPanel() {
   }, [flowForm]);
 
   // 动态获取列信息
-  const [columnOptions, setColumnOptions] = useState<Array<{label: string, value: string}>>([]);
+  const [columnOptions, setColumnOptions] = useState<Array<{label: string, value: string, originalComment: string}>>([]);
 
   // 监听 tableName 变化,调用接口获取列信息
   useEffect(() => {
@@ -78,10 +78,11 @@ export default function FormItemPropertyPanel() {
           const options = res.data.columns.map(col => ({
             label: `${col.field}(${col.comment})`,
             value: col.field,
+            originalComment: col.comment,
           }));
           
           // 将系统字段移到尾部
-          const systemFields = ['crt_time', 'crt_user', 'upd_time', 'upd_user', 'deleted'];
+          const systemFields = ['flow_instance_id', 'tenant_id', 'crt_time', 'crt_user', 'upd_time', 'upd_user', 'deleted'];
           const sortedOptions = options.sort((a, b) => {
             const aIsSystem = systemFields.includes(a.value);
             const bIsSystem = systemFields.includes(b.value);
@@ -126,8 +127,8 @@ export default function FormItemPropertyPanel() {
             if ((!av.label || av.label.startsWith('新组件')) && cv.name) {
               const col = columnOptions.find(c => c.value === cv.name);
               if (col) {
-                avCopy.label = col.label;
-                form.setFieldsValue({ label: col.label });
+                avCopy.label = col.originalComment;
+                form.setFieldsValue({ label: col.originalComment });
               }
             }
             updateSelectedFormItem(avCopy);
@@ -152,7 +153,7 @@ export default function FormItemPropertyPanel() {
                   const col = columnOptions.find(c => c.value === form.getFieldValue('name'));
                   console.log('Sync label from name', col);
                   if (col) {
-                    form.setFieldsValue({ label: col.label });
+                    form.setFieldsValue({ label: col.originalComment });
                     updateSelectedFormItem(form.getFieldsValue()); // 关键：手动同步，这里不会触发 onValuesChange
                   }
                 }}></Button>
