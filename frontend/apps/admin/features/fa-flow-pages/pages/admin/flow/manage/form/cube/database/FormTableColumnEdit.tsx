@@ -6,7 +6,7 @@ import { flowFormApi } from '@/services';
 import { FaUtils } from '@fa/ui';
 
 
-const SYSTEM_FIELDS = ['id', 'crt_time', 'crt_user', 'upd_time', 'upd_user', 'deleted'];
+const SYSTEM_FIELDS = ['id', 'crt_time', 'crt_user', 'upd_time', 'upd_user', 'deleted', 'flow_instance_id', 'tenant_id'];
 
 export interface FormTableColumnEditProps {
   column: Flow.TableColumnVo;
@@ -70,6 +70,7 @@ export default function FormTableColumnEdit({ column, tableName, onSuccess }: Fo
             <Select style={{ width: '100%' }}
               options={[
                 { label: 'int', value: 'int' },
+                { label: 'bigint', value: 'bigint' },
                 { label: 'float', value: 'float' },
                 { label: 'double', value: 'double' },
                 { label: 'decimal', value: 'decimal' },

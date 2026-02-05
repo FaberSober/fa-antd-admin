@@ -12,9 +12,16 @@ import lombok.Data;
 public class FlowProcessStartReqVo implements Serializable {
 
     @NotNull
+    @ExcelProperty("流程定义ID")
+    private Long processId;
+
+    @Deprecated
     @ExcelProperty("流程定义 key 唯一标识")
     private String processKey;
 
+    /**
+     * 流程实例的业务数据
+     */
     private Map<String, Object> args;
 
 }

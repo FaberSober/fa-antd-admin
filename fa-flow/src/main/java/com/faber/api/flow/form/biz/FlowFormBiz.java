@@ -69,6 +69,8 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
             String createTableSql = String.format(
                 "CREATE TABLE `%s` (\n" +
                 "  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',\n" +
+                "  `flow_instance_id` bigint(20) DEFAULT NULL COMMENT '流程实例ID',\n" +
+                "  `tenant_id` bigint(20) DEFAULT NULL COMMENT '租户ID',\n" +
                 "  `crt_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
                 "  `crt_user` varchar(32) NOT NULL COMMENT '创建用户ID',\n" +
                 "  `upd_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',\n" +
@@ -221,9 +223,14 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
     }
 
     public SaveFormDataReqVo saveFormData(SaveFormDataReqVo reqVo) throws SQLException {
-        FlowForm flowForm = getById(reqVo.getFormId());
+        saveFormData(reqVo.getFormId(), reqVo.getFormData());
+        return reqVo;
+    }
+
+    public Map<String, Object> saveFormData(Integer formId, Map<String, Object> formData) throws SQLException {
+        FlowForm flowForm = getById(formId);
         if (flowForm == null) {
-            throw new BuzzException("表单不存在，formId=" + reqVo.getFormId());
+            throw new BuzzException("表单不存在，formId=" + formId);
         }
 
         // 解析表单布局，获取子表配置
@@ -235,13 +242,13 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
 
         // 保存主表数据
         @Cleanup Connection conn = dataSource.getConnection();
-        Long mainTableId = save(conn, dataConfig.getMain(), reqVo.getFormData());
+        Long mainTableId = save(conn, dataConfig.getMain(), formData);
 
         // 保存子表数据
         List<FlowFormItem> subTableItems = flowFormConfig.getAllSubTableItems();
         for (FlowFormItem item : subTableItems) {
             String subTableName = item.getSubtable_tableName();
-            List<Map<String, Object>> tableData = (List<Map<String, Object>>) reqVo.getFormData().get(item.getName());
+            List<Map<String, Object>> tableData = (List<Map<String, Object>>) formData.get(item.getName());
             
             // 跳过空数据
             if (tableData == null || tableData.isEmpty()) {
@@ -269,7 +276,7 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
             }
         }
 
-        return reqVo;
+        return formData;
     }
 
     /**
@@ -322,6 +329,65 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
         Long id = SqlExecutor.executeForGeneratedKey(conn, sql);
         data.put("id", id);
         return id;
+    }
+
+    /**
+     * 更新业务数据的流程ID
+     * @param formId
+     * @param formDataId
+     * @param flowInstanceId
+     */
+    public void updateDataFlowInstanceId(Integer formId, Long formDataId, Long flowInstanceId) {
+        try {
+            // 获取formId的配置
+            FlowForm flowForm = getById(formId);
+            if (flowForm == null) {
+                throw new BuzzException("表单不存在，formId=" + formId);
+            }
+
+            // 获取主表配置
+            FlowFormDataConfig dataConfig = flowForm.getDataConfig();
+            if (dataConfig == null || dataConfig.getMain() == null) {
+                throw new BuzzException("表单数据配置不存在，formId=" + formId);
+            }
+
+            FlowFormDataConfig.Table mainTable = dataConfig.getMain();
+            String tableName = mainTable.getTableName();
+            if (StrUtil.isEmpty(tableName)) {
+                throw new BuzzException("表单主表名称不存在，formId=" + formId);
+            }
+
+            // 判断主表是否有flow_instance_id字段
+            TableInfoVo tableInfo = queryTableStructure(tableName);
+            if (tableInfo.getExist() == null || !tableInfo.getExist()) {
+                throw new BuzzException("表不存在，tableName=" + tableName);
+            }
+
+            // 检查是否有flow_instance_id字段
+            boolean hasFlowInstanceIdField = tableInfo.getColumns().stream()
+                    .anyMatch(column -> "flow_instance_id".equals(column.getField()));
+
+            // 如果有，更新为flowInstanceId
+            if (hasFlowInstanceIdField) {
+                String sql = String.format(
+                        "UPDATE `%s` SET flow_instance_id = %d, upd_time = CURRENT_TIMESTAMP, upd_user = '%s' WHERE id = %d AND deleted = false",
+                        tableName,
+                        flowInstanceId,
+                        getCurrentUserId(),
+                        formDataId
+                );
+
+                @Cleanup Connection conn = dataSource.getConnection();
+                int affectedRows = SqlExecutor.execute(conn, sql);
+                
+                if (affectedRows == 0) {
+                    throw new BuzzException("数据不存在或已被删除，id=" + formDataId);
+                }
+            }
+            // 如果没有flow_process_id字段，不更新，不抛出异常
+        } catch (SQLException e) {
+            throw new BuzzException("更新业务数据流程ID失败: " + e.getMessage());
+        }
     }
 
     /**

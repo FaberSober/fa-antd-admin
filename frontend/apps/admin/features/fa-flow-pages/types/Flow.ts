@@ -55,6 +55,7 @@ namespace Flow {
   }
 
   export interface FlowProcessStartReqVo {
+    processId: number;
     processKey: string;
     args: any;
   }

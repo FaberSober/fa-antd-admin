@@ -28,36 +28,16 @@ export default function FormTableCreateModal({ children, title, fetchFinish, add
       if (fetchFinish) fetchFinish(res.data);
     })
   }
-
-  /** 更新Item */
-  // function invokeUpdateTask(params: any) {
-  //   api.update(params.id, params).then((res) => {
-  //     FaUtils.showResponse(res, '更新数据表');
-  //     setOpen(false);
-  //     if (fetchFinish) fetchFinish();
-  //   })
-  // }
-
+  
   /** 提交表单 */
   function onFinish(fieldsValue: any) {
     const values = {
       ...fieldsValue,
       config: {},
-      // birthday: FaUtils.getDateStr000(fieldsValue.birthday),
     };
-    // if (record) {
-    //   invokeUpdateTask({ ...record, ...values });
-    // } else {
-    // }
     invokeInsertTask({ ...values });
   }
 
-  // function getInitialValues() {
-  //   return {
-  //     tableName: get(record, 'tableName'),
-  //     comment: get(record, 'comment'),
-  //   }
-  // }
 
   function showModal() {
     setOpen(true)

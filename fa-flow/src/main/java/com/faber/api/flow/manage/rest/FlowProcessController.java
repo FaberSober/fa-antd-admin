@@ -53,9 +53,8 @@ public class FlowProcessController extends BaseController<FlowProcessBiz, FlowPr
     @FaLogOpr(value = "发起流程", crud = LogCrudEnum.C)
     @RequestMapping(value = "/start", method = RequestMethod.POST)
     @ResponseBody
-    public Ret<Boolean> start(@Validated(value = Vg.Crud.C.class) @RequestBody FlowProcessStartReqVo reqVo) {
-        baseBiz.start(reqVo);
-        return ok();
+    public Ret<FlwInstance> start(@Validated(value = Vg.Crud.C.class) @RequestBody FlowProcessStartReqVo reqVo) {
+        return ok(baseBiz.start(reqVo));
     }
 
     @FaLogOpr(value = "发起流程-返回实例", crud = LogCrudEnum.C)

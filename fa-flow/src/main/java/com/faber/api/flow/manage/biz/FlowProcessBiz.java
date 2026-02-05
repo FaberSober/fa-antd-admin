@@ -16,14 +16,18 @@ import com.aizuda.bpm.engine.entity.FlwProcess;
 import com.aizuda.bpm.engine.entity.FlwTask;
 import com.aizuda.bpm.engine.entity.FlwTaskActor;
 import com.faber.api.flow.core.enums.FaInstanceStateEnum;
+import com.faber.api.flow.form.biz.FlowFormBiz;
 import com.faber.api.flow.manage.entity.FlowProcess;
+import com.faber.api.flow.manage.enums.FlowProcessFormTypeEnum;
 import com.faber.api.flow.manage.mapper.FlowProcessMapper;
 import com.faber.api.flow.manage.vo.req.FlowProcessStartReqVo;
 import com.faber.api.flow.manage.vo.ret.FlowApprovalInfo;
 import com.faber.api.flow.manage.vo.ret.FlowProcessApprovalVo;
 import com.faber.core.context.BaseContextHandler;
+import com.faber.core.exception.BuzzException;
 import com.faber.core.web.biz.BaseBiz;
 
+import cn.hutool.core.map.MapUtil;
 import jakarta.annotation.Resource;
 
 /**
@@ -36,8 +40,8 @@ import jakarta.annotation.Resource;
 @Service
 public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
 
-    @Resource
-    FlowLongEngine flowLongEngine;
+    @Resource FlowLongEngine flowLongEngine;
+    @Resource FlowFormBiz flowFormBiz;
 
     public FlowProcess getByKey(String key) {
         return lambdaQuery()
@@ -111,13 +115,35 @@ public class FlowProcessBiz extends BaseBiz<FlowProcessMapper, FlowProcess> {
         return flowProcess;
     }
 
-    public boolean start(FlowProcessStartReqVo reqVo) {
+    public FlwInstance start(FlowProcessStartReqVo reqVo) {
         // Map<String, Object> args = (Map<String, Object>) reqVo.getArgs().get("formData");
-        FlowCreator flowCreator = FlowCreator.of(getCurrentUserId(), BaseContextHandler.getName());
-        flowLongEngine.startInstanceByProcessKey(reqVo.getProcessKey(), null, flowCreator, reqVo.getArgs());
+        FlowProcess flowProcess = this.getById(reqVo.getProcessId());
 
-        return true;
+        // 保存业务数据，如果是自定义表单
+        if (FlowProcessFormTypeEnum.CUSTOM == flowProcess.getFormType()) {
+            try {
+                flowFormBiz.saveFormData(flowProcess.getFormId(), reqVo.getArgs());
+            } catch (Exception e) {
+                throw new BuzzException("保存业务数据失败：" + e.getMessage());
+            }
+        }
+        
+
+        FlowCreator flowCreator = FlowCreator.of(getCurrentUserId(), BaseContextHandler.getName());
+        Optional<FlwInstance> fOptional = flowLongEngine.startInstanceByProcessKey(flowProcess.getProcessKey(), null, flowCreator, reqVo.getArgs());
+        if (fOptional.isEmpty()) {
+            throw new BuzzException("启动流程失败");
+        }
+        FlwInstance flwInstance = fOptional.get();
+
+        // 更新业务数据主表的flowProcessId
+        if (FlowProcessFormTypeEnum.CUSTOM == flowProcess.getFormType()) {
+            flowFormBiz.updateDataFlowInstanceId(flowProcess.getFormId(), MapUtil.getLong(reqVo.getArgs(), "id"), flwInstance.getId());
+        }
+
+        return flwInstance;
     }
+    
     // 流程实例-返回实例id
     public FlwInstance retInstanceStart(FlowProcessStartReqVo reqVo) {
         FlowCreator flowCreator = FlowCreator.of(getCurrentUserId(), BaseContextHandler.getName());

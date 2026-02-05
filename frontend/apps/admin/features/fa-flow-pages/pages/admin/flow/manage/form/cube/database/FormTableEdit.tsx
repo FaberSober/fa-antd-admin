@@ -11,6 +11,8 @@ import './FormTableEdit.scss';
 import clsx from 'clsx';
 import FormTableSelectModal from './FormTableSelectModal';
 import FormTableLink from './FormTableLink';
+import JsonView from '@uiw/react-json-view';
+import { lightTheme } from '@uiw/react-json-view/light';
 
 export interface FormTableEditProps {
   item: Flow.FlowForm;

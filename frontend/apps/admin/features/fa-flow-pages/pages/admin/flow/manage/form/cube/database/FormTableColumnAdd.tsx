@@ -51,6 +51,8 @@ export default function FormTableColumnAdd({ tableName, onSuccess }: FormTableCo
             form.setFieldsValue({ length: 255 });
           } else if (av.dataType === 'int') {
             form.setFieldsValue({ length: 11 });
+          } else if (av.dataType === 'bigint') {
+            form.setFieldsValue({ length: 20 });
           } else {
             form.setFieldsValue({ length: undefined, precision: undefined, scale: undefined });
           }
@@ -71,6 +73,7 @@ export default function FormTableColumnAdd({ tableName, onSuccess }: FormTableCo
               options={[
                 { label: 'varchar', value: 'varchar' },
                 { label: 'int', value: 'int' },
+                { label: 'bigint', value: 'bigint' },
                 { label: 'float', value: 'float' },
                 { label: 'double', value: 'double' },
                 { label: 'decimal', value: 'decimal' },

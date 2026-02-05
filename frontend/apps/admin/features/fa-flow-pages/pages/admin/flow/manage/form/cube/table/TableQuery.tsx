@@ -20,6 +20,15 @@ export default function TableQuery({ }: TableQueryProps) {
       each(flowForm.dataConfig.main.columns, col => {
         fields.push({ ...col, table: flowForm.dataConfig.main.tableName })
       })
+      const tailFields = ['flow_instance_id', 'tenant_id', 'crt_time', 'crt_user', 'upd_time', 'upd_user', 'deleted'];
+      fields.sort((a, b) => {
+        const indexA = tailFields.indexOf(a.field);
+        const indexB = tailFields.indexOf(b.field);
+        if (indexA === -1 && indexB === -1) return 0;
+        if (indexA === -1) return -1;
+        if (indexB === -1) return 1;
+        return indexA - indexB;
+      });
     }
     return fields;
   }, [flowForm])

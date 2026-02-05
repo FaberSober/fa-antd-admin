@@ -42,7 +42,7 @@ export default function FlowAuditStart() {
 
   function handleFormSubmit(flow: Flow.FlowProcess, formValues: any) {
     // start flow
-    flowProcessApi.start({ processKey: flow.processKey, args: formValues }).then(res => {
+    flowProcessApi.start({ processId: flow.id, processKey: flow.processKey, args: formValues }).then(res => {
       FaUtils.showResponse(res, '发起流程');
       dispatch({ type: '@@action/CLOSE_DRAWER' })
       // 成功提交审批流程后，刷新任务数量统计
@@ -107,7 +107,7 @@ export default function FlowAuditStart() {
                         <FaFlexRestLayout>
                           <FaLazyContainer showCond={tab === 'basic'}>
                             <div className='fa-full-content fa-flex-column'>
-                              发起流程：{flow.processName}
+                              <div className='fa-h3 fa-mb12'>发起流程：{flow.processName}</div>
                               <FaFlexRestLayout>
                                 <FaFlowFormCreate
                                   form={form}

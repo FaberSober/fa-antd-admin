@@ -60,22 +60,23 @@ export default function FaFlowForm({ formId, form, flowNode, record, onLoadingCh
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    onLoadingChange?.(true);
-    flowFormApi.saveFormData({
-      formId,
-      formData: params,
-      // childFormDataList: [],
-    }).then((res) => {
-      // FaUtils.showResponse(res, '新增流程');
-      const {formId, formData} = res.data;
-      if (onSuccess) onSuccess({
-        '_formId': formId,
-        ...formData,
-        // childFormDataList,
-      });
-    }).finally(() => {
-      onLoadingChange?.(false);
-    })
+    // onLoadingChange?.(true);
+    onSuccess?.(params)
+    // flowFormApi.saveFormData({
+    //   formId,
+    //   formData: params,
+    //   // childFormDataList: [],
+    // }).then((res) => {
+    //   // FaUtils.showResponse(res, '新增流程');
+    //   const {formId, formData} = res.data;
+    //   if (onSuccess) onSuccess({
+    //     '_formId': formId,
+    //     ...formData,
+    //     // childFormDataList,
+    //   });
+    // }).finally(() => {
+    //   onLoadingChange?.(false);
+    // })
   }
 
   /** 更新Item */

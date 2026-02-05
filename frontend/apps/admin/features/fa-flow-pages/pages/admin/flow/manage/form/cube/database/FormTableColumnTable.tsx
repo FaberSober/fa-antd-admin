@@ -1,12 +1,14 @@
 import { flowFormApi } from '@/services';
 import { Flow } from '@/types';
-import { FaFlexRestLayout, FaSortList, useApiLoading } from '@fa/ui';
+import { BaseDrawer, FaFlexRestLayout, FaSortList, useApiLoading } from '@fa/ui';
 import { Button, Space, Spin } from 'antd';
 import { isNil, set } from 'lodash';
 import { useEffect, useState } from 'react';
 import FormTableColumnAdd from './FormTableColumnAdd';
 import FormTableColumnEdit from './FormTableColumnEdit';
 import { resortColumnsByConfig } from '../utils';
+import JsonView from '@uiw/react-json-view';
+import { lightTheme } from '@uiw/react-json-view/light';
 
 
 export interface FormTableColumnTableProps {
@@ -71,6 +73,13 @@ export default function FormTableColumnTable({ item, tableInfo, onColumnsChange 
         >
           同步
         </Button>
+        <BaseDrawer triggerDom={<Button>查看JSON</Button>} size={1200}>
+          <JsonView
+            value={item}
+            style={lightTheme}
+            collapsed={3}
+          />
+        </BaseDrawer>
       </Space>
       {/* header */}
       <div className='fa-flex-row-center fa-gap6' style={{ fontSize: 14, fontWeight: 'bold', padding: '8px 4px', borderBottom: '1px solid #ccc' }}>

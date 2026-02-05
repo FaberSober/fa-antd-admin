@@ -18,7 +18,7 @@ export interface FaFlowFormCreateProps {
  */
 export default function FaFlowFormCreate({ flow, form, startNode, onFormSubmit, onLoadingChange }: FaFlowFormCreateProps) {
   return (
-    <div>
+    <div className='fa-full fa-relative'>
       {/* 系统表单 */}
       {flow.processKey.startsWith('testLeave') && (<DemoFlowLeaveForm form={form} onSuccess={(fv) => onFormSubmit(flow, fv)} onLoadingChange={onLoadingChange} />)}
       {/* 自定义表单 */}

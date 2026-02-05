@@ -1,6 +1,6 @@
 import { GATE_APP } from '@/configs';
 import { BaseApi, Fa } from '@fa/ui';
-import { Flow } from '@/types';
+import { Flow, Flw } from '@/types';
 
 /** ------------------------------------------ FLOW-流程定义 操作接口 ------------------------------------------ */
 class Api extends BaseApi<Flow.FlowProcess, number> {
@@ -12,7 +12,7 @@ class Api extends BaseApi<Flow.FlowProcess, number> {
   publish = (entity: Flow.FlowProcess): Promise<Fa.Ret<boolean>> => this.post('publish', entity);
 
   /** 发起流程 */
-  start = (params: Flow.FlowProcessStartReqVo): Promise<Fa.Ret<boolean>> => this.post('start', params);
+  start = (params: Flow.FlowProcessStartReqVo): Promise<Fa.Ret<Flow.FlwInstance>> => this.post('start', params);
 
   /** 发起流程-返回实例 */
   retInstanceStart = (params: Flow.FlowProcessStartReqVo): Promise<Fa.Ret<Flow.FlwInstance>> => this.post('retInstanceStart', params);
