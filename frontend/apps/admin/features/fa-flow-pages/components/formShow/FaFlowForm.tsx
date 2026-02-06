@@ -105,7 +105,7 @@ export default function FaFlowForm({ formId, form, flowNode, record, onLoadingCh
 
   if (isNil(flowForm)) return <PageLoading />;
   return (
-    <div className='fa-full-content'>
+    <div className='fa-full fa-relative'>
       {formId && (
         <FaFormShow
           config={flowForm.config}

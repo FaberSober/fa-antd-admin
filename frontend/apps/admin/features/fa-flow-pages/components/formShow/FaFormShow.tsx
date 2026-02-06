@@ -18,7 +18,7 @@ export default function FaFormShow({ config, flowNode, ...props }: FaFormShowPro
   const {items, formConfig} = useFormConfig(config);
 
   return (
-    <div className='fa-full fa-scroll-auto-y'>
+    <div className='fa-full fa-scroll-auto-y fa-relative fa-form-view'>
       <Form layout={formConfig.layout} labelCol={{ style: { width: formConfig.labelWidth } }} wrapperCol={{ style: {}}} {...props}>
         {/* Render form items based on config */}
         <FaFormShowLayout items={items} flowNode={flowNode} disabled={props.disabled} />

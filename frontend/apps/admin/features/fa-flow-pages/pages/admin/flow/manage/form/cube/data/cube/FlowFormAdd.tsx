@@ -79,7 +79,7 @@ export default function FlowFormAdd({ flowForm, onSuccess }: FlowFormAddProps) {
                 label: '表单信息',
                 key: 'form',
                 children: (
-                  <div className='fa-full fa-p12'>
+                  <div className='fa-full fa-p12 fa-relative'>
                     {flow && (
                       <FaFlowFormCreate
                         form={form}
