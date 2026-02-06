@@ -11,6 +11,12 @@ import FlowInstanceView from '../../../../audit/components/FlowInstanceView';
 export interface FlowFormViewProps {
   flowForm: Flow.FlowForm;
   record: any;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  onPrev?: () => void;
+  onNext?: () => void;
+  hasPrev?: boolean;
+  hasNext?: boolean;
   children?: React.ReactNode;
 }
 
@@ -19,9 +25,13 @@ export interface FlowFormViewProps {
  * @author xu.pengfei
  * @date 2026-02-05 16:39:50
  */
-export default function FlowFormView({ flowForm, record, children }: FlowFormViewProps) {
-  const [open, setOpen] = useState(false);
+export default function FlowFormView({ flowForm, record, open: openProp, onOpenChange, onPrev, onNext, hasPrev, hasNext, children }: FlowFormViewProps) {
+  const [openInternal, setOpenInternal] = useState(false);
   const [flowProcess, setFlowProcess] = useState<Flow.FlowProcess>();
+  
+  // 支持受控和非受控两种模式
+  const open = openProp !== undefined ? openProp : openInternal;
+  const setOpen = onOpenChange || setOpenInternal;
   
   useEffect(() => {
     if (!flowForm.flowProcessId) return;
@@ -30,9 +40,13 @@ export default function FlowFormView({ flowForm, record, children }: FlowFormVie
     })
   }, [flowForm.flowProcessId]);
 
+  const handleOpen = React.useCallback(() => {
+    setOpen(true);
+  }, [setOpen]);
+
   const handleClose = React.useCallback(() => {
     setOpen(false);
-  }, []);
+  }, [setOpen]);
 
   const content = React.useMemo(() => {
     if (!open) return null;
@@ -45,6 +59,8 @@ export default function FlowFormView({ flowForm, record, children }: FlowFormVie
           <div className='fa-h3'>详情</div>
           <div className='fa-flex-1' />
           <Space>
+            <Button onClick={onPrev} disabled={!hasPrev}>上一条</Button>
+            <Button onClick={onNext} disabled={!hasNext}>下一条</Button>
             <Button onClick={handleClose}>关闭</Button>
           </Space>
         </div>
@@ -55,13 +71,13 @@ export default function FlowFormView({ flowForm, record, children }: FlowFormVie
         </FaFlexRestLayout>
       </div>
     );
-  }, [open, flowForm, record, flowProcess]);
+  }, [open, flowForm, record, flowProcess, handleClose, hasPrev, hasNext, onPrev, onNext]);
 
   const mountNode = document.querySelector('.fa-main')!;
 
   return (
     <div>
-      <span onClick={() => setOpen(true)}>{children}</span>
+      {children && React.cloneElement(children as React.ReactElement, { onClick: handleOpen })}
 
       {content && createPortal(content, mountNode)}
     </div>

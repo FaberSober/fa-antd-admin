@@ -4,7 +4,7 @@ import { DownloadOutlined, EditOutlined, EyeOutlined, PlusOutlined, SearchOutlin
 import { AuthDelBtn, BaseBizTable, BaseTableUtils, clearForm, FaberTable, FaHref, useDelete, useTableQueryParams, FaUtils } from '@fa/ui';
 import { Button, Form, Input, Space } from 'antd';
 import { each } from 'lodash';
-import React from 'react';
+import React, { useState } from 'react';
 import FlowFormAdd from './cube/FlowFormAdd';
 import FlowFormView from './cube/FlowFormView';
 
@@ -18,12 +18,36 @@ export interface FlowFormDataTableProps {
  */
 export default function FlowFormDataTable({ flowForm }: FlowFormDataTableProps) {
   const [form] = Form.useForm();
+  const [viewRecord, setViewRecord] = useState<any>(null);
+  const [viewOpen, setViewOpen] = useState(false);
+  const [viewIndex, setViewIndex] = useState<number>(-1);
 
   const {queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, fetchPageList, loading, list, dicts, paginationProps} =
     useTableQueryParams<any>(flowFormApi.pageFormData, { flowFormId: flowForm.id }, flowForm.name);
 
   const [handleDelete] = useDelete<number>((id) => flowFormApi.removeFormDataById(flowForm.id, id), fetchPageList, flowForm.name);
   // const [exporting, fetchExportExcel] = useExport(api.exportExcel, queryParams);
+
+  // 翻页逻辑
+  const handlePrev = React.useCallback(() => {
+    if (viewIndex > 0) {
+      const newIndex = viewIndex - 1;
+      setViewIndex(newIndex);
+      setViewRecord(list[newIndex]);
+    }
+  }, [viewIndex, list]);
+
+  const handleNext = React.useCallback(() => {
+    if (viewIndex < list.length - 1) {
+      const newIndex = viewIndex + 1;
+      setViewIndex(newIndex);
+      setViewRecord(list[newIndex]);
+    }
+  }, [viewIndex, list]);
+
+  // 计算边界状态
+  const hasPrev = viewIndex > 0;
+  const hasNext = viewIndex < list.length - 1;
 
   function genColumns() {
     const { sorter } = queryParams;
@@ -49,9 +73,12 @@ export default function FlowFormDataTable({ flowForm }: FlowFormDataTableProps) 
         dataIndex: 'opr',
         render: (_, r) => (
           <Space>
-            <FlowFormView flowForm={flowForm} record={r}>
-              <FaHref text='查看' icon={<EyeOutlined />} />
-            </FlowFormView>
+            <FaHref text='查看' icon={<EyeOutlined />} onClick={() => {
+              const index = list.findIndex((item: any) => item.id === r.id);
+              setViewIndex(index);
+              setViewRecord(r);
+              setViewOpen(true);
+            }} />
             <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
           </Space>
         ),
@@ -101,6 +128,17 @@ export default function FlowFormDataTable({ flowForm }: FlowFormDataTableProps) 
         // batchDelete={(ids) => api.removeBatchByIds(ids)}
         // onSceneChange={(v) => setSceneId(v)}
         // onConditionChange={(cL) => setConditionList(cL)}
+      />
+
+      <FlowFormView 
+        flowForm={flowForm} 
+        record={viewRecord} 
+        open={viewOpen} 
+        onOpenChange={setViewOpen}
+        onPrev={handlePrev}
+        onNext={handleNext}
+        hasPrev={hasPrev}
+        hasNext={hasNext}
       />
     </div>
   );
