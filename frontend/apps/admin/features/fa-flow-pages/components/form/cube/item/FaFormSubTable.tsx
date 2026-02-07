@@ -5,6 +5,7 @@ import type { ColumnsType } from 'antd/es/table';
 import React, { useEffect, useMemo, useState } from 'react';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { FaUtils } from '@fa/ui';
+import dayjs from 'dayjs';
 
 
 export interface FaFormSubTableProps {
@@ -89,10 +90,22 @@ export default function FaFormSubTable({ formItem, value, onChange }: FaFormSubT
         return <Radio.Group value={value} onChange={(e) => onChange(e.target.value)} />;
       
       case 'datepicker':
-        return <DatePicker value={value} onChange={onChange} style={{ width: '100%' }} />;
+        return (
+          <DatePicker 
+            value={value ? dayjs(value) : undefined} 
+            onChange={(date) => onChange(date ? date.format('YYYY-MM-DD') : undefined)} 
+            style={{ width: '100%' }} 
+          />
+        );
       
       case 'timepicker':
-        return <TimePicker value={value} onChange={onChange} style={{ width: '100%' }} />;
+        return (
+          <TimePicker 
+            value={value ? dayjs(value, 'HH:mm:ss') : undefined} 
+            onChange={(time) => onChange(time ? time.format('HH:mm:ss') : undefined)} 
+            style={{ width: '100%' }} 
+          />
+        );
       
       case 'switch':
         return <Switch checked={value} onChange={onChange} />;
