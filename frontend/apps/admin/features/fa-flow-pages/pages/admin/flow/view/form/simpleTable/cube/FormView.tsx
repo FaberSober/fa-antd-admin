@@ -56,8 +56,10 @@ export default function FormView({ flowForm, record, open: openProp, onOpenChang
       <div className='fa-full-content fa-bg-white fa-flex-column' style={{ zIndex: 999 }}>
         {/* header */}
         <div className='fa-flex-row-center fa-border-b fa-p12'>
-          <Button color="default" variant="text" onClick={handleClose} icon={<ArrowLeftOutlined />} />
-          <div className='fa-h3'>查看 - {flowForm.name}</div>
+          <Space>
+            <Button color="default" variant="text" onClick={handleClose} icon={<ArrowLeftOutlined />} />
+            <div className='fa-h3'>查看 - {flowForm.name}</div>
+          </Space>
           <div className='fa-flex-1' />
           <Space>
             <Button onClick={onPrev} disabled={!hasPrev}>上一条</Button>

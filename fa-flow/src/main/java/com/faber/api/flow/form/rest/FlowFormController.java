@@ -92,6 +92,14 @@ public class FlowFormController extends BaseController<FlowFormBiz, FlowForm, In
         return ok(result);
     }
 
+    @FaLogOpr(value = "更新数据", crud = LogCrudEnum.C)
+    @RequestMapping(value = "/updateFormData", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<SaveFormDataReqVo> updateFormData(@RequestBody SaveFormDataReqVo reqVo) throws SQLException {
+        SaveFormDataReqVo result = baseBiz.updateFormData(reqVo);
+        return ok(result);
+    }
+
     @FaLogOpr(value = "分页查询自定义表单", crud = LogCrudEnum.R)
     @LogNoRet
     @RequestMapping(value = "/pageFormData", method = RequestMethod.POST)

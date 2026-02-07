@@ -49,8 +49,8 @@ export default function FormEdit({ flowForm, record, open: openProp, onOpenChang
 
   const handleFormSubmit = React.useCallback((formValues: any) => {
     setFormLoading(true);
-    // 更新表单数据,在 formData 中包含 id 字段
-    flowFormApi.saveFormData({
+    // 更新表单数据
+    flowFormApi.updateFormData({
       formId: flowForm.id,
       formData: {
         ...formValues,
@@ -82,8 +82,10 @@ export default function FormEdit({ flowForm, record, open: openProp, onOpenChang
       <div className='fa-full-content fa-bg-white fa-flex-column' style={{ zIndex: 999 }}>
         {/* header */}
         <div className='fa-flex-row-center fa-border-b fa-p12'>
-          <Button color="default" variant="text" onClick={handleClose} icon={<ArrowLeftOutlined />} />
-          <div className='fa-h3'>编辑 - {flowForm.name}</div>
+          <Space>
+            <Button color="default" variant="text" onClick={handleClose} icon={<ArrowLeftOutlined />} />
+            <div className='fa-h3'>编辑 - {flowForm.name}</div>
+          </Space>
           <div className='fa-flex-1' />
           <Space>
             <Button onClick={onPrev} disabled={!hasPrev}>上一条</Button>

@@ -36,6 +36,9 @@ class Api extends BaseApi<Flow.FlowForm, number> {
   /** 保存数据 */
   saveFormData = (data: SaveFormDataReqVo): Promise<Fa.Ret<{formId: any, formData: any}>> => this.post('saveFormData', data);
 
+  /** 更新数据 */
+  updateFormData = (data: SaveFormDataReqVo): Promise<Fa.Ret<{formId: any, formData: any}>> => this.post('updateFormData', data);
+
   /** 分页查询自定义表单 */
   pageFormData = (params: QueryFormDataVo): Promise<Fa.Ret<Fa.Page<any>>> => this.post('pageFormData', params);
 

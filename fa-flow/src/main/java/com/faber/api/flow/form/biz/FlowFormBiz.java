@@ -35,7 +35,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.db.meta.Column;
 import cn.hutool.db.meta.MetaUtil;
 import cn.hutool.db.meta.Table;
 import cn.hutool.db.sql.SqlExecutor;
@@ -238,6 +237,74 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
         return reqVo;
     }
 
+    public SaveFormDataReqVo updateFormData(SaveFormDataReqVo reqVo) throws SQLException {
+        updateFormData(reqVo.getFormId(), reqVo.getFormData());
+        return reqVo;
+    }
+
+    public Map<String, Object> updateFormData(Integer formId, Map<String, Object> formData) throws SQLException {
+        FlowForm flowForm = getById(formId);
+        if (flowForm == null) {
+            throw new BuzzException("表单不存在,formId=" + formId);
+        }
+
+        // 检查是否有 id 字段
+        if (!formData.containsKey("id")) {
+            throw new BuzzException("更新数据必须包含 id 字段");
+        }
+
+        // 解析表单布局,获取子表配置
+        Map<String, Object> configMap = flowForm.getConfig();
+        FlowFormConfig flowFormConfig = JSONUtil.toBean(JSONUtil.toJsonStr(configMap), FlowFormConfig.class);
+
+        // 获取数据配置
+        FlowFormDataConfig dataConfig = flowForm.getDataConfig();
+
+        // 更新主表数据
+        @Cleanup Connection conn = dataSource.getConnection();
+        Long mainTableId = update(conn, dataConfig.getMain(), formData);
+
+        // 更新子表数据
+        List<FlowFormItem> subTableItems = flowFormConfig.getAllSubTableItems();
+        for (FlowFormItem item : subTableItems) {
+            String subTableName = item.getSubtable_tableName();
+            List<Map<String, Object>> tableData = (List<Map<String, Object>>) formData.get(item.getName());
+            
+            // 从数据库查找子表配置
+            FlowFormTable flowFormTable = flowFormTableBiz.getLinkTable(flowForm.getId(), subTableName);
+            
+            if (flowFormTable == null) {
+                throw new BuzzException("子表配置不存在: " + subTableName);
+            }
+            
+            String fkField = flowFormTable.getForeignKey();
+            FlowFormDataConfig.Table tableConfig = flowFormTable.getDataConfig();
+            
+            // 删除原有子表数据(软删除)
+            String deleteSql = String.format(
+                "UPDATE `%s` SET deleted = true, upd_time = CURRENT_TIMESTAMP, upd_user = '%s' WHERE %s = %d AND deleted = false",
+                tableConfig.getTableName(),
+                getCurrentUserId(),
+                fkField,
+                mainTableId
+            );
+            SqlExecutor.execute(conn, deleteSql);
+            
+            // 跳过空数据
+            if (tableData == null || tableData.isEmpty()) {
+                continue;
+            }
+            
+            // 添加fkField字段并保存新数据
+            for (Map<String, Object> rowData : tableData) {
+                rowData.put(fkField, mainTableId);
+                save(conn, tableConfig, rowData);
+            }
+        }
+
+        return formData;
+    }
+
     public Map<String, Object> saveFormData(Integer formId, Map<String, Object> formData) throws SQLException {
         FlowForm flowForm = getById(formId);
         if (flowForm == null) {
@@ -339,6 +406,69 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
         
         Long id = SqlExecutor.executeForGeneratedKey(conn, sql);
         data.put("id", id);
+        return id;
+    }
+
+    /**
+     * 更新单表数据
+     * 
+     * @param conn 数据库连接
+     * @param tableConfig 表配置
+     * @param data 要更新的数据(必须包含id字段)
+     * @return 主键ID
+     * @throws SQLException
+     */
+    private Long update(Connection conn, FlowFormDataConfig.Table tableConfig, Map<String, Object> data) throws SQLException {
+        String userId = getCurrentUserId();
+        String tableName = tableConfig.getTableName();
+        
+        // 获取ID
+        Object idObj = data.get("id");
+        if (idObj == null) {
+            throw new BuzzException("更新数据必须包含 id 字段");
+        }
+        Long id = Long.parseLong(idObj.toString());
+        
+        StringBuilder sqlSb = new StringBuilder();
+        StringBuilder setSb = new StringBuilder();
+        
+        sqlSb.append("UPDATE `").append(tableName).append("` SET ");
+        
+        // 处理其他字段
+        for (FlowFormDataConfig.Column column : tableConfig.getColumns()) {
+            String field = column.getField();
+            
+            // 跳过id字段和系统字段
+            if (field.equals("id") || field.equals("crt_time") || field.equals("crt_user") || field.equals("deleted")) {
+                continue;
+            }
+            
+            if (data.containsKey(field)) {
+                Object value = data.get(field);
+                setSb.append("`").append(field).append("` = '").append(value).append("', ");
+            } else if (field.equals("upd_time")) {
+                setSb.append("`").append(field).append("` = CURRENT_TIMESTAMP, ");
+            } else if (field.equals("upd_user")) {
+                setSb.append("`").append(field).append("` = '").append(userId).append("', ");
+            }
+        }
+        
+        // 确保至少更新 upd_time 和 upd_user
+        if (setSb.length() == 0) {
+            setSb.append("`upd_time` = CURRENT_TIMESTAMP, `upd_user` = '").append(userId).append("', ");
+        }
+        
+        String sql = sqlSb.append(setSb.substring(0, setSb.length() - 2))
+                .append(" WHERE `id` = ").append(id)
+                .append(" AND `deleted` = false;")
+                .toString();
+        
+        int affectedRows = SqlExecutor.execute(conn, sql);
+        
+        if (affectedRows == 0) {
+            throw new BuzzException("数据不存在或已被删除,id=" + id);
+        }
+        
         return id;
     }
 
