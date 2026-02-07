@@ -1,11 +1,12 @@
 import { flowFormApi } from '@/services';
 import { Flow } from '@/types';
-import { EyeOutlined, SearchOutlined } from '@ant-design/icons';
-import { AuthDelBtn, BaseBizTable, BaseTableUtils, clearForm, FaberTable, FaHref, useDelete, useTableQueryParams, FaUtils } from '@fa/ui';
+import { EditOutlined, EyeOutlined, SearchOutlined } from '@ant-design/icons';
+import { AuthDelBtn, BaseBizTable, BaseTableUtils, clearForm, FaberTable, FaHref, useDelete, useTableQueryParams, FaUtils, useViewItemPro } from '@fa/ui';
 import { Button, Form, Input, Space } from 'antd';
 import { each } from 'lodash';
-import React, { useState } from 'react';
+import React from 'react';
 import FormAdd from './cube/FormAdd';
+import FormEdit from './cube/FormEdit';
 import FormView from './cube/FormView';
 
 export interface FormSimpleTableProps {
@@ -21,35 +22,14 @@ export interface FormSimpleTableProps {
  */
 export default function FormSimpleTable({ flowForm }: FormSimpleTableProps) {
   const [form] = Form.useForm();
-  const [viewRecord, setViewRecord] = useState<any>(null);
-  const [viewOpen, setViewOpen] = useState(false);
-  const [viewIndex, setViewIndex] = useState<number>(-1);
 
   const { queryParams, setFormValues, handleTableChange, fetchPageList, loading, list, paginationProps } =
     useTableQueryParams<any>(flowFormApi.pageFormData, { flowFormId: flowForm.id }, flowForm.name);
 
+  const viewItem = useViewItemPro<any>(list);
+  const editItem = useViewItemPro<any>(list);
+
   const [handleDelete] = useDelete<number>((id) => flowFormApi.removeFormDataById(flowForm.id, id), fetchPageList, flowForm.name);
-
-  // 翻页逻辑
-  const handlePrev = React.useCallback(() => {
-    if (viewIndex > 0) {
-      const newIndex = viewIndex - 1;
-      setViewIndex(newIndex);
-      setViewRecord(list[newIndex]);
-    }
-  }, [viewIndex, list]);
-
-  const handleNext = React.useCallback(() => {
-    if (viewIndex < list.length - 1) {
-      const newIndex = viewIndex + 1;
-      setViewIndex(newIndex);
-      setViewRecord(list[newIndex]);
-    }
-  }, [viewIndex, list]);
-
-  // 计算边界状态
-  const hasPrev = viewIndex > 0;
-  const hasNext = viewIndex < list.length - 1;
 
   function genColumns() {
     const { sorter } = queryParams;
@@ -76,14 +56,16 @@ export default function FormSimpleTable({ flowForm }: FormSimpleTableProps) {
           <Space>
             <FaHref text='查看' icon={<EyeOutlined />} onClick={() => {
               const index = list.findIndex((item: any) => item.id === r.id);
-              setViewIndex(index);
-              setViewRecord(r);
-              setViewOpen(true);
+              viewItem.show(r, index);
+            }} />
+            <FaHref text='编辑' icon={<EditOutlined />} onClick={() => {
+              const index = list.findIndex((item: any) => item.id === r.id);
+              editItem.show(r, index);
             }} />
             <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
           </Space>
         ),
-        width: 120,
+        width: 180,
         fixed: 'right',
         tcRequired: true,
         tcType: 'menu',
@@ -130,13 +112,25 @@ export default function FormSimpleTable({ flowForm }: FormSimpleTableProps) {
 
       <FormView 
         flowForm={flowForm} 
-        record={viewRecord} 
-        open={viewOpen} 
-        onOpenChange={setViewOpen}
-        onPrev={handlePrev}
-        onNext={handleNext}
-        hasPrev={hasPrev}
-        hasNext={hasNext}
+        record={viewItem.item} 
+        open={viewItem.open} 
+        onOpenChange={(open) => !open && viewItem.hide()}
+        onPrev={viewItem.prev}
+        onNext={viewItem.next}
+        hasPrev={viewItem.hasPrev}
+        hasNext={viewItem.hasNext}
+      />
+
+      <FormEdit
+        flowForm={flowForm}
+        record={editItem.item}
+        open={editItem.open}
+        onOpenChange={(open) => !open && editItem.hide()}
+        onSuccess={fetchPageList}
+        onPrev={editItem.prev}
+        onNext={editItem.next}
+        hasPrev={editItem.hasPrev}
+        hasNext={editItem.hasNext}
       />
     </div>
   );
