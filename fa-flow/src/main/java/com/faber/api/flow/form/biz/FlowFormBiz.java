@@ -280,23 +280,72 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
             String fkField = flowFormTable.getForeignKey();
             FlowFormDataConfig.Table tableConfig = flowFormTable.getDataConfig();
             
-            // 删除原有子表数据(软删除)
-            String deleteSql = String.format(
-                "UPDATE `%s` SET deleted = true, upd_time = CURRENT_TIMESTAMP, upd_user = '%s' WHERE %s = %d AND deleted = false",
-                tableConfig.getTableName(),
-                getCurrentUserId(),
-                fkField,
-                mainTableId
-            );
-            SqlExecutor.execute(conn, deleteSql);
-            
             // 跳过空数据
             if (tableData == null || tableData.isEmpty()) {
+                // 删除所有子表数据（没有传数据表示清空）
+                String deleteSql = String.format(
+                    "UPDATE `%s` SET deleted = true, upd_time = CURRENT_TIMESTAMP, upd_user = '%s' WHERE %s = %d AND deleted = false",
+                    tableConfig.getTableName(),
+                    getCurrentUserId(),
+                    fkField,
+                    mainTableId
+                );
+                SqlExecutor.execute(conn, deleteSql);
                 continue;
             }
+
+            // 收集所有有id的数据和没有id的数据
+            List<Long> updateIds = new ArrayList<>();
+            List<Map<String, Object>> insertDataList = new ArrayList<>();
+            List<Map<String, Object>> updateDataList = new ArrayList<>();
             
-            // 添加fkField字段并保存新数据
             for (Map<String, Object> rowData : tableData) {
+                // 清理前端临时字段（以_开头的字段）
+                rowData.entrySet().removeIf(entry -> entry.getKey().startsWith("_"));
+                
+                Object idObj = rowData.get("id");
+                if (idObj != null) {
+                    // 有id，需要更新
+                    Long id = Long.parseLong(idObj.toString());
+                    updateIds.add(id);
+                    updateDataList.add(rowData);
+                } else {
+                    // 没有id，需要插入
+                    insertDataList.add(rowData);
+                }
+            }
+            
+            // 1. 删除不在更新列表中的数据
+            String deleteSql;
+            if (!updateIds.isEmpty()) {
+                String idsStr = updateIds.stream().map(String::valueOf).reduce((a, b) -> a + "," + b).orElse("");
+                deleteSql = String.format(
+                    "UPDATE `%s` SET deleted = true, upd_time = CURRENT_TIMESTAMP, upd_user = '%s' WHERE %s = %d AND id NOT IN (%s) AND deleted = false",
+                    tableConfig.getTableName(),
+                    getCurrentUserId(),
+                    fkField,
+                    mainTableId,
+                    idsStr
+                );
+            } else {
+                // 没有要更新的数据，删除所有旧数据
+                deleteSql = String.format(
+                    "UPDATE `%s` SET deleted = true, upd_time = CURRENT_TIMESTAMP, upd_user = '%s' WHERE %s = %d AND deleted = false",
+                    tableConfig.getTableName(),
+                    getCurrentUserId(),
+                    fkField,
+                    mainTableId
+                );
+            }
+            SqlExecutor.execute(conn, deleteSql);
+            
+            // 2. 更新已有数据
+            for (Map<String, Object> rowData : updateDataList) {
+                update(conn, tableConfig, rowData);
+            }
+            
+            // 3. 插入新数据
+            for (Map<String, Object> rowData : insertDataList) {
                 rowData.put(fkField, mainTableId);
                 save(conn, tableConfig, rowData);
             }
@@ -350,6 +399,10 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
 
             // 生成批量insert SQL
             for (Map<String, Object> rowData : tableData) {
+                // 清理前端临时字段（以_开头的字段）
+                rowData.entrySet().removeIf(entry -> entry.getKey().startsWith("_"));
+                
+                rowData.put(fkField, mainTableId);
                 save(conn, tableConfig, rowData);
             }
         }
@@ -383,9 +436,18 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
             String field = column.getField();
             
             if (data.containsKey(field)) {
-                fieldsSb.append("`").append(field).append("`, ");
                 Object value = data.get(field);
-                valuesSb.append("'").append(value).append("', ");
+                // 跳过系统字段，这些字段由系统控制
+                if (field.equals("id") || field.equals("deleted") || 
+                    field.equals("crt_time") || field.equals("crt_user") || 
+                    field.equals("upd_time") || field.equals("upd_user")) {
+                    continue;
+                }
+                // 跳过null值的字段，不插入到SQL中
+                if (value != null) {
+                    fieldsSb.append("`").append(field).append("`, ");
+                    valuesSb.append("'").append(value).append("', ");
+                }
             } else if (field.equals("crt_time") || field.equals("upd_time")) {
                 fieldsSb.append("`").append(field).append("`, ");
                 valuesSb.append("CURRENT_TIMESTAMP, ");
@@ -445,7 +507,10 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
             
             if (data.containsKey(field)) {
                 Object value = data.get(field);
-                setSb.append("`").append(field).append("` = '").append(value).append("', ");
+                // 只更新非null值的字段
+                if (value != null) {
+                    setSb.append("`").append(field).append("` = '").append(value).append("', ");
+                }
             } else if (field.equals("upd_time")) {
                 setSb.append("`").append(field).append("` = CURRENT_TIMESTAMP, ");
             } else if (field.equals("upd_user")) {

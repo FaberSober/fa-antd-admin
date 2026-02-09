@@ -25,6 +25,11 @@ export default function FaFormSubTable({ formItem, value, onChange }: FaFormSubT
   const [dataSource, setDataSource] = useState<any[]>([]);
 
   useEffect(() => {
+    console.log('=== FaFormSubTable useEffect ===');
+    console.log('formItem.name:', formItem.name);
+    console.log('formItem.label:', formItem.label);
+    console.log('接收到的value:', value);
+    
     if (value) {
       setDataSource(value);
     }

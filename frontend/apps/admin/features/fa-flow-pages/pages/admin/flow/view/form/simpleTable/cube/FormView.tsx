@@ -4,7 +4,6 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import { FaFlexRestLayout } from '@fa/ui';
 import { FaFlowForm } from '@features/fa-flow-pages/components';
 import { Button, Form, Space, Spin } from 'antd';
-import { mapKeys, snakeCase } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -43,15 +42,16 @@ export default function FormView({ flowForm, record, open: openProp, onOpenChang
       try {
         const res = await flowFormApi.getFormDataDetailById(flowForm.id, record.id);
         if (res.data) {
-          // 将record的key从驼峰形式转换为下划线形式
-          const snakeCaseRecord = mapKeys(res.data, (_, key) => snakeCase(key));
-          form.setFieldsValue(snakeCaseRecord);
+          console.log('=== FormView fetchDetail ===');
+          console.log('原始数据:', res.data);
+          
+          // 直接使用原始数据，不进行转换
+          form.setFieldsValue(res.data);
         }
       } catch (error) {
         console.error('Failed to fetch form data detail:', error);
         // 如果获取失败，使用传入的record数据作为备份
-        const snakeCaseRecord = mapKeys(record, (_, key) => snakeCase(key));
-        form.setFieldsValue(snakeCaseRecord);
+        form.setFieldsValue(record);
       } finally {
         setLoading(false);
       }

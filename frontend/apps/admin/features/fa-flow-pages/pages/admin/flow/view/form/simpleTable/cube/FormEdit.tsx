@@ -4,7 +4,6 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import { FaFlexRestLayout, FaUtils, Fa } from '@fa/ui';
 import { FaFlowForm } from '@features/fa-flow-pages/components';
 import { Button, Form, Space, Spin } from 'antd';
-import { mapKeys, snakeCase } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -28,6 +27,7 @@ export interface FormEditProps {
  */
 export default function FormEdit({ flowForm, record, open: openProp, onOpenChange, onSuccess, onPrev, onNext, hasPrev, hasNext, children }: FormEditProps) {
   const [openInternal, setOpenInternal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const [formLoading, setFormLoading] = useState<boolean>(false);
 
@@ -38,10 +38,26 @@ export default function FormEdit({ flowForm, record, open: openProp, onOpenChang
   useEffect(() => {
     if (!open || !record) return;
     
-    // 将record的key从驼峰形式转换为下划线形式
-    const snakeCaseRecord = mapKeys(record, (_, key) => snakeCase(key));
-    form.setFieldsValue(snakeCaseRecord);
-  }, [open, record, form]);
+    // 调用接口获取完整的表单数据（包含子表数据）
+    const fetchDetail = async () => {
+      setLoading(true);
+      try {
+        const res = await flowFormApi.getFormDataDetailById(flowForm.id, record.id);
+        if (res.data) {
+          // 直接使用原始数据，不进行转换
+          form.setFieldsValue(res.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch form data detail:', error);
+        // 如果获取失败，使用传入的record数据作为备份
+        form.setFieldsValue(record);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchDetail();
+  }, [open, record, form, flowForm.id]);
 
   const handleSubmit = React.useCallback(() => {
     form.submit();
@@ -58,8 +74,8 @@ export default function FormEdit({ flowForm, record, open: openProp, onOpenChang
       },
     }).then((res: Fa.Ret) => {
       FaUtils.showResponse(res, '编辑');
-      setOpen(false);
-      form.resetFields();
+      // setOpen(false);
+      // form.resetFields();
       onSuccess?.();
     }).finally(() => {
       setFormLoading(false);
@@ -80,7 +96,7 @@ export default function FormEdit({ flowForm, record, open: openProp, onOpenChang
     
     return (
       <div className='fa-full-content fa-bg-white fa-flex-column' style={{ zIndex: 999 }}>
-        <Spin wrapperClassName='fa-spin-full' spinning={formLoading}>
+        <Spin wrapperClassName='fa-spin-full' spinning={loading || formLoading}>
           {/* header */}
           <div className='fa-flex-row-center fa-border-b fa-p12'>
             <Space>
@@ -110,7 +126,7 @@ export default function FormEdit({ flowForm, record, open: openProp, onOpenChang
         </Spin>
       </div>
     );
-  }, [open, flowForm, formLoading, form, handleClose, handleSubmit, handleFormSubmit, hasPrev, hasNext, onPrev, onNext]);
+  }, [open, flowForm, loading, formLoading, form, handleClose, handleSubmit, handleFormSubmit, hasPrev, hasNext, onPrev, onNext]);
 
   const mountNode = document.querySelector('.fa-main')!;
 
