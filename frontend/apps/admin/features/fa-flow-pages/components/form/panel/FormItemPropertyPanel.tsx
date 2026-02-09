@@ -62,7 +62,7 @@ export default function FormItemPropertyPanel() {
   const tableOptions = useMemo(() => {
     const options = [];
     if (flowForm && flowForm.dataConfig && flowForm?.dataConfig?.main) {
-      options.push({ label: flowForm.dataConfig.main.comment, value: flowForm.dataConfig.main.tableName });
+      options.push({ label: `${flowForm.dataConfig.main.tableName}(${flowForm.dataConfig.main.comment})`, value: flowForm.dataConfig.main.tableName });
     }
     return options;
   }, [flowForm]);
