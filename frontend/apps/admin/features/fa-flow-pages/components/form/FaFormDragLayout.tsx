@@ -60,11 +60,11 @@ export default function FaFormDragLayout({ parentId, items, onChange, header, ro
   // 拖动开始
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>, id: string) => {
     // 检查是否允许拖出
-    if (parentId && !allowOut) {
-      console.log('FaFormDragLayout handleDragStart - 不允许拖出', parentId || 'root');
-      e.preventDefault();
-      return;
-    }
+    // if (parentId && !allowOut) {
+    //   console.log('FaFormDragLayout handleDragStart - 不允许拖出', parentId || 'root');
+    //   e.preventDefault();
+    //   return;
+    // }
 
     e.stopPropagation();
     setDraggedId(id);

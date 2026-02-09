@@ -44,6 +44,13 @@ export default function FormTableColumnTable({ item, tableInfo, onColumnsChange 
     onColumnsChange?.(columns);
   }
 
+  /** 同步：将数据库表结构同步到配置中（不保持排序） */
+  function refreshAndSync() {
+    refresh((columns) => {
+      onColumnsChange?.(columns);
+    });
+  }
+
   function refresh(callback?: (columns: Flow.FlowFormDataConfigColumn[]) => void) {
     flowFormApi.queryTableStructure({ tableName: tableInfo.tableName }).then(res => {
       resortColumnsByConfig(res.data.columns, item.dataConfig);
@@ -64,12 +71,7 @@ export default function FormTableColumnTable({ item, tableInfo, onColumnsChange 
         <Button onClick={() => refresh()}>刷新</Button>
         <Button 
           type="primary"
-          onClick={() => {
-            // 同步：将数据库表结构同步到配置中（不保持排序）
-            refresh((columns) => {
-              onColumnsChange?.(columns);
-            });
-          }}
+          onClick={() => refreshAndSync()}
         >
           同步
         </Button>
@@ -105,7 +107,7 @@ export default function FormTableColumnTable({ item, tableInfo, onColumnsChange 
               <FormTableColumnEdit
                 column={i}
                 tableName={tableInfo.tableName}
-                onSuccess={() => refresh()}
+                onSuccess={() => refreshAndSync()}
               />
             )}
             onSortEnd={l => updateColumnList(l)}
@@ -121,7 +123,7 @@ export default function FormTableColumnTable({ item, tableInfo, onColumnsChange 
           />
           <FormTableColumnAdd
             tableName={tableInfo.tableName}
-            onSuccess={() => refresh()}
+            onSuccess={() => refreshAndSync()}
           />
         </Spin>
       </FaFlexRestLayout>
