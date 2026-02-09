@@ -3,7 +3,7 @@ import { Flow } from '@/types';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { FaFlexRestLayout, FaUtils, Fa } from '@fa/ui';
 import { FaFlowForm } from '@features/fa-flow-pages/components';
-import { Button, Form, Space } from 'antd';
+import { Button, Form, Space, Spin } from 'antd';
 import { mapKeys, snakeCase } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -80,32 +80,34 @@ export default function FormEdit({ flowForm, record, open: openProp, onOpenChang
     
     return (
       <div className='fa-full-content fa-bg-white fa-flex-column' style={{ zIndex: 999 }}>
-        {/* header */}
-        <div className='fa-flex-row-center fa-border-b fa-p12'>
-          <Space>
-            <Button color="default" variant="text" onClick={handleClose} icon={<ArrowLeftOutlined />} />
-            <div className='fa-h3'>编辑 - {flowForm.name}</div>
-          </Space>
-          <div className='fa-flex-1' />
-          <Space>
-            <Button onClick={onPrev} disabled={!hasPrev}>上一条</Button>
-            <Button onClick={onNext} disabled={!hasNext}>下一条</Button>
-            <Button onClick={handleSubmit} type='primary' loading={formLoading}>提交</Button>
-            <Button onClick={handleClose} disabled={formLoading}>取消</Button>
-          </Space>
-        </div>
-
-        {/* body */}
-        <FaFlexRestLayout>
-          <div className='fa-full fa-p12 fa-relative'>
-            <FaFlowForm
-              form={form}
-              formId={flowForm.id}
-              onSuccess={handleFormSubmit}
-              onLoadingChange={setFormLoading}
-            />
+        <Spin wrapperClassName='fa-spin-full' spinning={formLoading}>
+          {/* header */}
+          <div className='fa-flex-row-center fa-border-b fa-p12'>
+            <Space>
+              <Button color="default" variant="text" onClick={handleClose} icon={<ArrowLeftOutlined />} />
+              <div className='fa-h3'>编辑 - {flowForm.name}</div>
+            </Space>
+            <div className='fa-flex-1' />
+            <Space>
+              <Button onClick={onPrev} disabled={!hasPrev}>上一条</Button>
+              <Button onClick={onNext} disabled={!hasNext}>下一条</Button>
+              <Button onClick={handleSubmit} type='primary' loading={formLoading}>提交</Button>
+              <Button onClick={handleClose} disabled={formLoading}>取消</Button>
+            </Space>
           </div>
-        </FaFlexRestLayout>
+
+          {/* body */}
+          <FaFlexRestLayout>
+            <div className='fa-full fa-p12 fa-relative'>
+              <FaFlowForm
+                form={form}
+                formId={flowForm.id}
+                onSuccess={handleFormSubmit}
+                onLoadingChange={setFormLoading}
+              />
+            </div>
+          </FaFlexRestLayout>
+        </Spin>
       </div>
     );
   }, [open, flowForm, formLoading, form, handleClose, handleSubmit, handleFormSubmit, hasPrev, hasNext, onPrev, onNext]);

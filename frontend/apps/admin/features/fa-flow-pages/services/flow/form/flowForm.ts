@@ -42,6 +42,9 @@ class Api extends BaseApi<Flow.FlowForm, number> {
   /** 分页查询自定义表单 */
   pageFormData = (params: QueryFormDataVo): Promise<Fa.Ret<Fa.Page<any>>> => this.post('pageFormData', params);
 
+  /** 查询详情 */
+  getFormDataDetailById = (flowFormId: number, id: any): Promise<Fa.Ret<any>> => this.get(`getFormDataDetailById/${flowFormId}/${id}`);
+
   /** id删除 */
   removeFormData = (id: any): Promise<Fa.Ret> => this.delete(`removeFormData/${id}`);
 

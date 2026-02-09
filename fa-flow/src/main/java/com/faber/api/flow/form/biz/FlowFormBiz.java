@@ -590,6 +590,116 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
         return new TableRet<>(info);
     }
 
+    /**
+     * 根据ID查询表单数据详情
+     * @param flowFormId 表单ID
+     * @param id 数据ID
+     * @return 表单数据详情（包含主表数据和子表数据）
+     * @throws SQLException
+     */
+    public Map<String, Object> getFormDataDetailById(Integer flowFormId, String id) throws SQLException {
+        // 查询流程表单配置
+        FlowForm flowForm = getById(flowFormId);
+        if (flowForm == null) {
+            throw new BuzzException("表单不存在，formId=" + flowFormId);
+        }
+
+        FlowFormDataConfig dataConfig = flowForm.getDataConfig();
+        if (dataConfig == null || dataConfig.getMain() == null) {
+            throw new BuzzException("表单数据配置不存在，formId=" + flowFormId);
+        }
+
+        String mainTableName = dataConfig.getMain().getTableName();
+        if (StrUtil.isEmpty(mainTableName)) {
+            throw new BuzzException("表单主表名称不存在，formId=" + flowFormId);
+        }
+
+        // 查询主表数据
+        String sql = String.format(
+            "SELECT * FROM `%s` WHERE id = %s AND deleted = false",
+            mainTableName,
+            id
+        );
+
+        @Cleanup Connection conn = dataSource.getConnection();
+        List<Map<String, Object>> list = SqlExecutor.query(conn, sql, rs -> {
+            List<Map<String, Object>> result = new ArrayList<>();
+            try {
+                int columnCount = rs.getMetaData().getColumnCount();
+                while (rs.next()) {
+                    Map<String, Object> row = new java.util.HashMap<>();
+                    for (int i = 1; i <= columnCount; i++) {
+                        String columnName = rs.getMetaData().getColumnName(i);
+                        Object value = rs.getObject(i);
+                        row.put(columnName, value);
+                    }
+                    result.add(row);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return result;
+        });
+
+        if (list == null || list.isEmpty()) {
+            throw new BuzzException("数据不存在，id=" + id);
+        }
+
+        Map<String, Object> mainData = list.get(0);
+
+        // 解析表单布局，获取子表配置
+        Map<String, Object> configMap = flowForm.getConfig();
+        FlowFormConfig flowFormConfig = JSONUtil.toBean(JSONUtil.toJsonStr(configMap), FlowFormConfig.class);
+
+        // 查询子表数据
+        List<FlowFormItem> subTableItems = flowFormConfig.getAllSubTableItems();
+        for (FlowFormItem item : subTableItems) {
+            String subTableName = item.getSubtable_tableName();
+            
+            // 从数据库查找子表配置
+            FlowFormTable flowFormTable = flowFormTableBiz.getLinkTable(flowForm.getId(), subTableName);
+            
+            if (flowFormTable == null) {
+                throw new BuzzException("子表配置不存在: " + subTableName);
+            }
+            
+            String fkField = flowFormTable.getForeignKey();
+            FlowFormDataConfig.Table tableConfig = flowFormTable.getDataConfig();
+            
+            // 查询子表数据
+            String subSql = String.format(
+                "SELECT * FROM `%s` WHERE %s = %s AND deleted = false",
+                tableConfig.getTableName(),
+                fkField,
+                id
+            );
+            
+            List<Map<String, Object>> subList = SqlExecutor.query(conn, subSql, rs -> {
+                List<Map<String, Object>> result = new ArrayList<>();
+                try {
+                    int columnCount = rs.getMetaData().getColumnCount();
+                    while (rs.next()) {
+                        Map<String, Object> row = new java.util.HashMap<>();
+                        for (int i = 1; i <= columnCount; i++) {
+                            String columnName = rs.getMetaData().getColumnName(i);
+                            Object value = rs.getObject(i);
+                            row.put(columnName, value);
+                        }
+                        result.add(row);
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                return result;
+            });
+            
+            // 将子表数据添加到主数据中
+            mainData.put(item.getName(), subList);
+        }
+
+        return mainData;
+    }
+
     public void removeFormDataById(Integer flowFormId, String id) throws SQLException {
         this.removeFormDataByIds(flowFormId, Arrays.asList(id));
     }

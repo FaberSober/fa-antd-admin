@@ -108,6 +108,14 @@ public class FlowFormController extends BaseController<FlowFormBiz, FlowForm, In
         return baseBiz.pageFormData(query);
     }
 
+    @FaLogOpr(value = "查询详情", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/getFormDataDetailById/{flowFormId}/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Ret<Map<String, Object>> getFormDataDetailById(@PathVariable Integer flowFormId, @PathVariable String id) throws SQLException {
+        Map<String, Object> data = baseBiz.getFormDataDetailById(flowFormId, id);
+        return ok(data);
+    }
+
     @FaLogOpr(value = "删除数据", crud = LogCrudEnum.D)
     @RequestMapping(value = "/removeFormDataById/{flowFormId}/{id}", method = RequestMethod.DELETE)
     @ResponseBody
