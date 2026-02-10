@@ -10,7 +10,7 @@ export const SHOW_SCALE = ['decimal', 'numeric', 'float', 'double'];
  * @param columns
  * @param dataConfig
  */
-export function resortColumnsByConfig(columns: Flow.TableColumnVo[], dataConfig: Flow.FlowFormDataConfig) {
+export function resortColumnsByConfig(columns: Flow.TableColumnVo[], dataConfig: Flow.FlowFormDataConfig|undefined) {
   const columnSortMap: Record<string, number> = {};
   let length = dataConfig?.main?.columns?.length || 0;
   dataConfig?.main?.columns?.forEach(col => {

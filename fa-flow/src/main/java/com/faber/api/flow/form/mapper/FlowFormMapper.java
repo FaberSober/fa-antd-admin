@@ -20,6 +20,8 @@ import com.faber.api.flow.form.vo.ret.TableColumnVo;
 public interface FlowFormMapper extends FaBaseMapper<FlowForm> {
 
     List<TableColumnVo> getTableColumns(@Param("tableName") String tableName);
+    
+    String getTableComment(@Param("tableName") String tableName);
 
     List<Map<String, Object>> selectByDynamicSql(@Param("sql") String sql);
 	

@@ -55,16 +55,18 @@ export default function FlowFormDataTable({ flowForm }: FlowFormDataTableProps) 
       BaseTableUtils.genIndexColumn(paginationProps),
     ] as FaberTable.ColumnsProp<any>[];
 
-    each(flowForm.tableConfig.table.columns, col => {
-      const dataIndex = FaUtils.toHump(col.field);
-      if ('date' === col.dataType) {
-        columns.push(BaseTableUtils.genDateSorterColumn(col.label || col.field, dataIndex, col.width, sorter))
-      } else if ('datetime' === col.dataType) {
-        columns.push(BaseTableUtils.genTimeSorterColumn(col.label || col.field, dataIndex, col.width, sorter))
-      } else {
-        columns.push(BaseTableUtils.genSimpleSorterColumn(col.label || col.field, dataIndex, col.width, sorter))
-      }
-    })
+    if (flowForm.tableConfig) {
+      each(flowForm.tableConfig.table.columns, col => {
+        const dataIndex = FaUtils.toHump(col.field);
+        if ('date' === col.dataType) {
+          columns.push(BaseTableUtils.genDateSorterColumn(col.label || col.field, dataIndex, col.width, sorter))
+        } else if ('datetime' === col.dataType) {
+          columns.push(BaseTableUtils.genTimeSorterColumn(col.label || col.field, dataIndex, col.width, sorter))
+        } else {
+          columns.push(BaseTableUtils.genSimpleSorterColumn(col.label || col.field, dataIndex, col.width, sorter))
+        }
+      })
+    }
 
     columns.push(
       // BaseTableUtils.genTimeSorterColumn('创建时间', 'crtTime', 170, sorter),

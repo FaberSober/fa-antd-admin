@@ -1,7 +1,6 @@
 import { Flow } from '@features/fa-flow-pages/types';
 import React, { useEffect, useState } from 'react';
 import { BaseDrawer, FaFlexRestLayout } from '@fa/ui';
-import FormTableCreateModal from './FormTableCreateModal';
 import { flowFormApi, flowFormTableApi } from '@features/fa-flow-pages/services';
 import { set } from 'lodash';
 import FormTableColumnTable from './FormTableColumnTable';
@@ -11,37 +10,38 @@ import './FormTableEdit.scss';
 import clsx from 'clsx';
 import FormTableSelectModal from './FormTableSelectModal';
 import FormTableLink from './FormTableLink';
+import { useFlowFormEditStore } from '../../store/useFlowFormEditStore';
 
 export interface FormTableEditProps {
-  item: Flow.FlowForm;
 }
 
 /**
  * @author xu.pengfei
  * @date 2025-12-16 19:50:11
  */
-export default function FormTableEdit({ item }: FormTableEditProps) {
+export default function FormTableEdit({ }: FormTableEditProps) {
 
-  const [itemClone, setItemClone] = useState(item);
+  const { flowForm, updateFlowFormDataConfig, clear } = useFlowFormEditStore()
+  
   const [tableName, setTableName] = useState<string>(); // 选中查看的表
   const [tableInfo, setTableInfo] = useState<Flow.TableInfoVo>(); // 选中表详细
   const [isMainTableCreated, setIsMainTableCreated] = useState<boolean>(false);
   const [linkTables, setLinkTables] = useState<Flow.FlowFormTable[]>([]); // 关联子表列表
 
   useEffect(() => {
-    setItemClone(item);
-    if (itemClone?.dataConfig?.main?.tableName) {
+    if (flowForm?.dataConfig?.main?.tableName) {
       setIsMainTableCreated(true);
-      handleSelTable(itemClone?.dataConfig?.main?.tableName)
+      handleSelTable(flowForm?.dataConfig?.main?.tableName)
     }
     // 加载关联子表列表
     handleGetLinkTables();
-  }, [item]);
+  }, [flowForm]);
 
-  const hasMainTable = itemClone?.dataConfig?.main?.tableName;
+  const hasMainTable = flowForm?.dataConfig?.main?.tableName;
 
   async function handleSetMainTable(v: {tableName: string, comment: string}) {
     console.log('create table finish', v);
+    if (!flowForm) return;
 
     const res1 = await flowFormApi.queryTableStructure({ tableName: v.tableName });
     const columns: Flow.FlowFormDataConfigColumn[] = res1.data.columns.map((col, index) => ({
@@ -50,19 +50,17 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
       sort: index,
     }));
 
-    setItemClone(prev => {
-      const newItem = { ...prev };
-      set(newItem, 'dataConfig.main.tableName', v.tableName);
-      set(newItem, 'dataConfig.main.comment', v.comment);
-      set(newItem, 'dataConfig.main.columns', columns);
-      set(newItem, 'dataConfig.main.pkField', res1.data.pkField);
-      return newItem;
-    });
+    const newDataConfig = { ...flowForm?.dataConfig };
+    set(newDataConfig, 'main.tableName', v.tableName);
+    set(newDataConfig, 'main.comment', v.comment);
+    set(newDataConfig, 'main.columns', columns);
+    set(newDataConfig, 'main.pkField', res1.data.pkField);
+    updateFlowFormDataConfig(newDataConfig)
 
-    flowFormApi.update(item.id, {
+    flowFormApi.update(flowForm.id, {
       tableName: v.tableName,
       dataConfig: {
-        ...item.dataConfig,
+        ...flowForm.dataConfig,
         main: {
           tableName: v.tableName,
           comment: v.comment,
@@ -75,9 +73,10 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
 
   function handleColumnsChange(columns: Flow.FlowFormDataConfigColumn[]) {
     console.log('handleColumnsChange', columns, 'tableName', tableName);
+    if (!flowForm) return;
     
     // 判断当前选中的是主表还是子表
-    const isMainTable = tableName === itemClone?.dataConfig?.main?.tableName;
+    const isMainTable = tableName === flowForm?.dataConfig?.main?.tableName;
     
     if (isMainTable) {
       // 更新主表配置
@@ -86,19 +85,16 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
       const updatedMainConfig: Flow.FlowFormDataConfigTable = {
         tableName: tableInfo.tableName,
         pkField: tableInfo.pkField,
-        comment: tableInfo.tableComment || item.dataConfig?.main?.comment || '',
+        comment: tableInfo.tableComment || flowForm.dataConfig?.main?.comment || '',
         columns,
       };
+      const newDataConfig = { ...flowForm?.dataConfig };
+      set(newDataConfig, 'main', updatedMainConfig);
+      updateFlowFormDataConfig(newDataConfig);
       
-      setItemClone(prev => {
-        const newItem = { ...prev };
-        set(newItem, 'dataConfig.main', updatedMainConfig);
-        return newItem;
-      });
-      
-      flowFormApi.update(item.id, {
+      flowFormApi.update(flowForm.id, {
         dataConfig: {
-          ...item.dataConfig,
+          ...flowForm.dataConfig,
           main: updatedMainConfig,
         }
       });
@@ -135,7 +131,7 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
     }
     setTableName(selTableName);
     flowFormApi.queryTableStructure({ tableName: selTableName! }).then(res => {
-      resortColumnsByConfig(res.data.columns, item.dataConfig);
+      resortColumnsByConfig(res.data.columns, flowForm?.dataConfig);
       setTableInfo(res.data);
       if (!res.data.exist) {
         setIsMainTableCreated(false);
@@ -144,9 +140,9 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
   }
 
   function handleGetLinkTables() {
-    if (!item?.id) return;
+    if (!flowForm?.id) return;
     
-    flowFormTableApi.list({ query: { flowFormId: item.id }, sorter: "sort asc" })
+    flowFormTableApi.list({ query: { flowFormId: flowForm.id }, sorter: "sort asc" })
       .then((res) => {
         setLinkTables(res.data || []);
       });
@@ -161,18 +157,18 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
             <Button>关联主表</Button>
           </FormTableSelectModal>
           <BaseDrawer triggerDom={<Button>关联子表</Button>} size={1200}>
-            <FormTableLink item={itemClone} onRefresh={handleGetLinkTables} />
+            {flowForm && <FormTableLink item={flowForm} onRefresh={handleGetLinkTables} />}
           </BaseDrawer>
           {/* 展示关联子表list */}
         </Space>
 
         <div className="fa-mb8" style={{ fontSize: 12, color: '#999' }}>主表</div>
         {hasMainTable && (
-          <div className={clsx('fa-form-table-item', tableName === itemClone?.dataConfig?.main?.tableName ? 'fa-form-table-item-active' : '')}
-            onClick={() => handleSelTable(itemClone?.dataConfig?.main?.tableName)}
+          <div className={clsx('fa-form-table-item', tableName === flowForm?.dataConfig?.main?.tableName ? 'fa-form-table-item-active' : '')}
+            onClick={() => handleSelTable(flowForm?.dataConfig?.main?.tableName)}
           >
             <div className="i-material-symbols:table fa-form-item-icon"/>
-            <span>{itemClone?.dataConfig?.main?.tableName}</span>
+            <span>{flowForm?.dataConfig?.main?.tableName}</span>
           </div>
         )}
         
@@ -196,8 +192,8 @@ export default function FormTableEdit({ item }: FormTableEditProps) {
 
       <FaFlexRestLayout className="fa-full-content fa-card">
         <div className='fa-p-16 fa-full'>
-          {tableInfo && tableInfo.exist ? (
-            <FormTableColumnTable item={itemClone} tableInfo={tableInfo} onColumnsChange={handleColumnsChange} />
+          {flowForm && tableInfo && tableInfo.exist ? (
+            <FormTableColumnTable item={flowForm} tableInfo={tableInfo} onColumnsChange={handleColumnsChange} />
           ) : <Empty description="表不存在" />}
         </div>
       </FaFlexRestLayout>

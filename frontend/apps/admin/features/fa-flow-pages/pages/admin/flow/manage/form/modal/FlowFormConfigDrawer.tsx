@@ -1,6 +1,6 @@
 import { flowFormApi } from '@/services';
 import { CalculatorOutlined, DatabaseOutlined, FormOutlined, OrderedListOutlined } from '@ant-design/icons';
-import { FaFlexRestLayout, FaHref } from '@fa/ui';
+import { FaFlexRestLayout, FaHref, FaUtils } from '@fa/ui';
 import { FaFormEditor } from '@features/fa-flow-pages/components';
 import { Button, Drawer, Segmented, Space, Tabs } from 'antd';
 import { debounce, isEqual } from 'lodash';
@@ -66,8 +66,24 @@ export default function FlowFormConfigDrawer({ itemId, refresh }: FlowFormConfig
 
   function handleOpen() {
     setOpen(true)
+    setTab('database')
     flowFormApi.getById(itemId).then((res) => {
       setFlowForm(res.data);
+    });
+  }
+
+  function handleSave() {
+    if (!flowForm) return;
+    
+    // 取消防抖任务，确保立即保存
+    debouncedApiUpdate.cancel();
+    
+    // 调用保存接口
+    flowFormApi.update(flowForm.id, { config: flowForm.config }).then((res) => {
+      FaUtils.showResponse(res, '保存配置');
+      setOpen(false);
+      clear();
+      refresh && refresh();
     });
   }
 
@@ -86,7 +102,31 @@ export default function FlowFormConfigDrawer({ itemId, refresh }: FlowFormConfig
         resizable
         extra={(
           <Space>
-            <Button type="primary" size="small" onClick={() => setOpen(false)}>保存</Button>
+            <Button 
+              onClick={() => {
+                const steps = ['database', 'form', 'table'];
+                const currentIndex = steps.indexOf(tab);
+                if (currentIndex > 0) {
+                  setTab(steps[currentIndex - 1]);
+                }
+              }}
+              disabled={tab === 'database'}
+            >
+              上一步
+            </Button>
+            <Button 
+              onClick={() => {
+                const steps = ['database', 'form', 'table'];
+                const currentIndex = steps.indexOf(tab);
+                if (currentIndex < steps.length - 1) {
+                  setTab(steps[currentIndex + 1]);
+                }
+              }}
+              disabled={tab === 'table'}
+            >
+              下一步
+            </Button>
+            <Button type="primary" onClick={() => handleSave()} disabled={tab !== 'table'}>保存</Button>
           </Space>
         )}
         styles={{
@@ -114,7 +154,7 @@ export default function FlowFormConfigDrawer({ itemId, refresh }: FlowFormConfig
 
                 <FaFlexRestLayout style={{ overflow: 'hidden' }}>
                   {tab === 'database' && (
-                    <FormTableEdit item={flowForm} />
+                    <FormTableEdit />
                   )}
                   {tab === 'form' && (
                     <FaFormEditor

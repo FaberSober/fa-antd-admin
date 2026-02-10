@@ -24,6 +24,16 @@
         ORDER BY 
             ORDINAL_POSITION
     </select>
+    
+    <select id="getTableComment" parameterType="map" resultType="string">
+        SELECT 
+            TABLE_COMMENT
+        FROM 
+            information_schema.tables
+        WHERE 
+            TABLE_SCHEMA = (select database())
+            AND TABLE_NAME = #{tableName}
+    </select>
 
     <select id="selectByDynamicSql" parameterType="map" resultType="map">
         ${sql}

@@ -4,6 +4,7 @@ import { FaHref } from '@fa/ui';
 import { Drawer } from 'antd';
 import React, { useState } from 'react';
 import FlowFormDataTable from '../cube/data/FlowFormDataTable';
+import FormSimpleTable from '../../../view/form/simpleTable/FormSimpleTable';
 
 
 export interface FlowFormViewDataDrawerProps {
@@ -34,7 +35,12 @@ export default function FlowFormViewDataDrawer({ item }: FlowFormViewDataDrawerP
         resizable
       >
         {open && (
-          <FlowFormDataTable flowForm={item} />
+          <div className='fa-full-content'>
+            {/* 流程类型表格 */}
+            {item.flowProcessId && <FlowFormDataTable flowForm={item} />}
+            {/* 普通类型表格 */}
+            {!item.flowProcessId && <FormSimpleTable flowForm={item} />}
+          </div>
         )}
       </Drawer>
     </span>

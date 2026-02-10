@@ -3,6 +3,7 @@ import { Table } from 'antd';
 import { each, get, set } from 'lodash';
 import React, { useMemo } from 'react';
 import { useFlowFormEditStore } from '../../store/useFlowFormEditStore';
+import { sortFieldsByTail } from '@features/fa-flow-pages/configs/form';
 
 export interface TableColumnProps {
 }
@@ -35,15 +36,7 @@ export default function TableColumn({ }: TableColumnProps) {
         table: flowForm.dataConfig.main.tableName,
         sort: fields.length,
       })
-      const tailFields = ['flow_instance_id', 'tenant_id', 'crt_time', 'crt_user', 'upd_time', 'upd_user', 'deleted'];
-      fields.sort((a, b) => {
-        const indexA = tailFields.indexOf(a.field);
-        const indexB = tailFields.indexOf(b.field);
-        if (indexA === -1 && indexB === -1) return 0;
-        if (indexA === -1) return -1;
-        if (indexB === -1) return 1;
-        return indexA - indexB;
-      });
+      sortFieldsByTail(fields);
     }
     return fields;
   }, [flowForm])

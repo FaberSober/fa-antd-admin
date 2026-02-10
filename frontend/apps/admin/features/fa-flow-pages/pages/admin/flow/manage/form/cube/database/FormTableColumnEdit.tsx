@@ -57,7 +57,7 @@ export default function FormTableColumnEdit({ column, tableName, onSuccess }: Fo
         }
       }}
     >
-      <div className='fa-flex-1 fa-flex-row-center fa-gap6' style={{  }}>
+      <div className='fa-flex-1 fa-flex-row-center fa-gap6 fa-form-view' style={{  }}>
         <div style={{ width: 120 }}>
           {isSystemField ? <span style={{ color: 'rgba(200, 0, 0, 1)' }}>{column.field}</span> : (
             <Form.Item name="field" noStyle rules={[{ required: true }]}>

@@ -109,9 +109,9 @@ export default function FlowFormModal({ children, title, record, fetchFinish, ad
           <Form.Item name="icon" label="图标" rules={[{ required: false }]}>
             <Input placeholder="请输入图标" />
           </Form.Item>
-          <Form.Item name="tableName" label="表名" rules={[{ required: true }]}>
+          {/* <Form.Item name="tableName" label="表名" rules={[{ required: true }]}>
             <Input placeholder="请输入表名" />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item name="remark" label="备注" rules={[{ required: false }]}>
             <Input placeholder="请输入备注" />
           </Form.Item>

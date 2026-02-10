@@ -5,6 +5,7 @@ import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { flowFormTableApi, flowFormApi } from '@/services';
 import { FaUtils } from '@fa/ui';
 import FormTableSelectModal from './FormTableSelectModal';
+import { sortFieldsByTail } from '@features/fa-flow-pages/configs/form';
 
 /** 表字段选择器组件 */
 interface TableFieldSelectProps {
@@ -140,6 +141,7 @@ export default function FormTableLink({ item, onRefresh }: FormTableLinkProps) {
 
     const res = await flowFormApi.queryTableStructure({ tableName });
     const columns = res.data.columns || [];
+    sortFieldsByTail(columns);
     setTableColumnsCache(prev => ({ ...prev, [tableName]: columns }));
     return columns;
   }

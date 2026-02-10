@@ -7,6 +7,7 @@ import { flowFormApi } from '@/services';
 interface FlowFormEditState {
   flowForm: Flow.FlowForm | null;
   setFlowForm: (flowForm: Flow.FlowForm) => void;
+  updateFlowFormDataConfig: (dataConfig: Flow.FlowFormDataConfig) => void;
   updateFlowFormTableConfig: (flowForm: Flow.FlowForm) => void;
   updateFlowFormTableConfigQueryColumn: (column: Flow.TableConfigQueryColumn) => void;
   updateFlowFormTableConfigTableColumn: (column: Flow.TableConfigTableColumn) => void;
@@ -19,6 +20,10 @@ export const useFlowFormEditStore = create(
     (set) => ({
       flowForm: null,
       setFlowForm: (flowForm: Flow.FlowForm) => set({ flowForm }),
+      updateFlowFormDataConfig: (dataConfig: Flow.FlowFormDataConfig) => set((state) => {
+        flowFormApi.update(state.flowForm!.id, { dataConfig })
+        return { flowForm: { ...state.flowForm, dataConfig } }
+      }),
       updateFlowFormTableConfig: (flowForm: Flow.FlowForm) => set((state) => {
         flowFormApi.update(state.flowForm!.id, { tableConfig: flowForm.tableConfig })
         return { flowForm }

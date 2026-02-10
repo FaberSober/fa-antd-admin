@@ -107,7 +107,15 @@ public class FlowFormBiz extends BaseBiz<FlowFormMapper,FlowForm> implements FaF
             return tableInfo;
         }
         tableInfo.setExist(true);
-        tableInfo.setTableComment(tableMeta.getComment());
+        
+        // 尝试从Hutool获取表注释
+        String tableComment = tableMeta.getComment();
+        // 如果Hutool获取不到，使用SQL查询获取
+        if (tableComment == null || tableComment.isEmpty()) {
+            tableComment = baseMapper.getTableComment(tableName);
+        }
+        tableInfo.setTableComment(tableComment);
+        
         // getPkNames() 返回 Set<String>，需要转换为 String
         // 通常表只有一个主键，取第一个
         Set<String> pkNames = tableMeta.getPkNames();
