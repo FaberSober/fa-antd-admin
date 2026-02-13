@@ -1,18 +1,75 @@
-.fa-form-table-item {
-  border-bottom: 1px solid var(--fa-border-color);
-  padding: 8px;
-  width: 100%;
+
+.fa-form-table-list {
   display: flex;
-  align-items: center;
-  cursor: pointer;
-  transition: all ease 0.2s;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.fa-form-table-item:hover {
-  background-color: var(--fa-bg-color-hover);
+.fa-form-table-title {
+  font-size: 13px;
+  color: var(--fa-text-color-secondary);
+  font-weight: 500;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fa-form-table-item {
+  position: relative;
+  width: 100%;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: transparent;
+  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  color: var(--fa-text-color);
+  font-size: 14px;
+  border: 1px solid transparent;
+
+  &:hover {
+    background-color: var(--fa-bg-color-hover);
+  }
+
+  .fa-form-item-icon {
+    font-size: 16px;
+    color: var(--fa-text-color-secondary);
+  }
+
+  span {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .fa-form-table-item-active {
-  background-color: var(--primary-color-light500);
-  border-color: var(--primary-color);
+  background-color: var(--primary-color-light9);
+  color: var(--primary-color);
+  font-weight: 500;
+
+  &:hover {
+    background-color: var(--primary-color-light9);
+  }
+
+  .fa-form-item-icon {
+    color: var(--primary-color);
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 14px;
+    background-color: var(--primary-color);
+    border-radius: 0 4px 4px 0;
+  }
 }
+

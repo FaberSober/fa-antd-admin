@@ -4,7 +4,7 @@ import { BaseDrawer, FaFlexRestLayout } from '@fa/ui';
 import { flowFormApi, flowFormTableApi } from '@features/fa-flow-pages/services';
 import { set } from 'lodash';
 import FormTableColumnTable from './FormTableColumnTable';
-import { Button, Empty, Space } from 'antd';
+import { Empty } from 'antd';
 import { resortColumnsByConfig } from '../utils';
 import './FormTableEdit.scss';
 import clsx from 'clsx';
@@ -151,35 +151,60 @@ export default function FormTableEdit({ }: FormTableEditProps) {
   // console.log('hasMainTable', hasMainTable);
   return (
     <div className='fa-full fa-flex-row fa-gap12'>
-      <div style={{ width: 250 }} className='fa-card'>
-        <Space className='fa-mb12'>
-          <FormTableSelectModal fetchFinish={handleSetMainTable}>
-            <Button>关联主表</Button>
-          </FormTableSelectModal>
-          <BaseDrawer triggerDom={<Button>关联子表</Button>} size={1200}>
-            {flowForm && <FormTableLink item={flowForm} onRefresh={handleGetLinkTables} />}
-          </BaseDrawer>
-          {/* 展示关联子表list */}
-        </Space>
-
-        <div className="fa-mb8" style={{ fontSize: 12, color: '#999' }}>主表</div>
-        {hasMainTable && (
-          <div className={clsx('fa-form-table-item', tableName === flowForm?.dataConfig?.main?.tableName ? 'fa-form-table-item-active' : '')}
-            onClick={() => handleSelTable(flowForm?.dataConfig?.main?.tableName)}
-          >
-            <div className="i-material-symbols:table fa-form-item-icon"/>
-            <span>{flowForm?.dataConfig?.main?.tableName}</span>
-          </div>
-        )}
+      <div style={{ width: 260, padding: 12 }} className='fa-card fa-flex-column'>
         
-        {/* 关联子表列表 */}
-        {linkTables.length > 0 && (
-          <div className="fa-mt12">
-            <div className="fa-mb8" style={{ fontSize: 12, color: '#999' }}>关联子表</div>
+        {/* Main Table Section */}
+        <div className="fa-mb16">
+          <div className="fa-form-table-title">
+            <span>主表</span>
+            {!hasMainTable && (
+              <FormTableSelectModal fetchFinish={handleSetMainTable}>
+                <a style={{ fontSize: 12 }}>关联</a>
+              </FormTableSelectModal>
+            )}
+            {hasMainTable && (
+              <FormTableSelectModal fetchFinish={handleSetMainTable}>
+                <a style={{ fontSize: 12, opacity: 0.5, color: 'inherit' }}>切换</a>
+              </FormTableSelectModal>
+            )}
+          </div>
+          
+          {!hasMainTable && (
+             <div className="fa-text-secondary fa-text-center fa-py12" style={{ fontSize: 12, background: 'var(--fa-bg-color)', borderRadius: 4 }}>
+                暂无主表
+             </div>
+          )}
+
+          {hasMainTable && (
+            <div 
+              className={clsx('fa-form-table-item', tableName === flowForm?.dataConfig?.main?.tableName && 'fa-form-table-item-active')}
+              onClick={() => handleSelTable(flowForm?.dataConfig?.main?.tableName)}
+            >
+              <div className="i-material-symbols:table fa-form-item-icon"/>
+              <span>{flowForm?.dataConfig?.main?.tableName}</span>
+            </div>
+          )}
+        </div>
+
+        {/* Sub Table Section */}
+        <div className="fa-flex-1 fa-flex-column" style={{ minHeight: 0 }}>
+          <div className="fa-form-table-title">
+            <span>关联子表</span>
+            <BaseDrawer triggerDom={<a style={{ fontSize: 12 }}>添加</a>} size={1200}>
+              {flowForm && <FormTableLink item={flowForm} onRefresh={handleGetLinkTables} />}
+            </BaseDrawer>
+          </div>
+          
+          <div className="fa-form-table-list fa-flex-1 fa-scroll-y">
+            {linkTables.length === 0 && (
+              <div className="fa-text-secondary fa-text-center fa-py12" style={{ fontSize: 12 }}>
+                暂无子表
+              </div>
+            )}
             {linkTables.map((linkTable) => (
               <div
                 key={linkTable.id}
-                className={clsx('fa-form-table-item', tableName === linkTable.tableName ? 'fa-form-table-item-active' : '')}
+                className={clsx('fa-form-table-item', tableName === linkTable.tableName && 'fa-form-table-item-active')}
                 onClick={() => handleSelTable(linkTable.tableName)}
               >
                 <div className="i-material-symbols:table-rows fa-form-item-icon" />
@@ -187,7 +212,8 @@ export default function FormTableEdit({ }: FormTableEditProps) {
               </div>
             ))}
           </div>
-        )}
+        </div>
+
       </div>
 
       <FaFlexRestLayout className="fa-full-content fa-card">

@@ -54,7 +54,7 @@ export default function FlowFormList() {
             <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
           </Space>
         ),
-        width: 240,
+        width: 230,
         fixed: 'right',
         tcRequired: true,
         tcType: 'menu',
