@@ -274,8 +274,11 @@ importers:
         specifier: 1.2.5
         version: 1.2.5
       '@iconify-json/material-symbols':
-        specifier: ^1.2.50
-        version: 1.2.50
+        specifier: 1.2.59
+        version: 1.2.59
+      '@iconify-json/mdi':
+        specifier: 1.2.3
+        version: 1.2.3
       '@iconify-json/streamline-sharp':
         specifier: 1.2.0
         version: 1.2.0
@@ -1505,8 +1508,11 @@ packages:
   '@iconify-json/logos@1.2.5':
     resolution: {integrity: sha512-WR8+9kFwx1tIR+hWpKYC+rpVkAuzHyaVxZRfhGGIjqCfgbodK7rS4+OZhktdKtZKKcdmhpLZKvlmRm4IA4dKRg==}
 
-  '@iconify-json/material-symbols@1.2.50':
-    resolution: {integrity: sha512-71tjHR70h46LHtBFab3fAd2V/wPTO7JMV5lKnRn3IcF303LaFgAlO0BZeTJDcmCv9d0snRZmnoLZAJVD7/eisw==}
+  '@iconify-json/material-symbols@1.2.59':
+    resolution: {integrity: sha512-difuedW4jZyiDDu2SySjPCr+UsM65PRkEg3zUuKz0YRGMkNyBsk3R6j9s/ofP1NaKr2y32XxrzTawmnJZbzOAw==}
+
+  '@iconify-json/mdi@1.2.3':
+    resolution: {integrity: sha512-O3cLwbDOK7NNDf2ihaQOH5F9JglnulNDFV7WprU2dSoZu3h3cWH//h74uQAB87brHmvFVxIOkuBX2sZSzYhScg==}
 
   '@iconify-json/streamline-sharp@1.2.0':
     resolution: {integrity: sha512-36c6zxkoA9sKGnbc4sV13MlSVSTjCDCk/j9viEjJF1Eznkf+WF91KBzFmmCm49SKh+S1I76f820j226AECE7tw==}
@@ -8763,7 +8769,11 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/material-symbols@1.2.50':
+  '@iconify-json/material-symbols@1.2.59':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/mdi@1.2.3':
     dependencies:
       '@iconify/types': 2.0.0
 
