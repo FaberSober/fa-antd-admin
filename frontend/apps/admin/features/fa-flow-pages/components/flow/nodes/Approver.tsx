@@ -1,4 +1,4 @@
-import { FaIcon } from "@fa/icons";
+import { FaIconPro } from "@/components";
 import { BaseDrawer, FaFlexRestLayout, useOpen } from '@fa/ui';
 import { NodeCloseBtn } from "@features/fa-flow-pages/components/flow/cubes";
 import AddNode from "@features/fa-flow-pages/components/flow/nodes/AddNode";
@@ -69,7 +69,7 @@ export default function Approver({ node, parentNode }: Flw.BasicNodeProps) {
     <div className="node-wrap">
       <div className="node-wrap-box start-node" onClick={showDrawer}>
         <div className="title">
-          <FaIcon icon="fa-solid fa-user-large" />
+          <FaIconPro icon="fa-solid fa-user-large" />
           <span>{node.nodeName}</span>
           <NodeCloseBtn onClick={() => delNode()} />
         </div>

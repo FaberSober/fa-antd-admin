@@ -1,15 +1,14 @@
-import { RollbackOutlined, SaveOutlined } from "@ant-design/icons";
-import { FaIcon } from '@fa/icons';
+import { FaIconPro } from "@/components";
 import { BaseDrawer, FaFlexRestLayout, useOpen } from "@fa/ui";
 import { Flw } from "@features/fa-flow-pages/types";
-import { Button, Form, Input, Space, Tabs } from "antd";
-import { useMemo, useState } from 'react';
-import { useNode, useNodeAssigneeText } from '../hooks';
+import { Form, Input, Tabs } from "antd";
+import { useState } from 'react';
+import { useNodeAssigneeText } from '../hooks';
 import { useWorkFlowStore } from '../stores/useWorkFlowStore';
 import AddNode from './AddNode';
-import StartNodeBasicForm from './property/StartNodeBasicForm';
-import StartNodeAdvanceForm from "./property/StartNodeAdvanceForm";
 import NodeFormAuth from "./property/NodeFormAuth";
+import StartNodeAdvanceForm from "./property/StartNodeAdvanceForm";
+import StartNodeBasicForm from './property/StartNodeBasicForm';
 
 
 export interface PromoterProps {
@@ -41,7 +40,7 @@ export default function Promoter({ node }: PromoterProps) {
     <div className="node-wrap">
       <div className="node-wrap-box start-node" onClick={showDrawer}>
         <div className="title">
-          <FaIcon icon="fa-solid fa-user-large" />
+          <FaIconPro icon="fa-solid fa-user-large" />
           <span>{node.nodeName}</span>
         </div>
         <div className="content">

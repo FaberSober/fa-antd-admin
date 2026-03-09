@@ -28,7 +28,7 @@ importers:
         version: 6.0.1
       turbo:
         specifier: latest
-        version: 2.7.5
+        version: 2.8.14
 
   apps/admin:
     dependencies:
@@ -59,6 +59,12 @@ importers:
       '@fa/ui':
         specifier: workspace:*
         version: link:../../fa-ui/packages/ui
+      '@iconify-json/mdi':
+        specifier: 1.2.3
+        version: 1.2.3
+      '@iconify/react':
+        specifier: 6.0.2
+        version: 6.0.2(react@18.3.1)
       '@iimm/data-view-react':
         specifier: 1.0.0
         version: 1.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -276,9 +282,6 @@ importers:
       '@iconify-json/material-symbols':
         specifier: 1.2.59
         version: 1.2.59
-      '@iconify-json/mdi':
-        specifier: 1.2.3
-        version: 1.2.3
       '@iconify-json/streamline-sharp':
         specifier: 1.2.0
         version: 1.2.0
@@ -1519,6 +1522,11 @@ packages:
 
   '@iconify-json/tabler@1.2.25':
     resolution: {integrity: sha512-yU0aipjN4moGTqeCbdA9m7Wl7CZ9PUqnlwQXng/iGXod43FiSZHNUyMbc1+mu0cR8BV7gf8rkQZJy+as8gWAEw==}
+
+  '@iconify/react@6.0.2':
+    resolution: {integrity: sha512-SMmC2sactfpJD427WJEDN6PMyznTFMhByK9yLW0gOTtnjzzbsi/Ke/XqsumsavFPwNiXs8jSiYeZTmLCLwO+Fg==}
+    peerDependencies:
+      react: '>=16'
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -7110,38 +7118,38 @@ packages:
   tunnel-rat@0.1.2:
     resolution: {integrity: sha512-lR5VHmkPhzdhrM092lI2nACsLO4QubF0/yoOhzX7c+wIpbN1GjHNzCc91QlpxBi+cnx8vVJ+Ur6vL5cEoQPFpQ==}
 
-  turbo-darwin-64@2.7.5:
-    resolution: {integrity: sha512-nN3wfLLj4OES/7awYyyM7fkU8U8sAFxsXau2bYJwAWi6T09jd87DgHD8N31zXaJ7LcpyppHWPRI2Ov9MuZEwnQ==}
+  turbo-darwin-64@2.8.14:
+    resolution: {integrity: sha512-9sFi7n2lLfEsGWi5OEoA/eTtQU2BPKtzSYKqufMtDeRmqMT9vKjbv9gJCRkllSVE9BOXA0qXC3diyX8V8rKIKw==}
     cpu: [x64]
     os: [darwin]
 
-  turbo-darwin-arm64@2.7.5:
-    resolution: {integrity: sha512-wCoDHMiTf3FgLAbZHDDx/unNNonSGhsF5AbbYODbxnpYyoKDpEYacUEPjZD895vDhNvYCH0Nnk24YsP4n/cD6g==}
+  turbo-darwin-arm64@2.8.14:
+    resolution: {integrity: sha512-aS4yJuy6A1PCLws+PJpZP0qCURG8Y5iVx13z/WAbKyeDTY6W6PiGgcEllSaeLGxyn++382ztN/EZH85n2zZ6VQ==}
     cpu: [arm64]
     os: [darwin]
 
-  turbo-linux-64@2.7.5:
-    resolution: {integrity: sha512-KKPvhOmJMmzWj/yjeO4LywkQ85vOJyhru7AZk/+c4B6OUh/odQ++SiIJBSbTG2lm1CuV5gV5vXZnf/2AMlu3Zg==}
+  turbo-linux-64@2.8.14:
+    resolution: {integrity: sha512-XC6wPUDJkakjhNLaS0NrHDMiujRVjH+naEAwvKLArgqRaFkNxjmyNDRM4eu3soMMFmjym6NTxYaF74rvET+Orw==}
     cpu: [x64]
     os: [linux]
 
-  turbo-linux-arm64@2.7.5:
-    resolution: {integrity: sha512-8PIva4L6BQhiPikUTds9lSFSHXVDAsEvV6QUlgwPsXrtXVQMVi6Sv9p+IxtlWQFvGkdYJUgX9GnK2rC030Xcmw==}
+  turbo-linux-arm64@2.8.14:
+    resolution: {integrity: sha512-ChfE7isyVNjZrVSPDwcfqcHLG/FuIBbOFxnt1FM8vSuBGzHAs8AlTdwFNIxlEMJfZ8Ad9mdMxdmsCUPIWiQ6cg==}
     cpu: [arm64]
     os: [linux]
 
-  turbo-windows-64@2.7.5:
-    resolution: {integrity: sha512-rupskv/mkIUgQXzX/wUiK00mKMorQcK8yzhGFha/D5lm05FEnLx8dsip6rWzMcVpvh+4GUMA56PgtnOgpel2AA==}
+  turbo-windows-64@2.8.14:
+    resolution: {integrity: sha512-FTbIeQL1ycLFW2t9uQNMy+bRSzi3Xhwun/e7ZhFBdM+U0VZxxrtfYEBM9CHOejlfqomk6Jh7aRz0sJoqYn39Hg==}
     cpu: [x64]
     os: [win32]
 
-  turbo-windows-arm64@2.7.5:
-    resolution: {integrity: sha512-G377Gxn6P42RnCzfMyDvsqQV7j69kVHKlhz9J4RhtJOB5+DyY4yYh/w0oTIxZQ4JRMmhjwLu3w9zncMoQ6nNDw==}
+  turbo-windows-arm64@2.8.14:
+    resolution: {integrity: sha512-KgZX12cTyhY030qS7ieT8zRkhZZE2VWJasDFVUSVVn17nR7IShpv68/7j5UqJNeRLIGF1XPK0phsP5V5yw3how==}
     cpu: [arm64]
     os: [win32]
 
-  turbo@2.7.5:
-    resolution: {integrity: sha512-7Imdmg37joOloTnj+DPrab9hIaQcDdJ5RwSzcauo/wMOSAgO+A/I/8b3hsGGs6PWQz70m/jkPgdqWsfNKtwwDQ==}
+  turbo@2.8.14:
+    resolution: {integrity: sha512-UCTxeMNYT1cKaHiIFdLCQ7ulI+jw5i5uOnJOrRXsgUD7G3+OjlUjwVd7JfeVt2McWSVGjYA3EVW/v1FSsJ5DtA==}
     hasBin: true
 
   twitch-video-element@0.1.2:
@@ -8784,6 +8792,11 @@ snapshots:
   '@iconify-json/tabler@1.2.25':
     dependencies:
       '@iconify/types': 2.0.0
+
+  '@iconify/react@6.0.2(react@18.3.1)':
+    dependencies:
+      '@iconify/types': 2.0.0
+      react: 18.3.1
 
   '@iconify/types@2.0.0': {}
 
@@ -16004,32 +16017,32 @@ snapshots:
       - immer
       - react
 
-  turbo-darwin-64@2.7.5:
+  turbo-darwin-64@2.8.14:
     optional: true
 
-  turbo-darwin-arm64@2.7.5:
+  turbo-darwin-arm64@2.8.14:
     optional: true
 
-  turbo-linux-64@2.7.5:
+  turbo-linux-64@2.8.14:
     optional: true
 
-  turbo-linux-arm64@2.7.5:
+  turbo-linux-arm64@2.8.14:
     optional: true
 
-  turbo-windows-64@2.7.5:
+  turbo-windows-64@2.8.14:
     optional: true
 
-  turbo-windows-arm64@2.7.5:
+  turbo-windows-arm64@2.8.14:
     optional: true
 
-  turbo@2.7.5:
+  turbo@2.8.14:
     optionalDependencies:
-      turbo-darwin-64: 2.7.5
-      turbo-darwin-arm64: 2.7.5
-      turbo-linux-64: 2.7.5
-      turbo-linux-arm64: 2.7.5
-      turbo-windows-64: 2.7.5
-      turbo-windows-arm64: 2.7.5
+      turbo-darwin-64: 2.8.14
+      turbo-darwin-arm64: 2.8.14
+      turbo-linux-64: 2.8.14
+      turbo-linux-arm64: 2.8.14
+      turbo-windows-64: 2.8.14
+      turbo-windows-arm64: 2.8.14
 
   twitch-video-element@0.1.2: {}
 

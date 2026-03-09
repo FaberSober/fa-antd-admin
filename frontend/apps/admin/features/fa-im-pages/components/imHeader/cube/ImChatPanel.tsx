@@ -1,12 +1,11 @@
-import { UserHeadMy } from '@/components';
+import { FaIconPro, UserHeadMy } from '@/components';
+import { Im } from '@/types';
 import { MessageOutlined } from '@ant-design/icons';
-import { FaIcon } from '@fa/icons';
 import { FaFlexRestLayout } from '@fa/ui';
 import clsx from 'clsx';
 import { useState } from 'react';
 import ImChatMsgPanel from './ImChatMsgPanel';
 import ImChatUserPanel from './ImChatUserPanel';
-import { Im } from '@/types';
 
 
 /**
@@ -32,7 +31,7 @@ export default function ImChatPanel() {
           <MessageOutlined />
         </div>
         <div className={clsx('fa-im-wx-panel-left-btn', menu === 'user' && 'fa-im-wx-panel-left-btn-selected')} onClick={() => setMenu('user')}>
-          <FaIcon icon="fa-solid fa-address-book" />
+          <FaIconPro icon="fa-solid fa-address-book" />
         </div>
       </div>
 

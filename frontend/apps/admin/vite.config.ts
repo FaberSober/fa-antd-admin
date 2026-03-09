@@ -123,6 +123,7 @@ export default defineConfig(({ mode }) => {
             // antd: ['antd', '@ant-design/colors', '@ant-design/icons'],
             echarts: ['echarts'],
             three: ['three', 'three-stdlib', '@react-three/drei', '@react-three/fiber'],
+            iconify: ['@iconify/react', '@iconify-json/mdi'],
           },
         },
       },

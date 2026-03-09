@@ -1,15 +1,14 @@
-import { FaIcon } from "@fa/icons";
+import { FaIconPro } from "@/components";
+import { PlusOutlined } from "@ant-design/icons";
 import { BaseDrawer, useOpen } from '@fa/ui';
 import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
 import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
 import { Button, Input } from "antd";
+import { cloneDeep } from "lodash";
 import { useMemo } from 'react';
 import { NodeCloseBtn } from '../cubes';
 import { useDelNode } from "../hooks";
 import AddNode from './AddNode';
-import { PlusOutlined } from "@ant-design/icons";
-import { cloneDeep } from "lodash";
-import { getNodeKey } from "../utils";
 import RouteNode from "./RouteNode";
 
 
@@ -67,7 +66,7 @@ export default function Route({ node, parentNode }: Flw.BasicNodeProps) {
     <div className="node-wrap">
       <div className="node-wrap-box start-node" onClick={showDrawer}>
         <div className="title">
-          <FaIcon icon="fa-solid fa-user-large" />
+          <FaIconPro icon="fa-solid fa-user-large" />
           <span>{node.nodeName}</span>
           <NodeCloseBtn onClick={() => delNode()} />
         </div>

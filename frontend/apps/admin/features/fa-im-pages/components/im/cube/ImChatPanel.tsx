@@ -1,9 +1,9 @@
+import { FaIconPro } from '@/components';
 import { UserLayoutContext } from '@/layout';
 import { CloseOutlined, MessageOutlined } from '@ant-design/icons';
-import { FaIcon } from '@fa/icons';
 import { FaFlexRestLayout } from '@fa/ui';
 import { Badge, Tabs } from 'antd';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 
 export interface ImChatPanelProps {
   onClose?: () => void;
@@ -40,7 +40,7 @@ export default function ImChatPanel({ onClose }: ImChatPanelProps) {
             defaultActiveKey="1"
             items={[
               { label: <div style={{width: 129}} className='fa-flex-center'><MessageOutlined /></div>, key: 'chat'  },
-              { label: <div style={{width: 129}} className='fa-flex-center'><FaIcon icon="fa-solid fa-user-group" /></div>, key: 'users'  },
+              { label: <div style={{width: 129}} className='fa-flex-center'><FaIconPro icon="fa-solid fa-user-group" /></div>, key: 'users'  },
             ]}
             tabBarGutter={0}
           />

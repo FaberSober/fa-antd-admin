@@ -1,4 +1,4 @@
-import { FaIcon } from "@fa/icons";
+import { FaIconPro } from "@/components";
 import { BaseDrawer, useOpen } from '@fa/ui';
 import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
 import { Flw } from "@features/fa-flow-pages/types";
@@ -25,7 +25,7 @@ export default function End({ node, parentNode }: Flw.BasicNodeProps) {
     <div className="node-wrap">
       <div className="node-wrap-box start-node" onClick={showDrawer}>
         <div className="title">
-          <FaIcon icon="fa-solid fa-user-large" />
+          <FaIconPro icon="fa-solid fa-user-large" />
           <span>{node.nodeName}</span>
           <NodeCloseBtn onClick={() => delNode()} />
         </div>
