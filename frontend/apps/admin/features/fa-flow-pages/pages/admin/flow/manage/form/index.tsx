@@ -63,7 +63,7 @@ export default function FlowFormList() {
   }
 
   return (
-    <div className="fa-full-content fa-flex-column fa-bg-white">
+    <div className="fa-full-content-p12 fa-flex-column fa-bg-white">
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
         <div className="fa-h3">{serviceName}</div>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>

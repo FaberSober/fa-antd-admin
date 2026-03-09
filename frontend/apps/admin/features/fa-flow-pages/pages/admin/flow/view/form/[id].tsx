@@ -29,7 +29,7 @@ export default function FlowFormViewPage() {
   if (flowForm === undefined) return <PageLoading />
 
   return (
-    <div className='fa-full-content'>
+    <div className='fa-full-content-p12'>
       {/* 流程类型表格 */}
       {flowForm.flowProcessId && <FlowFormDataTable flowForm={flowForm} />}
       {/* 普通类型表格 */}

@@ -23,7 +23,7 @@ export default function FlowDeployPage() {
   }
 
   return (
-    <div className="fa-full-content">
+    <div className="fa-full-content-p12">
       <Splitter>
         {/* 左侧面板 */}
         <Splitter.Panel defaultSize={300} min={240} max="50%" collapsible>
