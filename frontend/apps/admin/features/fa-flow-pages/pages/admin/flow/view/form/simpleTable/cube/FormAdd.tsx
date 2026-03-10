@@ -70,8 +70,8 @@ export default function FormAdd({ flowForm, onSuccess }: FormAddProps) {
         </div>
 
         {/* body */}
-        <FaFlexRestLayout>
-          <div className='fa-full fa-p12 fa-relative'>
+        <FaFlexRestLayout className='fa-full-content fa-p12 fa-bg-grey'>
+          <div className='fa-content fa-full fa-relative fa-p12'>
             <FaFlowForm
               form={form}
               formId={flowForm.id}

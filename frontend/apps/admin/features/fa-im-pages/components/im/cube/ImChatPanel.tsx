@@ -1,4 +1,4 @@
-import { FaIconPro } from '@/components';
+import FaIconPro from '@features/fa-admin-pages/components/icons/FaIconPro';
 import { UserLayoutContext } from '@/layout';
 import { CloseOutlined, MessageOutlined } from '@ant-design/icons';
 import { FaFlexRestLayout } from '@fa/ui';

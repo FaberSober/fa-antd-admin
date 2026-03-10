@@ -34,7 +34,7 @@ export default function FlowInstanceView({ instanceId, onSuccess, type = 'view' 
 
   if (isNil(info)) return <PageLoading />
   return (
-    <Spin spinning={loading} wrapperClassName='fa-spin-full'>
+    <Spin spinning={loading} wrapperClassName='fa-spin-full fa-content'>
       <div className='fa-full-content-p12 fa-flex-column'>
         <div className='fa-mb12'>
           <Segmented

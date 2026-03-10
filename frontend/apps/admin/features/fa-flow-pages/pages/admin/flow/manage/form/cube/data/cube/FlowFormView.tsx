@@ -66,7 +66,7 @@ export default function FlowFormView({ flowForm, record, open: openProp, onOpenC
         </div>
 
         {/* body */}
-        <FaFlexRestLayout>
+        <FaFlexRestLayout className='fa-full-content fa-p12 fa-bg-grey'>
           <FlowInstanceView instanceId={record.flowInstanceId} />
         </FaFlexRestLayout>
       </div>

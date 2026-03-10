@@ -71,39 +71,40 @@ export default function FlowFormAdd({ flowForm, onSuccess }: FlowFormAddProps) {
         </div>
 
         {/* body */}
-        <FaFlexRestLayout>
-          <Tabs
-            className=''
-            items={[
-              {
-                label: '表单信息',
-                key: 'form',
-                children: (
-                  <div className='fa-full fa-p12 fa-relative'>
-                    {flow && (
-                      <FaFlowFormCreate
-                        form={form}
-                        flow={flow}
-                        startNode={startNode}
-                        onFormSubmit={handleFormSubmit}
-                        onLoadingChange={setFormLoading}
-                      />
-                    )}
-                  </div>
-                ),
-              },
-              {
-                label: '流程信息',
-                key: 'workflow',
-                children: (
-                  <div className='fa-full'>
-                    {flow && <FaWorkFlow flowProcess={flow} processModel={JSON.parse(flow.modelContent)} readOnly />}
-                  </div>
-                ),
-              },
-            ]}
-            tabBarStyle={{ paddingLeft: 12 }}
-          />
+        <FaFlexRestLayout className='fa-full-content fa-p12 fa-bg-grey'>
+          <div className='fa-content fa-full fa-relative'>
+            <Tabs
+              items={[
+                {
+                  label: '表单信息',
+                  key: 'form',
+                  children: (
+                    <div className='fa-full fa-p12 fa-relative'>
+                      {flow && (
+                        <FaFlowFormCreate
+                          form={form}
+                          flow={flow}
+                          startNode={startNode}
+                          onFormSubmit={handleFormSubmit}
+                          onLoadingChange={setFormLoading}
+                        />
+                      )}
+                    </div>
+                  ),
+                },
+                {
+                  label: '流程信息',
+                  key: 'workflow',
+                  children: (
+                    <div className='fa-full'>
+                      {flow && <FaWorkFlow flowProcess={flow} processModel={JSON.parse(flow.modelContent)} readOnly />}
+                    </div>
+                  ),
+                },
+              ]}
+              tabBarStyle={{ paddingLeft: 12 }}
+            />
+          </div>
         </FaFlexRestLayout>
       </div>
     );
