@@ -45,6 +45,8 @@
     "@visactor/vtable-editors": "1.19.5",
     "@visactor/vtable-export": "1.19.5",
     "@xyflow/react": "12.8.2",
+    "ag-grid-community": "35.1.0",
+    "ag-grid-react": "35.1.0",
     "ahooks": "3.9.0",
     "antd": "6.1.0",
     "clsx": "2.1.1",
