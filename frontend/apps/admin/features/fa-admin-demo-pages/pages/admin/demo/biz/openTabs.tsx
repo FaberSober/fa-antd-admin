@@ -38,7 +38,7 @@ export default function openTabs() {
   }
 
   return (
-    <div className="fa-full-content fa-p12">
+    <div className="fa-full-content-p12">
       <Card title="顶部Tab标签栏操作" className="fa-mb12">
         <Space>
           <Button onClick={handleAddTabIframe}>打开标签页(iframe)</Button>

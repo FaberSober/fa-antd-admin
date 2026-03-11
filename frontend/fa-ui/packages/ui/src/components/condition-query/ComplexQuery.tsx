@@ -4,7 +4,7 @@ import { FilterOutlined } from '@ant-design/icons';
 import ConditionQueryModal from './ConditionQueryModal';
 import SceneDropMenu from './SceneDropMenu';
 import { FaberTable } from '@ui/components/base-table';
-import ConditionQuery from './ConditionQuery';
+import ConditionQuery from '@ui/types/core/ConditionQuery';
 
 export interface ComplexQueryProps<T> {
   biz: string;
@@ -35,7 +35,7 @@ export default function ComplexQuery<T>({ columns, biz, onSceneChange, onConditi
       <Space style={{ flex: 1 }}>
         <SceneDropMenu ref={sceneDropMenuRef} biz={biz} columns={columns as any} onChange={onSceneChange} />
         <ConditionQueryModal showSuffix biz={biz} columns={columns} onConditionChange={handleConditionChange}>
-          <Button icon={<FilterOutlined />} type="text">
+          <Button icon={<FilterOutlined />} type="text" style={{ paddingLeft: 1, paddingRight: 1 }}>
             高级筛选
           </Button>
         </ConditionQueryModal>

@@ -134,9 +134,9 @@ export default function UploadImgLocal({ value, onChange, style, ...props }: Upl
           width={200}
           style={{ display: 'none' }}
           preview={{
-            visible: previewOpen,
+            open: previewOpen,
             src: previewImage,
-            onVisibleChange: (value) => {
+            onOpenChange: (value) => {
               setPreviewOpen(value);
             },
           }}

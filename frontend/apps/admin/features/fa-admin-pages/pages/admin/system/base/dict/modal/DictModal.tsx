@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { get } from 'lodash';
-import { Form, Input } from 'antd';
-import { ApiEffectLayoutContext, DictEnumApiSelector, DragModal, type DragModalProps, FaUtils } from '@fa/ui';
 import { type Admin, FaEnums } from '@/types';
-import { dictApi } from '@features/fa-admin-pages/services';
+import { DictEnumApiSelector, DragModal, type DragModalProps, FaUtils, useApiLoading } from '@fa/ui';
+import { dictApi as api } from '@features/fa-admin-pages/services';
+import { Form, Input } from 'antd';
+import { get } from 'lodash';
+import { useEffect, useState } from 'react';
 import DictCascade from '../helper/DictCascade';
 
 const serviceName = '字典分类';
@@ -19,14 +19,13 @@ interface IProps extends DragModalProps {
  * 字典分类实体新增、编辑弹框
  */
 export default function DictModal({ children, fetchFinish, parentId, title, record, ...props }: IProps) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    dictApi.save(params).then((res) => {
+    api.save(params).then((res) => {
       FaUtils.showResponse(res, `新增${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish(res.data);
@@ -35,7 +34,7 @@ export default function DictModal({ children, fetchFinish, parentId, title, reco
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
-    dictApi.update(params.id, params).then((res) => {
+    api.update(params.id, params).then((res) => {
       FaUtils.showResponse(res, `更新${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish(res.data);
@@ -73,7 +72,7 @@ export default function DictModal({ children, fetchFinish, parentId, title, reco
     form.setFieldsValue(getInitialValues());
   }, [props.open]);
 
-  const loading = loadingEffect[dictApi.getUrl('save')] || loadingEffect[dictApi.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>{children}</span>

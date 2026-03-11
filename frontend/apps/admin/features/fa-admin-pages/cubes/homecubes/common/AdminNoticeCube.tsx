@@ -48,5 +48,5 @@ AdminNoticeCube.titleRender = () => <TitleClickTab title="公告" url="/admin/sy
 AdminNoticeCube.description = '展示系统公告信息';
 AdminNoticeCube.showTitle = true; // 是否展示Card的Title
 AdminNoticeCube.permission = ''; // 需要的权限-对应RbacMenu.linkUrl
-AdminNoticeCube.w = 8; // 宽度-max=16
+AdminNoticeCube.w = 8; // 宽度-max=24
 AdminNoticeCube.h = 8; // 高度

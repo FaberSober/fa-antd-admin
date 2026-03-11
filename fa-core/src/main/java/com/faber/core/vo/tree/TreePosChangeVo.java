@@ -1,5 +1,7 @@
 package com.faber.core.vo.tree;
 
+import java.io.Serializable;
+
 import lombok.Data;
 import lombok.ToString;
 

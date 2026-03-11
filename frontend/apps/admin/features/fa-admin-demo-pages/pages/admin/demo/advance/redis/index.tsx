@@ -1,9 +1,9 @@
-import React, {useContext, useState} from 'react';
-import {Alert, Button, Card, Form, Input} from 'antd';
-import {ApiEffectLayoutContext, FaFlexRestLayout, FaUtils} from '@fa/ui';
-import {ConfigLayoutContext} from "@/layout";
-import {redisTestApi, studentApi} from '@/services';
-import type {Demo} from '@/types';
+import { ConfigLayoutContext } from "@/layout";
+import { redisTestApi, studentApi } from '@/services';
+import type { Demo } from '@/types';
+import { FaFlexRestLayout, FaUtils, useApiLoading } from '@fa/ui';
+import { Alert, Button, Card, Form, Input } from 'antd';
+import { useContext, useState } from 'react';
 
 
 /**
@@ -11,7 +11,6 @@ import type {Demo} from '@/types';
  * @date 2022/12/7 22:10
  */
 export default function DemoAdvanceRedis() {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const { systemConfig } = useContext(ConfigLayoutContext);
   const [form] = Form.useForm();
   const [form1] = Form.useForm();
@@ -39,10 +38,10 @@ export default function DemoAdvanceRedis() {
     (document.getElementById('phpRedisAdmin') as any).contentWindow.location = systemConfig.phpRedisAdmin;
   }
 
-  const loading = loadingEffect[redisTestApi.getUrl('addCache')];
-  const loading2 = loadingEffect[redisTestApi.getUrl('getCache')];
+  const loading = useApiLoading([redisTestApi.getUrl('addCache')]);
+  const loading2 = useApiLoading([redisTestApi.getUrl('getCache')]);
   return (
-    <div className="fa-full-content fa-flex-row fa-p12">
+    <div className="fa-content fa-flex-row fa-p12">
       <div style={{ width: 300, marginRight: 12 }}>
         <Card title="添加缓存" className="fa-mb12">
           <Form form={form} onFinish={onFinish}>

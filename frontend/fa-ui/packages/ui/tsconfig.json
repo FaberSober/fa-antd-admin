@@ -1,11 +1,17 @@
 {
   "extends": "@fa/tsconfig/react-library.json",
-  "include": ["."],
-  "exclude": ["node_modules"],
+  "include": ["src", "."],
+  "exclude": ["node_modules", "dist"],
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@ui/*": ["src/*"]
-    }
+      "@ui/*": ["./src/*"]
+    },
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "composite": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
   }
 }

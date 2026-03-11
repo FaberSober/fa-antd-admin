@@ -51,8 +51,7 @@ Mybatis通用JsonTypeHandler: http://events.jianshu.io/p/0246df229a1f
 public class Student extends BaseDelEntity {
     // ...
     
-    // 使用typeHandler = JacksonTypeHandler.class
-    @TableField(typeHandler = JacksonTypeHandler.class)
+    @TableField(typeHandler = UniversalJsonTypeHandler.class)
     @ExcelProperty("标签")
     private Tag[] tags;
 

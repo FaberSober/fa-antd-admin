@@ -62,7 +62,13 @@ export default function FaImageViewGroup({items, current, onChange, ...props}: I
       }}
       items={items}
     >
-      <Image src={url} width={600} height={450} {...props} />
+      <Image
+        src={url}
+        width={600}
+        height={450}
+        style={{objectFit: 'contain'}}
+        {...props}
+        />
     </Image.PreviewGroup>
   )
 }

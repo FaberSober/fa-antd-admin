@@ -74,7 +74,7 @@ export default function FileSaveList() {
         render: (_, r) => (
           <Space>
             {/*<FileSaveModal editBtn title={`编辑${serviceName}信息`} record={r} fetchFinish={fetchPageList} />*/}
-            <BaseDrawer triggerDom={<FaHref text="查看" icon={<EyeOutlined />} />} width={1000}>
+            <BaseDrawer triggerDom={<FaHref text="查看" icon={<EyeOutlined />} />} size={1000}>
               <FileSaveView item={r} />
             </BaseDrawer>
             <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
@@ -89,7 +89,7 @@ export default function FileSaveList() {
   }
 
   return (
-    <div className="fa-full-content fa-flex-column fa-bg-white">
+    <div className="fa-full-content-p12 fa-flex-column fa-content">
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
         <div className="fa-h3">{serviceName}</div>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>

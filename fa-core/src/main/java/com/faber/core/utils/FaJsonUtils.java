@@ -1,6 +1,8 @@
 package com.faber.core.utils;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONWriter;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -27,6 +29,10 @@ public class FaJsonUtils {
             log.error(e.getMessage(), e);
         }
         return (T[]) java.lang.reflect.Array.newInstance(clazz, 0);
+    }
+
+    public static String toJSONString(Object object) {
+        return com.alibaba.fastjson2.JSON.toJSONString(object, JSONWriter.Feature.WriteLongAsString); // 可以正确转换IEnum
     }
 
 }

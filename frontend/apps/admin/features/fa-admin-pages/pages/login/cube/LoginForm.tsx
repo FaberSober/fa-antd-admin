@@ -1,16 +1,15 @@
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FieldNumberOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input } from 'antd';
-import { trim } from 'lodash';
-import { ApiEffectLayoutContext, Captcha, LoginMode, setLoginMode, setToken, useQs } from '@fa/ui';
-import { authApi } from '@features/fa-admin-pages/services';
 import { SITE_INFO } from '@/configs';
-import { Helmet } from 'react-helmet-async';
+import { FieldNumberOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Captcha, LoginMode, setLoginMode, setToken, useApiLoading, useQs } from '@fa/ui';
 import { ConfigLayoutContext } from '@features/fa-admin-pages/layout/config/context/ConfigLayoutContext';
+import { authApi } from '@features/fa-admin-pages/services';
+import { Button, Checkbox, Form, Input, Space } from 'antd';
+import { trim } from 'lodash';
+import { useContext, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginForm() {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const { systemConfig } = useContext(ConfigLayoutContext);
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -40,7 +39,7 @@ export default function LoginForm() {
     return Promise.resolve();
   }
 
-  const loading = loadingEffect[authApi.getUrl('login')];
+  const loading = useApiLoading([authApi.getUrl('login')]);
   return (
     <Form form={form} onFinish={onFinish} layout="vertical" autoComplete="off" initialValues={{ remember: true }}>
       <Helmet title={`登录 | ${systemConfig.title}`} />
@@ -54,7 +53,10 @@ export default function LoginForm() {
       </Form.Item>
       {systemConfig.safeCaptchaOn && (
         <Form.Item name="captcha" label="验证码" required={false} rules={[{ required: true, message: '请输入验证码' }, { validator: validateCaptcha }]}>
-          <Input size="large" prefix={<FieldNumberOutlined />} placeholder="请输入验证码" addonAfter={<Captcha onCodeChange={(c) => setCode(c)} />} />
+          <Space.Compact style={{width: '100%'}}>
+            <Input size="large" prefix={<FieldNumberOutlined />} placeholder="请输入验证码" />
+            <Captcha onCodeChange={(c) => setCode(c)} />
+          </Space.Compact>
         </Form.Item>
       )}
 

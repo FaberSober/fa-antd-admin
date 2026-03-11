@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
-import { find, get } from 'lodash';
-import { Button, Form, Input, Select } from 'antd';
-import { ApiEffectLayoutContext, type CommonModalProps, CronModal, DragModal, FaHref, FaUtils } from '@fa/ui';
 import type { Admin } from '@/types';
-import { jobApi } from '@features/fa-admin-pages/services';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { type CommonModalProps, CronModal, DragModal, FaHref, FaUtils, useApiLoading } from '@fa/ui';
+import { jobApi as api } from '@features/fa-admin-pages/services';
+import { Button, Form, Input, Select } from 'antd';
+import { find, get } from 'lodash';
+import { useState } from 'react';
 
 const serviceName = '';
 
@@ -12,7 +12,6 @@ const serviceName = '';
  * 系统定时任务实体新增、编辑弹框
  */
 export default function JobModal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: CommonModalProps<Admin.Job>) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -20,7 +19,7 @@ export default function JobModal({ children, title, record, fetchFinish, addBtn,
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    jobApi.save(params).then((res) => {
+    api.save(params).then((res) => {
       FaUtils.showResponse(res, `新增${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -29,7 +28,7 @@ export default function JobModal({ children, title, record, fetchFinish, addBtn,
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
-    jobApi.update(params.id, params).then((res) => {
+    api.update(params.id, params).then((res) => {
       FaUtils.showResponse(res, `更新${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -59,11 +58,11 @@ export default function JobModal({ children, title, record, fetchFinish, addBtn,
 
   function showModal() {
     setOpen(true);
-    jobApi.getIdleJobs().then((res) => setJobs(res.data.map((i) => ({ ...i, name: i.label, label: `${i.label}_${i.value}` }))));
+    api.getIdleJobs().then((res) => setJobs(res.data.map((i) => ({ ...i, name: i.label, label: `${i.label}_${i.value}` }))));
     form.setFieldsValue(getInitialValues());
   }
 
-  const loading = loadingEffect[jobApi.getUrl('save')] || loadingEffect[jobApi.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>

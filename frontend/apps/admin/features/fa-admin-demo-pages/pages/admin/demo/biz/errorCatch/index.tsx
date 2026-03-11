@@ -7,7 +7,7 @@ import { Button, Card } from "antd";
  */
 export default function index() {
   return (
-    <div className="fa-full-content fa-p12">
+    <div className="fa-content fa-p12">
       <Card title="主动触发异常" className="fa-mb12">
         <Button onClick={() => {throw new Error("This is your first error!");}}>Break the world</Button>
       </Card>

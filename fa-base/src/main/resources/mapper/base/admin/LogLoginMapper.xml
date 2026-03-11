@@ -4,9 +4,9 @@
 <mapper namespace="com.faber.api.base.admin.mapper.LogLoginMapper">
 
     <select id="countByDay" parameterType="map" resultType="com.faber.core.vo.chart.ChartSeriesVo">
-        SELECT DATE_FORMAT(crt_time,"%Y-%m-%d") name, count(*) value
+        SELECT CAST(crt_time AS DATE) AS name, count(*) AS value
          FROM base_log_login
-        WHERE deleted = 0
+        WHERE deleted = false
           AND crt_time &gt;= #{startDate}
           AND crt_time &lt;= #{endDate}
         group by name
@@ -14,9 +14,9 @@
     </select>
 
     <select id="countByPro" parameterType="map" resultType="com.faber.core.vo.chart.ChartSeriesVo">
-        SELECT pro name, count(*) value
+        SELECT pro AS name, count(*) AS value
          FROM base_log_login
-        WHERE deleted = 0
+        WHERE deleted = false
           AND pro IS NOT NULL
           AND pro &lt;&gt; ''
           AND pro &lt;&gt; '本地'

@@ -4,14 +4,12 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import com.faber.core.enums.ConfigSysSafePasswordTypeEnum;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.bean.BaseDelEntity;
+import com.faber.core.config.mybatis.handler.UniversalJsonTypeHandler;
 import com.faber.core.vo.config.FaConfig;
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 
@@ -31,7 +29,7 @@ public class ConfigSys extends BaseDelEntity {
     private Integer id;
 
     /** 配置JSON */
-    @TableField(typeHandler = JacksonTypeHandler.class)
+    @TableField(typeHandler = UniversalJsonTypeHandler.class)
     private FaConfig data;
 
 }

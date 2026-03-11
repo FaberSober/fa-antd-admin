@@ -1,17 +1,12 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.3.13/schema.json",
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
 		"useIgnoreFile": false
 	},
 	"files": {
-		"ignoreUnknown": false,
-		"ignore": ["src/typings/components.d.ts"],
-    "include": [
-      "src/",
-      "features/"
-    ]
+		"ignoreUnknown": false
 	},
 	"formatter": {
 		"enabled": true,
@@ -20,9 +15,7 @@
     "lineWidth": 160,
     "lineEnding": "lf"
 	},
-	"organizeImports": {
-		"enabled": false
-	},
+
 	"linter": {
 		"enabled": true,
 		"rules": {
@@ -32,7 +25,6 @@
         "noBannedTypes": "off",
         "noUselessFragments": "off",
         "useOptionalChain": "off",
-        "noBannedTypes": "off",
         "useLiteralKeys": "off"
       },
       "correctness": {

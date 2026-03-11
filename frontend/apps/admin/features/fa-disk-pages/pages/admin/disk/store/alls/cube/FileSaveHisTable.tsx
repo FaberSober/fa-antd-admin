@@ -1,10 +1,10 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {storeFileHisApi} from "@features/fa-disk-pages/services";
-import {Disk} from "@features/fa-disk-pages/types";
-import {Space, Table} from "antd";
-import {ApiEffectLayoutContext, FaHref, FaUtils} from "@fa/ui";
-import {EyeOutlined} from "@ant-design/icons";
-import {MenuLayoutContext} from "@features/fa-admin-pages/layout";
+import { EyeOutlined } from "@ant-design/icons";
+import { FaHref, FaUtils, useApiLoading } from "@fa/ui";
+import { MenuLayoutContext } from "@features/fa-admin-pages/layout";
+import { storeFileHisApi } from "@features/fa-disk-pages/services";
+import { Disk } from "@features/fa-disk-pages/types";
+import { Space, Table } from "antd";
+import { useContext, useEffect, useState } from 'react';
 
 
 export interface FileSaveHisTableProps {
@@ -16,7 +16,6 @@ export interface FileSaveHisTableProps {
  * @date 2023/3/15 21:22
  */
 export default function FileSaveHisTable({storeFileId}: FileSaveHisTableProps) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const {addTab} = useContext(MenuLayoutContext)
   const [array, setArray] = useState<Disk.StoreFileHis[]>([])
 
@@ -34,7 +33,7 @@ export default function FileSaveHisTable({storeFileId}: FileSaveHisTableProps) {
     })
   }
 
-  const loading = loadingEffect[storeFileHisApi.getUrl('list')]
+  const loading = useApiLoading([storeFileHisApi.getUrl('list')])
   return (
     <div>
       <Table

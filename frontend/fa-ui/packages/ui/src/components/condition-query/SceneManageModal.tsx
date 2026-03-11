@@ -70,7 +70,7 @@ const SceneManageModal = React.forwardRef<HTMLElement, SceneManageModalProps<any
   }
 
   return (
-    <DragModal title="管理场景" onOk={handleSave} confirmLoading={loading} width={700} destroyOnClose {...restProps}>
+    <DragModal title="管理场景" onOk={handleSave} confirmLoading={loading} width={700} destroyOnHidden {...restProps}>
       <div>
         <div className="fa-scene-title">
           <div style={{ width: 40 }}>展示</div>

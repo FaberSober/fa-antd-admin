@@ -1,14 +1,14 @@
-import React, { useContext, useEffect } from 'react';
-import { Button, Space } from 'antd';
 import { DownloadOutlined, EditOutlined, PlusOutlined, SisternodeOutlined, UploadOutlined } from '@ant-design/icons';
-import { useCounter } from 'react-use';
-import { ApiEffectLayoutContext, AuthDelBtn, BaseTree, type Fa, FaFlexRestLayout, FaHref, useDelete, useExportBase } from '@fa/ui';
-import { dictDataApi as api, dictDataApi } from '@features/fa-admin-pages/services';
-import { Admin } from "@features/fa-admin-pages/types";
-import DictDataModal from '../modal/DictDataModal';
+import { AuthDelBtn, BaseTree, type Fa, FaFlexRestLayout, FaHref, useApiLoading, useDelete, useExportBase } from '@fa/ui';
 import { CommonExcelUploadModal } from "@features/fa-admin-pages/components";
 import DictDataIsDefaultSwitch from "@features/fa-admin-pages/pages/admin/system/base/dict/cube/DictDataIsDefaultSwitch";
 import DictDataValidSwitch from "@features/fa-admin-pages/pages/admin/system/base/dict/cube/DictDataValidSwitch";
+import { dictDataApi as api, dictDataApi } from '@features/fa-admin-pages/services';
+import { Admin } from "@features/fa-admin-pages/types";
+import { Button, Space } from 'antd';
+import { useEffect } from 'react';
+import { useCounter } from 'react-use';
+import DictDataModal from '../modal/DictDataModal';
 
 
 interface DictDataTreeProps {
@@ -16,7 +16,6 @@ interface DictDataTreeProps {
 }
 
 export default function DictDataTree({ dictId }: DictDataTreeProps) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [current, { inc }] = useCounter(0);
 
   useEffect(() => {
@@ -30,7 +29,7 @@ export default function DictDataTree({ dictId }: DictDataTreeProps) {
   const [handleDelete] = useDelete<number>(dictDataApi.remove, refreshData, '菜单');
   const [exporting, fetchExportExcel] = useExportBase(api.exportExcel, { query: { dictId } })
 
-  const loadingTree = loadingEffect[dictDataApi.getUrl('allTree')];
+  const loadingTree = useApiLoading([dictDataApi.getUrl('allTree')]);
   return (
     <div className="fa-full-content fa-flex-column fa-menu-div">
       <Space className="fa-mb12">

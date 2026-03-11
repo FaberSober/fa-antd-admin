@@ -20,6 +20,7 @@
 | fa-tenant       | 租户模块            | 26.00.00.00 |
 | fa-wind-predict | fa-wind-predict | 27.00.00.00 |
 | fa-doc          | 文档管理            | 28.00.00.00 |
+| fa-flow          | 文档管理            | 13.00.00.00 |
 
 ### tenant
 | 模块        | 名称     | ID          |

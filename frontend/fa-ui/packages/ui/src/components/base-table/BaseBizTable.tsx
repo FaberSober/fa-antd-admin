@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {find, get, isNumber, sumBy} from 'lodash';
 import { ClearOutlined, DeleteOutlined, SettingOutlined } from '@ant-design/icons';
-import { Button, Modal, Space, Table } from 'antd';
+import { Button, Modal, Table } from 'antd';
 import type FaberTable from './FaberTable';
 import { showResponse } from '@ui/utils/utils';
 import { dataIndexToString, useScrollY } from './utils';
@@ -42,6 +42,8 @@ export default function BaseBizTable<RecordType extends object = any>({
   showDeleteByQuery = false,
   onDeleteByQuery = () => {},
   scrollY,
+  topBtns,
+  topSecondBtns,
   ...props
 }: FaberTable.BaseTableProps<RecordType>) {
   const [id] = useState(v4());
@@ -51,6 +53,8 @@ export default function BaseBizTable<RecordType extends object = any>({
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [batchDeleting, setBatchDeleting] = useState(false);
+
+  const rowKey = props.rowKey as string || keyName || 'id';
 
   useEffect(() => {
     setSelectedRowKeys([]);
@@ -150,7 +154,7 @@ export default function BaseBizTable<RecordType extends object = any>({
   function updateRowKeys(rowKeys: any[]) {
     setSelectedRowKeys(rowKeys);
     if (onSelectedRowsChange) {
-      onSelectedRowsChange(rowKeys);
+      onSelectedRowsChange(rowKeys, (props.dataSource || []).filter((item) => rowKeys.indexOf(get(item, rowKey)) > -1));
     }
   }
 
@@ -167,10 +171,11 @@ export default function BaseBizTable<RecordType extends object = any>({
     <div style={{ flex: 1, position:'relative' }}>
       <div className="fa-flex-column fa-full-content">
         {showTopDiv && (
-          <div>
+          <div className='fa-flex-row-center'>
+            {topBtns}
             {/* 多选删除 */}
             {selectedRowKeys.length > 0 && (
-              <Space style={{padding: 8, display: 'flex', lineHeight: '32px'}}>
+              <div className='fa-flex-row-center' style={{height: 42, padding: '0 8px', gap: 8, lineHeight: '32px'}}>
                 <div className="fa-text fa-mr12">
                   已选中&nbsp;<a>{selectedRowKeys.length}</a>&nbsp;条数据
                 </div>
@@ -183,11 +188,11 @@ export default function BaseBizTable<RecordType extends object = any>({
                 <Button onClick={() => updateRowKeys([])} icon={<ClearOutlined/>}>
                   取消选中
                 </Button>
-              </Space>
+              </div>
             )}
             {/* 高级组合查询 */}
             {selectedRowKeys.length === 0 && (
-              <div style={{padding: 8, display: 'flex', alignItems: 'center'}}>
+              <div className='fa-flex-row-center fa-flex-1' style={{height: 42, padding: '0 8px', gap: 8}}>
                 {showComplexQuery && (
                   <ComplexQuery
                     columns={columns}
@@ -197,18 +202,19 @@ export default function BaseBizTable<RecordType extends object = any>({
                   />
                 )}
                 <div className="fa-text" style={{flex: 1}}>
+                  {topSecondBtns}
                   {renderQuerySuffix &&  renderQuerySuffix()}
                   {querySuffix}
                 </div>
-                <Space style={{marginRight: 8, display: 'flex', lineHeight: '32px'}}>
+                <div className='fa-flex-row-center' style={{marginRight: 8, lineHeight: '32px', gap: 8}}>
                   {renderQueryAll && renderQueryAll()}
                   {showDeleteByQuery && (
                     <Button danger onClick={() => handleDeleteQueryAll()} icon={<DeleteOutlined />}>
                       全部删除
                     </Button>
                   )}
-                </Space>
-                <div className="fa-text" style={{lineHeight: '32px'}}>
+                </div>
+                <div className="fa-text" style={{lineHeight: '32px', fontSize: '0.85rem'}}>
                   共<a style={{fontWeight: 600, margin: '0 4px'}}>{props.pagination ? get(props, 'pagination.total') : props.dataSource?.length}</a>条数据
                 </div>
               </div>
@@ -226,7 +232,7 @@ export default function BaseBizTable<RecordType extends object = any>({
               onClick: () => {
                 // 点击row选中功能实现
                 if (!rowClickSelected) return;
-                const clickId = get(record, 'id');
+                const clickId = get(record, rowKey);
                 let newRowKey = [];
                 if (rowClickSingleSelected) {
                   newRowKey = [clickId];
@@ -234,12 +240,12 @@ export default function BaseBizTable<RecordType extends object = any>({
                   if (selectedRowKeys.indexOf(clickId) > -1) {
                     newRowKey = selectedRowKeys.filter((i) => i === clickId);
                   } else {
-                    newRowKey = [...selectedRowKeys, get(record, keyName!)];
+                    newRowKey = [...selectedRowKeys, get(record, rowKey)];
                   }
                 }
                 setSelectedRowKeys(newRowKey);
                 if (onSelectedRowsChange) {
-                  onSelectedRowsChange(newRowKey);
+                  onSelectedRowsChange(newRowKey, (props.dataSource || []).filter((item) => newRowKey.indexOf(get(item, rowKey)) > -1));
                 }
               },
             })}

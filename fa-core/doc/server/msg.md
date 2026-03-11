@@ -36,6 +36,7 @@ aliyun:
 ```java
 package com.faber.api.hzx.dm.vo.msg;
 
+import com.faber.api.base.msg.enums.MsgTypeEnum;
 import com.faber.api.base.msg.helper.config.MsgSendConfig;
 import com.faber.api.base.msg.helper.config.PropKey;
 import lombok.Builder;
@@ -57,7 +58,7 @@ public class MsgTjAgentOffline extends MsgSendConfig {
 
     @Builder
     public MsgTjAgentOffline(boolean sendAppPush, boolean sendSms, String buzzType, String buzzId, String time) {
-        super(false, false, buzzType, buzzId);
+        super(false, false, buzzType, buzzId, MsgTypeEnum.SYSTEM);
         this.time = time;
     }
 }
@@ -76,5 +77,5 @@ MsgTjAgentOffline msgVo = MsgTjAgentOffline.builder()
     .buzzType("MsgTjAgentOffline")
     .time(DateUtil.formatDateTime(new Date()))
     .build();
-msgHelper.sendSysMsg("1", new String[]{"1"}, msgVo);
+msgHelper.sendSysMsg(CommonConstants.SUPER_ADMIN_ID, new String[]{"1"}, msgVo);
 ```

@@ -12,3 +12,14 @@ log/
 ./tmp*
 rebel.xml
 .DS_Store
+node_modules/
+dist/
+.turbo/
+.env
+
+# 忽略 AI 助手的临时缓存和日志
+.agent/cache/
+.agent/logs/
+
+# 允许提交核心技能定义
+!.agent/skills/

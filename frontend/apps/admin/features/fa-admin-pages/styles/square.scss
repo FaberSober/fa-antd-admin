@@ -1,13 +1,13 @@
 // ------------------------------------- 顶部菜单条样式-color-begin -------------------------------------
 [fa-menu-theme=color] .fa-menu-header {
-  height: 56px !important;
+  height: 49px !important;
   border-bottom: 1px solid var(--fa-border-color) !important;
 }
 
 [fa-menu-theme=color] .fa-menu-top {
 
   .ant-menu-item {
-    height: 56px;
+    height: 49px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -22,7 +22,7 @@
 }
 
 .fa-menu-header {
-  height: 56px !important;
+  height: 49px !important;
   border-bottom: 1px solid var(--fa-border-color) !important;
 }
 

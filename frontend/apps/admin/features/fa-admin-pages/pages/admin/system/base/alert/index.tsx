@@ -67,50 +67,52 @@ export default function AlertList() {
   }
 
   return (
-    <div className="fa-full-content fa-flex-column fa-bg-white">
+    <div className="fa-full-content-p12 fa-flex-column fa-gap12">
       {/* 统计卡片区域 */}
       <AlertStatistic />
 
       {/* 查询表单区域 */}
-      <div style={{ padding: '0 12px 12px 12px', display: 'flex', justifyContent: 'flex-end' }}>
-        <Form form={form} layout="inline" onFinish={setFormValues}>
-          <Form.Item name="content" label="告警内容">
-            <Input placeholder="请输入告警内容" allowClear />
-          </Form.Item>
-          <Form.Item name="type" label="告警类型">
-            <DictDataSelector dictLabel="alert.type" placeholder="请选择告警类型" allowClear />
-          </Form.Item>
-          <Form.Item name="deal" label="是否处理">
-            <BaseBoolSelector placeholder="请选择处理状态" allowClear />
-          </Form.Item>
+      <div className='fa-bg-white fa-flex-column fa-flex-1'>
+        <div style={{ padding: 12, display: 'flex', justifyContent: 'flex-end' }}>
+          <Form form={form} layout="inline" onFinish={setFormValues}>
+            <Form.Item name="content" label="告警内容">
+              <Input placeholder="请输入告警内容" allowClear />
+            </Form.Item>
+            <Form.Item name="type" label="告警类型">
+              <DictDataSelector dictLabel="alert.type" placeholder="请选择告警类型" allowClear />
+            </Form.Item>
+            <Form.Item name="deal" label="是否处理">
+              <BaseBoolSelector placeholder="请选择处理状态" allowClear />
+            </Form.Item>
 
-          <Space>
-            <Button htmlType="submit" loading={loading} icon={<SearchOutlined />}>
-              查询
-            </Button>
-            <Button onClick={() => clearForm(form)}>重置</Button>
-            <AlertModal addBtn title={`新增${serviceName}信息`} fetchFinish={fetchPageList} />
-            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>
-              导出
-            </Button>
-          </Space>
-        </Form>
+            <Space>
+              <Button htmlType="submit" loading={loading} icon={<SearchOutlined />}>
+                查询
+              </Button>
+              <Button onClick={() => clearForm(form)}>重置</Button>
+              <AlertModal addBtn title={`新增${serviceName}信息`} fetchFinish={fetchPageList} />
+              <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>
+                导出
+              </Button>
+            </Space>
+          </Form>
+        </div>
+
+        <BaseBizTable
+          rowKey="id"
+          biz={biz}
+          columns={genColumns()}
+          pagination={paginationProps}
+          loading={loading}
+          dataSource={list}
+          onChange={handleTableChange}
+          refreshList={() => fetchPageList()}
+          batchDelete={(ids) => api.removeBatchByIds(ids)}
+          onSceneChange={(v) => setSceneId(v)}
+          onConditionChange={(cL) => setConditionList(cL)}
+          style={{ flex: 1, margin: 0 }}
+        />
       </div>
-
-      <BaseBizTable
-        rowKey="id"
-        biz={biz}
-        columns={genColumns()}
-        pagination={paginationProps}
-        loading={loading}
-        dataSource={list}
-        onChange={handleTableChange}
-        refreshList={() => fetchPageList()}
-        batchDelete={(ids) => api.removeBatchByIds(ids)}
-        onSceneChange={(v) => setSceneId(v)}
-        onConditionChange={(cL) => setConditionList(cL)}
-        style={{ flex: 1, margin: 0 }}
-      />
     </div>
   );
 }

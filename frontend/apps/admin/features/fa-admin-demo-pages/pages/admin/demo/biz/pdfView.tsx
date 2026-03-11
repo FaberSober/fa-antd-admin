@@ -7,7 +7,7 @@ import { ReactPdfView } from "@features/fa-admin-pages/components";
  */
 export default function pdfView() {
   return (
-    <div className="fa-full-content fa-p12">
+    <div className="fa-full-content-p12">
       <ReactPdfView fileUrl="/plugins/pdfjs/test.pdf" />
     </div>
   )

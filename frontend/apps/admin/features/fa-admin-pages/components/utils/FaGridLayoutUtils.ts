@@ -1,18 +1,37 @@
-import { useContext, useEffect, useState } from 'react';
-import type { Layout } from 'react-grid-layout';
-import { each } from 'lodash';
-import { ApiEffectLayoutContext, FaUtils } from '@fa/ui';
-import { configApi } from '@features/fa-admin-pages/services';
 import type { Admin } from '@/types';
-import { Modal } from 'antd';
+import { FaUtils, useApiLoading } from '@fa/ui';
 import MenuLayoutContext from '@features/fa-admin-pages/layout/menu/context/MenuLayoutContext';
+import { configApi } from '@features/fa-admin-pages/services';
+import { Modal } from 'antd';
+import { each } from 'lodash';
+import { useContext, useEffect, useState } from 'react';
+import type { Layout, LayoutItem } from 'react-grid-layout';
+
+/**
+ * HelloBanner.displayName = 'HelloBanner'; // 必须与方法名称一致
+HelloBanner.title = '欢迎';
+HelloBanner.description = '欢迎组件';
+HelloBanner.showTitle = false; // 是否展示Card的Title
+HelloBanner.permission = ''; // 需要的权限-对应RbacMenu.linkUrl
+HelloBanner.w = 24; // 宽度-网格-max=24
+HelloBanner.h = 3; // 高度-每个单位20px
+ */
+export interface CubeItem {
+  displayName: string;
+  title: string;
+  description: string;
+  showTitle: boolean;
+  permission?: string;
+  w: number;
+  h: number;
+}
 
 /**
  * 解析homecubes类似组件输出全部布局配置
  * @param cubes
  */
-export function parseAllLayout(cubes: any) {
-  const allLayout: Layout[] = [];
+export function parseAllLayout(cubes: CubeItem[]) {
+  const allLayout: LayoutItem[] = [];
   each(cubes, (k) => {
     allLayout.push({
       i: k.displayName,
@@ -25,11 +44,11 @@ export function parseAllLayout(cubes: any) {
   return allLayout;
 }
 
-export function useAllLayout(cubes: any): { allLayout: Layout[] } {
+export function useAllLayout(cubes: CubeItem[]): { allLayout: LayoutItem[] } {
   const { menuList } = useContext(MenuLayoutContext);
   const permissions = menuList.map((i) => i.linkUrl);
 
-  const allLayout: Layout[] = [];
+  const allLayout: LayoutItem[] = [];
   each(cubes, (k) => {
     if (!FaUtils.hasPermission(permissions, k.permission)) {
       return;
@@ -47,7 +66,7 @@ export function useAllLayout(cubes: any): { allLayout: Layout[] } {
   return { allLayout };
 }
 
-export function calAddLayout(cubes: any, layout: Layout[], addId: string) {
+export function calAddLayout(cubes: CubeItem[], layout: Layout, addId: string|number) {
   const Component = (cubes as any)[addId];
 
   let x = 0;
@@ -63,7 +82,7 @@ export function calAddLayout(cubes: any, layout: Layout[], addId: string) {
       y = l.y;
     }
 
-    if (tryX + Component.w > 16) {
+    if (tryX + Component.w > 24) {
       // 本行已经摆放不下了，需要摆放到下一行
       x = 0;
       y = l.y + l.h; // y的下一行位置
@@ -78,6 +97,7 @@ export function calAddLayout(cubes: any, layout: Layout[], addId: string) {
   return [
     ...layout,
     {
+      id: FaUtils.uuid(),
       i: Component.displayName,
       w: Component.w,
       h: Component.h,
@@ -87,12 +107,11 @@ export function calAddLayout(cubes: any, layout: Layout[], addId: string) {
   ];
 }
 
-export function useGridLayoutConfig(cubes: any, biz: string, type: string, defaultLayout: any[]) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
-  const loading = loadingEffect[configApi.getUrl('save')] || loadingEffect[configApi.getUrl('update')];
+export function useGridLayoutConfig(cubes: any, biz: string, type: string, defaultLayout: LayoutItem[]) {
+  const loading = useApiLoading([ configApi.getUrl('save'), configApi.getUrl('update')]);
 
-  const [config, setConfig] = useState<Admin.Config<Layout[]>>();
-  const [layout, setLayout] = useState<Layout[]>([]);
+  const [config, setConfig] = useState<Admin.Config<LayoutItem[]>>();
+  const [layout, setLayout] = useState<Layout>([]);
 
   useEffect(() => {
     configApi.getOne(biz, type).then((res) => {
@@ -109,7 +128,7 @@ export function useGridLayoutConfig(cubes: any, biz: string, type: string, defau
     });
   }, []);
 
-  function onLayoutChange(layout: Layout[]) {
+  function onLayoutChange(layout: Layout) {
     // console.log('onLayoutChange', layout)
     if (loading) return;
     const params = {
@@ -131,7 +150,7 @@ export function useGridLayoutConfig(cubes: any, biz: string, type: string, defau
    * 添加item到布局中
    * @param id
    */
-  function handleAdd(id: string) {
+  function handleAdd(id: string|number) {
     const newLayout = calAddLayout(cubes, layout, id);
     setLayout(newLayout);
   }
@@ -171,6 +190,7 @@ export function useGridLayoutConfig(cubes: any, biz: string, type: string, defau
   return {
     config,
     layout,
+    setLayout,
     loading,
     onLayoutChange,
     handleAdd,

@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Button, Checkbox, Input, Modal, Select, Space, TreeSelect } from 'antd';
+import { StoreTagTreeSelect } from "@/components";
 import { DiskContext } from '@/layout';
 import { storeFileApi } from '@/services';
 import { Disk } from '@/types';
-import { ApiEffectLayoutContext, BaseTableUtils, Fa, FaUtils } from '@fa/ui';
 import { DownloadOutlined } from '@ant-design/icons';
+import { BaseTableUtils, Fa, FaUtils, useApiLoading } from '@fa/ui';
+import { Button, Checkbox, Input, Modal, Select, Space, TreeSelect } from 'antd';
 import { isNil, trim } from 'lodash';
-import { StoreDirModal, StoreFileCopyToModal, StoreFileMoveToModal, StoreFileTagsModal } from './modal';
-import { FileGrid, FileTable, StoreDirPath, StoreUploadFile, ViewTypeToggle } from './cube';
+import { useContext, useEffect, useState } from 'react';
 import { useLocalStorage } from 'react-use';
-import { StoreTagTreeSelect } from "@/components";
+import { FileGrid, FileTable, StoreDirPath, StoreUploadFile, ViewTypeToggle } from './cube';
 import './index.scss';
+import { StoreDirModal, StoreFileCopyToModal, StoreFileMoveToModal, StoreFileTagsModal } from './modal';
 
 /**
  * 网盘-全部文件
@@ -19,7 +19,6 @@ import './index.scss';
  */
 export default function index() {
   const { bucket } = useContext(DiskContext);
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [loaded, setLoaded] = useState<boolean>(false);
 
   const [viewType, setViewType] = useLocalStorage<string>('disk.store.alls.viewType', 'list'); // 1-列表，2-网格
@@ -99,9 +98,9 @@ export default function index() {
     });
   }
 
-  const loadingDir = loadingEffect[storeFileApi.getUrl('queryFile')];
-  const loadingDownloadZip = loadingEffect[storeFileApi.getUrl('downloadZip')];
-  const loadingRemoveBatchByIds = loadingEffect[storeFileApi.getUrl('removeBatchByIds')];
+  const loadingDir = useApiLoading([storeFileApi.getUrl('queryFile')]);
+  const loadingDownloadZip = useApiLoading([storeFileApi.getUrl('downloadZip')]);
+  const loadingRemoveBatchByIds = useApiLoading([storeFileApi.getUrl('removeBatchByIds')]);
   return (
     <div className="fa-full-content fa-bg-white">
       <div className="fa-flex-row-center fa-p8 fa-border-b">

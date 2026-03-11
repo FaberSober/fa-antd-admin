@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Button, Space } from "antd";
 import { DownloadOutlined, UploadOutlined } from "@ant-design/icons";
-import { ApiEffectLayoutContext, Fa, FaFlexRestLayout, FaSortList, FaUtils, useExportBase } from "@fa/ui";
+import { Fa, FaFlexRestLayout, FaSortList, FaUtils, useApiLoading, useExportBase } from "@fa/ui";
 import { CommonExcelUploadModal } from "@features/fa-admin-pages/components";
 import { dictDataApi } from "@features/fa-admin-pages/services";
 import { Admin } from "@features/fa-admin-pages/types";
+import { Button, Space } from "antd";
+import { useEffect, useState } from 'react';
 import DictDataForm from "./DictDataForm";
 
 
@@ -17,7 +17,6 @@ export interface DictDataOptionsProps {
  * @date 2025/7/11 14:49
  */
 export default function DictDataOptions({ dictId }: DictDataOptionsProps) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [array, setArray] = useState<Admin.DictData[]>([])
 
   const [exporting, fetchExportExcel] = useExportBase(dictDataApi.exportExcel, { query: { dictId } })
@@ -66,7 +65,7 @@ export default function DictDataOptions({ dictId }: DictDataOptionsProps) {
     });
   }
 
-  const loading = loadingEffect[dictDataApi.getUrl('list')]
+  const loading = useApiLoading([dictDataApi.getUrl('list')])
   return (
     <FaFlexRestLayout className="fa-bg-white">
       <Space className="fa-mb12">
@@ -75,7 +74,7 @@ export default function DictDataOptions({ dictId }: DictDataOptionsProps) {
         </Button>
         <Button icon={<DownloadOutlined />} onClick={fetchExportExcel} loading={exporting}>导出</Button>
         <CommonExcelUploadModal
-          fetchFinish={loading}
+          fetchFinish={fetchData}
           apiDownloadTplExcel={dictDataApi.exportTplExcel}
           apiImportExcel={dictDataApi.importExcel}
           type={`base_dict_data-${dictId}`}

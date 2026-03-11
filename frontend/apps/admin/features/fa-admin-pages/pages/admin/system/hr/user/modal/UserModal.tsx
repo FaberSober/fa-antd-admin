@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react';
-import { get } from 'lodash';
-import { Button, Form, Input, Switch } from 'antd';
-import { ApiEffectLayoutContext, type CommonModalProps, DictEnumApiRadio, DragModal, FaHref, FaUtils, UploadImgLocal, DictEnumApiSelector } from '@fa/ui';
-import useBus from 'use-bus';
 import type { Admin } from '@/types';
-import { rbacUserRoleApi, userApi } from '@features/fa-admin-pages/services';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { type CommonModalProps, DictEnumApiRadio, DictEnumApiSelector, DragModal, FaHref, FaUtils, UploadImgLocal, useApiLoading } from '@fa/ui';
 import DepartmentCascade from '@features/fa-admin-pages/components/helper/DepartmentCascade';
 import RbacRoleSelect from '@features/fa-admin-pages/components/helper/RbacRoleSelect';
+import { userApi as api, rbacUserRoleApi } from '@features/fa-admin-pages/services';
+import { Button, Form, Input, Switch } from 'antd';
+import { get } from 'lodash';
+import { useState } from 'react';
+import useBus from 'use-bus';
 
 const serviceName = '';
 
@@ -15,7 +15,6 @@ const serviceName = '';
  * 用户实体新增、编辑弹框
  */
 export default function UserModal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: CommonModalProps<Admin.User>) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
 
@@ -32,7 +31,7 @@ export default function UserModal({ children, title, record, fetchFinish, addBtn
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    userApi.save(params).then((res) => {
+    api.save(params).then((res) => {
       FaUtils.showResponse(res, `新增${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -41,7 +40,7 @@ export default function UserModal({ children, title, record, fetchFinish, addBtn
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
-    userApi.update(params.id, params).then((res) => {
+    api.update(params.id, params).then((res) => {
       FaUtils.showResponse(res, `更新${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -89,7 +88,7 @@ export default function UserModal({ children, title, record, fetchFinish, addBtn
     }
   }
 
-  const loading = loadingEffect[userApi.getUrl('save')] || loadingEffect[userApi.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>

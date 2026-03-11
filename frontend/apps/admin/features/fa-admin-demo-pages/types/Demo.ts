@@ -36,6 +36,12 @@ namespace Demo {
     tags: StudentTag[];
     /** 详细信息 */
     info: StudentInfo;
+    /** 字典值1 */
+    dict1: string;
+    /** 字典值2 */
+    dict2: string;
+    /** 字典值3 */
+    dict3: string;
   }
 
   /** DEMO-tree数据 */

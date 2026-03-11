@@ -84,6 +84,18 @@ public class BaseContextHandler {
         set(CommonConstants.CONTEXT_KEY_USER_IP, ip);
     }
 
+    /**
+     * 获取WebSocket的推送channel
+     * @return
+     */
+    public static String getWsChannel() {
+        return (String) get(CommonConstants.CONTEXT_KEY_WS_CHANNEL);
+    }
+
+    public static void setWsChannel(String channel) {
+        set(CommonConstants.CONTEXT_KEY_WS_CHANNEL, channel);
+    }
+
     // ----------------------------------------- MybatisPlus分表 -----------------------------------------
     public static String getTableSuffix() {
         return (String) get(CommonConstants.CONTEXT_KEY_TABLE_SUFFIX);

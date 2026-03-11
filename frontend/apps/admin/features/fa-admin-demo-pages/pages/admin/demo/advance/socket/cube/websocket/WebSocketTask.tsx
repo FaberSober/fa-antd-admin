@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
-import { FaUtils } from "@fa/ui";
-import { Button, Progress, Space, Tag } from "antd";
 import type { Fa } from "@/types";
+import { FaUtils } from "@fa/ui";
 import { webSocketTaskTestApi } from "@features/fa-admin-demo-pages/services";
-import { WebSocketLayoutContext } from "@features/fa-admin-pages/layout/websocket";
+import { sendMessage } from "@features/fa-admin-pages/layout/websocket";
+import { Button, Progress, Space, Tag } from "antd";
+import { useState } from 'react';
 import useBus from "use-bus";
 
 
@@ -12,7 +12,6 @@ import useBus from "use-bus";
  * @date 2023/5/29 11:32
  */
 export default function WebSocketTask() {
-  const { sendMessage } = useContext(WebSocketLayoutContext);
   const [task, setTask] = useState<Fa.SocketTaskVo>()
 
   function start() {

@@ -1,9 +1,9 @@
 import React from 'react';
-import { BaseSearchSelect, type BaseSearchSelectProps } from '@fa/ui';
+import { BaseUserSearchSelect, type BaseUserSearchSelectProps } from '@fa/ui';
 import type { Admin } from '@/types';
 import { userApi as api } from '@features/fa-admin-pages/services';
 
-export interface UserSearchSelectProps extends Omit<BaseSearchSelectProps<Admin.User, string>, 'serviceApi'> {}
+export interface UserSearchSelectProps extends Omit<BaseUserSearchSelectProps<Admin.User, string>, 'serviceApi'> {}
 
 /**
  * @author xu.pengfei
@@ -11,7 +11,7 @@ export interface UserSearchSelectProps extends Omit<BaseSearchSelectProps<Admin.
  */
 export default function UserSearchSelect(props: UserSearchSelectProps) {
   return (
-    <BaseSearchSelect<Admin.User, string>
+    <BaseUserSearchSelect<Admin.User, string>
       valueKey="id"
       labelKey="name"
       serviceApi={{

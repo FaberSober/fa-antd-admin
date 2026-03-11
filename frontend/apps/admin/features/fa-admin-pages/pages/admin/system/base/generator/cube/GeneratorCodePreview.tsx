@@ -3,8 +3,8 @@ import { FaFlexRestLayout, FaHref, FaUtils } from '@fa/ui';
 // import MonacoEditor from "react-monaco-editor";
 import { useSize, useUpdate } from 'ahooks';
 import type { Generator } from '@features/fa-admin-pages/types';
-import { Button, Form, Input, Modal, Space, Tree } from 'antd';
-import { CopyOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Modal, Popover, Space, Tree } from 'antd';
+import { CopyOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { useLocalStorage } from 'react-use';
 import type { DataNode, DirectoryTreeProps } from 'antd/es/tree';
 import { camelCase, get, isNil, trim } from 'lodash';
@@ -311,6 +311,9 @@ export default function GeneratorCodePreview({ tableNames }: GeneratorCodePrevie
           <Form.Item name="mainModule" label="前端模块" rules={[{ required: true }]}>
             <Input placeholder="base.admin" />
           </Form.Item>
+          {/*<Form.Item name="rnTablePrefix" label="前端去除表前缀" rules={[{ required: false }]}>*/}
+          {/*  <Input placeholder="base_" />*/}
+          {/*</Form.Item>*/}
           <Form.Item name="javaCopyPath" label="Java复制项目" rules={[{ required: true }]}>
             <Input placeholder="项目名称" />
           </Form.Item>
@@ -327,7 +330,7 @@ export default function GeneratorCodePreview({ tableNames }: GeneratorCodePrevie
       </div>
 
       <FaFlexRestLayout style={{ display: 'flex', flexDirection: 'column' }}>
-        <Space className="fa-mb12">
+        <Space className="fa-mb12 fa-flex-wrap">
           <FaHref
             onClick={() => {
               FaUtils.copyToClipboard(selItem?.title);
@@ -351,15 +354,29 @@ export default function GeneratorCodePreview({ tableNames }: GeneratorCodePrevie
               <Button icon={<CopyOutlined />}>复制当前文件到...</Button>
             </CodeCopyToModal>
           )}
+          <Popover
+            content={(
+              <ol>
+                <li>确认配置了包名、去除表前缀、API路径、前端模块、Java复制项目、前端复制目录、作者、email</li>
+                <li>复制Java文件</li>
+                <li>复制frontend/props属性到前端对应types中</li>
+                <li>复制frontend/services到前端对应services中</li>
+                <li>复制frontend/list到前端对应pages中</li>
+              </ol>
+            )}
+          >
+            <Button icon={<QuestionCircleOutlined />}>帮助</Button>
+          </Popover>
         </Space>
 
         <FaFlexRestLayout>
           <div ref={domRef} style={{ height: '100%' }}>
             {size && size.height && codeGen && (
               <Input.TextArea
-                autoSize={{ minRows: 1, maxRows: 25 }}
+                // autoSize={{ minRows: 1 }}
                 value={codeGen && codeGen.code}
                 onChange={(e) => setCodeGen({ ...codeGen, code: e.target.value })}
+                style={{ height: '100%' }}
               />
               // <MonacoEditor
               //   height={size.height}

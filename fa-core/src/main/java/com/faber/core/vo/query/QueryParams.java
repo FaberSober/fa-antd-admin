@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.faber.core.utils.FaSqlUtils;
+
 @Data
 @ToString
 @NoArgsConstructor
@@ -28,6 +30,8 @@ public class QueryParams implements Serializable {
     private Map<String, Object> query = new HashMap<>();
     /** 查询场景ID */
     private Integer sceneId;
+    /** 自定义表单ID */
+    private Integer flowFormId;
 
     /**
      * 高级查询组合条件
@@ -37,10 +41,12 @@ public class QueryParams implements Serializable {
     private List<ConditionGroup> conditionList;
 
     public List<Sorter> getSorterInfo() {
+        FaSqlUtils.validateSorterSafety(sorter);
+
         List<Sorter> sorterList = new ArrayList<>();
 
-        if (StrUtil.isEmpty(this.sorter)) return sorterList;
-
+        if (StrUtil.isEmpty(this.sorter))
+            return sorterList;
 
         String[] ss0 = this.sorter.split(",");
         for (String oneSorter : ss0) {
@@ -56,12 +62,14 @@ public class QueryParams implements Serializable {
     }
 
     public void addConditionGroup(ConditionGroup item) {
-        if (this.conditionList == null) this.conditionList = new ArrayList<>();
+        if (this.conditionList == null)
+            this.conditionList = new ArrayList<>();
         this.conditionList.add(item);
     }
 
     public void addConditionGroupList(List<ConditionGroup> list) {
-        if (this.conditionList == null) this.conditionList = new ArrayList<>();
+        if (this.conditionList == null)
+            this.conditionList = new ArrayList<>();
         this.conditionList.addAll(list);
     }
 

@@ -4,7 +4,7 @@
 <mapper namespace="com.faber.api.base.admin.mapper.SystemUpdateLogMapper">
 
     <select id="getCurVerId" resultType="int">
-        SELECT IFNULL(max(ver), 1) as max_ver FROM base_system_update_log
+        SELECT COALESCE(max(ver), 1) as max_ver FROM base_system_update_log
     </select>
 
     <select id="queryTableSchema" parameterType="map" resultType="map">

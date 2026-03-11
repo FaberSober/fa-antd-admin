@@ -1,0 +1,37 @@
+import { GATE_APP } from '@/configs';
+import { BaseZeroApi, Fa } from '@fa/ui';
+import { Flow } from '@/types';
+
+/** ------------------------------------------ FLOW-流程定义 操作接口 ------------------------------------------ */
+class Api extends BaseZeroApi {
+
+  /** 待审批 */
+  pagePendingApproval = (params: Fa.BasePageQuery<Flow.FlowTaskPageReqVo>): Promise<Fa.Ret<Fa.Page<Flow.FlowTaskRet>>> => this.post('pagePendingApproval', params);
+
+  /** 待认领任务 */
+  pagePendingClaim = (params: Fa.BasePageQuery<Flow.FlowTaskPageReqVo>): Promise<Fa.Ret<Fa.Page<Flow.FlowTaskRet>>> => this.post('pagePendingClaim', params);
+
+  /** 我申请的流程 */
+  pageMyApplications = (params: Fa.BasePageQuery<Flow.FlowTaskPageReqVo>): Promise<Fa.Ret<Fa.Page<Flow.FlowHisInstanceRet>>> => this.post('pageMyApplications', params);
+
+  /** 我收到的任务 */
+  pageMyReceived = (params: Fa.BasePageQuery<Flow.FlowTaskPageReqVo>): Promise<Fa.Ret<Fa.Page<Flow.FlowTaskRet>>> => this.post('pageMyReceived', params);
+
+  /** 我已审批的任务 */
+  pageMyApproved = (params: Fa.BasePageQuery<Flow.FlowTaskPageReqVo>): Promise<Fa.Ret<Fa.Page<Flow.FlowHisInstanceRet>>> => this.post('pageMyApproved', params);
+
+  /** 同意流程 */
+  pass = (params: Flow.FlowTaskPassReqVo): Promise<Fa.Ret<boolean>> => this.post('pass', params);
+
+  /** 拒绝流程 */
+  reject = (params: Flow.FlowTaskRejectReqVo): Promise<Fa.Ret<boolean>> => this.post('reject', params);
+
+  /** 认领任务 */
+  claim = (params: {taskId: string}): Promise<Fa.Ret<boolean>> => this.post('claim', params);
+
+  /** 查询我的流程任务数量 */
+  getMyTaskCount = (): Promise<Fa.Ret<Flow.FlowTaskCountRet>> => this.get('getMyTaskCount');
+
+}
+
+export default new Api(GATE_APP.flow.manage, 'flowTask');

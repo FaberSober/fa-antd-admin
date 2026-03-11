@@ -1,5 +1,5 @@
 import React from 'react';
-import ConditionQuery from './ConditionQuery';
+import ConditionQuery from '@ui/types/core/ConditionQuery';
 import { Tag } from 'antd';
 import { remove } from 'lodash';
 import './SceneManageModal.css';

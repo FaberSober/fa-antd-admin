@@ -3,9 +3,10 @@ import { Spin } from 'antd';
 
 export interface PageLoadingProps {
   style?: CSSProperties;
+  tip?: string;
 }
 
-export default function PageLoading({ style = {} }: PageLoadingProps) {
+export default function PageLoading({ style = {}, tip = "加载中..." }: PageLoadingProps) {
   return (
     <div
       style={{
@@ -20,7 +21,7 @@ export default function PageLoading({ style = {} }: PageLoadingProps) {
     >
       <Spin
         size="large"
-        tip="加载中..."
+        tip={tip}
       >
         <div style={{ width: 100, height: 100 }} />
       </Spin>

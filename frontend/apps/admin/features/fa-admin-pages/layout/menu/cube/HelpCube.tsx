@@ -32,10 +32,18 @@ export default function HelpCube() {
   if (isNil(SITE_INFO.HELP_DOCS) || SITE_INFO.HELP_DOCS.length === 0) return null;
 
   return (
-    <div className="fa-link-grey fa-flex-center">
-      <Popover placement="bottomRight" content={<HelpCubeContent />} trigger="click" getPopupContainer={() => document.body} overlayInnerStyle={{ padding: 0 }}>
-        <a className="fa-menu-help-cube">
-          <QuestionCircleOutlined /> 帮助文档
+    <div className="fa-flex-center">
+      <Popover 
+        placement="bottomRight" 
+        content={<HelpCubeContent />} 
+        trigger="click" 
+        getPopupContainer={() => document.body} 
+        styles={{
+          container: { padding: 0 },
+        }}
+      >
+        <a className="fa-menu-anim-button">
+          <QuestionCircleOutlined />
         </a>
       </Popover>
     </div>

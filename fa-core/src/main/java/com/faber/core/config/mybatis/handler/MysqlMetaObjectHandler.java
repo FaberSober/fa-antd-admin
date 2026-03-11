@@ -10,6 +10,7 @@ import com.faber.core.tenant.bean.TnBaseUpdEntity;
 import org.apache.ibatis.reflection.MetaObject;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * 测试，自定义元对象字段填充控制器，实现公共字段自动写入
@@ -21,7 +22,7 @@ public class MysqlMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-//        Object crtTime = this.getFieldValByName("crtTime", metaObject);
+        // Object crtTime = this.getFieldValByName("crtTime", metaObject);
         // tenant
         if (TnTenantContextHandler.getLogin()) {
             this.strictInsertFill(metaObject, "crtUser", String.class, TnTenantContextHandler.getUserId() + "");
@@ -35,13 +36,14 @@ public class MysqlMetaObjectHandler implements MetaObjectHandler {
             this.strictInsertFill(metaObject, "corpName", String.class, TnTenantContextHandler.getCorpName());
         }
 
-        // admin
+        // admin login
         if (BaseContextHandler.getLogin()) {
             this.strictInsertFill(metaObject, "crtUser", String.class, BaseContextHandler.getUserId());
             this.strictInsertFill(metaObject, "crtName", String.class, BaseContextHandler.getName());
         }
 
-        this.strictInsertFill(metaObject, "crtTime", LocalDateTime.class, LocalDateTime.now());
+        // 使用 Date 类型
+        this.strictInsertFill(metaObject, "crtTime", Date.class, new Date());
         this.strictInsertFill(metaObject, "crtHost", String.class, BaseContextHandler.getIp());
 
         this.strictInsertFill(metaObject, "deleted", Boolean.class, false);
@@ -51,8 +53,8 @@ public class MysqlMetaObjectHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         // tenant login
         if (TnTenantContextHandler.getLogin()) {
-            this.strictInsertFill(metaObject, "updUser", String.class, TnTenantContextHandler.getUserId() + "");
-            this.strictInsertFill(metaObject, "updName", String.class, TnTenantContextHandler.getName());
+            this.strictUpdateFill(metaObject, "updUser", String.class, TnTenantContextHandler.getUserId() + "");
+            this.strictUpdateFill(metaObject, "updName", String.class, TnTenantContextHandler.getName());
         }
 
         // admin login
@@ -61,7 +63,8 @@ public class MysqlMetaObjectHandler implements MetaObjectHandler {
             this.strictUpdateFill(metaObject, "updName", String.class, BaseContextHandler.getName());
         }
 
-        this.strictUpdateFill(metaObject, "updTime", LocalDateTime.class, LocalDateTime.now());
+        // 使用 Date 类型
+        this.strictUpdateFill(metaObject, "updTime", Date.class, new Date());
         this.strictUpdateFill(metaObject, "updHost", String.class, BaseContextHandler.getIp());
     }
 

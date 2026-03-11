@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { get } from 'lodash';
-import { Button, Form, Input } from 'antd';
-import { EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { ApiEffectLayoutContext, CommonModalProps, DragModal, FaHref, FaUtils } from '@fa/ui';
+import { DiskContext } from '@/layout';
 import { storeFileApi as api } from '@/services';
 import { Disk } from '@/types';
-import { DiskContext } from '@/layout';
+import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { CommonModalProps, DragModal, FaHref, FaUtils, useApiLoading } from '@fa/ui';
+import { Button, Form, Input } from 'antd';
+import { get } from 'lodash';
+import { useContext, useEffect, useState } from 'react';
 
 export interface StoreDirModalProps extends CommonModalProps<Disk.StoreFile> {
   dirId: number;
@@ -26,7 +26,6 @@ export default function StoreDirModal({
   ...props
 }: StoreDirModalProps) {
   const { bucket } = useContext(DiskContext);
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -70,7 +69,7 @@ export default function StoreDirModal({
     form.setFieldsValue(getInitialValues());
   }, [record]);
 
-  const loading = loadingEffect[api.getUrl('saveOrUpdate')];
+  const loading = useApiLoading([api.getUrl('saveOrUpdate')]);
   return (
     <span>
       <span onClick={showModal}>

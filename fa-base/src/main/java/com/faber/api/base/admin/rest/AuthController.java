@@ -1,6 +1,8 @@
 package com.faber.api.base.admin.rest;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
+import cn.hutool.core.map.MapUtil;
+
 import com.faber.api.base.admin.biz.AuthBiz;
 import com.faber.config.utils.user.LoginReqVo;
 import com.faber.core.annotation.FaLogBiz;
@@ -10,6 +12,9 @@ import com.faber.core.enums.LogCrudEnum;
 import com.faber.core.service.LogoutService;
 import com.faber.core.utils.BaseResHandler;
 import com.faber.core.vo.msg.Ret;
+
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +38,15 @@ public class AuthController extends BaseResHandler {
     @IgnoreUserToken
     public Ret<SaTokenInfo> login(@RequestBody LoginReqVo loginReqVo) {
         SaTokenInfo token = authBiz.login(loginReqVo);
+        return ok(token);
+    }
+
+    @FaLogOpr(value = "Token登录", crud = LogCrudEnum.C)
+    @RequestMapping(value = "/loginByToken", method = RequestMethod.POST)
+    @IgnoreUserToken
+    public Ret<SaTokenInfo> loginByToken(@RequestBody Map<String, Object> params) {
+        String apiToken = MapUtil.getStr(params, "token");
+        SaTokenInfo token = authBiz.loginByToken(apiToken);
         return ok(token);
     }
 

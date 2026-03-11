@@ -1,7 +1,30 @@
+.ant-tabs-card >.ant-tabs-nav .ant-tabs-tab {
+  background-color: var(--fa-bg-color) !important;
+  border-top-left-radius: 6px !important;
+  border-top-right-radius: 6px !important;
+  position: relative !important;
+}
+.ant-tabs-card >.ant-tabs-nav .ant-tabs-tab-active {
+  background-color: rgba(0, 107, 230, 0.15) !important;
+}
+// TODO: 选中tab前后增加小三角
+.ant-tabs-card >.ant-tabs-nav .ant-tabs-tab-active::after {
+  position: absolute !important;
+  display: block !important;
+  left: 0px !important;
+  bottom: 0px !important;
+  width: 0 !important;
+  height: 0 !important;
+  border-width: 10px !important;
+  border-style:  dashed dashed solid dashed !important;
+  border-color: transparent transparent rgba(0, 107, 230, 0.15) transparent !important;
+}
+
 .fa-menu-open-tabs {
   display: flex;
   flex-direction: row;
   align-items: center;
+  height: 37px;
 }
 
 .fa-menu-open-tabs .ant-tabs {
@@ -19,11 +42,7 @@
 }
 
 .fa-menu-open-tabs .ant-tabs-tab-active {
-  background: #FFF !important;
-}
-
-[data-theme=dark] .fa-menu-open-tabs .ant-tabs-tab-active {
-  background: var(--fa-bg-selected) !important;
+  background: var(--fa-bg-color) !important;
 }
 
 .fa-menu-open-tabs .ant-tabs-nav::before {
@@ -50,9 +69,172 @@
 }
 
 .fa-menu-open-tabs .ant-tabs-tab-remove:hover {
-  background: #ccc;
+  background: var(--fa-bg-color-hover);
 }
 
 .fa-open-tabs-item-title-div {
   padding: 6px 28px 6px 12px;
+}
+
+.fa-menu-top {
+  overflow-y: hidden;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+}
+
+.fa-tab-menu-item-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+  height: 100%;
+  gap: 3.5px;
+  padding-left: 7px;
+}
+
+.fa-tab-menu-item {
+  padding: 0 .25rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  font-size: .875rem;
+  animation-duration: .15s;
+  height: 100%;
+  position: relative;
+
+  &.active {
+    // background-color: var(--primary-color-light200);
+    background-color: #006be626;
+    color: var(--primary-color);
+    border-radius: 7px 7px 0 0;
+
+    .fa-tab-menu-item-left-cornor, .fa-tab-menu-item-right-cornor {
+      // display: block;
+      opacity: 1;
+    }
+
+    &:hover {
+      .fa-tab-menu-item-bg {
+        display: none;
+      }
+    }
+  }
+
+  &:hover {
+    .fa-tab-menu-item-bg {
+      display: block;
+    }
+  }
+}
+
+.fa-tab-menu-item-main {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  padding: 0 6px;
+  z-index: 1;
+  // margin-bottom: 3px;
+  white-space: nowrap;
+
+  &:hover {
+    .fa-tab-menu-item-icon {
+      animation: shrink 0.3s ease-in-out;
+    }
+  }
+}
+
+.fa-tab-menu-item-icon {
+  margin-right: 4px;
+}
+
+.fa-tab-menu-item-bg {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 3px;
+  z-index: 0;
+  background-color: var(--fa-bg-color-hover);
+  border-radius: 4px;
+}
+
+.fa-tab-menu-item-close {
+  margin-left: 6px;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: var(--fa-bg-color-hover);
+  }
+}
+
+.fa-tab-menu-item-left-cornor {
+  position: absolute;
+  left: -7px;
+  bottom: 0;
+  // display: none;
+  animation-duration: .15s;
+  opacity: 0;
+}
+
+.fa-tab-menu-item-right-cornor {
+  position: absolute;
+  right: -7px;
+  bottom: 0;
+  // display: none;
+  animation-duration: .15s;
+  opacity: 0;
+}
+
+.fa-menu-tab-right-btn {
+  width: 37px;
+  height: 37px;
+  border-left: 1px solid var(--fa-border-color);
+  border-radius: 0;
+  cursor: pointer;
+  transition: all ease-in-out 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fa-menu-tab-right-btn:hover {
+  background-color: var(--fa-bg-color-hover);
+  color: var(--fa-text-color);
+}
+
+.fa-menu-tab-context-menu {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  button {
+    justify-content: flex-start;
+  }
+
+  .ant-divider {
+    margin: 4px 0;
+  }
+}
+
+[data-theme=dark] {
+  .fa-tab-menu-item {
+    &.active {
+      background-color: #2a2d2f;
+      color: #fff;
+    }
+  }
 }

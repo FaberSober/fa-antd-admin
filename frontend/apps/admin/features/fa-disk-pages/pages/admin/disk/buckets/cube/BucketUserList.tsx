@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Button, Space, Table } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import { Disk } from '@/types';
 import { storeBucketUserApi } from '@/services';
-import { ApiEffectLayoutContext, AuthDelBtn, BizUserSelect, FaEnums, FaUtils, SelectedUser, useDelete } from '@fa/ui';
+import { Disk } from '@/types';
+import { PlusOutlined } from '@ant-design/icons';
+import { AuthDelBtn, BizUserSelect, FaEnums, FaUtils, SelectedUser, useApiLoading, useDelete } from '@fa/ui';
+import { Button, Space, Table } from 'antd';
+import { useEffect, useState } from 'react';
 
 export interface BucketUserListProps {
   bucketId: number;
@@ -14,8 +14,6 @@ export interface BucketUserListProps {
  * @date 2022/12/28 11:08
  */
 export default function BucketUserList({ bucketId }: BucketUserListProps) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
-
   const [array, setArray] = useState<Disk.StoreBucketUser[]>([]);
   const [ids, setIds] = useState<SelectedUser[]>([]);
 
@@ -41,7 +39,7 @@ export default function BucketUserList({ bucketId }: BucketUserListProps) {
     });
   }
 
-  const loading = loadingEffect[storeBucketUserApi.getUrl('list')];
+  const loading = useApiLoading([storeBucketUserApi.getUrl('list')]);
   return (
     <div>
       <Space className="fa-mb12">

@@ -6,7 +6,7 @@ import React, { HTMLAttributes } from 'react';
  */
 export default function FaFlexRestLayout({ children, style, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className="fa-flex-1">
+    <div className="fa-flex-1 fa-relative">
       <div className="fa-full-content" style={{ overflowY: 'auto', ...style }} {...props}>
         {children}
       </div>

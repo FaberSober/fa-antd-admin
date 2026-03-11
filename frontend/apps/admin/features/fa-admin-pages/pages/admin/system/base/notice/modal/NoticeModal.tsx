@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
-import { get } from 'lodash';
-import { Button, Form, Input } from 'antd';
-import { type Admin, ApiEffectLayoutContext, BaseBoolRadio, BaseTinyMCE, type CommonModalProps, DragModal, FaHref, FaUtils } from '@fa/ui';
-import { noticeApi } from '@features/fa-admin-pages/services';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { type Admin, BaseBoolRadio, BaseTinyMCE, type CommonModalProps, DragModal, FaHref, FaUtils, useApiLoading } from '@fa/ui';
+import { noticeApi as api } from '@features/fa-admin-pages/services';
+import { Button, Form, Input } from 'antd';
+import { get } from 'lodash';
+import { useState } from 'react';
 
 const serviceName = '通知与公告';
 
@@ -11,14 +11,13 @@ const serviceName = '通知与公告';
  * BASE-通知与公告实体新增、编辑弹框
  */
 export default function NoticeModal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: CommonModalProps<Admin.Notice>) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    noticeApi.save(params).then((res) => {
+    api.save(params).then((res) => {
       FaUtils.showResponse(res, `新增${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -27,7 +26,7 @@ export default function NoticeModal({ children, title, record, fetchFinish, addB
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
-    noticeApi.update(params.id, params).then((res) => {
+    api.update(params.id, params).then((res) => {
       FaUtils.showResponse(res, `更新${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -62,7 +61,7 @@ export default function NoticeModal({ children, title, record, fetchFinish, addB
     form.setFieldsValue(getInitialValues());
   }
 
-  const loading = loadingEffect[noticeApi.getUrl('save')] || loadingEffect[noticeApi.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>

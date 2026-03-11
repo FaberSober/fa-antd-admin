@@ -1,6 +1,9 @@
 
 package com.faber.api.base.msg.helper.config;
 
+import com.faber.api.base.msg.entity.Msg;
+import com.faber.api.base.msg.enums.MsgTypeEnum;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,5 +29,9 @@ public class MsgSendConfig {
     protected String buzzType;
 
     protected String buzzId;
+
+    protected MsgTypeEnum type = MsgTypeEnum.SYSTEM;
+
+    public void beforeSave(Msg msg) {}
 
 }

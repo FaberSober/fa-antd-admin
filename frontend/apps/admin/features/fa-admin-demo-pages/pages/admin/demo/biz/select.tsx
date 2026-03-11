@@ -15,7 +15,7 @@ export default function select() {
   const [value2, setValue2] = useState();
 
   return (
-    <div className="fa-full-content fa-bg-white fa-p12">
+    <div className="fa-content">
       <Card title="远程数据选择-一次加载全部数据" className="fa-mb12">
         <p>说明：1. 从接口获取数据；2. Select组件；3. 只要继承了BaseController的api接口都可以使用；</p>
 

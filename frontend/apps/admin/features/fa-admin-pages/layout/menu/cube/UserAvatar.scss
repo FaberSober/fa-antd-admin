@@ -1,0 +1,60 @@
+.fa-user-avatar {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  width: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+
+  img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .fa-user-online-badge {
+    right: 6px;
+    bottom: 6px;
+  }
+}
+
+.fa-user-avatar:hover {
+  background-color: var(--fa-bg-color-hover);
+}
+
+.fa-user-online-badge {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #52C41A;
+  border: 2px solid var(--fa-bg-color);
+}
+
+.fa-user-avatar-big {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  width: 48px;
+  // border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+
+  img {
+    height: 48px;
+    width: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .fa-user-online-badge {
+    right: 0px;
+    bottom: 0px;
+  }
+}

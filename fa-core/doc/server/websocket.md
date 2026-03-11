@@ -1,20 +1,31 @@
 # WebSocket
 
-# 发送数据
+# Java服务端
 ## 发送简单文本
 ```java
+// 1. 设置发送频道
+WsHolder.setChannel("PullNewData");
+// 2. 后续消息均在上述频道中发布
 WsHolder.sendMessage(WsTypeEnum.PLAIN_TEXT, "开始下载NWP数据...");
 ```
 
-# 如何使用
+# Web前端
+## 发送消息
+```typescript jsx
+// 新版本
+import { sendMessage } from '@features/fa-admin-pages/layout/websocket';
+
+sendMessage({ type: 'test', data: { msg } });
+```
+
 ## 接受数据
 ```typescript jsx
 import useBus from "use-bus";
 
 useBus(
     ['@@ws/RECEIVE/WebSocketTaskDemo'],
-    ({ type, payload }) => {
-        console.log(type, payload);
+    ({ type, channel, payload }) => {
+        console.log(type, channel, payload);
     },
     [],
 )

@@ -27,7 +27,6 @@ import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
 
-
 /**
  * Mybatis Plus Config
  *
@@ -45,7 +44,8 @@ public class MybatisPlusConfig {
      * 包含租户ID(tenant_id)字段的表
      * TODO 要支持配置文件
      */
-    private static final List<String> TENANT_EXCLUDE_TABLES = Arrays.asList("tn_tenant", "tn_tenant_user", "tn_tenant_corp", "tn_tenant_corp_agent", "tn_tenant_rbac_menu");
+    private static final List<String> TENANT_EXCLUDE_TABLES = Arrays.asList("tn_tenant", "tn_tenant_user",
+            "tn_tenant_corp", "tn_tenant_corp_agent", "tn_tenant_rbac_menu");
 
     /**
      * 是否是租户表
@@ -53,16 +53,19 @@ public class MybatisPlusConfig {
      * @return
      */
     private boolean isTenantTable(String tableName) {
-        if (TENANT_EXCLUDE_TABLES.contains(tableName)) return false;
+        if (TENANT_EXCLUDE_TABLES.contains(tableName))
+            return false;
         return tableName.startsWith("tn_");
     }
 
     /**
      * 是否是企业表
+     * 
      * @return
      */
     private boolean isCorpTable(String tableName) {
-        if (TENANT_EXCLUDE_TABLES.contains(tableName)) return false;
+        if (TENANT_EXCLUDE_TABLES.contains(tableName))
+            return false;
         return tableName.startsWith("tn_");
     }
 
@@ -72,9 +75,12 @@ public class MybatisPlusConfig {
         /* 数据源 */
         sqlSessionFactory.setDataSource(dataSource);
         /* xml扫描 */
-        sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:/mapper/**/*.xml"));
+        // classpath:/mapper/**/*.xml 只会扫描第一个 classpath 根目录
+        // 多模块项目，使用classpath*:/mapper/**/*.xml，Spring 会扫描所有依赖 jar 包和模块的 classpath，子模块的 xml 也能加载到。
+        sqlSessionFactory.setMapperLocations(
+                new PathMatchingResourcePatternResolver().getResources("classpath*:/mapper/**/*.xml"));
         /* 扫描 typeHandler */
-//        sqlSessionFactory.setTypeHandlersPackage("com.baomidou.mybatisplus.samples.mysql.type");
+        // sqlSessionFactory.setTypeHandlersPackage("com.baomidou.mybatisplus.samples.mysql.type");
         MybatisConfiguration configuration = new MybatisConfiguration();
         configuration.setJdbcTypeForNull(JdbcType.NULL);
         /* 驼峰转下划线 */
@@ -122,22 +128,26 @@ public class MybatisPlusConfig {
 //        }));
 
         // 动态表名
-        DynamicTableNameInnerInterceptor dynamicTableNameInnerInterceptor = new DynamicTableNameInnerInterceptor();
-        dynamicTableNameInnerInterceptor.setTableNameHandler((sql, tableName) -> {
-            boolean multi = faSetting.getDb() != null && faSetting.getDb().getMultiTables() != null && faSetting.getDb().getMultiTables().contains(tableName.toLowerCase());
-            if (!multi) { // 不是多表名
-                return tableName;
-            }
+        DynamicTableNameInnerInterceptor dynamicTableNameInnerInterceptor = new DynamicTableNameInnerInterceptor(
+                (sql, tableName) -> {
+                    boolean multi = faSetting.getDb() != null && faSetting.getDb().getMultiTables() != null
+                            && faSetting.getDb().getMultiTables().contains(tableName.toLowerCase());
+                    if (!multi) { // 不是多表名
+                        return tableName;
+                    }
 
-            String suffix = BaseContextHandler.getTableSuffix();
-            if (StrUtil.isEmpty(suffix)) {
-                return tableName;
-            }
-            return tableName + "_" + suffix;
-        });
+                    String suffix = BaseContextHandler.getTableSuffix();
+                    if (StrUtil.isEmpty(suffix)) {
+                        return tableName;
+                    }
+                    return tableName + "_" + suffix;
+                });
         mybatisPlusInterceptor.addInnerInterceptor(dynamicTableNameInnerInterceptor);
 
-        mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        PaginationInnerInterceptor paginationInterceptor = new PaginationInnerInterceptor();
+        // paginationInterceptor.setDbType(DbType.POSTGRE_SQL); // 指定数据库
+        // paginationInterceptor.setOptimizeJoin(true); // COUNT SQL 优化
+        mybatisPlusInterceptor.addInnerInterceptor(paginationInterceptor);
         mybatisPlusInterceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
         // 防全表更新与删除插件
         mybatisPlusInterceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
@@ -160,7 +170,7 @@ public class MybatisPlusConfig {
     @Bean
     public GlobalConfig globalConfig() {
         GlobalConfig conf = new GlobalConfig();
-        conf.setDbConfig(new GlobalConfig.DbConfig().setColumnFormat("`%s`").setPropertyFormat("`%s`"));
+        // conf.setDbConfig(new GlobalConfig.DbConfig().setColumnFormat("`%s`").setPropertyFormat("`%s`"));
         return conf;
     }
 

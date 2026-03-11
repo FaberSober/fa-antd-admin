@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import { isNil } from 'lodash';
-import { Avatar, Image, Popover } from 'antd';
+import { Avatar, Image, Popover, Tooltip } from 'antd';
 import { fileSaveApi } from '@features/fa-admin-pages/services';
 import ConfigLayoutContext from '@features/fa-admin-pages/layout/config/context/ConfigLayoutContext';
+import { WechatOutlined } from '@ant-design/icons';
 
 /**
  * @author xu.pengfei
@@ -14,8 +15,8 @@ export default function WxMiniApp() {
   if (isNil(systemConfig.wxminiapp)) return null;
   return (
     <Popover title="微信小程序" content={<Image src={fileSaveApi.genLocalGetFile(systemConfig.wxminiapp)} width={300} />}>
-      <div className="fa-link-grey fa-flex-center" style={{ width: 44, height: '100%' }}>
-        <Avatar alt="微信小程序" src={fileSaveApi.genLocalGetFilePreview(systemConfig.wxminiapp)} size={25} />
+      <div className="fa-menu-anim-button">
+        <WechatOutlined />
       </div>
     </Popover>
   );

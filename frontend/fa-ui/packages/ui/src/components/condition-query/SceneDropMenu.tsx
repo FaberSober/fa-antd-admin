@@ -76,7 +76,7 @@ const SceneDropMenu = React.forwardRef<HTMLElement, SceneDropMenuProps<any>>(fun
   return (
     <div>
       <Dropdown menu={{ items, onClick: handleMenuClick, selectedKeys: [value] }} trigger={['click']}>
-        <Button icon={<DownOutlined />} type="text">{label}</Button>
+        <Button icon={<DownOutlined />} type="text" style={{ paddingLeft: 1, paddingRight: 1 }}>{label}</Button>
       </Dropdown>
       <SceneManageModal
         ref={manageModalRef}

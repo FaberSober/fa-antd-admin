@@ -20,7 +20,9 @@ interface IProps extends SelectProps<any> {
 export default function DictDataSelector({ dictLabel, transValue, treeShowType, ...props }: IProps) {
   const { dict, options } = useDict(dictLabel, transValue);
 
-  if (!dict) return null;
+  if (!dict) {
+    return <Select style={{ minWidth: 170 }} {...props} />
+  }
   if (dict.type === FaEnums.DictTypeEnum.OPTIONS || dict.type === FaEnums.DictTypeEnum.LINK_OPTIONS) {
     return <Select style={{ minWidth: 170 }} allowClear placeholder="请选择" options={options} {...props} />;
   }

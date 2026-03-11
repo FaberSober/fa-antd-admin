@@ -13,7 +13,7 @@ import WebSocketTaskCube from "./cube/websocket/WebSocketTaskCube";
 export default function DemoAdvanceSocket() {
 
   return (
-    <div className="fa-full-content fa-bg-white fa-p12 fa-flex-column fa-scroll-auto-y">
+    <div className="fa-full-content-p12">
       <Card title="socket连接基础示例" className="fa-mb12">
         <WebSocketBase token="111" />
       </Card>

@@ -1,94 +1,44 @@
-import React, { useContext } from 'react';
-import { Tabs } from 'antd';
-import { findIndex } from 'lodash';
-import { Item, type ItemParams, Menu, useContextMenu } from 'react-contexify';
+import React, { useContext, useEffect, useRef } from 'react';
+import { Menu, useContextMenu } from 'react-contexify';
+import 'react-contexify/ReactContexify.css';
 import { FaFullscreenBtn } from '@fa/ui';
 import MenuLayoutContext, { type OpenTabsItem } from '../context/MenuLayoutContext';
 import './OpenTabs.scss';
+import { AppstoreOutlined, CloseOutlined, ReloadOutlined } from '@ant-design/icons';
+import OpenTabsMenu, { useTabOperations } from './OpenTabsMenu';
+import { Popover } from 'antd';
+import FaIconPro from '@features/fa-admin-pages/components/icons/FaIconPro';
 
 /**
  * @author xu.pengfei
  * @date 2022/9/23
  */
 export default function OpenTabs() {
-  const { openTabs, curTab, setOpenTabs, selTab } = useContext(MenuLayoutContext);
+  const { openTabs, curTab, selTab, reloadTab } = useContext(MenuLayoutContext);
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const [contextTabKey, setContextTabKey] = React.useState<string>('');
+  const { remove } = useTabOperations();
 
-  // ------------------------------- tab operations -------------------------------
-  /**
-   * 关闭指定标签
-   * @param tabKey
-   */
-  function remove(tabKey: string) {
-    // console.log('remove,tabKey=', tabKey)
-    const index = findIndex(openTabs, (i) => i.key === tabKey);
-    if (index === -1) return;
-
-    // 0. remove key
-    let lastIndex = -1;
-    openTabs.forEach((item, i) => {
-      if (item.key === tabKey) {
-        lastIndex = i - 1;
-      }
-    });
-    const newPanes = openTabs.filter((item) => item.key !== tabKey);
-
-    // 1. decide slide to new tab
-    let newActiveKey = curTab?.key;
-    if (newPanes.length && newPanes.length > 0 && newActiveKey === tabKey) {
-      if (lastIndex >= 0) {
-        newActiveKey = newPanes[lastIndex].key;
-      } else {
-        newActiveKey = newPanes[0].key;
-      }
-      selTab(newActiveKey);
-    } else if (newActiveKey === undefined) {
-      // 当前没有选中的菜单Menu
-      if (lastIndex >= 0) {
-        newActiveKey = newPanes[lastIndex].key;
-      } else {
-        newActiveKey = newPanes[0].key;
-      }
-      selTab(newActiveKey);
+  // 切换 tab 时，丝滑滚动使当前激活的标签进入视野
+  useEffect(() => {
+    if (!curTab?.key || !tabsRef.current) return;
+    const activeEl = tabsRef.current.querySelector<HTMLDivElement>('.fa-tab-menu-item.active');
+    if (activeEl) {
+      activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
     }
-    setOpenTabs(newPanes);
+  }, [curTab?.key]);
+
+  function reloadCurTab() {
+    if (curTab?.key) {
+      reloadTab(curTab.key);
+    }
   }
 
-  /**
-   * 关闭其他标签页
-   * @param tabKey
-   */
-  function closeOthers(tabKey: string) {
-    const index = findIndex(openTabs, (i) => i.key === tabKey);
-    if (index === -1) return;
-
-    const newPanes = openTabs.filter((item) => item.key === tabKey);
-    setOpenTabs(newPanes);
-  }
-
-  /**
-   * 关闭左侧标签
-   * @param tabKey
-   */
-  function closeLeft(tabKey: string) {
-    const index = findIndex(openTabs, (i) => i.key === tabKey);
-    if (index === -1) return;
-
-    const newPanes = [...openTabs];
-    newPanes.splice(0, index);
-    setOpenTabs(newPanes);
-  }
-
-  /**
-   * 关闭右侧标签
-   * @param tabKey
-   */
-  function closeRight(tabKey: string) {
-    const index = findIndex(openTabs, (i) => i.key === tabKey);
-    if (index === -1) return;
-
-    const newPanes = [...openTabs];
-    newPanes.splice(index + 1, newPanes.length - index - 1);
-    setOpenTabs(newPanes);
+  function handleWheel(e: React.WheelEvent<HTMLDivElement>) {
+    if (tabsRef.current) {
+      e.preventDefault();
+      tabsRef.current.scrollLeft += e.deltaY;
+    }
   }
 
   // ------------------------------- context menu -------------------------------
@@ -97,67 +47,65 @@ export default function OpenTabs() {
   });
 
   function handleContextMenu(event: any, props: OpenTabsItem) {
+    setContextTabKey(props.key);
     show({ event, props });
   }
 
-  const handleItemClick = ({ id, props }: ItemParams) => {
-    const item = props as OpenTabsItem;
-    switch (id) {
-      case 'menu_close_current':
-        remove(item.key);
-        break;
-      case 'menu_close_other':
-        closeOthers(item.key);
-        break;
-      case 'menu_close_left':
-        closeLeft(item.key);
-        break;
-      case 'menu_close_right':
-        closeRight(item.key);
-        break;
-    }
-  };
-
-  // ------------------------------- tab items -------------------------------
-  const items = openTabs.map((i) => ({
-    key: i.key,
-    label: (
-      <div className="fa-open-tabs-item-title-div" onContextMenu={(e) => handleContextMenu(e, i)}>
-        {/*<span>{i.icon}</span>*/}
-        <span>{i.name}</span>
-      </div>
-    ),
-    closable: i.closeable,
-  }));
-
+  // console.log('openTabs', openTabs, 'curTab', curTab)
   return (
     <div className="fa-menu-open-tabs fa-border-b">
-      <Tabs
-        hideAdd
-        type="editable-card"
-        activeKey={curTab?.key}
-        onChange={(key: string) => selTab(key)}
-        onEdit={(targetKey: any) => remove(targetKey)}
-        items={items}
-        className="fa-tab"
-        tabBarGutter={0}
-      />
+      <div ref={tabsRef} className='fa-flex-1 fa-full-h fa-menu-top' style={{paddingTop: 3}} onWheel={handleWheel}>
+        <div className='fa-tab-menu-item-container'>
+          {openTabs.map((item) => {
+            const isActive = item.key === curTab?.key;
+            return (
+              <div
+                key={item.key}
+                className={isActive ? 'fa-tab-menu-item active' : 'fa-tab-menu-item'}
+                onClick={() => selTab(item.key)}
+              >
+                <div className='fa-tab-menu-item-bg'></div>
+                <div className="fa-tab-menu-item-main" onContextMenu={(e) => handleContextMenu(e, item)}>
+                  {item.icon ? <FaIconPro className='fa-tab-menu-item-icon' icon={item.icon as string} fontSize={16} /> : null}
 
-      <FaFullscreenBtn target={document.body} style={{ width: 34, height: 34 }} />
+                  <span>{item.name}</span>
 
-      <Menu id="menu_context_tab_item" className="contextMenu">
-        <Item id="menu_close_current" onClick={handleItemClick}>
-          关闭当前
-        </Item>
-        <Item id="menu_close_other" onClick={handleItemClick}>
-          关闭其他
-        </Item>
-        <Item id="menu_close_left" onClick={handleItemClick}>
-          关闭左边
-        </Item>
-        <Item id="menu_close_right" onClick={handleItemClick}>
-          关闭右边
-        </Item>
+                  <div className='fa-tab-menu-item-close' onClick={(e) => remove(item.key)}>
+                    <CloseOutlined style={{ fontSize: '.775rem' }} />
+                  </div>
+                </div>
+                {/* 左右装饰 */}
+                <svg className='fa-tab-menu-item-left-cornor' width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path data-v-2540ea20="" d="M 0 7 A 7 7 0 0 0 7 0 L 7 7 Z" fill="#006be626"></path>
+                </svg>
+                <svg className='fa-tab-menu-item-right-cornor' width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0 0A7 7 0 0 0 7 7L0 7Z" fill="#006be626"></path>
+                </svg>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      <Popover 
+        content={<OpenTabsMenu targetTabKey={curTab?.key || ''} />} 
+        trigger="click"
+        styles={{
+          container: {padding: 4, width: 180},
+        }}
+      >
+        <div className='fa-menu-tab-right-btn'>
+          <AppstoreOutlined />
+        </div>
+      </Popover>
+      <div className='fa-menu-tab-right-btn' onClick={reloadCurTab}>
+        <ReloadOutlined />
+      </div>
+      {/* TODO 需要修改为网页内全屏，即隐藏header、menu */}
+      <FaFullscreenBtn target={document.body} style={{ width: 37, height: 37, borderRadius: 0, borderLeft: '1px solid var(--fa-border-color)' }} />
+
+      <Menu id="menu_context_tab_item" className="fa-border" style={{minWidth: 180, zIndex: 9999}}>
+        <OpenTabsMenu targetTabKey={contextTabKey} />
       </Menu>
     </div>
   );

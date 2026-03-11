@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
-import { get } from 'lodash';
-import { Button, Form, Input } from 'antd';
-import { ApiEffectLayoutContext, type CommonModalProps, DictEnumApiSelector, DragModal, FaHref, FaUtils } from '@fa/ui';
 import type { Admin } from '@/types';
-import { areaApi } from '@features/fa-admin-pages/services';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { type CommonModalProps, DictEnumApiSelector, DragModal, FaHref, FaUtils, useApiLoading } from '@fa/ui';
+import { areaApi as api } from '@features/fa-admin-pages/services';
+import { Button, Form, Input } from 'antd';
+import { get } from 'lodash';
+import { useState } from 'react';
 
 const serviceName = '';
 
@@ -12,14 +12,13 @@ const serviceName = '';
  * 中国行政地区表实体新增、编辑弹框
  */
 export default function AreaModal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: CommonModalProps<Admin.Area>) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    areaApi.save(params).then((res) => {
+    api.save(params).then((res) => {
       FaUtils.showResponse(res, `新增${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -28,7 +27,7 @@ export default function AreaModal({ children, title, record, fetchFinish, addBtn
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
-    areaApi.update(params.id, params).then((res) => {
+    api.update(params.id, params).then((res) => {
       FaUtils.showResponse(res, `更新${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -65,7 +64,7 @@ export default function AreaModal({ children, title, record, fetchFinish, addBtn
     form.setFieldsValue(getInitialValues());
   }
 
-  const loading = loadingEffect[areaApi.getUrl('save')] || loadingEffect[areaApi.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>

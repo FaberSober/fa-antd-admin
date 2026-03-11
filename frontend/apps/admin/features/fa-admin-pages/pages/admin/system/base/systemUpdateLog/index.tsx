@@ -40,7 +40,7 @@ export default function SystemUpdateLogList() {
         dataIndex: 'menu',
         render: (_, r) => (
           <Space>
-            <BaseDrawer triggerDom={<FaHrefView />} width={1000}>
+            <BaseDrawer triggerDom={<FaHrefView />} size={1000}>
               <SystemUpdateLogView record={r} />
             </BaseDrawer>
             <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
@@ -55,7 +55,7 @@ export default function SystemUpdateLogList() {
   }
 
   return (
-    <div className="fa-full-content fa-flex-column fa-bg-white">
+    <div className="fa-full-content-p12 fa-flex-column fa-content">
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
         <div className="fa-h3">{serviceName}</div>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>

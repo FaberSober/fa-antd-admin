@@ -1,0 +1,72 @@
+.fa-form-editor-item {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  cursor: grab;
+  border: 1px dashed #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 12px;
+}
+
+.fa-form-editor-item-selected {
+  background-color: #e6f7ff;
+  border: 1px solid #1890ff;
+}
+
+.fa-form-editor-item .ant-form-item {
+  margin: 0;
+}
+
+.fa-form-item-drag {
+  padding: 6px 10px;
+  border: 1px solid var(--fa-border-color);
+  border-radius: 4px;
+  cursor: move;
+  user-select: none;
+  background: transparent;
+  transition: all ease-in-out 0.3s;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.fa-form-item-drag:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.fa-form-item-icon {
+  height: 15px;
+  width: 15px;
+  margin-right: 6px;
+}
+
+.fa-form-canvas {
+
+  .ant-form-item {
+    margin-bottom: 0;
+  }
+}
+
+.fa-form-editor-col {
+  position: relative;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
+}
+
+.fa-form-editor-col:hover {
+  cursor: move;
+}
+
+// 拖动中的元素
+.fa-form-editor-col.dragging {
+  opacity: 0.4;
+}
+
+// 拖动经过的元素
+.fa-form-editor-col.drag-over {
+  border-color: #1890ff !important;
+  border-style: dashed !important;
+  background-color: rgba(24, 144, 255, 0.05);
+}

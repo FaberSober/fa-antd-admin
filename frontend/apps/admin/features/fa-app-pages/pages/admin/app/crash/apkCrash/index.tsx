@@ -46,7 +46,7 @@ export default function ApkCrashList() {
         dataIndex: 'menu',
         render: (_, r) => (
           <Space>
-            <BaseDrawer title="查看崩溃日志详情" triggerDom={<FaHref icon={<EyeOutlined />} text="详情" />} width={1000}>
+            <BaseDrawer title="查看崩溃日志详情" triggerDom={<FaHref icon={<EyeOutlined />} text="详情" />} size={1000}>
               <ApkCrashView apkCrash={r} />
             </BaseDrawer>
             <AuthDelBtn handleDelete={() => handleDelete(r.id)} />
@@ -61,7 +61,7 @@ export default function ApkCrashList() {
   }
 
   return (
-    <div className="fa-full-content fa-flex-column fa-bg-white">
+    <div className="fa-full-content-p12 fa-flex-column fa-content">
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
         <div className="fa-h3">{serviceName}</div>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>

@@ -1,11 +1,13 @@
 import {GATE_APP} from '@ui/configs';
-import {BaseApi} from '@ui/services';
+import BaseApi from '@ui/services/core/BaseApi';
 import {trim} from 'lodash';
 import {Admin, Fa} from '@ui/types';
 
 interface UploadToken {
   token: string;
-  host: string;
+  domain: string;
+  bucketName: string;
+  basePath: string;
 }
 
 const serviceModule = 'fileSave';
@@ -14,10 +16,15 @@ class FileSaveApi extends BaseApi<Admin.FileSave, string> {
   /** 获取七牛云上传token */
   getQiniuUploadToken = (): Promise<Fa.Ret<UploadToken>> => this.get('getQiniuUploadToken');
 
+  /** 获取唯一ID */
+  getWorkerId = (): Promise<Fa.Ret<string>> => this.get('getWorkerId');
+
   uploadFile = (file: any, callback?: (progressEvent: any) => void): Promise<Fa.Ret<Admin.FileSave>> =>
     this.postFile('upload', file, { onUploadProgress: callback });
 
   uploadFromUrl = (params: {url: string}): Promise<Fa.Ret<Admin.FileSave>> => this.post('uploadFromUrl', params);
+
+  syncUrlQiniu = (params: {url: string}): Promise<Fa.Ret<Admin.FileSave>> => this.post('syncUrlQiniu', params);
 
   uploadFileForm = (formData: any, callback?: (progressEvent: any) => void): Promise<Fa.Ret<Admin.FileSave>> =>
     this.postForm('upload', formData, { onUploadProgress: callback });

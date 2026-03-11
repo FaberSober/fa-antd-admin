@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
-import { Button, Form } from 'antd';
-import { ApiEffectLayoutContext, CommonModalProps, DragModal, FaUtils } from '@fa/ui';
-import { Disk } from '@/types';
 import { StoreFileCascader } from '@/components';
 import { storeFileApi } from '@/services';
+import { Disk } from '@/types';
+import { CommonModalProps, DragModal, FaUtils, useApiLoading } from '@fa/ui';
+import { Button, Form } from 'antd';
+import { useState } from 'react';
 
 export interface StoreDirModalProps extends CommonModalProps<Disk.StoreBucket> {
   fileIds: number[];
@@ -23,7 +23,6 @@ export default function StoreFileCopyToModal({
   fileIds,
   ...props
 }: StoreDirModalProps) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -49,7 +48,7 @@ export default function StoreFileCopyToModal({
     if (onOpen) onOpen();
   }
 
-  const loading = loadingEffect[storeFileApi.getUrl('copyToDir')];
+  const loading = useApiLoading([storeFileApi.getUrl('copyToDir')]);
   return (
     <span>
       <span onClick={showModal}>{children || <Button>复制到...</Button>}</span>

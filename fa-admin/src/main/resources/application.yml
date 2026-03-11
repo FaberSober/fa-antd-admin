@@ -1,5 +1,6 @@
 server:
   port: 80
+  max-http-request-header-size: 32KB   # 默认 8KB
   compression:
     enabled: true
     min-response-size: 1024
@@ -16,7 +17,7 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-    default-property-inclusion: non_null
+    default-property-inclusion: NON_NULL
   datasource:
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
@@ -33,7 +34,7 @@ spring:
       min-idle: 1
       time-between-eviction-runs-millis: 60000
       min-evictable-idle-time-millis: 300000
-      validation-query: SELECT 1 FROM DUAL
+      validation-query: SELECT 1
       test-while-idle: true
       test-on-borrow: false
       test-on-return: false
@@ -138,6 +139,14 @@ sa-token:
 #mybatis-plus:
 #  # Maven 多模块项目的扫描路径需以 classpath*: 开头 （即加载多个 jar 包下的 XML 文件）
 #  mapper-locations: classpath*:/mapper/**/*.xml
+
+# 解决多数据库兼容性问题：在XML文件中，可以使用databaseId属性来区分SQL语句
+# <select id="selectUsers" resultType="User" databaseId="MySQL"> # 如果连接的是 $MySQL$，它会执行带有 databaseId="MySQL" 的 $SQL$。
+# <select id="selectUsers" resultType="User" databaseId="Oracle"> 如果连接的是 $Oracle$，它会执行带有 databaseId="Oracle" 的 $SQL$。
+mybatis:
+  configuration:
+    database-id-provider:
+      type: DB_VENDOR
 
 # 配置swagger
 swagger:

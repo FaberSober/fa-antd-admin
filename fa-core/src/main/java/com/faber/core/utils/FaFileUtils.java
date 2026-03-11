@@ -3,6 +3,10 @@ package com.faber.core.utils;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
+import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.system.ApplicationHome;
 import org.springframework.core.io.ClassPathResource;
@@ -380,6 +384,49 @@ public class FaFileUtils {
     }
 
     /**
+     * 在文件名后追加时间戳和文件ID。如xxx.jpg修改为xxx_20220815120000_{id}.jpg
+     *
+     * @param fileName
+     * @return
+     */
+    public static String addTsAndIdToFileName(String fileName, String id) {
+        String now = DateUtil.format(new Date(), "yyyyMMddHHmmss");
+
+        if (fileName == null) return now;
+
+        if (fileName.contains(".")) {
+            int index = fileName.lastIndexOf(".");
+            return fileName.substring(0, index) + "_" + now + "_" + id + fileName.substring(index);
+        }
+        return fileName + "_" + now + "_" + id;
+    }
+    
+    /**
+     * 从url中解析出文件id，url格式为xxx_20220815120000_{id}.jpg
+     * @param url
+     * @return
+     */
+    public static String parseIdFromUrl(String url) {
+        if (url == null) return null;
+
+        String filename = url;
+        if (url.contains("/")) {
+            int index = url.lastIndexOf("/");
+            filename = url.substring(index + 1);
+        }
+
+        if (filename.contains(".")) {
+            // 解析最后一个_和最后一个.之间的字符串
+            int index1 = filename.lastIndexOf("_");
+            int index2 = filename.lastIndexOf(".");
+            if (index1 >=0 && index2 > index1) {
+                return filename.substring(index1 + 1, index2);
+            }
+        }
+        return null;
+    }
+
+    /**
      * 判断是否是图片文件
      *
      * @param fileExt
@@ -401,4 +448,39 @@ public class FaFileUtils {
         return s;
     }
 
+    /**
+     * 通过七牛云视频url获取视频时长，单位：秒
+     * @param url
+     * @return
+     */
+    public static int getVideoDurationByUrlQiniu(String url) {
+        try {
+            String resp = HttpUtil.get(url + "?avinfo");
+            JSONObject repjson = JSONObject.parseObject(resp);
+            JSONObject format = repjson.getJSONObject("format");
+            double duration = format.containsKey("duration") ? format.getDoubleValue("duration") : 0.0;
+            return (int) Math.floor(duration);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return 0;
+    }
+
+    public static long getFileSize(String url) {
+        try {
+            // timeout 设为 5000 毫秒，防止由于网络问题卡死
+            HttpResponse res = HttpRequest.head(url).timeout(5000).execute();
+            if (res.isOk()) {
+                // 直接获取 long 型结果
+                long size = res.contentLength(); 
+                // 辅助：使用 Hutool 的 FileUtil.readableFileSize 格式化输出 (如 "1.2 MB")
+                System.out.println("格式化大小: " + FileUtil.readableFileSize(size));
+                return size;
+            }
+        } catch (Exception e) {
+            System.err.println("获取文件大小失败: " + e.getMessage());
+        }
+        return -1L;
+    }
+    
 }

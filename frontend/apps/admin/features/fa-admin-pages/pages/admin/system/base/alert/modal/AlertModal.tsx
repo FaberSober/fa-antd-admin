@@ -1,18 +1,17 @@
-import React, { useContext, useState } from 'react';
-import { get } from 'lodash';
-import { Button, Form, Input, DatePicker } from 'antd';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, DatePicker, Form, Input } from 'antd';
+import { get } from 'lodash';
+import { useState } from 'react';
 // 引入 dayjs（Ant Design 内置依赖，无需额外安装）
-import dayjs from 'dayjs';
-import { ApiEffectLayoutContext, BaseBoolRadio, type CommonModalProps, DictDataSelector, DragModal, FaHref, FaUtils } from '@fa/ui';
-import { alertApi as api } from '@features/fa-admin-pages/services';
 import type { Admin } from '@/types';
+import { BaseBoolRadio, type CommonModalProps, DictDataSelector, DragModal, FaHref, FaUtils, useApiLoading } from '@fa/ui';
+import { alertApi as api } from '@features/fa-admin-pages/services';
+import dayjs from 'dayjs';
 
 /**
  * BASE-告警信息实体新增、编辑弹框
  */
 export default function AlertModal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: CommonModalProps<Admin.Alert>) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -69,7 +68,7 @@ export default function AlertModal({ children, title, record, fetchFinish, addBt
     form.setFieldsValue(getInitialValues());
   }
 
-  const loading = loadingEffect[api.getUrl('save')] || loadingEffect[api.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>

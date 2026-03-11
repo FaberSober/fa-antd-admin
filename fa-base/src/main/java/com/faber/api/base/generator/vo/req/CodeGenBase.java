@@ -28,6 +28,11 @@ public abstract class CodeGenBase implements Serializable {
     private String tablePrefix;
 
     /**
+     * 前端去除表前缀
+     */
+//    private String rnTablePrefix;
+
+    /**
      * 前端模块前缀
      */
     private String apiPath;

@@ -1,15 +1,16 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { CSSProperties, ReactNode, useEffect, useState } from 'react';
 
 export interface LazyContainerProps {
   showCond: boolean; // 展示条件
   children: ReactNode;
+  style?: CSSProperties;
 }
 
 /**
  * @author xu.pengfei
  * @date 2022/3/24 14:29
  */
-export default function FaLazyContainer({ showCond, children }: LazyContainerProps) {
+export default function FaLazyContainer({ showCond, children, style }: LazyContainerProps) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -25,7 +26,7 @@ export default function FaLazyContainer({ showCond, children }: LazyContainerPro
   }
 
   return (
-    <div className="fa-full-content" style={{ display: showCond ? 'block' : 'none' }}>
+    <div className="fa-full-content" style={{ display: showCond ? 'block' : 'none', ...style }}>
       {children}
     </div>
   );

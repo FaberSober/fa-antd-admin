@@ -1,0 +1,142 @@
+import { flowCatagoryApi, flowProcessApi } from '@/services';
+import { Flow, Flw } from '@/types';
+import { ApartmentOutlined, FormOutlined } from '@ant-design/icons';
+import { BaseDrawer, BaseTree, FaFlexRestLayout, FaLazyContainer, FaUtils, useApiLoading } from '@fa/ui';
+import { FaFlowFormCreate, FaWorkFlow } from '@features/fa-flow-pages/components';
+import { Button, Form, Segmented, Space, Splitter } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { useFlowAuditContext } from '../contexts/FlowAuditContext';
+import {dispatch} from 'use-bus'
+
+
+export default function FlowAuditStart() {
+  const { refreshCount } = useFlowAuditContext();
+  const [form] = Form.useForm();
+
+  const [cata, setCata] = useState<Flow.FlowCatagory>();
+  const [flows, setFlows] = useState<Flow.FlowProcess[]>([]);
+  const [formLoading, setFormLoading] = useState<boolean>(false);
+
+  const [tab, setTab] = useState('basic');
+
+  function onTreeSelect(keys: any[], event: any) {
+    setCata(keys.length > 0 ? event.node.sourceData : undefined);
+  }
+
+  useEffect(() => {
+    getFlows();
+  }, [cata]);
+
+  function getFlows() {
+    flowProcessApi.list({
+      query: { catagoryId: cata?.id, processState: 1 },
+      sorter: 'sort ASC',
+    }).then(res => {
+      setFlows(res.data);
+    })
+  }
+
+  function handleStart() {
+    form.submit();
+  }
+
+  function handleFormSubmit(flow: Flow.FlowProcess, formValues: any) {
+    // start flow
+    flowProcessApi.start({ processId: flow.id, processKey: flow.processKey, args: formValues }).then(res => {
+      FaUtils.showResponse(res, '发起流程');
+      dispatch({ type: '@@action/CLOSE_DRAWER' })
+      // 成功提交审批流程后，刷新任务数量统计
+      refreshCount();
+    })
+  }
+
+  const loading = useApiLoading([flowProcessApi.getUrl('start')]);
+  return (
+    <div className='fa-full-content'>
+      <Splitter>
+        {/* 左侧面板 */}
+        <Splitter.Panel defaultSize={300} min={240} max="50%" collapsible>
+          <div className="fa-full fa-flex-column fa-relative fa-pr12">
+            <BaseTree
+              // showRoot
+              rootName="全部"
+              onSelect={onTreeSelect}
+              // 自定义配置
+              serviceName="分类"
+              serviceApi={flowCatagoryApi}
+              defaultExpandAll
+              showTopAddBtn={false}
+            />
+          </div>
+        </Splitter.Panel>
+
+        {/* 右侧面板 */}
+        <Splitter.Panel>
+          <div className="fa-flex-column fa-full fa-relative fa-pl12">
+            <div className='fa-gap12' style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', width: '100%' }}>
+              {flows.map(flow => {
+                const processModel:Flw.ProcessModel = JSON.parse(flow.modelContent);
+                // get start node config
+                const startNode = processModel.nodeConfig;
+                return (
+                  <div key={flow.id}>
+                    <BaseDrawer
+                      triggerDom={(
+                        <div className='fa-card fa-hover' style={{ width: '100%', height: 100, padding: 12 }}>
+                          <div className='fa-h3'>{flow.processName}</div>
+                          <div className='fa-text-small fa-text-light100'>{flow.remark}</div>
+                        </div>
+                      )}
+                      size={1000}
+                      push={false}
+                    >
+                      <div className='fa-full-content-p12 fa-flex-column'>
+                        <div className='fa-mb12'>
+                          <Segmented
+                            options={[
+                              { label: '发起表单', value: 'basic', icon: <FormOutlined /> },
+                              { label: '流程配置', value: 'workflow', icon: <ApartmentOutlined /> },
+                            ]}
+                            value={tab}
+                            onChange={(value) => {
+                              setTab(value as string);
+                            }}
+                          />
+                        </div>
+
+                        <FaFlexRestLayout>
+                          <FaLazyContainer showCond={tab === 'basic'}>
+                            <div className='fa-full-content fa-flex-column'>
+                              <div className='fa-h3 fa-mb12'>发起流程：{flow.processName}</div>
+                              <FaFlexRestLayout>
+                                <FaFlowFormCreate
+                                  form={form}
+                                  flow={flow}
+                                  startNode={startNode}
+                                  onFormSubmit={handleFormSubmit}
+                                  onLoadingChange={setFormLoading}
+                                />
+                              </FaFlexRestLayout>
+
+                              <Space>
+                                <Button type='primary' onClick={() => handleStart()} loading={loading || formLoading}>提交审批</Button>
+                              </Space>
+                            </div>
+                          </FaLazyContainer>
+                          <FaLazyContainer showCond={tab === 'workflow'}>
+                            <FaWorkFlow flowProcess={flow} processModel={JSON.parse(flow.modelContent)} readOnly />
+                          </FaLazyContainer>
+                        </FaFlexRestLayout>
+
+                      </div>
+                    </BaseDrawer>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </Splitter.Panel>
+      </Splitter>
+    </div>
+  )
+}

@@ -113,6 +113,10 @@ public class WsChatEndpoint {
         log.debug("接收到消息：{}", message);
 
         WsClientInfoEntity entity = uavWebSocketInfoMap.get(token);
+        if (entity == null) {
+            log.error("无法找到对应的WebSocket实体，token={}", token);
+            return;
+        }
         // 如果是心跳包
         if("ping".equals(message)){
             // 只要接受到客户端的消息就进行续命(时间)
@@ -201,17 +205,33 @@ public class WsChatEndpoint {
     }
 
     public static void sendMessageToUser(String userId, String type, Object msg) {
+        sendMessageToUser(userId, type, null, msg);
+    }
+
+    public static void sendMessageToUser(String userId, String type, String channel, Object msg) {
         try {
             List<WsClientInfoEntity> clientList = getByUserId(userId);
             for (WsClientInfoEntity client : clientList) {
                 try {
-                    client.sendMessage(type, msg);
+                    client.sendMessage(type, channel, msg);
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                 }
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+        }
+    }
+
+    public static void sendMessageToUsers(List<String> userIds, String type, String channel, Object msg) {
+        for (String userId: userIds) {
+            sendMessageToUser(userId, type, channel, msg);
+        }
+    }
+
+    public static void sendMessageToUsers(List<String> userIds, String type, Object msg) {
+        for (String userId: userIds) {
+            sendMessageToUser(userId, type, msg);
         }
     }
 

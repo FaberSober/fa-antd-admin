@@ -4,8 +4,14 @@ import cn.hutool.core.util.ObjUtil;
 import com.faber.api.base.admin.entity.Dict;
 import com.faber.api.base.admin.entity.DictData;
 import com.faber.api.base.admin.mapper.DictDataMapper;
+import com.faber.core.vo.utils.DictOption;
 import com.faber.core.web.biz.BaseTreeBiz;
 import jakarta.annotation.Resource;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +23,7 @@ import org.springframework.stereotype.Service;
  * @date 2025-07-08 17:22:52
  */
 @Service
-public class DictDataBiz extends BaseTreeBiz<DictDataMapper,DictData> {
+public class DictDataBiz extends BaseTreeBiz<DictDataMapper, DictData> {
 
     @Lazy @Resource DictBiz dictBiz;
 
@@ -68,6 +74,23 @@ public class DictDataBiz extends BaseTreeBiz<DictDataMapper,DictData> {
                 .set(DictData::getIsDefault, isDefault)
                 .eq(DictData::getId, id)
                 .update();
+    }
+
+    public List<DictOption<Serializable>> getOptionsByDictId(Integer dictId) {
+        List<DictData> dictDataList = lambdaQuery()
+                .eq(DictData::getDictId, dictId)
+                .orderByAsc(DictData::getSortId)
+                .list();
+        List<DictOption<Serializable>> dictOptions = new ArrayList<>();
+        for (int i = 0; i < dictDataList.size(); i++) {
+            DictData data = dictDataList.get(i);
+            DictOption<Serializable> o = new DictOption<>();
+            o.setLabel(data.getLabel());
+            o.setValue(data.getValue());
+            o.setSort(i + 1);
+            dictOptions.add(o);
+        }
+        return dictOptions;
     }
 
 }

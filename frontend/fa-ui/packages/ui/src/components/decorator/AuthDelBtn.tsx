@@ -1,6 +1,6 @@
 import React from 'react';
 import { ShiroPermissionContainer } from '@ui/components/auth';
-import { Popconfirm } from 'antd';
+import { Popconfirm, Tooltip } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 
 export interface AuthDelBtnProps {
@@ -8,6 +8,7 @@ export interface AuthDelBtnProps {
   permission?: string;
   showIcon?: boolean;
   text?: string;
+  tooltip?: string;
 }
 
 /**
@@ -15,7 +16,7 @@ export interface AuthDelBtnProps {
  * @author xu.pengfei
  * @date 2022/12/5
  */
-export default function AuthDelBtn({ handleDelete, permission, showIcon = true, text = '删除' }: AuthDelBtnProps) {
+export default function AuthDelBtn({ handleDelete, permission, showIcon = true, text = '删除', tooltip = '删除' }: AuthDelBtnProps) {
   return (
     <ShiroPermissionContainer permission={permission}>
       <Popconfirm title="确认删除?" onConfirm={() => handleDelete()} placement="topRight">

@@ -1,12 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { get } from 'lodash';
-import { Form, Input, Select } from 'antd';
-import { ApiEffectLayoutContext, BaseBoolRadio, type CommonModalProps, DictEnumApiRadio, DragModal, FaEnums, FaUtils } from '@fa/ui';
 import type { Rbac } from '@/types';
-import { rbacMenuApi } from '@features/fa-admin-pages/services';
-import RbacMenuCascader from '../helper/RbacMenuCascader';
+import { BaseBoolRadio, type CommonModalProps, DictEnumApiRadio, DragModal, FaEnums, FaUtils, useApiLoading } from '@fa/ui';
 import IconSelect from '@features/fa-admin-pages/components/icons/IconSelect';
 import RouteCascader from '@features/fa-admin-pages/components/route/RouteCascader';
+import { rbacMenuApi as api } from '@features/fa-admin-pages/services';
+import { Form, Input, Select } from 'antd';
+import { get } from 'lodash';
+import { useEffect, useState } from 'react';
+import RbacMenuCascader from '../helper/RbacMenuCascader';
+import RbacFlowMenuSelect from '../helper/RbacFlowMenuSelect';
 
 const serviceName = '菜单';
 
@@ -19,11 +20,10 @@ interface RbacMenuModalProps extends CommonModalProps<Rbac.RbacMenu> {
  * BASE-权限表实体新增、编辑弹框
  */
 export default function RbacMenuModal({ children, title, record, scope, parentId, fetchFinish, ...props }: RbacMenuModalProps) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
-  const [_level, setLevel] = useState<FaEnums.RbacMenuLevelEnum | undefined>(() => {
+  const [level, setLevel] = useState<FaEnums.RbacMenuLevelEnum | undefined>(() => {
     return record ? record.level : FaEnums.RbacMenuLevelEnum.MENU;
   });
   const [linkType, setLinkType] = useState<FaEnums.RbacLinkTypeEnum | undefined>(() => {
@@ -32,7 +32,7 @@ export default function RbacMenuModal({ children, title, record, scope, parentId
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    rbacMenuApi.save(params).then((res) => {
+    api.save(params).then((res) => {
       FaUtils.showResponse(res, `新增${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -41,7 +41,7 @@ export default function RbacMenuModal({ children, title, record, scope, parentId
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
-    rbacMenuApi.update(params.id, params).then((res) => {
+    api.update(params.id, params).then((res) => {
       FaUtils.showResponse(res, `更新${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -75,17 +75,19 @@ export default function RbacMenuModal({ children, title, record, scope, parentId
 
   function showModal() {
     setOpen(true);
-    setLevel(record ? record.level : undefined);
+    setLevel(record ? record.level : FaEnums.RbacMenuLevelEnum.MENU);
+    setLinkType(record ? record.linkType : FaEnums.RbacLinkTypeEnum.INNER);
     form.setFieldsValue(getInitialValues());
   }
 
   useEffect(() => {
     if (!props.open) return;
-    setLevel(record ? record.level : undefined);
+    setLevel(record ? record.level : FaEnums.RbacMenuLevelEnum.MENU);
+    setLinkType(record ? record.linkType : FaEnums.RbacLinkTypeEnum.INNER);
     form.setFieldsValue(getInitialValues());
   }, [record]);
 
-  const loading = loadingEffect[rbacMenuApi.getUrl('save')] || loadingEffect[rbacMenuApi.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>{children}</span>
@@ -93,22 +95,23 @@ export default function RbacMenuModal({ children, title, record, scope, parentId
         <Form
           form={form}
           onFinish={onFinish}
-          onValuesChange={(cv: any) => {
-            if (cv.level) {
-              setLevel(cv.level);
+          onValuesChange={(cv, av) => {
+            if (av.level !== level) {
+              setLevel(av.level);
             }
-            if (cv.linkType) {
-              setLinkType(cv.linkType);
+            if (av.linkType !== linkType) {
+              setLinkType(av.linkType);
             }
-            if (cv.level === FaEnums.RbacMenuLevelEnum.BUTTON) {
+            if (av.level === FaEnums.RbacMenuLevelEnum.BUTTON) {
               form.setFieldsValue({ linkType: FaEnums.RbacLinkTypeEnum.PATH });
             }
           }}
+           {...FaUtils.formItemFullLayout}
         >
-          <Form.Item name="level" label="菜单等级" rules={[{ required: true }]} {...FaUtils.formItemFullLayout}>
+          <Form.Item name="level" label="菜单等级" rules={[{ required: true }]}>
             <DictEnumApiRadio enumName="RbacMenuLevelEnum" />
           </Form.Item>
-          <Form.Item name="parentId" label="上级菜单" rules={[{ required: true }]} {...FaUtils.formItemFullLayout}>
+          <Form.Item name="parentId" label="上级菜单" rules={[{ required: true }]}>
             <RbacMenuCascader
               showRoot
               onChangeWithItem={(_: any, raw: Rbac.RbacMenu | undefined) => {
@@ -118,25 +121,29 @@ export default function RbacMenuModal({ children, title, record, scope, parentId
               scope={scope}
             />
           </Form.Item>
-          <Form.Item name="name" label="名称" rules={[{ required: true }]} {...FaUtils.formItemFullLayout}>
+          <Form.Item name="name" label="名称" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item name="status" label="是否启用" rules={[{ required: true }]} {...FaUtils.formItemFullLayout}>
+          <Form.Item name="status" label="是否启用" rules={[{ required: true }]}>
             <BaseBoolRadio />
           </Form.Item>
-          <Form.Item name="linkType" label="链接类型" rules={[{ required: true }]} {...FaUtils.formItemFullLayout}>
+          <Form.Item name="linkType" label="链接类型" rules={[{ required: true }]}>
             <Select>
               <Select.Option value={FaEnums.RbacLinkTypeEnum.INNER}>内部链接</Select.Option>
               <Select.Option value={FaEnums.RbacLinkTypeEnum.OUT}>外部链接</Select.Option>
               <Select.Option value={FaEnums.RbacLinkTypeEnum.PATH}>自定义路径</Select.Option>
+              <Select.Option value={FaEnums.RbacLinkTypeEnum.FA_FORM}>自定义表单</Select.Option>
             </Select>
           </Form.Item>
 
-          <Form.Item name="linkUrl" label="链接地址" rules={[{ required: true }]} {...FaUtils.formItemFullLayout}>
-            {linkType === FaEnums.RbacLinkTypeEnum.INNER ? <RouteCascader /> : <Input placeholder="请输入菜单的链接地址\权限点" />}
+          <Form.Item name="linkUrl" label="链接地址" rules={[{ required: true }]}>
+            {linkType === FaEnums.RbacLinkTypeEnum.INNER && <RouteCascader />}
+            {linkType === FaEnums.RbacLinkTypeEnum.OUT && <Input placeholder="请输入完整的外部链接地址，如：https://www.example.com/page" />}
+            {linkType === FaEnums.RbacLinkTypeEnum.PATH && <Input placeholder="请输入自定义路径，如：/custom/path" />}
+            {linkType === FaEnums.RbacLinkTypeEnum.FA_FORM && <RbacFlowMenuSelect />}
           </Form.Item>
 
-          <Form.Item name="icon" label="图标标识" rules={[{ required: false }]} {...FaUtils.formItemFullLayout}>
+          <Form.Item name="icon" label="图标标识" rules={[{ required: false }]}>
             <IconSelect />
           </Form.Item>
         </Form>

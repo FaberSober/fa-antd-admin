@@ -5,6 +5,7 @@ import {
   arrayMove,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
+  horizontalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { findIndex, get } from 'lodash';
 import FaSortItem from './FaSortItem';
@@ -19,7 +20,13 @@ export interface FaSortListProps<T> {
   handleNode?: ReactNode;
   itemStyle?: CSSProperties;
   handleStyle?: CSSProperties;
+  /** 滚动容器样式 */
+  containerStyle?: CSSProperties;
+  type?: 'vertical' | 'horizontal';
+  /** true-只变更x坐标，固定y坐标 */
   vertical?: boolean;
+  /** true-只变更y坐标，固定x坐标 */
+  horizontal?: boolean;
 }
 
 /**
@@ -36,7 +43,10 @@ export default function FaSortList<T>({
   handleNode,
   itemStyle,
   handleStyle,
+  containerStyle,
+  type = 'vertical',
   vertical,
+  horizontal,
 }: FaSortListProps<T>) {
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -64,26 +74,35 @@ export default function FaSortList<T>({
     return get(item, rowKey!);
   }
 
+  const defaultContainerStyle: CSSProperties = {
+    display: 'flex',
+    flexDirection: type === 'vertical' ? 'column' : 'row',
+    ...containerStyle,
+  };
+
   if (list === undefined || list === null || list.length === 0) {
     return <Empty />
   }
 
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <SortableContext items={list.map((i) => getRowKey(i))} strategy={verticalListSortingStrategy}>
-        {list.map((item, index) => (
-          <FaSortItem
-            key={getRowKey(item)}
-            id={getRowKey(item)}
-            handle={handle}
-            handleNode={handleNode}
-            vertical={vertical}
-            style={itemStyle}
-            handleStyle={handleStyle}
-          >
-            {renderItem(item, index)}
-          </FaSortItem>
-        ))}
+      <SortableContext items={list.map((i) => getRowKey(i))} strategy={type === 'vertical' ? verticalListSortingStrategy : horizontalListSortingStrategy}>
+        <div style={defaultContainerStyle}>
+          {list.map((item, index) => (
+            <FaSortItem
+              key={getRowKey(item)}
+              id={getRowKey(item)}
+              handle={handle}
+              handleNode={handleNode}
+              vertical={vertical}
+              horizontal={horizontal}
+              style={itemStyle}
+              handleStyle={handleStyle}
+            >
+              {renderItem(item, index)}
+            </FaSortItem>
+          ))}
+        </div>
       </SortableContext>
     </DndContext>
   );

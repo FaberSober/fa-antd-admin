@@ -1,0 +1,33 @@
+import { Flw } from "@features/fa-flow-pages/types";
+import { useEffect, useState } from "react";
+import { cloneDeep, set } from "lodash";
+
+/**
+ * @author xu.pengfei
+ * @date 2025/8/20 14:08
+ */
+export default function useNode(node: Flw.Node, onNodeChange?: (n: Flw.Node) => void) {
+  const [nodeCopy, setNodeCopy] = useState(cloneDeep(node))
+
+  useEffect(() => {
+    setNodeCopy(cloneDeep(node))
+    if (onNodeChange) {
+      onNodeChange(node)
+    }
+  }, [node])
+
+  function updateNodeProps(path: keyof Flw.Node | any, value: any) {
+    setNodeCopy(prev => {
+      set(prev, path, value)
+      return cloneDeep(prev)
+    })
+  }
+
+  function updateNode(values: Partial<Flw.Node>) {
+    setNodeCopy(prev => {
+      return { ...prev, ...values }
+    })
+  }
+
+  return { nodeCopy, setNodeCopy, updateNodeProps, updateNode }
+}

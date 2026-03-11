@@ -4,10 +4,15 @@ import react from '@vitejs/plugin-react';
 // import importToCDN, { autoComplete } from 'vite-plugin-cdn-import'
 import Pages from 'vite-plugin-pages';
 // import { visualizer } from 'rollup-plugin-visualizer';
-import * as path from 'path';
+import path, { resolve } from 'path';
 import UnoCSS from 'unocss/vite'
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 
+
+// 获取 monorepo 根目录
+const workspaceRoot = resolve(__dirname, '../../');
+// 指向 UI 库的源码目录
+const uiSourceDir = resolve(workspaceRoot, 'fa-ui/packages/ui/src');
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -21,6 +26,7 @@ export default defineConfig(({ mode }) => {
       FaFrom: JSON.stringify(env.VITE_APP_FA_FROM),
       FaVersionCode: JSON.stringify(env.VITE_APP_FA_VERSION_CODE),
       FaVersionName: JSON.stringify(env.VITE_APP_FA_VERSION_NAME),
+      MapBoxPK: JSON.stringify(env.VITE_APP_MAPBOX_KEY),
     },
     plugins: [
       // importToCDN.default({
@@ -44,7 +50,7 @@ export default defineConfig(({ mode }) => {
           { dir: 'src/pages', baseRoute: '' },
           { dir: 'features/*/pages', baseRoute: '' },
         ],
-        exclude: ['**/components/*.tsx', '**/modal/*.tsx', '**/cube/*.tsx', '**/drawer/*.tsx', '**/helper/*.tsx', '**/context/*.tsx'],
+        exclude: ['**/components/*.tsx', '**/modal/*.tsx', '**/cube/*.tsx', '**/drawer/*.tsx', '**/helper/*.tsx', '**/context/*.tsx', '**/chart/*.tsx', '**/*.ts'],
       }),
       // visualizer({
       //   open: true, //注意这里要设置为true，否则无效
@@ -75,12 +81,26 @@ export default defineConfig(({ mode }) => {
       },
     },
     resolve: {
-      alias: [
-        { find: /^~@/, replacement: path.resolve(__dirname, 'src') },
-        { find: '@', replacement: path.resolve(__dirname, 'src') },
-        { find: '@features', replacement: path.resolve(__dirname, 'features') },
-      ],
+      // alias: [
+      //   { find: /^~@/, replacement: path.resolve(__dirname, 'src') },
+      //   { find: '@', replacement: path.resolve(__dirname, 'src') },
+      //   { find: '@features', replacement: path.resolve(__dirname, 'features') },
+      // ],
+      alias: {
+        // ✅ 目标配置中新增的别名
+        '@ui': uiSourceDir,
+        '@fa/ui': uiSourceDir,
+        '@': path.resolve(__dirname, 'src'),
+        '@features': path.resolve(__dirname, 'features'),
+        // 💡 目标配置中新增的 Monorepo 优化
+        'react': resolve(__dirname, 'node_modules/react'),
+        'react-dom': resolve(__dirname, 'node_modules/react-dom'),
+      }
     },
+  // 优化 Vite 依赖预构建，排除本地包
+    // optimizeDeps: {
+    //   exclude: ['@fa/ui']
+    // },
     build: {
       sourcemap: true,
       minify: 'esbuild',
@@ -103,6 +123,7 @@ export default defineConfig(({ mode }) => {
             // antd: ['antd', '@ant-design/colors', '@ant-design/icons'],
             echarts: ['echarts'],
             three: ['three', 'three-stdlib', '@react-three/drei', '@react-three/fiber'],
+            iconify: ['@iconify/react', '@iconify-json/mdi'],
           },
         },
       },

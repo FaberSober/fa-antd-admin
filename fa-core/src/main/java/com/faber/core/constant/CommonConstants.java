@@ -37,6 +37,8 @@ public class CommonConstants {
     public static final String CONTEXT_KEY_LOG_REMARK = "currentLogRemark"; // 当前请求的备注信息，自定义写入请求日志中，方便备注查看
     public static final String CONTEXT_KEY_LOG_OPR_REMARK = "currentLogOprRemark"; // 当前请求的操作信息，自定义写入请求日志中，方便备注查看
 
+    public static final String CONTEXT_KEY_WS_CHANNEL = "CONTEXT_KEY_WS_CHANNEL"; // 当前请求内部的WebSocket推送channel
+
     /**
      * MyBatisPlus追加表的后缀，可以用作分表
      */

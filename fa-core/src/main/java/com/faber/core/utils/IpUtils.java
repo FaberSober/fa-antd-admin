@@ -85,25 +85,25 @@ public class IpUtils {
      * @return
      */
     public static IpAddr getIpAddrByApi(String ip) {
-        try {
-            if (!init) {
-                FaSetting faSetting = SpringUtil.getBean(FaSetting.class);
-                offline = faSetting.getConfig().getOffline();
-                init = true;
-            }
+       try {
+           if (!init) {
+               FaSetting faSetting = SpringUtil.getBean(FaSetting.class);
+               offline = faSetting.getConfig().getOffline();
+               init = true;
+           }
 
-            if (!offline) {
-                if (ipAddrTimedCache.containsKey(ip)) {
-                    return ipAddrTimedCache.get(ip);
-                }
-                IpService ipService = SpringUtil.getBean(IpService.class);
-                IpAddr ipAddr = ipService.ipJson(ip); // TODO 这个接口地址无法访问了
-                ipAddrTimedCache.put(ip, ipAddr);
-                return ipAddr;
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
+           if (!offline) {
+               if (ipAddrTimedCache.containsKey(ip)) {
+                   return ipAddrTimedCache.get(ip);
+               }
+               IpService ipService = SpringUtil.getBean(IpService.class);
+               IpAddr ipAddr = ipService.ipJson(ip); // TODO 这个接口地址无法访问了
+               ipAddrTimedCache.put(ip, ipAddr);
+               return ipAddr;
+           }
+       } catch (Exception e) {
+           log.error(e.getMessage(), e);
+       }
         return null;
     }
 

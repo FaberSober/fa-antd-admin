@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Button, Card, Form, Input } from 'antd';
 import type { Admin } from '@/types';
-import { ApiEffectLayoutContext, DictEnumApiSelector, FaUtils, PageLoading, UploadImgLocal } from '@fa/ui';
-import { userApi } from '@features/fa-admin-pages/services';
+import { DictEnumApiSelector, FaUtils, PageLoading, UploadImgLocal, useApiLoading } from '@fa/ui';
 import UserLayoutContext from '@features/fa-admin-pages/layout/user/context/UserLayoutContext';
+import { userApi } from '@features/fa-admin-pages/services';
+import { Button, Card, Form, Input } from 'antd';
+import { useContext, useEffect, useState } from 'react';
 
 const formItemFullLayout = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
 const tailLayout = { wrapperCol: { offset: 8, span: 16 } };
@@ -13,7 +13,6 @@ const tailLayout = { wrapperCol: { offset: 8, span: 16 } };
  * @date 2020/12/26
  */
 export default function AccountBase() {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const { refreshUser } = useContext(UserLayoutContext);
   const [form] = Form.useForm();
 
@@ -43,9 +42,9 @@ export default function AccountBase() {
     });
   }
 
-  if (userDetail === undefined) return <PageLoading />;
+  const loading = useApiLoading([userApi.getUrl('updateMine')]);
 
-  const loading = loadingEffect[userApi.getUrl('updateMine')];
+  if (userDetail === undefined) return <PageLoading />;
   return (
     <Card title="基本信息">
       <div>

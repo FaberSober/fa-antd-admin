@@ -119,7 +119,11 @@ public class SmsConfiguration {
         if (msgSendConfig instanceof MsgSendSysConfig) {
             return ((MsgSendSysConfig) msgSendConfig).getContent();
         }
-        return null;
+        try {
+            return (String) ReflectUtil.getFieldValue(msgSendConfig, "content");
+        } catch (Exception e) {
+            throw new BuzzException("请配置" + msgSendConfig.getClass().getSimpleName() + "类的content字段");
+        }
     }
 
     private String getTemplateParam(List<String> keys, MsgSendConfig msgSendConfig) {

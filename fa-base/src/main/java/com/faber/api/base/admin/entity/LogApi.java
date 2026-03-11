@@ -25,9 +25,11 @@ public class LogApi extends BaseCrtEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
 
+    @SqlSearch
     @ExcelProperty("模块")
     private String biz;
 
+    @SqlSearch
     @ExcelProperty("操作")
     private String opr;
 

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { SITE_INFO } from '@/configs';
 import { fileSaveApi } from '@features/fa-admin-pages/services';
 import { ConfigLayoutContext } from '../../config/context/ConfigLayoutContext';
+import MenuLayoutContext from '../context/MenuLayoutContext';
 
 /**
  * @author xu.pengfei
@@ -10,10 +11,18 @@ import { ConfigLayoutContext } from '../../config/context/ConfigLayoutContext';
  */
 export default function Logo() {
   const { systemConfig } = useContext(ConfigLayoutContext);
+  const { collapse } = useContext(MenuLayoutContext)
   return (
-    <Link to={SITE_INFO.HOME_LINK} className="fa-menu-logo">
+    <Link 
+      to={SITE_INFO.HOME_LINK} 
+      className="fa-menu-logo"
+      style={{ 
+        // width: collapse ? 44 : undefined,
+        // minWidth: collapse ? 44 : 200,
+      }}
+    >
       <img src={fileSaveApi.genLocalGetFile(systemConfig.logo)} alt="logo" className="fa-menu-logo-img" />
-      <span className="fa-menu-logo-title">{systemConfig.title}</span>
+      {!collapse && <span className="fa-menu-logo-title">{systemConfig.title}</span>}
     </Link>
   );
 }

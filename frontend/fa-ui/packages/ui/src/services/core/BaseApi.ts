@@ -7,7 +7,7 @@ export default class BaseApi<T, KeyType, PageT = T> extends BaseZeroApi {
   save = (params: any): Promise<Fa.Ret<T>> => this.post('save', params);
 
   /** 新增批量 */
-  saveBatch = (params: any[]): Promise<Fa.Ret<T>> => this.post('saveBatch', params);
+  saveBatch = (params: any[]): Promise<Fa.Ret<T[]>> => this.post('saveBatch', params);
 
   /** id查询 */
   getById = (id: KeyType): Promise<Fa.Ret<T>> => this.get(`getById/${id}`);
@@ -22,7 +22,7 @@ export default class BaseApi<T, KeyType, PageT = T> extends BaseZeroApi {
   update = (id: KeyType, params: any): Promise<Fa.Ret> => this.post('update', { id, ...trimObj(params) });
 
   /** 批量更新 */
-  updateBatch = (entityList: T[]): Promise<Fa.Ret> => this.post('updateBatch', trimObj(entityList));
+  updateBatch = (entityList: any[]): Promise<Fa.Ret> => this.post('updateBatch', trimObj(entityList));
 
   /** 新增or更新 */
   saveOrUpdate = (params: any): Promise<Fa.Ret> => this.post('saveOrUpdate', params);

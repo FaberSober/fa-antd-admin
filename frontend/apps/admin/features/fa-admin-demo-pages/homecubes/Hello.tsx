@@ -17,5 +17,5 @@ Hello.title = "组件Hello";
 Hello.description = "组件Hello描述";
 Hello.showTitle = true; // 是否展示Card的Title
 Hello.permission = ""; // 需要的权限
-Hello.w = 4; // 宽度-网格-max=16
+Hello.w = 6; // 宽度-网格-max=24
 Hello.h = 6; // 高度-每个单位20px

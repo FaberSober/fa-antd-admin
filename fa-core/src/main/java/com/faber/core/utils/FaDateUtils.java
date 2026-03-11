@@ -142,4 +142,8 @@ public class FaDateUtils {
         return num.length() < 2 ? "0" + num : num;
     }
 
+    public static int thisMonth() {
+        return DateUtil.thisMonth() + 1;
+    }
+
 }

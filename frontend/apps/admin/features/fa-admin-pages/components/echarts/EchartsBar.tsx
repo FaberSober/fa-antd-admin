@@ -55,6 +55,7 @@ export default function EchartsBar({ title, subTitle, data, dataTitle, unit, bar
         text: title,
         subtext: subTitle,
         left: 'center',
+        top: 0,
       },
       grid: {
         left: '3%',

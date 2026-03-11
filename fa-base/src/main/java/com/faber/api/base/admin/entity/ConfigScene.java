@@ -4,12 +4,12 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.annotation.SqlEquals;
 import com.faber.core.bean.BaseDelEntity;
-import com.faber.core.vo.query.Condition;
+import com.faber.core.config.mybatis.handler.UniversalJsonTypeHandler;
 import com.faber.core.vo.query.ConditionGroup;
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -38,7 +38,7 @@ public class ConfigScene extends BaseDelEntity {
     private String name;
 
     /** 配置JSON */
-    @TableField(typeHandler = JacksonTypeHandler.class)
+    @TableField(typeHandler = UniversalJsonTypeHandler.class)
     private ConditionGroup[] data;
 
     /** 是否系统 */

@@ -1,7 +1,6 @@
 package com.faber.api.demo.student;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.faber.api.base.demo.entity.Student;
 import com.faber.api.base.demo.mapper.StudentMapper;
 import com.faber.api.demo.FaTestApp;
@@ -65,7 +64,7 @@ public class MysqlInsertTest {
 
     @Test
     public void testDeleteAll() {
-        studentMapper.deleteAll();
+        // studentMapper.deleteAll();
     }
 
     @Test

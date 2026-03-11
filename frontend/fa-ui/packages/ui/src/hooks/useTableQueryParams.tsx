@@ -14,6 +14,7 @@ export interface UseTableQueryParamsProps<T> {
   setSorter: (sorter: Fa.Sorter) => void;
   setFormValues: (formValues: any) => void;
   setSceneId: (sceneId: string | undefined) => void;
+  setFlowFormId: (flowFormId: string | number | undefined) => void;
   setConditionList: (conditionList: ConditionQuery.CondGroup[]) => void;
   setExtraParams: (extraParams: any) => void;
   handleTableChange: (paginationArg: TablePaginationConfig, filtersArg: any, sorterArg: any) => void;
@@ -62,6 +63,7 @@ export default function useTableQueryParams<T>(
     formValues: {}, // 查询Form字段
     sceneId: undefined, // 场景ID
     conditionList: [], // 组合查询
+    flowFormId: undefined, // 自定义表单ID
     ...initParams, // 自定义字段覆盖
   });
 
@@ -108,6 +110,11 @@ export default function useTableQueryParams<T>(
     setQueryParams({...queryParams, pagination: {...queryParams.pagination, current: 1}, sceneId});
   }
 
+  function setFlowFormId(flowFormId: string | number | undefined) {
+    if (isEqual(queryParams.flowFormId, flowFormId)) return;
+    setQueryParams({...queryParams, pagination: {...queryParams.pagination, current: 1}, flowFormId});
+  }
+
   function setConditionList(conditionList: ConditionQuery.CondGroup[]) {
     // console.log('setConditionList', conditionList)
     if (isEqual(queryParams.conditionList, conditionList)) return;
@@ -147,6 +154,7 @@ export default function useTableQueryParams<T>(
       pageSize: queryParams.pagination.pageSize,
       sorter: BaseTableUtils.getSorter(queryParams.sorter),
       sceneId: queryParams.sceneId,
+      flowFormId: queryParams.flowFormId,
       conditionList: queryParams.conditionList,
       search: _search,
       query: {
@@ -214,6 +222,7 @@ export default function useTableQueryParams<T>(
     setSorter,
     setFormValues,
     setSceneId,
+    setFlowFormId,
     setConditionList,
     setExtraParams,
     handleTableChange,

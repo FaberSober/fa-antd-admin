@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { get } from 'lodash';
-import { Button, Form, Input } from 'antd';
-import { EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { ApiEffectLayoutContext, CommonModalProps, DragModal, FaHref, FaUtils, InputColor } from '@fa/ui';
-import { storeTagApi as api } from '@/services';
-import { Disk } from '@/types';
 import { StoreTagCascader } from '@/components';
 import { DiskContext } from '@/layout';
+import { storeTagApi as api } from '@/services';
+import { Disk } from '@/types';
+import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { CommonModalProps, DragModal, FaHref, FaUtils, InputColor, useApiLoading } from '@fa/ui';
+import { Button, Form, Input } from 'antd';
+import { get } from 'lodash';
+import { useContext, useEffect, useState } from 'react';
 
 /**
  * STORE-标签实体新增、编辑弹框
@@ -21,7 +21,6 @@ export default function StoreTagModal({
   ...props
 }: CommonModalProps<Disk.StoreTag>) {
   const { bucket } = useContext(DiskContext);
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -75,7 +74,7 @@ export default function StoreTagModal({
     form.setFieldsValue(getInitialValues());
   }, [record]);
 
-  const loading = loadingEffect[api.getUrl('add')] || loadingEffect[api.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>

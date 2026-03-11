@@ -1,6 +1,6 @@
 import {GATE_APP} from '@ui/configs';
 import {Admin, Fa} from '@ui/types';
-import {BaseApi} from '@ui/services';
+import BaseApi from '@ui/services/core/BaseApi';
 
 /** ------------------------------------------ xx 操作接口 ------------------------------------------ */
 const serviceModule = 'msg';

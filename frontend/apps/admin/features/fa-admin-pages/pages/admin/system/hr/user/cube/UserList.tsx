@@ -23,6 +23,7 @@ import UsersChangePwdModal from './modal/UsersChangePwdModal';
 import UserView from './cube/UserView';
 import UserStatusCol from './cube/UserStatusCol';
 import DepartmentCascade from '@features/fa-admin-pages/components/helper/DepartmentCascade';
+import { SearchGrid } from '@/components';
 
 const serviceName = '';
 const biz = 'UserList-v3';
@@ -104,7 +105,7 @@ export default function UserList({ departmentId }: IProps) {
           />
         ),
       },
-      BaseTableUtils.genDictSorterColumn('性别', 'sex', 100, sorter, dicts, 'common_sex'),
+      BaseTableUtils.genEnumSorterColumn('性别', 'sex', 100, sorter, dicts),
       BaseTableUtils.genTimeSorterColumn('最后在线时间', 'lastOnlineTime', 165, sorter),
       BaseTableUtils.genSimpleSorterColumn('邮箱', 'email', 150, sorter, false),
       BaseTableUtils.genSimpleSorterColumn('地址', 'address', 200, sorter, false),
@@ -132,33 +133,28 @@ export default function UserList({ departmentId }: IProps) {
 
   return (
     <div className="fa-full-content fa-flex-column fa-p12 fa-bg-white">
-      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', marginBottom: 12 }}>
-        <div className="fa-h3">{serviceName}</div>
-        <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-          <Form form={form} layout="inline" onFinish={setFormValues}>
-            <Form.Item name="tel" label="手机号">
-              <Input placeholder="请输入手机号" allowClear />
-            </Form.Item>
-            <Form.Item name="name" label="姓名">
-              <Input placeholder="请输入员工姓名" allowClear />
-            </Form.Item>
-            <Form.Item name="workStatus" label="工作状态">
-              <DictEnumApiSelector enumName="UserWorkStatusEnum" />
-            </Form.Item>
-
-            <Space>
-              <Button htmlType="submit" loading={loading} icon={<SearchOutlined />}>
-                查询
-              </Button>
-              <Button onClick={() => clearForm(form)}>重置</Button>
-              <UserModal addBtn title={`新增${serviceName}信息`} fetchFinish={fetchPageList} />
-              <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>
-                导出
-              </Button>
-            </Space>
-          </Form>
-        </div>
-      </div>
+      <SearchGrid
+        form={form}
+        onFinish={setFormValues}
+        btns={(<>
+            <Button type="primary" htmlType="submit" loading={loading} icon={<SearchOutlined />}>
+              查询
+            </Button>
+            <Button onClick={() => clearForm(form)}>重置</Button>
+        </>)}
+        defaultCount={2}
+        className='fa-mb12'
+      >
+        <Form.Item name="tel" label="手机号">
+          <Input placeholder="请输入手机号" allowClear />
+        </Form.Item>
+        <Form.Item name="name" label="姓名">
+          <Input placeholder="请输入员工姓名" allowClear />
+        </Form.Item>
+        <Form.Item name="workStatus" label="工作状态">
+          <DictEnumApiSelector enumName="UserWorkStatusEnum" />
+        </Form.Item>
+      </SearchGrid>
 
       <BaseBizTable
         biz={biz}
@@ -182,6 +178,14 @@ export default function UserList({ departmentId }: IProps) {
           </Space>
         )}
         onRow={(r) => ({ onDoubleClick: () => show(r) })}
+        topBtns={(
+          <Space>
+            <UserModal addBtn title={`新增${serviceName}信息`} fetchFinish={fetchPageList} />
+            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>
+              导出
+            </Button>
+          </Space>
+        )}
       />
 
       <Drawer title="查看详情" open={open} onClose={hide} width={1000} styles={{ body: { position: 'relative' } }}>

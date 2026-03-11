@@ -19,8 +19,8 @@ export default function DemoAdvanceFileSaver() {
   }
 
   return (
-    <div className="fa-full-content fa-bg-white fa-p12 fa-flex-column">
-      <Card title="保存文件到本地" className="fa-mb12">
+    <div className="fa-full-content-p12 fa-flex-column fa-gap12">
+      <Card title="保存文件到本地">
         <Input.TextArea
           autoSize={{minRows:1, maxRows: 25}}
           value={data1}
@@ -43,7 +43,7 @@ export default function DemoAdvanceFileSaver() {
         </Space>
       </Card>
 
-      <Card title="上传本地文件" className="fa-mb12">
+      <Card title="上传本地文件">
         <Input.TextArea
           autoSize={{minRows:1, maxRows: 25}}
           value={data2}

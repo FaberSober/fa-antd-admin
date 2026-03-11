@@ -1,25 +1,33 @@
 package com.faber.core.config.mybatis.utils;
 
-import cn.hutool.core.util.ClassUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.ReflectUtil;
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.annotation.IEnum;
+import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.faber.core.annotation.SqlEquals;
 import com.faber.core.annotation.SqlSearch;
 import com.faber.core.utils.FaMapUtils;
 import com.faber.core.utils.SqlUtils;
-import com.faber.core.vo.query.Sorter;
 import com.faber.core.vo.query.Condition;
 import com.faber.core.vo.query.ConditionGroup;
 import com.faber.core.vo.query.QueryParams;
+import com.faber.core.vo.query.Sorter;
 import com.faber.core.vo.query.enums.ConditionGroupTypeEnum;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
-import java.lang.reflect.Field;
-import java.util.*;
+import cn.hutool.core.util.ClassUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 基于MybatisPlus的高级组合查询帮助类
@@ -39,17 +47,22 @@ public class WrapperUtils {
             for (Map.Entry<String, Object> entry : query.entrySet()) {
                 // xxx#$min，xxx#$max 类型的key，为最小值、最大值判定
                 String key = entry.getKey();
+
+
                 if (key.contains("#$")) {
                     String fieldName = key.substring(0, key.indexOf("#$"));
                     fieldName = StrUtil.toUnderlineCase(fieldName); // 转下划线
                     String opr = key.substring(key.indexOf("#$") + 2);
 
+                    Field javaField = ReflectUtil.getField(clazz, key.substring(0, key.indexOf("#$")));
+                    Object realValue = parseDateIfNeed(javaField, entry.getValue());
+
                     switch (opr) {
                         case "min":
-                            ew.ge(fieldName, entry.getValue());
+                            ew.ge(fieldName, realValue);
                             break;
                         case "max":
-                            ew.le(fieldName, entry.getValue());
+                            ew.le(fieldName, realValue);
                             break;
                         case "likeLeft":
                             ew.likeLeft(fieldName, entry.getValue());
@@ -70,10 +83,10 @@ public class WrapperUtils {
                             }
                             break;
                         case "gt":
-                            ew.gt(fieldName, entry.getValue());
+                            ew.gt(fieldName, realValue);
                             break;
                         case "lt":
-                            ew.lt(fieldName, entry.getValue());
+                            ew.lt(fieldName, realValue);
                             break;
                     }
 
@@ -86,6 +99,8 @@ public class WrapperUtils {
                 Field field = ReflectUtil.getField(clazz, entry.getKey());
                 boolean forceEqual = judgeFieldEqual(field);
 
+                Object realValue = parseDateIfNeed(field, entry.getValue());
+
 //                if (field == null) {
 //                    log.warn("No field {} Found", entry.getKey());
 //                    continue;
@@ -93,12 +108,18 @@ public class WrapperUtils {
 
                 String fieldColumn = StrUtil.toUnderlineCase(entry.getKey());
                 if (forceEqual) {
-                    ew.eq(fieldColumn, entry.getValue());
+                    ew.eq(fieldColumn, realValue);
                 } else {
-                    if (entry.getValue() instanceof Boolean) {
-                        ew.eq(fieldColumn, entry.getValue());
+                    if (realValue instanceof Boolean) {
+                        ew.eq(fieldColumn, realValue);
+                    } else if (realValue instanceof Date 
+                            || realValue instanceof LocalDateTime 
+                            || realValue instanceof LocalDate 
+                            || realValue instanceof LocalTime) {
+                        // 时间字段不能用 like，必须 eq
+                        ew.eq(fieldColumn, realValue);
                     } else {
-                        ew.like(fieldColumn, SqlUtils.filterLikeValue(StrUtil.toString(entry.getValue())));
+                        ew.like(fieldColumn, SqlUtils.filterLikeValue(StrUtil.toString(realValue)));
                     }
                 }
             }
@@ -230,6 +251,69 @@ public class WrapperUtils {
                 }
             }
         });
+    }
+
+    /**
+     * 如果字段是时间类型，则把字符串转换为对应的 Java 时间对象
+     */
+    private static Object parseDateIfNeed(Field field, Object value) {
+        if (field == null || value == null) return value;
+
+        Class<?> type = field.getType();
+        String str = value.toString().trim();
+
+        // 支持的日期格式
+        String[] patterns = new String[]{
+                "yyyy-MM-dd HH:mm:ss",
+                "yyyy-MM-dd",
+                "yyyy/MM/dd HH:mm:ss",
+                "yyyy/MM/dd",
+                "yyyy-MM-dd HH:mm",
+                "yyyy/MM/dd HH:mm"
+        };
+
+        // 日期类型处理 java.util.Date
+        if (type == Date.class) {
+            for (String p : patterns) {
+                try {
+                    return cn.hutool.core.date.DateUtil.parse(str, p).toJdkDate();
+                } catch (Exception ignored) {}
+            }
+        }
+
+        // LocalDateTime
+        if (type == java.time.LocalDateTime.class) {
+            for (String p : patterns) {
+                try {
+                    return cn.hutool.core.date.LocalDateTimeUtil.parse(str, p);
+                } catch (Exception ignored) {}
+            }
+        }
+
+        // LocalDate
+        if (type == java.time.LocalDate.class) {
+            for (String p : patterns) {
+                try {
+                    return cn.hutool.core.date.LocalDateTimeUtil.parse(str, p).toLocalDate();
+                } catch (Exception ignored) {}
+            }
+        }
+
+        // LocalTime
+        if (type == java.time.LocalTime.class) {
+            String[] timePatterns = new String[]{
+                    "HH:mm:ss",
+                    "HH:mm"
+            };
+            for (String p : timePatterns) {
+                try {
+                    return cn.hutool.core.date.LocalDateTimeUtil.parse(str, p).toLocalTime();
+                } catch (Exception ignored) {}
+            }
+        }
+
+        // 都解析失败，返回原值
+        return value;
     }
 
 }

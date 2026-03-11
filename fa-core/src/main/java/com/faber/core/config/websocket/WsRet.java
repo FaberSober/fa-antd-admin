@@ -13,6 +13,7 @@ public class WsRet implements Serializable {
 
     private int code = 0;
     private String type;
+    private String channel;
     private String msg = "success";
     private Object data;
     private long timestamp = 0;
@@ -32,7 +33,11 @@ public class WsRet implements Serializable {
     }
 
     public static WsRet success(String type, Object data) {
-        return new WsRet(0, type, "success", data, System.currentTimeMillis());
+        return new WsRet(0, type, "", "success", data, System.currentTimeMillis());
+    }
+
+    public static WsRet success(String type, String channel, Object data) {
+        return new WsRet(0, type, channel, "success", data, System.currentTimeMillis());
     }
 
 }

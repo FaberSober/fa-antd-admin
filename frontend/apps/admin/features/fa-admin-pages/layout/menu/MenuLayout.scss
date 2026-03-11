@@ -3,11 +3,13 @@
   padding: 0 12px;
   display: flex;
   align-items: center;
-  min-width: 200px;
+  // min-width: 200px;
+  text-decoration: none;
+  transition: var(--fa-transition);
 }
 
 .fa-menu-logo-img {
-  width: 24px;
+  // width: 24px;
   height: 24px;
 }
 
@@ -15,6 +17,9 @@
   color: var(--fa-text-color);
   margin-left: 12px;
   font-size: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .fa-menu-header {
@@ -75,6 +80,9 @@
   .ant-menu-item {
     color: var(--fa-text-color) !important;
     padding-right: 18px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
   .ant-menu-item-selected {
@@ -119,7 +127,7 @@
   background-color: var(--primary-color) !important;
 
   .ant-menu-item-selected {
-    background-color: #fff;
+    background-color: var(--fa-bg-color) !important;
     //border-radius: 0 !important;
     color: var(--primary-color) !important;
   }
@@ -183,3 +191,34 @@
   color: #FFF;
 }
 // ------------------------------------- 顶部菜单条样式-color-end -------------------------------------
+
+.fa-menu-anim-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--fa-text-color);
+  font-size: 16px;
+  transition: all 0.25s ease;
+  position: relative;
+  transition-duration: .15s;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+
+  &:hover {
+    background-color: var(--fa-bg-color-hover);
+
+    svg {
+      animation: shrink 0.3s ease-in-out;
+    }
+  }
+
+  .ant-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}

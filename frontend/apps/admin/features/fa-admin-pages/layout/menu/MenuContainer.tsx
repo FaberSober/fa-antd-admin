@@ -9,7 +9,13 @@ import MenuLayout from './MenuLayout';
 import AMapLayout from '../amap/AMapLayout';
 import WebSocketLayout from '../websocket/WebSocketLayout';
 
-export default function MenuContainer() {
+
+interface MenuContainerProps {
+  renderHeaderExtra?: () => React.ReactNode;
+  extra?: () => React.ReactNode;
+}
+
+export default function MenuContainer({ renderHeaderExtra, extra }: MenuContainerProps) {
   return (
     <ThemeLayout colorPrimary={SITE_INFO.PRIMARY_COLOR} initThemeDark={SITE_INFO.THEME === 'dark'}>
       <LangLayout>
@@ -18,9 +24,10 @@ export default function MenuContainer() {
             <UserLayout>
               <WebSocketLayout>
                 <AMapLayout>
-                  <MenuLayout>
+                  <MenuLayout renderHeaderExtra={renderHeaderExtra}>
                     <Suspense fallback={<PageLoading />}>
                       <Outlet />
+                      {extra && extra()}
                     </Suspense>
                   </MenuLayout>
                 </AMapLayout>

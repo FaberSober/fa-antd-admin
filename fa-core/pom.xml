@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>com.faber</groupId>
         <artifactId>fa-admin-web</artifactId>
@@ -31,31 +30,31 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <exclusions>
-<!--                <exclusion>-->
-<!--                    <groupId>org.springframework.boot</groupId>-->
-<!--                    <artifactId>spring-boot-starter-tomcat</artifactId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.springframework.boot</groupId>-->
-<!--                    <artifactId>spring-boot-starter-logging</artifactId>-->
-<!--                </exclusion>-->
+                <!--                <exclusion>-->
+                <!--                    <groupId>org.springframework.boot</groupId>-->
+                <!--                    <artifactId>spring-boot-starter-tomcat</artifactId>-->
+                <!--                </exclusion>-->
+                <!--                <exclusion>-->
+                <!--                    <groupId>org.springframework.boot</groupId>-->
+                <!--                    <artifactId>spring-boot-starter-logging</artifactId>-->
+                <!--                </exclusion>-->
 
                 <!-- 使用easy-es注释：https://www.easy-es.cn/pages/4c01d7/#es%E7%89%88%E6%9C%AC%E5%8F%8Aspringboot%E7%89%88%E6%9C%AC -->
-<!--                <exclusion>-->
-<!--                    <groupId>org.elasticsearch.client</groupId>-->
-<!--                    <artifactId>elasticsearch-rest-high-level-client</artifactId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.elasticsearch</groupId>-->
-<!--                    <artifactId>elasticsearch</artifactId>-->
-<!--                </exclusion>-->
+                <!--                <exclusion>-->
+                <!--                    <groupId>org.elasticsearch.client</groupId>-->
+                <!--                    <artifactId>elasticsearch-rest-high-level-client</artifactId>-->
+                <!--                </exclusion>-->
+                <!--                <exclusion>-->
+                <!--                    <groupId>org.elasticsearch</groupId>-->
+                <!--                    <artifactId>elasticsearch</artifactId>-->
+                <!--                </exclusion>-->
             </exclusions>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-undertow</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-undertow</artifactId>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -89,18 +88,18 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
-<!--        <dependency>-->
-<!--            <groupId>jakarta.servlet</groupId>-->
-<!--            <artifactId>jakarta.servlet-api</artifactId>-->
-<!--            <version>6.1.0</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>jakarta.servlet</groupId>-->
+        <!--            <artifactId>jakarta.servlet-api</artifactId>-->
+        <!--            <version>6.1.0</version>-->
+        <!--            <scope>provided</scope>-->
+        <!--        </dependency>-->
 
-<!--        <dependency>-->
-<!--            <groupId>javax.servlet</groupId>-->
-<!--            <artifactId>javax.servlet-api</artifactId>-->
-<!--            <version>4.0.1</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>javax.servlet</groupId>-->
+        <!--            <artifactId>javax.servlet-api</artifactId>-->
+        <!--            <version>4.0.1</version>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -114,11 +113,11 @@
 
         <!-- JetCache is a Java cache framework: https://github.com/alibaba/jetcache -->
         <!-- https://mvnrepository.com/artifact/com.alicp.jetcache/jetcache-starter-redisson -->
-<!--        <dependency>-->
-<!--            <groupId>com.alicp.jetcache</groupId>-->
-<!--            <artifactId>jetcache-starter-redisson</artifactId>-->
-<!--            <version>2.7.5</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.alicp.jetcache</groupId>-->
+        <!--            <artifactId>jetcache-starter-redisson</artifactId>-->
+        <!--            <version>2.7.5</version>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.redisson</groupId>
@@ -166,11 +165,11 @@
 
         <!-- 目前jsqlparser 4.5版本和mybatisplus同时使用有bug，需要使用4.4 -->
         <!-- https://mvnrepository.com/artifact/com.github.jsqlparser/jsqlparser -->
-<!--        <dependency>-->
-<!--            <groupId>com.github.jsqlparser</groupId>-->
-<!--            <artifactId>jsqlparser</artifactId>-->
-<!--            <version>4.6</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.github.jsqlparser</groupId>-->
+        <!--            <artifactId>jsqlparser</artifactId>-->
+        <!--            <version>4.6</version>-->
+        <!--        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-3-starter -->
         <dependency>
@@ -185,6 +184,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
         </dependency>
@@ -196,17 +200,24 @@
         </dependency>
 
         <!-- netty-socketio -->
-<!--        <dependency>-->
-<!--            <groupId>com.corundumstudio.socketio</groupId>-->
-<!--            <artifactId>netty-socketio</artifactId>-->
-<!--            <version>1.7.22</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.corundumstudio.socketio</groupId>-->
+        <!--            <artifactId>netty-socketio</artifactId>-->
+        <!--            <version>1.7.22</version>-->
+        <!--        </dependency>-->
 
         <!-- 阿里云OSS sdk -->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>3.17.4</version>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--fastjson数据配置start-->
@@ -225,7 +236,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.8.27</version>
+            <version>5.8.40</version>
         </dependency>
 
         <!-- java ssh tools: http://www.jcraft.com/jsch/ -->
@@ -235,7 +246,7 @@
             <version>0.1.55</version>
         </dependency>
 
-        <!-- AES加密  https://www.hutool.cn/docs/#/crypto/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-SymmetricCrypto?id=%e4%bb%8b%e7%bb%8d -->
+        <!-- AES加密 https://www.hutool.cn/docs/#/crypto/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-SymmetricCrypto?id=%e4%bb%8b%e7%bb%8d -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15to18</artifactId>
@@ -249,11 +260,18 @@
             <version>6.6.3</version>
         </dependency>
 
-        <!-- 声明式HTTP客户端框架: https://forest.dtflyx.com/ -->
+        <!-- 声明式HTTP客户端框架: https://forest.kim/ -->
         <dependency>
             <groupId>com.dtflys.forest</groupId>
             <artifactId>forest-spring-boot3-starter</artifactId>
-            <version>1.5.36</version>
+            <version>1.7.6</version>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -310,11 +328,11 @@
         </dependency>
 
         <!-- 日志插件: https://tlog.yomahub.com/ -->
-<!--        <dependency>-->
-<!--            <groupId>com.yomahub</groupId>-->
-<!--            <artifactId>tlog-web-spring-boot-starter</artifactId>-->
-<!--            <version>1.5.2</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.yomahub</groupId>-->
+        <!--            <artifactId>tlog-web-spring-boot-starter</artifactId>-->
+        <!--            <version>1.5.2</version>-->
+        <!--        </dependency>-->
 
         <!-- 数据库表结构文档生成器: https://github.com/pingfangushi/screw -->
         <!-- https://mvnrepository.com/artifact/cn.smallbun.screw/screw-core -->

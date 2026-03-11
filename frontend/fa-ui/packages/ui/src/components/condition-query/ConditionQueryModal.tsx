@@ -3,7 +3,7 @@ import { trim } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { Checkbox, Divider, Input, message } from 'antd';
 import { DragModal } from '@ui/components/base-modal';
-import ConditionQuery from './ConditionQuery';
+import ConditionQuery from '@ui/types/core/ConditionQuery';
 import {configApi, configSceneApi} from '@ui/services/base';
 import { Admin } from '@ui/types';
 import { showResponse } from '@ui/utils/utils';
@@ -176,7 +176,7 @@ export default function ConditionQueryModal<T>({
         confirmLoading={loading}
         onCancel={() => setOpen(false)}
         width={750}
-        destroyOnClose
+        destroyOnHidden
       >
         <div>
           {condGroupList.map((condGroup) => {

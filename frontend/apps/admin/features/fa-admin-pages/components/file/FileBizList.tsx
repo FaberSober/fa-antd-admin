@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { fileSaveApi, fileBizApi } from '@features/fa-admin-pages/services';
-import { ApiEffectLayoutContext, AuthDelBtn, useDelete, UploadFileModal, FaUtils } from '@fa/ui';
-import { Button, Space, Table } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import { AuthDelBtn, FaUtils, UploadFileModal, useApiLoading, useDelete } from '@fa/ui';
+import { fileBizApi, fileSaveApi } from '@features/fa-admin-pages/services';
 import type { Admin } from '@features/fa-admin-pages/types';
+import { Button, Space, Table } from 'antd';
+import { useEffect, useState } from 'react';
 
 export interface FileBizListProps {
   /** 主业务ID */
@@ -21,8 +21,6 @@ export interface FileBizListProps {
  * @date 2023/2/26 19:42
  */
 export default function FileBizList({ mainBizId, bizId, type, showUpload }: FileBizListProps) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
-
   const [array, setArray] = useState<Admin.FileBiz[]>([]);
 
   useEffect(() => {
@@ -45,7 +43,7 @@ export default function FileBizList({ mainBizId, bizId, type, showUpload }: File
     });
   }
 
-  const loading = loadingEffect[fileBizApi.getUrl('list')];
+  const loading = useApiLoading([fileBizApi.getUrl('list')]);
 
   return (
     <div>

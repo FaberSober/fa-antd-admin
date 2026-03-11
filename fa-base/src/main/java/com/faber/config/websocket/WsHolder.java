@@ -53,6 +53,10 @@ public class WsHolder {
         }
     }
 
+    public static void setChannel(String channel) {
+        BaseContextHandler.setWsChannel(channel);
+    }
+
     /**
      * send message to session user
      * @param type
@@ -65,7 +69,8 @@ public class WsHolder {
     public static void sendMessage(String type, Object msg) {
         try {
             String userId = BaseContextHandler.getUserId();
-            WsChatEndpoint.sendMessageToUser(userId, type, msg);
+            String channel = BaseContextHandler.getWsChannel();
+            WsChatEndpoint.sendMessageToUser(userId, type, channel, msg);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -74,6 +79,30 @@ public class WsHolder {
     public static void sendMessage(String userId, String type, Object msg) {
         try {
             WsChatEndpoint.sendMessageToUser(userId, type, msg);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
+    public static void sendMessageWithChannel(String userId, String type, String channel, Object msg) {
+        try {
+            WsChatEndpoint.sendMessageToUser(userId, type, channel, msg);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
+    public static void sendMessage(String userId, WsTypeEnum type, Object msg) {
+        try {
+            WsChatEndpoint.sendMessageToUser(userId, type.getValue(), msg);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
+    public static void sendMessage(List<String> userIds, WsTypeEnum type, Object msg) {
+        try {
+            WsChatEndpoint.sendMessageToUsers(userIds, type.getValue(), msg);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }

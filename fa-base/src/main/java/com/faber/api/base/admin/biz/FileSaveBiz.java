@@ -8,6 +8,8 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.http.HttpUtil;
+
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.faber.api.base.admin.entity.FileSave;
 import com.faber.api.base.admin.mapper.FileSaveMapper;
 import com.faber.core.bean.BaseCrtEntity;
@@ -16,25 +18,34 @@ import com.faber.core.enums.ConfigSysStorageActiveEnum;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.service.ConfigSysService;
 import com.faber.core.service.StorageService;
+import com.faber.core.utils.FaDateUtils;
 import com.faber.core.utils.FaFileUtils;
 import com.faber.core.vo.config.FaConfig;
 import com.faber.core.web.biz.BaseBiz;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.dromara.x.file.storage.core.*;
+
+import org.dromara.x.file.storage.core.FileInfo;
+import org.dromara.x.file.storage.core.FileStorageProperties;
+import org.dromara.x.file.storage.core.FileStorageService;
+import org.dromara.x.file.storage.core.FileStorageServiceBuilder;
 import org.dromara.x.file.storage.core.platform.FileStorage;
 import org.dromara.x.file.storage.core.platform.LocalPlusFileStorage;
+import org.dromara.x.file.storage.core.upload.UploadPretreatment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.imageio.ImageIO;
 
 
 /**
@@ -106,7 +117,11 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> implements St
         String extName = FileUtil.extName(file.getOriginalFilename());
         if (FaFileUtils.isImg(extName)) {
             try {
-                uploadPretreatment = uploadPretreatment.thumbnail(th -> th.size(200, 200));  //生成一张 200*200 的缩略图（这里操作缩略图）;
+                // 检查图片尺寸，只有当宽高都大于等于200时才生成缩略图
+                BufferedImage image = ImageIO.read(file.getInputStream());
+                if (image != null && image.getWidth() >= 200 && image.getHeight() >= 200) {
+                    uploadPretreatment = uploadPretreatment.thumbnail(th -> th.size(200, 200));  //生成一张 200*200 的缩略图（这里操作缩略图）;
+                }
             } catch (Exception e) {
                 log.error(e.getMessage() + ", fileName=" + file.getOriginalFilename(), e);
             }
@@ -119,14 +134,16 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> implements St
         }
 
 //        String md5 = DigestUtil.md5Hex(file.getBytes());
-
+        String dir = "file" + "/" + DateUtil.thisYear() + "/" + FaDateUtils.thisMonth() + "/" + DateUtil.thisDayOfMonth() + "/";
+        String id = IdWorker.getId() + "";
         FileInfo fileInfo = uploadPretreatment
-                .setPath(DateUtil.today() + "/")
-                .setSaveFilename(FaFileUtils.addTimestampToFileName(file.getOriginalFilename()))
+                .setPath(dir)
+                .setSaveFilename(FaFileUtils.addTsAndIdToFileName(file.getOriginalFilename(), id))
                 .upload();
 
         FileSave fileSave = new FileSave();
         BeanUtil.copyProperties(fileInfo, fileSave);
+        fileSave.setId(id);
 
 //        fileSave.setMd5(md5);
 
@@ -152,6 +169,43 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> implements St
     }
 
     /**
+     * 同步七牛云URL信息
+     * @param url 形如：http://www.fa.top/base_path/modal_path/2026/01/07/ikun_20260107153219_2008803872863117313.mp4
+     * @return
+     */
+    public FileSave syncUrlQiniu(String url) {
+        // parse id
+        String id = FaFileUtils.parseIdFromUrl(url);
+        if (StrUtil.isEmpty(id)) {
+            throw new BuzzException("无法从URL中解析出文件ID");
+        }
+
+        FaConfig faConfig = configSysService.getConfig();
+        
+        String fullName = url.substring(url.lastIndexOf("/") + 1);
+        int dot = fullName.lastIndexOf(".");
+        String name = fullName.substring(0, fullName.indexOf("_"));
+        String ext = fullName.substring(dot+1);
+
+        String path = url.substring(url.indexOf(faConfig.getQiniuBasePath()) + faConfig.getQiniuBasePath().length(), url.lastIndexOf("/"));
+
+        FileSave fileSave = new FileSave();
+        fileSave.setId(id);
+        fileSave.setUrl(url);
+        fileSave.setSize(FaFileUtils.getFileSize(url)); // TODO 获取文件大小
+        fileSave.setFilename(fullName);
+        fileSave.setOriginalFilename(name + '.' + ext);
+        fileSave.setBasePath(faConfig.getQiniuBasePath());
+        fileSave.setPath(path);
+        fileSave.setExt(ext);
+        fileSave.setContentType("ext"); // TODO MIME类型
+        fileSave.setPlatform(ConfigSysStorageActiveEnum.QINIU.getDesc());
+        fileSave.setAttr("{}");
+        super.save(fileSave);
+        return fileSave;
+    }
+
+    /**
      * 上传文件
      *
      * @param file
@@ -162,18 +216,29 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> implements St
 
         String extName = FileNameUtil.extName(file.getName());
         if (FaFileUtils.isImg(extName)) {
-            uploadPretreatment = uploadPretreatment.thumbnail(th -> th.size(200, 200));  //生成一张 200*200 的缩略图（这里操作缩略图）;
+            try {
+                // 检查图片尺寸，只有当宽高都大于等于200时才生成缩略图
+                BufferedImage image = ImageIO.read(file);
+                if (image != null && image.getWidth() >= 200 && image.getHeight() >= 200) {
+                    uploadPretreatment = uploadPretreatment.thumbnail(th -> th.size(200, 200));  //生成一张 200*200 的缩略图（这里操作缩略图）;
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage() + ", fileName=" + file.getName(), e);
+            }
         }
 
         String md5 = DigestUtil.md5Hex(file);
 
+        String dir = "file" + "/" + DateUtil.thisYear() + "/" + FaDateUtils.thisMonth() + "/" + DateUtil.thisDayOfMonth() + "/";
+        String id = IdWorker.getId() + "";
         FileInfo fileInfo = uploadPretreatment
-                .setPath(DateUtil.today() + "/")
-                .setSaveFilename(FaFileUtils.addTimestampToFileName(file.getName()))
+                .setPath(dir)
+                .setSaveFilename(FaFileUtils.addTsAndIdToFileName(file.getName(), id))
                 .upload();
 
         FileSave fileSave = new FileSave();
         BeanUtil.copyProperties(fileInfo, fileSave);
+        fileSave.setId(id);
 
         fileSave.setMd5(md5);
 
@@ -182,6 +247,9 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> implements St
     }
 
     public File getFileObj(FileSave fileSave) {
+        if (fileSave == null) {
+            throw new BuzzException("File Not Found");
+        }
         // 本地存储
         if (fileSave.getPlatform().startsWith("local-")) {
             LocalPlusFileStorage storage = ((LocalPlusFileStorage) fileStorageService.getFileStorage("local-plus-1"));
@@ -223,6 +291,9 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> implements St
      */
     public void downloadFileById(String fileId) throws IOException {
         FileSave fileSave = getById(fileId);
+        if (fileSave == null) {
+            return;
+        }
 
         // 本地存储
         if (fileSave.getPlatform().startsWith("local-")) {
@@ -245,18 +316,34 @@ public class FileSaveBiz extends BaseBiz<FileSaveMapper, FileSave> implements St
      */
     public void getFilePreview(String fileId) throws IOException {
         FileSave fileSave = getById(fileId);
+        if (fileSave == null) {
+            return;
+        }
 
         // 本地存储
         if (fileSave.getPlatform().startsWith("local-")) {
+            // 判断大小，如果缩略图大于原图，或者没有缩略图，则直接返回原图
+            String path = hasTh(fileSave) ? fileSave.getThUrl() : fileSave.getUrl();
             LocalPlusFileStorage storage = ((LocalPlusFileStorage) fileStorageService.getFileStorage("local-plus-1"));
-            String fileFullPath = storage.getAbsolutePath(fileSave.getThUrl());
+            String fileFullPath = storage.getAbsolutePath(path);
 
             FaFileUtils.downloadFileShard(new File(fileFullPath), fileSave.getOriginalFilename());
         } else {
             // TO-DO 其他下载渠道直接返回URL
+            // 判断大小，如果缩略图大于原图，或者没有缩略图，则直接返回原图
+            String url = hasTh(fileSave) ? fileSave.getThUrl() : fileSave.getUrl();
             HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-            response.sendRedirect(URLUtil.encode(fileSave.getThUrl()));
+            response.sendRedirect(URLUtil.encode(url));
         }
+    }
+
+    /** 判断是否有缩略图 */
+    public boolean hasTh(FileSave fileSave) {
+        if (fileSave == null) return false;
+        if (StrUtil.isEmpty(fileSave.getThUrl())) return false;
+        if (fileSave.getThSize() == null || fileSave.getSize() == null) return false;
+        if (fileSave.getThSize() > fileSave.getSize()) return false;
+        return true;
     }
 
     /**

@@ -1,0 +1,8 @@
+.fa-search-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 每行4列，均分 */
+  gap: 12px;                             /* 元素间距 */
+}
+
+.fa-search-grid-4 > div {
+}

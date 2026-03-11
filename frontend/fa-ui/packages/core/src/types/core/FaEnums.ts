@@ -44,6 +44,14 @@ namespace FaEnums {
     SCENE = '2',
   }
 
+  /** 消息来源枚举 */
+  export enum MsgTypeEnum {
+    /** 系统消息 */
+    SYSTEM = 1,
+    /** 流程消息 */
+    FLOW = 2
+  }
+
   // ------------------------------------ Admin ------------------------------------
   export enum AreaLevel {
     NATION = -1,
@@ -95,6 +103,8 @@ namespace FaEnums {
   export enum RbacLinkTypeEnum {
     INNER = 1,
     OUT = 2,
+    PATH = 3,
+    FA_FORM = 4,
   }
 
   export enum JobLogStatusEnum {

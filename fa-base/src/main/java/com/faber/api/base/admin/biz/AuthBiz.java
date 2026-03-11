@@ -10,8 +10,10 @@ import cn.hutool.http.useragent.UserAgentUtil;
 //import com.alicp.jetcache.template.QuickConfig;
 import com.faber.api.base.admin.entity.LogLogin;
 import com.faber.api.base.admin.entity.User;
+import com.faber.api.base.admin.entity.UserToken;
 import com.faber.config.utils.user.LoginReqVo;
 import com.faber.core.context.BaseContextHandler;
+import com.faber.core.exception.BuzzException;
 import com.faber.core.service.LogoutService;
 import com.faber.core.utils.IpUtils;
 import com.faber.core.utils.RequestUtils;
@@ -25,11 +27,9 @@ import jakarta.annotation.Resource;
 @Service
 public class AuthBiz implements LogoutService {
 
-    @Resource
-    private UserBiz userBiz;
-
-    @Resource
-    private LogLoginBiz logLoginBiz;
+    @Resource UserBiz userBiz;
+    @Resource UserTokenBiz userTokenBiz;
+    @Resource LogLoginBiz logLoginBiz;
 
 //    @Autowired
 //    private CacheManager cacheManager;
@@ -57,6 +57,16 @@ public class AuthBiz implements LogoutService {
     public SaTokenInfo login(LoginReqVo loginReqVo) {
         User user = userBiz.validate(loginReqVo.getUsername(), loginReqVo.getPassword());
         return login(user, "web");
+    }
+
+    public SaTokenInfo loginByToken(String apiToken) {
+        UserToken userToken = userTokenBiz.getById(apiToken);
+        if (userToken != null && userToken.getValid()) {
+            String userId = userToken.getUserId();
+            User user = userBiz.getById(userId);
+            return login(user, "web");
+        }
+        throw new BuzzException("token error");
     }
 
     /**

@@ -1,15 +1,14 @@
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { FieldNumberOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Captcha, FaUtils, useApiLoading } from '@fa/ui';
+import ConfigLayoutContext from '@features/fa-admin-pages/layout/config/context/ConfigLayoutContext';
+import { userApi } from '@features/fa-admin-pages/services';
 import { Button, Empty, Form, Input, Space } from 'antd';
 import { trim } from 'lodash';
-import { ApiEffectLayoutContext, Captcha, FaUtils } from '@fa/ui';
-import { userApi } from '@features/fa-admin-pages/services';
+import { useContext, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import ConfigLayoutContext from '@features/fa-admin-pages/layout/config/context/ConfigLayoutContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function RegistryForm() {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const { systemConfig } = useContext(ConfigLayoutContext);
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -63,7 +62,7 @@ export default function RegistryForm() {
 
   if (!systemConfig.safeRegistrationOn) return <Empty description="暂未开启" />;
 
-  const loading = loadingEffect[userApi.getUrl('registry')];
+  const loading = useApiLoading([userApi.getUrl('registry')]);
   return (
     <Form form={form} onFinish={onFinish} layout="vertical" autoComplete="off">
       <Helmet title={`重置密码 | ${systemConfig?.title}`} />

@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
-import { Button, Form } from 'antd';
-import { ApiEffectLayoutContext, DragModal, type DragModalProps, FaUtils } from '@fa/ui';
-import { userApi } from '@features/fa-admin-pages/services';
+import { DragModal, type DragModalProps, FaUtils, useApiLoading } from '@fa/ui';
 import DepartmentCascade from '@features/fa-admin-pages/components/helper/DepartmentCascade';
+import { userApi } from '@features/fa-admin-pages/services';
+import { Button, Form } from 'antd';
+import { useState } from 'react';
 
 interface UsersChangeDeptModalProps extends DragModalProps {
   userIds: string[];
@@ -13,7 +13,6 @@ interface UsersChangeDeptModalProps extends DragModalProps {
  * 批量修改部门
  */
 export default function UsersChangeDeptModal({ children, userIds, fetchFinish, ...props }: UsersChangeDeptModalProps) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
 
@@ -30,7 +29,7 @@ export default function UsersChangeDeptModal({ children, userIds, fetchFinish, .
     setOpen(true);
   }
 
-  const loading = loadingEffect[userApi.getUrl('updateBatchDept')];
+  const loading = useApiLoading([userApi.getUrl('updateBatchDept')]);
   return (
     <span>
       <span onClick={() => showModal()}>

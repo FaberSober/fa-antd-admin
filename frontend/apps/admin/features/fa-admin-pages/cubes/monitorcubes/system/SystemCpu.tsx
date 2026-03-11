@@ -42,5 +42,5 @@ SystemCpu.title = 'CPU';
 SystemCpu.description = 'CPU运行状态指标图';
 SystemCpu.showTitle = true; // 是否展示Card的Title
 SystemCpu.permission = ''; // 需要的权限
-SystemCpu.w = 4; // 宽度-max=16
+SystemCpu.w = 6; // 宽度-max=24
 SystemCpu.h = 12; // 高度

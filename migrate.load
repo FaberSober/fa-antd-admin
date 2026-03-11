@@ -1,0 +1,8 @@
+LOAD DATABASE
+     FROM mysql://root:123456@127.0.0.1:3306/fa_admin
+     INTO postgresql://admin:123456@127.0.0.1:5432/fa_admin
+
+ WITH include no drop, create tables, create indexes, reset sequences
+
+  SET work_mem to '16MB', maintenance_work_mem to '512 MB',
+      search_path to 'public';

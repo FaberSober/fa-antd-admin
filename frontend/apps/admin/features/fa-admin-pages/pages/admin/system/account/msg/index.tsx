@@ -1,30 +1,30 @@
-import React, { useContext, useEffect } from 'react';
+import type { Admin } from '@/types';
 import { CheckOutlined, SearchOutlined } from '@ant-design/icons';
-import { Badge, Button, Form, Input, Modal, Space } from 'antd';
 import {
-  ApiEffectLayoutContext,
   BaseBizTable,
   BaseBoolSelector,
   BaseTableUtils,
   clearForm,
+  DictEnumApiSelector,
   type FaberTable,
   FaHref,
   FaUtils,
-  useTableQueryParams,
+  useApiLoading,
+  useTableQueryParams
 } from '@fa/ui';
-import type { Admin } from '@/types';
-import { msgApi } from '@features/fa-admin-pages/services';
 import UserLayoutContext from '@features/fa-admin-pages/layout/user/context/UserLayoutContext';
+import { msgApi } from '@features/fa-admin-pages/services';
+import { Badge, Button, Form, Input, Modal, Space } from 'antd';
+import { useContext, useEffect } from 'react';
 
 const serviceName = '消息';
 const biz = 'base_msg';
 
 export default function MsgList() {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const { user, refreshUnreadCount } = useContext(UserLayoutContext);
   const [form] = Form.useForm();
 
-  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, setExtraParams, fetchPageList, loading, list, paginationProps } =
+  const { queryParams, setFormValues, handleTableChange, setSceneId, setConditionList, setExtraParams, fetchPageList, loading, list, dicts, paginationProps } =
     useTableQueryParams<Admin.Msg>(msgApi.page, { extraParams: { toUserId: user.id }, sorter: { field: 'crtTime', order: 'descend' } }, serviceName);
 
   useEffect(() => {
@@ -68,6 +68,7 @@ export default function MsgList() {
     const { sorter } = queryParams;
     return [
       // BaseTableUtils.genSimpleSorterColumn('ID', 'id', 70, sorter, false),
+      BaseTableUtils.genEnumSorterColumn('消息类型', 'type', 100, sorter, dicts),
       {
         ...BaseTableUtils.genSimpleSorterColumn('消息内容', 'content', undefined, sorter),
         render: (val, record) => (
@@ -97,13 +98,16 @@ export default function MsgList() {
     ] as FaberTable.ColumnsProp<Admin.Msg>[];
   }
 
-  const batchReading = loadingEffect[msgApi.getUrl('batchRead')];
+  const batchReading = useApiLoading([msgApi.getUrl('batchRead')]);
   return (
-    <div className="fa-full-content fa-flex-column fa-bg-white">
+    <div className="fa-full-content-p12 fa-flex-column fa-content">
       <div className="fa-flex-row-center fa-p8">
         <div className="fa-h3">{serviceName}</div>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <Form form={form} layout="inline" onFinish={setFormValues}>
+            <Form.Item name="type" label="消息类型">
+              <DictEnumApiSelector enumName='MsgTypeEnum' placeholder="请选择消息类型" allowClear />
+            </Form.Item>
             <Form.Item name="content" label="消息内容">
               <Input placeholder="请输入消息内容" allowClear />
             </Form.Item>

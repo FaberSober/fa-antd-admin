@@ -24,8 +24,8 @@ export default function DemoTheme() {
   const [color, setColor] = useState('#FF0000')
 
   return (
-    <div className="fa-full-content fa-bg-white fa-p12 fa-flex-column">
-      <Card title="颜色选择器" className="fa-mb12">
+    <div className="fa-full-content-p12 fa-flex-column fa-gap12">
+      <Card title="颜色选择器">
         <ColorPicker
           value={color}
           onChange={(v,hex) => {
@@ -35,7 +35,7 @@ export default function DemoTheme() {
         />
       </Card>
 
-      <Card title="亮色、暗色、主题色切换" className="fa-mb12">
+      <Card title="亮色、暗色、主题色切换">
         <div className="fa-flex-row-center">
           <InputColor value={primaryColor} onChange={(v:string) => handleChangeThemeColor(v)} style={{width: 25, height: 25}} />
 

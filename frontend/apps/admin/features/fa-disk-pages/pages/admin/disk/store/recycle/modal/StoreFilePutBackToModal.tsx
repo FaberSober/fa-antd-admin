@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
-import { Button, Form } from 'antd';
-import { ApiEffectLayoutContext, CommonModalProps, DragModal, FaUtils } from '@fa/ui';
-import { Disk } from '@/types';
 import { StoreFileCascader } from '@/components';
 import { storeFileApi } from '@/services';
+import { Disk } from '@/types';
+import { CommonModalProps, DragModal, FaUtils, useApiLoading } from '@fa/ui';
+import { Button, Form } from 'antd';
+import { useState } from 'react';
 
 export interface StoreFilePutBackToModalProps extends CommonModalProps<Disk.StoreBucket> {
   fileIds: number[];
@@ -23,7 +23,6 @@ export default function StoreFilePutBackToModal({
   fileIds,
   ...props
 }: StoreFilePutBackToModalProps) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -49,7 +48,7 @@ export default function StoreFilePutBackToModal({
     if (onOpen) onOpen();
   }
 
-  const loading = loadingEffect[storeFileApi.getUrl('putBackToDir')];
+  const loading = useApiLoading([storeFileApi.getUrl('putBackToDir')]);
   return (
     <span>
       <span onClick={showModal}>{children || <Button>恢复到...</Button>}</span>

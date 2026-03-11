@@ -1,3 +1,4 @@
+export { default as FaFileUrlView } from './FaFileUrlView';
 export { default as FaFileView } from './FaFileView';
 export { default as FaFileViewModal } from './FaFileViewModal';
 export { default as FileSaveIcon } from './FileSaveIcon';

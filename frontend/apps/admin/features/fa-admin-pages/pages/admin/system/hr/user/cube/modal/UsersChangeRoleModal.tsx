@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
-import { Button, Form } from 'antd';
-import { ApiEffectLayoutContext, DragModal, type DragModalProps, FaUtils } from '@fa/ui';
-import { userApi } from '@features/fa-admin-pages/services';
+import { DragModal, type DragModalProps, FaUtils, useApiLoading } from '@fa/ui';
 import RbacRoleSelect from '@features/fa-admin-pages/components/helper/RbacRoleSelect';
+import { userApi } from '@features/fa-admin-pages/services';
+import { Button, Form } from 'antd';
+import { useState } from 'react';
 
 interface UsersChangeRoleModalProps extends DragModalProps {
   userIds: string[];
@@ -13,7 +13,6 @@ interface UsersChangeRoleModalProps extends DragModalProps {
  * 批量更新角色
  */
 export default function UsersChangeRoleModal({ children, userIds, fetchFinish, ...props }: UsersChangeRoleModalProps) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
 
@@ -30,7 +29,7 @@ export default function UsersChangeRoleModal({ children, userIds, fetchFinish, .
     setOpen(true);
   }
 
-  const loading = loadingEffect[userApi.getUrl('updateBatchRole')];
+  const loading = useApiLoading([userApi.getUrl('updateBatchRole')]);
   return (
     <span>
       <span onClick={() => showModal()}>

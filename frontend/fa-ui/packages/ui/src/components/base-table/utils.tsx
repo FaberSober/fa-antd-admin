@@ -28,7 +28,7 @@ export function dataIndexToString(dataIndex: string | string[]) {
 
 /**
  * antd Table 排序
- * 1. filed驼峰转下划线；
+ * 1. field驼峰转下划线；
  * 2. order返回 'DESC' : 'ASC';
  * @param {*} sorter
  */
@@ -104,7 +104,7 @@ export function genIndexColumn(paginationProps: { current?: number; pageSize?: n
     title: '序号',
     dataIndex: 'index',
     width: 70,
-    fixed: 'left',
+    // fixed: 'left',
     render: (_, r, i) => startIndex + i,
     tcChecked: true,
     tcConditionHide: true,

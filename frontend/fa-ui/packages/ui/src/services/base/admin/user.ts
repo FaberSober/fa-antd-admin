@@ -1,5 +1,5 @@
 import {GATE_APP} from '@ui/configs';
-import {BaseApi} from '@ui/services';
+import BaseApi from '@ui/services/core/BaseApi';
 import {Admin, Fa} from '@ui/types';
 
 const serviceModule = 'user';

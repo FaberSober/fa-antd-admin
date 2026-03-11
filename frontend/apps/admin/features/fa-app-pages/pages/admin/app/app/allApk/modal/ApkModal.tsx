@@ -1,17 +1,16 @@
-import React, { useContext, useState } from 'react';
-import { get } from 'lodash';
-import { Button, Form, Input } from 'antd';
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { ApiEffectLayoutContext, type CommonModalProps, DragModal, FaHref, FaUtils, UploadFileLocal, UploadImgLocal } from '@fa/ui';
 import { apkApi as api } from '@/services';
 import type { App } from '@/types';
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { type CommonModalProps, DragModal, FaHref, FaUtils, UploadFileLocal, UploadImgLocal, useApiLoading } from '@fa/ui';
+import { Button, Form, Input } from 'antd';
+import { get } from 'lodash';
+import { useState } from 'react';
 
 
 /**
  * APP-APK表实体新增、编辑弹框
  */
 export default function ApkModal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: CommonModalProps<App.Apk>) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -65,7 +64,7 @@ export default function ApkModal({ children, title, record, fetchFinish, addBtn,
     form.setFieldsValue(getInitialValues())
   }
 
-  const loading = loadingEffect[api.getUrl('add')] || loadingEffect[api.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>

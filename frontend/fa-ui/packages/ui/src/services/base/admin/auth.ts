@@ -1,5 +1,5 @@
 import { Fa } from '@ui/types';
-import { BaseZeroApi } from "@ui/services";
+import BaseZeroApi from '@ui/services/core/BaseZeroApi';
 import { GATE_APP } from "@ui/configs";
 
 class Api extends BaseZeroApi {

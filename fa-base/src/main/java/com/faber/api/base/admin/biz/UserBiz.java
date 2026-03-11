@@ -512,6 +512,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         // 调用父类的方法获取基本数据
         User user = super.getById(id);
         this.populateUserRoles(user);
+        this.decorateOne(user);
         return user;
     }
     /**

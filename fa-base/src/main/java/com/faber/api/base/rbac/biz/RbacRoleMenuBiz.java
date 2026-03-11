@@ -7,6 +7,7 @@ import com.faber.core.config.redis.annotation.FaCacheClear;
 import com.faber.core.web.biz.BaseBiz;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.annotation.Resource;
 import java.io.Serializable;
@@ -63,10 +64,32 @@ public class RbacRoleMenuBiz extends BaseBiz<RbacRoleMenuMapper, RbacRoleMenu> {
     }
 
     @FaCacheClear(pre = "rbac:")
+    @Transactional
     public void updateRoleMenu(RoleMenuVo roleMenuVo) {
         long roleId = roleMenuVo.getRoleId();
-        // 删除之前的角色
-        lambdaUpdate().eq(RbacRoleMenu::getRoleId, roleId).remove();
+
+        if (roleMenuVo.getCheckedMenuIds() == null || roleMenuVo.getCheckedMenuIds().isEmpty()) {
+            lambdaUpdate()
+                .eq(RbacRoleMenu::getRoleId, roleId)
+                .remove();
+            return;
+        }
+
+        // 删除被移除的角色菜单
+        lambdaUpdate()
+            .eq(RbacRoleMenu::getRoleId, roleId)
+            .notIn(RbacRoleMenu::getMenuId, roleMenuVo.getCheckedMenuIds())
+            .remove();
+
+        // 查询已存在的角色菜单
+        List<Long> existMenuIds = lambdaQuery()
+            .eq(RbacRoleMenu::getRoleId, roleId)
+            .list()
+            .stream()
+            .map(RbacRoleMenu::getMenuId)
+            .collect(Collectors.toList());
+        // 过滤本次新增的菜单IDs
+        roleMenuVo.getCheckedMenuIds().removeAll(existMenuIds);
 
         List<RbacRoleMenu> list = new ArrayList<>();
         for (Long menuId : roleMenuVo.getCheckedMenuIds()) {

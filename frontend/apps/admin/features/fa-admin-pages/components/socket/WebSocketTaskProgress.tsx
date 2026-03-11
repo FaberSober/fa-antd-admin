@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from 'react';
-import { Progress, type ProgressProps } from 'antd';
 import type { Fa } from '@/types';
 import { FaUtils } from '@fa/ui';
-import { WebSocketLayoutContext } from '@features/fa-admin-pages/layout/websocket';
+import { sendMessage } from '@features/fa-admin-pages/layout/websocket';
+import { Progress, type ProgressProps } from 'antd';
+import { useEffect } from 'react';
 import useBus from 'use-bus';
 
 export interface WebSocketTaskProgressProps extends ProgressProps {
@@ -15,8 +15,6 @@ export interface WebSocketTaskProgressProps extends ProgressProps {
  * @date 2024/11/16 21:29
  */
 export default function WebSocketTaskProgress({ task, onTaskChange, ...props }: WebSocketTaskProgressProps) {
-  const { sendMessage } = useContext(WebSocketLayoutContext);
-
   useEffect(() => {
     if (task === undefined) return;
     sendMessage({ type: 'WebSocketTaskDemo', data: { taskId: task.taskId } }); // 发送socket绑定任务ID

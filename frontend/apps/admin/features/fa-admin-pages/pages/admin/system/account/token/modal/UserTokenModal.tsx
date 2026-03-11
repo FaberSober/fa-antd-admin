@@ -1,16 +1,15 @@
-import React, { useContext, useState } from 'react';
-import { get } from 'lodash';
-import { Button, Form, Input } from 'antd';
-import { EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { ApiEffectLayoutContext, BaseBoolRadio, DragModal, FaHref, FaUtils, type CommonModalProps } from '@fa/ui';
-import { userTokenApi as api } from '@features/fa-admin-pages/services';
 import type { Admin } from '@/types';
+import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { BaseBoolRadio, DragModal, FaHref, FaUtils, useApiLoading, type CommonModalProps } from '@fa/ui';
+import { userTokenApi as api } from '@features/fa-admin-pages/services';
+import { Button, Form, Input } from 'antd';
+import { get } from 'lodash';
+import { useState } from 'react';
 
 /**
  * BASE-用户token实体新增、编辑弹框
  */
 export default function UserTokenModal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: CommonModalProps<Admin.UserToken>) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -58,7 +57,7 @@ export default function UserTokenModal({ children, title, record, fetchFinish, a
     form.setFieldsValue(getInitialValues());
   }
 
-  const loading = loadingEffect[api.getUrl('add')] || loadingEffect[api.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>

@@ -1,6 +1,5 @@
-import React from 'react';
+import type { Admin } from '@/types';
 import { DownloadOutlined, EyeOutlined, SearchOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Modal, Space } from 'antd';
 import {
   AuthDelBtn,
   BaseBizTable,
@@ -16,9 +15,10 @@ import {
   useExport,
   useTableQueryParams,
 } from '@fa/ui';
-import type { Admin } from '@/types';
-import { logApiApi as api } from '@features/fa-admin-pages/services';
+import { SearchGrid } from '@features/fa-admin-pages/components';
 import LogApiView from '@features/fa-admin-pages/pages/admin/system/base/logApi/cube/LogApiView';
+import { logApiApi as api } from '@features/fa-admin-pages/services';
+import { Button, Form, Input, Modal, Space } from 'antd';
 
 const serviceName = '请求日志';
 const biz = 'base_log_api';
@@ -99,36 +99,31 @@ export default function LogApiList() {
   }
 
   return (
-    <div className="fa-full-content fa-flex-column fa-bg-white">
-      <div className="fa-flex-row-center fa-p8">
-        <div className="fa-h3">{serviceName}</div>
-        <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-          <Form form={form} layout="inline" onFinish={setFormValues}>
-            <Form.Item name="crud" label="类型">
-              <DictEnumApiSelector enumName="LogCrudEnum" />
-            </Form.Item>
-            <Form.Item name="biz" label="模块">
-              <Input placeholder="请输入模块" allowClear />
-            </Form.Item>
-            <Form.Item name="opr" label="操作">
-              <Input placeholder="请输入操作" allowClear />
-            </Form.Item>
-            <Form.Item name="url" label="URL">
-              <Input placeholder="请输入请求URL" allowClear />
-            </Form.Item>
-
-            <Space>
-              <Button htmlType="submit" loading={loading} icon={<SearchOutlined />}>
-                查询
-              </Button>
-              <Button onClick={() => clearForm(form)}>重置</Button>
-              <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>
-                导出
-              </Button>
-            </Space>
-          </Form>
-        </div>
-      </div>
+    <div className="fa-full-content-p12 fa-flex-column fa-content">
+      <SearchGrid
+        form={form}
+        onFinish={setFormValues}
+        btns={(<>
+            <Button type="primary" htmlType="submit" loading={loading} icon={<SearchOutlined />}>
+              查询
+            </Button>
+            <Button onClick={() => clearForm(form)}>重置</Button>
+        </>)}
+        className='fa-mtb12'
+      >
+        <Form.Item name="crud" label="类型">
+          <DictEnumApiSelector enumName="LogCrudEnum" />
+        </Form.Item>
+        <Form.Item name="biz" label="模块">
+          <Input placeholder="请输入模块" allowClear />
+        </Form.Item>
+        <Form.Item name="opr" label="操作">
+          <Input placeholder="请输入操作" allowClear />
+        </Form.Item>
+        <Form.Item name="url" label="URL">
+          <Input placeholder="请输入请求URL" allowClear />
+        </Form.Item>
+      </SearchGrid>
 
       <BaseBizTable
         biz={biz}
@@ -145,7 +140,10 @@ export default function LogApiList() {
         showDeleteByQuery
         onDeleteByQuery={deleteByQuery}
         renderQueryAll={() => (
-          <Button type="primary" danger onClick={handleDeleteAll}>清空日志</Button>
+          <>
+            <Button loading={exporting} icon={<DownloadOutlined />} onClick={fetchExportExcel}>导出</Button>
+            <Button type="primary" danger onClick={handleDeleteAll}>清空日志</Button>
+          </>
         )}
       />
     </div>

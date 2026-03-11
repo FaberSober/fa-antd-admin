@@ -1,0 +1,27 @@
+.msg-badge-cube {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--fa-text-color);
+  font-size: 16px;
+  transition: all 0.25s ease;
+  position: relative;
+
+  &:hover {
+    background-color: var(--fa-bg-color-hover);
+
+    svg {
+      animation: bell-ring 1s both;
+    }
+  }
+
+  .ant-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}

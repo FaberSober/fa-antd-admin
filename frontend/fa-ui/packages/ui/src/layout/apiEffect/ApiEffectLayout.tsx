@@ -6,6 +6,10 @@ export interface ApiEffectLayoutContextProps {
   loadingEffect: any; // 全局api请求加载
 }
 
+/**
+ * 2025-12-04 废弃此组件，改用 useApiLoading 代替
+ * @deprecated
+ */
 export const ApiEffectLayoutContext = createContext<ApiEffectLayoutContextProps>({
   loadingEffect: {},
 });
@@ -13,6 +17,8 @@ export const ApiEffectLayoutContext = createContext<ApiEffectLayoutContextProps>
 const loadingEffectOrigin: any = {};
 
 /**
+ * 2025-12-04 废弃此组件，改用 useApiLoading 代替
+ * @deprecated
  * @author xu.pengfei
  * @date 2022/9/21
  */

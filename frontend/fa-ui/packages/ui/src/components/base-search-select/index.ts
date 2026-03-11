@@ -1,4 +1,5 @@
 import BaseSearchSelect, { BaseSearchSelectProps } from './BaseSearchSelect';
+import BaseUserSearchSelect, { BaseUserSearchSelectProps } from './BaseUserSearchSelect';
 
-export { BaseSearchSelect };
-export type { BaseSearchSelectProps };
+export { BaseSearchSelect, BaseUserSearchSelect };
+export type { BaseSearchSelectProps, BaseUserSearchSelectProps };

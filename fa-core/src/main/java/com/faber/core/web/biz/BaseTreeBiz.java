@@ -1,9 +1,15 @@
 package com.faber.core.web.biz;
 
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.ReflectUtil;
-import cn.hutool.core.util.StrUtil;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.faber.core.annotation.SqlSorter;
 import com.faber.core.annotation.SqlTreeId;
 import com.faber.core.annotation.SqlTreeName;
@@ -18,14 +24,10 @@ import com.faber.core.vo.tree.TreeNode;
 import com.faber.core.vo.tree.TreePathVo;
 import com.faber.core.vo.tree.TreePosChangeVo;
 
-import java.io.Serializable;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.StrUtil;
 
 /**
  * <h3>Tree形结构数据的Service业务方法</h3>
@@ -301,8 +303,17 @@ public abstract class BaseTreeBiz<M extends FaBaseMapper<T>, T> extends BaseBiz<
             return;
         }
 
+        // 1. 获取 ID 字段的 Field 对象
+        // 假设 getTreeIdFieldName() 返回的是主键字段名，例如 "id"
+        Field idField = ReflectUtil.getField(getEntityClass(), getTreeIdFieldName());
+        
+        // 2. 获取 ID 字段的期望类型，例如 Long.class
+        Class<?> expectedType = idField.getType();
         list.forEach(item -> {
-            T bean = super.getById(item.getKey());
+            // 3. 将 item.getKey() 的值转换为期望的类型 (Long/Integer)
+            // 使用 Hutool 的 Convert.convert 方法进行安全转换
+            Object key = Convert.convert(expectedType, item.getKey());
+            T bean = super.getById((Serializable) key);
 
             ReflectUtil.setFieldValue(bean, this.getSortedFieldName(), item.getIndex());
             ReflectUtil.setFieldValue(bean, this.getTreeParentIdFieldName(), item.getPid());
@@ -433,8 +444,8 @@ public abstract class BaseTreeBiz<M extends FaBaseMapper<T>, T> extends BaseBiz<
         QueryWrapper<T> wrapper = new QueryWrapper<>();
         wrapper.eq(getTreeParentIdFieldColumnName(), parentId);
         this.enhanceTreeQueryForMaxSort(wrapper, entity);
-        wrapper.orderByDesc(this.getSortedFieldColumnName());
-        wrapper.select(String.format("IFNULL(max(%s), -1) as value", getSortedFieldColumnName()));
+        // wrapper.orderByDesc(this.getSortedFieldColumnName());
+        wrapper.select(String.format("COALESCE(max(%s), -1) as value", getSortedFieldColumnName()));
         List<Map<String, Object>> result = baseMapper.selectMaps(wrapper);
         return Integer.parseInt(result.get(0).get("value") + "");
     }

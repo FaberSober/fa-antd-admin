@@ -13,6 +13,9 @@ namespace ConditionQuery {
     less_equal = 'le', // '小于等于',
     between = 'between', // '介于',
     in = 'in', // 'IN',
+    notIn = 'notIn', // 'notIn',
+    isNotNull = 'isNotNull', // 'isNotNull',
+    isNull = 'isNull', // 'isNull',
   }
 
   /** 自定义筛选条件 */
@@ -40,7 +43,8 @@ namespace ConditionQuery {
 
   export const OPR_MAP: { [key: string]: string } = {
     [ConditionQuery.CondOpr.equal]: '=',
-    [ConditionQuery.CondOpr.in]: 'IN',
+    [ConditionQuery.CondOpr.in]: 'in',
+    [ConditionQuery.CondOpr.notIn]: 'not in',
     [ConditionQuery.CondOpr.not_equal]: '!=',
     [ConditionQuery.CondOpr.greater]: '>',
     [ConditionQuery.CondOpr.greater_equal]: '>=',
@@ -51,6 +55,8 @@ namespace ConditionQuery {
     [ConditionQuery.CondOpr.start_contain]: '开始于',
     [ConditionQuery.CondOpr.end_contain]: '结束于',
     [ConditionQuery.CondOpr.between]: '介于',
+    [ConditionQuery.CondOpr.isNotNull]: '不为空',
+    [ConditionQuery.CondOpr.isNull]: '为空',
   };
 }
 

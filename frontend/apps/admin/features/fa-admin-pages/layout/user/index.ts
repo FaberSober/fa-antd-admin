@@ -4,3 +4,5 @@ import UserLayoutContext, { type UserLayoutContextProps } from './context/UserLa
 export { UserLayout, UserLayoutContext };
 export { default as UserAvatarImage } from './cube/UserAvatarImage';
 export type { UserLayoutContextProps };
+
+export { default as UserTokenLayout } from './UserTokenLayout'

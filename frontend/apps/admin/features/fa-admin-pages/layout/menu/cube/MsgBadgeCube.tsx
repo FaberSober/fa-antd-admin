@@ -1,9 +1,11 @@
 import React, { useContext, useState } from 'react';
-import { Badge, notification, Popover } from 'antd';
+import { Badge, notification, Tooltip } from 'antd';
 import { BellOutlined } from '@ant-design/icons';
 import UserLayoutContext from '../../user/context/UserLayoutContext';
 import useBus from 'use-bus';
 import MsgList from './MsgList';
+import { BaseDrawer } from '@fa/ui';
+import './MsgBadgeCube.scss';
 
 /**
  * 个人消息提示Badge
@@ -12,7 +14,6 @@ import MsgList from './MsgList';
  */
 export default function MsgBadgeCube() {
   const { unreadCount, refreshUnreadCount } = useContext(UserLayoutContext);
-  const [open, setOpen] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
   // receive plain message from websocket
@@ -34,22 +35,19 @@ export default function MsgBadgeCube() {
   return (
     <>
       {contextHolder}
-      <Popover
-        placement="bottomRight"
-        content={<MsgList onClose={() => setOpen(false)} />}
-        trigger="click"
-        styles={{ body: { padding: 0 } }}
-        open={open}
-        onOpenChange={setOpen}
+      <BaseDrawer
+        title="系统消息"
+        triggerDom={(
+          <Tooltip title="系统消息">
+            <div className="msg-badge-cube">
+              <BellOutlined />
+              <Badge size="small" count={unreadCount} />
+            </div>
+          </Tooltip>
+        )}
       >
-        <div className="fa-link-grey fa-flex-center" style={{ width: 44 }}>
-          <a className="fa-menu-normal-cube">
-            <Badge size="small" count={unreadCount}>
-              <BellOutlined className="fa-menu-normal-cube" style={{ margin: '0 4px' }} />
-            </Badge>
-          </a>
-        </div>
-      </Popover>
+        <MsgList />
+      </BaseDrawer>
     </>
   );
 }

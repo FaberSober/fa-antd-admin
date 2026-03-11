@@ -23,7 +23,7 @@ import lombok.Data;
 @Data
 public class FileSave extends BaseDelEntity {
 
-    @TableId(type = IdType.ASSIGN_UUID)
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
 
     @ExcelProperty("文件访问地址")

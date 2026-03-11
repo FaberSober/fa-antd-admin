@@ -1,8 +1,82 @@
 .fa-admin-hello-banner {
-  background: url("/file/image/banner/tech-banner2.png");
-  //background: url("~/../fa-admin-pages/assets/banner/hello-banner.jpg");
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 20px;
+  background-color: var(--fa-bg-color);
+  border-radius: 8px;
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  &__avatar {
+    flex-shrink: 0;
+    background-color: var(--fa-bg-color2);
+    color: var(--primary-color);
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--fa-text-color);
+    line-height: 1.4;
+  }
+
+  &__subtitle {
+    font-size: 14px;
+    color: var(--fa-text-color-light100);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__weather-icon {
+    font-size: 14px;
+    color: var(--primary-color);
+  }
+
+  &__stats {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  &__stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 24px;
+    gap: 2px;
+  }
+
+  &__stat-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--fa-text-color);
+    line-height: 1.3;
+  }
+
+  &__stat-label {
+    font-size: 14px;
+    color: var(--fa-text-color-light100);
+  }
+
+  &__divider {
+    width: 1px;
+    height: 32px;
+    background-color: var(--fa-border-color);
+  }
 }
 

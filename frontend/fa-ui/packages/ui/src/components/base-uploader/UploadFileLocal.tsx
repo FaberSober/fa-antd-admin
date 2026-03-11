@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, message, Upload, type UploadProps } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import {fileSaveApi} from '@ui/services/base';
+import { default as fileSaveApi } from "@ui/services/base/admin/fileSave";
 import { genAuthHeaders } from '@ui/utils/cache';
 import type { RcFile } from 'antd/es/upload';
 import type { UploadChangeParam, UploadFile, UploadFileStatus } from 'antd/es/upload/interface';
@@ -150,14 +150,18 @@ export default function UploadFileLocal({ children, description, onFileChange, o
     >
       {children ? (
         <span>{children}</span>
-      ) : (
+      //在上传不可用时不展示选择文件按钮
+      // ) : (
+      ) : !props.disabled ? (
         <>
-          <Button loading={loading} disabled={props.disabled}>
+          {/*<Button loading={loading} disabled={props.disabled}>*/}
+          <Button loading={loading}>
             <UploadOutlined /> 选择文件
           </Button>
           {description && <span>{description}</span>}
         </>
-      )}
+      // )}
+      ) :null }
     </Upload>
   );
 }

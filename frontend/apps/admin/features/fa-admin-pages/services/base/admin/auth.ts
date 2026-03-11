@@ -5,6 +5,9 @@ class Api extends BaseZeroApi {
   /** 登录 */
   login = (username: string, password: string): Promise<Fa.Ret<Fa.LoginToken>> => this.post('login', { username, password });
 
+  /** Token登录 */
+  loginByToken = (token: string): Promise<Fa.Ret<Fa.LoginToken>> => this.post('loginByToken', { token });
+
   /** 登出 */
   logout = (): Promise<Fa.Ret<string>> => this.get('logout');
 }

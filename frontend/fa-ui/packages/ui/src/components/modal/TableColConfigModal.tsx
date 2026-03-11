@@ -1,15 +1,15 @@
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
-import { find, isNil, sortBy } from 'lodash';
-import { Button, Checkbox, Drawer, Input, Space } from 'antd';
-import { showResponse } from '@ui/utils/utils';
-import { DrawerProps } from "antd/es/drawer";
-import { FaberTable } from '@ui/components/base-table';
-import { Admin, Fa, FaEnums } from '@ui/types';
-import { configApi } from '@ui/services/base';
-import { ApiEffectLayoutContext } from "@ui/layout";
-import './TableColConfigModal.css';
-import { FaFlexRestLayout } from "@ui/components/base-layout";
 import { FaSortList } from "@ui/components/base-drag";
+import { FaFlexRestLayout } from "@ui/components/base-layout";
+import { FaberTable } from '@ui/components/base-table';
+import { useApiLoading } from '@ui/hooks';
+import { configApi as api } from '@ui/services/base';
+import { Admin, Fa, FaEnums } from '@ui/types';
+import { showResponse } from '@ui/utils/utils';
+import { Button, Checkbox, Drawer, Input, Space } from 'antd';
+import { DrawerProps } from "antd/es/drawer";
+import { find, isNil, sortBy } from 'lodash';
+import React, { ReactNode, useEffect, useState } from 'react';
+import './TableColConfigModal.css';
 
 
 export interface TableColConfigModalProps<T> extends DrawerProps {
@@ -24,7 +24,6 @@ export interface TableColConfigModalProps<T> extends DrawerProps {
  * 1. 操作一栏不进行排序，默认放在最后一排
  */
 function TableColConfigModal<T>({columns = [], biz, onConfigChange, children, ...restProps}: TableColConfigModalProps<T>) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext);
   const [config, setConfig] = useState<Admin.Config<FaberTable.ColumnsProp<any>[]>>();
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<FaberTable.ColumnsProp<T>[]>(columns);
@@ -49,18 +48,16 @@ function TableColConfigModal<T>({columns = [], biz, onConfigChange, children, ..
 
   /** 获取服务端配置 */
   function fetchRemoteConfig() {
-    configApi
-      .getOne(biz, FaEnums.ConfigType.TABLE_COLUMNS)
-      .then((res: Fa.Ret<Admin.Config<FaberTable.ColumnsProp<T>[]>>) => {
-        if (isNil(res.data) || res.data.data.length === 0) return;
-        const config = res.data;
-        if (onConfigChange) {
-          onConfigChange(config.data);
-        }
-        setConfig(config);
-        const newItems = parseItemsSorted(columns, config.data);
-        setItems(newItems);
-      });
+    api.getOne(biz, FaEnums.ConfigType.TABLE_COLUMNS).then((res: Fa.Ret<Admin.Config<FaberTable.ColumnsProp<T>[]>>) => {
+      if (isNil(res.data) || res.data.data.length === 0) return;
+      const config = res.data;
+      if (onConfigChange) {
+        onConfigChange(config.data);
+      }
+      setConfig(config);
+      const newItems = parseItemsSorted(columns, config.data);
+      setItems(newItems);
+    });
   }
 
   // 初始化加载表格配置
@@ -79,7 +76,7 @@ function TableColConfigModal<T>({columns = [], biz, onConfigChange, children, ..
 
   function handleReset() {
     if (config && config.id) {
-      configApi.remove(config.id).then(res => {
+      api.remove(config.id).then(res => {
         setConfig(undefined)
         setItems(columns);
         if (onConfigChange) onConfigChange(columns);
@@ -102,18 +99,19 @@ function TableColConfigModal<T>({columns = [], biz, onConfigChange, children, ..
       data: columnsMerge,
     };
 
-    let api = null;
     if (config === undefined) {
-      api = configApi.save(params).then((res) => showResponse(res, '保存自定义表格配置'));
+      api.save(params).then((res) => {
+        showResponse(res, '保存自定义表格配置')
+        setOpen(false);
+        if (onConfigChange) onConfigChange(columnsMerge);
+      });
     } else {
-      api = configApi.update(config.id, {id: config.id, ...params}).then((res) => showResponse(res, '更新自定义表格配置'));
+      api.update(config.id, {id: config.id, ...params}).then((res) => {
+        showResponse(res, '更新自定义表格配置')
+        setOpen(false);
+        if (onConfigChange) onConfigChange(columnsMerge);
+      });
     }
-
-    api.then(() => {
-      setOpen(false);
-      // 通知外部
-      if (onConfigChange) onConfigChange(columnsMerge);
-    })
   }
 
   /** 处理Item勾选 */
@@ -127,7 +125,7 @@ function TableColConfigModal<T>({columns = [], biz, onConfigChange, children, ..
     setItems(newItems);
   }
 
-  const loading = loadingEffect[configApi.getUrl('save')] || loadingEffect[configApi.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModelHandler}>{children}</span>
@@ -135,8 +133,8 @@ function TableColConfigModal<T>({columns = [], biz, onConfigChange, children, ..
         title="自定义表格字段"
         open={open}
         onClose={() => setOpen(false)}
-        width={500}
-        destroyOnClose
+        size={500}
+        destroyOnHidden
         extra={
           <Space>
             <Button size="small" onClick={handleReset} loading={loading}>

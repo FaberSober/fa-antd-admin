@@ -1,50 +1,41 @@
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
-import {Drawer, DrawerProps} from "antd";
+import React, { createContext, ReactNode, useEffect, useImperativeHandle, useState } from 'react';
+import { Drawer, DrawerProps } from "antd";
 import { FaResizeHorizontal } from "@ui/components";
 import { FaUtils } from "@ui/utils";
+import { BaseDrawerContext } from './BaseDrawerContext';
+import useBus from "use-bus";
 
-export interface BaseDrawerContextProps {
-  closeDrawer: () => void;
-}
-
-export const BaseDrawerContext = createContext<BaseDrawerContextProps>({ closeDrawer: () => {} });
-
-export interface BaseDrawerProps extends DrawerProps {
+export interface BaseDrawerProps extends Omit<DrawerProps, 'bodyStyle'> {
   hideResize?: boolean;
   triggerDom?: ReactNode;
+  bodyStyle?: React.CSSProperties;
 }
 
 /**
  * @author xu.pengfei
  * @date 2022/12/28 10:41
  */
-export default function BaseDrawer({children, hideResize = false, triggerDom, bodyStyle, onClose, ...props }: BaseDrawerProps) {
+const BaseDrawer = React.forwardRef<HTMLElement, BaseDrawerProps>(function BaseDrawer({ children, hideResize = false, triggerDom, bodyStyle, onClose, size: outSize, ...props }: BaseDrawerProps, ref: any) {
   const [open, setOpen] = useState(false);
-  const [id] = useState(FaUtils.uuid())
-  const [id1] = useState(FaUtils.uuid())
+  const [size, setSize] = useState(outSize || 700);
 
-  useEffect(() => {
-    setParentId()
-  }, [open])
+  useImperativeHandle(ref, () => ({
+    open: () => setOpen(true),
+    close: () => setOpen(false),
+  }));
 
-  function setParentId(delay = 500) {
-    setTimeout(() => {
-      const dom = document.getElementById(id1)
-      if (dom) {
-        dom.parentElement?.setAttribute("id", id)
-      }
-    }, delay)
-  }
+  useBus(
+    ['@@action/CLOSE_DRAWER'],
+    ({ type, payload }) => {
+      setOpen(false)
+    },
+    [],
+  )
 
   return (
-    <BaseDrawerContext.Provider value={{closeDrawer: () => setOpen(false)}}>
+    <BaseDrawerContext.Provider value={{ closeDrawer: () => setOpen(false) }}>
       <span>
-        <span
-          onClick={() => {
-            setOpen(true)
-            setParentId()
-          }}
-        >{triggerDom}</span>
+        <span onClick={() => setOpen(true)}>{triggerDom}</span>
         <Drawer
           title="查看详情"
           open={open}
@@ -52,23 +43,27 @@ export default function BaseDrawer({children, hideResize = false, triggerDom, bo
             setOpen(false)
             if (onClose) onClose(e)
           }}
-          width={700}
-          id={id1}
+          size={size}
+          resizable={{
+            onResize: (newSize) => setSize(newSize),
+          }}
           className="fa-ant-drawer-body0"
+          mask={{ enabled: true, blur: false }}
           {...props}
         >
-          {(open || props.forceRender) && (
+          {(open || props.open || props.forceRender) && (
             <>
               <div className="fa-full">
                 <div className="fa-full-content fa-scroll fa-p12" style={{ ...bodyStyle }}>
                   {children}
                 </div>
               </div>
-              {!hideResize && <FaResizeHorizontal domId={id} position="left" style={{left: 0}} minWidth={200} />}
             </>
           )}
         </Drawer>
       </span>
     </BaseDrawerContext.Provider>
   )
-}
+})
+
+export default BaseDrawer

@@ -1,16 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { ApiEffectLayoutContext, BaseBoolRadio, DictEnumApiSelector, FaUtils } from '@fa/ui';
-import { Button, Col, Form, InputNumber, Row, Space } from 'antd';
-import { SaveOutlined } from '@ant-design/icons';
-import { configSysApi } from '@features/fa-admin-pages/services';
 import type { Admin } from '@/types';
+import { SaveOutlined } from '@ant-design/icons';
+import { BaseBoolRadio, DictEnumApiSelector, FaUtils, useApiLoading } from '@fa/ui';
+import { configSysApi } from '@features/fa-admin-pages/services';
+import { Button, Col, Form, InputNumber, Row, Space } from 'antd';
+import { useEffect, useState } from 'react';
 
 /**
  * @author xu.pengfei
  * @date 2022/12/11 22:48
  */
 export default function ConfigSafe() {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
   const [configSys, setConfigSys] = useState<Admin.ConfigSys>();
 
@@ -49,7 +48,7 @@ export default function ConfigSafe() {
     return Promise.resolve();
   }
 
-  const loading = loadingEffect[configSysApi.getUrl('update')];
+  const loading = useApiLoading([configSysApi.getUrl('update')]);
   return (
     <div className="fa-p12">
       <Form form={form} onFinish={onFinish} layout="vertical">

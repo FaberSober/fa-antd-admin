@@ -4,8 +4,8 @@ import { get } from 'lodash';
 import { Fa } from '@ui/types';
 
 export interface BaseSelectProps<T> extends SelectProps<T> {
-  labelKey?: string | ((data: T) => any);
-  valueKey?: string | ((data: T) => any);
+  labelKey?: keyof T | string | ((data: T) => any);
+  valueKey?: keyof T | string | ((data: T) => any);
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
     /** [外部定义]获取所有List节点 */
@@ -40,6 +40,8 @@ export default function BaseSelect<RecordType extends object = any>({
   const [loading, setLoading] = useState(false);
   const [array, setArray] = useState<any>([]);
 
+  const multiple = props.mode === 'multiple' || props.mode === 'tags';
+
   useEffect(() => {
     function fetchList() {
       setLoading(true);
@@ -62,7 +64,12 @@ export default function BaseSelect<RecordType extends object = any>({
 
           if (initFirstAsValue) {
             if (res.data && res.data[0]) {
-              props.onChange?.(parseValue(res.data[0]));
+              if (multiple) {
+                const firstValue = [parseValue(res.data[0])];
+                props.onChange?.(firstValue);
+              } else {
+                props.onChange?.(parseValue(res.data[0]));
+              }
             }
           }
 

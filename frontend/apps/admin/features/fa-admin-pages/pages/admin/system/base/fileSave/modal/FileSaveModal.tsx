@@ -1,15 +1,14 @@
-import React, { useContext, useState } from 'react';
-import { Button, Form } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import { ApiEffectLayoutContext, type CommonModalProps, DragModal, FaUtils, UploadFileLocal } from '@fa/ui';
-import { fileSaveApi as api } from '@features/fa-admin-pages/services';
 import type { Admin } from '@/types';
+import { PlusOutlined } from '@ant-design/icons';
+import { type CommonModalProps, DragModal, FaUtils, UploadFileLocal, useApiLoading } from '@fa/ui';
+import { fileSaveApi as api } from '@features/fa-admin-pages/services';
+import { Button, Form } from 'antd';
+import { useState } from 'react';
 
 /**
  * BASE-用户文件表实体新增、编辑弹框
  */
 export default function FileSaveModal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: CommonModalProps<Admin.FileSave>) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -19,7 +18,7 @@ export default function FileSaveModal({ children, title, record, fetchFinish, ad
     form.setFieldsValue({ url: undefined });
   }
 
-  const loading = loadingEffect[api.getUrl('save')] || loadingEffect[api.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {isNil} from "lodash";
 import {Image} from "antd";
-import { fileSaveApi } from "@ui/services";
+import { default as fileSaveApi } from "@ui/services/base/admin/fileSave";
 
 
 export interface TableImageProps {

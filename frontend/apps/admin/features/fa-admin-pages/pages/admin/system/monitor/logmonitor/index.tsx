@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
-import { Button, Space } from 'antd';
-import { WebSocketLayoutContext } from '@features/fa-admin-pages/layout/websocket';
 import { FaFlexRestLayout } from '@fa/ui';
+import { sendMessage } from '@features/fa-admin-pages/layout/websocket';
+import { Button, Space } from 'antd';
 
 /**
  * log monitor
@@ -9,8 +8,6 @@ import { FaFlexRestLayout } from '@fa/ui';
  * @date 2024/11/27 17:39
  */
 export default function LogMonitor() {
-  const { sendMessage } = useContext(WebSocketLayoutContext);
-
   function handleStart() {
     sendMessage({
       type: 'WebSocketLogMonitor',

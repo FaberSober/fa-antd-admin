@@ -42,5 +42,5 @@ LoginLine.title = '每日登录统计';
 LoginLine.description = '每日登录统计折线图';
 LoginLine.showTitle = true; // 是否展示Card的Title
 LoginLine.permission = ''; // 需要的权限
-LoginLine.w = 12; // 宽度-max=16
+LoginLine.w = 18; // 宽度-max=24
 LoginLine.h = 12; // 高度

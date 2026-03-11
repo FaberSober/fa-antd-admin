@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
-import { get } from 'lodash';
-import { Button, Form, Input } from 'antd';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { ApiEffectLayoutContext, CommonModalProps, DragModal, FaHref, FaUtils } from '@fa/ui';
-import { storeBucketApi } from '@/services';
-import { Disk } from '@/types';
+import { CommonModalProps, DragModal, FaHref, FaUtils, useApiLoading } from '@fa/ui';
+import { storeBucketApi } from '@features/fa-disk-pages/services';
+import { Disk } from '@features/fa-disk-pages/types';
+import { Button, Form, Input } from 'antd';
+import { get } from 'lodash';
+import { useState } from 'react';
 
 /**
  * STORE-库实体新增、编辑弹框
@@ -19,7 +19,6 @@ export default function StoreBucketModal({
   onOpen,
   ...props
 }: CommonModalProps<Disk.StoreBucket>) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -50,7 +49,7 @@ export default function StoreBucketModal({
     if (onOpen) onOpen();
   }
 
-  const loading = loadingEffect[storeBucketApi.getUrl('saveOrUpdate')];
+  const loading = useApiLoading([storeBucketApi.getUrl('saveOrUpdate')]);
   return (
     <span>
       <span onClick={showModal}>

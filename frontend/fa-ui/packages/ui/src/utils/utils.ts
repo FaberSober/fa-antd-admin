@@ -1,7 +1,7 @@
 import {message} from 'antd';
 import {Fa, FaEnums} from '@ui/types';
 import {findIndex, isNil, isUndefined, map, trim} from 'lodash';
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import {filesize} from "filesize";
 import { v4 as uuidv4 } from 'uuid';
 import {dispatch} from 'use-bus'
@@ -52,38 +52,6 @@ export function hasPermission(permissions?: string[], permissionCode?: string | 
   if (isNil(permissionCode) || permissionCode === '') return true;
   if (isNil(permissions) || permissions.length === 0) return false;
   return findIndex(permissions, (e) => e === permissionCode) > -1;
-}
-
-/**
- * get file extension
- * @param name
- */
-export function getExtension(name: string): string {
-  return name?.slice(name.lastIndexOf('.') + 1).toLowerCase() ?? '';
-}
-/**
- * 判断连接是否为图片
- * @param url
- */
-export function isUrlImg(url: string) {
-  if (url === undefined || url === null) return false;
-  if (url.indexOf('.') === -1) return false;
-
-  const suffix = url.substr(url.lastIndexOf('.') + 1).toLowerCase();
-
-  return ['png', 'jpg', 'jpeg', 'ico', 'bmp', 'gif'].indexOf(suffix) > -1;
-}
-
-/**
- * 判断文件类型是否为图片
- * @param type 文件后缀名
- */
-export function isImg(type: string) {
-  return ['png', 'jpg', 'jpeg', 'ico', 'bmp', 'gif'].indexOf(type.toLowerCase()) > -1
-}
-
-export function isVideo(type: string) {
-  return ['mp4', 'webm', 'ogg'].indexOf(type.toLowerCase()) > -1
 }
 
 /**
@@ -182,8 +150,22 @@ export function getCurDate(format = 'YYYY-MM-DD') {
 /**
  * get start of today: YYYY-MM-DD HH:mm:ss
  */
+export function startOf(date: Dayjs):string {
+  return date.startOf('day').format('YYYY-MM-DD HH:mm:ss');
+}
+
+/**
+ * get start of today: YYYY-MM-DD HH:mm:ss
+ */
 export function startOfToday():string {
   return dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss');
+}
+
+/**
+ * get end of today: YYYY-MM-DD HH:mm:ss
+ */
+export function endOf(date: Dayjs):string {
+  return date.endOf('day').format('YYYY-MM-DD HH:mm:ss');
 }
 
 /**
@@ -285,6 +267,22 @@ export function parseRangeDateSuffix(rangeDate: any, index: number, suffix: stri
   }
   return '';
 }
+
+/**
+ * 批量处理表单中的dayjs对象，转换为字符串格式
+ * @param values
+ * @returns
+ */
+export function formatDateValues(values: any) {
+  const newValues = { ...values };
+  Object.keys(newValues).forEach((key) => {
+    // 判断如果是 dayjs 对象则进行格式化
+    if (dayjs.isDayjs(newValues[key])) {
+      newValues[key] = newValues[key].format('YYYY-MM-DD HH:mm:ss');
+    }
+  });
+  return newValues;
+};
 
 /**
  * 将Select选中的options解析为字符串，用于前段展示
@@ -512,6 +510,7 @@ export const FormRules = {
   PATTERN_TEL: {pattern: REGEX_TEL_NO, message: '请输入正确格式的手机号'},
 };
 
+// --------------------------------------- file ---------------------------------------
 /**
  * file的accept属性（文件上传的类型）
  * https://blog.csdn.net/weixin_44599143/article/details/107932099
@@ -537,6 +536,9 @@ export const FA_TYPE_PPT = [".pps", ".ppsx", ".ppsm",
   ".pot", ".potx", ".potm",
   ".odp", ".fodp", ".otp"];
 
+export const FA_TYPE_IMAGE = ['.png', '.jpg', '.jpeg', '.ico', '.bmp', '.gif']
+export const FA_TYPE_VIDEO = ['.mp4', '.webm', '.ogg']
+
 export function getDocumentTypeByExt(ext: string): FaEnums.DocumentType | undefined {
   if (FA_TYPE_WORD.indexOf('.' + ext) > -1) return FaEnums.DocumentType.word;
   if (FA_TYPE_EXCEL.indexOf('.' + ext) > -1) return FaEnums.DocumentType.cell;
@@ -544,7 +546,7 @@ export function getDocumentTypeByExt(ext: string): FaEnums.DocumentType | undefi
 }
 
 export function getDocumentTypeByName(fileName: string): FaEnums.DocumentType | undefined {
-  const ext = fileName.substring(fileName.lastIndexOf('.') + 1)
+  const ext = fileName.substring(fileName.lastIndexOf('.') + 1).toLocaleLowerCase();
   if (FA_TYPE_WORD.indexOf('.' + ext) > -1) return FaEnums.DocumentType.word;
   if (FA_TYPE_EXCEL.indexOf('.' + ext) > -1) return FaEnums.DocumentType.cell;
   if (FA_TYPE_PPT.indexOf('.' + ext) > -1) return FaEnums.DocumentType.slide;
@@ -554,6 +556,60 @@ export function isPdf(fileName: string): boolean {
   return fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase() === 'pdf';
 }
 
+/**
+ * judeg file is image
+ * @param fileName file name
+ * @returns
+ */
+export function isImageByFileName(fileName: string): boolean {
+  const ext = fileName.substring(fileName.lastIndexOf('.') + 1).toLocaleLowerCase();
+  return FA_TYPE_IMAGE.indexOf('.' + ext) > -1
+}
+
+/**
+ * judeg file is image
+ * @param fileName file name
+ * @returns
+ */
+export function isVideoByFileName(fileName: string): boolean {
+  const ext = fileName.substring(fileName.lastIndexOf('.') + 1).toLocaleLowerCase();
+  return FA_TYPE_VIDEO.indexOf('.' + ext) > -1
+}
+
+
+/**
+ * get file extension
+ * @param name
+ */
+export function getExtension(name: string): string {
+  return name?.slice(name.lastIndexOf('.') + 1).toLowerCase() ?? '';
+}
+/**
+ * 判断连接是否为图片
+ * @param url
+ */
+export function isUrlImg(url: string) {
+  if (url === undefined || url === null) return false;
+  if (url.indexOf('.') === -1) return false;
+
+  const suffix = url.substr(url.lastIndexOf('.') + 1).toLowerCase();
+
+  return ['png', 'jpg', 'jpeg', 'ico', 'bmp', 'gif'].indexOf(suffix) > -1;
+}
+
+/**
+ * 判断文件类型是否为图片
+ * @param type 文件后缀名
+ */
+export function isImg(type: string) {
+  return ['png', 'jpg', 'jpeg', 'ico', 'bmp', 'gif'].indexOf(type.toLowerCase()) > -1
+}
+
+export function isVideo(type: string) {
+  return ['mp4', 'webm', 'ogg'].indexOf(type.toLowerCase()) > -1
+}
+
+// --------------------------------------- echarts ---------------------------------------
 /**
  * echarts toolbox 配置
  */
@@ -703,6 +759,12 @@ export const formNumberRule:any = {
   transform: (value:any) => Number(value),
 }
 
+/**
+ * 阻止事件冒泡：
+ * e.preventDefault();
+ * e.stopPropagation();
+ * @param e 
+ */
 export function preventEvent(e: any) {
   if (e) {
     e.preventDefault();
@@ -754,4 +816,83 @@ export async function checkImageUrlValid(url: string) {
     return false;  // 网络错误或跨域失败
   }
 }
+
+// ------------------------------------------ object ------------------------------------------
+
+/**
+ * 检查对象是否包含某个属性
+ * // 示例：
+ * const cv = { termAuto: 123 };
+ *
+ * console.log(hasProp(cv, "termAuto"));        // true
+ * console.log(hasProp(cv, "toString"));        // false (因为 ownOnly 默认 true)
+ * console.log(hasProp(cv, "toString", false)); // true (原型链上的属性)
+ *
+ * @param {Object} obj - 要检查的对象
+ * @param {string} key - 属性名
+ * @param {boolean} ownOnly - 是否仅检查自身属性（默认 true）
+ * @returns {boolean}
+ */
+export function hasProp<T extends object>(
+  obj: T | null | undefined,
+  key: PropertyKey,
+  ownOnly = true
+): boolean {
+  if (obj == null) return false;
+
+  return ownOnly
+    ? Object.prototype.hasOwnProperty.call(obj, key)
+    : key in obj;
+}
+
+/**
+ * 检查对象是否包含多个属性中的任意一个
+ * // 示例：
+ * const cv = { termAuto: 123, foo: "bar" };
+ *
+ * console.log(hasAnyProp(cv, ["termAuto", "xxx"]));        // true
+ * console.log(hasAnyProp(cv, ["toString", "xxx"]));        // false (ownOnly 默认 true)
+ * console.log(hasAnyProp(cv, ["toString", "xxx"], false)); // true (原型链上有 toString)
+ *
+ * @param {Object} obj - 要检查的对象
+ * @param {string[]} keys - 属性名数组
+ * @param {boolean} ownOnly - 是否仅检查自身属性（默认 true）
+ * @returns {boolean}
+ */
+export function hasAnyProp<T extends object>(
+  obj: T | null | undefined,
+  keys: PropertyKey[],
+  ownOnly = true
+): boolean {
+  if (obj == null || keys.length === 0) return false;
+
+  return keys.some(key => hasProp(obj, key, ownOnly));
+}
+
+// ------------------------------------------ cookie ------------------------------------------
+/**
+ * get cookie value
+ * @param name name
+ * @returns
+ */
+export function getCookie(name: string) {
+  const cookies = document.cookie.split("; ");
+  for (let i = 0; i < cookies.length; i++) {
+    const [key, value] = cookies[i].split("=");
+    if (key === name) {
+      return decodeURIComponent(value); // 防止有 URL 编码
+    }
+  }
+  return null;
+}
+
+// ------------------------------------------ env ------------------------------------------
+/**
+ * check if current env is development
+ * @returns
+ */
+// export function isDev() {
+//   // @ts-ignore
+//   return process.env.NODE_ENV === 'development' || import.meta.env.DEV;
+// }
 

@@ -69,5 +69,5 @@ ApiCount.title = 'API统计';
 ApiCount.description = 'API访问数量统计';
 ApiCount.showTitle = true; // 是否展示Card的Title
 ApiCount.permission = ''; // 需要的权限
-ApiCount.w = 4; // 宽度-max=16
+ApiCount.w = 6; // 宽度-max=24
 ApiCount.h = 12; // 高度

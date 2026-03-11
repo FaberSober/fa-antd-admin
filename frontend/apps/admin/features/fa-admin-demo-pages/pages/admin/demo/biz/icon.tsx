@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { FaIcon } from '@fa/icons';
 import { Card, Space } from 'antd';
 import { IconSelect } from "@/components";
+import { Icon } from '@iconify/react';
 
 /**
  * @author xu.pengfei
@@ -11,28 +11,30 @@ export default function IconIndex() {
   const [value, setValue] = useState<string>();
 
   return (
-    <div className="fa-full-content fa-bg-white fa-p12" style={{ fontSize: '30px' }}>
-      <Card title="使用<FaIcon />" className="fa-mb12">
+    <div className="fa-full-content-p12" style={{ fontSize: '30px' }}>
+      <Card title="使用@iconify/react" className="fa-mb12">
         <p>可以自定义大小：</p>
         <Space>
-          <FaIcon icon="fa-solid fa-rocket" />
-          <FaIcon icon="fa-solid fa-rocket" size="xl" />
-          <FaIcon icon="fa-solid fa-rocket" size="2xl" />
+          <Icon icon="mdi:rocket-launch" fontSize="10px" />
+          <Icon icon="mdi:rocket-launch" fontSize="20px" />
+          <Icon icon="mdi:rocket-launch" fontSize="30px" />
         </Space>
         <p>可以自定义修改颜色：</p>
         <Space>
-          <FaIcon icon="fa-solid fa-rocket" size="2xl" style={{ color: '#f50' }} />
-          <FaIcon icon="fa-solid fa-rocket" size="2xl" style={{ color: 'rgb(45, 183, 245)' }} />
-          <FaIcon icon="fa-solid fa-rocket" size="2xl" style={{ color: 'hsl(102, 53%, 61%)' }} />
-          <FaIcon icon="fa-solid fa-rocket" size="2xl" style={{ color: 'hwb(205 6% 9%)' }} />
+          <Icon icon="mdi:rocket-launch" fontSize="30px" style={{ color: '#f50' }} />
+          <Icon icon="mdi:rocket-launch" fontSize="30px" style={{ color: 'rgb(45, 183, 245)' }} />
+          <Icon icon="mdi:rocket-launch" fontSize="30px" style={{ color: 'hsl(102, 53%, 61%)' }} />
+          <Icon icon="mdi:rocket-launch" fontSize="30px" style={{ color: 'hwb(205 6% 9%)' }} />
         </Space>
       </Card>
 
       <Card title="选择图标" className="fa-mb12">
-        <IconSelect value={value} onChange={setValue} />
+        <div style={{ width: 300}}>
+          <IconSelect value={value} onChange={setValue} />
+        </div>
 
         <p>
-          图标代码：<code>&lt;FaIcon icon="fa-solid fa-{value}" /&gt;</code>
+          图标代码：<code>&lt;FaIconPro icon="{value}" /&gt;</code>
         </p>
       </Card>
 

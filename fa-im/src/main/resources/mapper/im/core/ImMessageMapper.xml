@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faber.api.im.core.mapper.ImMessageMapper">
+
+    <!-- 查询任务列表 -->
+    <select id="pageQuery" resultType="com.faber.api.im.core.entity.ImMessage">
+        SELECT t.*, u.img as sender_user_img
+        FROM im_message t
+        LEFT JOIN base_user u ON t.sender_id = u.id
+        WHERE t.deleted = false
+        <if test="query.conversationId != null">
+            and t.conversation_id = #{query.conversationId}
+        </if>
+        <if test="query.maxMsgId != null">
+            and t.id &lt; #{query.maxMsgId}
+        </if>
+        ORDER BY id DESC
+    </select>
+
+</mapper>

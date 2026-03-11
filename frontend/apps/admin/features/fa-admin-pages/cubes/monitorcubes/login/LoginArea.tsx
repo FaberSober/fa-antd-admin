@@ -37,5 +37,5 @@ LoginArea.title = '登录地区统计';
 LoginArea.description = '登录地区统计柱饼图';
 LoginArea.showTitle = true; // 是否展示Card的Title
 LoginArea.permission = ''; // 需要的权限
-LoginArea.w = 4; // 宽度-max=16
+LoginArea.w = 6; // 宽度-max=24
 LoginArea.h = 12; // 高度

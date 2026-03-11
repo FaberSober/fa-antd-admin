@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { get } from 'lodash';
 import { Button, Form, Input } from 'antd';
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { DragModal, FaHref, ApiEffectLayoutContext, FaUtils, CommonModalProps } from '@fa/ui';
+import { useApiLoading, DragModal, FaHref, FaUtils, CommonModalProps } from '@fa/ui';
 import { ${secondModuleName}Api as api } from '@/services';
 import { ${moduleNameUpperCaseFirstOne} } from '@/types';
 
@@ -11,7 +11,7 @@ import { ${moduleNameUpperCaseFirstOne} } from '@/types';
  * ${comments}实体新增、编辑弹框
  */
 export default function ${className}Modal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: CommonModalProps<${moduleNameUpperCaseFirstOne}.${className}>) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -64,7 +64,6 @@ export default function ${className}Modal({ children, title, record, fetchFinish
     form.setFieldsValue(getInitialValues())
   }
 
-  const loading = loadingEffect[api.getUrl('save')] || loadingEffect[api.getUrl('update')];
   return (
     <span>
       <span onClick={showModal}>
@@ -78,10 +77,10 @@ export default function ${className}Modal({ children, title, record, fetchFinish
         onOk={() => form.submit()}
         confirmLoading={loading}
         onCancel={() => setOpen(false)}
-        width={700}
+        width={800}
         {...props}
       >
-        <Form form={form} onFinish={onFinish} {...FaUtils.formItemFullLayout}>
+        <Form form={form} onFinish={onFinish} className='fa-grid2 fa-mt12' {...FaUtils.formItemHalfLayout}>
 #foreach($column in $columns)
 #if($column.columnName == $pk.columnName)
 #elseif ($column.attrname != 'crtTime' and $column.attrname != 'crtUser' and $column.attrname != 'crtName' and $column.attrname != 'crtHost' and $column.attrname != 'updTime' and $column.attrname != 'updUser' and $column.attrname != 'updName' and $column.attrname != 'updHost' and $column.attrname != 'deleted')

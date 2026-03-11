@@ -1,0 +1,285 @@
+import React, { useState } from 'react';
+import { Flw, FlwEnums } from "@features/fa-flow-pages/types";
+import { Button, Popover } from 'antd';
+import { CheckCircleOutlined, ClockCircleOutlined, CloseCircleOutlined, PlusOutlined, StopOutlined } from "@ant-design/icons";
+import { FaIcon, FaIconBranch, FaIconInclusive, FaIconRoute, FaIconSend, FaIconSlider, FaIconSubFlow, FaIconTrigger } from "@fa/icons";
+import { getNodeKey } from "@features/fa-flow-pages/components/flow/utils";
+import { useWorkFlowStore } from "@features/fa-flow-pages/components/flow/stores/useWorkFlowStore";
+
+const NodeType = FlwEnums.NodeType
+const NodeSetType = FlwEnums.NodeSetType
+
+
+export interface AddNodeProps {
+  /** 流程配置节点Node JSON */
+  parentNode: Flw.ParentNode;
+}
+
+/**
+ * @author xu.pengfei
+ * @date 2025/8/19 21:03
+ */
+export default function AddNode({parentNode}: AddNodeProps) {
+  const updateNode = useWorkFlowStore(state => state.updateNode);
+  const [open, setOpen] = useState(false);
+
+  function addType(type: FlwEnums.NodeType) {
+    let node: Flw.Node;
+    switch (type) {
+      case NodeType.approval: {
+        node = {
+          nodeName: "审核",
+          nodeKey: getNodeKey(),
+          type: NodeType.approval,			//节点类型
+          setType: NodeSetType.specifyMembers,			//审核人类型 1，选择成员 3，选择角色
+          nodeAssigneeList: [],	//审核人员，根据 setType 确定成员还是角色
+          examineLevel: 1,	//指定主管层级
+          directorLevel: 1,	//自定义连续主管审批层级
+          selectMode: 1,		//发起人自选类型
+          termAuto: false,	//审批期限超时自动审批
+          term: 0,			//审批期限
+          termMode: 1,		//审批期限超时后执行类型
+          examineMode: 1,		//多人审批时审批方式
+          directorMode: 0,	//连续主管审批方式
+          childNode: parentNode.childNode,
+          extendConfig: {
+            btnSubmitValid: true,
+          },
+        };
+      } break
+      case NodeType.cc: {
+        node = {
+          nodeName: "抄送人",
+          nodeKey: getNodeKey(),
+          type: NodeType.cc,
+          userSelectFlag: true,
+          nodeAssigneeList: [],
+          childNode: parentNode.childNode,
+          extendConfig: {},
+        };
+      } break
+      case NodeType.conditionBranch: {
+        node = {
+          nodeName: "条件路由",
+          nodeKey: getNodeKey(),
+          type: NodeType.conditionBranch,
+          conditionNodes: [
+            {
+              nodeName: "条件1",
+              nodeKey: getNodeKey(),
+              type: NodeType.conditionNode,
+              priorityLevel: 1,
+              conditionMode: 1,
+              conditionList: [],
+            },
+            {
+              nodeName: "条件2",
+              nodeKey: getNodeKey(),
+              type: NodeType.conditionNode,
+              priorityLevel: 2,
+              conditionMode: 2,
+              conditionList: [],
+            }
+          ],
+          childNode: parentNode.childNode,
+          extendConfig: {},
+        }
+      } break
+      case NodeType.parallelBranch: {
+        node = {
+          nodeName: "并行分支",
+          nodeKey: getNodeKey(),
+          type: NodeType.parallelBranch,
+          parallelNodes: [
+            {
+              nodeName: "分支1",
+              nodeKey: getNodeKey(),
+              type: NodeType.conditionNode,
+              priorityLevel: 1,
+              conditionMode: 1,
+            },
+            {
+              nodeName: "分支2",
+              nodeKey: getNodeKey(),
+              type: NodeType.conditionNode,
+              priorityLevel: 2,
+              conditionMode: 1,
+            }
+          ],
+          childNode: parentNode.childNode,
+          extendConfig: {},
+        }
+      } break
+      case NodeType.inclusiveBranch: {
+        node = {
+          nodeName: "包容分支",
+          nodeKey: getNodeKey(),
+          type: NodeType.inclusiveBranch,
+          inclusiveNodes: [
+            {
+              nodeName: "包容条件1",
+              nodeKey: getNodeKey(),
+              type: NodeType.conditionNode,
+              priorityLevel: 1,
+              conditionMode: 1,
+              conditionList: [],
+            },
+            {
+              nodeName: "包容条件2",
+              nodeKey: getNodeKey(),
+              type: NodeType.conditionNode,
+              priorityLevel: 2,
+              conditionMode: 2,
+              conditionList: [],
+            }
+          ],
+          childNode: parentNode.childNode,
+          extendConfig: {},
+        }
+      } break
+      case NodeType.routeBranch: {
+        node = {
+          nodeName: "路由分支",
+          nodeKey: getNodeKey(),
+          type: NodeType.routeBranch,
+          routeNodes: [],
+          childNode: parentNode.childNode,
+          extendConfig: {},
+        }
+      } break
+      case NodeType.timer: {
+        node = {
+          nodeName: "延迟等待",
+          nodeKey: getNodeKey(),
+          type: NodeType.timer,
+          delayType: FlwEnums.NodeDelayType.FIXED, // 延时处理类型 1，固定时长 2，自动计算
+          childNode: parentNode.childNode,
+          extendConfig: {
+            time: "1:m",
+          },
+        }
+      } break
+      case NodeType.trigger: {
+        node = {
+          nodeName: "触发器",
+          nodeKey: getNodeKey(),
+          type: NodeType.trigger,
+          triggerType: FlwEnums.NodeTriggerType.IMMEDIATE, // 触发器类型 1，立即执行 2，延迟执行
+          delayType: FlwEnums.NodeDelayType.FIXED, // 延时处理类型 1，固定时长 2，自动计算
+          childNode: parentNode.childNode,
+          extendConfig: {
+            // time: "1:m",
+            // args: "{}",
+            trigger: "", // 实现TaskTrigger的class类路径，如：test.mysql.TaskTriggerImpl
+          },
+        }
+      } break
+      case NodeType.callProcess: {
+        node = {
+          nodeName: "子流程",
+          nodeKey: getNodeKey(),
+          type: NodeType.callProcess,
+          callAsync: true,
+          childNode: parentNode.childNode,
+          extendConfig: {},
+        }
+      } break
+      case NodeType.autoPass: {
+        node = {
+          nodeName: "自动通过",
+          nodeKey: getNodeKey(),
+          type: NodeType.autoPass,
+          childNode: parentNode.childNode,
+          extendConfig: {},
+        }
+      } break
+      case NodeType.autoReject: {
+        node = {
+          nodeName: "自动拒绝",
+          nodeKey: getNodeKey(),
+          type: NodeType.autoReject,
+          childNode: parentNode.childNode,
+          extendConfig: {},
+        }
+      } break
+      case NodeType.end: {
+        node = {
+          nodeName: "结束",
+          nodeKey: getNodeKey(),
+          type: NodeType.end,
+          extendConfig: {},
+        }
+      } break
+    }
+    updateNode({ ...parentNode, childNode: node! });
+    setOpen(false);
+  }
+
+  return (
+    <div className="add-node-btn-box">
+      <div className="add-node-btn">
+        <Popover
+          content={(
+            <div className="add-node-popover-body fa-grid4">
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.approval)}>
+                <Button shape="circle" icon={<FaIcon icon="fa-solid fa-stamp" style={{color: '#ff943e'}} />} />
+                <div>审批节点</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.cc)}>
+                <Button shape="circle" icon={<FaIconSend style={{color: '#3296fa'}} />} />
+                <div>抄送节点</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.conditionBranch)}>
+                <Button shape="circle" icon={<FaIconBranch style={{color: '#15BC83'}} />} />
+                <div>条件分支</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.parallelBranch)}>
+                <Button shape="circle" icon={<FaIconSlider style={{color: '#626aef'}} />} />
+                <div>并行分支</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.inclusiveBranch)}>
+                <Button shape="circle" icon={<FaIconInclusive style={{color: '#345da2'}} />} />
+                <div>包容分支</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.routeBranch)}>
+                <Button shape="circle" icon={<FaIconRoute style={{color: '#f95166'}} />} />
+                <div>路由分支</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.timer)}>
+                <Button shape="circle" icon={<ClockCircleOutlined style={{color: '#ec1b08'}} />} />
+                <div>延迟等待</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.trigger)}>
+                <Button shape="circle" icon={<FaIconTrigger style={{color: '#2bb58b'}} />} />
+                <div>触发器</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.callProcess)}>
+                <Button shape="circle" icon={<FaIconSubFlow style={{color: '#9260FA'}} />} />
+                <div>子流程</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.autoPass)}>
+                <Button shape="circle" icon={<CheckCircleOutlined style={{color: '#78C06E'}} />} />
+                <div>自动通过</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.autoReject)}>
+                <Button shape="circle" icon={<CloseCircleOutlined style={{color: '#e02020'}} />} />
+                <div>自动拒绝</div>
+              </div>
+              <div className="fa-flex-column-center fa-hover fa-p6" onClick={() => addType(FlwEnums.NodeType.end)}>
+                <Button shape="circle" icon={<StopOutlined style={{color: '#e02020'}} />} />
+                <div>结束</div>
+              </div>
+            </div>
+          )}
+          title="添加节点"
+          trigger="click"
+          placement="rightTop"
+          open={open}
+          onOpenChange={setOpen}
+        >
+          <Button shape="circle" icon={<PlusOutlined />} />
+        </Popover>
+      </div>
+    </div>
+  )
+}

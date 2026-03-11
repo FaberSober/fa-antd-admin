@@ -8,7 +8,6 @@ import {
   BaseTableUtils,
   clearForm,
   type FaberTable,
-  FaHref,
   FaUtils,
   useDelete,
   useExport,
@@ -59,7 +58,7 @@ export default function JobList() {
       {
         ...BaseTableUtils.genSimpleSorterColumn('任务名称', 'jobName', 240, sorter),
         render: (val, record) => (
-          <BaseDrawer triggerDom={<a>{val}</a>}>
+          <BaseDrawer triggerDom={<a>{val}</a>} size={1000}>
             <JobLogList jobId={record.id} />
           </BaseDrawer>
         ),
@@ -78,15 +77,14 @@ export default function JobList() {
         dataIndex: 'opr',
         render: (_: string, record: Admin.Job) => (
           <Space>
-            <Popconfirm title="确定立即执行一次该任务" onConfirm={() => handleRunOneTime(record.id)} getPopupContainer={() => document.body}>
-              <FaHref icon={<ThunderboltOutlined />} text="执行" />
+            <Popconfirm title="确定立即执行一次该任务" onConfirm={() => handleRunOneTime(record.id)}>
+              <a><ThunderboltOutlined />执行</a>
             </Popconfirm>
             <Popconfirm
               title={!record.status ? '确定启动任务?' : '确定停止任务?'}
               onConfirm={() => handleJobStatus(record)}
-              getPopupContainer={() => document.body}
             >
-              {!record.status ? <FaHref icon={<PlayCircleOutlined />} text="启动" /> : <FaHref icon={<PauseCircleOutlined />} text="停止" />}
+              {!record.status ? <a><PlayCircleOutlined />启动</a> : <a><PauseCircleOutlined />停止</a>}
             </Popconfirm>
             {!record.status && <JobModal editBtn title={`编辑${serviceName}信息`} record={record} fetchFinish={fetchPageList} />}
             <AuthDelBtn handleDelete={() => handleDelete(record.id)} />
@@ -101,7 +99,7 @@ export default function JobList() {
   }
 
   return (
-    <div className="fa-full-content fa-flex-column fa-bg-white">
+    <div className="fa-full-content-p12 fa-flex-column fa-content">
       <div className="fa-flex-row-center fa-p8">
         <div className="fa-h3">{serviceName}</div>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>

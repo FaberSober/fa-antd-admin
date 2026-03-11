@@ -7,8 +7,7 @@ import { HelmetProvider } from 'react-helmet-async';
 // import { AliveScope } from 'react-activation'
 import 'virtual:uno.css';
 
-import '@fa/ui/index.css';
-import '@fa/ui/styles.css';
+// import '@fa/ui/index.css';
 import '@fa/theme/theme.scss';
 import './globals.scss';
 

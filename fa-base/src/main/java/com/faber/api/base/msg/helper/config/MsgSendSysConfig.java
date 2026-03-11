@@ -1,6 +1,8 @@
 package com.faber.api.base.msg.helper.config;
 
 import com.faber.api.base.msg.enums.MsgBuzzTypeEnum;
+import com.faber.api.base.msg.enums.MsgTypeEnum;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
@@ -17,7 +19,7 @@ public class MsgSendSysConfig extends MsgSendConfig {
 
     @Builder
     public MsgSendSysConfig(boolean sendAppPush, boolean sendSms, String buzzId, String content) {
-        super(true, false, MsgBuzzTypeEnum.SYS.getValue() + "", buzzId);
+        super(true, false, MsgBuzzTypeEnum.SYS.getValue() + "", buzzId, MsgTypeEnum.SYSTEM);
         this.content = content;
     }
 }

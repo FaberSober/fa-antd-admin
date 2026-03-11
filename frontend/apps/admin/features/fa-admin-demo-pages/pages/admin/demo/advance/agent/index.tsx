@@ -9,7 +9,7 @@ import {isMobile} from "react-device-detect";
  */
 export default function DemoAdvanceAgent() {
   return (
-    <div className="fa-full-content fa-bg-white fa-p12 fa-flex-column">
+    <div className="fa-content fa-p12 fa-flex-column">
       <Card title="判断浏览器类型" className="fa-mb12">
         {isMobile ? '手机' : 'Web'}
       </Card>

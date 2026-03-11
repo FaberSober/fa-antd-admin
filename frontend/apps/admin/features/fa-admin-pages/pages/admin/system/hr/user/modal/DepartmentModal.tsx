@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { get } from 'lodash';
-import { Form, Input } from 'antd';
-import { ApiEffectLayoutContext, type CommonModalProps, DragModal, FaUtils, UserSearchSelect } from '@fa/ui';
 import type { Admin } from '@/types';
-import { departmentApi } from '@features/fa-admin-pages/services';
+import { type CommonModalProps, DragModal, FaUtils, useApiLoading, UserSearchSelect } from '@fa/ui';
 import DepartmentCascade from '@features/fa-admin-pages/components/helper/DepartmentCascade';
+import { departmentApi as api } from '@features/fa-admin-pages/services';
+import { Form, Input } from 'antd';
+import { get } from 'lodash';
+import { useEffect, useState } from 'react';
 
-const serviceName = '';
+const serviceName = '部门';
 
 interface DepartmentModalProps extends CommonModalProps<Admin.Department> {
   parentId?: number;
@@ -16,14 +16,13 @@ interface DepartmentModalProps extends CommonModalProps<Admin.Department> {
  * 部门实体新增、编辑弹框
  */
 export default function DepartmentModal({ children, parentId, title, record, fetchFinish, ...props }: DepartmentModalProps) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    departmentApi.save(params).then((res) => {
+    api.save(params).then((res) => {
       FaUtils.showResponse(res, `新增${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -32,7 +31,7 @@ export default function DepartmentModal({ children, parentId, title, record, fet
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
-    departmentApi.update(params.id, params).then((res) => {
+    api.update(params.id, params).then((res) => {
       FaUtils.showResponse(res, `更新${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -70,7 +69,7 @@ export default function DepartmentModal({ children, parentId, title, record, fet
     form.setFieldsValue(getInitialValues());
   }, [props.open]);
 
-  const loading = loadingEffect[departmentApi.getUrl('save')] || loadingEffect[departmentApi.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>{children}</span>

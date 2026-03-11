@@ -10,7 +10,7 @@ export type datepickerProps = {}
  */
 export default function datepicker({}: datepickerProps) {
   return (
-    <div className="fa-full-content fa-p12">
+    <div className="fa-full-content-p12">
       <Card title="日期选择组件" className="fa-mb12">
         <DatePicker />
       </Card>

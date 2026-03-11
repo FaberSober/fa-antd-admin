@@ -28,10 +28,11 @@ const ThemeConfig = {
     'fa-bg-color1': '#e1e1e1',
     'fa-bg-color2': '#eee',
     'fa-bg-selected': '#e3e3e3',
-    'fa-bg-color-hover': '#F0F0F0',
+    'fa-bg-color-hover': '#e1e1e1',
     'fa-bg-color-highlight': '#3c4c68',
     'fa-bg-grey': '#f7f7f7',
     'fa-bg-grey2': '#e7e7e7',
+    'fa-bg-grey3': '#ebeef5',
     'fa-bg-menu': '#F2F7FF',
     'fa-hover-bg': '#e1e1e1',
     'fa-text-color': '#353535',
@@ -40,7 +41,8 @@ const ThemeConfig = {
     'fa-text-color-light100': '#999',
     'fa-text-color-disable': 'rgba(0, 0, 0, 0.25)',
     'fa-subtitle-color': '#666',
-    'fa-border-color': '#F0F0F0',
+    'fa-border-color': '#f0f0f0',
+    'fa-box-shadow': '0 1px 2px -2px rgba(0, 0, 0, .08), 0 3px 6px 0 rgba(0, 0, 0, .06), 0 5px 12px 4px rgba(0, 0, 0, .04)',
     'separator-border': '#eee',
   },
   dark: {
@@ -50,8 +52,9 @@ const ThemeConfig = {
     'fa-bg-selected': '#3c4c68',
     'fa-bg-color-hover': '#262b33',
     'fa-bg-color-highlight': '#1c5e88',
-    'fa-bg-grey': '#53626c',
+    'fa-bg-grey': '#2a2d2f',
     'fa-bg-grey2': '#1F1F1F',
+    'fa-bg-grey3': '#333',
     'fa-bg-menu': '#3c4c68',
     'fa-hover-bg': '#1c5e88',
     'fa-text-color': '#FFF',
@@ -61,6 +64,7 @@ const ThemeConfig = {
     'fa-text-color-disable': 'rgba(255, 255, 255, 0.25)',
     'fa-subtitle-color': '#A5C9E6',
     'fa-border-color': '#2f3a4b',
+    'fa-box-shadow': '0 1px 2px -2px rgba(255, 255, 255, 0.2), 0 3px 6px 0 rgba(255, 255, 255, 0.3), 0 5px 12px 4px rgba(255, 255, 255, 0.2)',
     'separator-border': '#0A3046',
   },
 }
@@ -90,21 +94,29 @@ export default function ThemeLayout({ children, colorPrimary, initThemeDark }: T
       rootDom.setProperty('--primary-color-dark200', colorPrimary.brighten(1.0).hex());
       rootDom.setProperty('--primary-color-dark300', colorPrimary.brighten(1.5).hex());
       rootDom.setProperty('--primary-color-dark400', colorPrimary.brighten(2.0).hex());
+      rootDom.setProperty('--primary-color-dark500', colorPrimary.brighten(2.5).hex());
+      rootDom.setProperty('--primary-color-dark600', colorPrimary.brighten(3).hex());
 
       rootDom.setProperty('--primary-color-light100', colorPrimary.darken(0.5).hex());
       rootDom.setProperty('--primary-color-light200', colorPrimary.darken(1.0).hex());
       rootDom.setProperty('--primary-color-light300', colorPrimary.darken(1.5).hex());
       rootDom.setProperty('--primary-color-light400', colorPrimary.darken(2.0).hex());
+      rootDom.setProperty('--primary-color-light500', colorPrimary.darken(2.5).hex());
+      rootDom.setProperty('--primary-color-light600', colorPrimary.darken(3).hex());
     } else {
       rootDom.setProperty('--primary-color-dark100', colorPrimary.darken(0.5).hex());
       rootDom.setProperty('--primary-color-dark200', colorPrimary.darken(1.0).hex());
       rootDom.setProperty('--primary-color-dark300', colorPrimary.darken(1.5).hex());
       rootDom.setProperty('--primary-color-dark400', colorPrimary.darken(2.0).hex());
+      rootDom.setProperty('--primary-color-dark500', colorPrimary.darken(2.5).hex());
+      rootDom.setProperty('--primary-color-dark600', colorPrimary.darken(3).hex());
 
       rootDom.setProperty('--primary-color-light100', colorPrimary.brighten(0.5).hex());
       rootDom.setProperty('--primary-color-light200', colorPrimary.brighten(1.0).hex());
       rootDom.setProperty('--primary-color-light300', colorPrimary.brighten(1.5).hex());
       rootDom.setProperty('--primary-color-light400', colorPrimary.brighten(2.0).hex());
+      rootDom.setProperty('--primary-color-light500', colorPrimary.brighten(2.5).hex());
+      rootDom.setProperty('--primary-color-light600', colorPrimary.brighten(3).hex());
     }
 
     changeTheme(themeDark);

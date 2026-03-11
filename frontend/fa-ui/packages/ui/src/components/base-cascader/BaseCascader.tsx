@@ -6,7 +6,7 @@ import { Cascader } from 'antd';
 import * as BaseTreeUtils from '@ui/components/base-tree/utils';
 import { filterNode, setTreeDisabled } from '@ui/components/base-tree/utils';
 
-export interface BaseCascaderProps<T extends BaseOptionType, KeyType = number> extends Omit<CascaderProps<Fa.TreeNode<T>>, 'options' | 'onChange'> {
+export interface BaseCascaderProps<T extends Record<any, any>, KeyType = number> extends Omit<CascaderProps<Fa.TreeNode<T>>, 'options' | 'onChange'> {
   showRoot?: boolean;
   /** [外部定义]Tree节点标准API接口 */
   serviceApi: {
@@ -17,12 +17,17 @@ export interface BaseCascaderProps<T extends BaseOptionType, KeyType = number> e
   };
   value?: any;
   onChange?: (
-    v: KeyType | undefined,
-    lastItem: Fa.TreeNode<T, KeyType> | undefined,
-    vList: KeyType[],
+    v: KeyType | KeyType[] | undefined,
+    lastItem: Fa.TreeNode<T, KeyType> | Fa.TreeNode<T, KeyType>[] | undefined,
+    vList: KeyType[][],
     itemList: T[],
   ) => void;
-  onChangeWithItem?: (key: KeyType | undefined, data: T | undefined, vList: KeyType[], itemList: Fa.TreeNode<T, KeyType>[],) => void;
+  onChangeWithItem?: (
+    key: KeyType | KeyType[] | undefined,
+    data: T | T[] | undefined,
+    vList: KeyType[][],
+    itemList: Fa.TreeNode<T, KeyType>[][]
+  ) => void;
   rootId?: KeyType;
   rootName?: string;
   extraParams?: any[]; // 补充副作用参数，变更会触发cascader重新拉取api tree数据
@@ -52,6 +57,8 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
 }: BaseCascaderProps<RecordType, KeyType>) {
   const [innerValue, setInnerValue] = useState<any[]>([]);
   const [options, setOptions] = useState<Fa.TreeNode<RecordType, KeyType>[] | undefined>([]);
+
+  const multiple = props.multiple || false;
 
   useEffect(() => {
     setValuePath(value);
@@ -91,23 +98,73 @@ export default function BaseCascader<RecordType extends object = any, KeyType = 
       handleChange([], [])
       return;
     }
-    const path = BaseTreeUtils.findPath(options, value, 'id');
-    const values = path.map((d: any) => d.id);
-    setInnerValue(values);
+
+    if (multiple) {
+      // 多选模式，处理多个值路径
+      if (!Array.isArray(v)) v = [v];
+      const valuesPaths = v.map((val:any) => {
+        const path = BaseTreeUtils.findPath(options, val, 'id');
+        return path.map((d: any) => d.id);
+      });
+      setInnerValue(valuesPaths);
+    } else {
+      // 单选模式，保持原有逻辑
+      const path = BaseTreeUtils.findPath(options, value, 'id');
+      const values = path.map((d: any) => d.id);
+      setInnerValue(values);
+    }
   }
 
-  function handleChange(newValue: KeyType[], selectedOptions: Fa.TreeNode<RecordType, KeyType>[]) {
+  function handleChange(newValue: KeyType[] | KeyType[][], selectedOptions: Fa.TreeNode<RecordType, KeyType>[] | Fa.TreeNode<RecordType, KeyType>[][]) {
     setInnerValue(newValue);
-    const lastValue = newValue && newValue.length > 0 ? newValue[newValue.length - 1] : undefined;
-    const lastItem = selectedOptions && selectedOptions.length > 0? selectedOptions[selectedOptions.length - 1] as Fa.TreeNode<RecordType, KeyType> : undefined;
-    if (onChange)
-      onChange(
-        lastValue,
-        lastItem,
-        newValue,
-        selectedOptions?.map((i) => i.sourceData),
+
+    if (multiple) {
+      // 多选模式
+      const values = (newValue as KeyType[][]).map(path => path[path.length - 1]);
+      const items = (selectedOptions as Fa.TreeNode<RecordType, KeyType>[][]).map(
+        path => path[path.length - 1]
       );
-    if (onChangeWithItem) onChangeWithItem(lastValue, lastItem?.sourceData, newValue, selectedOptions?.map((i) => i),);
+
+      if (onChange) {
+        onChange(
+          values,
+          items,
+          newValue as KeyType[][],
+          items.map(i => i.sourceData),
+        );
+      }
+      if (onChangeWithItem) {
+        onChangeWithItem(
+          values,
+          items.map(i => i.sourceData),
+          newValue as KeyType[][],
+          selectedOptions as Fa.TreeNode<RecordType, KeyType>[][],
+        );
+      }
+    } else {
+      // 单选模式
+      const lastValue = newValue && (newValue as KeyType[]).length > 0 ? (newValue as KeyType[])[newValue.length - 1] : undefined;
+      const lastItem = selectedOptions && (selectedOptions as Fa.TreeNode<RecordType, KeyType>[]).length > 0
+        ? (selectedOptions as Fa.TreeNode<RecordType, KeyType>[])[selectedOptions.length - 1]
+        : undefined;
+
+      if (onChange) {
+        onChange(
+          lastValue,
+          lastItem,
+          [newValue as KeyType[]],
+          (selectedOptions as Fa.TreeNode<RecordType, KeyType>[]).map(i => i.sourceData),
+        );
+      }
+      if (onChangeWithItem) {
+        onChangeWithItem(
+          lastValue,
+          lastItem?.sourceData,
+          [newValue as KeyType[]],
+          [(selectedOptions as Fa.TreeNode<RecordType, KeyType>[])],
+        );
+      }
+    }
   }
 
   return (

@@ -16,7 +16,7 @@ export default function DemoAdvanceBizGrid() {
   }
 
   return (
-    <div className="fa-full-content fa-bg-white fa-p12">
+    <div className="fa-full-content-p12">
       <Card title="基本示例" className="fa-mb12">
         <FaGridLayout
           layout={[

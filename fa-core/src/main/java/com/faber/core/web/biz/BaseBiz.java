@@ -271,7 +271,11 @@ public abstract class BaseBiz<M extends FaBaseMapper<T>, T> extends ServiceImpl<
 
     public List<T> list(QueryParams query) {
         QueryWrapper<T> wrapper = parseQuery(query);
-        long total = super.count(wrapper);
+
+        // 重新创建一个 wrapper，只保留查询条件
+        QueryWrapper<T> countWrapper = new QueryWrapper<>();
+        countWrapper.allEq(wrapper.getParamNameValuePairs(), false); // 保留条件
+        long total = super.count(countWrapper);
 //        if (total > CommonConstants.QUERY_MAX_COUNT) {
 //            throw new BuzzException("单次查询列表返回数据不可超过" + CommonConstants.QUERY_MAX_COUNT);
 //        }
@@ -374,12 +378,7 @@ public abstract class BaseBiz<M extends FaBaseMapper<T>, T> extends ServiceImpl<
     }
 
     public void importExcel(CommonImportExcelReqVo reqVo) {
-        File file = getFileById(reqVo.getFileId());
-
-        // save file save biz
-        if (StrUtil.isNotEmpty(reqVo.getBuzzType())) {
-            getStorageService().saveFileBiz("", "", reqVo.getBuzzType(), reqVo.getFileId());
-        }
+        File file = getImportFile(reqVo);
 
         List<T> saveList = new ArrayList<>();
         FaExcelUtils.simpleRead(file, this.getEntityClass(), i -> {
@@ -451,7 +450,11 @@ public abstract class BaseBiz<M extends FaBaseMapper<T>, T> extends ServiceImpl<
 
     public void removeByQuery(QueryParams query) {
         QueryWrapper<T> wrapper = parseQuery(query);
-        long count = super.count(wrapper);
+        
+        // 重新创建一个 wrapper，只保留查询条件
+        QueryWrapper<T> countWrapper = new QueryWrapper<>();
+        countWrapper.allEq(wrapper.getParamNameValuePairs(), false); // 保留条件
+        long count = super.count(countWrapper);
         if (count > 1000) {
             throw new BuzzException("删除数据超过1000条，请使用批量删除");
         }
@@ -496,7 +499,7 @@ public abstract class BaseBiz<M extends FaBaseMapper<T>, T> extends ServiceImpl<
     public Integer getMaxSort(String colName) {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
         wrapper.orderByDesc(colName);
-        wrapper.select(String.format("IFNULL(max(%s), -1) as value", colName));
+        wrapper.select(String.format("COALESCE(max(%s), -1) as value", colName));
         List<Map<String, Object>> result = baseMapper.selectMaps(wrapper);
         return Integer.parseInt(result.get(0).get("value") + "");
     }
@@ -510,7 +513,7 @@ public abstract class BaseBiz<M extends FaBaseMapper<T>, T> extends ServiceImpl<
      */
     public Integer getMaxSort(String colName ,QueryWrapper wrapper) {
         wrapper.orderByDesc(colName);
-        wrapper.select(String.format("IFNULL(max(%s), -1) as value", colName));
+        wrapper.select(String.format("COALESCE(max(%s), -1) as value", colName));
         List<Map<String, Object>> result = baseMapper.selectMaps(wrapper);
         return Integer.parseInt(result.get(0).get("value") + "");
     }
@@ -523,7 +526,7 @@ public abstract class BaseBiz<M extends FaBaseMapper<T>, T> extends ServiceImpl<
      */
     public Integer getMaxSort(QueryWrapper<T> wrapper, String colName) {
         wrapper.orderByDesc(colName);
-        wrapper.select(String.format("IFNULL(max(%s), -1) as value", colName));
+        wrapper.select(String.format("COALESCE(max(%s), -1) as value", colName));
         List<Map<String, Object>> result = baseMapper.selectMaps(wrapper);
         return Integer.parseInt(result.get(0).get("value") + "");
     }

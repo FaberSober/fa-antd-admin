@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
-import { get } from 'lodash';
-import { Button, Form, Input } from 'antd';
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { ApiEffectLayoutContext, BaseBoolRadio, CommonModalProps, DragModal, FaHref, FaUtils, Fa } from '@fa/ui';
 import { dictDataApi as api } from '@/services';
 import { Admin } from '@/types';
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { BaseBoolRadio, CommonModalProps, DragModal, Fa, FaHref, FaUtils, useApiLoading } from '@fa/ui';
+import { Button, Form, Input } from 'antd';
+import { get } from 'lodash';
+import { useState } from 'react';
 import DictDataCascade from "../helper/DictDataCascade";
 
 
@@ -18,7 +18,6 @@ interface DictDataModalProps extends CommonModalProps<Admin.DictData> {
  * BASE-字典值实体新增、编辑弹框
  */
 export default function DictDataModal({ children, title, record, fetchFinish, addBtn, editBtn, dictId, parentId, type, ...props }: DictDataModalProps) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -73,7 +72,7 @@ export default function DictDataModal({ children, title, record, fetchFinish, ad
     form.setFieldsValue(getInitialValues())
   }
 
-  const loading = loadingEffect[api.getUrl('save')] || loadingEffect[api.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>

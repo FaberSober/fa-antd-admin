@@ -1,17 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Button, Card, Col, Descriptions, Row, Space } from 'antd';
 import type { Admin } from '@/types';
-import { ApiEffectLayoutContext, FaUtils } from '@fa/ui';
 import { ReloadOutlined } from '@ant-design/icons';
+import { FaUtils, useApiLoading } from '@fa/ui';
 import { systemApi } from '@features/fa-admin-pages/services';
 import { useInterval } from 'ahooks';
+import { Button, Card, Col, Descriptions, Row, Space } from 'antd';
+import { useEffect, useState } from 'react';
 
 /**
  * @author xu.pengfei
  * @date 2022/10/17
  */
 export default function Server() {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [data, setData] = useState<Admin.ServerInfo>();
 
   useEffect(() => {
@@ -24,7 +23,7 @@ export default function Server() {
     systemApi.server().then((res) => setData(res.data));
   }
 
-  const loading = loadingEffect[systemApi.getUrl('server')];
+  const loading = useApiLoading([systemApi.getUrl('server')]);
   return (
     <div className="fa-full-content fa-p12">
       <Space className="fa-mb12">

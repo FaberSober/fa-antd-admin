@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react';
-import { Disk } from '@/types';
-import styles from './index.module.scss';
-import { ApiEffectLayoutContext, AuthDelBtn, BaseTree, Fa, FaHref, useDelete } from '@fa/ui';
-import { EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Space } from 'antd';
-import { storeTagApi, storeTagApi as api } from '@/services';
 import { DiskContext } from '@/layout';
+import { storeTagApi as api, storeTagApi } from '@/services';
+import { Disk } from '@/types';
+import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { AuthDelBtn, BaseTree, Fa, FaHref, useApiLoading, useDelete } from '@fa/ui';
 import StoreTagModal from "@features/fa-disk-pages/pages/admin/disk/store/tags/modal/StoreTagModal";
+import { Button, Space } from 'antd';
+import { useContext, useState } from 'react';
 import { useCounter } from "react-use";
+import styles from './index.module.scss';
 
 /**
  * Store Tag Menu Manage
@@ -16,7 +16,6 @@ import { useCounter } from "react-use";
  */
 export default function index() {
   const { bucket } = useContext(DiskContext);
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [edit, setEdit] = useState<Fa.TreeNode<Disk.StoreTag, number>>();
   const [open, setOpen] = useState(false);
   const [current, { inc }] = useCounter(0);
@@ -33,7 +32,7 @@ export default function index() {
     setOpen(true);
   }
 
-  const loadingTree = loadingEffect[storeTagApi.getUrl('allTree')];
+  const loadingTree = useApiLoading([storeTagApi.getUrl('allTree')]);
   return (
     <div className={['fa-full-content', 'fa-flex-column', styles.menuDiv].join(' ')}>
       <Space style={{ margin: 12 }}>

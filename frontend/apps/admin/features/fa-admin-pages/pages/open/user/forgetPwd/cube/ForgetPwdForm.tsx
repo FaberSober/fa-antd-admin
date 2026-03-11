@@ -1,14 +1,13 @@
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { FieldNumberOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Captcha, FaUtils, useApiLoading } from '@fa/ui';
+import ConfigLayoutContext from '@features/fa-admin-pages/layout/config/context/ConfigLayoutContext';
+import { userApi } from '@features/fa-admin-pages/services';
 import { Button, Form, Input, Space } from 'antd';
 import { trim } from 'lodash';
-import { ApiEffectLayoutContext, Captcha, FaUtils } from '@fa/ui';
-import { userApi } from '@features/fa-admin-pages/services';
-import ConfigLayoutContext from '@features/fa-admin-pages/layout/config/context/ConfigLayoutContext';
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function ForgetPwdForm() {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const { systemConfig } = useContext(ConfigLayoutContext);
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -40,7 +39,7 @@ export default function ForgetPwdForm() {
     return Promise.resolve();
   }
 
-  const loading = loadingEffect[userApi.getUrl('forgetResetPwd')];
+  const loading = useApiLoading([userApi.getUrl('forgetResetPwd')]);
   return (
     <Form form={form} onFinish={onFinish} layout="vertical" autoComplete="off">
       <Form.Item label="账号" name="username" required={false} rules={[{ required: true, message: '请输入账号' }]}>

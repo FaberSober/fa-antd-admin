@@ -3,21 +3,37 @@ import { useState } from "react";
 export default function useViewItem<T>(): {
   open: boolean,
   item: T|undefined,
+  index: number|undefined,
   hide: () => void,
-  show: (v:T) => void,
+  show: (v:T, index?: number) => void,
 } {
-  const [item, setItem] = useState<T>();
-  const [open, setOpen] = useState<boolean>(false);
+  const [state, setState] = useState<{
+    item: T|undefined;
+    open: boolean;
+    index: number|undefined;
+  }>({
+    item: undefined,
+    open: false,
+    index: undefined,
+  })
 
   return {
-    open,
-    item,
+    open: state.open,
+    item: state.item,
+    index: state.index,
     hide: () => {
-      setOpen(false)
+      setState({
+        item: undefined,
+        open: false,
+        index: undefined,
+      })
     },
-    show: (v:T) => {
-      setItem(v);
-      setOpen(true);
+    show: (v:T, index?: number) => {
+      setState({
+        item: v,
+        open: true,
+        index,
+      })
     },
   }
 }

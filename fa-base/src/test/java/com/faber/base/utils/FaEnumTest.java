@@ -3,7 +3,12 @@ package com.faber.base.utils;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONConfig;
+import cn.hutool.json.serialize.GlobalSerializeMapping;
+import cn.hutool.json.serialize.JSONObjectSerializer;
+
 import com.baomidou.mybatisplus.annotation.IEnum;
+import com.faber.core.enums.SexEnum;
 import com.faber.core.utils.FaEnumUtils;
 import com.faber.core.vo.utils.DictOption;
 import com.faber.api.base.msg.entity.Msg;
@@ -44,6 +49,19 @@ public class FaEnumTest {
             List<DictOption<Integer>> options = FaEnumUtils.toOptions((Class<? extends IEnum<Integer>>) set.iterator().next());
             System.out.println(options.toString());
         }
+    }
+
+    @Test
+    public void testEnumToJson() {
+        // JSONConfig config = JSONConfig.create()
+            // .setWriterFilter((object, key, value) -> {
+            //     if (value instanceof Status) {
+            //         // 这里自定义枚举序列化逻辑，比如输出 code
+            //         return ((Status) value).getCode();
+            //     }
+            //     return value;
+            // });
+        System.out.println("string: " + SexEnum.MALE.toString());
     }
 
 }

@@ -1,0 +1,66 @@
+.fa-cube-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  padding: 0 12px 12px;
+}
+
+.fa-cube-grid-item {
+  max-width: 200px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--fa-border-color, #e5e7eb);
+  background-color: var(--fa-bg-color, #fff);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  &:hover {
+    border-color: var(--primary-color, #006be6);
+    background-color: var(--fa-bg-color-hover, #f5f7ff);
+  }
+
+  &.selected {
+    border-color: var(--primary-color, #006be6);
+    background-color: var(--primary-color-light400, #e8f0fe);
+
+    .fa-cube-grid-item-title {
+      color: var(--primary-color, #006be6);
+    }
+  }
+}
+
+.fa-cube-grid-item-check {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 0.9rem;
+  color: var(--primary-color, #006be6);
+  font-weight: 600;
+}
+
+.fa-cube-grid-item-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--fa-text-color, #1a1a1a);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &.has-check {
+    padding-right: 16px;
+  }
+}
+
+.fa-cube-grid-item-desc {
+  font-size: 0.75rem;
+  color: var(--fa-text-color-secondary, #888);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}

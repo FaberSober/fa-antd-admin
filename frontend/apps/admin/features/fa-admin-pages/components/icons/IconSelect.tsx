@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Drawer, Input, Space } from 'antd';
-import { FaFlexRestLayout } from '@fa/ui';
-import { CloseCircleFilled } from '@ant-design/icons';
-import { FaIcon, FaIconSelect } from '@fa/icons';
+import { AppstoreOutlined } from '@ant-design/icons';
+import { Button, Input, Popover, Space } from 'antd';
+import { useState } from 'react';
+import FaIconPro from './FaIconPro';
+import FaIconSelect from './FaIconSelect';
 
 export interface IconSelectProps {
-  value?: any;
+  value?: string;
   onChange?: (v: string | undefined) => void;
 }
 
@@ -26,24 +26,39 @@ export default function IconSelect({ value, onChange }: IconSelectProps) {
     <span>
       <span>
         <div style={{ margin: 0, cursor: 'pointer' }}>
-          {value ? (
-            <Space>
-              <FaIcon icon={value} size="lg" onClick={() => setOpen(true)} />
-              <CloseCircleFilled style={{ color: '#ccc' }} onClick={() => handleChange('')} />
-            </Space>
-          ) : (
-            <a style={{ fontSize: '12px' }} onClick={() => setOpen(true)}>
-              选择图标
-            </a>
-          )}
+          <Space.Compact style={{ width: '100%' }}>
+            <Input value={value} allowClear onChange={e => onChange?.(e.target.value)} onFocus={() => setOpen(true)} />
+            <Popover
+              content={(
+                <div className='fa-flex-column' style={{ width: 250 }}>
+                  <div className='fa-p12 fa-pb0'>
+                    <Input value={search} placeholder="搜索图标" onChange={(e) => setSearch(e.target.value)} />
+                  </div>
+                  <FaIconSelect search={search} onChange={handleChange} />
+                </div>
+              )}
+              styles={{
+                container: {
+                  padding: 0,
+                },
+              }}
+              trigger="click"
+              open={open}
+              onOpenChange={setOpen}
+            >
+              <Button
+                icon={value ? <FaIconPro icon={value} /> : <AppstoreOutlined />}
+              />
+            </Popover>
+          </Space.Compact>
         </div>
       </span>
-      <Drawer title="选择图标" open={open} onClose={() => setOpen(false)} width={940} styles={{ body: { display: 'flex', flexDirection: 'column' } }}>
+      {/* <Drawer title="选择图标" open={open} onClose={() => setOpen(false)} defaultSize={940} resizable styles={{ body: { display: 'flex', flexDirection: 'column' } }}>
         <Input value={search} placeholder="搜索图标" onChange={(e) => setSearch(e.target.value)} />
         <FaFlexRestLayout>
           <FaIconSelect search={search} onChange={handleChange} />
         </FaFlexRestLayout>
-      </Drawer>
+      </Drawer> */}
     </span>
   );
 }

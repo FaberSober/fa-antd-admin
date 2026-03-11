@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
-import { Button, Form, Input } from 'antd';
-import { ApiEffectLayoutContext, DragModal, type DragModalProps, FaUtils } from '@fa/ui';
-import { userApi } from '@features/fa-admin-pages/services';
-import { ConfigLayoutContext } from '@features/fa-admin-pages/layout';
+import { DragModal, type DragModalProps, FaUtils, useApiLoading } from '@fa/ui';
 import * as FaSecurityUtils from '@features/fa-admin-pages/components/utils/FaSecurityUtils';
+import { ConfigLayoutContext } from '@features/fa-admin-pages/layout';
+import { userApi } from '@features/fa-admin-pages/services';
+import { Button, Form, Input } from 'antd';
+import { useContext, useState } from 'react';
 
 interface UsersChangePwdModalProps extends DragModalProps {
   userIds: string[];
@@ -14,7 +14,6 @@ interface UsersChangePwdModalProps extends DragModalProps {
  * 批量修改密码
  */
 export default function UsersChangePwdModal({ children, userIds, fetchFinish, ...props }: UsersChangePwdModalProps) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const { systemConfig } = useContext(ConfigLayoutContext);
 
   const [form] = Form.useForm();
@@ -51,7 +50,7 @@ export default function UsersChangePwdModal({ children, userIds, fetchFinish, ..
     setOpen(true);
   }
 
-  const loading = loadingEffect[userApi.getUrl('updateBatchPwd')];
+  const loading = useApiLoading([userApi.getUrl('updateBatchPwd')]);
   return (
     <span>
       <span onClick={() => showModal()}>

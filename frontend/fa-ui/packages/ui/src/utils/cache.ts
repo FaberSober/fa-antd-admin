@@ -1,8 +1,17 @@
 import { Fa } from '@ui/types';
-import { each } from "lodash";
+import { each, isNil } from "lodash";
+import { getCookie } from './utils';
 
 export function getToken(): string | null {
-  return localStorage.getItem(Fa.Constant.TOKEN_KEY);
+  let token = localStorage.getItem(Fa.Constant.TOKEN_KEY);
+  if (isNil(token)) {
+    // try cookie
+    token = getCookie(Fa.Constant.TOKEN_KEY)
+    if (token) {
+      setToken(token)
+    }
+  }
+  return token;
 }
 
 export function setToken(token: string) {

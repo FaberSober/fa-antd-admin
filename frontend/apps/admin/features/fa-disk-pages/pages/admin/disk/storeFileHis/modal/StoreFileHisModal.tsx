@@ -1,17 +1,16 @@
-import React, { useContext, useState } from 'react';
-import { get } from 'lodash';
-import { Button, Form, Input } from 'antd';
-import {EditOutlined, PlusOutlined} from "@ant-design/icons";
-import { DragModal, FaHref, ApiEffectLayoutContext, FaUtils, CommonModalProps } from '@fa/ui';
 import { storeFileHisApi as api } from '@/services';
 import { Disk } from '@/types';
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { CommonModalProps, DragModal, FaHref, FaUtils, useApiLoading } from '@fa/ui';
+import { Button, Form, Input } from 'antd';
+import { get } from 'lodash';
+import { useState } from 'react';
 
 
 /**
  * STORE-文件-历史记录实体新增、编辑弹框
  */
 export default function StoreFileHisModal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: CommonModalProps<Disk.StoreFileHis>) {
-  const {loadingEffect} = useContext(ApiEffectLayoutContext)
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -63,7 +62,7 @@ export default function StoreFileHisModal({ children, title, record, fetchFinish
     form.setFieldsValue(getInitialValues())
   }
 
-  const loading = loadingEffect[api.getUrl('save')] || loadingEffect[api.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>

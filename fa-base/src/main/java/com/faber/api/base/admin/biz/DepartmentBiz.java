@@ -83,4 +83,10 @@ public class DepartmentBiz extends BaseTreeBiz<DepartmentMapper, Department> {
         return entity;
     }
 
+    // 根据员工id获取部门负责人id
+    public User getManagerByUserId(String userId) {
+        Department department = getByIdWithCache(userBiz.getByIdWithCache(userId).getDepartmentId());
+        return userBiz.getByIdWithCache(department.getManagerId());
+    }
+
 }

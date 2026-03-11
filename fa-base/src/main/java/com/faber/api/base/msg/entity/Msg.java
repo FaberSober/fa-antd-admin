@@ -7,11 +7,11 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.api.base.admin.entity.User;
+import com.faber.api.base.msg.enums.MsgTypeEnum;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.annotation.SqlEquals;
 import com.faber.core.annotation.SqlSearch;
 import com.faber.core.bean.BaseDelEntity;
-import com.faber.api.base.msg.enums.MsgBuzzTypeEnum;
 import lombok.Data;
 
 import java.util.Date;
@@ -66,6 +66,15 @@ public class Msg extends BaseDelEntity {
     @SqlEquals
     @ExcelProperty("业务ID")
     private String buzzId;
+
+    /** 消息来源：1-系统消息，2-流程消息 */
+    @SqlEquals
+    @ExcelProperty("消息来源")
+    private MsgTypeEnum type;
+
+    @ExcelIgnore
+    @ExcelProperty("业务JSON数据")
+    private String buzzContent;
 
     @ExcelIgnore
     @TableField(exist = false)

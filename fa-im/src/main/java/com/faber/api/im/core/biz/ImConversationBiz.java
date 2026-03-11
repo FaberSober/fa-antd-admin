@@ -1,0 +1,376 @@
+package com.faber.api.im.core.biz;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.faber.api.base.admin.biz.UserBiz;
+import com.faber.api.base.admin.entity.User;
+import com.faber.api.im.core.entity.ImConversation;
+import com.faber.api.im.core.entity.ImMessage;
+import com.faber.api.im.core.entity.ImParticipant;
+import com.faber.api.im.core.enums.ImConversationTypeEnum;
+import com.faber.api.im.core.mapper.ImConversationMapper;
+import com.faber.api.im.core.vo.req.ImConversationAddGroupUsersReqVo;
+import com.faber.api.im.core.vo.req.ImConversationCreateNewGroupReqVo;
+import com.faber.api.im.core.vo.req.ImConversationCreateNewSingleReqVo;
+import com.faber.api.im.core.vo.req.ImConversationGetParticipantReqVo;
+import com.faber.api.im.core.vo.req.ImConversationListQueryReqVo;
+import com.faber.api.im.core.vo.req.ImConversationRemoveGroupUsersReqVo;
+import com.faber.api.im.core.vo.req.ImConversationRenameReqVo;
+import com.faber.api.im.core.vo.req.ImConversationSendMsgReqVo;
+import com.faber.api.im.core.vo.ret.ImConversationRetVo;
+import com.faber.config.websocket.WsHolder;
+import com.faber.core.context.BaseContextHandler;
+import com.faber.core.enums.WsTypeEnum;
+import com.faber.core.exception.BuzzException;
+import com.faber.core.vo.msg.TableRet;
+import com.faber.core.vo.query.BasePageQuery;
+import com.faber.core.web.biz.BaseBiz;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
+import jakarta.annotation.Resource;
+
+/**
+ * IM-会话表
+ *
+ * @author xu.pengfei
+ * @email 1508075252@qq.com
+ * @date 2025-09-07 21:51:31
+ */
+@Service
+public class ImConversationBiz extends BaseBiz<ImConversationMapper,ImConversation> {
+
+    @Resource UserBiz userBiz;
+    @Resource ImParticipantBiz imParticipantBiz;
+    @Resource ImMessageBiz imMessageBiz;
+
+    /**
+     * 创建新的单聊会话
+     * 1. 根据单聊对方用户ID查询是否已经存在聊天，如果存在，则直接返回；
+     * 2. 如果不存在，则创建新的聊天，然后返回；
+     * @param reqVo
+     * @return
+     */
+    @Transactional
+    public ImConversation createNewSingle(ImConversationCreateNewSingleReqVo reqVo) {
+        // 将参考单聊的用户IDs进行排序，然后转换为jsonarray
+        List<String> userIds = Arrays.asList(getCurrentUserId(), reqVo.getToUserId());
+        Collections.sort(userIds);
+        JSONArray userIdArray = new JSONArray(userIds);
+        String userIdsStr = userIdArray.toString();
+
+        LambdaQueryChainWrapper<ImConversation> wrapper = lambdaQuery()
+            .eq(ImConversation::getUserIds, userIdsStr)
+            .eq(ImConversation::getType, ImConversationTypeEnum.SINGLE);
+        long count = wrapper.count();
+        if (count > 0) {
+            return getTop(wrapper.orderByDesc(ImConversation::getId));
+        }
+
+        User toUser = userBiz.getById(reqVo.getToUserId());
+
+        // 聊天封面图片，为参加聊天的用户头像数组
+        JSONArray imgArr = getUserImgs(Arrays.asList(getCurrentUserId(), reqVo.getToUserId()));
+
+        // create new conversation
+        ImConversation conversation = new ImConversation();
+        conversation.setUserIds(userIdsStr);
+        conversation.setType(ImConversationTypeEnum.SINGLE);
+        conversation.setTitle("单聊");
+        conversation.setCover(imgArr.toString());
+        this.save(conversation);
+
+        // save conversation user link
+        {
+            ImParticipant participantCrt = new ImParticipant();
+            participantCrt.setConversationId(conversation.getId());
+            participantCrt.setUserId(getCurrentUserId());
+            participantCrt.setTitle(toUser.getName()); // 存对方的名称
+            participantCrt.setUnreadCount(0);
+            imParticipantBiz.save(participantCrt);
+        }
+        {
+            ImParticipant participantTo = new ImParticipant();
+            participantTo.setConversationId(conversation.getId());
+            participantTo.setUserId(reqVo.getToUserId());
+            participantTo.setTitle(BaseContextHandler.getName()); // 存对方的名称
+            participantTo.setUnreadCount(0);
+            imParticipantBiz.save(participantTo);
+        }
+
+        return conversation;
+    }
+
+    /** 聊天封面图片，为参加聊天的用户头像数组 */
+    private JSONArray getUserImgs(List<String> userIds) {
+        JSONArray imgArr = new JSONArray();
+        List<User> userList = userBiz.lambdaQuery()
+            .in(User::getId, userIds)
+            .orderByAsc(User::getId)
+            .select(User::getId, User::getImg, User::getName)
+            .list();
+        for (User user : userList) {
+            JSONObject userJson = new JSONObject();
+            userJson.set("id", user.getId());
+            userJson.set("img", user.getImg());
+            userJson.set("name", user.getName());
+            imgArr.add(userJson);
+        }
+        return imgArr;
+    }
+
+    /** 创建新的群聊 */
+    @Transactional
+    public ImConversation createNewGroup(ImConversationCreateNewGroupReqVo reqVo) {
+        List<String> userIds = reqVo.getUserIds();
+        if (userIds.size() < 3) {
+            throw new BuzzException("群聊最少添加三位用户");
+        }
+
+        // 聊天封面图片，为参加聊天的用户头像数组
+        JSONArray imgArr = getUserImgs(userIds);
+
+        String title = BaseContextHandler.getName() + "发起的群聊";
+
+        // create new conversation
+        ImConversation conversation = new ImConversation();
+        conversation.setUserIds("[]");
+        conversation.setType(ImConversationTypeEnum.GROUP);
+        conversation.setTitle(title);
+        conversation.setCover(imgArr.toString());
+        conversation.setManagerId(getCurrentUserId()); // 管理员为创建人
+        this.save(conversation);
+
+        // save conversation user link
+        List<ImParticipant> participantList = new ArrayList<>();
+        for (String userId : userIds) {
+            ImParticipant participant = new ImParticipant();
+            participant.setConversationId(conversation.getId());
+            participant.setUserId(userId);
+            participant.setTitle(""); // 存群聊名称
+            participant.setUnreadCount(0);
+            participantList.add(participant);
+        }
+        imParticipantBiz.saveBatch(participantList);
+
+        return conversation;
+    }
+
+    /** 创建新的群聊 */
+    @Transactional
+    public ImConversation addGroupUsers(ImConversationAddGroupUsersReqVo reqVo) {
+        ImConversation conversation = this.getById(reqVo.getConversationId());
+
+        // 过滤已经参加该群聊的用户
+        List<String> inUserIdList = imParticipantBiz.lambdaQuery()
+            .eq(ImParticipant::getConversationId, reqVo.getConversationId())
+            .in(ImParticipant::getUserId, reqVo.getUserIds())
+            .select(ImParticipant::getUserId)
+            .list()
+            .stream().map(i -> i.getUserId()).toList();
+        List<String> addUserIds = reqVo.getUserIds().stream()
+            .filter(i -> !inUserIdList.contains(i))
+            .toList();
+        if (addUserIds == null || addUserIds.isEmpty()) {
+            return conversation;
+        }
+
+        // save conversation user link
+        List<ImParticipant> participantList = new ArrayList<>();
+        for (String userId : addUserIds) {
+            ImParticipant participant = new ImParticipant();
+            participant.setConversationId(conversation.getId());
+            participant.setUserId(userId);
+            participant.setTitle(conversation.getTitle()); // 存群聊名称
+            participant.setUnreadCount(0);
+            participantList.add(participant);
+        }
+        imParticipantBiz.saveBatch(participantList);
+
+        // update conversation cover
+        List<String> userIds = imParticipantBiz.lambdaQuery()
+            .eq(ImParticipant::getConversationId, reqVo.getConversationId())
+            .select(ImParticipant::getUserId)
+            .orderByAsc(ImParticipant::getCrtTime, ImParticipant::getUserId)
+            .last("limit 9") // 群聊封面最多展示9个用户头像
+            .list()
+            .stream().map(i -> i.getUserId()).toList();
+
+        // 更新群聊头像
+        JSONArray imgArr = getUserImgs(userIds);
+        conversation.setCover(imgArr.toString());
+
+        this.lambdaUpdate()
+            .eq(ImConversation::getId, conversation.getId())
+            .set(ImConversation::getCover, imgArr.toString())
+            .update();
+        
+        // TODO websocket通知群聊用户更新群聊
+
+        return conversation;
+    }
+
+    /** 移出群聊 */
+    @Transactional
+    public ImConversation removeGroupUsers(ImConversationRemoveGroupUsersReqVo reqVo) {
+        ImConversation conversation = this.getById(reqVo.getConversationId());
+
+        // 移出群聊
+        imParticipantBiz.lambdaUpdate()
+            .eq(ImParticipant::getConversationId, reqVo.getConversationId())
+            .in(ImParticipant::getUserId, reqVo.getUserIds())
+            .remove();
+
+        // update conversation cover
+        List<String> userIds = imParticipantBiz.lambdaQuery()
+            .eq(ImParticipant::getConversationId, reqVo.getConversationId())
+            .select(ImParticipant::getUserId)
+            .orderByAsc(ImParticipant::getCrtTime, ImParticipant::getUserId)
+            .last("limit 9") // 群聊封面最多展示9个用户头像
+            .list()
+            .stream().map(i -> i.getUserId()).toList();
+
+        // 更新群聊头像
+        JSONArray imgArr = getUserImgs(userIds);
+        conversation.setCover(imgArr.toString());
+
+        this.lambdaUpdate()
+            .eq(ImConversation::getId, conversation.getId())
+            .set(ImConversation::getCover, imgArr.toString())
+            .update();
+        
+        // TODO websocket通知移出群聊用户更新群聊
+        WsHolder.sendMessage(reqVo.getUserIds(), WsTypeEnum.IM_EXIT_GROUP_CHAT, conversation);
+
+        // TODO websocket通知群聊用户更新群聊
+        List<String> notifyUserIds = imParticipantBiz.lambdaQuery()
+            .eq(ImParticipant::getConversationId, reqVo.getConversationId())
+            .select(ImParticipant::getUserId)
+            .orderByAsc(ImParticipant::getCrtTime, ImParticipant::getUserId)
+            .list()
+            .stream().map(i -> i.getUserId()).toList();
+        WsHolder.sendMessage(notifyUserIds, WsTypeEnum.IM_REFRESH_GROUP_CHAT, conversation);
+
+        return conversation;
+    }
+
+    public ImConversation renameGroup(ImConversationRenameReqVo reqVo) {
+        ImConversation conversation = this.getById(reqVo.getConversationId());
+        lambdaUpdate()
+            .eq(ImConversation::getId, conversation.getId())
+            .set(ImConversation::getTitle, reqVo.getTitle())
+            .update();
+        conversation.setTitle(reqVo.getTitle());
+        return conversation;
+    }
+
+    /**
+     * 查询聊天记录
+     * 
+     * @param reqVo
+     * @return
+     */
+    public List<ImConversationRetVo> listQuery(ImConversationListQueryReqVo reqVo) {
+        // 查询用户参加的聊天记录
+        List<ImConversationRetVo> convList = baseMapper.listQuery(getCurrentUserId(), reqVo);
+        return convList;
+    }
+
+    /**
+     * 发送消息
+     * @param reqVo
+     * @return
+     */
+    public ImMessage sendMsg(ImConversationSendMsgReqVo reqVo) {
+        // create new message
+        ImMessage msg = new ImMessage();
+        msg.setConversationId(reqVo.getConversationId());
+        msg.setSenderId(getCurrentUserId());
+        msg.setType(reqVo.getType());
+        msg.setContent(reqVo.getContent());
+        msg.setIsWithdrawn(false);
+        imMessageBiz.save(msg);
+
+        // update conversation last message，超过250个字符截断
+        String lastMsg = BaseContextHandler.getName() + ":" + reqVo.getContent();
+        // 如果lastMsg超过250个字符，则截断
+        if (lastMsg.length() > 250) {
+            lastMsg = lastMsg.substring(0, 250);
+        }
+        // 文件类型
+        switch (reqVo.getType()) {
+            case IMAGE:
+                lastMsg = BaseContextHandler.getName() + ":" + "图片";
+                break;
+            case VIDEO:
+                lastMsg = BaseContextHandler.getName() + ":" + "视频";
+                break;
+            case FILE:
+                lastMsg = BaseContextHandler.getName() + ":" + "文件";
+                break;
+            default:
+                break;
+        }
+        this.lambdaUpdate()
+            .eq(ImConversation::getId, reqVo.getConversationId())
+            .set(ImConversation::getLastMsg, lastMsg)
+            .update();
+
+        // update unread count
+        baseMapper.updateUnreadByConvId(reqVo.getConversationId(), getCurrentUserId());
+
+        // get conversation participants
+        List<ImParticipant> convList = imParticipantBiz.lambdaQuery()
+            .eq(ImParticipant::getConversationId, reqVo.getConversationId())
+            .list();
+        // get userIds except senderId
+        List<String> userIds = convList.stream().map(ImParticipant::getUserId).filter(userId -> !userId.equals(getCurrentUserId())).toList();
+
+        // send message throw websocket
+        msg.setSenderUserImg(userBiz.getLoginUser().getImg());
+        WsHolder.sendMessage(userIds, WsTypeEnum.IM, msg);
+
+        return msg;
+    }
+
+    /**
+     * 更新聊天已读
+     * @param reqVo
+     */
+    public void updateConversationRead(String userId, Long conversationId) {
+        // 查询最新的消息
+        ImMessage lastMsg = imMessageBiz.lambdaQuery()
+            .eq(ImMessage::getConversationId, conversationId)
+            .orderByDesc(ImMessage::getId)
+            .last("limit 1")
+            .one();
+        Long lastReadMessageId = lastMsg == null ? null : lastMsg.getId();
+
+        // 更新用户关联的聊天记录已读数量为0
+        imParticipantBiz.lambdaUpdate()
+            .eq(ImParticipant::getConversationId, conversationId)
+            .eq(ImParticipant::getUserId, userId)
+            .set(ImParticipant::getUnreadCount, 0)
+            .set(ImParticipant::getLastReadMessageId, lastReadMessageId)
+            .update();
+    }
+
+    public Integer getUnreadCount() {
+        return baseMapper.countUnreadByUserId(getCurrentUserId());
+    }
+
+    public TableRet<ImParticipant> getParticipant(BasePageQuery<ImConversationGetParticipantReqVo> query) {
+        PageInfo<ImParticipant> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
+                .doSelectPageInfo(() -> baseMapper.getParticipant(query.getQuery()));
+        return new TableRet<>(info);
+    }
+}

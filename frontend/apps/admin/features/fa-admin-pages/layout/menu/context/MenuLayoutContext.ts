@@ -21,7 +21,7 @@ export interface MenuLayoutContextProps {
   menuSelPath: string[]; // 选中的菜单路径
   menuSelMenuId: string | undefined; // 选中打开的菜单id,
   setMenuSelMenuId: (key: string | undefined) => void; // 设置选中的菜单ID
-  setMenuSelPath: (key: string, keyPath: string[]) => void; //  // 设置选中的菜单ID路径数组
+  setMenuSelPath: (key: string) => void; // 设置选中的菜单ID（路径由 syncOpenMenuById 内部计算）
   setMenuSelAppId: (id: string) => void;
   collapse: boolean | undefined;
   setCollapse: (v: boolean) => void;
@@ -36,6 +36,8 @@ export interface MenuLayoutContextProps {
   addTab: (tab: OpenTabsItem) => void; // 添加新的tab
   removeTab: (key: string) => void; // 添加新的tab
   selTab: (key: string) => void; // 选中tab
+  reloadKey: number; // 当前tab的reload版本号，用于强制重新mount页面
+  reloadTab: (tabKey: string) => void; // 重新加载指定tab
 }
 
 const MenuLayoutContext: React.Context<MenuLayoutContextProps> = createContext<MenuLayoutContextProps>({
@@ -61,6 +63,8 @@ const MenuLayoutContext: React.Context<MenuLayoutContextProps> = createContext<M
   addTab: () => {},
   removeTab: () => {},
   selTab: () => {},
+  reloadKey: 0,
+  reloadTab: () => {},
 });
 
 export default MenuLayoutContext;

@@ -29,4 +29,4 @@ export * from './context';
 export * from './decorator';
 export * from './modal';
 
-export { default as Button } from './Button';
+export { default as FaButton } from './FaButton';

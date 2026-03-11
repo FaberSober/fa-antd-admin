@@ -12,7 +12,7 @@ export default function FileUploader() {
   const [array, setArray] = useState<string[]>([]);
 
   return (
-    <div className="fa-full-content fa-p12">
+    <div className="fa-full-content-p12">
       <Card title="单文件上传" className="fa-mb12">
         <p>说明：1. onChange返回文件ID；</p>
         <UploadFileLocal

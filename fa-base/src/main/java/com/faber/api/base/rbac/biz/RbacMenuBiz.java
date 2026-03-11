@@ -1,19 +1,25 @@
 package com.faber.api.base.rbac.biz;
 
-import cn.hutool.core.util.ObjectUtil;
-//import com.alicp.jetcache.anno.Cached;
-import com.faber.api.base.rbac.mapper.RbacMenuMapper;
-import com.faber.api.base.rbac.entity.RbacMenu;
-import com.faber.core.config.redis.annotation.FaCacheClear;
-import com.faber.core.exception.BuzzException;
-import com.faber.core.vo.tree.TreeNode;
-import com.faber.core.vo.tree.TreePosChangeVo;
-import com.faber.core.web.biz.BaseTreeBiz;
-import org.springframework.stereotype.Service;
-
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.faber.api.base.rbac.entity.RbacMenu;
+//import com.alicp.jetcache.anno.Cached;
+import com.faber.api.base.rbac.mapper.RbacMenuMapper;
+import com.faber.core.config.redis.annotation.FaCacheClear;
+import com.faber.core.exception.BuzzException;
+import com.faber.core.service.FaFlowService;
+import com.faber.core.vo.tree.TreeNode;
+import com.faber.core.vo.tree.TreePosChangeVo;
+import com.faber.core.vo.utils.FaOption;
+import com.faber.core.web.biz.BaseTreeBiz;
+
+import cn.hutool.core.util.ObjectUtil;
+import jakarta.annotation.Resource;
 
 /**
  * BASE-权限表
@@ -24,6 +30,8 @@ import java.util.Optional;
  */
 @Service
 public class RbacMenuBiz extends BaseTreeBiz<RbacMenuMapper, RbacMenu> {
+
+    @Resource FaFlowService faFlowService;
 
 //    @Cached(name="rbac:allMenuTree", key="new String('')", expire = 3600)
     @Override
@@ -82,5 +90,9 @@ public class RbacMenuBiz extends BaseTreeBiz<RbacMenuMapper, RbacMenu> {
     @Override
     public boolean removeById(Serializable id) {
         return super.removeById(id);
+    }
+
+    public List<FaOption<String>> getFlowMenuList() {
+        return faFlowService.getFlowMenuList();
     }
 }

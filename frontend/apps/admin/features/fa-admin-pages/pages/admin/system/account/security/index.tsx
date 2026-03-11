@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
-import { Button, Card, Form, Input, message } from 'antd';
-import { ApiEffectLayoutContext } from '@fa/ui';
-import { userApi } from '@features/fa-admin-pages/services';
+import { useApiLoading } from '@fa/ui';
 import * as FaSecurityUtils from '@features/fa-admin-pages/components/utils/FaSecurityUtils';
 import ConfigLayoutContext from '@features/fa-admin-pages/layout/config/context/ConfigLayoutContext';
 import UserLayoutContext from '@features/fa-admin-pages/layout/user/context/UserLayoutContext';
+import { userApi } from '@features/fa-admin-pages/services';
+import { Button, Card, Form, Input, message } from 'antd';
+import { useContext } from 'react';
 
 const formItemFullLayout = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
 const tailLayout = { wrapperCol: { offset: 8, span: 16 } };
@@ -14,7 +14,6 @@ const tailLayout = { wrapperCol: { offset: 8, span: 16 } };
  * @date 2020/12/26
  */
 export default function AccountPwdUpdate() {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const { systemConfig } = useContext(ConfigLayoutContext);
   const { logout } = useContext(UserLayoutContext);
   const [form] = Form.useForm();
@@ -43,7 +42,7 @@ export default function AccountPwdUpdate() {
     return Promise.resolve();
   }
 
-  const loading = loadingEffect[userApi.getUrl('updateMyPwd')];
+  const loading = useApiLoading([userApi.getUrl('updateMyPwd')]);
   return (
     <Card title="更新密码">
       <Form style={{ width: 600 }} form={form} onFinish={onFinish}>

@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { get } from 'lodash';
-import { Form, Input } from 'antd';
-import { ApiEffectLayoutContext, DragModal, type DragModalProps, FaUtils } from '@fa/ui';
 import { treeApi as api } from '@/services';
 import type { Admin } from '@/types';
+import { DragModal, type DragModalProps, FaUtils, useApiLoading } from '@fa/ui';
+import { Form, Input } from 'antd';
+import { get } from 'lodash';
+import { useEffect, useState } from 'react';
 import TreeCascade from '../helper/TreeCascade';
 
 const serviceName = 'Tree数据';
@@ -19,7 +19,6 @@ interface IProps extends DragModalProps {
  * Tree数据新增、编辑弹框
  */
 export default function TreeModal({ children, fetchFinish, parentId, title, record, ...props }: IProps) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -70,7 +69,7 @@ export default function TreeModal({ children, fetchFinish, parentId, title, reco
     form.setFieldsValue(getInitialValues());
   }, [props.open]);
 
-  const loading = loadingEffect[api.getUrl('save')] || loadingEffect[api.getUrl('update')];
+  const loading = useApiLoading([api.getUrl('save'),api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>{children}</span>

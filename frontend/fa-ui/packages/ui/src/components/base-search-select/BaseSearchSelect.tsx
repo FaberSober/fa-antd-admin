@@ -1,10 +1,8 @@
-import React, { CSSProperties, ReactNode, useEffect, useState } from 'react';
-import { get, remove, trim } from 'lodash';
-import { Button, Select, SelectProps, Space } from 'antd';
-import { useDebounce } from 'react-use';
 import { Fa } from '@ui/types';
-import { SearchOutlined } from "@ant-design/icons";
-import { BizUserSelect, SelectedUser } from '../biz-user-select';
+import { Select, SelectProps } from 'antd';
+import { get, remove, trim } from 'lodash';
+import { CSSProperties, ReactNode, useEffect, useState } from 'react';
+import { useDebounce } from 'react-use';
 
 export interface BaseSearchSelectProps<T, KeyType = number> extends SelectProps<T> {
   labelKey?: string | ((record: T) => string | ReactNode);
@@ -20,7 +18,7 @@ export interface BaseSearchSelectProps<T, KeyType = number> extends SelectProps<
   };
   value?: any;
   onChange?: (v: any, option?: any) => void;
-  // onItemChange?: (v: T) => void;
+  onChangeWithItem?: (v: any, option?: T) => void;
   extraParams?: any;
   bodyStyle?: CSSProperties;
 }
@@ -37,13 +35,13 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
   value,
   extraParams,
   onChange,
+  onChangeWithItem,
   bodyStyle,
   ...props
 }: BaseSearchSelectProps<RecordType, KeyType>) {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState<string>('');
   const [array, setArray] = useState<any>([]);
-  const [innerUsers, setInnerUsers] = useState<SelectedUser[]>([])
 
   const multiple = props.mode === 'multiple';
 
@@ -58,17 +56,16 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
         // }
       } else {
         updateValue(value);
-        setInnerUsers(value.map((i:any) => ({ id: i, allowRemove: true })))
       }
     } else {
       if (value === undefined || value === null) {
         searchNow();
         if (onChange) {
           onChange(undefined)
+          onChangeWithItem?.(undefined, undefined)
         }
       } else {
         updateValue(value);
-        setInnerUsers([{ id: value, allowRemove: true }])
       }
     }
   }, [value, extraParams]);
@@ -102,6 +99,7 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
       serviceApi?.getById(outValue).then((res) => {
         const newList = [{ label: parseLabel(res.data), value: parseValue(res.data) }];
         setArray(newList);
+        onChangeWithItem?.(outValue, res.data)
       });
     }
   }
@@ -144,57 +142,37 @@ export default function BaseSearchSelect<RecordType extends object = any, KeyTyp
   );
 
   function handleValueChange(v: any, item: any) {
-    // console.log('handleValueChange', v, item)
+    console.log('handleValueChange', v, item)
     if (onChange) {
       onChange(v, item);
+      // onChangeWithItem?.(v, item);
     }
     if (search !== '') {
       setSearch('');
     }
   }
 
-  function handleAddUsers(users: SelectedUser[], callback: any, error: any) {
-    if (multiple) {
-      onChange && onChange(users.map(i => i.id), users)
-    } else {
-      if (users && users[0]) {
-        onChange && onChange(users[0].id, users[0])
-      } else {
-        onChange && onChange(undefined, undefined)
-      }
-    }
-    callback()
-  }
-
   return (
-    <Space.Compact block style={bodyStyle}>
-      <Select
-        showSearch
-        allowClear
-        // value={this.state.value}
-        defaultActiveFirstOption={false}
-        // showArrow={false}
-        filterOption={false}
-        searchValue={search}
-        onSearch={(v) => {
-          setLoading(true);
-          setSearch(v);
-        }}
-        notFoundContent={null}
-        placeholder="搜索..."
-        options={array}
-        value={value}
-        loading={loading}
-        style={{ minWidth: 138 }}
-        onChange={handleValueChange}
-        {...props}
-      />
-      <BizUserSelect
-        onChange={handleAddUsers}
-        selectedUsers={innerUsers}
-      >
-        <Button icon={<SearchOutlined />} />
-      </BizUserSelect>
-    </Space.Compact>
+    <Select
+      showSearch
+      allowClear
+      // value={this.state.value}
+      defaultActiveFirstOption={false}
+      // showArrow={false}
+      filterOption={false}
+      searchValue={search}
+      onSearch={(v) => {
+        setLoading(true);
+        setSearch(v);
+      }}
+      notFoundContent={null}
+      placeholder="搜索..."
+      options={array}
+      value={value}
+      loading={loading}
+      style={{ minWidth: 138 }}
+      onChange={handleValueChange}
+      {...props}
+    />
   );
 }

@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
-import { Button } from 'antd';
-import { ApiEffectLayoutContext, CommonModalProps, DragModal, FaUtils, TreeTransfer } from '@fa/ui';
-import { Disk } from '@/types';
 import { DiskContext } from '@/layout';
 import { storeFileApi, storeTagApi } from '@/services';
+import { Disk } from '@/types';
+import { CommonModalProps, DragModal, FaUtils, TreeTransfer, useApiLoading } from '@fa/ui';
+import { Button } from 'antd';
+import { useContext, useState } from 'react';
 
 export interface StoreDirModalProps extends CommonModalProps<Disk.StoreBucket> {
   fileIds: number[];
@@ -24,7 +24,6 @@ export default function StoreFileTagsModal({
   ...props
 }: StoreDirModalProps) {
   const { bucket } = useContext(DiskContext);
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
 
   const [open, setOpen] = useState(false);
 
@@ -47,7 +46,7 @@ export default function StoreFileTagsModal({
     setTagIds(keys);
   };
 
-  const loading = loadingEffect[storeFileApi.getUrl('copyToDir')];
+  const loading = useApiLoading([storeFileApi.getUrl('copyToDir')]);
   return (
     <span>
       <span onClick={showModal}>{children || <Button>打标签</Button>}</span>

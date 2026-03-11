@@ -9,6 +9,7 @@ export interface SiderLayoutProps {
   width?: number; // 展开宽度
   collapseWidth?: number; // 折叠宽度
   children?: ReactNode;
+  className?: string | undefined
 }
 
 export default function SiderLayout({
@@ -17,10 +18,11 @@ export default function SiderLayout({
   collapseWidth = 44,
   onCollapse,
   children,
+  className,
 }: SiderLayoutProps) {
   return (
     <div
-      className="fa-sider-div"
+      className={`fa-sider-div ${className}`}
       style={{
         width: collapse ? collapseWidth : width,
       }}

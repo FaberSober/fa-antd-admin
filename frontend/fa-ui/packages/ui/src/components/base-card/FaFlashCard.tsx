@@ -22,7 +22,7 @@ export default function FaFlashCard({hideTitle = false, title, titleRender, extr
     <div className="fa-flash-card" style={style}>
       {!hideTitle && (
         <div className="fa-flash-card-title-div" style={{ ...titleStyle }}>
-          <div className="fa-flash-card-flash-bar" />
+          {/* <div className="fa-flash-card-flash-bar" /> */}
           <div className="fa-flash-card-title">
             {titleRender ? titleRender() : title || ''}
           </div>

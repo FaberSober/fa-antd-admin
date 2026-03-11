@@ -1,0 +1,22 @@
+.ant-menu-inline-collapsed {
+  .ant-menu-item, .ant-menu-submenu-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .ant-menu-title-content {
+      display: none !important;
+    }
+  }
+}
+
+.ant-menu-item, .ant-menu-submenu {
+  .ant-menu-title-content {
+    margin-left: 6px !important;
+  }
+}
+
+.ant-menu-item {
+  display: flex !important;
+  align-items: center !important;
+}

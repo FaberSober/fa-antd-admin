@@ -5,6 +5,7 @@ import { addAuthHeaders, getTnCorpId, getToken } from './cache';
 import { dispatch } from 'use-bus';
 import { Fa } from '@ui/types';
 import { md5WithSecret } from "@ui/utils/cipher";
+import { useApiLoadingStore } from '@ui/stores';
 
 // Set config defaults when creating the instance
 const instance = axios.create({
@@ -63,7 +64,8 @@ instance.interceptors.request.use(
     config.headers.set('bs', signatureBody) // bs-body signature
 
     // 通知全局api加载状态
-    dispatch({ type: '@@api/CHANGE_URL_LOADING', payload: { url: config.url, loading: true } });
+    // dispatch({ type: '@@api/CHANGE_URL_LOADING', payload: { url: config.url, loading: true } });
+    useApiLoadingStore.getState().start(config.url || ''); // ← 直接用 url 作为唯一 key
 
     return config;
   },
@@ -74,13 +76,15 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => {
     // 通知全局api加载状态
-    dispatch({ type: '@@api/CHANGE_URL_LOADING', payload: { url: response.config.url, loading: false } });
+    // dispatch({ type: '@@api/CHANGE_URL_LOADING', payload: { url: response.config.url, loading: false } });
+    useApiLoadingStore.getState().end(response.config.url || '');
 
     return response;
   },
   (error) => {
     // 通知全局api加载状态
-    dispatch({ type: '@@api/CHANGE_URL_LOADING', payload: { url: error.config.url, loading: false } });
+    // dispatch({ type: '@@api/CHANGE_URL_LOADING', payload: { url: error.config.url, loading: false } });
+    useApiLoadingStore.getState().end(error.config?.url || '');
 
     // 对响应错误做点什么
     console.log('error', error);

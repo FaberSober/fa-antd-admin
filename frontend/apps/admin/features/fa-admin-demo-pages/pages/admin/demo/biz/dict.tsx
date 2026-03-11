@@ -14,7 +14,7 @@ export default function DictDemo() {
   const [value4, setValue4] = useState();
 
   return (
-    <div className="fa-full-content fa-p12">
+    <div className="fa-full-content-p12">
       <Card title="字典选择器-Select-关联列表" className="fa-mb12">
         <p>说明：1. 从接口获取数据；2. Select组件；3. 数据在"字典管理"中配置；</p>
 

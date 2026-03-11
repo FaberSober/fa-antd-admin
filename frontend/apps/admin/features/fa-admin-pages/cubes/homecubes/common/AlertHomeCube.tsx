@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import type { Admin } from '@features/fa-admin-pages/types';
 import { alertApi } from '@features/fa-admin-pages/services';
 import AlertModal from '@features/fa-admin-pages/pages/admin/system/base/alert/modal/AlertModal';
 import { CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Badge, Tooltip } from 'antd';
 import { FaScrollList, TitleClickTab } from '@features/fa-admin-pages/components';
+import { ThemeLayoutContext } from '@fa/ui';
 
 export function AlertHomeCube() {
+  const { themeDark } = useContext(ThemeLayoutContext);
   const [allAlerts, setAllAlerts] = useState<Admin.Alert[]>([]);
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export function AlertHomeCube() {
               <div
                 className="fa-flex-row-center fa-full fa-border-b fa-link-grey fa-pr12"
                 style={{
-                  backgroundColor: index === 0 ? '#fff8f8' : 'transparent',
+                  backgroundColor: index === 0 ? (themeDark ? 'rgba(255,77,79,0.15)' : '#fff8f8') : 'transparent',
                 }}
               >
                 <div

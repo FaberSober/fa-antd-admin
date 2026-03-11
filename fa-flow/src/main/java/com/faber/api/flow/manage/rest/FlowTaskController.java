@@ -1,0 +1,102 @@
+package com.faber.api.flow.manage.rest;
+
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.faber.api.flow.manage.biz.FlowTaskBiz;
+import com.faber.api.flow.manage.vo.req.FlowTaskClaimReqVo;
+import com.faber.api.flow.manage.vo.req.FlowTaskPageReqVo;
+import com.faber.api.flow.manage.vo.req.FlowTaskPassReqVo;
+import com.faber.api.flow.manage.vo.req.FlowTaskRejectReqVo;
+import com.faber.api.flow.manage.vo.ret.FlowTaskRet;
+import com.faber.api.flow.manage.vo.ret.FlowHisInstanceRet;
+import com.faber.api.flow.manage.vo.ret.FlowTaskCountRet;
+import com.faber.core.annotation.FaLogBiz;
+import com.faber.core.annotation.FaLogOpr;
+import com.faber.core.enums.LogCrudEnum;
+import com.faber.core.utils.BaseResHandler;
+import com.faber.core.vo.msg.Ret;
+import com.faber.core.vo.msg.TableRet;
+import com.faber.core.vo.query.BasePageQuery;
+
+import jakarta.annotation.Resource;
+
+@FaLogBiz("FLOW-流程定义")
+@RestController
+@RequestMapping("/api/flow/manage/flowTask")
+public class FlowTaskController extends BaseResHandler {
+
+    @Resource
+    FlowTaskBiz flowTaskBiz;
+
+    @FaLogOpr(value = "待审批", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/pagePendingApproval", method = RequestMethod.POST)
+    @ResponseBody
+    public TableRet<FlowTaskRet> pagePendingApproval(@RequestBody BasePageQuery<FlowTaskPageReqVo> query) {
+        return flowTaskBiz.pagePendingApproval(query);
+    }
+
+    @FaLogOpr(value = "待认领任务", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/pagePendingClaim", method = RequestMethod.POST)
+    @ResponseBody
+    public TableRet<FlowTaskRet> pagePendingClaim(@RequestBody BasePageQuery<FlowTaskPageReqVo> query) {
+        return flowTaskBiz.pagePendingClaim(query);
+    }
+
+    @FaLogOpr(value = "我申请的流程", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/pageMyApplications", method = RequestMethod.POST)
+    @ResponseBody
+    public TableRet<FlowHisInstanceRet> pageMyApplications(@RequestBody BasePageQuery<FlowTaskPageReqVo> query) {
+        return flowTaskBiz.pageMyApplications(query);
+    }
+    
+    @FaLogOpr(value = "我收到的任务", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/pageMyReceived", method = RequestMethod.POST)
+    @ResponseBody
+    public TableRet<FlowTaskRet> pageMyReceived(@RequestBody BasePageQuery<FlowTaskPageReqVo> query) {
+        return flowTaskBiz.pageMyReceived(query);
+    }
+
+    @FaLogOpr(value = "我已审批的任务", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/pageMyApproved", method = RequestMethod.POST)
+    @ResponseBody
+    public TableRet<FlowHisInstanceRet> pageMyApproved(@RequestBody BasePageQuery<FlowTaskPageReqVo> query) {
+        return flowTaskBiz.pageMyApproved(query);
+    }
+
+    @FaLogOpr(value = "同意流程", crud = LogCrudEnum.C)
+    @RequestMapping(value = "/pass", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<Boolean> pass(@Validated @RequestBody FlowTaskPassReqVo reqVo) {
+        flowTaskBiz.pass(reqVo.getTaskId());
+        return ok();
+    }
+
+    @FaLogOpr(value = "拒绝流程", crud = LogCrudEnum.C)
+    @RequestMapping(value = "/reject", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<Boolean> reject(@Validated @RequestBody FlowTaskRejectReqVo reqVo) {
+        flowTaskBiz.reject(reqVo.getTaskId());
+        return ok();
+    }
+
+    @FaLogOpr(value = "认领任务", crud = LogCrudEnum.C)
+    @RequestMapping(value = "/claim", method = RequestMethod.POST)
+    @ResponseBody
+    public Ret<Boolean> claim(@Validated @RequestBody FlowTaskClaimReqVo reqVo) {
+        flowTaskBiz.claim(reqVo.getTaskId());
+        return ok();
+    }
+    
+    @FaLogOpr(value = "查询我的流程任务数量", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/getMyTaskCount", method = RequestMethod.GET)
+    @ResponseBody
+    public Ret<FlowTaskCountRet> getMyTaskCount() {
+        return ok(flowTaskBiz.getMyTaskCount());
+    }
+
+}

@@ -82,7 +82,7 @@ export default function DemoTableTableEdit() {
   ]
 
   return (
-    <div className="fa-full-content fa-flex-column fa-bg-white">
+    <div className="fa-content fa-p12">
       <ListTable
         option={{
           editCellTrigger: 'click',

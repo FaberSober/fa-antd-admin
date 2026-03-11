@@ -26,7 +26,7 @@ export default function contextMenu() {
   };
 
   return (
-    <div className="fa-full-content fa-p12">
+    <div className="fa-full-content-p12">
       <Card title="context menu右键菜单" className="fa-mb12">
         <p>使用<code>react-contexify</code>实现右键菜单</p>
 

@@ -1,0 +1,171 @@
+.fa-im-wx-panel-main {
+  --fa-im-wx-bg-color: #EDEDED; /* 适配主题-背景色 */
+  --fa-im-wx-bg-color-second: #F7F7F7;
+  --fa-im-wx-bg-color-right: #EDEDED;
+  --fa-im-wx-btn-selected-color: #e6e6e6;
+  --fa-im-wx-border-color: #E1E1E1;
+  --fa-im-wx-msg-bg-color: #FFF;
+  --fa-im-wx-msg-me-bg-color: #95EC69;
+  --fa-im-wx-msg-text-color: #333;
+  --fa-im-wx-msg-me-text-color: #333;
+}
+
+[data-theme=dark] .fa-im-wx-panel-main {
+  --fa-im-wx-bg-color: #292A29; /* 适配主题-背景色 */
+  --fa-im-wx-bg-color-second: #242424;
+  --fa-im-wx-bg-color-right: #191919;
+  --fa-im-wx-btn-selected-color: #4f4f4f;
+  --fa-im-wx-border-color: #303030;
+  --fa-im-wx-msg-bg-color: #2E2E2E;
+  --fa-im-wx-msg-me-bg-color: #95EC69;
+  --fa-im-wx-msg-text-color: #FFF;
+  --fa-im-wx-msg-me-text-color: #333;
+}
+
+.fa-im-wx-panel-main {
+
+}
+
+.fa-im-wx-panel-left {
+  background: var(--fa-im-wx-bg-color);
+  border-right: 1px solid var(--fa-im-wx-border-color);
+}
+
+.fa-im-wx-panel-left-btn, .fa-im-wx-panel-left-btn-selected {
+  height: 40px;
+  width: 40px;
+  border-radius: 4px;
+  padding: 6px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.fa-im-wx-panel-left-btn-selected {
+  background-color: var(--fa-im-wx-btn-selected-color);
+  color: var(--primary-color);
+}
+
+.fa-im-wx-panel-left-sub {
+  background: var(--fa-im-wx-bg-color-second);
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.fa-im-wx-panel-right {
+  background: var(--fa-im-wx-bg-color-right);
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.fa-im-wx-item-selected {
+  background-color: var(--fa-im-wx-btn-selected-color);
+}
+
+// ----------------------------------- msg -----------------------------------
+.fa-im-wx-msg, .fa-im-wx-msg-me {
+  border-radius: 4px;
+  padding: 0px;
+  overflow: hidden;
+  background: var(--fa-im-wx-msg-bg-color);
+  color: var(--fa-im-wx-msg-text-color);
+  min-width: 40px;
+}
+
+.fa-im-wx-msg-me {
+  background: var(--fa-im-wx-msg-me-bg-color);
+  color: var(--fa-im-wx-msg-me-text-color);
+}
+
+.fa-im-wx-msg-item {
+  margin: 6px 0;
+  padding: 0 12px;
+}
+
+.fa-im-wx-msg-header {
+  background: #DCDCDC;
+  border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+
+  .ant-avatar {
+    background: #FFF;
+  }
+}
+
+.fa-im-wx-msg-text {
+  padding: 8px;
+}
+
+.fa-im-wx-msg-file {
+  padding: 8px;
+  background: var(--fa-im-wx-msg-bg-color);
+}
+
+.fa-im-wx-msg-me {
+  .fa-im-wx-msg-file {
+    background: var(--fa-im-wx-msg-me-bg-color);
+  }
+}
+
+.fa-im-wx-msg-video {
+  background: var(--fa-im-wx-bg-color);
+}
+
+.fa-im-wx-msg-image {
+  max-width: 200px;
+  max-height: 200px;
+  background: var(--fa-im-wx-bg-color);
+}
+
+.fa-im-wx-conv-add-user-btn {
+  width: 34px;
+  height: 34px;
+  border: 1px dashed var(--fa-border-color);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fa-im-wx-msg-other-sender-name {
+  font-size: 12px;
+  line-height: 12px;
+  margin-bottom: 4px;
+  color: #9E9E9E;
+}
+
+.fa-im-wx-conv-item-title {
+  font-size: 14px;
+  line-height: 14px;
+  margin-bottom: 6px;
+}
+
+.fa-im-wx-conv-item-last-msg {
+  font-size: 12px;
+  line-height: 12px;
+  color: #9E9E9E;
+}
+
+.fa-im-wx-conv-item-right-time {
+  font-size: 12px;
+  line-height: 12px;
+  color: #9E9E9E;
+}
+
+.fa-im-wx-msg-time {
+  font-size: 11px;
+  line-height: 11px;
+  color: #9E9E9E;
+}

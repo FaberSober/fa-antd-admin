@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 /**
- * {@link Dict#getType()} 数值类型：1-选择列表，2-字符串，3-关联列表，4-关联树
+ * {@link Dict#getType()} 数值类型：1-关联列表，2-关联树，3-字符串，4-选择列表
  */
 @Getter
 public enum DictTypeEnum implements IEnum<Integer> {

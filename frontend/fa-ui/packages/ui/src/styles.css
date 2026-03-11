@@ -3,7 +3,7 @@ html {
     --primary-color: #3b82f6;
     --primary-dark: #1e3a8a;
     --fa-bg-color: #fff; /* 适配主题-背景色 */
-    --fa-bg-color-hover: #F0F0F0; /* 适配主题-背景色 */
+    --fa-bg-color-hover: #e1e1e1; /* 适配主题-背景色 */
     --fa-bg-color2: #eee; /* 适配主题-背景色-2级 */
     --fa-bg-color-highlight: #1c5e88; /* 适配主题-背景色-高亮 */
     --fa-bg-color-highlight-hover: #1081c9; /* 适配主题-背景色-高亮-hover */
@@ -19,15 +19,18 @@ html {
     --fa-border-darker-color: #333; /* 适配主题-边框颜色 */
     --fa-bg-grey: #f7f7f7; /* 适配主题-背景色-灰色 */
     --fa-bg-grey2: #e7e7e7; /* 适配主题-背景色-灰色 */
+    --fa-bg-grey3: #ebeef5; /* 适配主题-背景色-灰色 */
     --fa-bg-selected: #ddd; /* 适配主题-背景色-灰色 */
     --separator-border: #eee; /* 适配主题-allocate-分割面板的分割线颜色 */
 
     --fa-bg-grey-darker: #e1e1e1;
     --fa-hover-bg: #e1e1e1;
     --fa-transition: all ease-in-out 0.3s;
-    --fa-border-radius: 2px;
-    --fa-box-shadow: 0 2px 8px var(--fa-bg-color-hover);
-    --fa-box-shadow-b: 0 2px 8px #eee;
+    --fa-border-radius: 4px;
+    /* --fa-box-shadow: 0 2px 8px var(--fa-bg-color-hover); */
+    /* --fa-box-shadow-b: 0 2px 8px #eee; */
+    --fa-box-shadow: 0 1px 2px -2px rgba(0, 0, 0, .08), 0 3px 6px 0 rgba(0, 0, 0, .06), 0 5px 12px 4px rgba(0, 0, 0, .04);
+    --fa-box-shadow-b: 0 1px 2px -2px rgba(255, 255, 255, 0.2), 0 3px 6px 0 rgba(255, 255, 255, 0.3), 0 5px 12px 4px rgba(255, 255, 255, 0.2);
     --focus-border: var(--primary-color) !important;
 
     --s-font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, SF Pro SC, SF Pro Display, SF Pro Icons, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -74,9 +77,9 @@ ul {
     padding: 12px !important;
 }
 
-.ant-card-body {
+/* .ant-card-body {
     padding: 12px !important;
-}
+} */
 
 .ant-modal-close {
     top: 12px !important;
@@ -123,6 +126,10 @@ ul {
 
 .ant-popconfirm-buttons {
     /*display: flex;*/
+}
+
+.ant-splitter-panel {
+  padding: 0 !important;
 }
 
 /*----------------------------------------- 全局通用自定义样式 -----------------------------------------*/
@@ -213,16 +220,20 @@ ul {
     background-color: var(--fa-bg-color2);
 }
 
-.fa-card {
+.fa-card, .fa-card-p0 {
     padding: 12px;
     background-color: var(--fa-bg-color);
     border-radius: var(--fa-border-radius);
     border: 1px solid var(--fa-border-color);
 }
 
+.fa-card-p0 {
+    padding: 0;
+}
+
 .fa-radius {
     border-radius: var(--fa-border-radius);
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .fa-text {
@@ -238,6 +249,10 @@ ul {
     color: var(--fa-text-color);
     font-size: 12px;
     font-weight: bold;
+}
+
+.fa-text-small {
+    font-size: 12px;
 }
 
 .fa-text-light100 {
@@ -405,8 +420,20 @@ ul {
     margin-left: 8px;
 }
 
+.fa-ml6 {
+    margin-left: 6px;
+}
+
 .fa-pl12 {
     padding-left: 12px;
+}
+
+.fa-pl6 {
+    padding-left: 6px;
+}
+
+.fa-pl0 {
+    padding-left: 0px;
 }
 
 .fa-pr12 {
@@ -514,12 +541,27 @@ ul {
 }
 
 .fa-main {
-    padding: 8px;
+    padding: 12px;
     margin: 0;
     overflow-x: hidden;
     overflow-y: auto;
     position: relative;
     height: 100%;
+    background-color: var(--fa-bg-grey);
+}
+
+.fa-content {
+    border: 1px solid var(--fa-border-color);
+    border-radius: 6px;
+    background-color: var(--fa-bg-color);
+    /* display: flex;
+    flex-direction: column; */
+    /* position: absolute;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    overflow: auto; */
 }
 
 .fa-border {
@@ -557,6 +599,22 @@ ul {
   margin: 0;
 }
 
+.fa-form-mb6 .ant-form-item {
+  margin-bottom: 6px;
+}
+
+.fa-form-mb12 .ant-form-item {
+  margin-bottom: 12px;
+}
+
+.fa-gap12 {
+  gap: 12px;
+}
+
+.fa-gap6 {
+  gap: 6px;
+}
+
 .fa-input-underline {
     border: none !important;
     border-radius: 0 !important;
@@ -576,6 +634,10 @@ ul {
 
 .fa-subtitle {
     color: var(--fa-subtitle-color);
+}
+
+.fa-bg-selected {
+    background: var(--fa-bg-selected);
 }
 
 .fa-base-btn-selected {
@@ -647,6 +709,10 @@ ul {
     cursor: pointer;
 }
 
+.fa-cursor-move {
+    cursor: move;
+}
+
 .fa-transition {
     transition: var(--fa-transition);
 }
@@ -683,6 +749,15 @@ ul {
 
 .fa-link-grey:hover {
     background-color: var(--fa-bg-color-hover);
+}
+
+.fa-link-primary {
+    cursor: pointer;
+    transition: var(--fa-transition);
+}
+
+.fa-link-primary:hover {
+    background-color: var(--primary-color-dark300);
 }
 
 .fa-box-shadow {
@@ -774,10 +849,106 @@ ul {
   word-spacing: -0.25em;       /* 微调单词间距（西文适用） */
 }
 
+/*----------------------------------------- antd-spin -----------------------------------------*/
+.fa-grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 每行4列，均分 */
+}
+
+.fa-grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 每行4列，均分 */
+}
+
+.fa-grid4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 每行4列，均分 */
+}
+
+.fa-grid5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 每行4列，均分 */
+}
+
+/*----------------------------------------- antd-spin -----------------------------------------*/
+.fa-spin-full {
+  width: 100%;
+  height: 100%;
+}
+
+.fa-spin-full .ant-spin-nested-loading, .fa-spin-full .ant-spin-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.fa-spin-full .ant-spin-nested-loading .ant-spin-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 /*----------------------------------------- fa-form -----------------------------------------*/
 .fa-form-reverse .ant-form-item {
   margin-inline-end: 0;
   margin-inline-start: 12px;
+}
+
+.fa-form-view {
+  /* 提升 disabled 状态下表单控件的文字可读性 */
+}
+
+/* Input 输入框 - 使用主题变量 */
+.fa-form-view .ant-input[disabled],
+.fa-form-view .ant-input-disabled {
+  color: var(--fa-text-color) !important;
+  background-color: var(--fa-bg-grey);
+}
+
+/* TextArea 文本域 - 使用主题变量 */
+.fa-form-view .ant-input[disabled].ant-input-textarea,
+.fa-form-view .ant-input-disabled.ant-input-textarea {
+  color: var(--fa-text-color) !important;
+}
+
+/* Select 下拉选择 - 使用主题变量 */
+.fa-form-view .ant-select-disabled {
+  color: var(--fa-text-color) !important;
+  background-color: var(--fa-bg-grey);
+}
+
+/* DatePicker 日期选择 - 使用主题变量 */
+.fa-form-view .ant-picker-disabled {
+  background-color: var(--fa-bg-grey);
+}
+
+.fa-form-view .ant-picker-disabled .ant-picker-input > input[disabled] {
+  color: var(--fa-text-color) !important;
+}
+
+/* InputNumber 数字输入框 - 使用主题变量 */
+.fa-form-view .ant-input-number-disabled {
+  background-color: var(--fa-bg-grey);
+}
+
+.fa-form-view .ant-input-number-disabled .ant-input-number-input {
+  color: var(--fa-text-color) !important;
+}
+
+/* Radio 单选框（已禁用的选项文字） - 使用主题变量 */
+.fa-form-view .ant-radio-disabled + span {
+  color: var(--fa-subtitle-color) !important;
+}
+
+/* Checkbox 复选框（已禁用的选项文字） - 使用主题变量 */
+.fa-form-view .ant-checkbox-disabled + span {
+  color: var(--fa-subtitle-color) !important;
+}
+
+.fa-form-view .ant-checkbox-disabled .ant-checkbox-inner:after {
+  border-color: var(--fa-text-color);
 }
 
 /*----------------------------------------- fa-tabs -----------------------------------------*/
@@ -804,6 +975,76 @@ ul {
 
 .fa-tabs .ant-tabs-tabpane {
   height: 100%;
+}
+
+/* Antd 6 Tabs 标签栏拉伸到 100%，每个 tab 等宽分布 */
+.fa-tabs-block .ant-tabs-nav-list {
+  width: 100% !important; /* 强制占满导航栏 */
+  display: flex;
+  justify-content: space-between; /* 或 space-around / space-evenly */
+}
+
+.fa-tabs-block .ant-tabs-tab {
+  flex: 1; /* 每个 tab 等宽拉伸 */
+  text-align: center; /* 文字居中 */
+  margin-right: 0 !important; /* 去除默认间距 */
+  display: flex;
+  justify-content: center;
+}
+
+/* 可选：去除 tab 间隙（gutter） */
+.fa-tabs-block {
+  --ant-tabs-tab-margin-right: 0; /* Antd 6 支持 CSS 变量控制间距 */
+}
+
+/*----------------------------------------- fa-animation -----------------------------------------*/
+/* 推荐写法：使用 animation + keyframes */
+.fa-hover-anim-shrink {
+  transition-duration: .15s;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+}
+
+.fa-hover-anim-shrink:hover {
+  animation: shrink 0.3s ease-in-out;
+  /* animation-fill-mode: forwards;  */   /* 通常不需要，因为 100% 回到 scale(1) */
+}
+
+@keyframes shrink {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes bell-ring {
+  0%, 100% {
+    transform-origin: top;
+  }
+  15% {
+    transform: rotate(10deg);
+  }
+  30% {
+    transform: rotate(-10deg);
+  }
+  45% {
+    transform: rotate(5deg);
+  }
+  60% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(2deg);
+  }
+}
+/*----------------------------------------- antd-descriptions -----------------------------------------*/
+.fa-antd-desc .ant-descriptions-header {
+  margin-bottom: 12px;
 }
 
 /*----------------------------------------- fa-iframe -----------------------------------------*/
@@ -885,9 +1126,94 @@ code[class*=language-], pre[class*=language-] {
     background: var(--fa-bg-color2);
 }
 
-/*----------------------------------------- allotment -----------------------------------------*/
-[data-testid=split-view-view]:not(:first-child)::before {
-  height: 20px !important;
-  top: calc(50% - 10px) !important;
+/*----------------------------------------- scrollbar -----------------------------------------*/
+/* ---------- WebKit 系列（Chrome、Edge、Safari） ---------- */
+::-webkit-scrollbar {
+  width: 8px;          /* 纵向滚动条宽度 */
+  height: 8px;         /* 横向滚动条高度 */
+  background: transparent; /* 彻底隐藏轨道背景 */
 }
 
+::-webkit-scrollbar-track {
+  background: transparent; /* 轨道保持透明 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, .25); /* 滑块颜色：50% 黑，可自行换色 */
+  border-radius: 4px;
+  border: none;        /* 去掉白边 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, .45); /* 悬停高亮 */
+}
+
+/* ---------- Firefox ---------- */
+* {
+  scrollbar-width: thin;      /* 细滚动条 */
+  scrollbar-color: rgba(0, 0, 0, .25) transparent; /* 滑块色 + 轨道透明 */
+  /* 关键：滚动条 overlay */
+  scrollbar-gutter: stable overlay; /* 标准写法，Chrome/Edge/Firefox 新版支持 */
+}
+
+[data-theme=dark] ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .25); /* 滑块颜色：50% 白，可自行换色 */
+}
+
+[data-theme=dark] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, .45); /* 悬停高亮 */
+}
+
+[data-theme=dark] * {
+  scrollbar-color: rgba(255, 255, 255, .25) transparent; /* 滑块色 + 轨道透明 */
+}
+
+.fa-scroll-bar-stable {
+  scrollbar-gutter: stable; /* 保持滚动条位置稳定 */
+}
+
+.fa-scroll-bar-dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .25); /* 滑块颜色：50% 白，可自行换色 */
+}
+
+.fa-scroll-bar-dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, .45); /* 悬停高亮 */
+}
+
+.fa-scroll-bar-dark * {
+  scrollbar-color: rgba(255, 255, 255, .25) transparent; /* 滑块色 + 轨道透明 */
+}
+
+/*----------------------------------------- modal fullscreen -----------------------------------------*/
+.fa-full-screen-modal-wrap {
+  overflow: hidden;
+}
+
+/* 这个类名对应于 Modal 组件中的 wrapClassName={...} */
+.fa-full-screen-modal-wrap .ant-modal-wrap {
+    /* 确保 z-index 够高，以覆盖所有其他元素 */
+    z-index: 10000;
+}
+
+/* 覆盖 Modal 本体的样式 */
+.fa-full-screen-modal-wrap .ant-modal {
+    max-width: 100vw;
+    top: 0 !important; /* 强制定位到顶部 */
+    padding-bottom: 0 !important;
+    margin: 0; /* 移除居中外边距 */
+    height: 100vh;
+}
+
+/* 覆盖 Modal 内容区（包含header/body/footer）的样式 */
+.fa-full-screen-modal-wrap .ant-modal-content {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* 使内容区铺满整个屏幕 */
+    border-radius: 0; /* 全屏模式下通常移除圆角 */
+}
+
+/* 覆盖 Modal Body 的样式，使其占据剩余空间并可滚动 */
+.fa-full-screen-modal-wrap .ant-modal-body {
+    flex: 1; /* 占据剩余垂直空间 */
+    overflow-y: auto; /* 允许内容区垂直滚动 */
+}

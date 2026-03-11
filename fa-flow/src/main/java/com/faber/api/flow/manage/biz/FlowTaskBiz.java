@@ -1,0 +1,162 @@
+package com.faber.api.flow.manage.biz;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
+import com.aizuda.bpm.engine.FlowLongEngine;
+import com.aizuda.bpm.engine.core.FlowCreator;
+import com.aizuda.bpm.engine.core.enums.NodeSetType;
+import com.aizuda.bpm.engine.entity.FlwInstance;
+import com.aizuda.bpm.engine.entity.FlwTask;
+import com.aizuda.bpm.engine.model.NodeModel;
+import com.alibaba.fastjson2.JSONObject;
+import com.faber.api.flow.manage.mapper.FlowTaskFaMapper;
+import com.faber.api.flow.manage.vo.req.FlowTaskPageReqVo;
+import com.faber.api.flow.manage.vo.ret.FlowHisInstanceRet;
+import com.faber.api.flow.manage.vo.ret.FlowTaskCountRet;
+import com.faber.api.flow.manage.vo.ret.FlowTaskRet;
+import com.faber.core.context.BaseContextHandler;
+import com.faber.core.exception.BuzzException;
+import com.faber.core.vo.msg.TableRet;
+import com.faber.core.vo.query.BasePageQuery;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import jakarta.annotation.Resource;
+
+@Service
+public class FlowTaskBiz {
+
+    @Resource FlowTaskFaMapper flowTaskFaMapper;
+    @Resource FlowLongEngine flowLongEngine;
+
+    /**
+     * 查询个人名下待审批的task列表
+     */
+    public TableRet<FlowTaskRet> pagePendingApproval(BasePageQuery<FlowTaskPageReqVo> query) {
+        query.getQuery().setActorId(BaseContextHandler.getUserId());
+        query.getQuery().setActorType(0);
+        PageInfo<FlowTaskRet> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
+                .doSelectPageInfo(() -> flowTaskFaMapper.queryTask(query.getQuery(), query.getSorter()));
+        return new TableRet<>(info);
+    }
+
+    /**
+     * 查询待认领的task列表
+     */
+    public TableRet<FlowTaskRet> pagePendingClaim(BasePageQuery<FlowTaskPageReqVo> query) {
+        query.getQuery().setActorId(BaseContextHandler.getUserId());
+        // 设置参与者类型为角色和部门类型
+        query.getQuery().setActorType(null); // 不设置单一类型，由SQL中处理IN(1,2)
+        PageInfo<FlowTaskRet> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
+                .doSelectPageInfo(() -> flowTaskFaMapper.queryClaimTask(query.getQuery(), query.getSorter()));
+        return new TableRet<>(info);
+    }
+
+    /**
+     * 查询我申请的流程task列表
+     */
+    public TableRet<FlowHisInstanceRet> pageMyApplications(BasePageQuery<FlowTaskPageReqVo> query) {
+        query.getQuery().setCreateId(BaseContextHandler.getUserId());
+        PageInfo<FlowHisInstanceRet> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
+                .doSelectPageInfo(() -> flowTaskFaMapper.queryHisInstance(query.getQuery(), query.getSorter()));
+        return new TableRet<>(info);
+    }
+
+    /**
+     * 查询历史流程实例列表
+     */
+    public TableRet<FlowHisInstanceRet> pageHisInstances(BasePageQuery<FlowTaskPageReqVo> query) {
+        // 如果需要查询当前用户的历史流程，可以设置 createId
+        // query.getQuery().setCreateId(BaseContextHandler.getUserId());
+        
+        PageInfo<FlowHisInstanceRet> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
+                .doSelectPageInfo(() -> flowTaskFaMapper.queryHisInstance(query.getQuery(), query.getSorter()));
+        return new TableRet<>(info);
+    }
+
+    public void pass(Long taskId) {
+        FlowCreator flowCreator = FlowCreator.of(BaseContextHandler.getUserId(), BaseContextHandler.getName());
+        FlwTask flwTask = flowLongEngine.queryService().getTask(taskId);
+        FlwInstance flwInstance = flowLongEngine.queryService().getInstance(flwTask.getInstanceId());
+        JSONObject vJsonObject = JSONObject.parse(flwInstance.getVariable());
+        // JSONObject formData = vJsonObject.getJSONObject("formData");
+        flowLongEngine.executeTask(taskId, flowCreator, vJsonObject);
+    }
+
+    public void reject(Long taskId) {
+        FlowCreator flowCreator = FlowCreator.of(BaseContextHandler.getUserId(), BaseContextHandler.getName());
+        FlwTask flwTask = flowLongEngine.queryService().getTask(taskId);
+        flowLongEngine.executeRejectTask(flwTask, null, flowCreator, null, true);
+    }
+
+    public void claim(Long taskId) {
+        FlowCreator flowCreator = FlowCreator.of(BaseContextHandler.getUserId(), BaseContextHandler.getName());
+        NodeModel nodeModel = flowLongEngine.taskService().getTaskModel(taskId);
+        Integer setType = nodeModel.getSetType();
+        if (NodeSetType.department.eq(setType)) {
+            flowLongEngine.taskService().claimDepartment(taskId, flowCreator);
+        } else if (NodeSetType.role.eq(setType)) {
+            flowLongEngine.taskService().claimRole(taskId, flowCreator);
+        } else {
+            throw new BuzzException("当前任务不支持认领操作");
+        }
+    }
+    
+    /**
+     * 查询我收到的任务列表
+     */
+    public TableRet<FlowTaskRet> pageMyReceived(BasePageQuery<FlowTaskPageReqVo> query) {
+        query.getQuery().setActorId(BaseContextHandler.getUserId());
+        query.getQuery().setActorType(0);
+        query.getQuery().setTaskType(2); // 设置任务类型为抄送任务
+        PageInfo<FlowTaskRet> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
+                .doSelectPageInfo(() -> flowTaskFaMapper.queryHisTask(query.getQuery(), query.getSorter()));
+        return new TableRet<>(info);
+    }
+
+    /**
+     * 查询我已审批的任务列表
+     */
+    public TableRet<FlowHisInstanceRet> pageMyApproved(BasePageQuery<FlowTaskPageReqVo> query) {
+        query.getQuery().setActorId(BaseContextHandler.getUserId());
+        query.getQuery().setActorType(0); // 设置参与者类型为用户
+        PageInfo<FlowHisInstanceRet> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
+                .doSelectPageInfo(() -> flowTaskFaMapper.queryMyApproved(query.getQuery(), query.getSorter()));
+        return new TableRet<>(info);
+    }
+
+    /**
+     * 查询我的流程任务数量
+     */
+    public FlowTaskCountRet getMyTaskCount() {
+        String currentUserId = BaseContextHandler.getUserId();
+        
+        FlowTaskCountRet countRet = new FlowTaskCountRet();
+        
+        // 查询待审批任务数量
+        Integer pendingCount = flowTaskFaMapper.countPendingApproval(currentUserId);
+        countRet.setPendingApprovalCount(pendingCount != null ? pendingCount : 0);
+        
+        // 查询我的申请数量
+        Integer myAppCount = flowTaskFaMapper.countMyApplications(currentUserId);
+        countRet.setMyApplicationCount(myAppCount != null ? myAppCount : 0);
+        
+        // 查询我收到的任务数量
+        Integer myReceivedCount = flowTaskFaMapper.countMyReceived(currentUserId);
+        countRet.setMyReceivedCount(myReceivedCount != null ? myReceivedCount : 0);
+        
+        // 查询认领任务数量
+        Integer claimCount = flowTaskFaMapper.countClaimTasks(currentUserId);
+        countRet.setClaimTaskCount(claimCount != null ? claimCount : 0);
+        
+        // 查询已审批任务数量
+        Integer auditedCount = flowTaskFaMapper.countAudited(currentUserId);
+        countRet.setAuditedCount(auditedCount != null ? auditedCount : 0);
+        
+        return countRet;
+    }
+
+}

@@ -1,21 +1,30 @@
 package com.faber.api.base.admin.entity;
 
+import java.io.Serializable;
+
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.faber.api.base.admin.enums.DictTypeEnum;
-import com.faber.core.annotation.*;
+import com.faber.core.annotation.SqlEquals;
+import com.faber.core.annotation.SqlSorter;
+import com.faber.core.annotation.SqlTreeId;
+import com.faber.core.annotation.SqlTreeName;
+import com.faber.core.annotation.SqlTreeParentId;
 import com.faber.core.bean.BaseDelEntity;
 import com.faber.core.config.easyexcel.type.FaJsonObj;
+import com.faber.core.config.mybatis.handler.UniversalJsonTypeHandler;
 import com.faber.core.config.validator.validator.Vg;
-import lombok.*;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 /**
@@ -55,13 +64,13 @@ public class Dict extends BaseDelEntity {
     @ExcelProperty("描述")
     private String description;
 
-    /** 1-选择列表，2-字符串，3-关联列表，4-关联树 */
+    /** 1-关联列表，2-关联树，3-字符串，4-选择列表 */
     @ExcelProperty("数值类型")
     private DictTypeEnum type;
 
     @NotNull
     @ExcelProperty("字典列表")
-    @TableField(typeHandler = JacksonTypeHandler.class)
+    @TableField(typeHandler = UniversalJsonTypeHandler.class)
     private Option[] options;
 
     @ExcelProperty("字典值")

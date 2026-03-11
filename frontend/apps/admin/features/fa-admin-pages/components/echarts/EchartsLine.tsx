@@ -58,12 +58,13 @@ export default function EchartsLine({ title, subTitle, dataX, dataY, unit, style
         text: title,
         subtext: subTitle,
         left: 'center',
+        top: 0,
       },
       grid: {
         left: '3%',
         right: '4%',
         bottom: '3%',
-        top: '17%',
+        top: '3%',
         containLabel: true,
       },
       // toolbox: FaUtils.EchartsToolbox,
@@ -75,7 +76,7 @@ export default function EchartsLine({ title, subTitle, dataX, dataY, unit, style
       },
       legend: {
         data: dataY.map((i) => i.name),
-        top: 24,
+        top: 0,
       },
       xAxis: {
         type: 'category',
@@ -92,7 +93,10 @@ export default function EchartsLine({ title, subTitle, dataX, dataY, unit, style
         },
         tooltip: {
           //鼠标移入图上数值显示格式
-          valueFormatter: (value: any) => value + (unit ? ` ${unit}` : ''),
+          valueFormatter: (value: any) => {
+            const formattedValue = typeof value === 'number' ? value.toFixed(1) : value;
+            return formattedValue + (unit ? ` ${unit}` : '');
+          },
         },
         ...lineSeriesOption,
       })),

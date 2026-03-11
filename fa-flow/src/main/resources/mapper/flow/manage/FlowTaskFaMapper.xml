@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faber.api.flow.manage.mapper.FlowTaskFaMapper">
+
+    <!-- 公共 where 条件片段 -->
+    <sql id="Query_Task_Where_Condition">
+        <where>
+            <if test="query.instanceId != null">
+                and t.instance_id = #{query.instanceId}
+            </if>
+            <if test="query.instanceState != null and query.instanceState.trim() != ''">
+                and i.instance_state = #{query.instanceState}
+            </if>
+            <if test="query.processName != null and query.processName.trim() != ''">
+                and p.process_name like concat('%', #{query.processName}, '%')
+            </if>
+            <if test="query.createBy != null and query.createBy.trim() != ''">
+                and p.create_by like concat('%', #{query.createBy}, '%')
+            </if>
+            <if test="query.actorId != null and query.actorId.trim() != ''">
+                and ta.actor_id = #{query.actorId}
+            </if>
+            <if test="query.actorIds != null and query.actorId.size() > 0">
+                and ta.actor_id IN
+                <foreach collection="query.actorIds" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="query.actorType != null">
+                and ta.actor_type = #{query.actorType}
+            </if>
+            <if test="query.createId != null and query.createId.trim() != ''">
+                and i.create_id = #{query.createId}
+            </if>
+            <if test="query.taskType != null">
+                and t.task_type = #{query.taskType}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 历史流程实例查询 where 条件片段 -->
+    <sql id="Query_HisInstance_Where_Condition">
+        <where>
+            <if test="query.instanceId != null">
+                and t.id = #{query.instanceId}
+            </if>
+            <if test="query.instanceState != null and query.instanceState.trim() != ''">
+                and t.instance_state = #{query.instanceState}
+            </if>
+            <if test="query.processName != null and query.processName.trim() != ''">
+                and p.process_name like concat('%', #{query.processName}, '%')
+            </if>
+            <if test="query.createId != null and query.createId.trim() != ''">
+                and t.create_id = #{query.createId}
+            </if>
+            <if test="query.createBy != null and query.createBy.trim() != ''">
+                and p.create_by like concat('%', #{query.createBy}, '%')
+            </if>
+            <if test="query.beginTime != null">
+                and t.create_time &gt;= #{query.beginTime}
+            </if>
+            <if test="query.endTime != null">
+                and t.create_time &lt;= #{query.endTime}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 查询任务列表 -->
+    <select id="queryTask" resultType="com.faber.api.flow.manage.vo.ret.FlowTaskRet">
+        SELECT t.id as task_id, t.task_key, t.task_name, t.task_type, t.remind_repeat, t.create_time, 
+            t.instance_id, 0 as instance_state, i.create_by as launch_by, i.create_time as launch_time, 
+            i.process_id, p.process_key, p.process_name, p.process_type
+        FROM flw_task t 
+        LEFT JOIN flw_instance i ON t.instance_id = i.id
+        LEFT JOIN flw_process p ON i.process_id = p.id
+        LEFT JOIN flw_task_actor ta ON t.id = ta.task_id
+        <include refid="Query_Task_Where_Condition"/>
+        <!-- 动态排序：sorter参数已在BasePageQuery.setSorter()中进行SQL注入防护验证 -->
+        <choose>
+            <when test="sorter != null and sorter != ''">
+                ORDER BY ${sorter}
+            </when>
+            <otherwise>
+                ORDER BY t.create_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 查询待认领任务列表 -->
+    <select id="queryClaimTask" resultType="com.faber.api.flow.manage.vo.ret.FlowTaskRet">
+        SELECT t.id as task_id, t.task_key, t.task_name, t.task_type, t.remind_repeat, t.create_time, 
+            t.instance_id, 0 as instance_state, i.create_by as launch_by, i.create_time as launch_time, 
+            i.process_id, p.process_key, p.process_name, p.process_type
+        FROM flw_task t 
+        LEFT JOIN flw_instance i ON t.instance_id = i.id
+        LEFT JOIN flw_process p ON i.process_id = p.id
+        LEFT JOIN flw_task_actor ta ON t.id = ta.task_id
+        <where>
+            <if test="query.instanceId != null">
+                and t.instance_id = #{query.instanceId}
+            </if>
+            <if test="query.instanceState != null and query.instanceState.trim() != ''">
+                and i.instance_state = #{query.instanceState}
+            </if>
+            <if test="query.processName != null and query.processName.trim() != ''">
+                and p.process_name like concat('%', #{processName}, '%')
+            </if>
+            <if test="query.createBy != null and query.createBy.trim() != ''">
+                and p.create_by like concat('%', #{query.createBy}, '%')
+            </if>
+            <if test="query.actorIds != null and query.actorId.size() > 0">
+                and ta.actor_id IN
+                <foreach collection="query.actorIds" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <!-- 待认领任务的参与者类型为角色(1)或部门(2) -->
+            AND  (
+                (ta.actor_type = 1 AND ta.actor_id IN (SELECT rur.role_id from base_rbac_user_role rur WHERE rur.deleted = FALSE AND rur.user_id = #{query.actorId}))
+                OR
+                (ta.actor_type = 2 AND ta.actor_id = (SELECT u.department_id from base_user u WHERE u.deleted = FALSE AND u.id = #{query.actorId}))
+            )
+            <if test="query.createId != null and query.createId.trim() != ''">
+                and i.create_id = #{query.createId}
+            </if>
+            <if test="query.taskType != null">
+                and t.task_type = #{query.taskType}
+            </if>
+        </where>
+        <choose>
+            <when test="sorter != null and sorter != ''">
+                ORDER BY ${sorter}
+            </when>
+            <otherwise>
+                ORDER BY t.create_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 查询历史任务列表 -->
+    <select id="queryHisTask" resultType="com.faber.api.flow.manage.vo.ret.FlowTaskRet">
+        SELECT t.id as task_id, t.task_key, t.task_name, t.task_type, t.remind_repeat, t.create_time, 
+            t.instance_id, i.instance_state, i.create_by as launch_by, i.create_time as launch_time, 
+            i.process_id, p.process_key, p.process_name, p.process_type
+        FROM flw_his_task t 
+        LEFT JOIN flw_his_instance i ON t.instance_id = i.id
+        LEFT JOIN flw_process p ON i.process_id = p.id
+        LEFT JOIN flw_his_task_actor ta ON t.id = ta.task_id
+        <include refid="Query_Task_Where_Condition"/>
+        <choose>
+            <when test="sorter != null and sorter != ''">
+                ORDER BY ${sorter}
+            </when>
+            <otherwise>
+                ORDER BY t.create_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 查询历史流程实例列表 -->
+    <select id="queryHisInstance" resultType="com.faber.api.flow.manage.vo.ret.FlowHisInstanceRet">
+        SELECT 
+            t.process_id as processId,
+            p.process_name as processName,
+            p.process_type as processType,
+            t.current_node_name as currentNodeName,
+            t.current_node_key as currentNodeKey,
+            t.id as instanceId,
+            t.instance_state as instanceState,
+            t.create_id as createId,
+            t.create_by as createBy,
+            t.create_time as createTime,
+            t.end_time as endTime,
+            t.duration as duration
+        FROM flw_his_instance t
+        LEFT JOIN flw_process p ON t.process_id = p.id
+        <include refid="Query_HisInstance_Where_Condition"/>
+        <choose>
+            <when test="sorter != null and sorter != ''">
+                ORDER BY ${sorter}
+            </when>
+            <otherwise>
+                ORDER BY t.create_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 查询我已审批的任务列表 -->
+    <select id="queryMyApproved" resultType="com.faber.api.flow.manage.vo.ret.FlowHisInstanceRet">
+        SELECT DISTINCT
+            t.process_id as processId,
+            p.process_name as processName,
+            p.process_type as processType,
+            t.current_node_name as currentNodeName,
+            t.current_node_key as currentNodeKey,
+            t.id as instanceId,
+            t.instance_state as instanceState,
+            t.create_id as createId,
+            t.create_by as createBy,
+            t.create_time as createTime,
+            t.end_time as endTime,
+            t.duration as duration
+        FROM flw_his_instance t
+        LEFT JOIN flw_process p ON t.process_id = p.id
+        LEFT JOIN flw_his_task ht ON t.id = ht.instance_id
+        LEFT JOIN flw_his_task_actor hta ON ht.id = hta.task_id
+        <where>
+            <if test="query.instanceId != null">
+                and t.id = #{query.instanceId}
+            </if>
+            <if test="query.instanceState != null and query.instanceState.trim() != ''">
+                and t.instance_state = #{query.instanceState}
+            </if>
+            <if test="query.processName != null and query.processName.trim() != ''">
+                and p.process_name like concat('%', #{query.processName}, '%')
+            </if>
+            <if test="query.createBy != null and query.createBy.trim() != ''">
+                and p.create_by like concat('%', #{query.createBy}, '%')
+            </if>
+            <if test="query.beginTime != null">
+                and t.create_time &gt;= #{query.beginTime}
+            </if>
+            <if test="query.endTime != null">
+                and t.create_time &lt;= #{query.endTime}
+            </if>
+            <!-- 我已审批的任务查询条件 -->
+            <if test="query.actorId != null and query.actorId.trim() != ''">
+                and hta.actor_id = #{query.actorId}
+            </if>
+            <if test="query.actorType != null">
+                and hta.actor_type = #{query.actorType}
+            </if>
+        </where>
+        <choose>
+            <when test="sorter != null and sorter != ''">
+                ORDER BY ${sorter}
+            </when>
+            <otherwise>
+                ORDER BY t.create_time DESC
+            </otherwise>
+        </choose>
+    </select>
+    
+    <!-- 查询待审批任务数量 -->
+    <select id="countPendingApproval" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT t.id)
+        FROM flw_task t 
+        LEFT JOIN flw_task_actor ta ON t.id = ta.task_id
+        WHERE ta.actor_id = #{actorId}
+        AND ta.actor_type = 0
+    </select>
+    
+    <!-- 查询我的申请数量 -->
+    <select id="countMyApplications" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM flw_his_instance i 
+        WHERE i.create_id = #{createId}
+    </select>
+    
+    <!-- 查询我收到的任务数量（包括已完成的） -->
+    <select id="countMyReceived" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT t.id)
+        FROM flw_his_task t 
+        LEFT JOIN flw_his_task_actor ta ON t.id = ta.task_id
+        WHERE t.task_type = 2 
+        AND ta.actor_type = 0
+        AND ta.actor_id = #{actorId}
+    </select>
+    
+    <!-- 查询认领任务数量 -->
+    <select id="countClaimTasks" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT t.id)
+        FROM flw_task t 
+        LEFT JOIN flw_task_actor ta ON t.id = ta.task_id
+        WHERE 1=1
+        <!-- 待认领任务的参与者类型为角色(1)或部门(2) -->
+        AND  (
+            (ta.actor_type = 1 AND ta.actor_id IN (SELECT rur.role_id from base_rbac_user_role rur WHERE rur.deleted = FALSE AND rur.user_id = #{actorId}))
+            OR
+            (ta.actor_type = 2 AND ta.actor_id = (SELECT u.department_id from base_user u WHERE u.deleted = FALSE AND u.id = #{actorId}))
+        )
+    </select>
+    
+    <!-- 查询已审批任务数量 -->
+    <select id="countAudited" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT ht.id)
+        FROM flw_his_task ht 
+        LEFT JOIN flw_his_task_actor hta ON ht.id = hta.task_id
+        WHERE hta.actor_id = #{actorId}
+        AND hta.actor_type = 0
+    </select>
+
+</mapper>

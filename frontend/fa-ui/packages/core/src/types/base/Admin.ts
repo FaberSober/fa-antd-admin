@@ -299,6 +299,10 @@ namespace Admin {
     buzzType: string;
     /** 业务ID  */
     buzzId: string;
+    /** 消息来源：1-系统消息，2-流程消息 */
+    type: number;
+    /** 业务JSON数据 */
+    buzzContent: string;
   }
 
   // -------------------------------------------- 系统配置参数 --------------------------------------------

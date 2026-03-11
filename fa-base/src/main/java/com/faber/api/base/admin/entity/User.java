@@ -16,6 +16,8 @@ import com.faber.core.enums.SexEnum;
 import com.faber.core.config.validator.validator.TelNoValidator;
 import com.faber.core.config.validator.validator.Vg;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 import jakarta.validation.constraints.Email;
@@ -49,6 +51,7 @@ public class User extends BaseDelEntity {
 
     @NotNull(groups = Vg.Crud.C.class)
     @ExcelIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotNull

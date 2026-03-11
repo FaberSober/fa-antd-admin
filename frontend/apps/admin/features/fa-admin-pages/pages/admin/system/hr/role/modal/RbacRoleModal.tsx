@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
-import { get } from 'lodash';
-import { Button, Form, Input } from 'antd';
-import { ApiEffectLayoutContext, BaseBoolRadio, type CommonModalProps, DragModal, FaHref, FaUtils } from '@fa/ui';
 import type { Rbac } from '@/types';
-import { rbacRoleApi } from '@features/fa-admin-pages/services';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { BaseBoolRadio, type CommonModalProps, DragModal, FaHref, FaUtils, useApiLoading } from '@fa/ui';
+import { rbacRoleApi as api } from '@features/fa-admin-pages/services';
+import { Button, Form, Input } from 'antd';
+import { get } from 'lodash';
+import { useState } from 'react';
 
 const serviceName = '';
 
@@ -12,14 +12,13 @@ const serviceName = '';
  * BASE-角色表实体新增、编辑弹框
  */
 export default function RbacRoleModal({ children, title, record, fetchFinish, addBtn, editBtn, ...props }: CommonModalProps<Rbac.RbacRole>) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
 
   /** 新增Item */
   function invokeInsertTask(params: any) {
-    rbacRoleApi.save(params).then((res) => {
+    api.save(params).then((res) => {
       FaUtils.showResponse(res, `新增${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -28,7 +27,7 @@ export default function RbacRoleModal({ children, title, record, fetchFinish, ad
 
   /** 更新Item */
   function invokeUpdateTask(params: any) {
-    rbacRoleApi.update(params.id, params).then((res) => {
+    api.update(params.id, params).then((res) => {
       FaUtils.showResponse(res, `更新${serviceName}`);
       setOpen(false);
       if (fetchFinish) fetchFinish();
@@ -61,7 +60,7 @@ export default function RbacRoleModal({ children, title, record, fetchFinish, ad
     form.setFieldsValue(getInitialValues());
   }
 
-  const loading = loadingEffect[rbacRoleApi.getUrl('save')] || loadingEffect[rbacRoleApi.getUrl('update')];
+  const loading = useApiLoading([ api.getUrl('save'), api.getUrl('update')]);
   return (
     <span>
       <span onClick={showModal}>

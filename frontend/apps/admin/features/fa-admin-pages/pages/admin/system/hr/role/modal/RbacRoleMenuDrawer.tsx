@@ -1,10 +1,10 @@
-import type React from 'react';
-import { useContext, useEffect, useState } from 'react';
-import { Button, Drawer, type DrawerProps, Tree } from 'antd';
-import { ApiEffectLayoutContext, type Fa, FaUtils, treeUtils } from '@fa/ui';
 import { FaEnums, type Rbac } from '@/types';
-import { rbacMenuApi, rbacRoleMenuApi } from '@features/fa-admin-pages/services';
 import { MobileOutlined } from '@ant-design/icons';
+import { type Fa, FaUtils, treeUtils, useApiLoading } from '@fa/ui';
+import { rbacMenuApi, rbacRoleMenuApi } from '@features/fa-admin-pages/services';
+import { Button, Drawer, type DrawerProps, Tree } from 'antd';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 
 export interface RbacRoleMenuDrawerProps extends DrawerProps {
   record: Rbac.RbacRole;
@@ -15,7 +15,6 @@ export interface RbacRoleMenuDrawerProps extends DrawerProps {
  * BASE-角色表实体新增、编辑弹框
  */
 export default function RbacRoleMenuDrawer({ children, record, ...props }: RbacRoleMenuDrawerProps) {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [tree, setTree] = useState<Fa.TreeNode<Rbac.RbacMenu>[]>([]);
   const [checkedMenuIds, setCheckedMenuIds] = useState<number[]>([]); // 选中的菜单ID
   const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([]); // 根据选中的菜单ID，计算出的展示全选中的Tree节点ID（过滤掉半选中的节点ID）
@@ -54,7 +53,7 @@ export default function RbacRoleMenuDrawer({ children, record, ...props }: RbacR
     await refreshData();
   }
 
-  const loading = loadingEffect[rbacRoleMenuApi.getUrl('updateRoleMenu')];
+  const loading = useApiLoading([rbacRoleMenuApi.getUrl('updateRoleMenu')]);
   return (
     <span>
       <span onClick={showModal}>{children}</span>
@@ -62,7 +61,8 @@ export default function RbacRoleMenuDrawer({ children, record, ...props }: RbacR
         title="角色权限设置"
         open={open}
         onClose={() => setOpen(false)}
-        width={700}
+        defaultSize={600}
+        resizable
         extra={
           <Button size="small" type="primary" onClick={handleSave} loading={loading}>
             更新

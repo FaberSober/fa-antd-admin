@@ -329,6 +329,11 @@ namespace Admin {
     workStatus: FaEnums.UserWorkStatusEnum;
     /** 最后在线时间 */
     lastOnlineTime: string;
+    // ------------- show cols -------------
+    /** 部门名称  */
+    departmentName: string;
+    /** 职位名称  */
+    postName: string;
   }
 
   export interface UserWeb extends User {
@@ -506,6 +511,10 @@ namespace Admin {
     buzzType: string;
     /** 业务ID  */
     buzzId: string;
+    /** 消息来源：1-系统消息，2-流程消息 */
+    type: FaEnums.MsgTypeEnum;
+    /** 业务JSON数据 */
+    buzzContent: string;
   }
 
   // -------------------------------------------- 系统-URL请求日志 --------------------------------------------

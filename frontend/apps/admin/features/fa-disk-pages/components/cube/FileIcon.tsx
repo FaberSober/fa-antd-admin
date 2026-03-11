@@ -1,8 +1,8 @@
-import React, { CSSProperties } from 'react';
+import FaIconPro from '@features/fa-admin-pages/components/icons/FaIconPro';
+import { fileSaveApi } from '@/services';
 import { Disk } from '@/types';
 import { FaUtils } from '@fa/ui';
-import { FaIcon } from '@fa/icons';
-import { fileSaveApi } from '@/services';
+import { CSSProperties } from 'react';
 
 export interface FileIconProps {
   file: Disk.StoreFile;
@@ -24,7 +24,7 @@ export default function FileIcon({ file, width = 20, style }: FileIconProps) {
   if (file.dir) {
     return (
       <div style={divStyle}>
-        <FaIcon icon='fa-solid fa-folder' style={{ width, height: width }} />
+        <FaIconPro icon='fa-solid fa-folder' style={{ width, height: width }} />
       </div>
     );
   }
@@ -40,7 +40,7 @@ export default function FileIcon({ file, width = 20, style }: FileIconProps) {
 
   return (
     <div style={divStyle}>
-      <FaIcon icon='fa-solid fa-file-lines' style={{ width, height: width }} />
+      <FaIconPro icon='fa-solid fa-file-lines' style={{ width, height: width }} />
     </div>
   );
 }

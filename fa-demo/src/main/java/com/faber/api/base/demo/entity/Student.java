@@ -4,7 +4,7 @@ import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.baomidou.mybatisplus.annotation.*;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.faber.core.annotation.FaColDict;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.annotation.SqlEquals;
 import com.faber.core.bean.BaseDelEntity;
@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
-
 
 /**
  * Demo-学生表
@@ -66,20 +65,23 @@ public class Student extends BaseDelEntity {
     @ExcelProperty("租户ID")
     private Integer tenantId;
 
-    @TableField(typeHandler = JacksonTypeHandler.class)
+    // @TableField(typeHandler = UniversalJsonTypeHandler.class)
     @ExcelProperty("标签")
+    @TableField(exist = false)
     private Tag[] tags;
 
-    @TableField(typeHandler = JacksonTypeHandler.class)
+    // @TableField(typeHandler = UniversalJsonTypeHandler.class)
     @ExcelProperty("详细信息")
+    @TableField(exist = false)
     private Info info;
 
     @ExcelIgnore
-    @TableField(value = "tags -> '$[*].name'",
-            insertStrategy = FieldStrategy.NEVER,
-            updateStrategy = FieldStrategy.NEVER,
-            exist = false,
-            select = false)
+    @TableField(exist = false)
+    // @TableField(value = "tags -> '$[*].name'",
+    //         insertStrategy = FieldStrategy.NEVER,
+    //         updateStrategy = FieldStrategy.NEVER,
+    //         exist = false,
+    //         select = false)
     private String tagNames;
 
     @Data
@@ -96,5 +98,20 @@ public class Student extends BaseDelEntity {
         private String info1;
         private String info2;
     }
+
+    // 测试字典返回-选择列表
+    @FaColDict("base_dict_test_options")
+    @ExcelProperty("字典值1")
+    private String dict1;
+
+    // 测试字典返回-关联列表
+    @FaColDict("base_dict_test_link_options")
+    @ExcelProperty("字典值2")
+    private String dict2;
+
+    // 测试字典返回-关联树
+    @FaColDict("base_dict_test_link_tree")
+    @ExcelProperty("字典值3")
+    private String dict3;
 
 }

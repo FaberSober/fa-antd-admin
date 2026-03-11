@@ -8,10 +8,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.bean.BaseDelEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 #if(${hasJSON})
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.faber.core.config.mybatis.handler.UniversalJsonTypeHandler;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.util.Map;
 #end
@@ -33,6 +34,7 @@ import java.math.BigDecimal;
 @TableName("${tableName}")
 #end
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class ${className} extends BaseDelEntity {
 
 #foreach ($column in $columns)
@@ -49,7 +51,7 @@ public class ${className} extends BaseDelEntity {
 #elseif ($column.attrname != 'crtTime' and $column.attrname != 'crtUser' and $column.attrname != 'crtName' and $column.attrname != 'crtHost' and $column.attrname != 'updTime' and $column.attrname != 'updUser' and $column.attrname != 'updName' and $column.attrname != 'updHost' and $column.attrname != 'deleted')
     @ExcelProperty("$column.columnComment")
 #if($column.attrType == 'Map<String, Object>')
-    @TableField(typeHandler = JacksonTypeHandler.class)
+    @TableField(typeHandler = UniversalJsonTypeHandler.class)
 #end
     private $column.attrType $column.attrname;
 

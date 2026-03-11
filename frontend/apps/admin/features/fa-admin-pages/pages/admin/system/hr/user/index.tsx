@@ -6,8 +6,7 @@ import DepartmentModal from './modal/DepartmentModal';
 import UserList from './cube/UserList';
 import { dispatch } from 'use-bus';
 import { PlusOutlined } from '@ant-design/icons';
-import { Allotment } from 'allotment';
-import 'allotment/dist/style.css';
+import { Splitter } from 'antd';
 
 /**
  * 用户部门管理
@@ -30,10 +29,10 @@ export default function UserDepartmentManage() {
   }
 
   return (
-    <div className="fa-full-content">
-      <Allotment defaultSizes={[100, 500]}>
+    <div className="fa-full-content-p12">
+      <Splitter>
         {/* 左侧面板 */}
-        <Allotment.Pane minSize={200} maxSize={400}>
+        <Splitter.Panel defaultSize={260} min={240} max="50%" collapsible>
           <BaseTree
             // showRoot
             rootName="全部"
@@ -53,13 +52,15 @@ export default function UserDepartmentManage() {
               },
             ]}
           />
-        </Allotment.Pane>
+        </Splitter.Panel>
 
         {/* 右侧面板 */}
-        <div className="fa-flex-column fa-full">
-          <UserList departmentId={viewRecord?.id} />
-        </div>
-      </Allotment>
+        <Splitter.Panel>
+          <div className="fa-flex-column fa-full fa-relative">
+            <UserList departmentId={viewRecord?.id} />
+          </div>
+        </Splitter.Panel>
+      </Splitter>
     </div>
   );
 }

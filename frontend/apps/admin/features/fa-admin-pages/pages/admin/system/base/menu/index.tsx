@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { ApiEffectLayoutContext, AuthDelBtn, BaseTree, type Fa, FaEnums, FaFlexRestLayout, FaHref, FaUtils, useDelete } from '@fa/ui';
-import { FaIcon } from '@fa/icons';
-import RbacMenuModal from './modal/RbacMenuModal';
+import FaIconPro from '@features/fa-admin-pages/components/icons/FaIconPro';
 import type { Rbac } from '@/types';
 import { EditOutlined, PlusOutlined, SafetyCertificateOutlined, SettingOutlined, SisternodeOutlined } from '@ant-design/icons';
-import { Button, Segmented, Space, Switch, Tag } from 'antd';
-import { useCounter } from 'react-use';
+import { AuthDelBtn, BaseTree, type Fa, FaEnums, FaFlexRestLayout, FaHref, FaUtils, useApiLoading, useDelete } from '@fa/ui';
 import { rbacMenuApi } from '@features/fa-admin-pages/services';
+import { Button, Segmented, Space, Switch, Tag } from 'antd';
+import { useEffect, useState } from 'react';
+import { useCounter } from 'react-use';
 import './index.scss';
+import RbacMenuModal from './modal/RbacMenuModal';
 
 /**
  * RBAC Menu Manage
@@ -15,7 +15,6 @@ import './index.scss';
  * @date 2022/12/15 15:57
  */
 export default function Menu() {
-  const { loadingEffect } = useContext(ApiEffectLayoutContext);
   const [current, { inc }] = useCounter(0);
   const [scope, setScope] = useState<FaEnums.RbacMenuScopeEnum>(FaEnums.RbacMenuScopeEnum.WEB);
 
@@ -29,7 +28,7 @@ export default function Menu() {
 
   const [handleDelete] = useDelete<string>(rbacMenuApi.remove, refreshData, '菜单');
 
-  const loadingTree = loadingEffect[rbacMenuApi.getUrl('allTree')];
+  const loadingTree = useApiLoading([rbacMenuApi.getUrl('allTree')]);
   return (
     <div className="fa-full-content fa-flex-column fa-menu-div">
       <div className="fa-m12 fa-flex-column" style={{marginBottom: 0}}>
@@ -84,7 +83,7 @@ export default function Menu() {
           titleRender={(item: Fa.TreeNode<Rbac.RbacMenu, string> & { updating: boolean }) => (
             <div className="fa-menu-item">
               <div style={{ flex: 1 }} onClick={() => FaUtils.copyToClipboard(item.name)}>{item.name}</div>
-              <div style={{ width: 30 }}>{item.sourceData.icon ? <FaIcon icon={item.sourceData.icon} /> : null}</div>
+              <div style={{ width: 30 }} className='fa-flex-center'>{item.sourceData.icon ? <FaIconPro icon={item.sourceData.icon} /> : null}</div>
               <div style={{ width: 100 }} onClick={() => FaUtils.copyToClipboard(item.sourceData.id)}>{item.sourceData.id}</div>
               <div className="fa-plr12">
                 {item.sourceData.level === FaEnums.RbacMenuLevelEnum.APP && <Tag color="#f50">{FaEnums.RbacMenuLevelEnumMap[item.sourceData.level]}</Tag>}

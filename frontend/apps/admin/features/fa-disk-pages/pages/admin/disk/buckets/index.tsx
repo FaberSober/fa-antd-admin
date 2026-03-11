@@ -1,3 +1,4 @@
+
 import React, { useContext } from 'react';
 import { SearchOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Space } from 'antd';
@@ -58,7 +59,7 @@ export default function StoreBucketList() {
   }
 
   return (
-    <div className="fa-full-content fa-flex-column fa-bg-white">
+    <div className="fa-full-content-p12 fa-flex-column fa-content">
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', padding: 8 }}>
         <div className="fa-h3">{serviceName}</div>
         <div className="fa-table-subtitle">

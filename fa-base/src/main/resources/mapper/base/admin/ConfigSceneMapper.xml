@@ -4,7 +4,7 @@
 <mapper namespace="com.faber.api.base.admin.mapper.ConfigSceneMapper">
 
     <select id="findMaxSort" parameterType="map" resultType="int">
-        SELECT IFNULL(MAX(t.sort), 0)
+        SELECT COALESCE(MAX(t.sort), 0)
         FROM base_config_scene t
         WHERE t.deleted = false
           AND t.biz = #{biz}
