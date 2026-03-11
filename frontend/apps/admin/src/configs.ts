@@ -34,10 +34,9 @@ const SITE_INFO: SITE_INFO_TYPES = {
   ICON_FONT_SCRIPTS: [
     '//at.alicdn.com/t/font_2473438_1jgmoopagcl.js', // icon-area, icon-china, icon-Quartzguanli, icon-job, icon-usermanagement, icon-role
   ],
-  HELP_DOC_SITE: 'http://doc.xxx.dward.cn/docs/xxx-doc-help',
   HOME_LINK: '/admin/home/desktop', // 首页跳转链接
   HELP_DOCS: [
-    {name: '帮助文档', url: '/help/doc1'}
+    {name: '帮助文档', url: 'https://faran.top/'}
   ],
   SHOW_TABS: true,
   ADMIN_DEFAULT_LAYOUT: [{ h: 3, i: 'HelloBanner', w: 16, x: 0, y: 0, moved: false, static: false }],
