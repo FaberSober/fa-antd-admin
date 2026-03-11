@@ -1,18 +1,7 @@
-/*
- Navicat Premium Dump SQL
-
- Source Server         : fa-txy-49.235.22.67-MySQL5.7
- Source Server Type    : MySQL
- Source Server Version : 50744 (5.7.44)
- Source Host           : 49.235.22.67:3306
- Source Schema         : fa_admin_dev
-
- Target Server Type    : MySQL
- Target Server Version : 50744 (5.7.44)
- File Encoding         : 65001
-
- Date: 11/03/2026 20:32:48
-*/
+-- ------------------------- info -------------------------
+-- @@ver: 1_000_000
+-- @@info: 初始化fa-im模块
+-- ------------------------- info -------------------------
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -90,3 +79,4 @@ CREATE TABLE IF NOT EXISTS `im_participant`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'IM-会话参与者表' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
