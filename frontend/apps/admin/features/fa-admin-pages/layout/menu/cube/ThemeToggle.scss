@@ -1,0 +1,39 @@
+/* ======================================================
+   View Transitions：圆形发散主题切换动画
+   ====================================================== */
+::view-transition-group(root) {
+  animation: none;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  display: block;
+}
+
+/* 切换到暗色：新视图从点击点发散扩展，旧视图垫底 */
+.theme-transition::view-transition-new(root) {
+  z-index: 999;
+  animation: theme-reveal 0.8s cubic-bezier(0.25, 1, 0.3, 1) both;
+}
+.theme-transition::view-transition-old(root) {
+  z-index: 1;
+}
+
+/* 切换到亮色：旧视图（暗色）从点击点收缩消失，新视图垫底 */
+.theme-transition-reverse::view-transition-old(root) {
+  z-index: 999;
+  animation: theme-reveal 0.8s cubic-bezier(0.25, 1, 0.3, 1) reverse both;
+}
+.theme-transition-reverse::view-transition-new(root) {
+  z-index: 1;
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0px at var(--theme-x) var(--theme-y));
+  }
+  to {
+    clip-path: circle(var(--theme-radius) at var(--theme-x) var(--theme-y));
+  }
+}
