@@ -133,7 +133,7 @@
                         <goals>
                             <goal>install-node-and-pnpm</goal>
                         </goals>
-
+                        <phase>prepare-package</phase>
                         <configuration>
                             <nodeVersion>${node.version}</nodeVersion>
                             <pnpmVersion>${pnpm.version}</pnpmVersion>
@@ -149,6 +149,7 @@
                         <goals>
                             <goal>pnpm</goal>
                         </goals>
+                        <phase>prepare-package</phase>
                         <configuration>
                             <arguments>install --ignore-scripts</arguments>
                             <!-- <nodeVersion>${node.version}</nodeVersion>-->
