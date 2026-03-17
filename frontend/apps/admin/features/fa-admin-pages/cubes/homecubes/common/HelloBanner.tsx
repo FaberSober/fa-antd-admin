@@ -74,4 +74,4 @@ HelloBanner.description = '欢迎组件';
 HelloBanner.showTitle = false; // 是否展示Card的Title
 HelloBanner.permission = ''; // 需要的权限-对应RbacMenu.linkUrl
 HelloBanner.w = 24; // 宽度-网格-max=24
-HelloBanner.h = 3; // 高度-每个单位20px
+HelloBanner.h = 5; // 高度-每个单位20px

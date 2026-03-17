@@ -90,5 +90,5 @@ AlertHomeCube.titleRender = () => <TitleClickTab title="预警信息" url="/admi
 AlertHomeCube.description = '展示系统中未处理的预警信息（每1.5秒向上滚动一条）';
 AlertHomeCube.showTitle = true;
 AlertHomeCube.permission = '';
-AlertHomeCube.w = 8;
-AlertHomeCube.h = 8;
+AlertHomeCube.w = 12;
+AlertHomeCube.h = 12;

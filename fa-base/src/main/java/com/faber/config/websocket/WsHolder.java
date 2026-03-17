@@ -108,4 +108,12 @@ public class WsHolder {
         }
     }
 
+    public static void sendMessageToToken(String token, String type, String channel, Object msg) {
+        try {
+            WsChatEndpoint.sendMessageToToken(token, type, channel, msg);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
 }

@@ -51,6 +51,7 @@ export default function MenuLayout({ renderHeaderExtra, children }: MenuLayoutPr
   const [menuSelPath, setMenuSelPath] = useState<string[]>([]); // 当前选中的菜单ID数组（不包含顶部block菜单）
   const [collapse, setCollapse] = useLocalStorage<boolean>('MenuLayout.collapse', false); // 是否折叠左侧菜单
   const [showTabs, setShowTabs] = useLocalStorage<boolean>('MenuLayout.showTabs', SITE_INFO.SHOW_TABS || true); // 是否展示标签栏
+  const [menuContentFull, setMenuContentFull] = useLocalStorage<boolean>('MenuLayout.menuContentFull', false); // 是否网页内全屏
   const [openSideMenuKeys, setOpenSideMenuKeys] = useState<string[]>([]); // 受控-左侧菜单打开的menu id数组
   const [openTabs, setOpenTabs] = useLocalStorage<OpenTabsItem[]>(openTabsCacheKey, []); // 受控-打开的标签页数组（localStorage缓存，按用户id隔离）
   const [curTab, setCurTab] = useState<OpenTabsItem>(); // 受控-当前选中的tab
@@ -201,6 +202,8 @@ export default function MenuLayout({ renderHeaderExtra, children }: MenuLayoutPr
     setOpenSideMenuKeys,
     showTabs,
     setShowTabs,
+    menuContentFull,
+    setMenuContentFull,
     openTabs: openTabs || [],
     curTab,
     setCurTab: (tab: OpenTabsItem | undefined) => {
@@ -251,7 +254,7 @@ export default function MenuLayout({ renderHeaderExtra, children }: MenuLayoutPr
         <div style={{ height: '100vh', width: '100vw' }} className="fa-full fa-flex-column">
           <Helmet title={`${curTab ? curTab.name + ' | ' : ''}${systemConfig.title}`} />
 
-          <div className="fa-menu-header fa-border-b">
+          <div className="fa-menu-header fa-border-b" style={{ display: menuContentFull ? 'none' : undefined }}>
             <Logo />
             <div className='fa-flex-row fa-gap6'>
               <MenuCollapse />
@@ -274,7 +277,9 @@ export default function MenuLayout({ renderHeaderExtra, children }: MenuLayoutPr
           </div>
 
           <FaFlexRestLayout style={{ display: 'flex', flexDirection: 'row' }}>
-            <SideMenu />
+            <div style={{ display: menuContentFull ? 'none' : undefined, height: '100%' }}>
+              <SideMenu />
+            </div>
 
             <FaFlexRestLayout >
               <div className="fa-full fa-flex-column fa-relative">

@@ -29,6 +29,8 @@ export interface MenuLayoutContextProps {
   setOpenSideMenuKeys: (v: string[]) => void;
   showTabs: boolean | undefined; // 是否展示标签栏
   setShowTabs: (v: boolean) => void; // 改变展示标签栏
+  menuContentFull?: boolean; // 是否网页内全屏
+  setMenuContentFull: (v: boolean) => void;
   openTabs: OpenTabsItem[]; // 打开的菜单历史记录
   curTab: OpenTabsItem | undefined; // 当前选中的tab
   setCurTab: (v: OpenTabsItem | undefined) => void;
@@ -56,6 +58,8 @@ const MenuLayoutContext: React.Context<MenuLayoutContextProps> = createContext<M
   setOpenSideMenuKeys: () => {},
   showTabs: true,
   setShowTabs: () => {},
+  menuContentFull: false,
+  setMenuContentFull: () => {},
   openTabs: [],
   curTab: undefined,
   setCurTab: () => {},

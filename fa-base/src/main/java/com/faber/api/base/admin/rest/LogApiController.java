@@ -1,9 +1,7 @@
 package com.faber.api.base.admin.rest;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.faber.api.base.admin.biz.LogApiBiz;
 import com.faber.api.base.admin.entity.LogApi;
@@ -12,7 +10,10 @@ import com.faber.core.annotation.FaLogOpr;
 import com.faber.core.annotation.LogNoRet;
 import com.faber.core.enums.LogCrudEnum;
 import com.faber.core.vo.msg.Ret;
+import com.faber.core.vo.tree.TreeNode;
 import com.faber.core.web.rest.BaseController;
+
+import java.util.List;
 
 /**
  * URL请求日志
@@ -29,6 +30,23 @@ public class LogApiController extends BaseController<LogApiBiz, LogApi, Long> {
     public Ret<Boolean> deleteAll() {
         baseBiz.deleteAll();
         return ok();
+    }
+
+    @RequestMapping(value = "/listLogFiles", method = RequestMethod.GET)
+    @ResponseBody
+    public Ret<List<TreeNode<Object>>> listLogFiles() {
+        return ok(baseBiz.listLogFiles());
+    }
+
+    @RequestMapping(value = "/readLogFile", method = RequestMethod.GET)
+    @ResponseBody
+    public Ret<List<String>> readLogFile(@RequestParam String filePath, @RequestParam(defaultValue = "200") Integer lines) {
+        return ok(baseBiz.readLogFile(filePath, lines));
+    }
+
+    @RequestMapping(value = "/downloadLogFile", method = RequestMethod.GET)
+    public void downloadLogFile(@RequestParam String filePath) {
+        baseBiz.downloadLogFile(filePath);
     }
 
 }

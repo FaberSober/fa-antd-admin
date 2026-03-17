@@ -4,7 +4,7 @@ import 'react-contexify/ReactContexify.css';
 import { FaFullscreenBtn } from '@fa/ui';
 import MenuLayoutContext, { type OpenTabsItem } from '../context/MenuLayoutContext';
 import './OpenTabs.scss';
-import { AppstoreOutlined, CloseOutlined, ReloadOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, CloseOutlined, FullscreenExitOutlined, FullscreenOutlined, ReloadOutlined } from '@ant-design/icons';
 import OpenTabsMenu, { useTabOperations } from './OpenTabsMenu';
 import { Popover } from 'antd';
 import FaIconPro from '@features/fa-admin-pages/components/icons/FaIconPro';
@@ -14,7 +14,7 @@ import FaIconPro from '@features/fa-admin-pages/components/icons/FaIconPro';
  * @date 2022/9/23
  */
 export default function OpenTabs() {
-  const { openTabs, curTab, selTab, reloadTab } = useContext(MenuLayoutContext);
+  const { openTabs, curTab, selTab, reloadTab, menuContentFull, setMenuContentFull } = useContext(MenuLayoutContext);
   const tabsRef = useRef<HTMLDivElement>(null);
   const [contextTabKey, setContextTabKey] = React.useState<string>('');
   const { remove } = useTabOperations();
@@ -101,10 +101,18 @@ export default function OpenTabs() {
       <div className='fa-menu-tab-right-btn' onClick={reloadCurTab}>
         <ReloadOutlined />
       </div>
-      {/* TODO 需要修改为网页内全屏，即隐藏header、menu */}
-      <FaFullscreenBtn target={document.body} style={{ width: 37, height: 37, borderRadius: 0, borderLeft: '1px solid var(--fa-border-color)' }} />
+      {/* 需要修改为网页内全屏，即隐藏header、menu */}
+      {menuContentFull ? (
+        <div className='fa-menu-tab-right-btn' onClick={() => setMenuContentFull(false)}>
+          <FullscreenExitOutlined />
+        </div>
+      ) : (
+        <div className='fa-menu-tab-right-btn' onClick={() => setMenuContentFull(true)}>
+          <FullscreenOutlined />
+        </div>
+      )}
 
-      <Menu id="menu_context_tab_item" className="fa-border" style={{minWidth: 180, zIndex: 9999}}>
+      <Menu id="menu_context_tab_item" className="fa-border fa-tabs-context-menu" style={{minWidth: 180, zIndex: 9999}}>
         <OpenTabsMenu targetTabKey={contextTabKey} />
       </Menu>
     </div>

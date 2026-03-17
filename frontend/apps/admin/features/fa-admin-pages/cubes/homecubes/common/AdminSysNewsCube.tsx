@@ -54,5 +54,5 @@ AdminSysNewsCube.title = '新闻';
 AdminSysNewsCube.description = '展示系统新闻轮播图片列表';
 AdminSysNewsCube.showTitle = false; // 是否展示Card的Title
 AdminSysNewsCube.permission = ''; // 需要的权限-对应RbacMenu.linkUrl
-AdminSysNewsCube.w = 8; // 宽度-max=24
-AdminSysNewsCube.h = 8; // 高度
+AdminSysNewsCube.w = 12; // 宽度-max=24
+AdminSysNewsCube.h = 12; // 高度

@@ -1,0 +1,35 @@
+.fa-log-monitor-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 12px;
+  background-color: #f5f5f5;
+  color: #333;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+  border-radius: 4px;
+}
+
+[data-theme=dark] .fa-log-monitor-container {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+}
+
+.fa-log-line {
+  margin-bottom: 2px;
+}
+
+[data-theme=dark] .fa-log-line {
+  color: #d4d4d4;
+}
+
+.fa-log-empty {
+  color: #999;
+}
+
+[data-theme=dark] .fa-log-empty {
+  color: #666;
+}

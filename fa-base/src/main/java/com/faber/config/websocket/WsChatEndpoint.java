@@ -235,5 +235,16 @@ public class WsChatEndpoint {
         }
     }
 
+    public static void sendMessageToToken(String token, String type, String channel, Object msg) {
+        try {
+            WsClientInfoEntity client = uavWebSocketInfoMap.get(token);
+            if (client != null) {
+                client.sendMessage(type, channel, msg);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
 }
 
