@@ -147,7 +147,7 @@ export default function LogMonitor() {
                 treeData={treeData}
                 fieldNames={{ title: 'name', key: 'id', children: 'children' }}
                 onSelect={handleSelect}
-                defaultExpandAll
+                // defaultExpandAll
                 titleRender={(node: any) => (
                   <Space>
                     <span>{node.name}</span>
