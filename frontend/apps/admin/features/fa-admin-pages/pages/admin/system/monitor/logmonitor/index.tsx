@@ -134,26 +134,33 @@ export default function LogMonitor() {
   return (
     <div className="fa-full-content-p12 fa-flex-row fa-gap12">
       {/* 左侧展示目录文件树 */}
-      <Card className="fa-content" style={{ width: 350 }} title="日志文件" styles={{ body: { padding: 12, overflow: 'auto' } }}>
-        <Spin spinning={loading}>
-          {treeData.length > 0 ? (
-            <Tree
-              treeData={treeData}
-              fieldNames={{ title: 'name', key: 'id', children: 'children' }}
-              onSelect={handleSelect}
-              defaultExpandAll
-              titleRender={(node: any) => (
-                <Space>
-                  <span>{node.name}</span>
-                  {!node.children && node.sourceData?.sizeStr && (
-                    <span style={{ color: '#999', fontSize: 12 }}>({node.sourceData.sizeStr})</span>
-                  )}
-                </Space>
-              )}
-            />
-          ) : (
-            <Empty />
-          )}
+      <Card
+        className="fa-content fa-flex-column fa-spin-full"
+        style={{ width: 350 }}
+        title="日志文件"
+        styles={{ body: { padding: 0, overflow: 'hidden', flex: 1, display: 'flex', flexDirection: 'column' } }}
+      >
+        <Spin spinning={loading} wrapperClassName="fa-flex-1 fa-flex-column fa-overflow-hidden fa-full fa-relative" style={{ height: '100%' }}>
+          <div className="fa-full fa-scroll" style={{ padding: 12 }}>
+            {treeData.length > 0 ? (
+              <Tree
+                treeData={treeData}
+                fieldNames={{ title: 'name', key: 'id', children: 'children' }}
+                onSelect={handleSelect}
+                defaultExpandAll
+                titleRender={(node: any) => (
+                  <Space>
+                    <span>{node.name}</span>
+                    {!node.children && node.sourceData?.sizeStr && (
+                      <span style={{ color: '#999', fontSize: 12 }}>({node.sourceData.sizeStr})</span>
+                    )}
+                  </Space>
+                )}
+              />
+            ) : (
+              <Empty />
+            )}
+          </div>
         </Spin>
       </Card>
 
@@ -182,7 +189,7 @@ export default function LogMonitor() {
         >
           {logs.length > 0 ? (
             logs.map((log, index) => (
-              <div key={index} className="fa-log-line fa-break-word">
+              <div key={index} className="fa-log-line fa-break-word fa-hover">
                 {log}
               </div>
             ))
