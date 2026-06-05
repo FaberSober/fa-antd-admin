@@ -56,19 +56,19 @@ services:
     networks:
       - fa_admin
 
-  fa-admin-php-redis-admin:
-    image: 'erikdubbelboer/phpredisadmin:latest'
-    container_name: fa-admin-php-redis-admin
-    restart: always
-    ports:
-      - '8182:80'
-    environment:
-      - REDIS_1_HOST=fa-admin-redis7
-      - REDIS_1_PORT=6379
-      - REDIS_1_AUTH=fa@redis#1276
-      - REDIS_1_NAME=local
-    networks:
-      - fa_admin
+  # fa-admin-php-redis-admin:
+  #   image: 'erikdubbelboer/phpredisadmin:latest'
+  #   container_name: fa-admin-php-redis-admin
+  #   restart: always
+  #   ports:
+  #     - '8182:80'
+  #   environment:
+  #     - REDIS_1_HOST=fa-admin-redis7
+  #     - REDIS_1_PORT=6379
+  #     - REDIS_1_AUTH=fa@redis#1276
+  #     - REDIS_1_NAME=local
+  #   networks:
+  #     - fa_admin
 
 #  fa-admin-nginx:
 #    image: nginx:latest

@@ -183,6 +183,10 @@ forest:
 # 一些默认配置
 fa:
   setting:
+    # 多租户配置
+    tenant:
+      # 是否启用多租户
+      enabled: true
     # TODO 删除JWT配置（使用sa-token替代）
     jwt:
       tokenHeader: Authorization
