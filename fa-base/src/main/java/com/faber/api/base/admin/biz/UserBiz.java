@@ -1,13 +1,14 @@
 package com.faber.api.base.admin.biz;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.IterUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 //import com.alicp.jetcache.anno.CacheInvalidate;
 //import com.alicp.jetcache.anno.Cached;
-import com.faber.core.enums.SexEnum;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.faber.api.base.admin.entity.Department;
 import com.faber.api.base.admin.entity.User;
@@ -17,15 +18,18 @@ import com.faber.api.base.admin.vo.query.*;
 import com.faber.api.base.rbac.biz.RbacRoleBiz;
 import com.faber.api.base.rbac.biz.RbacUserRoleBiz;
 import com.faber.api.base.rbac.entity.RbacRole;
+import com.faber.api.base.tn.biz.TenantUserBiz;
 import com.faber.config.utils.user.UserCheckUtil;
 import com.faber.core.config.redis.annotation.FaCacheClear;
 import com.faber.core.constant.CommonConstants;
 import com.faber.core.constant.FaSetting;
 import com.faber.core.context.BaseContextHandler;
+import com.faber.core.enums.SexEnum;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.exception.NoDataException;
 import com.faber.core.exception.auth.UserInvalidException;
 import com.faber.core.utils.FaPwdUtils;
+import com.faber.core.vo.msg.TableRet;
 import com.faber.core.vo.query.QueryParams;
 import com.faber.core.web.biz.BaseBiz;
 import org.apache.commons.collections4.MapUtils;
@@ -44,6 +48,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -74,6 +79,10 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     @Lazy
     @Resource
     private UserTokenBiz userTokenBiz;
+
+    @Lazy
+    @Resource
+    private TenantUserBiz tenantUserBiz;
 
     @Resource
     private FaSetting faSetting;
@@ -121,8 +130,55 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
     public User getLoginUser() {
         User user = getById(getCurrentUserId());
         if (!user.getStatus()) throw new BuzzException("无效账户");
+        this.decorateOne(user);
         user.setPassword(null);
         return user;
+    }
+
+    @Override
+    public TableRet<User> selectPageByQuery(QueryParams query) {
+        appendTenantUserQueryIfNeed(query);
+        return super.selectPageByQuery(query);
+    }
+
+    public TableRet<User> selectSuperPageByQuery(QueryParams query) {
+        return super.selectPageByQuery(query);
+    }
+
+    @Override
+    public QueryWrapper<User> parseQuery(QueryParams query) {
+        QueryWrapper<User> wrapper = super.parseQuery(query);
+        if (!isSuperAdminUser(getCurrentUserId())) {
+            wrapper.ne("id", CommonConstants.SUPER_ADMIN_ID);
+        }
+        return wrapper;
+    }
+
+    private void appendTenantUserQueryIfNeed(QueryParams query) {
+        if (faSetting.getTenant() == null || !faSetting.getTenant().isEnabled()) {
+            return;
+        }
+        String tenantId = BaseContextHandler.getTenantId();
+        if (StrUtil.isBlank(tenantId)) {
+            throw new BuzzException("当前租户上下文为空");
+        }
+
+        List<String> tenantUserIds = tenantUserBiz.getUserIdsByTenantId(tenantId);
+        if (query.getQuery() == null) {
+            query.setQuery(new HashMap<>());
+        }
+
+        Object existIdIn = query.getQuery().get("id#$in");
+        if (existIdIn instanceof List<?> existList) {
+            List<String> intersectIds = existList.stream()
+                    .map(ObjectUtil::toString)
+                    .filter(tenantUserIds::contains)
+                    .collect(Collectors.toList());
+            query.getQuery().put("id#$in", CollUtil.isEmpty(intersectIds) ? List.of("__tenant_no_user__") : intersectIds);
+            return;
+        }
+
+        query.getQuery().put("id#$in", CollUtil.isEmpty(tenantUserIds) ? List.of("__tenant_no_user__") : tenantUserIds);
     }
 
     /**
@@ -179,8 +235,26 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
         super.save(entity);
 
         this.updateUserRoles(entity);
+        this.bindTenantUserIfNeed(entity);
 
         return true;
+    }
+
+    private void bindTenantUserIfNeed(User entity) {
+        if (faSetting.getTenant() == null || !faSetting.getTenant().isEnabled()) {
+            return;
+        }
+
+        Department department = departmentBiz.getById(entity.getDepartmentId());
+        String tenantId = department == null ? null : department.getTenantId();
+        if (StrUtil.isBlank(tenantId)) {
+            tenantId = getCurrentTenantId();
+        }
+        if (StrUtil.isBlank(tenantId)) {
+            throw new BuzzException("新增用户所属部门租户为空");
+        }
+
+        tenantUserBiz.bindUserTenantIfAbsent(tenantId, entity.getId());
     }
 
 //    @CacheInvalidate(name = "user:", key = "#entity.id")
@@ -274,6 +348,7 @@ public class UserBiz extends BaseBiz<UserMapper, User> {
 
     @Override
     public void decorateOne(User i) {
+        i.setSuperAdmin(isSuperAdminUser(i.getId()));
         Department department = departmentBiz.getByIdWithCache(i.getDepartmentId());
         if (department != null) {
             i.setDepartmentName(department.getName());

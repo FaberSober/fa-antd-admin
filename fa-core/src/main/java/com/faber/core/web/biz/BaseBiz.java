@@ -16,8 +16,13 @@ import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapp
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.faber.core.annotation.*;
+import com.faber.core.bean.BaseTnCrtEntity;
+import com.faber.core.bean.BaseTnDelEntity;
+import com.faber.core.bean.BaseTnUpdEntity;
 import com.faber.core.config.mybatis.base.FaBaseMapper;
 import com.faber.core.config.mybatis.utils.WrapperUtils;
+import com.faber.core.constant.CommonConstants;
+import com.faber.core.constant.FaSetting;
 import com.faber.core.context.BaseContextHandler;
 import com.faber.core.exception.BuzzException;
 import com.faber.core.service.ConfigSceneService;
@@ -58,6 +63,7 @@ public abstract class BaseBiz<M extends FaBaseMapper<T>, T> extends ServiceImpl<
     private ConfigSceneService configSceneService;
     private DictService dictService;
     private StorageService storageService;
+    private FaSetting faSetting;
 
 
     /**
@@ -269,12 +275,18 @@ public abstract class BaseBiz<M extends FaBaseMapper<T>, T> extends ServiceImpl<
         }
     }
 
+    public QueryWrapper<T> getQueryWrapper(QueryParams query) {
+        QueryParams queryCount = new QueryParams();
+        queryCount.setQuery(query.getQuery());
+        QueryWrapper<T> countWrapper = parseQuery(queryCount);
+        return countWrapper;
+    }
+
     public List<T> list(QueryParams query) {
         QueryWrapper<T> wrapper = parseQuery(query);
 
         // 重新创建一个 wrapper，只保留查询条件
-        QueryWrapper<T> countWrapper = new QueryWrapper<>();
-        countWrapper.allEq(wrapper.getParamNameValuePairs(), false); // 保留条件
+        QueryWrapper<T> countWrapper = getQueryWrapper(query);
         long total = super.count(countWrapper);
 //        if (total > CommonConstants.QUERY_MAX_COUNT) {
 //            throw new BuzzException("单次查询列表返回数据不可超过" + CommonConstants.QUERY_MAX_COUNT);
@@ -428,6 +440,39 @@ public abstract class BaseBiz<M extends FaBaseMapper<T>, T> extends ServiceImpl<
         return BaseContextHandler.getUserId();
     }
 
+    protected boolean isSuperAdminUser(String userId) {
+        return StrUtil.equals(CommonConstants.SUPER_ADMIN_ID, userId);
+    }
+
+    protected String getCurrentTenantId() {
+        return BaseContextHandler.getTenantId();
+    }
+
+    protected boolean isTenantEntity() {
+        Class<T> entityClass = getEntityClass();
+        return BaseTnCrtEntity.class.isAssignableFrom(entityClass)
+                || BaseTnUpdEntity.class.isAssignableFrom(entityClass)
+                || BaseTnDelEntity.class.isAssignableFrom(entityClass);
+    }
+
+    protected boolean isTenantEnabled() {
+        if (faSetting == null) {
+            faSetting = SpringUtil.getBean(FaSetting.class);
+        }
+        return faSetting.getTenant() != null && faSetting.getTenant().isEnabled();
+    }
+
+    protected void addTenantQueryIfNeed(QueryWrapper<T> wrapper) {
+        if (!isTenantEnabled() || !isTenantEntity()) {
+            return;
+        }
+        String tenantId = getCurrentTenantId();
+        if (StrUtil.isBlank(tenantId)) {
+            throw new BuzzException("当前租户上下文为空");
+        }
+        wrapper.eq("tenant_id", tenantId);
+    }
+
     public void removeBatchByIds(List<Serializable> ids) {
         super.removeBatchByIds(ids);
         afterRemove(ids);
@@ -452,8 +497,7 @@ public abstract class BaseBiz<M extends FaBaseMapper<T>, T> extends ServiceImpl<
         QueryWrapper<T> wrapper = parseQuery(query);
         
         // 重新创建一个 wrapper，只保留查询条件
-        QueryWrapper<T> countWrapper = new QueryWrapper<>();
-        countWrapper.allEq(wrapper.getParamNameValuePairs(), false); // 保留条件
+        QueryWrapper<T> countWrapper = getQueryWrapper(query);
         long count = super.count(countWrapper);
         if (count > 1000) {
             throw new BuzzException("删除数据超过1000条，请使用批量删除");

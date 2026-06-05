@@ -1,0 +1,4 @@
+interface:
+  display_name: "FA Admin Backend"
+  short_description: "FA Admin 后端 Java API 与 MySQL DDL 规范。"
+  default_prompt: "在本仓库新增或修改后端 Java/Spring Boot、CRUD API、Entity、Mapper、Biz、Controller、MyBatis-Plus、枚举、校验、分页、字典字段、Excel 导入导出或 MySQL 5.7 DDL 时使用此 skill。"

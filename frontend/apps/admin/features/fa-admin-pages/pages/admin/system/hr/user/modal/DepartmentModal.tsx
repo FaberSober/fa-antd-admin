@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 const serviceName = '部门';
 
 interface DepartmentModalProps extends CommonModalProps<Admin.Department> {
-  parentId?: number;
+  parentId?: string | number;
 }
 
 /**

@@ -17,6 +17,7 @@ export { default as logApiApi } from './base/admin/logApi';
 export { default as logLoginApi } from './base/admin/logLogin';
 export { default as msgApi } from './base/admin/msg';
 export { default as noticeApi } from './base/admin/notice';
+export { default as redisApi } from './base/admin/redis';
 export { default as socketTaskApi } from './base/admin/socketTask';
 export { default as sysNewsApi } from './base/admin/sysNews';
 export { default as systemApi } from './base/admin/system';
@@ -24,7 +25,11 @@ export { default as systemUpdateLogApi } from './base/admin/systemUpdateLog';
 export { default as userApi } from './base/admin/user';
 export { default as userDeviceApi } from './base/admin/userDevice';
 export { default as userTokenApi } from './base/admin/userToken';
-export { default as logMonitorApi } from './admin/system/logMonitor';
+export { default as logMonitorApi } from './base/system/logMonitor';
+
+// ------------------------------------- Tenant -------------------------------------
+export { default as tenantApi } from './base/tn/tenant';
+export { default as tenantUserApi } from './base/tn/tenantUser';
 
 // ------------------------------------- Rbac -------------------------------------
 export { default as rbacMenuApi } from './base/rbac/rbacMenu';

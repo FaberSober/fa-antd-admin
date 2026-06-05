@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.faber.core.config.mybatis.base.FaSqlInjector;
 import com.faber.core.config.mybatis.handler.MysqlMetaObjectHandler;
+import com.faber.core.config.mybatis.interceptor.FaTenantInterceptor;
 import com.faber.core.constant.FaSetting;
 import com.faber.core.context.BaseContextHandler;
 import jakarta.annotation.Resource;
@@ -24,8 +25,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Mybatis Plus Config
@@ -39,35 +38,6 @@ public class MybatisPlusConfig {
 
     @Resource
     FaSetting faSetting;
-
-    /**
-     * 包含租户ID(tenant_id)字段的表
-     * TODO 要支持配置文件
-     */
-    private static final List<String> TENANT_EXCLUDE_TABLES = Arrays.asList("tn_tenant", "tn_tenant_user",
-            "tn_tenant_corp", "tn_tenant_corp_agent", "tn_tenant_rbac_menu");
-
-    /**
-     * 是否是租户表
-     *
-     * @return
-     */
-    private boolean isTenantTable(String tableName) {
-        if (TENANT_EXCLUDE_TABLES.contains(tableName))
-            return false;
-        return tableName.startsWith("tn_");
-    }
-
-    /**
-     * 是否是企业表
-     * 
-     * @return
-     */
-    private boolean isCorpTable(String tableName) {
-        if (TENANT_EXCLUDE_TABLES.contains(tableName))
-            return false;
-        return tableName.startsWith("tn_");
-    }
 
     @Bean("mybatisSqlSession")
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource, GlobalConfig globalConfig) throws Exception {
@@ -88,44 +58,9 @@ public class MybatisPlusConfig {
         MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();
 
         // 如果用了分页插件注意先 add TenantLineInnerInterceptor 再 add PaginationInnerInterceptor
-        // 多租户
-//        mybatisPlusInterceptor.addInnerInterceptor(new TenantLineInnerInterceptor(new TenantLineHandler() {
-//            @Override
-//            public String getTenantIdColumn() {
-//                return "tenant_id";
-//            }
-//
-//            @Override
-//            public Expression getTenantId() {
-//                // TO-DO 这里获取上下文的租户ID
-//                return new LongValue(TnTenantContextHandler.getTenantId());
-//            }
-//
-//            // 这是 default 方法,默认返回 false 表示所有表都需要拼多租户条件
-//            @Override
-//            public boolean ignoreTable(String tableName) {
-//                return !isTenantTable(tableName);
-//            }
-//        }));
-        // 租户下创建的企业
-//        mybatisPlusInterceptor.addInnerInterceptor(new TenantLineInnerInterceptor(new TenantLineHandler() {
-//            @Override
-//            public String getTenantIdColumn() {
-//                return "corp_id";
-//            }
-//
-//            @Override
-//            public Expression getTenantId() {
-//                // TO-DO 这里获取上下文的租户ID
-//                return new LongValue(TnTenantContextHandler.getCorpId());
-//            }
-//
-//            // 这是 default 方法,默认返回 false 表示所有表都需要拼多租户条件
-//            @Override
-//            public boolean ignoreTable(String tableName) {
-//                return !isCorpTable(tableName);
-//            }
-//        }));
+        if (faSetting.getTenant() != null && faSetting.getTenant().isEnabled()) {
+            mybatisPlusInterceptor.addInnerInterceptor(new FaTenantInterceptor());
+        }
 
         // 动态表名
         DynamicTableNameInnerInterceptor dynamicTableNameInnerInterceptor = new DynamicTableNameInnerInterceptor(

@@ -46,9 +46,9 @@ public class CommonConstants {
 
     // ---------------- 上下文信息-租户特有字段 ----------------
     public static final String CONTEXT_KEY_TENANT_LOGIN = "currentTenantLogin";
-    public static final String CONTEXT_KEY_TENANT_ID = "currentTenantIp"; // 当前租户所属的租户ID
+    public static final String CONTEXT_KEY_TENANT_ID = "currentTenantId"; // 当前租户所属的租户ID
     public static final String CONTEXT_KEY_TENANT_NAME = "currentTenantName"; // 当前租户所属的租户名称
-    public static final String CONTEXT_KEY_CORP_ID = "currentCorpIp"; // 当前租户所属的企业ID
+    public static final String CONTEXT_KEY_CORP_ID = "currentCorpId"; // 当前租户所属的企业ID
     public static final String CONTEXT_KEY_CORP_NAME = "currentCorpName"; // 当前租户所属的企业名称
 
     public static final String JWT_KEY_USER_ID = "userId";
@@ -80,6 +80,11 @@ public class CommonConstants {
      * 添加到请求的Header中，标识客户端APP的设备ID
      */
     public static final String FA_APP_DEVICE_ID = "FaAppDeviceId";
+
+    /**
+     * 租户-选中的租户ID
+     */
+    public static final String FA_TN_TENANT_ID = "fa-tn-tenant-id";
 
     /**
      * 租户-选中的企业ID

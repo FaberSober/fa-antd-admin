@@ -14,6 +14,7 @@ import com.faber.core.vo.tree.TreeNode;
 import com.faber.core.web.rest.BaseController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * URL请求日志
@@ -44,8 +45,10 @@ public class LogApiController extends BaseController<LogApiBiz, LogApi, Long> {
         return ok(baseBiz.readLogFile(filePath, lines));
     }
 
-    @RequestMapping(value = "/downloadLogFile", method = RequestMethod.GET)
-    public void downloadLogFile(@RequestParam String filePath) {
+    @RequestMapping(value = "/downloadLogFile", method = RequestMethod.POST)
+    @ResponseBody
+    public void downloadLogFile(@RequestBody Map<String, Object> params) {
+        String filePath = (String) params.get("filePath");
         baseBiz.downloadLogFile(filePath);
     }
 

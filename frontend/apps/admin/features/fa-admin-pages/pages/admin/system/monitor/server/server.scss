@@ -1,0 +1,215 @@
+.server-monitor-page {
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 24%),
+    radial-gradient(circle at top right, rgba(16, 185, 129, 0.07), transparent 22%);
+}
+
+.server-monitor-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 12px 18px;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.96));
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+}
+
+.server-monitor-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.server-monitor-subtitle {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.server-monitor-kpi {
+  height: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+}
+
+.server-monitor-kpi-foot {
+  margin-top: 8px;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.server-monitor-card {
+  height: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+}
+
+.server-monitor-card-auto {
+  height: auto;
+}
+
+.server-monitor-card-compact .ant-card-body {
+  padding: 14px 16px 16px;
+}
+
+.server-monitor-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.server-monitor-stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(248, 250, 252, 0.9);
+  color: #475569;
+  font-size: 13px;
+}
+
+.server-monitor-stat-row strong {
+  color: #0f172a;
+  font-size: 14px;
+}
+
+.server-monitor-inline-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.server-monitor-inline-value {
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.server-monitor-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.server-monitor-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  // min-height: 74px;
+  padding: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.88), rgba(255, 255, 255, 0.96));
+}
+
+.server-monitor-info-item-wide {
+  // min-height: 60px;
+}
+
+.server-monitor-info-item span {
+  color: #64748b;
+  font-size: 11px;
+}
+
+.server-monitor-info-item strong {
+  color: #0f172a;
+  font-size: 14px;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.server-monitor-disk-card {
+  height: 100%;
+  padding: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.92));
+}
+
+.server-monitor-disk-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.server-monitor-disk-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.server-monitor-disk-volume {
+  margin-top: 2px;
+  font-size: 11px;
+  color: #64748b;
+  word-break: break-all;
+}
+
+.server-monitor-disk-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 10px;
+  margin-top: 8px;
+  color: #475569;
+  font-size: 11px;
+}
+
+.server-monitor-page .ant-statistic {
+  line-height: 1.1;
+}
+
+.server-monitor-page .ant-statistic-content {
+  font-size: 20px;
+}
+
+.server-monitor-page .ant-statistic-content-value {
+  font-weight: 700;
+}
+
+.server-monitor-page .ant-card-head {
+  min-height: 44px;
+  padding: 0 16px;
+}
+
+.server-monitor-page .ant-card-head-title {
+  padding: 12px 0;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.server-monitor-page .ant-card-body {
+  padding: 16px;
+}
+
+.server-monitor-page .ant-progress-line {
+  margin-bottom: 0;
+}
+
+@media (max-width: 992px) {
+  .server-monitor-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .server-monitor-info-grid,
+  .server-monitor-disk-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .server-monitor-inline-value {
+    font-size: 28px;
+  }
+}

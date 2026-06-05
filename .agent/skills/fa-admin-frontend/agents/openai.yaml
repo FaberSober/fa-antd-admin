@@ -1,0 +1,4 @@
+interface:
+  display_name: "FA Admin Frontend"
+  short_description: "FA Admin 前端 React CRUD 页面与 feature 模块规范。"
+  default_prompt: "在本仓库新增或修改前端后台 React CRUD 页面、feature 模块、services、types、弹窗、helper 组件、表格查询页或基于 @fa/ui 的管理页面时使用此 skill。"

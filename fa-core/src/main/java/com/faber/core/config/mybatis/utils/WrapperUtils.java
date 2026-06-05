@@ -163,6 +163,9 @@ public class WrapperUtils {
     private static boolean judgeFieldEqual(Field field) {
         if (field == null) return false;
 
+        // 如果是id
+        if ("id".equalsIgnoreCase(field.getName())) return true;
+
         // SqlEquals注解
         if (field.getAnnotation(SqlEquals.class) != null) return true;
 

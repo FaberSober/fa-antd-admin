@@ -7,12 +7,15 @@ import com.faber.api.base.admin.biz.UserBiz;
 import com.faber.api.base.admin.biz.UserTokenBiz;
 import com.faber.api.base.admin.entity.User;
 import com.faber.api.base.admin.entity.UserToken;
+import com.faber.api.base.tn.biz.TenantUserBiz;
 import com.faber.core.config.annotation.AdminOpr;
 import com.faber.core.config.annotation.ApiToken;
 import com.faber.core.config.annotation.IgnoreUserToken;
+import com.faber.core.constant.CommonConstants;
+import com.faber.core.constant.FaSetting;
+import com.faber.core.context.BaseContextHandler;
 import com.faber.core.exception.auth.UserTokenException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
@@ -35,6 +38,12 @@ public class UserAuthRestInterceptor extends AbstractInterceptor {
     @Resource
     private UserTokenBiz userTokenBiz;
 
+    @Resource
+    private TenantUserBiz tenantUserBiz;
+
+    @Resource
+    private FaSetting faSetting;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 配置该注解，说明在上下文中注入当前操作用户为admin
@@ -56,6 +65,7 @@ public class UserAuthRestInterceptor extends AbstractInterceptor {
         if (apiToken != null) {
             User user = userBiz.getUserFromApiToken();
             userBiz.setUserLogin(user, "api");
+            this.resolveUserTenant(request, user.getId());
             return super.preHandle(request, response, handler);
         }
 
@@ -90,8 +100,26 @@ public class UserAuthRestInterceptor extends AbstractInterceptor {
 
         // 用户登录状态设置
         userBiz.setUserLogin(userId);
+        this.resolveUserTenant(request, userId);
 
         return super.preHandle(request, response, handler);
+    }
+
+    private void resolveUserTenant(HttpServletRequest request, String userId) {
+        if (faSetting.getTenant() == null || !faSetting.getTenant().isEnabled()) {
+            BaseContextHandler.setTenantId(null);
+            return;
+        }
+
+        String tenantId = request.getHeader(CommonConstants.FA_TN_TENANT_ID);
+        if (StrUtil.isNotBlank(tenantId)) {
+            if (!tenantUserBiz.hasUserTenant(userId, tenantId)) {
+                throw new UserTokenException("当前账户无权访问该租户");
+            }
+        } else {
+            tenantId = tenantUserBiz.getDefaultTenantId(userId);
+        }
+        BaseContextHandler.setTenantId(tenantId);
     }
 
     @Override

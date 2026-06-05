@@ -3,6 +3,7 @@ import { FaFlexRestLayout, FaSortList, FaUtils } from '@fa/ui';
 import type { Admin } from '@/types';
 import { dictApi } from '@features/fa-admin-pages/services';
 import DictForm from './DictForm';
+import '../index.scss'
 
 export interface DictOptionsEditProps {
   dict: Admin.Dict;

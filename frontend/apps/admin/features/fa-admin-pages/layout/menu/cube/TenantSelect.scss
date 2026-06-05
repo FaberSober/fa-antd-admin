@@ -1,0 +1,42 @@
+.tenant-select {
+  height: 32px;
+  border-radius: 16px;
+  background: var(--fa-bg-color2);
+  border: 1px solid var(--fa-border-color);
+  transition: background 0.2s, border-color 0.2s;
+
+  &:hover,
+  &.ant-select-focused {
+    background: var(--fa-bg-color2);
+    border-color: var(--fa-border-color);
+  }
+
+  .ant-select-selector {
+    height: 30px !important;
+    padding: 0 10px !important;
+    border-radius: 16px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .ant-select-selection-item {
+    display: flex;
+    align-items: center;
+    padding-inline-end: 18px !important;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--fa-text-color);
+  }
+
+  .ant-select-arrow {
+    inset-inline-end: 10px;
+    color: var(--fa-text-color-light100);
+    font-size: 14px;
+  }
+}
+
+.tenant-select-popup {
+  .ant-select-item-option-selected {
+    font-weight: 600;
+  }
+}

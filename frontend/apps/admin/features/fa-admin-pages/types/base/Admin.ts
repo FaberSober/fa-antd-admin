@@ -143,6 +143,8 @@ namespace Admin {
     kkFileViewUrl: string;
     /** [Web]是否离线环境 */
     offline: boolean;
+    /** [租户]是否开启租户 */
+    tenantEnabled: boolean;
     /** [安全]是否开启验证码 */
     safeCaptchaOn: boolean;
     /** [安全]是否开启注册 */
@@ -329,6 +331,8 @@ namespace Admin {
     workStatus: FaEnums.UserWorkStatusEnum;
     /** 最后在线时间 */
     lastOnlineTime: string;
+    /** 是否超级管理员 */
+    superAdmin: boolean;
     // ------------- show cols -------------
     /** 部门名称  */
     departmentName: string;
@@ -655,6 +659,46 @@ namespace Admin {
     totalSpace: number;
     freeSpace: number;
     usableSpace: number;
+  }
+
+  // -------------------------------------------- 系统-Redis --------------------------------------------
+  export interface RedisOverview {
+    dbSize: number;
+    redisPrefix: string;
+  }
+
+  export interface RedisKeyItem {
+    key: string;
+    type: string;
+    ttlSeconds?: number;
+    persistent: boolean;
+    size: number;
+    summary: string;
+  }
+
+  export interface RedisKeyList {
+    keyword?: string;
+    pattern: string;
+    limit: number;
+    truncated: boolean;
+    items: RedisKeyItem[];
+  }
+
+  export interface RedisKeyDetailEntry {
+    index?: number;
+    field?: string;
+    value: string;
+    score?: number;
+  }
+
+  export interface RedisKeyDetail {
+    key: string;
+    type: string;
+    ttlSeconds?: number;
+    persistent: boolean;
+    size: number;
+    valueText?: string;
+    entries?: RedisKeyDetailEntry[];
   }
 
   /** BASE-系统-新闻 */

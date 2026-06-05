@@ -30,10 +30,13 @@ const biz = 'UserList-v3';
 
 interface IProps {
   departmentId?: string;
+  superMode?: boolean;
 }
 
-export default function UserList({ departmentId }: IProps) {
+export default function UserList({ departmentId, superMode = false }: IProps) {
   const [form] = Form.useForm();
+  const pageApi = superMode ? userApi.pageSuper : userApi.page;
+  const extraParams = superMode ? {} : { departmentIdSuper: departmentId };
 
   const {
     queryParams,
@@ -48,20 +51,16 @@ export default function UserList({ departmentId }: IProps) {
     setList,
     dicts,
     paginationProps,
-  } = useTableQueryParams<Admin.UserWeb>(
-    userApi.page,
-    { extraParams: { departmentIdSuper: departmentId }, sorter: { field: 'crtTime', order: 'descend' } },
-    serviceName,
-  );
+  } = useTableQueryParams<Admin.UserWeb>(pageApi, { extraParams, sorter: { field: 'crtTime', order: 'descend' } }, serviceName);
 
   const [exporting, fetchExportExcel] = useExport(userApi.exportExcel, {
     ...queryParams,
-    extraParams: { departmentIdSuper: departmentId },
+    extraParams,
   });
   const [handleDelete] = useDelete<string>(userApi.remove, fetchPageList, serviceName);
   const { show, hide, open, item } = useViewItem<Admin.User>(); // 查看记录
 
-  useEffect(() => setExtraParams({ departmentIdSuper: departmentId }), [departmentId]);
+  useEffect(() => setExtraParams(extraParams), [departmentId, superMode]);
 
   /** 生成表格字段List */
   function genColumns() {

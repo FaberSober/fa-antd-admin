@@ -10,6 +10,8 @@ import com.faber.core.config.annotation.ApiToken;
 import com.faber.core.config.annotation.IgnoreUserToken;
 import com.faber.core.enums.LogCrudEnum;
 import com.faber.core.vo.msg.Ret;
+import com.faber.core.vo.msg.TableRet;
+import com.faber.core.vo.query.QueryParams;
 import com.faber.core.web.rest.BaseController;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/base/admin/user")
 public class UserController extends BaseController<UserBiz, User, String> {
+
+    @FaLogOpr(value = "超级用户分页查询", crud = LogCrudEnum.R)
+    @RequestMapping(value = "/pageSuper", method = RequestMethod.POST)
+    @ResponseBody
+    public TableRet<User> pageSuper(@RequestBody QueryParams query) {
+        return baseBiz.selectSuperPageByQuery(query);
+    }
 
     @FaLogOpr("登录账户信息")
     @RequestMapping(value = "/getLoginUser", method = RequestMethod.GET)

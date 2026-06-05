@@ -52,6 +52,18 @@ export function clearTnCorpId() {
   localStorage.removeItem(Fa.Constant.FA_TN_CORP_ID);
 }
 
+export function getTnTenantId(): string | null {
+  return localStorage.getItem(Fa.Constant.FA_TN_TENANT_ID);
+}
+
+export function setTnTenantId(tenantId: string) {
+  localStorage.setItem(Fa.Constant.FA_TN_TENANT_ID, tenantId);
+}
+
+export function clearTnTenantId() {
+  localStorage.removeItem(Fa.Constant.FA_TN_TENANT_ID);
+}
+
 /**
  * 返回请求headers中的鉴权内容
  */
@@ -63,6 +75,7 @@ export function genAuthHeaders() {
     headers[Fa.Constant.TOKEN_KEY] = token;
   }
   headers[Fa.Constant.FA_TN_CORP_ID] = getTnCorpId();
+  headers[Fa.Constant.FA_TN_TENANT_ID] = getTnTenantId();
   headers[Fa.Constant.FA_FROM] = window.FaFrom;
   headers[Fa.Constant.FA_VERSION_CODE] = window.FaVersionCode;
   headers[Fa.Constant.FA_VERSION_NAME] = window.FaVersionName;

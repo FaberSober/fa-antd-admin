@@ -1,6 +1,7 @@
 export type { default as Admin } from './base/Admin';
 export type { default as Msg } from './base/Msg';
 export type { default as Rbac } from './base/Rbac';
+export type { default as Tn } from './base/Tn';
 export type { default as Generator } from './base/Generator';
 
 /** -------------------------------- declare global -------------------------------- */

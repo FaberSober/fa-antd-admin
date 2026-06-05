@@ -13,6 +13,11 @@ public interface IpService {
 
 //    @Cached(name="ipAddr:", key="#ip", expire = 24 * 60 * 60)
     @Get("https://whois.pconline.com.cn/ipJson.jsp?ip={0}&json=true")
-    IpAddr ipJson(String ip);
+    String ipJsonApi(String ip);
+
+    default IpAddr ipJson(String ip) {
+        String json = ipJsonApi(ip);
+        return com.alibaba.fastjson2.JSON.parseObject(json, IpAddr.class);
+    }
 
 }

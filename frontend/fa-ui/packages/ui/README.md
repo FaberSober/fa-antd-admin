@@ -4,7 +4,7 @@
 
 ```
   "dependencies": {
-    "@ant-design/icons": "4.8.0",
+    "@ant-design/icons": "6.2.3",
     "@dnd-kit/core": "6.0.6",
     "@dnd-kit/sortable": "7.0.1",
     "@dnd-kit/utilities": "3.2.1",

@@ -31,8 +31,11 @@ class User extends BaseApi<Admin.User, string, Admin.UserWeb> {
   /** 分页查询 */
   pageOut = (params: UserWebQuery): Promise<Fa.Ret<Fa.Page<Admin.UserWeb>>> => this.post(`pageOut`, params);
 
+  /** 超级用户分页查询，不按当前租户过滤 */
+  pageSuper = (params: Fa.BasePageProps): Promise<Fa.Ret<Fa.Page<Admin.UserWeb>>> => this.post('pageSuper', params);
+
   /** 批量更新部门 */
-  updateBatchDept = (params: { userIds: string[]; departmentId: string }): Promise<Fa.Ret> => this.post('updateInfoBatch', params);
+  updateBatchDept = (params: { userIds: string[]; departmentId: string }): Promise<Fa.Ret> => this.post('updateBatchDept', params);
 
   /** 批量更新角色 */
   updateBatchRole = (params: { userIds: string[]; roleIds: string[] }): Promise<Fa.Ret> => this.post('updateBatchRole', params);

@@ -82,6 +82,7 @@ public class ConfigSysBiz extends BaseBiz<ConfigSysMapper, ConfigSys> {
         po.setSocketUrl(faSetting.getUrl().getSocketUrl());
         po.setKkFileViewUrl(faSetting.getUrl().getKkFileView());
         po.setOffline(faSetting.getConfig().getOffline());
+        po.setTenantEnabled(faSetting.getTenant() != null && faSetting.getTenant().isEnabled());
 
         return po;
     }

@@ -1,8 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { each, get } from 'lodash';
+import { get } from 'lodash';
 import { message } from 'antd';
-import { addAuthHeaders, getTnCorpId, getToken } from './cache';
-import { dispatch } from 'use-bus';
+import { addAuthHeaders } from './cache';
 import { Fa } from '@ui/types';
 import { md5WithSecret } from "@ui/utils/cipher";
 import { useApiLoadingStore } from '@ui/stores';

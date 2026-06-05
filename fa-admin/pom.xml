@@ -241,7 +241,7 @@
                         <image>
                             <name>${docker.user}/${docker.imageName}</name>
                             <build>
-                                <from>amazoncorretto:8</from>
+                                <from>amazoncorretto:17</from>
                                 <maintainer>faberxu@gmail.com</maintainer>
                                 <assembly>
                                     <mode>dir</mode>

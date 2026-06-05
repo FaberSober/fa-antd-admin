@@ -35,6 +35,12 @@ namespace Rbac {
     remarks: string;
     /** 是否启用 */
     status: boolean;
+    /** 类型：1全局超管/2全局/3租户 */
+    type: 1 | 2 | 3;
+    /** 租户ID */
+    tenantId: string;
+    /** 租户名称 */
+    tenantName: string;
   }
 
   /** BASE-角色权限对应表 */

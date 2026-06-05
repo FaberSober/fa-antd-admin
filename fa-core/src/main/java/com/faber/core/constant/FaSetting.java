@@ -28,6 +28,7 @@ public class FaSetting {
     private ThreadPoolConfig threadPoolConfig;
     private Db db;
     private Safety safety;
+    private Tenant tenant;
 
     /**
      * JWT配置
@@ -239,6 +240,17 @@ public class FaSetting {
          * 支持分表的表名数组，在每次查询是需要指定{@link com.faber.core.context.BaseContextHandler#setTableSuffix(String)}方法来指定表名追加的后缀。
          */
         private List<String> multiTables = new ArrayList<>();
+    }
+
+    /**
+     * 多租户配置
+     */
+    @Data
+    public static class Tenant {
+        /**
+         * 是否启用多租户
+         */
+        private boolean enabled = false;
     }
 
     /**

@@ -122,6 +122,13 @@ public class User extends BaseDelEntity {
     @ExcelProperty("最后在线时间")
     private Date lastOnlineTime;
 
+    /**
+     * 是否超级管理员
+     */
+    @ExcelIgnore
+    @TableField(exist = false)
+    private Boolean superAdmin;
+
     public void setRoleId(Long roleId) {
         if (this.roleIds == null) this.roleIds = new ArrayList<>();
         this.roleIds.add(roleId);

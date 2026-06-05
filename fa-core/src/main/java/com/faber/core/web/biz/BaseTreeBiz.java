@@ -190,6 +190,7 @@ public abstract class BaseTreeBiz<M extends FaBaseMapper<T>, T> extends BaseBiz<
 
     public QueryWrapper<T> treeLayerNormalWrapper(Serializable parentId) {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
+        this.addTenantQueryIfNeed(wrapper);
         wrapper.eq(this.getTreeParentIdFieldColumnName(), parentId);
         this.enhanceTreeQuery(wrapper);
         wrapper.orderByAsc(this.getSortedFieldColumnName());
@@ -208,6 +209,7 @@ public abstract class BaseTreeBiz<M extends FaBaseMapper<T>, T> extends BaseBiz<
 
     public List<TreeNode<T>> allTree() {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
+        this.addTenantQueryIfNeed(wrapper);
         this.enhanceTreeQuery(wrapper);
         wrapper.orderByAsc(this.getSortedFieldColumnName());
         List<T> beanList = super.list(wrapper);
@@ -243,6 +245,7 @@ public abstract class BaseTreeBiz<M extends FaBaseMapper<T>, T> extends BaseBiz<
 
     public List<TreeNode<T>> getTree(QueryParams query) {
         QueryWrapper<T> wrapper = parseQuery(query);
+        this.addTenantQueryIfNeed(wrapper);
         this.enhanceTreeQuery(wrapper);
         wrapper.orderByAsc(this.getSortedFieldColumnName());
         List<T> beanList = super.list(wrapper);
@@ -280,6 +283,7 @@ public abstract class BaseTreeBiz<M extends FaBaseMapper<T>, T> extends BaseBiz<
      */
     public List<T> loopFindChildren(List<Serializable> parentIds) {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
+        this.addTenantQueryIfNeed(wrapper);
         wrapper.in(getTreeParentIdFieldColumnName(), parentIds);
         this.enhanceTreeQuery(wrapper);
         List<T> beanList = super.list(wrapper);
@@ -442,6 +446,7 @@ public abstract class BaseTreeBiz<M extends FaBaseMapper<T>, T> extends BaseBiz<
      */
     protected Integer getMaxSort(Object parentId, T entity) {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
+        this.addTenantQueryIfNeed(wrapper);
         wrapper.eq(getTreeParentIdFieldColumnName(), parentId);
         this.enhanceTreeQueryForMaxSort(wrapper, entity);
         // wrapper.orderByDesc(this.getSortedFieldColumnName());
@@ -543,6 +548,7 @@ public abstract class BaseTreeBiz<M extends FaBaseMapper<T>, T> extends BaseBiz<
         List<T> list = new ArrayList<>();
 
         QueryWrapper<T> wrapper = new QueryWrapper<>();
+        this.addTenantQueryIfNeed(wrapper);
         wrapper.eq(getTreeParentIdFieldColumnName(), parentId);
 
         List<T> children = super.list(wrapper);

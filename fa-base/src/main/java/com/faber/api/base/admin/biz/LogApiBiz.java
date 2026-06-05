@@ -2,6 +2,7 @@ package com.faber.api.base.admin.biz;
 
 import com.faber.api.base.admin.entity.LogApi;
 import com.faber.api.base.admin.mapper.LogApiMapper;
+import com.faber.core.utils.FaFileUtils;
 import com.faber.core.vo.tree.TreeNode;
 import com.faber.core.web.biz.BaseBiz;
 import jakarta.annotation.Resource;
@@ -155,13 +156,16 @@ public class LogApiBiz extends BaseBiz<LogApiMapper, LogApi> {
     }
 
     public void downloadLogFile(String filePath) {
+        if (filePath == null || filePath.contains("..") || filePath.startsWith("/")) {
+            throw new RuntimeException("Invalid file path: " + filePath);
+        }
         File file = new File("./log", filePath);
         if (!file.exists() || !file.isFile()) {
             throw new RuntimeException("Log file not found: " + filePath);
         }
 
         try {
-            com.faber.core.utils.FaFileUtils.downloadFile(file);
+            FaFileUtils.downloadFile(file);
         } catch (IOException e) {
             throw new RuntimeException("Error downloading log file", e);
         }

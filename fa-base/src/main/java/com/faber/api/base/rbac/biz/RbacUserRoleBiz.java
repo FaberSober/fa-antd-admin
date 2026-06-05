@@ -56,7 +56,23 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper, RbacUserRole> {
         if ((Long)id == 1L) {
             throw new BuzzException("不能删除默认的超级管理员角色");
         }
+        RbacUserRole userRole = getById(id);
+        if (userRole != null) {
+            rbacRoleBiz.checkCanManageRole(userRole.getRoleId());
+        }
         return super.removeById(id);
+    }
+
+    @FaCacheClear(pre = "rbac:")
+    @Override
+    public void removeBatchByIds(List<Serializable> ids) {
+        ids.forEach(id -> {
+            RbacUserRole userRole = getById(id);
+            if (userRole != null) {
+                rbacRoleBiz.checkCanManageRole(userRole.getRoleId());
+            }
+        });
+        super.removeBatchByIds(ids);
     }
 
     public List<Long> getUserRoleIds(String userId) {
@@ -68,11 +84,11 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper, RbacUserRole> {
         List<Long> roleIds = this.getUserRoleIds(userId);
         if (roleIds.isEmpty()) return new ArrayList<>();
 
-        return rbacRoleBiz.lambdaQuery().eq(RbacRole::getStatus, true).in(RbacRole::getId, roleIds).list();
+        return rbacRoleBiz.listVisibleRolesByIds(roleIds);
     }
 
     public List<RbacMenu> getUserMenus(String userId, RbacMenuScopeEnum scope) {
-        List<Long> roleIds = this.getUserRoleIds(userId);
+        List<Long> roleIds = this.getUserRoles(userId).stream().map(RbacRole::getId).collect(Collectors.toList());
         if (roleIds.isEmpty()) return new ArrayList<>();
 
         List<RbacRoleMenu> roleMenuList = rbacRoleMenuBiz.lambdaQuery()
@@ -106,6 +122,9 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper, RbacUserRole> {
     }
 
     public TableRet<RbacUserRoleRetVo> pageVo(BasePageQuery<RbacUserRoleQueryVo> query) {
+        if (query.getQuery() != null && query.getQuery().getRoleId() != null) {
+            rbacRoleBiz.checkCanViewRole(query.getQuery().getRoleId());
+        }
         PageInfo<RbacUserRoleRetVo> info = PageHelper.startPage(query.getCurrent(), query.getPageSize())
                 .doSelectPageInfo(() -> baseMapper.pageVo(query.getQuery(), query.getSorter()));
         return new TableRet<>(info);
@@ -123,6 +142,7 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper, RbacUserRole> {
     public void changeUserRoles(String userId, List<Long> roleIds) {
         if (StrUtil.isEmpty(userId)) throw new BuzzException("用户ID不能为空");
         if (roleIds == null || roleIds.isEmpty()) throw new BuzzException("更新需要指定角色ID");
+        roleIds.forEach(rbacRoleBiz::checkCanManageRole);
 
         // 删除之前的角色关联
         lambdaQuery().eq(RbacUserRole::getUserId, userId).list().forEach(item -> {
@@ -140,6 +160,7 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper, RbacUserRole> {
 
     public void addUsers(RbacUserRoleUpdateVo param) {
         Long roleId = param.getRoleId();
+        rbacRoleBiz.checkCanManageRole(roleId);
         for (String userId : param.getUserIds()) {
             long count = lambdaQuery()
                     .eq(RbacUserRole::getUserId, userId)
@@ -164,6 +185,10 @@ public class RbacUserRoleBiz extends BaseBiz<RbacUserRoleMapper, RbacUserRole> {
     @Transactional
     @FaCacheClear(pre = "rbac:")
     public void updateUserRoles(RbacUserRolesVo params) {
+        for (Long roleId : params.getRoleIds()) {
+            rbacRoleBiz.checkCanManageRole(roleId);
+        }
+
         lambdaUpdate()
                 .eq(RbacUserRole::getUserId, params.getUserId())
                 .remove();

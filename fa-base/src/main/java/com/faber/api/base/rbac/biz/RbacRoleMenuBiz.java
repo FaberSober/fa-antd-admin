@@ -29,6 +29,10 @@ public class RbacRoleMenuBiz extends BaseBiz<RbacRoleMenuMapper, RbacRoleMenu> {
     @Resource
     RbacMenuBiz rbacMenuBiz;
 
+    @Lazy
+    @Resource
+    RbacRoleBiz rbacRoleBiz;
+
     @FaCacheClear(pre = "rbac:")
     @Override
     public boolean save(RbacRoleMenu entity) {
@@ -57,6 +61,7 @@ public class RbacRoleMenuBiz extends BaseBiz<RbacRoleMenuMapper, RbacRoleMenu> {
     }
 
     public RoleMenuVo getRoleMenu(Long roleId) {
+        rbacRoleBiz.checkCanViewRole(roleId);
         RoleMenuVo vo = new RoleMenuVo();
         vo.setRoleId(roleId);
         vo.setCheckedMenuIds(this.getMenuIdsWithHalfCheck(roleId));
@@ -67,6 +72,7 @@ public class RbacRoleMenuBiz extends BaseBiz<RbacRoleMenuMapper, RbacRoleMenu> {
     @Transactional
     public void updateRoleMenu(RoleMenuVo roleMenuVo) {
         long roleId = roleMenuVo.getRoleId();
+        rbacRoleBiz.checkCanManageRole(roleId);
 
         if (roleMenuVo.getCheckedMenuIds() == null || roleMenuVo.getCheckedMenuIds().isEmpty()) {
             lambdaUpdate()

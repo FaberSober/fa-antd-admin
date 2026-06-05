@@ -19,6 +19,7 @@ import MenuRefresh from './cube/MenuRefresh';
 import MenuSearch from './cube/MenuSearch';
 import FullScreenToggle from './cube/FullScreenToggle';
 import ThemeToggle from './cube/ThemeToggle';
+import TenantSelect from './cube/TenantSelect';
 
 
 export interface MenuLayoutProps extends Fa.BaseChildProps {
@@ -264,6 +265,7 @@ export default function MenuLayout({ renderHeaderExtra, children }: MenuLayoutPr
               <MenuAppHorizontal />
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <TenantSelect />
               <MenuSearch />
               {renderHeaderExtra && renderHeaderExtra()}
               {/*<LangToggle />*/}

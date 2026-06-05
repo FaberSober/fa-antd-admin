@@ -5,7 +5,7 @@
     <!--    <property name="LOG_PATH" value="/opt/fa-admin/log" />-->
     <property name="LOG_PATH" value="./log" />
     <!--最大保存天数-->
-    <property name="KEEP_MAX_DAY" value="30" />
+    <property name="KEEP_MAX_DAY" value="300" />
     <!--总最大保存文件大小-->
     <property name="KEEP_TOTAL_MAX_SIZE" value="5GB" />
     <!--单文件最大保存文件大小-->

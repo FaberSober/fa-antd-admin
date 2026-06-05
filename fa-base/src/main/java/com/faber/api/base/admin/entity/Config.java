@@ -44,6 +44,6 @@ public class Config extends BaseDelEntity {
 
     /** 配置JSON */
     @TableField(typeHandler = UniversalJsonTypeHandler.class)
-    private List<Map<String, Object>> data;
+    private Object data;
 
 }

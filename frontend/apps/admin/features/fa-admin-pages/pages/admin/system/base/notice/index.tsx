@@ -64,7 +64,7 @@ export default function NoticeList() {
 
   return (
     <div className="fa-full-content-p12 fa-flex-column fa-content">
-      <div className="fa-flex-row-center fa-p8">
+      <div className="fa-flex-row-center fa-p8 fa-search-form">
         <div className="fa-h3">{serviceName}</div>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <Form form={form} layout="inline" onFinish={setFormValues}>

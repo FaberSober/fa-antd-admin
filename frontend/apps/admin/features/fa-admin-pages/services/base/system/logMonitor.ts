@@ -21,7 +21,7 @@ class LogMonitorApi extends BaseApi<any, string> {
    * Download log file
    * @param filePath Relative path
    */
-  download = (filePath: string) => this.download('downloadLogFile', { filePath });
+  downloadLogFile = (filePath: string) => this.download('downloadLogFile', { filePath });
 }
 
 export default new LogMonitorApi(GATE_APP.admin, 'logApi');

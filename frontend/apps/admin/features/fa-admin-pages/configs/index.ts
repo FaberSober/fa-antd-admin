@@ -5,6 +5,8 @@ export default {
   GATE_APP: {
     /** ADMIN服务 */
     admin: '/api/base/admin',
+    /** tn服务 */
+    tn: '/api/base/tn',
     /** rbac服务 */
     rbac: '/api/base/rbac',
     /** generator服务 */

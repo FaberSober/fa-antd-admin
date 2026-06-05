@@ -21,6 +21,8 @@ namespace Fa {
     LOGIN_MODE_KEY: 'LOGIN_MODE',
     /** 租户-选中的企业ID */
     FA_TN_CORP_ID: 'fa-tn-corp-id',
+    /** 租户-选中的租户ID */
+    FA_TN_TENANT_ID: 'fa-tn-tenant-id',
     /** 添加到请求的Header中，标识请求来源 */
     FA_FROM: "FaFrom",
     /** 添加到请求的Header中，标识客户端版本号 */

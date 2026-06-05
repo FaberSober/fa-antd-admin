@@ -11,12 +11,12 @@
     "dev:debug": "vite --debug hmr --port 9000",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "biome lint --write",
-    "check": "biome check --write"
+    "lint": "biome lint --write"
   },
   "dependencies": {
     "@ant-design/colors": "7.2.1",
-    "@ant-design/icons": "6.1.0",
+    "@ant-design/icons": "6.2.3",
+    "@ant-design/plots": "2.6.8",
     "@antv/l7": "2.23.1",
     "@antv/l7-maps": "2.23.1",
     "@dnd-kit/core": "6.3.1",
@@ -48,7 +48,7 @@
     "ag-grid-community": "35.1.0",
     "ag-grid-react": "35.1.0",
     "ahooks": "3.9.0",
-    "antd": "6.1.0",
+    "antd": "6.4.3",
     "clsx": "2.1.1",
     "dayjs": "1.11.13",
     "district-data": "0.0.17",

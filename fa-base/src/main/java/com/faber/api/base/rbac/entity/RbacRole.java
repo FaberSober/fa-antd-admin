@@ -3,8 +3,10 @@ package com.faber.api.base.rbac.entity;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.faber.api.base.rbac.enums.RbacRoleTypeEnum;
 import com.faber.core.annotation.FaModalName;
 import com.faber.core.annotation.SqlEquals;
 import com.faber.core.bean.BaseDelEntity;
@@ -39,5 +41,17 @@ public class RbacRole extends BaseDelEntity {
     @SqlEquals
     @ExcelProperty("是否启用")
     private Boolean status;
+
+    @SqlEquals
+    @ExcelProperty("类型")
+    private RbacRoleTypeEnum type;
+
+    @SqlEquals
+    @ExcelProperty("租户ID")
+    private String tenantId;
+
+    @TableField(exist = false)
+    @ExcelProperty("租户名称")
+    private String tenantName;
 
 }

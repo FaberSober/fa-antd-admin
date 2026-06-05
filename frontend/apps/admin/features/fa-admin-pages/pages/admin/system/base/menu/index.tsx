@@ -3,10 +3,11 @@ import type { Rbac } from '@/types';
 import { EditOutlined, PlusOutlined, SafetyCertificateOutlined, SettingOutlined, SisternodeOutlined } from '@ant-design/icons';
 import { AuthDelBtn, BaseTree, type Fa, FaEnums, FaFlexRestLayout, FaHref, FaUtils, useApiLoading, useDelete } from '@fa/ui';
 import { rbacMenuApi } from '@features/fa-admin-pages/services';
-import { Button, Segmented, Space, Switch, Tag } from 'antd';
+import { Button, Segmented, Space, Tag } from 'antd';
 import { useEffect, useState } from 'react';
 import { useCounter } from 'react-use';
 import './index.scss';
+import MenuStatusSwitch from './MenuStatusSwitch';
 import RbacMenuModal from './modal/RbacMenuModal';
 
 /**
@@ -79,36 +80,40 @@ export default function Menu() {
           bodyStyle={{ width: '100%', height: '100%' }}
           showTips={false}
           showTopBtn={false}
-          // @ts-ignore
+          // @ts-expect-error
           titleRender={(item: Fa.TreeNode<Rbac.RbacMenu, string> & { updating: boolean }) => (
             <div className="fa-menu-item">
-              <div style={{ flex: 1 }} onClick={() => FaUtils.copyToClipboard(item.name)}>{item.name}</div>
+              <button
+                type="button"
+                style={{ flex: 1, padding: 0, textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer' }}
+                onClick={() => FaUtils.copyToClipboard(item.name)}
+              >
+                {item.name}
+              </button>
               <div style={{ width: 30 }} className='fa-flex-center'>{item.sourceData.icon ? <FaIconPro icon={item.sourceData.icon} /> : null}</div>
-              <div style={{ width: 100 }} onClick={() => FaUtils.copyToClipboard(item.sourceData.id)}>{item.sourceData.id}</div>
+              <button
+                type="button"
+                style={{ width: 100, padding: 0, textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer' }}
+                onClick={() => FaUtils.copyToClipboard(item.sourceData.id)}
+              >
+                {item.sourceData.id}
+              </button>
               <div className="fa-plr12">
                 {item.sourceData.level === FaEnums.RbacMenuLevelEnum.APP && <Tag color="#f50">{FaEnums.RbacMenuLevelEnumMap[item.sourceData.level]}</Tag>}
                 {item.sourceData.level === FaEnums.RbacMenuLevelEnum.MENU && <Tag color="#2db7f5">{FaEnums.RbacMenuLevelEnumMap[item.sourceData.level]}</Tag>}
                 {item.sourceData.level === FaEnums.RbacMenuLevelEnum.BUTTON && <Tag color="#87d068">{FaEnums.RbacMenuLevelEnumMap[item.sourceData.level]}</Tag>}
               </div>
               <div className="fa-plr12">
-                <Switch
-                  checkedChildren="启用"
-                  unCheckedChildren="禁用"
-                  checked={item.sourceData.status}
-                  loading={item.updating || false}
-                  onChange={(checked) => {
-                    item.sourceData.status = checked;
-                    item.updating = true;
-                    rbacMenuApi.update(item.sourceData.id, { ...item.sourceData, status: checked }).then(() => {
-                      // refreshData();
-                      item.updating = false;
-                    });
-                  }}
-                />
+                <MenuStatusSwitch item={item.sourceData} />
               </div>
-              <div className="fa-plr12" style={{ width: 400 }} onClick={() => FaUtils.copyToClipboard(item.sourceData.linkUrl)}>
+              <button
+                type="button"
+                className="fa-plr12"
+                style={{ width: 400, textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer' }}
+                onClick={() => FaUtils.copyToClipboard(item.sourceData.linkUrl)}
+              >
                 {item.sourceData.linkUrl}
-              </div>
+              </button>
               <Space>
                 <RbacMenuModal title="新增菜单" scope={scope} parentId={item.id} fetchFinish={refreshData}>
                   <FaHref icon={<SisternodeOutlined />} text="新增子节点" />

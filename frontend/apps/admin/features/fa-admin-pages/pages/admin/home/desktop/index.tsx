@@ -52,6 +52,7 @@ export default function Desktop() {
         isDraggable={editing}
         isResizable={editing}
       />
+      <div style={{ height: 12, width: '100%' }} />
 
       <BaseDrawer open={open} title="添加组件" bodyStyle={{ padding: 0 }} onClose={() => setOpen(false)}>
         <Space className="fa-p12" wrap>

@@ -1,15 +1,9 @@
 package com.faber.core.config.mybatis.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.faber.core.bean.BaseCrtEntity;
-import com.faber.core.bean.BaseUpdEntity;
 import com.faber.core.context.BaseContextHandler;
-import com.faber.core.context.TnTenantContextHandler;
-import com.faber.core.tenant.bean.TnBaseCrtEntity;
-import com.faber.core.tenant.bean.TnBaseUpdEntity;
 import org.apache.ibatis.reflection.MetaObject;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -22,24 +16,15 @@ public class MysqlMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-        // Object crtTime = this.getFieldValByName("crtTime", metaObject);
-        // tenant
-        if (TnTenantContextHandler.getLogin()) {
-            this.strictInsertFill(metaObject, "crtUser", String.class, TnTenantContextHandler.getUserId() + "");
-            this.strictInsertFill(metaObject, "crtName", String.class, TnTenantContextHandler.getName());
-
-            this.strictInsertFill(metaObject, "tenantId", Long.class, TnTenantContextHandler.getTenantId());
-            this.strictInsertFill(metaObject, "corpId", Long.class, TnTenantContextHandler.getCorpId());
-
-            // 冗余记录租户、企业名称
-            this.strictInsertFill(metaObject, "tenantName", String.class, TnTenantContextHandler.getTenantName());
-            this.strictInsertFill(metaObject, "corpName", String.class, TnTenantContextHandler.getCorpName());
-        }
-
         // admin login
         if (BaseContextHandler.getLogin()) {
             this.strictInsertFill(metaObject, "crtUser", String.class, BaseContextHandler.getUserId());
             this.strictInsertFill(metaObject, "crtName", String.class, BaseContextHandler.getName());
+        }
+
+        // multi tenant
+        if (metaObject.hasSetter("tenantId") && BaseContextHandler.getTenantId() != null) {
+            this.strictInsertFill(metaObject, "tenantId", String.class, BaseContextHandler.getTenantId());
         }
 
         // 使用 Date 类型
@@ -51,12 +36,6 @@ public class MysqlMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        // tenant login
-        if (TnTenantContextHandler.getLogin()) {
-            this.strictUpdateFill(metaObject, "updUser", String.class, TnTenantContextHandler.getUserId() + "");
-            this.strictUpdateFill(metaObject, "updName", String.class, TnTenantContextHandler.getName());
-        }
-
         // admin login
         if (BaseContextHandler.getLogin()) {
             this.strictUpdateFill(metaObject, "updUser", String.class, BaseContextHandler.getUserId());
@@ -69,4 +48,3 @@ public class MysqlMetaObjectHandler implements MetaObjectHandler {
     }
 
 }
-

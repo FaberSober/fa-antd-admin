@@ -1,6 +1,16 @@
 # 主题theme
 
+## 代码
+ThemeLayout代码路径为：frontend/fa-ui/packages/ui/src/layout/theme/ThemeLayout.tsx
+
 ## 亮色、暗色切换
+
+### 代码中获取主题
+```typescript tsx
+import { ThemeLayoutContext } from '@fa/ui';
+
+const { themeDark } = useContext(ThemeLayoutContext);
+```
 
 ### 设置主题颜色配置
 代码路径：`frontend/apps/admin/features/fa-admin-pages/layout/lang/LangLayout.tsx`，配置如下：

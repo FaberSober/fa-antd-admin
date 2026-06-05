@@ -21,7 +21,8 @@ export default function PageLoading({ style = {}, tip = "加载中..." }: PageLo
     >
       <Spin
         size="large"
-        tip={tip}
+        description={tip}
+        style={{ width: '100%', height: '100%' }}
       >
         <div style={{ width: 100, height: 100 }} />
       </Spin>

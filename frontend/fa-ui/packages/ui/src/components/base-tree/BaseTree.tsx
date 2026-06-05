@@ -304,6 +304,7 @@ const BaseTree = React.forwardRef<HTMLElement, BaseTreeProp<any, any>>(function 
     });
 
     // api update
+    setLoading(true)
     serviceApi.changePos(changeItems).then(() => {
       fetchTree();
     });

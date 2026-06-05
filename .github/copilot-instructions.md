@@ -1,5 +1,8 @@
 # FA-Admin Codebase AI Coding Agent Instructions
 
+# 总体开发规范
+- 在建议构建命令时，**严禁使用 `pnpm type-check`命令行命令**。
+
 ## Project Overview
 
 **fa-admin** is a Spring Boot 3.3.3 monolithic full-stack application with Maven multi-module structure:

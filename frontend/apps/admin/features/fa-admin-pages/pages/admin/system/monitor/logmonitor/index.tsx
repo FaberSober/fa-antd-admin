@@ -87,9 +87,9 @@ export default function LogMonitor() {
       if (node.children && node.children.length > 0) {
         return;
       }
-      
+
       const filePath = keys[0];
-      
+
       // Stop previous tail
       if (selectedFile) {
         sendMessage({ type: 'log-tail', data: { action: 'stop' } });
@@ -102,7 +102,7 @@ export default function LogMonitor() {
         const res = await logMonitorApi.readLogFile(filePath, 200);
         setLogs(res.data);
         toBottom()
-        
+
         // Start new tail
         sendMessage({ type: 'log-tail', data: { action: 'start', filePath } });
       } finally {
@@ -113,7 +113,7 @@ export default function LogMonitor() {
 
   const handleDownload = () => {
     if (selectedFile) {
-      logMonitorApi.download(selectedFile);
+      logMonitorApi.downloadLogFile(selectedFile);
     }
   };
 

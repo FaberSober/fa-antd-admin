@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Checkbox, Spin } from 'antd';
 import type { Admin } from '@features/fa-admin-pages/types';
 import { dictDataApi as api } from '@features/fa-admin-pages/services';
@@ -14,18 +14,28 @@ export interface DictDataIsDefaultSwitchProps {
  */
 export default function DictDataIsDefaultSwitch({ item, onChange }: DictDataIsDefaultSwitchProps) {
   const [loading, setLoading] = useState(false);
+  const [checked, setChecked] = useState(item.isDefault);
+
+  useEffect(() => {
+    setChecked(item.isDefault);
+  }, [item.isDefault]);
 
   function handleEnableUpdate() {
+    const isDefault = !checked;
+    setChecked(isDefault);
     setLoading(true);
     api.toggleDefaultById(item.id).then((_res) => {
       setLoading(false);
-      onChange({ ...item, isDefault: !item.isDefault });
-    }).catch(() => setLoading(false));
+      onChange({ ...item, isDefault });
+    }).catch(() => {
+      setChecked(!isDefault);
+      setLoading(false);
+    });
   }
 
   return (
     <Spin spinning={loading || false} size="small">
-      <Checkbox checked={item.isDefault} onChange={() => handleEnableUpdate()} />
+      <Checkbox checked={checked} disabled={loading} onChange={() => handleEnableUpdate()} />
     </Spin>
   );
 }
