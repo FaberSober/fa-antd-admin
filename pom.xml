@@ -19,17 +19,17 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.3</version>
+        <version>3.5.14</version>
     </parent>
     <properties>
         <revision>1.0.0-SNAPSHOT</revision>
         <maven.compile.source>17</maven.compile.source>
         <maven.compile.target>17</maven.compile.target>
-        <springboot.version>3.3.3</springboot.version>
-        <springboot.admin.version>3.3.3</springboot.admin.version>
+        <springboot.version>3.5.14</springboot.version>
+        <springboot.admin.version>3.5.9</springboot.admin.version>
         <sa-token.version>1.38.0</sa-token.version>
         <java.version>17</java.version>
-        <spring-ai.version>1.0.0-M2</spring-ai.version>
+        <spring-ai.version>1.1.7</spring-ai.version>
 
         <mybatis.plus-version>3.5.12</mybatis.plus-version>
         <mysql.version>8.3.0</mysql.version>
