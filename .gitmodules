@@ -17,7 +17,7 @@
 [submodule "fa-demo"]
 	path = fa-demo
 	url = git@github.com:FaberSober/fa-demo.git
-	branch = main
+	branch = sb3
 [submodule "frontend/apps/admin/features/fa-admin-demo-pages"]
 	path = frontend/apps/admin/features/fa-admin-demo-pages
 	url = git@github.com:FaberSober/fa-admin-demo-pages.git
