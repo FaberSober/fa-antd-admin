@@ -58,3 +58,7 @@
 	path = fa-im
 	url = git@github.com:FaberSober/fa-im.git
 	branch = main
+[submodule "frontend/apps/admin/features/fa-im-pages"]
+	path = frontend/apps/admin/features/fa-im-pages
+	url = git@github.com:FaberSober/fa-im-pages.git
+	branch = main
