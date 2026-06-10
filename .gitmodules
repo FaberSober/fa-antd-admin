@@ -50,3 +50,7 @@
 	path = fa-flow
 	url = git@github.com:FaberSober/fa-flow.git
 	branch = main
+[submodule "frontend/apps/admin/features/fa-flow-pages"]
+	path = frontend/apps/admin/features/fa-flow-pages
+	url = git@github.com:FaberSober/fa-flow-pages.git
+	branch = main
