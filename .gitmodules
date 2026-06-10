@@ -46,3 +46,7 @@
 	path = frontend/apps/admin/features/fa-media-pages
 	url = git@github.com:FaberSober/fa-media-pages.git
 	branch = main
+[submodule "fa-flow"]
+	path = fa-flow
+	url = git@github.com:FaberSober/fa-flow.git
+	branch = main
