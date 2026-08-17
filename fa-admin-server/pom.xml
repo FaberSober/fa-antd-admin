@@ -20,7 +20,7 @@
         <!-- spring boot admin 服务端 -->
         <dependency>
             <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-server-ui</artifactId>
+            <artifactId>spring-boot-admin-starter-server</artifactId>
             <version>${springboot.admin.version}</version>
         </dependency>
 
