@@ -12,6 +12,9 @@ spring:
     url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DBNAME:fa_admin_dev}?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&useSSL=false&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:123456}
+    # url: jdbc:postgresql://${POSTGRES_HOST:dwardserver1.dward.cn}:${POSTGRES_PORT:18767}/${POSTGRES_DBNAME:fa_quant_dev}
+    # username: ${POSTGRES_USERNAME:admin}
+    # password: ${POSTGRES_PASSWORD:adminDward23812}
 
   data:
     redis:
