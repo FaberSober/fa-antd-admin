@@ -6,7 +6,6 @@ import Pages from 'vite-plugin-pages';
 // import { visualizer } from 'rollup-plugin-visualizer';
 import path, { resolve } from 'path';
 import UnoCSS from 'unocss/vite'
-import { sentryVitePlugin } from "@sentry/vite-plugin";
 
 
 // 获取 monorepo 根目录
@@ -17,8 +16,9 @@ const uiSourceDir = resolve(workspaceRoot, 'fa-ui/packages/ui/src');
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
-  console.log('loadEnv(mode, process.cwd())', env);
   return {
+    // 管理端保持根路径部署，兼容既有 /login、/admin/** 等业务路由。
+    base: '/',
     define: {
       // 注入全局变量
       __FA_SECRET__: JSON.stringify(env.VITE_APP_FA_SECRET),
@@ -57,12 +57,6 @@ export default defineConfig(({ mode }) => {
       //   // gzipSize: true,
       //   // brotliSize: true,
       // }),
-      // Put the Sentry vite plugin after all other plugins
-      sentryVitePlugin({
-        org: "faberstudio",
-        project: "fa-doc",
-        authToken: process.env.SENTRY_AUTH_TOKEN,
-      }),
     ],
     //* css模块化
     css: {
@@ -92,25 +86,27 @@ export default defineConfig(({ mode }) => {
         '@fa/ui': uiSourceDir,
         '@': path.resolve(__dirname, 'src'),
         '@features': path.resolve(__dirname, 'features'),
-        // 💡 目标配置中新增的 Monorepo 优化
-        'react': resolve(__dirname, 'node_modules/react'),
-        'react-dom': resolve(__dirname, 'node_modules/react-dom'),
-      }
+        // 强制 antd 指向 admin app 的唯一实例，避免 @fa/ui(antd 6.4.3) 与 app(antd 6.6.1) 多实例
+        // 多实例会导致 ConfigProvider 的 theme context 无法传递到 @fa/ui 中的 antd 组件
+        'antd': path.resolve(__dirname, 'node_modules/antd'),
+      },
+      // 统一从 monorepo 根目录解析，避免 React 出现多份副本。
+      dedupe: ['react', 'react-dom', 'antd', '@ant-design/icons'],
     },
   // 优化 Vite 依赖预构建，排除本地包
     // optimizeDeps: {
     //   exclude: ['@fa/ui']
     // },
     build: {
-      sourcemap: true,
+      sourcemap: false,
       minify: 'esbuild',
       chunkSizeWarningLimit: 1500,
       rollupOptions: {
         // external: [],
         output: {
           manualChunks: {
-            react: ['react'],
-            'react-dom': ['react-dom'],
+            react: ['react', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
+            'react-dom': ['react-dom', 'react-dom/client'],
             'react-grid-layout': ['react-grid-layout'],
             lodash: ['lodash'],
             dayjs: ['dayjs'],
@@ -123,7 +119,7 @@ export default defineConfig(({ mode }) => {
             // antd: ['antd', '@ant-design/colors', '@ant-design/icons'],
             echarts: ['echarts'],
             three: ['three', 'three-stdlib', '@react-three/drei', '@react-three/fiber'],
-            iconify: ['@iconify/react', '@iconify-json/mdi'],
+            iconify: ['@iconify/react'],
           },
         },
       },
@@ -135,6 +131,10 @@ export default defineConfig(({ mode }) => {
           target: env.VITE_APP_BASE_URL,
           changeOrigin: true,
           ws: true,
+        },
+        '/outapi': {
+          target: env.VITE_APP_BASE_URL,
+          changeOrigin: true,
         },
       },
     },

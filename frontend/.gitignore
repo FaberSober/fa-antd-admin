@@ -8,6 +8,9 @@ dist.zip
 *.local
 .env
 .cache
+.react-router
+.portal
+.phase6
 server/dist
 public/dist
 .idea

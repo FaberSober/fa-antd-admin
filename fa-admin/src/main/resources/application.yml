@@ -4,7 +4,7 @@ server:
   compression:
     enabled: true
     min-response-size: 1024
-    mime-types: application/json,application/xml,text/html,text/plain,text/css,application/x-javascript
+    mime-types: application/json,application/xml,application/javascript,text/html,text/plain,text/css,text/javascript,application/x-javascript,image/svg+xml
 spring:
   application:
     name: fa-admin-dev
@@ -170,6 +170,9 @@ management:
       base-path: /apij/actuator
       exposure:
         include: "*"
+  health:
+    elasticsearch:
+      enabled: false
 
 # 声明式HTTP客户端框架
 forest:
@@ -182,6 +185,15 @@ forest:
 
 # 一些默认配置
 fa:
+  calendar:
+    import:
+      # AKTools 服务根地址，例如 http://127.0.0.1:8080；为空时禁止外部日历同步
+      ak-tools-url: ${AKTOOLS_URL:}
+  online-user:
+    # 有效后台会话最近多少秒有认证请求视为活跃（不改变登录有效期）
+    active-window-seconds: 300
+    # 同一会话的活跃信息写入 Redis 的最小间隔
+    touch-interval-seconds: 30
   setting:
     # 多租户配置
     tenant:

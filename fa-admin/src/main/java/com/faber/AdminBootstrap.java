@@ -43,8 +43,8 @@ public class AdminBootstrap {
             @Override
             public void customize(ConfigurableWebServerFactory factory) {
 //                factory.setPort(8081);
-                // 适配前端页面的路由，未找到的链接fallback到index.html
-                ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/index.html");
+                // 根据访问前缀回退到对应 SPA 的入口页。
+                ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/spa-error");
                 Set<ErrorPage> errorPages = new HashSet<>();
                 errorPages.add(error404Page);
                 factory.setErrorPages(errorPages);

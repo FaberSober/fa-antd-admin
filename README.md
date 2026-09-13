@@ -14,7 +14,7 @@
 2. 执行以下命令，拉取git子模块代码（需要在github账户配置ssh密钥，否则无法拉取子模块代码）；
 
 ```
-git submodule update
+git submodule update --init --recursive
 ```
 
 ## 预览
@@ -43,9 +43,9 @@ dark
 
 ## 打包部署
 
-1. 在项目根目录下执行：`mvn clean package -Dmaven.test.skip=true`
+1. 在项目根目录下执行：`mvn clean package "-Dmaven.test.skip=true" -Pfrontend`
 2. 服务 jar 包为：`fa-admin/target/fa-admin.jar`
-3. 启动 jar 包：`java -jar fa-admin/target/fa-admin.jar`
+3. 启动 jar 包命令：`java -jar fa-admin/target/fa-admin.jar`
 4. 访问地址：http://127.0.0.1
 
 # [目录说明](./fa-core/doc/server/dir.md)

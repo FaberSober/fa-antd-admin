@@ -1,0 +1,20 @@
+<svg width="48" height="60" viewBox="0 0 48 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mast-background" x1="9" y1="5" x2="39" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C084FC"/>
+      <stop offset="1" stop-color="#6D28D9"/>
+    </linearGradient>
+    <filter id="mast-shadow" x="0" y="0" width="48" height="60" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#581C87" flood-opacity=".35"/>
+    </filter>
+  </defs>
+  <g filter="url(#mast-shadow)">
+    <path d="M24 3C12.954 3 4 11.954 4 23c0 14.25 14.012 26.277 18.583 29.82a2.3 2.3 0 0 0 2.834 0C29.988 49.277 44 37.25 44 23 44 11.954 35.046 3 24 3Z" fill="url(#mast-background)"/>
+    <path d="M24 4.5C13.783 4.5 5.5 12.783 5.5 23c0 12.894 12.404 24.19 18.001 28.53a.8.8 0 0 0 .998 0C30.096 47.19 42.5 35.894 42.5 23 42.5 12.783 34.217 4.5 24 4.5Z" stroke="white" stroke-opacity=".92" stroke-width="3"/>
+    <circle cx="24" cy="22" r="13" fill="white" fill-opacity=".14"/>
+    <path d="M24 9.5 18.2 36h11.6L24 9.5Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+    <path d="m21 23 6 5M27 23l-6 5M20.2 31h7.6M20.9 27h6.2M21.8 22.8h4.4M22.7 18.7h2.6M24 9.5v-3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M24 8c3.4 0 5.7 1.15 7 3.45M24 11.3c2.05 0 3.42.68 4.1 2.05" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+    <circle cx="24" cy="9.5" r="1.7" fill="white"/>
+  </g>
+</svg>

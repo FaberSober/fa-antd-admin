@@ -8,7 +8,11 @@
             "args": [
                 "clean",
                 "package",
-                "-Dmaven.test.skip=true"
+                {
+                    "value": "-Dmaven.test.skip=true",
+                    "quoting": "strong"
+                },
+                "-Pfrontend"
             ],
             "group": {
                 "kind": "build",
@@ -76,7 +80,8 @@
             "command": "mvn",
             "args": [
                 "clean",
-                "package"
+                "package",
+                "-Pfrontend"
             ],
             "group": "build",
             "presentation": {

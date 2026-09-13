@@ -3,7 +3,9 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".turbo/**"]
+      "outputs": ["dist/**", ".turbo/**"],
+      "env": ["CI"],
+      "passThroughEnv": ["SENTRY_AUTH_TOKEN"]
     },
     "lint": {
       "outputs": []

@@ -16,6 +16,7 @@ node_modules/
 dist/
 .turbo/
 .env
+.pnpm-store/
 
 # 忽略 AI 助手的临时缓存和日志
 .agent/cache/
@@ -23,3 +24,7 @@ dist/
 
 # 允许提交核心技能定义
 !.agent/skills/
+
+.playwright-cli/
+.playwright-mcp/
+output/

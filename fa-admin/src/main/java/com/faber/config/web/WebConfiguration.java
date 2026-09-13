@@ -6,8 +6,11 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.faber.config.interceptor.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.CacheControl;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -30,6 +33,20 @@ public class WebConfiguration extends BaseWebConfiguration {
     private static final List<String> OUTAPI_URLS = ListUtil.toList("/outapi/**");
 
     @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/portal/assets/**")
+                .addResourceLocations("classpath:/static/portal/assets/")
+                .setCacheControl(CacheControl.maxAge(Duration.ofDays(365)).cachePublic().immutable());
+        registry.addResourceHandler("/portal/sitemap.xml", "/robots.txt")
+                .addResourceLocations("classpath:/static/portal/", "classpath:/static/")
+                .setCacheControl(CacheControl.maxAge(Duration.ofMinutes(5)).cachePublic());
+        registry.addResourceHandler("/portal/**")
+                .addResourceLocations("classpath:/static/portal/")
+                .setCacheControl(CacheControl.noCache());
+        super.addResourceHandlers(registry);
+    }
+
+    @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // ---------------------- Admin管理平台接口（适用于基础账户base_user登录） ----------------------
         registry.addInterceptor(new FirstEmptyInterceptor()).addPathPatterns(API_URLS); // 拦截获取request IP
@@ -40,7 +57,7 @@ public class WebConfiguration extends BaseWebConfiguration {
         registry.addInterceptor(new GateLogInterceptor()).addPathPatterns(API_URLS); // 请求URL日志拦截
 
         // ---------------------- 对外暴露的接口（适用于使用api token登录） ----------------------
-        registry.addInterceptor(new ApiTokenInterceptor()).addPathPatterns(OUTAPI_URLS); // 对外提供的api接口权限校验
+        registry.addInterceptor(SpringUtil.getBean(ApiTokenInterceptor.class)).addPathPatterns(OUTAPI_URLS); // 对外提供的api接口权限校验
     }
 
 }

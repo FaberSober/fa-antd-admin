@@ -1,115 +1,86 @@
-# Feature 模块参考
+# Feature 模块组织
 
-创建或重组 `frontend/apps/admin/features` 下的前端 feature 模块时使用本参考。
+结合当前 `frontend/apps/admin/features` 结构整理；优先参考 `fa-ai-pages`、`fa-vision-pages` 和目标模块相邻 feature。
 
-## 基线
+## 目录职责
 
-优先参考：
+按实际需要创建目录，不为空结构预建文件：
 
-- `frontend/apps/admin/features/fa-app-pages`
+- `configs/`：模块网关和配置常量。
+- `types/`：共享实体、请求、响应和业务类型。
+- `services/`：后端资源接口，按业务域拆分并聚合导出。
+- `pages/`：路由页面，目录层级贴近菜单/路由和业务域。
+- `components/`：跨多个页面复用的模块组件。
+- `layout/`、`styles/`、`workflow/` 等：只有模块确实需要时添加。
 
-feature 目录名通常使用 `fa-xxx-pages` 风格。
+页面内部组件放在页面目录下：
 
-## 目录结构
+- `modal/`：弹窗表单。
+- `components/` 或 `cube/`：页面业务块、子列表。
+- `helper/`、`select/`：页面专用选择器或辅助组件。
+- `tabs/`：详情页标签内容。
 
-标准模块默认包含：
-
-- `configs/`：网关和模块配置常量。
-- `pages/`：页面实现，目录层级贴近路由和业务域。
-- `services/`：接口服务定义，按业务域拆分。
-- `types/`：模块业务类型。
-- `README.md`：简要模块说明。
-
-即使模块较小，也尽量保留这几层结构，不要把类型、服务和页面全部放到一个目录中。
+不要引用已经不存在的 `fa-app-pages`。创建前使用 `find frontend/apps/admin/features -maxdepth 1` 确认当前模块命名和布局。
 
 ## Configs
 
-模块后端网关配置放在 `configs/index.ts`，对象类型声明为 `Fa.ConfigApp`。
+网关配置放入 `configs/index.ts`，结构匹配当前 `Fa.ConfigApp`：
 
 ```ts
+import { Fa } from '@fa/ui';
+
 export default {
   GATE_APP: {
-    app: {
-      app: '/api/app/app',
-      crash: '/api/app/crash',
+    vision: {
+      base: '/api/vision',
     },
   },
 } as Fa.ConfigApp;
 ```
 
-先定义统一网关前缀，再供 services 使用。
+先复用模块统一前缀，再让 service 构造器追加资源名。不要在页面和每个 service 中散落完整 URL。
 
-## 服务
+## Services
 
-`services` 按业务域组织，例如 `services/app/app`、`services/app/crash`。每个实体或资源一个 service 文件。
-
-CRUD service 继承 `BaseApi<Entity, Key>`。只有基类能力不能覆盖时，才在 service 类中补充自定义方法。
+每个后端资源一个 service 文件。标准 CRUD 继承 `BaseApi<Entity, Key>`，仅在基类不足时增加有明确返回类型的自定义方法：
 
 ```ts
-class Api extends BaseApi<App.Apk, number> {
-  getApkInfo = (fileId: string) => this.get(`getApkInfo/${fileId}`);
-  create = (params: any) => this.post('create', params);
+class Api extends BaseApi<Vision.Project, number> {
+  statistics = (id: number) =>
+    this.get<Vision.ProjectStatistics>(`${id}/statistics`);
 }
 
-export default new Api(GATE_APP.app.app, 'apk');
+export default new Api(GATE_APP.vision.base, 'project');
 ```
 
-service 构造参数由“模块网关 + 资源名”组成。资源名应与后端 Controller 资源路径一致。
+资源名必须与后端 Controller 路径一致。通过 `services/index.ts` 聚合导出，页面优先从模块出口或既有 `@/services` 别名导入，不使用跨 feature 的深层相对路径。
 
-## Service 导出
+## Types
 
-先做业务分组导出，再做模块级导出。
-
-示例：
-
-- `services/app/index.ts` 导出 `apkApi`、`apkVersionApi`、`apkCrashApi`。
-- `services/index.ts` 再通过 `export * from './app'` 二次导出。
-
-页面优先从 index 聚合出口导入，不要深层直连具体 service 文件。
-
-## 类型
-
-模块业务类型放在 `types/ModuleName.ts`，使用命名空间组织，例如 `namespace App`。
-
-通过 `types/index.ts` 统一导出：
+在 `types/ModuleName.ts` 使用业务命名空间组织类型，并通过 `types/index.ts` 导出：
 
 ```ts
-export type { default as App } from './App';
+export type { default as Vision } from './Vision';
 ```
 
-实体类型优先继承 `Fa.BaseDelEntity` 或相邻项目代码使用的基础类型。不要在多个页面重复声明相同实体类型。
+- 持久化实体优先继承 `Fa.BaseDelEntity` 或目标模块现有基础类型。
+- 独立声明创建/更新请求、详情响应、统计结果等类型，不用 `any` 掩盖契约差异。
+- 主键、枚举、可空字段和后端 JSON 结构必须保持一致。
+- 不在多个页面重复声明同一个业务类型。
 
-## 页面
+## 页面与路由
 
-`pages` 目录层级贴近路由和业务域，例如 `pages/admin/system/base/notice/index.tsx`。
+`pages` 目录贴近当前路由约定，例如 `pages/admin/vision/project/index.tsx`。动态参数使用当前方括号目录，如 `[id].tsx`；新增前搜索相邻路由，不套用旧版目录约定。
 
-如果模块同时包含后台页面和 H5 页面，分别放在：
-
-- `pages/admin/...`
-- `pages/h5/...`
-
-页面目录下按需继续拆分：
-
-- `modal/`：弹窗表单。
-- `cube/`：页面内部业务块或子列表。
-- `helper/`：页面辅助组件。
-
-## 命名与导入
-
-- feature 目录：`fa-xxx-pages`。
-- service 导出变量：`xxxApi`。
-- 类型命名空间：业务模块名，例如 `App`、`Demo`。
-- 页面组件：业务语义命名，例如 `ApkList`、`ApkVersionList`、`ApkCrashView`。
-- 弹窗组件：`XxxModal`。
-
-导入优先使用 `@/services`、`@/types`、`@/configs`、`@features/模块名/...`。
+后台页面、开放页面或其他入口分别跟随现有 `admin`、`open`、`in` 等分区。组件名使用业务语义且大写开头，不能把默认函数命名为 `index`。
 
 ## 创建顺序
 
-1. 创建 feature 根目录和 `README.md`。
-2. 创建 `configs/index.ts`。
-3. 创建 `types/模块名.ts` 和 `types/index.ts`。
-4. 按业务域创建 `services/`。
-5. 补齐分组和模块级 `services/index.ts` 导出。
-6. 在 `admin`、`h5` 或具体路由层级下创建 `pages/`。
-7. 按需添加页面内 `modal`、`cube`、`helper` 目录。
+1. 确认目标 feature 是否已经存在及其聚合出口。
+2. 补齐/更新共享 types。
+3. 补齐 configs 和 services，并更新 index 导出。
+4. 创建页面及其局部 modal/helper/components。
+5. 接入菜单或路由的任务同时核对路径、权限和后端资源。
+6. 检查别名解析、循环依赖和跨 feature 边界。
+
+README 只在相邻 feature 确有维护约定且内容能持续更新时添加，不作为空模块的必需文件。

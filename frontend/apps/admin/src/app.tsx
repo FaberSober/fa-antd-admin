@@ -1,8 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 // import ReactDOM from "react-dom";
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, useRoutes } from 'react-router-dom';
+import { BrowserRouter as Router, useLocation, useRoutes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 // import { AliveScope } from 'react-activation'
 import 'virtual:uno.css';
@@ -14,17 +14,24 @@ import './globals.scss';
 import routes from '~react-pages';
 import { PageLoading } from '@fa/ui';
 
-// -------------------- 异常捕捉 --------------------
-import * as Sentry from "@sentry/react";
 import FallbackComponent from '@features/fa-admin-pages/components/exception/FallbackComponent';
+import { telemetry, TelemetryErrorBoundary, type TelemetryEnvironment } from '@features/fa-admin-pages/telemetry';
 
-Sentry.init({
-  dsn: "xxx",
-  // Setting this option to true will send default PII data to Sentry.
-  // For example, automatic IP address collection on events
-  sendDefaultPii: true
-});
-// -------------------- 异常捕捉 --------------------
+const telemetryEnvironment = import.meta.env.VITE_APP_TELEMETRY_ENV;
+const environment: TelemetryEnvironment = ['development', 'test', 'staging', 'production'].includes(telemetryEnvironment)
+  ? telemetryEnvironment as TelemetryEnvironment
+  : import.meta.env.DEV ? 'development' : 'production';
+
+if (import.meta.env.VITE_APP_TELEMETRY_APP_KEY) {
+  telemetry.init({
+    appKey: import.meta.env.VITE_APP_TELEMETRY_APP_KEY,
+    clientType: 'WEB',
+    environment,
+    release: String(window.FaVersionName || 'unknown'),
+  });
+  const telemetryWindow = window as Window & { faHeader?: Record<string, string> };
+  telemetryWindow.faHeader = { ...telemetryWindow.faHeader, ...telemetry.getRequestHeaders() };
+}
 
 window.FaRoutes = routes;
 
@@ -34,19 +41,23 @@ window._AMapSecurityConfig = {
 };
 
 function App() {
+  const location = useLocation();
+  useEffect(() => {
+    telemetry.page();
+  }, [location.pathname, location.search]);
   return <Suspense fallback={<PageLoading />}>{useRoutes(routes)}</Suspense>;
 }
 
 const app = createRoot(document.getElementById('root')!);
 
 app.render(
-  <Sentry.ErrorBoundary fallback={<FallbackComponent />}>
+  <TelemetryErrorBoundary fallback={<FallbackComponent />}>
     <Router>
       <HelmetProvider>
         <App />
       </HelmetProvider>
     </Router>
-  </Sentry.ErrorBoundary>,
+  </TelemetryErrorBoundary>,
 );
 
 // 使用AliveScope，github建议使用ReactDOM.render

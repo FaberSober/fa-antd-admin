@@ -13,15 +13,18 @@
 
     <properties>
         <!-- 前端打包 -->
-        <node.version>v22.21.1</node.version>
-        <npm.version>10.9.4</npm.version>
+        <node.version>v26.5.0</node.version>
+        <npm.version>10.24.0</npm.version>
         <pnpm.version>10.24.0</pnpm.version>
         <frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
         <frontend-src-dir>../frontend</frontend-src-dir>
+        <portal.profile>default</portal.profile>
+        <portal.site.url>http://localhost:9001/portal/</portal.site.url>
         <!-- docker -->
         <docker.user>farando</docker.user>
         <docker.imageName>fa-admin-web</docker.imageName>
         <docker.tag>1.0.0</docker.tag>
+        <profile.docker.build.skip>true</profile.docker.build.skip>
     </properties>
 
     <dependencies>
@@ -87,23 +90,110 @@
     </dependencies>
 
     <profiles>
-        <!-- default默认打包 -->
-        <profile>
-            <id>default</id>
-            <properties>
-                <profile.docker.build.skip>true</profile.docker.build.skip>
-            </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-
         <!-- 打包docker镜像 -->
         <profile>
             <id>docker</id>
             <properties>
                 <profile.docker.build.skip>false</profile.docker.build.skip>
             </properties>
+        </profile>
+
+        <!-- 正式打包时使用 -Pfrontend，构建并嵌入前端静态资源 -->
+        <profile>
+            <id>frontend</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+                        <version>${frontend-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>install-frontend-tools-for-admin</id>
+                                <goals>
+                                    <goal>install-node-and-pnpm</goal>
+                                </goals>
+                                <phase>prepare-package</phase>
+                                <configuration>
+                                    <nodeVersion>${node.version}</nodeVersion>
+                                    <pnpmVersion>${pnpm.version}</pnpmVersion>
+                                    <workingDirectory>${frontend-src-dir}</workingDirectory>
+                                    <installDirectory>${project.build.directory}</installDirectory>
+                                    <nodeDownloadRoot>https://npmmirror.com/mirrors/node/</nodeDownloadRoot>
+                                    <pnpmDownloadRoot>https://registry.npmmirror.com/pnpm/-/</pnpmDownloadRoot>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>pnpm-install-for-Admin</id>
+                                <goals>
+                                    <goal>pnpm</goal>
+                                </goals>
+                                <phase>prepare-package</phase>
+                                <configuration>
+                                    <arguments>install --ignore-scripts</arguments>
+                                    <workingDirectory>${frontend-src-dir}</workingDirectory>
+                                    <installDirectory>${project.build.directory}</installDirectory>
+                                    <pnpmRegistryURL>https://registry.npmmirror.com/</pnpmRegistryURL>
+                                    <environmentVariables>
+                                        <CI>true</CI>
+                                    </environmentVariables>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>build-frontend-apps</id>
+                                <goals>
+                                    <goal>pnpm</goal>
+                                </goals>
+                                <phase>prepare-package</phase>
+                                <configuration>
+                                    <arguments>run build:apps</arguments>
+                                    <workingDirectory>${frontend-src-dir}</workingDirectory>
+                                    <installDirectory>${project.build.directory}</installDirectory>
+                                    <environmentVariables>
+                                        <CI>true</CI>
+                                        <PORTAL_PROFILE>${portal.profile}</PORTAL_PROFILE>
+                                        <VITE_PORTAL_SITE_URL>${portal.site.url}</VITE_PORTAL_SITE_URL>
+                                    </environmentVariables>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>copy-frontend-app-builds</id>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <phase>prepare-package</phase>
+                                <configuration>
+                                    <outputDirectory>${project.build.outputDirectory}/static/</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${frontend-src-dir}/apps/admin/dist</directory>
+                                            <filtering>false</filtering>
+                                        </resource>
+                                        <resource>
+                                            <directory>${frontend-src-dir}/apps/portal/dist/static</directory>
+                                            <filtering>false</filtering>
+                                        </resource>
+                                        <resource>
+                                            <directory>${frontend-src-dir}/apps/h5/dist</directory>
+                                            <targetPath>h5</targetPath>
+                                            <filtering>false</filtering>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 
@@ -120,86 +210,6 @@
                         </fileset>
                     </filesets>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>com.github.eirslett</groupId>
-                <artifactId>frontend-maven-plugin</artifactId>
-                <version>${frontend-maven-plugin.version}</version>
-                <executions>
-                    <!-- ============================================= package for frontend ============================================= -->
-                    <execution>
-                        <id>install-frontend-tools-for-admin</id>
-                        <goals>
-                            <goal>install-node-and-pnpm</goal>
-                        </goals>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <nodeVersion>${node.version}</nodeVersion>
-                            <pnpmVersion>${pnpm.version}</pnpmVersion>
-                            <workingDirectory>${frontend-src-dir}</workingDirectory>
-                            <installDirectory>${project.build.directory}</installDirectory>
-                            <nodeDownloadRoot>https://npmmirror.com/mirrors/node/</nodeDownloadRoot>
-                            <pnpmDownloadRoot>https://registry.npmmirror.com/pnpm/-/</pnpmDownloadRoot>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>pnpm-install-for-Admin</id>
-                        <goals>
-                            <goal>pnpm</goal>
-                        </goals>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <arguments>install --ignore-scripts</arguments>
-                            <!-- <nodeVersion>${node.version}</nodeVersion>-->
-                            <!-- <yarnVersion>${yarn.version}</yarnVersion>-->
-                            <workingDirectory>${frontend-src-dir}</workingDirectory>
-                            <installDirectory>${project.build.directory}</installDirectory>
-                            <pnpmRegistryURL>https://registry.npmmirror.com/</pnpmRegistryURL>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>build-frontend-for-admin</id>
-                        <goals>
-                            <goal>pnpm</goal>
-                        </goals>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <arguments>build</arguments>
-                            <!-- <nodeVersion>${node.version}</nodeVersion> -->
-                            <!-- <yarnVersion>${yarn.version}</yarnVersion> -->
-                            <workingDirectory>${frontend-src-dir}</workingDirectory>
-                            <installDirectory>${project.build.directory}</installDirectory>
-                        </configuration>
-                    </execution>
-
-                </executions>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <id>position-react-build-admin</id>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <outputDirectory>${project.build.outputDirectory}/static/</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${frontend-src-dir}/apps/admin/dist</directory>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>

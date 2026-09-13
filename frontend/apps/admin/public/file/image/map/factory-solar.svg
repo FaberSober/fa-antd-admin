@@ -1,0 +1,20 @@
+<svg width="48" height="60" viewBox="0 0 48 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="solar-background" x1="8" y1="5" x2="40" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FBBF24"/>
+      <stop offset="1" stop-color="#EA580C"/>
+    </linearGradient>
+    <filter id="solar-shadow" x="0" y="0" width="48" height="60" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#9A3412" flood-opacity=".35"/>
+    </filter>
+  </defs>
+  <g filter="url(#solar-shadow)">
+    <path d="M24 3C12.954 3 4 11.954 4 23c0 14.25 14.012 26.277 18.583 29.82a2.3 2.3 0 0 0 2.834 0C29.988 49.277 44 37.25 44 23 44 11.954 35.046 3 24 3Z" fill="url(#solar-background)"/>
+    <path d="M24 4.5C13.783 4.5 5.5 12.783 5.5 23c0 12.894 12.404 24.19 18.001 28.53a.8.8 0 0 0 .998 0C30.096 47.19 42.5 35.894 42.5 23 42.5 12.783 34.217 4.5 24 4.5Z" stroke="white" stroke-opacity=".92" stroke-width="3"/>
+    <circle cx="24" cy="22" r="13" fill="white" fill-opacity=".14"/>
+    <circle cx="31.5" cy="14.5" r="3" fill="white"/>
+    <path d="m15.4 20.5 15-2.3 3.2 11.3-16.1 1.8-2.1-10.8Z" fill="#FFF7ED" stroke="white" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="m20.3 19.75 2.55 10.95M25.3 19l2.8 11.1M16.45 25.9l15.5-2.1" stroke="#EA580C" stroke-width="1.05" opacity=".8"/>
+    <path d="m23.8 31-.7 4.2M28 30.5l1.55 4.7M20.5 35.2h11.7" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+  </g>
+</svg>
