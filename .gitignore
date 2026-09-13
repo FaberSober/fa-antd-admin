@@ -16,6 +16,8 @@ node_modules/
 dist/
 .turbo/
 .env
+.env.mysql
+.env.postgre
 .pnpm-store/
 
 # 忽略 AI 助手的临时缓存和日志
