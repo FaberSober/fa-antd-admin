@@ -1,0 +1,8 @@
+# 主 Agent 保留你现有的模型设置。
+# 以下只配置子 Agent。
+
+[agents]
+enabled = true
+default_subagent_model = "gpt-5.6-luna"
+default_subagent_reasoning_effort = "medium"
+max_concurrent_threads_per_session = 3
