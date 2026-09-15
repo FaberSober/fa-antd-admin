@@ -134,6 +134,7 @@
 | Tabs 页签 | tabs.md |
 | 树形组件（`BaseTree`/`BaseCascader`、`TREE_REFRESH_BUS_KEY` 刷新） | tree.md |
 | glb 3D 文件解析（gltfjsx） | 3dmodal.md |
+| 常用弹框（Ant Design `Modal`、`DragModal`、`BaseModal`、`FaFullContentModal`） | modal.md |
 
 ### 表单与选择器
 | 场景 | 文档 |

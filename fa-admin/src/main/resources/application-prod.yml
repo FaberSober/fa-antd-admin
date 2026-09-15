@@ -9,9 +9,9 @@ spring:
       on-profile: prod
 
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DBNAME:fa_admin}?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&useSSL=false&rewriteBatchedStatements=true
-    username: ${MYSQL_USERNAME:root}
-    password: ${MYSQL_PASSWORD:123456}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/fa_admin?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&useSSL=false&rewriteBatchedStatements=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:123456}
 
   data:
     redis:
