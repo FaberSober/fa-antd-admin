@@ -1,0 +1,36 @@
+:root {
+  --fa-color-primary: #1677ff;
+  --fa-color-text: #1f2937;
+  --fa-color-muted: #6b7280;
+  --fa-color-page: #f5f7fb;
+  --fa-color-card: #ffffff;
+  --fa-color-border: #e5e7eb;
+  --fa-radius-card: 20rpx;
+}
+
+page {
+  min-height: 100%;
+  color: var(--fa-color-text);
+  background: var(--fa-color-page);
+  font-size: 28rpx;
+}
+
+button::after {
+  border: 0;
+}
+
+.fa-page {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 48rpx 32rpx;
+}
+
+.fa-card {
+  background: var(--fa-color-card);
+  border-radius: var(--fa-radius-card);
+  box-shadow: 0 12rpx 32rpx rgba(31, 41, 55, 0.06);
+}
+
+.fa-muted {
+  color: var(--fa-color-muted);
+}

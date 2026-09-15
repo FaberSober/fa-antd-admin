@@ -1,0 +1,106 @@
+<script setup lang="ts">
+import { onShow } from '@dcloudio/uni-app';
+import { ref } from 'vue';
+import { useAuthStore } from '../../stores/auth';
+import { ApiError } from '../../common/request';
+import UserInfoCard from '../../components/UserInfoCard.vue';
+
+const authStore = useAuthStore();
+const errorMessage = ref('');
+
+async function loadUser(): Promise<void> {
+  errorMessage.value = '';
+  try {
+    const user = await authStore.loadCurrentUser();
+    if (!user) {
+      uni.reLaunch({ url: '/features/fa-base-mobile/pages/login/index' });
+    }
+  } catch (error) {
+    errorMessage.value = error instanceof ApiError ? error.message : '用户信息加载失败';
+  }
+}
+
+async function handleLogout(): Promise<void> {
+  try {
+    await authStore.signOut();
+  } finally {
+    uni.reLaunch({ url: '/features/fa-base-mobile/pages/login/index' });
+  }
+}
+
+onShow(() => {
+  void loadUser();
+});
+</script>
+
+<template>
+  <view class="home-page fa-page">
+    <view class="home-heading">
+      <text class="home-title">首页</text>
+      <text class="home-subtitle">当前为移动端基础框架预览</text>
+    </view>
+
+    <view v-if="authStore.loading" class="state-card fa-card">
+      <text class="fa-muted">正在加载用户信息...</text>
+    </view>
+
+    <view v-else-if="errorMessage" class="state-card fa-card">
+      <text class="error-message">{{ errorMessage }}</text>
+      <button class="retry-button" @click="loadUser">重新加载</button>
+    </view>
+
+    <UserInfoCard v-else-if="authStore.user" :user="authStore.user" />
+
+    <button class="logout-button" @click="handleLogout">退出登录</button>
+  </view>
+</template>
+
+<style scoped>
+.home-page {
+  padding-top: 56rpx;
+}
+
+.home-heading {
+  margin: 0 8rpx 32rpx;
+}
+
+.home-title {
+  display: block;
+  margin-bottom: 12rpx;
+  font-size: 48rpx;
+  font-weight: 700;
+}
+
+.home-subtitle {
+  color: var(--fa-color-muted);
+  font-size: 24rpx;
+}
+
+.state-card {
+  padding: 40rpx 32rpx;
+  text-align: center;
+}
+
+.error-message {
+  display: block;
+  margin-bottom: 24rpx;
+  color: #dc2626;
+}
+
+.retry-button {
+  width: 240rpx;
+  margin: 0 auto;
+  color: var(--fa-color-primary);
+  background: #eff6ff;
+  font-size: 26rpx;
+}
+
+.logout-button {
+  margin-top: 48rpx;
+  border: 1rpx solid #fecaca;
+  border-radius: 999rpx;
+  color: #dc2626;
+  background: #fff;
+  font-size: 28rpx;
+}
+</style>
