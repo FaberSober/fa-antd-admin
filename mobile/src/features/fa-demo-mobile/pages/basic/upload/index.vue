@@ -18,6 +18,13 @@ const uploadedFile = ref<MobileFileSave | null>(null);
 const errorMessage = ref('');
 const uploading = ref(false);
 
+function openPreview(): void {
+  if (!uploadedFile.value?.id) return;
+  uni.navigateTo({
+    url: `/features/fa-base-mobile/pages/file-preview/index?fileId=${encodeURIComponent(uploadedFile.value.id)}`,
+  });
+}
+
 function ensureAuthenticated(): void {
   if (!hasToken()) {
     uni.reLaunch({ url: LOGIN_ROUTE });
@@ -135,6 +142,7 @@ onShow(() => {
         <text class="result-label">访问地址</text>
         <text class="result-value result-value--url">{{ uploadedFile.url }}</text>
       </view>
+      <button class="demo-button demo-button--primary" @click="openPreview">打开文件预览</button>
     </view>
   </view>
 </template>

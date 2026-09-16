@@ -16,6 +16,13 @@
       }
     },
     {
+      "path": "features/fa-base-mobile/pages/file-preview/index",
+      "style": {
+        "navigationBarTitleText": "文件预览",
+        "navigationStyle": "default"
+      }
+    },
+    {
       "path": "features/fa-demo-mobile/pages/home/index",
       "style": {
         "navigationBarTitleText": "移动端 Demo",

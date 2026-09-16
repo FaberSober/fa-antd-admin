@@ -1,0 +1,56 @@
+.page {
+  display: grid;
+  min-height: 100dvh;
+  padding: calc(var(--fa-h5-content-padding) + env(safe-area-inset-top)) var(--fa-h5-content-padding)
+    calc(var(--fa-h5-content-padding) + env(safe-area-inset-bottom));
+  place-items: center;
+  background: radial-gradient(circle at 50% -20%, rgb(15 107 255 / 18%), transparent 46%), var(--fa-h5-page-bg);
+}
+
+.card {
+  width: min(100%, 420px);
+  padding: 30px 24px;
+  border: 1px solid var(--fa-h5-border-color);
+  border-radius: var(--fa-h5-radius-large);
+  background: var(--fa-h5-surface);
+  box-shadow: var(--fa-h5-shadow-card);
+  text-align: center;
+}
+
+.eyebrow {
+  color: var(--fa-h5-color-primary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.card h1 {
+  margin: 12px 0 8px;
+  color: var(--fa-h5-text-primary);
+  font-size: clamp(24px, 7vw, 30px);
+  line-height: 1.25;
+}
+
+.card p {
+  margin: 0;
+  color: var(--fa-h5-text-secondary);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.loading {
+  display: flex;
+  min-height: 100dvh;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--fa-h5-text-secondary);
+  background: var(--fa-h5-page-bg);
+  font-size: 14px;
+}

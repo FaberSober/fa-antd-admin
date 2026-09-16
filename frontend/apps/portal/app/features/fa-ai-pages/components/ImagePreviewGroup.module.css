@@ -1,0 +1,118 @@
+.thumbnail {
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  cursor: zoom-in;
+  background: transparent;
+  border: 0;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background: rgb(0 0 0 / 72%);
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  cursor: default;
+  background: transparent;
+  border: 0;
+}
+
+.dialog {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: min(90vw, 75rem);
+  height: min(88vh, 56rem);
+}
+
+.fullImage {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  box-shadow: 0 1rem 3rem rgb(0 0 0 / 35%);
+}
+
+.close,
+.navigate {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  color: #fff;
+  cursor: pointer;
+  background: rgb(0 0 0 / 48%);
+  border: 1px solid rgb(255 255 255 / 45%);
+  border-radius: 50%;
+}
+
+.close {
+  top: -1rem;
+  right: -1rem;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.navigate {
+  top: 50%;
+  font-size: 2rem;
+  line-height: 1;
+  transform: translateY(-50%);
+}
+
+.previous {
+  left: -3.5rem;
+}
+
+.next {
+  right: -3.5rem;
+}
+
+.counter {
+  position: absolute;
+  bottom: -1.75rem;
+  padding: 0.25rem 0.65rem;
+  color: #fff;
+  font-size: 0.875rem;
+  background: rgb(0 0 0 / 48%);
+  border-radius: 1rem;
+}
+
+@media (width <= 40rem) {
+  .overlay {
+    padding: 1rem;
+  }
+
+  .dialog {
+    width: 100%;
+    height: min(82vh, 40rem);
+  }
+
+  .previous {
+    left: 0.5rem;
+  }
+
+  .next {
+    right: 0.5rem;
+  }
+
+  .close {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+}

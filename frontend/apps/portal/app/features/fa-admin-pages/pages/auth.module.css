@@ -1,0 +1,125 @@
+.page {
+  display: grid;
+  min-height: calc(100dvh - 9.25rem);
+  padding: clamp(2rem, 7vw, 5rem) var(--portal-page-gutter);
+  place-items: center;
+  background:
+    radial-gradient(circle at 20% 20%, rgb(57 113 232 / 20%), transparent 36%), radial-gradient(circle at 85% 70%, rgb(102 224 194 / 18%), transparent 32%);
+}
+
+.panel {
+  display: grid;
+  width: min(100%, 64rem);
+  overflow: hidden;
+  grid-template-columns: 0.9fr 1.1fr;
+  border: 1px solid var(--portal-color-border-subtle);
+  border-radius: 1.75rem;
+  background: white;
+  box-shadow: 0 28px 80px rgb(16 24 40 / 13%);
+}
+
+.intro {
+  padding: clamp(2rem, 5vw, 4rem);
+  color: white;
+  background: linear-gradient(145deg, #0f1f3d, var(--portal-color-brand-700));
+}
+
+.intro h1 {
+  margin: var(--portal-space-5) 0 0;
+  color: white;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.intro p {
+  color: rgb(255 255 255 / 76%);
+  line-height: 1.75;
+}
+
+.formWrap {
+  padding: clamp(2rem, 5vw, 4rem);
+}
+
+.formWrap h2 {
+  margin: 0;
+  color: var(--portal-color-text-strong);
+  font-size: 1.75rem;
+}
+
+.formWrap > p {
+  margin: var(--portal-space-2) 0 var(--portal-space-6);
+  color: var(--portal-color-text-muted);
+}
+
+.form {
+  display: grid;
+  gap: var(--portal-space-4);
+}
+
+.field {
+  display: grid;
+  gap: var(--portal-space-2);
+}
+
+.field label {
+  color: var(--portal-color-text-strong);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.field input {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--portal-color-border);
+  border-radius: var(--portal-radius-md);
+  outline: none;
+}
+
+.field input:focus {
+  border-color: var(--portal-color-brand-500);
+  box-shadow: 0 0 0 3px var(--portal-color-brand-100);
+}
+
+.submit {
+  min-height: 3rem;
+  border: 0;
+  border-radius: var(--portal-radius-md);
+  color: white;
+  background: var(--portal-color-brand-600);
+  font-weight: 760;
+  cursor: pointer;
+}
+
+.submit:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.error {
+  margin: 0;
+  color: var(--portal-color-danger);
+  line-height: 1.6;
+}
+
+.switch {
+  margin: var(--portal-space-5) 0 0;
+  text-align: center;
+}
+
+.switch a {
+  color: var(--portal-color-brand-700);
+  font-weight: 720;
+  text-decoration: none;
+}
+
+@media (max-width: 44rem) {
+  .panel {
+    grid-template-columns: 1fr;
+  }
+
+  .intro {
+    display: none;
+  }
+}

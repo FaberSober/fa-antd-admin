@@ -1,0 +1,135 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  gap: clamp(2rem, 7vw, 6rem);
+}
+
+.contactList {
+  display: grid;
+  margin: var(--portal-space-6) 0 0;
+  gap: var(--portal-space-4);
+}
+
+.contactItem {
+  padding-bottom: var(--portal-space-4);
+  border-bottom: 1px solid var(--portal-color-border-subtle);
+}
+
+.contactItem dt {
+  color: var(--portal-color-text-muted);
+  font-size: 0.82rem;
+}
+
+.contactItem dd {
+  margin: var(--portal-space-1) 0 0;
+  color: var(--portal-color-text-strong);
+  font-weight: 720;
+}
+
+.form {
+  display: grid;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  border: 1px solid var(--portal-color-border-subtle);
+  border-radius: var(--portal-radius-lg);
+  background: var(--portal-color-surface);
+  box-shadow: var(--portal-shadow-card);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--portal-space-4);
+}
+
+.field,
+.fieldFull {
+  display: grid;
+  gap: var(--portal-space-2);
+}
+
+.fieldFull {
+  grid-column: 1 / -1;
+}
+
+.field label,
+.fieldFull label {
+  color: var(--portal-color-text-strong);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.field input,
+.fieldFull input,
+.fieldFull textarea {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--portal-color-border);
+  border-radius: var(--portal-radius-md);
+  outline: none;
+  background: white;
+}
+
+.field input:focus,
+.fieldFull input:focus,
+.fieldFull textarea:focus {
+  border-color: var(--portal-color-brand-500);
+  box-shadow: 0 0 0 3px var(--portal-color-brand-100);
+}
+
+.fieldFull textarea {
+  min-height: 9rem;
+  resize: vertical;
+}
+
+.submit {
+  min-height: 3rem;
+  grid-column: 1 / -1;
+  border: 0;
+  border-radius: var(--portal-radius-md);
+  color: white;
+  background: var(--portal-color-brand-600);
+  font-weight: 760;
+  cursor: pointer;
+}
+
+.submit:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.message {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--portal-color-text-muted);
+  line-height: 1.6;
+}
+
+.message[data-status='error'] {
+  color: var(--portal-color-danger);
+}
+
+.message[data-status='success'] {
+  color: #027a48;
+}
+
+.map {
+  display: grid;
+  min-height: 17rem;
+  border: 1px solid var(--portal-color-border-subtle);
+  border-radius: var(--portal-radius-lg);
+  place-items: center;
+  color: var(--portal-color-text-muted);
+  background:
+    linear-gradient(45deg, transparent 48%, rgb(39 93 204 / 8%) 49% 51%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, rgb(39 93 204 / 8%) 49% 51%, transparent 52%), var(--portal-color-surface);
+  background-size: 3rem 3rem;
+}
+
+@media (max-width: 48rem) {
+  .layout,
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .fieldFull,
+  .submit,
+  .message {
+    grid-column: auto;
+  }
+}

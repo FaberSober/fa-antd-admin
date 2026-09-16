@@ -1,0 +1,46 @@
+{
+  "name": "@fa/h5",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "check:node": "node ./scripts/check-node-version.mjs",
+    "select:project": "tsx ./scripts/select-project.ts",
+    "predev": "pnpm run check:node && pnpm run select:project",
+    "dev": "vite",
+    "check:projects": "tsx ./scripts/validate-projects.ts",
+    "check:project-matrix": "tsx ./scripts/validate-project-matrix.ts",
+    "check:boundaries": "tsx ./scripts/check-boundaries.ts",
+    "catalog:generate": "tsx ./scripts/generate-feature-catalog.ts",
+    "catalog:check": "tsx ./scripts/generate-feature-catalog.ts --check",
+    "check:engineering": "pnpm run check:projects && pnpm run check:project-matrix && pnpm run check:boundaries && pnpm run catalog:check",
+    "check": "pnpm run check:node && pnpm run check:engineering && tsc --noEmit",
+    "lint": "biome check src features scripts vite.config.ts",
+    "lint:write": "biome check --write src features scripts vite.config.ts",
+    "proxy:smoke": "node ./scripts/check-api-proxy.mjs",
+    "prebuild": "pnpm run check:node && pnpm run select:project && pnpm run check:engineering",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@file-viewer/preset-office": "3.1.1",
+    "@file-viewer/react": "3.1.1",
+    "antd-mobile": "5.42.3",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-router-dom": "7.7.1"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "4.7.0",
+    "@file-viewer/vite-plugin": "3.1.1",
+    "vite-plugin-pages": "0.33.1",
+    "tsx": "4.19.2",
+    "typescript": "5.9.2",
+    "vite": "7.2.6"
+  },
+  "engines": {
+    "node": ">=22.22.0"
+  }
+}

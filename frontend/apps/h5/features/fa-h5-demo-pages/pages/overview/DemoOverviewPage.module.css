@@ -1,0 +1,62 @@
+.page {
+  display: grid;
+  gap: 16px;
+}
+
+.hero,
+.card {
+  padding: 22px;
+  border: 1px solid var(--fa-h5-border-color);
+  border-radius: var(--fa-h5-radius-large);
+  background: var(--fa-h5-surface);
+  box-shadow: var(--fa-h5-shadow-card);
+}
+
+.hero {
+  background: linear-gradient(145deg, rgb(101 86 232 / 13%), transparent 60%), var(--fa-h5-surface);
+}
+
+.hero span,
+.cardHeader span {
+  color: #6556e8;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.hero h1 {
+  margin: 12px 0 8px;
+  color: var(--fa-h5-text-primary);
+  font-size: 26px;
+  line-height: 1.25;
+}
+
+.hero p {
+  margin: 0;
+  color: var(--fa-h5-text-secondary);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.card {
+  display: grid;
+  gap: 20px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cardHeader h2 {
+  margin: 5px 0 0;
+  color: var(--fa-h5-text-primary);
+  font-size: 18px;
+}
+
+.cardHeader strong {
+  color: var(--fa-h5-text-secondary);
+  font-size: 12px;
+}

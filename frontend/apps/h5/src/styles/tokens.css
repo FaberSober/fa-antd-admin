@@ -1,0 +1,50 @@
+:root,
+:root:root {
+  color-scheme: light;
+  --fa-h5-color-primary: #0f6bff;
+  --fa-h5-color-primary-active: #0a55cc;
+  --fa-h5-color-primary-soft: #eaf2ff;
+  --fa-h5-page-bg: #f3f6fb;
+  --fa-h5-page-highlight: #f8fbff;
+  --fa-h5-surface: #ffffff;
+  --fa-h5-surface-glass: rgb(255 255 255 / 88%);
+  --fa-h5-text-primary: #152033;
+  --fa-h5-text-secondary: #5d6b82;
+  --fa-h5-text-tertiary: #8a96a8;
+  --fa-h5-border-color: #e3e9f2;
+  --fa-h5-content-padding: 16px;
+  --fa-h5-content-max-width: 920px;
+  --fa-h5-header-height: 64px;
+  --fa-h5-radius-medium: 16px;
+  --fa-h5-radius-large: 24px;
+  --fa-h5-shadow-card: 0 18px 50px rgb(24 58 105 / 10%);
+  --adm-color-primary: var(--fa-h5-color-primary);
+  --adm-color-success: #16a66a;
+  --adm-color-warning: #ee8b18;
+  --adm-color-danger: #e5484d;
+  --adm-color-text: var(--fa-h5-text-primary);
+  --adm-color-text-secondary: var(--fa-h5-text-secondary);
+  --adm-color-background: var(--fa-h5-surface);
+  --adm-border-color: var(--fa-h5-border-color);
+  --adm-font-size-main: 15px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root,
+  :root:root {
+    color-scheme: dark;
+    --fa-h5-color-primary: #76aaff;
+    --fa-h5-color-primary-active: #9bbfff;
+    --fa-h5-color-primary-soft: #172b4d;
+    --fa-h5-page-bg: #0e1420;
+    --fa-h5-page-highlight: #101927;
+    --fa-h5-surface: #151d2b;
+    --fa-h5-surface-glass: rgb(21 29 43 / 88%);
+    --fa-h5-text-primary: #f2f6fc;
+    --fa-h5-text-secondary: #b3bfd1;
+    --fa-h5-text-tertiary: #8290a6;
+    --fa-h5-border-color: #273347;
+    --fa-h5-shadow-card: 0 20px 50px rgb(0 0 0 / 24%);
+    --adm-color-background: var(--fa-h5-surface);
+  }
+}

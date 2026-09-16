@@ -1,0 +1,74 @@
+.feedback,
+.errorPage {
+  display: grid;
+  width: min(100% - 2 * var(--portal-page-gutter), 42rem);
+  min-height: 50dvh;
+  margin-inline: auto;
+  place-content: center;
+  justify-items: start;
+}
+
+.feedback {
+  justify-items: center;
+  color: var(--portal-color-text-muted);
+  text-align: center;
+}
+
+.feedback h1,
+.errorPage h1 {
+  margin-block: var(--portal-space-2);
+  color: var(--portal-color-text-strong);
+  font-size: clamp(1.75rem, 4vw, 2.8rem);
+}
+
+.errorPage > p:not(.errorCode),
+.feedback p {
+  margin-block: var(--portal-space-2) var(--portal-space-5);
+  color: var(--portal-color-text-muted);
+  line-height: 1.7;
+}
+
+.errorCode {
+  margin: 0;
+  color: var(--portal-color-brand-600);
+  font-size: 0.875rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.primaryAction {
+  display: inline-flex;
+  min-height: 2.75rem;
+  padding: 0.7rem 1rem;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--portal-radius-md);
+  color: white;
+  background: var(--portal-color-brand-600);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid var(--portal-color-brand-100);
+  border-top-color: var(--portal-color-brand-600);
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 1400ms;
+  }
+}

@@ -1,0 +1,14 @@
+@import './tokens.css';
+@import './reset.css';
+
+body {
+  color: var(--portal-color-text);
+  background: var(--portal-color-page);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  color: white;
+  background: var(--portal-color-brand-600);
+}

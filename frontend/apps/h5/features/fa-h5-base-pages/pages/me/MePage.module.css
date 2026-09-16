@@ -1,0 +1,48 @@
+.page {
+  display: grid;
+  gap: 16px;
+}
+
+.profile {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 22px;
+  border: 1px solid var(--fa-h5-border-color);
+  border-radius: var(--fa-h5-radius-large);
+  background: var(--fa-h5-surface);
+  box-shadow: var(--fa-h5-shadow-card);
+}
+
+.avatar {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 18px;
+  color: white;
+  background: linear-gradient(145deg, var(--fa-h5-color-primary), #6556e8);
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.eyebrow {
+  color: var(--fa-h5-color-primary);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.profile h1 {
+  margin: 6px 0 4px;
+  color: var(--fa-h5-text-primary);
+  font-size: 20px;
+}
+
+.profile p {
+  margin: 0;
+  color: var(--fa-h5-text-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+}

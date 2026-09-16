@@ -4,6 +4,9 @@ interface ImportMetaEnv {
   readonly VITE_APP_API_BASE_URL?: string;
   readonly VITE_APP_MP_API_BASE_URL?: string;
   readonly VITE_APP_APP_API_BASE_URL?: string;
+  readonly VITE_APP_H5_PREVIEW_BASE_URL?: string;
+  readonly VITE_APP_MP_H5_PREVIEW_BASE_URL?: string;
+  readonly VITE_APP_APP_H5_PREVIEW_BASE_URL?: string;
   readonly VITE_DEV_PROXY_TARGET?: string;
   readonly VITE_APP_NAME?: string;
   readonly VITE_APP_VERSION_NAME?: string;

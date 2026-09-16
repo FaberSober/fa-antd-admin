@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="FA Portal">
+  <defs>
+    <linearGradient id="g" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3971e8"/>
+      <stop offset="1" stop-color="#214ba2"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="url(#g)"/>
+  <path fill="#fff" d="M15 18h23v8H24v6h12v8H24v10h-9V18Zm27 0h8l9 32h-9l-1.4-6h-8.9L38 50h-9l9-32h4Zm4.8 18-2.7-11-2.6 11h5.3Z"/>
+</svg>

@@ -1,0 +1,75 @@
+.page {
+  display: grid;
+  min-height: 100dvh;
+  padding: calc(24px + env(safe-area-inset-top)) var(--fa-h5-content-padding) calc(24px + env(safe-area-inset-bottom));
+  place-items: center;
+  background:
+    radial-gradient(circle at 15% 10%, rgb(15 107 255 / 18%), transparent 36%),
+    linear-gradient(180deg, var(--fa-h5-page-highlight) 0%, var(--fa-h5-page-bg) 100%);
+}
+
+.card {
+  width: min(100%, 420px);
+  padding: 28px 22px;
+  border: 1px solid var(--fa-h5-border-color);
+  border-radius: var(--fa-h5-radius-large);
+  background: var(--fa-h5-surface);
+  box-shadow: var(--fa-h5-shadow-card);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--fa-h5-border-color);
+}
+
+.brand span {
+  color: var(--fa-h5-color-primary);
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.brand strong {
+  color: var(--fa-h5-text-tertiary);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.copy {
+  padding: 36px 0 30px;
+}
+
+.eyebrow {
+  color: var(--fa-h5-color-primary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.copy h1 {
+  margin: 12px 0 10px;
+  color: var(--fa-h5-text-primary);
+  font-size: 28px;
+  line-height: 1.25;
+}
+
+.copy p,
+.hint {
+  color: var(--fa-h5-text-secondary);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.copy p {
+  margin: 0;
+}
+
+.hint {
+  margin: 12px 0 0;
+  color: var(--fa-h5-text-tertiary);
+  font-size: 11px;
+  text-align: center;
+}

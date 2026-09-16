@@ -1,0 +1,11 @@
+import baseFeature from '@features/fa-h5-base-pages';
+import filePreviewFeature from '@features/fa-h5-file-preview-pages';
+import { defineH5Project } from '@/platform/feature';
+
+export default defineH5Project({
+  id: 'default',
+  title: 'FA H5',
+  basePath: '/h5',
+  defaultRouteId: 'fa-h5-base-pages.home',
+  features: [baseFeature, filePreviewFeature],
+});
