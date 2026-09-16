@@ -11,10 +11,12 @@ import type {
 export function checkBaseUpdate(): Promise<UpdateManifest | null> {
   const appCode = APP_CONFIG.updateAppCode.trim();
   if (!appCode) return Promise.resolve(null);
+  const platform = getUpdatePlatform();
+  if (platform !== 'APP_PLUS') return Promise.resolve(null);
 
   return updateClient.check({
     appCode,
-    platform: getUpdatePlatform(),
+    platform,
     currentVersionCode: getCurrentVersion().versionCode,
     channel: APP_CONFIG.updateChannel,
   });

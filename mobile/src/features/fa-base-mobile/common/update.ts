@@ -1,6 +1,7 @@
 import { telemetry } from '@features/fa-core-mobile/telemetry';
 import {
   MobileUpdateError,
+  supportsFullPackageInstall,
   updateClient,
 } from '@features/fa-core-mobile/update';
 import type { UpdateManifest } from '@features/fa-core-mobile/update';
@@ -42,7 +43,7 @@ export async function checkAndPromptUpdate(): Promise<void> {
       return;
     }
 
-    if (manifest.updateType !== 'WGT') {
+    if (manifest.updateType === 'FULL' && !supportsFullPackageInstall()) {
       telemetry.track('mobile.update.full.pending', {
         eventType: 'ACTION',
         module: 'fa-base-mobile',
@@ -50,7 +51,7 @@ export async function checkAndPromptUpdate(): Promise<void> {
       });
       await showModal({
         title: '需要完整包更新',
-        content: '当前版本需要安装完整包，移动端完整包安装能力将在后续版本接入。',
+        content: '当前平台不能在应用内安装完整包，请通过 App Store 或企业分发渠道更新。',
         showCancel: false,
         confirmText: '知道了',
       });
@@ -66,7 +67,7 @@ export async function checkAndPromptUpdate(): Promise<void> {
 
       const installAccepted = await showModal({
         title: '下载完成',
-        content: '文件校验通过，是否立即安装更新？',
+        content: `${manifest.updateType === 'WGT' ? '增量资源包' : '完整包'}已下载并完成校验，是否立即安装更新？`,
         showCancel: !manifest.forceUpdate,
         cancelText: '稍后安装',
         confirmText: '立即安装',

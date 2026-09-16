@@ -119,6 +119,16 @@ export function verifyFileSha256(filePath: string, expectedSha256: string): Prom
   });
 }
 
+export function supportsFullPackageInstall(): boolean {
+  if (typeof plus === 'undefined' || !plus.runtime) return false;
+  try {
+    const info = uni.getSystemInfoSync() as unknown as { osName?: unknown };
+    return typeof info.osName === 'string' && info.osName.toLowerCase() === 'android';
+  } catch {
+    return false;
+  }
+}
+
 export class MobileUpdateClient {
   private state: UpdateState = { status: 'IDLE', progress: 0 };
   private readonly listeners = new Set<UpdateStateListener>();
@@ -180,10 +190,8 @@ export class MobileUpdateClient {
 
       this.setState({ status: 'INSTALLING', manifest, filePath, error: undefined });
       await verifyFileSha256(filePath, manifest.sha256!);
-      if (manifest.updateType !== 'WGT') {
-        throw new MobileUpdateError('INSTALL_UNSUPPORTED', '当前版本仅支持APP-PLUS WGT安装');
-      }
-      await installWgt(filePath);
+      if (manifest.updateType === 'WGT') await installWgt(filePath);
+      else await installFullPackage(filePath);
       this.setState({ status: 'INSTALLED', progress: 100 });
     } catch (error) {
       this.fail(error);
@@ -236,6 +244,28 @@ function installWgt(filePath: string): Promise<void> {
       );
     } catch (error) {
       reject(new MobileUpdateError('INSTALL_FAILED', getErrorMessage(error, 'WGT安装失败')));
+    }
+  });
+}
+
+function installFullPackage(filePath: string): Promise<void> {
+  if (!supportsFullPackageInstall()) {
+    return Promise.reject(new MobileUpdateError(
+      'INSTALL_UNSUPPORTED',
+      '当前平台不能在应用内安装完整包，请通过App Store或企业分发渠道更新',
+    ));
+  }
+
+  return new Promise((resolve, reject) => {
+    try {
+      plus.runtime.install(
+        filePath,
+        { force: false },
+        () => resolve(),
+        (error) => reject(new MobileUpdateError('INSTALL_FAILED', getErrorMessage(error, '完整包安装失败'))),
+      );
+    } catch (error) {
+      reject(new MobileUpdateError('INSTALL_FAILED', getErrorMessage(error, '完整包安装失败')));
     }
   });
 }
