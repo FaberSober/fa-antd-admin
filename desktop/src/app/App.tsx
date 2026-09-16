@@ -3,6 +3,8 @@ import { DemoDesktopEntry, DemoDesktopFeature, type FileUploadResult } from "@fa
 import { httpClient, tokenStore } from "../runtime/client";
 import { telemetry } from "../runtime/telemetry";
 import { useState } from "react";
+import { UpdateCard } from "./UpdateCard";
+import "./styles.css";
 
 const baseDesktopApi = createBaseDesktopApi(httpClient);
 
@@ -38,6 +40,7 @@ function App() {
 
         return (
           <HomePage {...homeProps}>
+            <UpdateCard />
             <DemoDesktopEntry
               onOpen={() => {
                 telemetry.track("demo.open", { eventType: "ACTION", module: "demo" });

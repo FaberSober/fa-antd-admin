@@ -12,11 +12,11 @@ export function checkForUpdate(): Promise<Update | null> {
   return check({ timeout: 30_000 });
 }
 
-export async function installUpdate(update: Update, onProgress?: UpdateProgressHandler): Promise<void> {
+export async function downloadUpdate(update: Update, onProgress?: UpdateProgressHandler): Promise<void> {
   let downloadedBytes = 0;
   let contentLength: number | undefined;
 
-  await update.downloadAndInstall((event: DownloadEvent) => {
+  await update.download((event: DownloadEvent) => {
     if (event.event === "Started") {
       contentLength = event.data.contentLength;
     } else if (event.event === "Progress") {
@@ -25,6 +25,9 @@ export async function installUpdate(update: Update, onProgress?: UpdateProgressH
 
     onProgress?.({ downloadedBytes, contentLength });
   });
+}
 
+export async function installUpdate(update: Update): Promise<void> {
+  await update.install();
   await relaunch();
 }

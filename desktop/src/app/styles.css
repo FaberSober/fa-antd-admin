@@ -1,0 +1,120 @@
+.desktop-update-card {
+  margin-top: 24px;
+  padding: 24px 28px;
+}
+
+.desktop-update-heading,
+.desktop-update-install,
+.desktop-update-progress-label {
+  display: flex;
+  align-items: center;
+}
+
+.desktop-update-heading {
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.desktop-update-kicker {
+  margin: 0 0 8px;
+  color: #ad6b08;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.desktop-update-heading h2 {
+  margin: 0 0 6px;
+  color: #172033;
+  font-family: var(--fa-font-display);
+  font-size: 19px;
+  letter-spacing: -0.03em;
+}
+
+.desktop-update-heading p:last-child,
+.desktop-update-message,
+.desktop-update-date,
+.desktop-update-notes,
+.desktop-update-install {
+  margin: 0;
+  color: #718099;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.desktop-update-heading .core-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.desktop-update-heading .core-spinner {
+  width: 14px;
+  height: 14px;
+}
+
+.desktop-update-message,
+.desktop-update-details,
+.desktop-update-card .core-alert {
+  margin-top: 20px;
+}
+
+.desktop-update-details {
+  display: grid;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid #e8edf4;
+}
+
+.desktop-update-version {
+  margin: 0;
+  color: #172033;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.desktop-update-date {
+  margin-top: 3px;
+  color: #9aa6ba;
+  font-size: 12px;
+}
+
+.desktop-update-notes {
+  white-space: pre-wrap;
+}
+
+.desktop-update-progress {
+  display: grid;
+  gap: 8px;
+}
+
+.desktop-update-progress-label {
+  justify-content: space-between;
+  gap: 16px;
+  color: #5f6e85;
+  font-size: 12px;
+}
+
+.desktop-update-progress progress {
+  width: 100%;
+  height: 8px;
+  accent-color: var(--fa-accent-strong);
+}
+
+.desktop-update-install {
+  justify-content: space-between;
+  gap: 16px;
+}
+
+@media (max-width: 520px) {
+  .desktop-update-card {
+    padding: 22px;
+  }
+
+  .desktop-update-heading,
+  .desktop-update-install {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
