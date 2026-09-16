@@ -75,7 +75,10 @@ CI 需要配置以下变量：
 ```powershell
 pnpm release:build
 pnpm release:verify
+pnpm verify:update
 ```
+
+`verify:update` 使用本地 mock 服务验收无更新、平台架构匹配、更新清单、下载响应、签名文件和客户端更新接线，不需要真实发布服务器。
 
 跨平台 CI 使用对应系统 Runner；需要指定 Rust 目标时，将参数传给 Tauri，例如 `pnpm release:build -- --target x86_64-pc-windows-msvc`。校验通过后，将安装包和相邻 `.sig` 一起上传，并把 `.sig` 文件内容填写到 `fa-app` 的安装包记录中。
 

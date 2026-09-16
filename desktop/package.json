@@ -14,6 +14,7 @@
     "version:check": "node scripts/version.mjs check",
     "release:build": "node scripts/release.mjs build",
     "release:verify": "node scripts/release.mjs verify",
+    "verify:update": "node scripts/update-flow-check.mjs",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build"
