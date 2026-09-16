@@ -157,6 +157,144 @@
   font-size: 13px;
 }
 
+.demo-desktop-upload-zone {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 9px;
+  padding: 42px 24px;
+  border: 1px dashed #c7d1df;
+  border-radius: 14px;
+  color: #718099;
+  background: #f9fbfd;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.demo-desktop-upload-zone:hover,
+.demo-desktop-upload-zone-dragging {
+  border-color: #d79822;
+  background: #fffaf0;
+}
+
+.demo-desktop-upload-zone strong {
+  color: #172033;
+  font-size: 14px;
+}
+
+.demo-desktop-upload-zone > span:last-child {
+  font-size: 12px;
+}
+
+.demo-desktop-upload-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: #ad6b08;
+  background: #fff0c7;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.demo-desktop-upload-input {
+  display: none;
+}
+
+.demo-desktop-upload-list-heading,
+.demo-desktop-upload-actions,
+.demo-desktop-file-item,
+.demo-desktop-file-status {
+  display: flex;
+  align-items: center;
+}
+
+.demo-desktop-upload-list-heading {
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.demo-desktop-upload-count {
+  color: #718099;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.demo-desktop-upload-empty {
+  margin: 0;
+  padding: 22px 0;
+  color: #9aa6ba;
+  font-size: 13px;
+  text-align: center;
+}
+
+.demo-desktop-file-list {
+  display: grid;
+  gap: 8px;
+}
+
+.demo-desktop-file-item {
+  justify-content: space-between;
+  gap: 20px;
+  padding: 13px 14px;
+  border: 1px solid #e7ebf1;
+  border-radius: 10px;
+  background: #fbfcfe;
+}
+
+.demo-desktop-file-info {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.demo-desktop-file-info strong {
+  overflow: hidden;
+  color: #172033;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.demo-desktop-file-info span,
+.demo-desktop-upload-message {
+  color: #9aa6ba;
+  font-size: 12px;
+}
+
+.demo-desktop-file-status {
+  flex-shrink: 0;
+  gap: 7px;
+  color: #718099;
+  font-size: 12px;
+}
+
+.demo-desktop-file-status-success {
+  color: #14805e;
+}
+
+.demo-desktop-file-status-error {
+  color: #b54949;
+}
+
+.demo-desktop-file-status .core-spinner {
+  width: 13px;
+  height: 13px;
+}
+
+.demo-desktop-file-status .core-button {
+  min-height: 28px;
+  padding: 0 6px;
+  font-size: 11px;
+}
+
+.demo-desktop-upload-actions {
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 18px;
+}
+
 .demo-desktop-telemetry-status {
   display: flex;
   align-items: center;
@@ -216,7 +354,9 @@
   .demo-desktop-entry-card,
   .demo-desktop-entry,
   .demo-desktop-telemetry-status,
-  .demo-desktop-error-fallback {
+  .demo-desktop-error-fallback,
+  .demo-desktop-file-item,
+  .demo-desktop-upload-list-heading {
     align-items: stretch;
     flex-direction: column;
   }

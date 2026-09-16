@@ -6,3 +6,4 @@ Current entries:
 
 - Button style and state demo.
 - Telemetry event and exception reporting demo.
+- File selection, drag-and-drop, validation, and platform upload demo.

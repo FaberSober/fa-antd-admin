@@ -2,19 +2,21 @@ import { Button, type TelemetryClient } from "@fa/core-desktop";
 import { useEffect, useState } from "react";
 import { ButtonDemoPage } from "./ButtonDemoPage";
 import { DemoHomePage } from "./DemoHomePage";
+import { FileUploadDemoPage, type FileUploadResult } from "./FileUploadDemoPage";
 import { TelemetryDemoPage } from "./TelemetryDemoPage";
 import "./styles.css";
 
 export interface DemoDesktopFeatureProps {
   loggingOut: boolean;
   telemetry: TelemetryClient;
+  uploadFile(file: File): Promise<FileUploadResult>;
   onLogout(): Promise<void>;
   onBack(): void;
 }
 
-type DemoView = "home" | "button" | "telemetry";
+type DemoView = "home" | "button" | "telemetry" | "upload";
 
-export function DemoDesktopFeature({ loggingOut, telemetry, onLogout, onBack }: DemoDesktopFeatureProps) {
+export function DemoDesktopFeature({ loggingOut, telemetry, uploadFile, onLogout, onBack }: DemoDesktopFeatureProps) {
   const [view, setView] = useState<DemoView>("home");
 
   useEffect(() => {
@@ -22,6 +24,7 @@ export function DemoDesktopFeature({ loggingOut, telemetry, onLogout, onBack }: 
       home: { route: "demo", pageTitle: "Desktop Demo" },
       button: { route: "demo/button", pageTitle: "Button Demo" },
       telemetry: { route: "demo/telemetry", pageTitle: "Telemetry Demo" },
+      upload: { route: "demo/upload", pageTitle: "File Upload Demo" },
     };
     telemetry.page(pages[view]);
   }, [telemetry, view]);
@@ -45,10 +48,15 @@ export function DemoDesktopFeature({ loggingOut, telemetry, onLogout, onBack }: 
 
       <div className="demo-desktop-content">
         {view === "home" && (
-          <DemoHomePage onOpenButton={() => setView("button")} onOpenTelemetry={() => setView("telemetry")} />
+          <DemoHomePage
+            onOpenButton={() => setView("button")}
+            onOpenTelemetry={() => setView("telemetry")}
+            onOpenUpload={() => setView("upload")}
+          />
         )}
         {view === "button" && <ButtonDemoPage onBack={() => setView("home")} />}
         {view === "telemetry" && <TelemetryDemoPage telemetry={telemetry} onBack={() => setView("home")} />}
+        {view === "upload" && <FileUploadDemoPage telemetry={telemetry} uploadFile={uploadFile} onBack={() => setView("home")} />}
       </div>
     </main>
   );
