@@ -16,6 +16,7 @@
   "dependencies": {
     "@fa/base-desktop": "workspace:*",
     "@fa/core-desktop": "workspace:*",
+    "@fa/demo-desktop": "workspace:*",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "@tauri-apps/api": "^2"

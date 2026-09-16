@@ -1,10 +1,12 @@
 import { Button, Card } from "@fa/core-desktop";
 import type { BaseUser } from "./types";
+import type { ReactNode } from "react";
 
 export interface HomePageProps {
   user: BaseUser;
   loggingOut: boolean;
   onLogout(): Promise<void>;
+  children?: ReactNode;
 }
 
 function displayValue(value: string | number | null | undefined): string {
@@ -16,7 +18,7 @@ function getInitials(user: BaseUser): string {
   return Array.from(source).slice(0, 2).join("").toUpperCase();
 }
 
-export function HomePage({ user, loggingOut, onLogout }: HomePageProps) {
+export function HomePage({ user, loggingOut, onLogout, children }: HomePageProps) {
   const displayName = displayValue(user.name) === "未填写" ? user.username : displayValue(user.name);
   const fields = [
     ["账号", user.username],
@@ -73,6 +75,7 @@ export function HomePage({ user, loggingOut, onLogout }: HomePageProps) {
             ))}
           </dl>
         </Card>
+        {children}
       </div>
     </main>
   );

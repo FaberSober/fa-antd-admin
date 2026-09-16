@@ -1,6 +1,6 @@
 import { ApiError, Spinner, type TokenStore } from "@fa/core-desktop";
-import { useCallback, useEffect, useState } from "react";
-import { HomePage } from "./HomePage";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { HomePage, type HomePageProps } from "./HomePage";
 import { LoginPage, type LoginCredentials } from "./LoginPage";
 import type { BaseDesktopApi } from "./api";
 import type { BaseUser } from "./types";
@@ -10,6 +10,7 @@ import "./styles.css";
 export interface BaseDesktopAppProps {
   api: BaseDesktopApi;
   tokenStore: TokenStore;
+  renderHome?: (props: HomePageProps) => ReactNode;
 }
 
 type Screen = "loading" | "login" | "home";
@@ -30,7 +31,7 @@ function LoadingScreen() {
   );
 }
 
-export function BaseDesktopApp({ api, tokenStore }: BaseDesktopAppProps) {
+export function BaseDesktopApp({ api, tokenStore, renderHome }: BaseDesktopAppProps) {
   const [screen, setScreen] = useState<Screen>(() => (tokenStore.get() ? "loading" : "login"));
   const [user, setUser] = useState<BaseUser | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -107,7 +108,8 @@ export function BaseDesktopApp({ api, tokenStore }: BaseDesktopAppProps) {
   }
 
   if (screen === "home" && user) {
-    return <HomePage user={user} loggingOut={loggingOut} onLogout={handleLogout} />;
+    const homeProps: HomePageProps = { user, loggingOut, onLogout: handleLogout };
+    return renderHome ? renderHome(homeProps) : <HomePage {...homeProps} />;
   }
 
   return <LoginPage error={error} loading={submitting} onSubmit={handleLogin} />;

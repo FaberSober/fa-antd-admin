@@ -14,6 +14,9 @@ importers:
       '@fa/core-desktop':
         specifier: workspace:*
         version: link:packages/fa-core-desktop
+      '@fa/demo-desktop':
+        specifier: workspace:*
+        version: link:features/fa-demo-desktop
       '@tauri-apps/api':
         specifier: ^2
         version: 2.11.1
@@ -44,6 +47,18 @@ importers:
         version: 8.3.0
 
   features/fa-base-desktop:
+    dependencies:
+      '@fa/core-desktop':
+        specifier: workspace:*
+        version: link:../../packages/fa-core-desktop
+      react:
+        specifier: '>=18.3.1'
+        version: 19.3.0
+      react-dom:
+        specifier: '>=18.3.1'
+        version: 19.3.0(react@19.3.0)
+
+  features/fa-demo-desktop:
     dependencies:
       '@fa/core-desktop':
         specifier: workspace:*
