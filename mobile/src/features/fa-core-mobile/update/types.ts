@@ -12,6 +12,7 @@ export interface UpdateCheckRequest {
   platform: UpdatePlatform;
   currentVersionCode: number;
   channel?: string;
+  deviceId?: string;
 }
 
 export interface UpdateManifest {

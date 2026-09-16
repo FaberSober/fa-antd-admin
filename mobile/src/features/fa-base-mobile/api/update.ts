@@ -1,6 +1,7 @@
 import { APP_CONFIG } from '@/app.config';
 import {
   getCurrentVersion,
+  getUpdateDeviceId,
   updateClient,
 } from '@features/fa-core-mobile/update';
 import { MobileUpdateError } from '@features/fa-core-mobile/update';
@@ -27,6 +28,7 @@ export function checkBaseUpdate(): Promise<UpdateManifest | null> {
     platform,
     currentVersionCode: getCurrentVersion().versionCode,
     channel: APP_CONFIG.updateChannel,
+    deviceId: getUpdateDeviceId(),
   });
 }
 

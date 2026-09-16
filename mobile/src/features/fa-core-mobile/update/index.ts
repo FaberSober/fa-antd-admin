@@ -8,6 +8,8 @@ import type {
   UpdateStateListener,
 } from './types';
 
+export { getUpdateDeviceId } from './device';
+
 const INSTALL_LOCK_KEY = 'fa.mobile.update.install-lock';
 const INSTALL_LOCK_TTL = 5 * 60 * 1000;
 
@@ -51,6 +53,7 @@ export async function checkUpdate(options: UpdateCheckRequest): Promise<UpdateMa
       platform: options.platform,
       currentVersionCode: options.currentVersionCode,
       channel: options.channel || 'stable',
+      ...(options.deviceId ? { deviceId: options.deviceId } : {}),
     },
   });
 
