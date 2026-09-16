@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Spinner } from "@fa/core-desktop";
+import { Alert, Button, Card, Spinner, getDesktopTelemetryContext, type TelemetryClient } from "@fa/core-desktop";
 import { isTauri } from "@tauri-apps/api/core";
 import type { Update } from "@tauri-apps/plugin-updater";
 import { useState } from "react";
@@ -6,6 +6,10 @@ import { runtimeConfig } from "../runtime/config";
 import { checkForUpdate, downloadUpdate, installUpdate, type UpdateDownloadProgress } from "../runtime/updater";
 
 type UpdateStatus = "idle" | "checking" | "latest" | "available" | "downloading" | "ready" | "installing" | "error";
+
+export interface UpdateCardProps {
+  telemetry: TelemetryClient;
+}
 
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
@@ -24,20 +28,38 @@ function getErrorMessage(status: "check" | "download" | "install"): string {
   return `更新${action}失败，请检查网络后重试。`;
 }
 
-export function UpdateCard() {
+export function UpdateCard({ telemetry }: UpdateCardProps) {
   const [status, setStatus] = useState<UpdateStatus>("idle");
   const [update, setUpdate] = useState<Update | null>(null);
   const [progress, setProgress] = useState<UpdateDownloadProgress>({ downloadedBytes: 0 });
   const [error, setError] = useState<string | null>(null);
   const tauriRuntime = isTauri();
+  const telemetryContext = getDesktopTelemetryContext();
   const busy = status === "checking" || status === "downloading" || status === "installing";
   const updateDate = formatUpdateDate(update?.date);
   const progressPercent = progress.contentLength
     ? Math.min(100, Math.round((progress.downloadedBytes / progress.contentLength) * 100))
     : null;
 
+  function getTelemetryProperties(targetVersion?: string, extra?: Record<string, unknown>): Record<string, unknown> {
+    return {
+      currentVersion: runtimeConfig.versionName,
+      targetVersion,
+      platform: telemetryContext.platform,
+      arch: telemetryContext.arch,
+      channel: "stable",
+      ...extra,
+    };
+  }
+
   async function handleCheck(): Promise<void> {
     if (!tauriRuntime) {
+      telemetry.track("update.check", {
+        eventType: "ACTION",
+        module: "updater",
+        result: "UNSUPPORTED",
+        properties: getTelemetryProperties(),
+      });
       setStatus("error");
       setError("当前开发预览不支持自动更新，请使用 Desktop 客户端检查更新。");
       return;
@@ -48,15 +70,37 @@ export function UpdateCard() {
     setError(null);
     setProgress({ downloadedBytes: 0 });
 
+    const startedAt = Date.now();
     try {
       const latestUpdate = await checkForUpdate();
+      telemetry.track("update.check", {
+        eventType: "ACTION",
+        module: "updater",
+        result: "SUCCESS",
+        duration: Date.now() - startedAt,
+        properties: getTelemetryProperties(latestUpdate?.version, { available: Boolean(latestUpdate) }),
+      });
       if (!latestUpdate) {
         setStatus("latest");
         return;
       }
       setUpdate(latestUpdate);
       setStatus("available");
-    } catch {
+      telemetry.track("update.available", {
+        eventType: "ACTION",
+        module: "updater",
+        result: "SUCCESS",
+        properties: getTelemetryProperties(latestUpdate.version),
+      });
+    } catch (checkError) {
+      telemetry.track("update.check", {
+        eventType: "ACTION",
+        module: "updater",
+        result: "FAIL",
+        duration: Date.now() - startedAt,
+        properties: getTelemetryProperties(),
+      });
+      telemetry.captureException(checkError, { module: "updater", action: "check", ...getTelemetryProperties() });
       setStatus("error");
       setError(getErrorMessage("check"));
     }
@@ -68,23 +112,83 @@ export function UpdateCard() {
     setStatus("downloading");
     setError(null);
     setProgress({ downloadedBytes: 0 });
+    const startedAt = Date.now();
+    let finalProgress: UpdateDownloadProgress = { downloadedBytes: 0 };
+    telemetry.track("update.download", {
+      eventType: "ACTION",
+      module: "updater",
+      result: "STARTED",
+      properties: getTelemetryProperties(update.version),
+    });
     try {
-      await downloadUpdate(update, setProgress);
+      await downloadUpdate(update, (nextProgress) => {
+        finalProgress = nextProgress;
+        setProgress(nextProgress);
+      });
+      telemetry.track("update.download", {
+        eventType: "ACTION",
+        module: "updater",
+        result: "SUCCESS",
+        duration: Date.now() - startedAt,
+        properties: getTelemetryProperties(update.version, {
+          downloadedBytes: finalProgress.downloadedBytes,
+          contentLength: finalProgress.contentLength,
+        }),
+      });
       setStatus("ready");
-    } catch {
+    } catch (downloadError) {
+      telemetry.track("update.download", {
+        eventType: "ACTION",
+        module: "updater",
+        result: "FAIL",
+        duration: Date.now() - startedAt,
+        properties: getTelemetryProperties(update.version),
+      });
+      telemetry.captureException(downloadError, { module: "updater", action: "download", ...getTelemetryProperties(update.version) });
       setStatus("error");
       setError(getErrorMessage("download"));
     }
   }
 
   async function handleInstall(): Promise<void> {
-    if (!update || !window.confirm("更新包已下载，安装后客户端将重启。是否现在安装？")) return;
+    if (!update) return;
+    if (!window.confirm("更新包已下载，安装后客户端将重启。是否现在安装？")) {
+      telemetry.track("update.install", {
+        eventType: "ACTION",
+        module: "updater",
+        result: "CANCELLED",
+        properties: getTelemetryProperties(update.version),
+      });
+      return;
+    }
 
     setStatus("installing");
     setError(null);
+    const startedAt = Date.now();
+    telemetry.track("update.install", {
+      eventType: "ACTION",
+      module: "updater",
+      result: "STARTED",
+      properties: getTelemetryProperties(update.version),
+    });
     try {
       await installUpdate(update);
-    } catch {
+      telemetry.track("update.install", {
+        eventType: "ACTION",
+        module: "updater",
+        result: "SUCCESS",
+        duration: Date.now() - startedAt,
+        properties: getTelemetryProperties(update.version),
+      });
+    } catch (installError) {
+      telemetry.track("update.install", {
+        eventType: "ACTION",
+        module: "updater",
+        result: "FAIL",
+        duration: Date.now() - startedAt,
+        properties: getTelemetryProperties(update.version),
+      });
+      telemetry.captureException(installError, { module: "updater", action: "install", ...getTelemetryProperties(update.version) });
       setStatus("error");
       setError(getErrorMessage("install"));
     }

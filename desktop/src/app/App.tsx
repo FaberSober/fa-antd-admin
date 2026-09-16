@@ -40,7 +40,7 @@ function App() {
 
         return (
           <HomePage {...homeProps}>
-            <UpdateCard />
+            <UpdateCard telemetry={telemetry} />
             <DemoDesktopEntry
               onOpen={() => {
                 telemetry.track("demo.open", { eventType: "ACTION", module: "demo" });
