@@ -21,6 +21,17 @@ pnpm tauri:build
 
 `pnpm install` 和所有 Desktop 前端脚本都必须在本目录执行。`frontend` 继续使用自己的 pnpm Workspace 和锁文件；`src-tauri` 的 Rust 依赖由 Cargo 管理。
 
+### Desktop 版本
+
+`src-tauri/tauri.conf.json` 维护 `versionName`，`version.json` 维护递增的 `versionCode`。发布前使用统一命令同步前端和 Cargo 版本：
+
+```powershell
+pnpm version:set -- 0.2.0 2
+pnpm version:check
+```
+
+构建脚本会自动执行 `version:check`，发现版本不一致时停止构建。
+
 ## API 配置
 
 复制 `.env.example` 为本地环境文件后按环境修改：

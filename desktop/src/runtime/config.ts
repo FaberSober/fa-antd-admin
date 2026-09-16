@@ -1,4 +1,6 @@
 import type { TelemetryEnvironment } from "@fa/core-desktop";
+import packageJson from "../../package.json";
+import versionMetadata from "../../version.json";
 
 export interface DesktopRuntimeConfig {
   apiBaseUrl: string;
@@ -25,8 +27,8 @@ export const runtimeConfig: DesktopRuntimeConfig = Object.freeze({
   apiBaseUrl: normalizeBaseUrl(import.meta.env.VITE_APP_API_BASE_URL, "/api"),
   // 后端现有非 Web 客户端标识使用 FaApp，避免沿用 Web 的签名协议。
   faFrom: import.meta.env.VITE_APP_FA_FROM?.trim() || "FaApp",
-  versionCode: import.meta.env.VITE_APP_VERSION_CODE?.trim() || "1",
-  versionName: import.meta.env.VITE_APP_VERSION_NAME?.trim() || "0.0.1",
+  versionCode: String(versionMetadata.versionCode),
+  versionName: packageJson.version,
   telemetryAppKey: import.meta.env.VITE_APP_TELEMETRY_APP_KEY?.trim() || "",
   telemetryEnvironment: resolveTelemetryEnvironment(import.meta.env.VITE_APP_TELEMETRY_ENV),
 });

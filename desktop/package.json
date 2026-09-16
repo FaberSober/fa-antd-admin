@@ -6,9 +6,12 @@
   "packageManager": "pnpm@10.24.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "pnpm version:check && tsc && vite build",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
+    "version:set": "node scripts/version.mjs set",
+    "version:sync": "node scripts/version.mjs sync",
+    "version:check": "node scripts/version.mjs check",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build"
