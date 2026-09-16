@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onError, onLaunch, onUnhandledRejection } from '@dcloudio/uni-app';
 import { hasToken } from './features/fa-base-mobile/common/session';
-import { telemetry } from './telemetry';
+import { telemetry } from './features/fa-core-mobile/telemetry';
 
 const HOME_ROUTE = '/features/fa-base-mobile/pages/home/index';
 

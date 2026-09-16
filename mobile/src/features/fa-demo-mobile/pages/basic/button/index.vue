@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onShow } from '@dcloudio/uni-app';
 import { hasToken } from '@features/fa-base-mobile/common/session';
-import { telemetry } from '@/telemetry';
+import { telemetry } from '@features/fa-core-mobile/telemetry';
 
 const LOGIN_ROUTE = '/features/fa-base-mobile/pages/login/index';
 

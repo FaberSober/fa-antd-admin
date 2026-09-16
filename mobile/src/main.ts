@@ -1,7 +1,7 @@
 import { createSSRApp } from 'vue';
 import { createPinia } from 'pinia';
 import App from './App.vue';
-import { telemetry } from './telemetry';
+import { telemetry } from './features/fa-core-mobile/telemetry';
 
 export function createApp() {
   const app = createSSRApp(App);

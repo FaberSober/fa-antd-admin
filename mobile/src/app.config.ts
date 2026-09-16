@@ -1,4 +1,4 @@
-import type { TelemetryEnvironment } from './telemetry/types';
+import type { TelemetryEnvironment } from './features/fa-core-mobile/telemetry/types';
 
 let apiBaseUrl = import.meta.env.VITE_APP_API_BASE_URL || '/api';
 

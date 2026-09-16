@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { getCurrentUser, login, logout } from '../api/auth';
 import { clearSession, getStoredUser, getToken, saveSession, saveUser } from '../common/session';
 import type { PortalUser } from '../types/auth';
-import { telemetry } from '@/telemetry';
+import { telemetry } from '@features/fa-core-mobile/telemetry';
 
 export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
   const user = ref<PortalUser | null>(getStoredUser());

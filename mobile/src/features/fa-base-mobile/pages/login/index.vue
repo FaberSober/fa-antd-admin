@@ -3,7 +3,7 @@ import { onShow } from '@dcloudio/uni-app';
 import { ref } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 import { ApiError } from '../../common/request';
-import { telemetry } from '@/telemetry';
+import { telemetry } from '@features/fa-core-mobile/telemetry';
 
 const authStore = useAuthStore();
 const username = ref('');
