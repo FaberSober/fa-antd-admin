@@ -28,6 +28,10 @@ async function handleLogout(): Promise<void> {
   }
 }
 
+function openDemo(): void {
+  uni.navigateTo({ url: '/features/fa-demo-mobile/pages/home/index' });
+}
+
 onShow(() => {
   void loadUser();
 });
@@ -50,6 +54,14 @@ onShow(() => {
     </view>
 
     <UserInfoCard v-else-if="authStore.user" :user="authStore.user" />
+
+    <view v-if="authStore.user" class="demo-entry fa-card">
+      <view class="demo-entry-heading">
+        <text class="demo-entry-title">移动端 Demo</text>
+        <text class="demo-entry-description">查看移动端组件和交互示例</text>
+      </view>
+      <button class="demo-entry-button" @click="openDemo">进入 Demo</button>
+    </view>
 
     <button class="logout-button" @click="handleLogout">退出登录</button>
   </view>
@@ -102,5 +114,43 @@ onShow(() => {
   color: #dc2626;
   background: #fff;
   font-size: 28rpx;
+}
+
+.demo-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24rpx;
+  margin-top: 32rpx;
+  padding: 28rpx 32rpx;
+}
+
+.demo-entry-heading {
+  min-width: 0;
+}
+
+.demo-entry-title,
+.demo-entry-description {
+  display: block;
+}
+
+.demo-entry-title {
+  margin-bottom: 8rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.demo-entry-description {
+  color: var(--fa-color-muted);
+  font-size: 24rpx;
+}
+
+.demo-entry-button {
+  flex: 0 0 auto;
+  width: 188rpx;
+  margin: 0;
+  color: #ffffff;
+  background: var(--fa-color-primary);
+  font-size: 26rpx;
 }
 </style>

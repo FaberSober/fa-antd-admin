@@ -1,6 +1,7 @@
 import baseMobileFeature from './features/fa-base-mobile/feature';
+import demoMobileFeature from './features/fa-demo-mobile/feature';
 
-export const enabledFeatures = [baseMobileFeature] as const;
+export const enabledFeatures = [baseMobileFeature, demoMobileFeature] as const;
 
 const registeredPages = enabledFeatures.flatMap((feature) => feature.pages);
 
