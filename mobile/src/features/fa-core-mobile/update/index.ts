@@ -152,12 +152,13 @@ export class MobileUpdateClient {
     }
   }
 
-  async download(manifest: UpdateManifest): Promise<string> {
+  async download(manifest: UpdateManifest, onProgress?: (progress: number) => void): Promise<string> {
     try {
       validateManifest(manifest);
       this.setState({ status: 'DOWNLOADING', progress: 0, manifest, error: undefined, filePath: undefined });
       const filePath = await downloadUpdate(manifest.downloadUrl!, (progress) => {
         this.setState({ progress });
+        onProgress?.(progress);
       });
       this.setState({ status: 'VERIFYING', progress: 100, filePath });
       await verifyFileSha256(filePath, manifest.sha256!);

@@ -9,6 +9,8 @@ interface ImportMetaEnv {
   readonly VITE_APP_VERSION_NAME?: string;
   readonly VITE_APP_VERSION_CODE?: string;
   readonly VITE_APP_FA_FROM?: string;
+  readonly VITE_APP_UPDATE_APP_CODE?: string;
+  readonly VITE_APP_UPDATE_CHANNEL?: string;
   readonly VITE_APP_TELEMETRY_APP_KEY?: string;
   readonly VITE_APP_TELEMETRY_ENV?: string;
 }

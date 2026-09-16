@@ -3,11 +3,13 @@ import { onShow } from '@dcloudio/uni-app';
 import { ref } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 import { ApiError } from '../../common/request';
+import { checkAndPromptUpdate } from '../../common/update';
 import UserInfoCard from '../../components/UserInfoCard.vue';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
 
 const authStore = useAuthStore();
 const errorMessage = ref('');
+let updateCheckStarted = false;
 
 async function loadUser(): Promise<void> {
   errorMessage.value = '';
@@ -15,6 +17,11 @@ async function loadUser(): Promise<void> {
     const user = await authStore.loadCurrentUser();
     if (!user) {
       uni.reLaunch({ url: '/features/fa-base-mobile/pages/login/index' });
+      return;
+    }
+    if (!updateCheckStarted) {
+      updateCheckStarted = true;
+      void checkAndPromptUpdate();
     }
   } catch (error) {
     errorMessage.value = error instanceof ApiError ? error.message : '用户信息加载失败';
