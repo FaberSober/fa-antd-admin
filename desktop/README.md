@@ -31,12 +31,23 @@ Copy-Item .env.example .env.development
 
 开发环境默认使用 `/api`，由 Vite proxy 转发到 `VITE_DEV_PROXY_TARGET`；打包环境应将 `VITE_APP_API_BASE_URL` 配置为后端的完整地址。不要把真实密钥或账号密码写入环境示例文件。
 
+### Telemetry 配置
+
+Desktop 的 Telemetry SDK 位于 `@fa/core-desktop`，由 `fa-base-desktop` 接入登录、用户身份和生命周期事件。需要在后端 Telemetry 应用管理中创建并启用 `DESKTOP` 类型应用，然后在本地环境文件配置：
+
+```dotenv
+VITE_APP_TELEMETRY_APP_KEY=your-desktop-app-key
+VITE_APP_TELEMETRY_ENV=development
+```
+
+未配置 `VITE_APP_TELEMETRY_APP_KEY` 时不会初始化上报。启用后客户端会采集启动会话、页面/登录事件、React 组件异常和未处理 Promise 异常，并通过 `/api/base/telemetry/open/error`、`/api/base/telemetry/open/event` 上报；上报失败不会影响业务请求。
+
 ## 目录约定
 
 ```text
 desktop/
 ├─ src/                         # Desktop 宿主入口和运行时编排
-├─ packages/fa-core-desktop/    # 当前本地 Workspace，后续替换为私有 Git 基础包
+├─ packages/fa-core-desktop/    # 通用 UI、HTTP、Session 和 Telemetry 基础包
 ├─ features/fa-base-desktop/    # 当前本地 Workspace，后续替换为 fa-base 业务 Feature 子 Git
 ├─ src-tauri/                   # Tauri/Rust 宿主能力
 └─ docs/plans/                  # 实施计划

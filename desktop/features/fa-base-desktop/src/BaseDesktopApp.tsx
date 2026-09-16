@@ -1,4 +1,4 @@
-import { ApiError, Spinner, type TokenStore } from "@fa/core-desktop";
+import { ApiError, Spinner, type TelemetryClient, type TokenStore } from "@fa/core-desktop";
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { HomePage, type HomePageProps } from "./HomePage";
 import { LoginPage, type LoginCredentials } from "./LoginPage";
@@ -10,6 +10,7 @@ import "./styles.css";
 export interface BaseDesktopAppProps {
   api: BaseDesktopApi;
   tokenStore: TokenStore;
+  telemetry?: TelemetryClient;
   renderHome?: (props: HomePageProps) => ReactNode;
 }
 
@@ -31,7 +32,7 @@ function LoadingScreen() {
   );
 }
 
-export function BaseDesktopApp({ api, tokenStore, renderHome }: BaseDesktopAppProps) {
+export function BaseDesktopApp({ api, tokenStore, telemetry, renderHome }: BaseDesktopAppProps) {
   const [screen, setScreen] = useState<Screen>(() => (tokenStore.get() ? "loading" : "login"));
   const [user, setUser] = useState<BaseUser | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -47,16 +48,19 @@ export function BaseDesktopApp({ api, tokenStore, renderHome }: BaseDesktopAppPr
         const currentUser = await api.getCurrentUser();
         setUser(currentUser);
         setScreen("home");
+        telemetry?.identify({ userId: String(currentUser.id) });
+        telemetry?.page({ route: "home", pageTitle: "Faber Desktop" });
         return true;
       } catch (loadError) {
         tokenStore.clear();
         setUser(null);
+        telemetry?.clearUser();
         setScreen("login");
         setError(loadError instanceof ApiError ? loadError.message : fallbackMessage);
         return false;
       }
     },
-    [api, tokenStore],
+    [api, telemetry, tokenStore],
   );
 
   useEffect(() => {
@@ -77,10 +81,17 @@ export function BaseDesktopApp({ api, tokenStore, renderHome }: BaseDesktopAppPr
       }
 
       tokenStore.set(loginToken.tokenValue);
-      await loadCurrentUser("登录成功，但获取当前用户信息失败，请稍后重试。");
+      const loaded = await loadCurrentUser("登录成功，但获取当前用户信息失败，请稍后重试。");
+      telemetry?.track("auth.login", {
+        eventType: "LOGIN",
+        module: "base",
+        result: loaded ? "SUCCESS" : "FAIL",
+      });
     } catch (loginError) {
       tokenStore.clear();
       setUser(null);
+      telemetry?.clearUser();
+      telemetry?.track("auth.login", { eventType: "LOGIN", module: "base", result: "FAIL" });
       setScreen("login");
       setError(getErrorMessage(loginError));
     } finally {
@@ -90,11 +101,16 @@ export function BaseDesktopApp({ api, tokenStore, renderHome }: BaseDesktopAppPr
 
   async function handleLogout(): Promise<void> {
     setLoggingOut(true);
+    let result = "SUCCESS";
     try {
       await api.logout();
-    } catch {
+    } catch (logoutError) {
+      result = "FAIL";
+      telemetry?.captureException(logoutError, { module: "base", action: "logout" });
       // 无论服务端退出是否成功，都清理当前运行时的登录态。
     } finally {
+      telemetry?.track("auth.logout", { eventType: "LOGIN", module: "base", result });
+      telemetry?.clearUser();
       tokenStore.clear();
       setUser(null);
       setError(null);

@@ -1,12 +1,23 @@
+import type { TelemetryEnvironment } from "@fa/core-desktop";
+
 export interface DesktopRuntimeConfig {
   apiBaseUrl: string;
   faFrom: string;
   versionCode: string;
   versionName: string;
+  telemetryAppKey: string;
+  telemetryEnvironment: TelemetryEnvironment;
 }
 
 function normalizeBaseUrl(value: string | undefined, fallback: string): string {
   return (value?.trim() || fallback).replace(/\/+$/, "");
+}
+
+function resolveTelemetryEnvironment(value: string | undefined): TelemetryEnvironment {
+  if (value === "development" || value === "test" || value === "staging" || value === "production") {
+    return value;
+  }
+  return import.meta.env.DEV ? "development" : "production";
 }
 
 export const runtimeConfig: DesktopRuntimeConfig = Object.freeze({
@@ -16,4 +27,6 @@ export const runtimeConfig: DesktopRuntimeConfig = Object.freeze({
   faFrom: import.meta.env.VITE_APP_FA_FROM?.trim() || "FaApp",
   versionCode: import.meta.env.VITE_APP_VERSION_CODE?.trim() || "1",
   versionName: import.meta.env.VITE_APP_VERSION_NAME?.trim() || "0.0.1",
+  telemetryAppKey: import.meta.env.VITE_APP_TELEMETRY_APP_KEY?.trim() || "",
+  telemetryEnvironment: resolveTelemetryEnvironment(import.meta.env.VITE_APP_TELEMETRY_ENV),
 });

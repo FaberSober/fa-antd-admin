@@ -19,6 +19,7 @@ export interface RequestOptions {
 export interface HttpClientOptions {
   baseUrl: string;
   headers?: Record<string, string>;
+  getHeaders?: () => Record<string, string>;
   tokenStore?: TokenStore;
   onUnauthorized?: () => void;
   timeoutMs?: number;
@@ -74,7 +75,7 @@ export class HttpClient {
   }
 
   async request<T>({ path, method = "GET", body, skipAuth = false }: RequestOptions): Promise<T> {
-    const headers = new Headers(this.options.headers);
+    const headers = new Headers({ ...this.options.headers, ...this.options.getHeaders?.() });
     headers.set("Accept", "application/json");
 
     const token = skipAuth ? null : this.options.tokenStore?.get();
