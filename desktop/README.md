@@ -53,6 +53,10 @@ VITE_APP_TELEMETRY_ENV=development
 
 未配置 `VITE_APP_TELEMETRY_APP_KEY` 时不会初始化上报。启用后客户端会采集启动会话、页面/登录事件、React 组件异常和未处理 Promise 异常，并通过 `/api/base/telemetry/open/error`、`/api/base/telemetry/open/event` 上报；上报失败不会影响业务请求。
 
+### Tauri Updater 配置
+
+`src-tauri/tauri.conf.json` 中的更新端点和 `pubkey` 为发布环境配置项。正式打包前将 `api.example.com` 替换为实际后端地址，并填入 Tauri signer 生成的公钥；私钥只保存在 CI 的安全变量中。
+
 ## 目录约定
 
 ```text
