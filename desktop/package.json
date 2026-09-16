@@ -12,6 +12,8 @@
     "version:set": "node scripts/version.mjs set",
     "version:sync": "node scripts/version.mjs sync",
     "version:check": "node scripts/version.mjs check",
+    "release:build": "node scripts/release.mjs build",
+    "release:verify": "node scripts/release.mjs verify",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build"

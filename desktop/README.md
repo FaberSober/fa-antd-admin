@@ -57,6 +57,28 @@ VITE_APP_TELEMETRY_ENV=development
 
 `src-tauri/tauri.conf.json` 中的更新端点和 `pubkey` 为发布环境配置项。正式打包前将 `api.example.com` 替换为实际后端地址，并填入 Tauri signer 生成的公钥；私钥只保存在 CI 的安全变量中。
 
+### 发布构建与签名
+
+CI 按目标平台矩阵执行发布构建。发布脚本会校验版本一致性，通过临时配置注入更新公钥和接口地址，不修改仓库中的配置文件；Tauri 从环境变量读取私钥并生成更新包和 `.sig` 文件。
+
+CI 需要配置以下变量：
+
+| 变量 | 类型 | 说明 |
+|---|---|---|
+| `TAURI_SIGNING_PRIVATE_KEY` | Secret | Tauri signer 私钥内容或路径，只能存放在 CI |
+| `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` | Secret，可选 | 私钥密码 |
+| `TAURI_UPDATER_PUBLIC_KEY` | Variable | 与私钥匹配的公钥 |
+| `TAURI_UPDATER_ENDPOINT` | Variable | 生产环境 HTTPS 更新接口地址 |
+
+构建完成后执行签名产物校验：
+
+```powershell
+pnpm release:build
+pnpm release:verify
+```
+
+跨平台 CI 使用对应系统 Runner；需要指定 Rust 目标时，将参数传给 Tauri，例如 `pnpm release:build -- --target x86_64-pc-windows-msvc`。校验通过后，将安装包和相邻 `.sig` 一起上传，并把 `.sig` 文件内容填写到 `fa-app` 的安装包记录中。
+
 ## 目录约定
 
 ```text
