@@ -1,8 +1,8 @@
-import { HttpClient, MemoryTokenStore } from "@fa/core-desktop";
+import { HttpClient, LocalStorageTokenStore } from "@fa/core-desktop";
 import { runtimeConfig } from "./config";
 import { telemetry } from "./telemetry";
 
-export const tokenStore = new MemoryTokenStore();
+export const tokenStore = new LocalStorageTokenStore();
 
 export const httpClient = new HttpClient({
   baseUrl: runtimeConfig.apiBaseUrl,

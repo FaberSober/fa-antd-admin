@@ -4,6 +4,7 @@ import { getCurrentUser, login, logout } from '../api/auth';
 import { clearSession, getStoredUser, getToken, saveSession, saveUser } from '../common/session';
 import type { PortalUser } from '../types/auth';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
+import { clearTenantId } from '@features/fa-core-mobile/common/tenant';
 
 export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
   const user = ref<PortalUser | null>(getStoredUser());
@@ -12,6 +13,7 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
 
   async function signIn(username: string, password: string): Promise<void> {
     loading.value = true;
+    clearTenantId();
     try {
       const session = await login(username, password);
       saveSession(session.token, session.user);
@@ -38,6 +40,7 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
   async function loadCurrentUser(): Promise<PortalUser | null> {
     if (!getToken()) {
       user.value = null;
+      clearTenantId();
       telemetry.clearUser();
       return null;
     }
@@ -59,6 +62,7 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
       if (getToken()) await logout();
     } finally {
       clearSession();
+      clearTenantId();
       user.value = null;
       telemetry.clearUser();
     }

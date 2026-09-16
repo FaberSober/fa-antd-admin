@@ -5,11 +5,15 @@ import { useAuthStore } from '../../stores/auth';
 import { ApiError } from '../../common/request';
 import { checkAndPromptUpdate } from '../../common/update';
 import UserInfoCard from '../../components/UserInfoCard.vue';
+import TenantWorkspaceSwitcher from '../../components/TenantWorkspaceSwitcher.vue';
+import { useTenantStore } from '../../stores/tenant';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
 
 const authStore = useAuthStore();
+const tenantStore = useTenantStore();
 const errorMessage = ref('');
 let updateCheckStarted = false;
+const HOME_ROUTE = '/features/fa-base-mobile/pages/home/index';
 
 async function loadUser(): Promise<void> {
   errorMessage.value = '';
@@ -19,6 +23,7 @@ async function loadUser(): Promise<void> {
       uni.reLaunch({ url: '/features/fa-base-mobile/pages/login/index' });
       return;
     }
+    await tenantStore.loadForUser(user.id);
     if (!updateCheckStarted) {
       updateCheckStarted = true;
       void checkAndPromptUpdate();
@@ -38,6 +43,16 @@ async function handleLogout(): Promise<void> {
 
 function openDemo(): void {
   uni.navigateTo({ url: '/features/fa-demo-mobile/pages/home/index' });
+}
+
+function reloadTenants(): void {
+  if (authStore.user) void tenantStore.loadForUser(authStore.user.id);
+}
+
+function switchTenant(tenantId: string): void {
+  const userId = authStore.user?.id;
+  if (!userId || !tenantStore.switchTenant(userId, tenantId)) return;
+  uni.reLaunch({ url: HOME_ROUTE });
 }
 
 onShow(() => {
@@ -62,9 +77,21 @@ onShow(() => {
       <button class="retry-button" @click="loadUser">重新加载</button>
     </view>
 
-    <UserInfoCard v-else-if="authStore.user" :user="authStore.user" />
+    <template v-else>
+      <TenantWorkspaceSwitcher
+        v-if="authStore.user"
+        :workspaces="tenantStore.workspaces"
+        :current-workspace="tenantStore.currentWorkspace"
+        :loading="tenantStore.loading"
+        :error-message="tenantStore.errorMessage"
+        @select="switchTenant"
+        @refresh="reloadTenants"
+      />
 
-    <view v-if="authStore.user" class="demo-entry fa-card">
+      <UserInfoCard v-if="authStore.user" :user="authStore.user" />
+    </template>
+
+    <view v-if="authStore.user && !errorMessage" class="demo-entry fa-card">
       <view class="demo-entry-heading">
         <text class="demo-entry-title">移动端 Demo</text>
         <text class="demo-entry-description">查看移动端组件和交互示例</text>

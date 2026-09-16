@@ -22,7 +22,7 @@
 | `fa-core-desktop` | 通用工具包 | 维护 `cn`、类型、错误模型、Session/Token 抽象等 | 执行开发 | ✅已完成 |
 | Desktop Runtime | 运行时配置 | 配置 API 地址、版本和 Desktop 请求标识 | 执行开发 | ✅已完成 |
 | Desktop Runtime | TypeScript HTTP 客户端 | 支持 Token、请求错误处理和现有签名兼容 | 执行开发 | ✅已完成 |
-| Desktop Runtime | 内存登录态 | 第一版仅在内存保存 Token，不实现记住登录 | 执行开发 | ✅已完成 |
+| Desktop Runtime | 持久登录态 | 使用 WebView `localStorage` 持久化 Token，支持重启恢复登录 | 执行开发 | ✅已完成 |
 | `fa-base-desktop` | 基础业务 Feature | 作为后端 `fa-base` 对应的私有 Git 页面模块 | 执行开发 | 🟡进行中 |
 | `fa-base-desktop` | 登录页 | 账号、密码、提交、加载和登录错误提示 | 执行开发 | ✅已完成 |
 | `fa-base-desktop` | 当前用户 | 登录后请求 `getLoginUser` 并建立页面会话 | 执行开发 | ✅已完成 |
@@ -113,7 +113,7 @@ desktop 宿主 → fa-core-desktop
 - 保持后端现有 URI 和请求签名协议兼容。
 - 验证绝对 API 地址不会改变请求签名内容。
 - 验证 Tauri 页面直接请求 API 时的 CORS 配置。
-- 第一版使用内存版 `TokenStore`。
+- 使用 WebView `localStorage` 持久化 Token。
 - API 请求失败时给出统一错误信息，并清理失效 Session。
 
 ### 4.4 `fa-base-desktop` 业务 Feature
@@ -135,9 +135,9 @@ desktop 宿主 → fa-core-desktop
 - 登录成功后请求当前用户。
 - 当前用户请求成功后进入空白首页。
 - 首页展示用户姓名、账号及接口返回的可用基础字段。
-- 退出登录后清理内存 Token 并回到登录页。
+- 退出登录后清理持久化 Token 并回到登录页。
 - 当前用户请求失败时回到登录页。
-- 关闭程序后重新启动需要重新登录。
+- 关闭程序后重新启动可恢复登录态。
 
 ## 5. HTTP、Session 和原生能力边界
 
@@ -151,10 +151,10 @@ desktop 宿主 → fa-core-desktop
 
 ### Session
 
-- V0 只保存内存 Token。
+- 使用 WebView `localStorage` 持久化 Token。
 - 不保存用户密码。
-- 预留 `TokenStore` 接口。
-- 后续再增加系统安全存储实现。
+- 通过 `TokenStore` 接口隔离存储实现。
+- 后续再评估系统安全存储实现。
 
 ### Tauri/Rust
 

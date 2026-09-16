@@ -9,6 +9,7 @@ import type {
   UploadOptions as CoreUploadOptions,
 } from '@features/fa-core-mobile/common/request';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
+import { clearTenantId } from '@features/fa-core-mobile/common/tenant';
 import { clearSession, getToken } from './session';
 
 export { ApiError };
@@ -26,6 +27,7 @@ let redirectingToLogin = false;
 
 function handleUnauthorized(): void {
   clearSession();
+  clearTenantId();
   telemetry.clearUser();
   if (redirectingToLogin) return;
 

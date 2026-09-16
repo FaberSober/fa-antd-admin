@@ -42,6 +42,10 @@ Copy-Item .env.example .env.development
 
 开发环境默认使用 `/api`，由 Vite proxy 转发到 `VITE_DEV_PROXY_TARGET`；打包环境应将 `VITE_APP_API_BASE_URL` 配置为后端的完整地址。不要把真实密钥或账号密码写入环境示例文件。
 
+### Token 存储
+
+Desktop 使用 WebView `localStorage` 持久化 Token，客户端重启后可恢复登录态；退出登录或接口返回 401 时会清理 Token。当前未接入系统安全存储。
+
 ### Telemetry 配置
 
 Desktop 的 Telemetry SDK 位于 `@fa/core-desktop`，由 `fa-base-desktop` 接入登录、用户身份和生命周期事件。需要在后端 Telemetry 应用管理中创建并启用 `DESKTOP` 类型应用，然后在本地环境文件配置：

@@ -1,5 +1,6 @@
 import { APP_CONFIG } from '@/app.config';
 import { telemetry } from '../telemetry';
+import { getTenantId, TENANT_HEADER } from './tenant';
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
@@ -16,6 +17,7 @@ export interface RequestOptions {
   method?: RequestMethod;
   data?: Record<string, unknown> | string | null;
   headers?: Record<string, string>;
+  skipTenant?: boolean;
 }
 
 export interface UploadOptions {
@@ -44,7 +46,12 @@ function buildUrl(path: string): string {
   return `${baseUrl}${normalizedPath}`;
 }
 
-function buildHeaders(headers: Record<string, string>, withContentType = true): Record<string, string> {
+function buildHeaders(
+  headers: Record<string, string>,
+  withContentType = true,
+  skipTenant = false,
+): Record<string, string> {
+  const tenantId = getTenantId();
   return {
     ...(withContentType ? { 'Content-Type': 'application/json' } : {}),
     FaFrom: APP_CONFIG.faFrom,
@@ -52,14 +59,15 @@ function buildHeaders(headers: Record<string, string>, withContentType = true): 
     FaVersionName: APP_CONFIG.versionName,
     ...telemetry.getRequestHeaders(),
     ...headers,
+    ...(!skipTenant && tenantId ? { [TENANT_HEADER]: tenantId } : {}),
   };
 }
 
-export function request<T>({ url, method = 'GET', data, headers = {} }: RequestOptions): Promise<T> {
+export function request<T>({ url, method = 'GET', data, headers = {}, skipTenant = false }: RequestOptions): Promise<T> {
   return new Promise((resolve, reject) => {
     const requestStartedAt = Date.now();
     const requestPath = url.split(/[?#]/, 1)[0] || '/';
-    const header = buildHeaders(headers);
+    const header = buildHeaders(headers, true, skipTenant);
 
     uni.request({
       url: buildUrl(url),
