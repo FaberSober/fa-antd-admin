@@ -5,7 +5,7 @@ import {
   updateClient,
 } from '@features/fa-core-mobile/update';
 import type { UpdateManifest } from '@features/fa-core-mobile/update';
-import { checkBaseUpdate } from '../api/update';
+import { checkBaseUpdate, checkH5Update, getUpdatePlatform } from '../api/update';
 
 let promptInFlight = false;
 
@@ -14,6 +14,16 @@ export async function checkAndPromptUpdate(): Promise<void> {
   promptInFlight = true;
 
   try {
+    const platform = getUpdatePlatform();
+    if (platform === 'MP_WEIXIN') {
+      startMiniProgramUpdate();
+      return;
+    }
+    if (platform === 'H5') {
+      await checkAndPromptH5Update();
+      return;
+    }
+
     const manifest = await checkBaseUpdate();
     if (!manifest) return;
 
@@ -104,6 +114,98 @@ export async function checkAndPromptUpdate(): Promise<void> {
   }
 }
 
+async function checkAndPromptH5Update(): Promise<void> {
+  try {
+    const manifest = await checkH5Update();
+    if (!manifest) return;
+
+    telemetry.track('mobile.update.h5.available', {
+      eventType: 'BUSINESS',
+      module: 'fa-base-mobile',
+      properties: {
+        versionCode: manifest.versionCode,
+        forceUpdate: Boolean(manifest.forceUpdate),
+      },
+    });
+
+    const accepted = await showModal({
+      title: `发现新版本 ${manifest.versionName}`,
+      content: `H5静态资源已发布。\n\n${manifest.releaseNote?.trim() || '暂无更新说明'}`,
+      showCancel: !manifest.forceUpdate,
+      cancelText: '稍后刷新',
+      confirmText: '立即刷新',
+    });
+    if (!accepted.confirm) {
+      telemetry.track('mobile.update.h5.skip', {
+        eventType: 'ACTION',
+        module: 'fa-base-mobile',
+        result: 'CANCEL',
+      });
+      return;
+    }
+
+    telemetry.track('mobile.update.h5.reload', {
+      eventType: 'ACTION',
+      module: 'fa-base-mobile',
+      result: 'SUCCESS',
+    });
+    if (typeof window !== 'undefined') window.location.reload();
+  } catch (error) {
+    telemetry.captureException(error, { source: 'fa-base-mobile.h5-update' });
+  }
+}
+
+function startMiniProgramUpdate(): void {
+  if (miniProgramUpdateStarted || typeof uni.getUpdateManager !== 'function') return;
+  miniProgramUpdateStarted = true;
+
+  const manager = uni.getUpdateManager();
+  manager.onCheckForUpdate(({ hasUpdate }) => {
+    telemetry.track('mobile.update.mp.check', {
+      eventType: 'ACTION',
+      module: 'fa-base-mobile',
+      result: hasUpdate ? 'AVAILABLE' : 'NONE',
+    });
+  });
+  manager.onUpdateReady(() => {
+    void promptMiniProgramUpdate(manager);
+  });
+  manager.onUpdateFailed((error) => {
+    telemetry.captureException(error, { source: 'fa-base-mobile.mp-update' });
+  });
+}
+
+async function promptMiniProgramUpdate(manager: UniNamespace.UpdateManager): Promise<void> {
+  try {
+    telemetry.track('mobile.update.mp.available', {
+      eventType: 'BUSINESS',
+      module: 'fa-base-mobile',
+    });
+    const accepted = await showModal({
+      title: '发现小程序新版本',
+      content: '新版本已下载完成，确认后将重启小程序。',
+      confirmText: '立即更新',
+      cancelText: '稍后更新',
+    });
+    if (!accepted.confirm) {
+      telemetry.track('mobile.update.mp.skip', {
+        eventType: 'ACTION',
+        module: 'fa-base-mobile',
+        result: 'CANCEL',
+      });
+      return;
+    }
+    telemetry.track('mobile.update.mp.apply', {
+      eventType: 'ACTION',
+      module: 'fa-base-mobile',
+      result: 'SUCCESS',
+    });
+    manager.applyUpdate();
+  } catch (error) {
+    telemetry.captureException(error, { source: 'fa-base-mobile.mp-update-prompt' });
+  }
+}
+
 function buildUpdateContent(manifest: UpdateManifest): string {
   const packageName = manifest.updateType === 'WGT' ? '增量资源包' : '完整包';
   const note = manifest.releaseNote?.trim() || '暂无更新说明';
@@ -119,3 +221,5 @@ function showModal(options: UniNamespace.ShowModalOptions): Promise<UniNamespace
     });
   });
 }
+
+let miniProgramUpdateStarted = false;

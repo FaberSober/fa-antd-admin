@@ -26,6 +26,7 @@ export const APP_CONFIG = {
   faFrom: import.meta.env.VITE_APP_FA_FROM || 'FaApp',
   updateAppCode: import.meta.env.VITE_APP_UPDATE_APP_CODE || '',
   updateChannel: import.meta.env.VITE_APP_UPDATE_CHANNEL || 'stable',
+  h5UpdateManifestUrl: import.meta.env.VITE_APP_H5_UPDATE_MANIFEST_URL || '',
   telemetryAppKey: import.meta.env.VITE_APP_TELEMETRY_APP_KEY || '',
   telemetryEnvironment,
 };
