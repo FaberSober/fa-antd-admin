@@ -1,19 +1,30 @@
-import { Button } from "@fa/core-desktop";
-import { useState } from "react";
+import { Button, type TelemetryClient } from "@fa/core-desktop";
+import { useEffect, useState } from "react";
 import { ButtonDemoPage } from "./ButtonDemoPage";
 import { DemoHomePage } from "./DemoHomePage";
+import { TelemetryDemoPage } from "./TelemetryDemoPage";
 import "./styles.css";
 
 export interface DemoDesktopFeatureProps {
   loggingOut: boolean;
+  telemetry: TelemetryClient;
   onLogout(): Promise<void>;
   onBack(): void;
 }
 
-type DemoView = "home" | "button";
+type DemoView = "home" | "button" | "telemetry";
 
-export function DemoDesktopFeature({ loggingOut, onLogout, onBack }: DemoDesktopFeatureProps) {
+export function DemoDesktopFeature({ loggingOut, telemetry, onLogout, onBack }: DemoDesktopFeatureProps) {
   const [view, setView] = useState<DemoView>("home");
+
+  useEffect(() => {
+    const pages: Record<DemoView, { route: string; pageTitle: string }> = {
+      home: { route: "demo", pageTitle: "Desktop Demo" },
+      button: { route: "demo/button", pageTitle: "Button Demo" },
+      telemetry: { route: "demo/telemetry", pageTitle: "Telemetry Demo" },
+    };
+    telemetry.page(pages[view]);
+  }, [telemetry, view]);
 
   return (
     <main className="demo-desktop-page">
@@ -33,11 +44,11 @@ export function DemoDesktopFeature({ loggingOut, onLogout, onBack }: DemoDesktop
       </header>
 
       <div className="demo-desktop-content">
-        {view === "home" ? (
-          <DemoHomePage onOpenButton={() => setView("button")} />
-        ) : (
-          <ButtonDemoPage onBack={() => setView("home")} />
+        {view === "home" && (
+          <DemoHomePage onOpenButton={() => setView("button")} onOpenTelemetry={() => setView("telemetry")} />
         )}
+        {view === "button" && <ButtonDemoPage onBack={() => setView("home")} />}
+        {view === "telemetry" && <TelemetryDemoPage telemetry={telemetry} onBack={() => setView("home")} />}
       </div>
     </main>
   );

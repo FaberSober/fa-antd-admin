@@ -106,6 +106,11 @@
   padding: 28px;
 }
 
+.demo-desktop-entry-list {
+  display: grid;
+  gap: 16px;
+}
+
 .demo-desktop-entry-card h2,
 .demo-desktop-entry h2,
 .demo-desktop-section h2 {
@@ -152,6 +157,47 @@
   font-size: 13px;
 }
 
+.demo-desktop-telemetry-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.demo-desktop-telemetry-status strong {
+  color: #14805e;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.demo-desktop-test-note {
+  margin: 0 0 18px;
+  color: #718099;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.demo-desktop-error-boundary-demo {
+  margin-top: 16px;
+}
+
+.demo-desktop-error-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1px solid #f3c6c6;
+  border-radius: 12px;
+  color: #9f3a38;
+  background: #fff5f5;
+}
+
+.demo-desktop-error-fallback p {
+  margin: 0;
+  font-size: 13px;
+}
+
 @media (max-width: 520px) {
   .demo-desktop-topbar {
     min-height: 68px;
@@ -168,7 +214,9 @@
 
   .demo-desktop-heading-with-back,
   .demo-desktop-entry-card,
-  .demo-desktop-entry {
+  .demo-desktop-entry,
+  .demo-desktop-telemetry-status,
+  .demo-desktop-error-fallback {
     align-items: stretch;
     flex-direction: column;
   }
