@@ -1,17 +1,17 @@
 import { defineH5Feature } from '@/platform/feature';
-import { demoRoute } from './routes';
+import { buttonDemoRoute, demoRoute } from './routes';
 
 const demoFeature = defineH5Feature({
   id: 'fa-h5-demo-pages',
-  displayName: 'H5 装配示例',
+  displayName: 'H5 组件 Demo',
   order: 100,
   dependsOn: ['fa-h5-base-pages'],
-  routes: [demoRoute],
+  routes: [demoRoute, buttonDemoRoute],
   navItems: [
     {
       id: 'demo-overview',
       routeId: demoRoute.id,
-      label: '示例',
+      label: 'Demo',
       icon: 'lab',
       order: 50,
     },
@@ -20,8 +20,8 @@ const demoFeature = defineH5Feature({
     {
       id: 'demo-overview-entry',
       routeId: demoRoute.id,
-      title: '装配示例',
-      description: '验证 Feature 路由、导航和首页入口的组合结果。',
+      title: 'Demo',
+      description: '查看 H5 组件交互与样式示例。',
       icon: 'lab',
       order: 20,
     },

@@ -1,5 +1,5 @@
 # fa-h5-demo-pages
 
-用于验证 H5 Feature 静态装配机制的示例业务模块，依赖 `fa-h5-base-pages`。
+H5 组件和交互示例模块，依赖 `fa-h5-base-pages`。用户可以从工作台进入 Demo 功能列表，再进入具体组件示例页面。
 
-默认项目不启用本 Feature；`demo` 项目预设启用它。
+当前 default 和 demo 项目预设均启用本 Feature。

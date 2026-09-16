@@ -63,13 +63,18 @@ function createFixtureProject(features: readonly H5Feature[]) {
 const defaultRegistry = composeH5Project(await loadProject('default'));
 const demoRegistry = composeH5Project(await loadProject('demo'));
 
-assert(defaultRegistry.featureIds.join(',') === 'fa-h5-base-pages,fa-h5-file-preview-pages', 'default 项目必须启用 base + file preview Feature');
+assert(
+  defaultRegistry.featureIds.join(',') === 'fa-h5-base-pages,fa-h5-file-preview-pages,fa-h5-demo-pages',
+  'default 项目必须启用 base + file preview + demo Feature',
+);
 assert(
   demoRegistry.featureIds.join(',') === 'fa-h5-base-pages,fa-h5-file-preview-pages,fa-h5-demo-pages',
   'demo 项目必须启用 base + file preview + demo Feature',
 );
-assert(!defaultRegistry.routeMap.has('fa-h5-demo-pages.overview'), 'default 不应注册 demo 路由');
-assert(demoRegistry.routeMap.has('fa-h5-demo-pages.overview'), 'demo 应注册 demo 路由');
+assert(defaultRegistry.routeMap.has('fa-h5-demo-pages.overview'), 'default 应注册 demo 列表路由');
+assert(defaultRegistry.routeMap.has('fa-h5-demo-pages.button'), 'default 应注册 button demo 路由');
+assert(demoRegistry.routeMap.has('fa-h5-demo-pages.overview'), 'demo 应注册 demo 列表路由');
+assert(demoRegistry.routeMap.has('fa-h5-demo-pages.button'), 'demo 应注册 button demo 路由');
 assert(Object.isFrozen(defaultRegistry), 'Registry 顶层必须不可变');
 assert(Object.isFrozen(defaultRegistry.project), 'Registry project 必须不可变');
 assert(Object.isFrozen(defaultRegistry.routes), 'Registry routes 必须不可变');

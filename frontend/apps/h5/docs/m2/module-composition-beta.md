@@ -28,8 +28,8 @@ flowchart LR
     P --> G["client-module-graph.json"]
 ```
 
-- `default` 静态导入 `fa-h5-base-pages` 和 `fa-h5-file-preview-pages`。
-- `demo` 静态导入 `fa-h5-base-pages`、`fa-h5-file-preview-pages` 和 `fa-h5-demo-pages`。
+- `default` 静态导入 `fa-h5-base-pages`、`fa-h5-file-preview-pages` 和 `fa-h5-demo-pages`。
+- `demo` 静态导入与 default 相同的 Feature 集，用于保留独立 Project 预设的组合验证入口。
 - `fa-h5-file-preview-pages` 是无导航入口的公共能力 Feature，只提供 `/preview` 路由。
 - `@project` 只允许由 `platform/feature/runtime.ts` 消费。
 - Feature 运行时代码不扫描目录，不读取 `VITE_APP_PROJECT`，也不依赖具体 Project。
@@ -74,10 +74,10 @@ M0 的类型模板写作 `fa-<domain>-h5-pages`，但 Roadmap、ADR、目录规�
 
 | Project | Feature 集 | 路由 |
 |---|---|---|
-| `default` | `fa-h5-base-pages`、`fa-h5-file-preview-pages` | `/app/home`、`/app/me`、`/preview` |
-| `demo` | `fa-h5-base-pages`、`fa-h5-file-preview-pages`、`fa-h5-demo-pages` | `/app/home`、`/app/me`、`/preview`、`/app/demo` |
+| `default` | `fa-h5-base-pages`、`fa-h5-file-preview-pages`、`fa-h5-demo-pages` | `/app/home`、`/app/me`、`/preview`、`/app/demo`、`/app/demo/button` |
+| `demo` | `fa-h5-base-pages`、`fa-h5-file-preview-pages`、`fa-h5-demo-pages` | `/app/home`、`/app/me`、`/preview`、`/app/demo`、`/app/demo/button` |
 
-`fa-h5-base-pages` 提供工作台和个人中心。工作台从 Registry 读取首页入口，因此启用 `fa-h5-demo-pages` 后会自动出现“装配示例”，无需修改宿主页面。
+`fa-h5-base-pages` 提供工作台和个人中心。工作台从 Registry 读取首页入口，Demo Feature 贡献“Demo”入口并进入组件示例列表。
 
 自动目录见 [Feature / Project 目录](../feature-catalog.generated.md)。
 
@@ -109,14 +109,14 @@ Vite production build 会输出 `client-module-graph.json`，记录项目 ID、�
 | `pnpm run check` | 通过；Node、项目夹具、项目矩阵、边界、目录同步和 TypeScript 均通过 |
 | `pnpm run lint` | 通过；Biome 检查 55 个相关文件 |
 | 冲突夹具 | 重复 Feature、缺失依赖、循环依赖、动态路由冲突和导航冲突均按预期失败 |
-| `default` 开发服务器 | `/h5/app/home` 显示 1 个 Feature；`/h5/app/demo` 进入 H5 404 |
-| `demo` 开发服务器 | `/h5/app/home` 显示 2 个 Feature；`/h5/app/demo` 正常渲染 |
+| `default` 开发服务器 | `/h5/app/home` 显示功能入口；`/h5/app/demo` 展示 Demo 列表并可进入 Button Demo |
+| `demo` 开发服务器 | `/h5/app/home` 显示功能入口；`/h5/app/demo` 展示 Demo 列表并可进入 Button Demo |
 
 ## 剩余工作与完成条件
 
 - 分别以 `default`、`demo` 执行 production build。
 - 确认两套产物都生成 `client-module-graph.json`。
-- 确认 default 模块图和异步 Chunk 不含 `fa-h5-demo-pages`。
+- 确认 default 模块图和异步 Chunk 包含 `fa-h5-demo-pages`，且 Button 页面保持异步加载。
 - 确认模块图不含 Admin、桌面 Ant Design、`@ant-design/icons` 和 `@fa/ui`。
 - 记录路由动态 import 对应的异步 Chunk，并确认登录页不引入业务页面模块。
 - 完成后将 M2 任务更新为 `8/8`；任务全部完成但验收未签署时标记 `Ready for Acceptance`，验收门槛全部通过后再标记 `Completed`。

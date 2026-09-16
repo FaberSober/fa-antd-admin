@@ -4,7 +4,7 @@
 }
 
 .hero,
-.card {
+.listSection {
   padding: 22px;
   border: 1px solid var(--fa-h5-border-color);
   border-radius: var(--fa-h5-radius-large);
@@ -16,12 +16,26 @@
   background: linear-gradient(145deg, rgb(101 86 232 / 13%), transparent 60%), var(--fa-h5-surface);
 }
 
-.hero span,
-.cardHeader span {
-  color: #6556e8;
+.heroMeta,
+.sectionHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.heroMeta span,
+.heroMeta strong,
+.sectionHeading span {
+  color: var(--fa-h5-color-primary);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.12em;
+}
+
+.heroMeta strong {
+  color: var(--fa-h5-text-tertiary);
+  font-size: 9px;
 }
 
 .hero h1 {
@@ -38,25 +52,77 @@
   line-height: 1.7;
 }
 
-.card {
+.listSection {
   display: grid;
-  gap: 20px;
+  gap: 14px;
 }
 
-.cardHeader {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.cardHeader h2 {
+.sectionHeading h2 {
   margin: 5px 0 0;
   color: var(--fa-h5-text-primary);
   font-size: 18px;
 }
 
-.cardHeader strong {
+.demoList {
+  display: grid;
+  gap: 10px;
+}
+
+.demoItem {
+  display: grid;
+  width: 100%;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 15px;
+  border: 1px solid var(--fa-h5-border-color);
+  border-radius: var(--fa-h5-radius-medium);
+  color: inherit;
+  background: var(--fa-h5-page-bg);
+  font: inherit;
+  text-align: left;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease;
+}
+
+.demoItem:active {
+  transform: scale(0.985);
+}
+
+.demoItem:hover {
+  border-color: var(--fa-h5-color-primary);
+}
+
+.itemIndex {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--fa-h5-color-primary);
+  background: var(--fa-h5-color-primary-soft);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.itemCopy {
+  display: grid;
+  gap: 4px;
+}
+
+.itemCopy strong {
+  color: var(--fa-h5-text-primary);
+  font-size: 15px;
+}
+
+.itemCopy small {
   color: var(--fa-h5-text-secondary);
   font-size: 12px;
+  line-height: 1.5;
+}
+
+.itemArrow {
+  color: var(--fa-h5-color-primary);
+  font-size: 20px;
 }

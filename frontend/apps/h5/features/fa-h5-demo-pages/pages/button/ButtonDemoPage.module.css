@@ -1,0 +1,85 @@
+.page {
+  display: grid;
+  gap: 14px;
+}
+
+.hero,
+.section {
+  padding: 22px;
+  border: 1px solid var(--fa-h5-border-color);
+  border-radius: var(--fa-h5-radius-large);
+  background: var(--fa-h5-surface);
+  box-shadow: var(--fa-h5-shadow-card);
+}
+
+.hero {
+  background: linear-gradient(145deg, rgb(15 107 255 / 13%), transparent 62%), var(--fa-h5-surface);
+}
+
+.backLink {
+  display: block;
+  margin: -4px 0 26px;
+  padding: 0;
+  border: 0;
+  color: var(--fa-h5-color-primary);
+  background: transparent;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.eyebrow,
+.sectionHeading span {
+  color: var(--fa-h5-color-primary);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.hero h1 {
+  margin: 10px 0 8px;
+  color: var(--fa-h5-text-primary);
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+.hero p {
+  margin: 0;
+  color: var(--fa-h5-text-secondary);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.section {
+  display: grid;
+  gap: 14px;
+  border-radius: var(--fa-h5-radius-medium);
+  box-shadow: none;
+}
+
+.sectionHeading h2 {
+  margin: 5px 0 0;
+  color: var(--fa-h5-text-primary);
+  font-size: 17px;
+}
+
+.buttonGrid,
+.buttonStack,
+.sizeGrid {
+  display: grid;
+  gap: 10px;
+}
+
+.buttonGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sizeGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 380px) {
+  .buttonGrid,
+  .sizeGrid {
+    grid-template-columns: 1fr;
+  }
+}

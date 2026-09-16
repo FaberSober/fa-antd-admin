@@ -1,37 +1,57 @@
-import { ProgressBar, Steps } from 'antd-mobile';
-import { useH5Registry } from '@/platform/feature';
+import { Button } from 'antd-mobile';
+import { useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '@/shared/hooks/useDocumentTitle';
+import { buttonDemoRoute } from '../../routes';
 import styles from './DemoOverviewPage.module.css';
 
-const { Step } = Steps;
+const demoItems = [
+  {
+    id: 'button',
+    index: '01',
+    title: 'Button',
+    description: '基础颜色、填充方式、尺寸和常见状态。',
+  },
+] as const;
 
 export default function DemoOverviewPage() {
-  const registry = useH5Registry();
-  useDocumentTitle('装配示例');
+  const navigate = useNavigate();
+  useDocumentTitle('Demo');
 
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
-        <span>FA-H5-DEMO-PAGES</span>
-        <h1>Feature 已由项目预设启用</h1>
-        <p>本页只存在于 demo 项目的 Registry；default 项目不会注册 `/app/demo`。</p>
+        <div className={styles.heroMeta}>
+          <span>COMPONENT DEMOS</span>
+          <strong>{String(demoItems.length).padStart(2, '0')} ITEMS</strong>
+        </div>
+        <h1>Demo</h1>
+        <p>查看 H5 组件在移动端的基础用法与交互表现。</p>
       </section>
 
-      <section className={styles.card}>
-        <div className={styles.cardHeader}>
-          <div>
-            <span>COMPOSITION</span>
-            <h2>{registry.project.title}</h2>
-          </div>
-          <strong>{registry.featureIds.length} Features</strong>
+      <section className={styles.listSection} aria-label="Demo 功能列表">
+        <div className={styles.sectionHeading}>
+          <span>DEMO LIST</span>
+          <h2>功能列表</h2>
         </div>
-        <ProgressBar percent={100} />
-        <Steps direction="vertical">
-          <Step title="静态导入" description="项目预设只导入启用的 Feature 公共出口。" />
-          <Step title="契约校验" description="Composer 验证依赖、路由、权限和入口。" />
-          <Step title="按路由加载" description="页面组件继续通过 route.lazy 拆分。" />
-        </Steps>
+        <div className={styles.demoList}>
+          {demoItems.map((item) => (
+            <button className={styles.demoItem} key={item.id} onClick={() => navigate(buttonDemoRoute.path)} type="button">
+              <span className={styles.itemIndex}>{item.index}</span>
+              <span className={styles.itemCopy}>
+                <strong>{item.title}</strong>
+                <small>{item.description}</small>
+              </span>
+              <span aria-hidden="true" className={styles.itemArrow}>
+                →
+              </span>
+            </button>
+          ))}
+        </div>
       </section>
+
+      <Button block fill="none" onClick={() => navigate('/app/home')}>
+        返回工作台
+      </Button>
     </div>
   );
 }

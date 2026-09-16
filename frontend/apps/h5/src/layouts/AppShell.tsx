@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import { useH5Registry } from '@/platform/feature';
 import styles from './AppShell.module.css';
 
 interface AppShellProps {
@@ -7,23 +6,13 @@ interface AppShellProps {
 }
 
 export function AppShell({ children }: AppShellProps) {
-  const registry = useH5Registry();
-
   return (
     <div className={styles.shell}>
       <header className={styles.header}>
-        <div>
-          <span className={styles.brand}>{registry.project.title}</span>
-          <p className={styles.subtitle}>
-            {registry.project.id} · {registry.featureIds.length} Features
-          </p>
-        </div>
-        <span className={styles.stage}>BETA</span>
+        <span className={styles.brand}>FA H5</span>
+        <span className={styles.headerLabel}>移动工作台</span>
       </header>
-      <main className={styles.content}>
-        {children}
-      </main>
-      <footer className={styles.footer}>M2 Module Composition</footer>
+      <main className={styles.content}>{children}</main>
     </div>
   );
 }
