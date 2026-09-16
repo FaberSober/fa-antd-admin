@@ -12,6 +12,8 @@ interface ImportMetaEnv {
   readonly VITE_APP_PROJECT?: string;
   readonly VITE_APP_FA_VERSION_CODE?: string;
   readonly VITE_APP_FA_VERSION_NAME?: string;
+  readonly VITE_APP_H5_PREVIEW_DEMO_FILE_ID?: string;
+  readonly VITE_APP_H5_PREVIEW_DEMO_FILE_NAME?: string;
 }
 
 interface ImportMeta {

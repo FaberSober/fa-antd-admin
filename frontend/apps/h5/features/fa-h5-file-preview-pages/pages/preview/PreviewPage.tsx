@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { h5Config } from '@/platform/config';
 import { ApiError } from '@/platform/http';
 import { PageLoading } from '@/shared/components/PageLoading';
 import { exchangePreviewTicket, type FilePreviewResource } from '../../api/filePreview';
@@ -58,6 +59,34 @@ function getPreviewKind(resource: FilePreviewResource): PreviewKind {
   return 'unsupported';
 }
 
+function getFilenameExtension(filename: string): string {
+  const extension = filename.split('.').pop() || '';
+  return extension.toLowerCase();
+}
+
+function getDemoPreviewResource(): FilePreviewResource {
+  if (!h5Config.previewDemoFileId) {
+    return {
+      fileId: 'h5-demo-sample',
+      filename: 'sample.txt',
+      contentType: 'text/plain',
+      ext: 'txt',
+      previewUrl: h5Config.previewDemoSampleUrl,
+      downloadAllowed: false,
+    };
+  }
+
+  const fileId = h5Config.previewDemoFileId;
+  const filename = h5Config.previewDemoFileName;
+  return {
+    fileId,
+    filename,
+    ext: getFilenameExtension(filename),
+    previewUrl: `/api/base/admin/fileSave/getFile/${encodeURIComponent(fileId)}`,
+    downloadAllowed: false,
+  };
+}
+
 function ErrorState({ message }: { message: string }) {
   return (
     <div className={styles.state} role="alert">
@@ -101,6 +130,11 @@ export default function PreviewPage() {
   useEffect(() => {
     if (exchangeStartedRef.current) return;
     exchangeStartedRef.current = true;
+
+    if (searchParams.get('demo') === 'file') {
+      setResource(getDemoPreviewResource());
+      return;
+    }
 
     const ticket = searchParams.get('ticket')?.trim();
     if (!ticket) {

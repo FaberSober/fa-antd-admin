@@ -1,3 +1,4 @@
+import { previewRoute } from '@features/fa-h5-file-preview-pages';
 import { Button } from 'antd-mobile';
 import { useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '@/shared/hooks/useDocumentTitle';
@@ -10,6 +11,14 @@ const demoItems = [
     index: '01',
     title: 'Button',
     description: '基础颜色、填充方式、尺寸和常见状态。',
+    path: buttonDemoRoute.path,
+  },
+  {
+    id: 'file-preview',
+    index: '02',
+    title: '文件预览',
+    description: '无需登录即可打开内置样例，也可配置已上传的公共文件。',
+    path: `${previewRoute.path}?demo=file`,
   },
 ] as const;
 
@@ -35,7 +44,7 @@ export default function DemoOverviewPage() {
         </div>
         <div className={styles.demoList}>
           {demoItems.map((item) => (
-            <button className={styles.demoItem} key={item.id} onClick={() => navigate(buttonDemoRoute.path)} type="button">
+            <button className={styles.demoItem} key={item.id} onClick={() => navigate(item.path)} type="button">
               <span className={styles.itemIndex}>{item.index}</span>
               <span className={styles.itemCopy}>
                 <strong>{item.title}</strong>

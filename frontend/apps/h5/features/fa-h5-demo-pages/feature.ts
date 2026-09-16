@@ -5,7 +5,7 @@ const demoFeature = defineH5Feature({
   id: 'fa-h5-demo-pages',
   displayName: 'H5 组件 Demo',
   order: 100,
-  dependsOn: ['fa-h5-base-pages'],
+  dependsOn: ['fa-h5-base-pages', 'fa-h5-file-preview-pages'],
   routes: [demoRoute, buttonDemoRoute],
   navItems: [
     {

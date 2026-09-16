@@ -1,0 +1,10 @@
+FA H5 文件预览 Demo
+
+这是 H5 内置的文件预览样例。
+
+当前环境没有登录或上传文件时，Demo 会读取这份静态文本；如果需要预览已上传的公共文件，可以配置：
+
+VITE_APP_H5_PREVIEW_DEMO_FILE_ID=你的文件 ID
+VITE_APP_H5_PREVIEW_DEMO_FILE_NAME=真实文件名.pdf
+
+正式业务文件预览仍然需要使用 ticket，不要把私密文件配置到此 Demo。

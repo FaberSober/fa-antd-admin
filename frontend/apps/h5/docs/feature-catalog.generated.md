@@ -7,7 +7,7 @@
 | Feature ID | 名称 | 依赖 | 路由 | 生命周期 |
 |---|---|---|---:|---|
 | `fa-h5-base-pages` | H5 基础页面 | - | 2 | active |
-| `fa-h5-demo-pages` | H5 组件 Demo | `fa-h5-base-pages` | 2 | active |
+| `fa-h5-demo-pages` | H5 组件 Demo | `fa-h5-base-pages`、`fa-h5-file-preview-pages` | 2 | active |
 | `fa-h5-file-preview-pages` | H5 文件预览 | - | 1 | active |
 
 ## Projects

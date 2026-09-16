@@ -19,6 +19,7 @@ Accepted，2026-09-16；开发状态：🟡进行中。
 4. Mobile 先通过当前登录态向后端申请一次性、短时效的预览 ticket；H5 使用 ticket 换取文件元数据和短时效文件访问 URL。
 5. URL 只携带短时效 ticket，不携带长期 `Authorization` Token。ticket 交换后立即清理地址栏参数。
 6. 后端负责用户、租户、RBAC、数据范围和文件访问权限校验；前端路由和按钮只负责体验层控制。
+7. Demo 允许通过受控的 `?demo=file` 进入预览页：默认读取 H5 内置非敏感样例，也可配置一个固定的公共 `fileId`；不接受 URL 任意传入 `fileId`，不改变正式预览鉴权链路。
 
 ## 架构流程
 
@@ -41,6 +42,7 @@ flowchart LR
 | H5 路由 | 全屏文件预览页 | 新增 `/h5/preview`，支持浏览器直接打开和深链接刷新。 | 本版本执行 | 🟡进行中 |
 | H5 文件预览 | 接入 File Viewer | 在 H5 独立集成 React viewer 和 Office preset，按文件类型渲染。 | 本版本执行 | 🟡进行中 |
 | H5 数据交换 | ticket 换取预览资源 | 获取文件名、扩展名、MIME、大小、预览地址、下载权限和水印信息。 | 本版本执行 | 🟡进行中 |
+| H5 Demo | 未登录文件预览 Demo | Demo 默认使用内置文本样例，可配置固定的已上传公共文件进行预览。 | 本版本执行 | 🟡进行中 |
 | Mobile H5 | 打开预览 URL | Mobile H5 使用页面跳转打开 H5 预览页。 | 本版本执行 | 🟡进行中 |
 | Mobile 小程序 / App | WebView 容器 | 增加平台适配页，打开 H5 URL 并处理返回行为。 | 本版本执行 | 🟡进行中 |
 | 安全与审计 | 凭证和文件访问保护 | 禁止长期 Token 入 URL；ticket 不记录敏感值；私密文件不依赖 fileId 保密。 | 本版本执行 | 🟡进行中 |
@@ -135,20 +137,28 @@ GET  /api/base/admin/fileSave/getPreviewDownload/{session}
 - 通过浏览器 Network/Performance 或等效工具保存测量结果；性能数字以实际生产构建和目标设备结果为准，不用开发服务器结果代替。
 - 如果首屏主入口被 viewer 依赖污染，或目标 WebView 的首开耗时、内存和稳定性不可接受，先拆分 renderer 或调整为后端转 PDF/图片方案，再扩大功能范围。
 
-### 8. 当前实现边界
+### 8. 未登录文件预览 Demo
+
+- Demo 列表中的“文件预览”进入 `/h5/preview?demo=file`，复用现有全屏预览页和文件类型分流逻辑。
+- 未配置 `VITE_APP_H5_PREVIEW_DEMO_FILE_ID` 时，预览 H5 内置的 `public/demo/file-preview/sample.txt`，不依赖登录、上传接口或后端文件数据。
+- 配置 `VITE_APP_H5_PREVIEW_DEMO_FILE_ID` 时，同时配置匹配真实扩展名的 `VITE_APP_H5_PREVIEW_DEMO_FILE_NAME`；页面通过现有公开 `getFile/{fileId}` 流读取该文件。
+- Demo 资源固定关闭下载权限，且不接受查询参数覆盖 fileId；配置的文件必须是非敏感公共文件。私密业务文件仍然必须先申请 ticket。
+
+### 9. 当前实现边界
 
 - 当前实现使用 Redis 保存 180 秒启动 ticket；兑换后生成 600 秒预览 session，session 可被 viewer 的多次 Range 请求复用。
 - H5 已按图片、音视频、文本和 Office/PDF 分流；Office viewer 通过路由级动态 import 加载，Mobile bundle 不包含 React viewer。
 - 文件流统一经过预览 session 校验；本地文件直接分片输出，外部存储当前通过后端临时文件代理，后续需结合真实对象存储继续测算。
 - 当前已完成代码级检查和后端编译；限流、真实 RBAC/数据范围策略、生产构建资源检查及 Android/iOS/微信 WebView 真机验证仍未完成。
 - `base_file_save` 当前是全局文件表而非租户实体，首版会把创建者和租户上下文写入凭证并复用现有文件访问能力；若业务需要文件级数据范围，需在上线前补充对应授权策略。
-- 现有 `getFile/{fileId}` 和 `getFilePreview/{fileId}` 公开兼容接口本期不改动；H5 预览链路不使用它们，后续如需全面收紧旧接口应另行评估调用方。
+- 现有 `getFile/{fileId}` 和 `getFilePreview/{fileId}` 公开兼容接口本期不改动；正式 H5 预览链路不使用它们，只有未登录 Demo 在配置固定公共 fileId 时使用 `getFile/{fileId}`，后续如需全面收紧旧接口应另行评估调用方。
 
 ## 非目标
 
 - 不把 React 组件直接嵌入 uni-app Vue 页面。
 - 不直接复用 Admin 的 `FilePreview.tsx` 作为 H5 页面组件。
 - 不通过 `?token=长期JWT` 实现 Mobile 到 H5 的登录共享。
+- 不通过任意 `?fileId=` 访问或枚举文件；Demo 只支持内置样例或部署配置的固定公共文件。
 - 不在本期实现 H5 与 Mobile 的完整 SSO、离线缓存、PWA 或 Office 在线编辑。
 
 ## 主要取舍
