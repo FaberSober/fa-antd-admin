@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onShow } from '@dcloudio/uni-app';
 import { hasToken } from '@features/fa-base-mobile/common/session';
+import { telemetry } from '@/telemetry';
 
 const LOGIN_ROUTE = '/features/fa-base-mobile/pages/login/index';
 const BUTTON_DEMO_ROUTE = '/features/fa-demo-mobile/pages/basic/button/index';
@@ -16,6 +17,7 @@ function openButtonDemo(): void {
 }
 
 onShow(() => {
+  telemetry.page('/features/fa-demo-mobile/pages/home/index');
   ensureAuthenticated();
 });
 </script>

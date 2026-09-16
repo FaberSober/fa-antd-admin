@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onShow } from '@dcloudio/uni-app';
 import { hasToken } from '@features/fa-base-mobile/common/session';
+import { telemetry } from '@/telemetry';
 
 const LOGIN_ROUTE = '/features/fa-base-mobile/pages/login/index';
 
@@ -11,6 +12,7 @@ function ensureAuthenticated(): void {
 }
 
 onShow(() => {
+  telemetry.page('/features/fa-demo-mobile/pages/basic/button/index');
   ensureAuthenticated();
 });
 </script>

@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 import { getCurrentUser, login, logout } from '../api/auth';
 import { clearSession, getStoredUser, getToken, saveSession, saveUser } from '../common/session';
 import type { PortalUser } from '../types/auth';
+import { telemetry } from '@/telemetry';
 
 export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
   const user = ref<PortalUser | null>(getStoredUser());
@@ -15,6 +16,20 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
       const session = await login(username, password);
       saveSession(session.token, session.user);
       user.value = session.user;
+      telemetry.identify({ userId: session.user.id });
+      telemetry.track('mobile.auth.login', {
+        eventType: 'LOGIN',
+        module: 'fa-base-mobile',
+        result: 'SUCCESS',
+      });
+    } catch (error) {
+      telemetry.track('mobile.auth.login', {
+        eventType: 'LOGIN',
+        module: 'fa-base-mobile',
+        result: 'FAIL',
+        properties: { errorType: error instanceof Error ? error.name : 'UnknownError' },
+      });
+      throw error;
     } finally {
       loading.value = false;
     }
@@ -23,6 +38,7 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
   async function loadCurrentUser(): Promise<PortalUser | null> {
     if (!getToken()) {
       user.value = null;
+      telemetry.clearUser();
       return null;
     }
 
@@ -31,6 +47,7 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
       const currentUser = await getCurrentUser();
       user.value = currentUser;
       saveUser(currentUser);
+      telemetry.identify({ userId: currentUser.id });
       return currentUser;
     } finally {
       loading.value = false;
@@ -43,6 +60,7 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
     } finally {
       clearSession();
       user.value = null;
+      telemetry.clearUser();
     }
   }
 

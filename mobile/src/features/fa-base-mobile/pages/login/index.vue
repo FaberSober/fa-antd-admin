@@ -1,12 +1,18 @@
 <script setup lang="ts">
+import { onShow } from '@dcloudio/uni-app';
 import { ref } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 import { ApiError } from '../../common/request';
+import { telemetry } from '@/telemetry';
 
 const authStore = useAuthStore();
 const username = ref('');
 const password = ref('');
 const errorMessage = ref('');
+
+onShow(() => {
+  telemetry.page('/features/fa-base-mobile/pages/login/index');
+});
 
 async function handleSubmit(): Promise<void> {
   errorMessage.value = '';

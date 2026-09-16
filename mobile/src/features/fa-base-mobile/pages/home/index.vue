@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 import { ApiError } from '../../common/request';
 import UserInfoCard from '../../components/UserInfoCard.vue';
+import { telemetry } from '@/telemetry';
 
 const authStore = useAuthStore();
 const errorMessage = ref('');
@@ -33,6 +34,7 @@ function openDemo(): void {
 }
 
 onShow(() => {
+  telemetry.page('/features/fa-base-mobile/pages/home/index');
   void loadUser();
 });
 </script>
