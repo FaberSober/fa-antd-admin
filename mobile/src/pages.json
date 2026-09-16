@@ -30,6 +30,14 @@
         "navigationBarBackgroundColor": "#f5f7fb",
         "navigationBarTextStyle": "black"
       }
+    },
+    {
+      "path": "features/fa-demo-mobile/pages/basic/upload/index",
+      "style": {
+        "navigationBarTitleText": "文件上传 Demo",
+        "navigationBarBackgroundColor": "#f5f7fb",
+        "navigationBarTextStyle": "black"
+      }
     }
   ],
   "globalStyle": {

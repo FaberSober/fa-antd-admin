@@ -5,6 +5,7 @@ import { telemetry } from '@features/fa-core-mobile/telemetry';
 
 const LOGIN_ROUTE = '/features/fa-base-mobile/pages/login/index';
 const BUTTON_DEMO_ROUTE = '/features/fa-demo-mobile/pages/basic/button/index';
+const UPLOAD_DEMO_ROUTE = '/features/fa-demo-mobile/pages/basic/upload/index';
 
 function ensureAuthenticated(): void {
   if (!hasToken()) {
@@ -14,6 +15,10 @@ function ensureAuthenticated(): void {
 
 function openButtonDemo(): void {
   uni.navigateTo({ url: BUTTON_DEMO_ROUTE });
+}
+
+function openUploadDemo(): void {
+  uni.navigateTo({ url: UPLOAD_DEMO_ROUTE });
 }
 
 onShow(() => {
@@ -35,6 +40,14 @@ onShow(() => {
         <text class="entry-description">查看基础类型、尺寸、状态和镂空样式</text>
       </view>
       <button class="entry-button" @click="openButtonDemo">查看 Demo</button>
+    </view>
+
+    <view class="demo-entry fa-card">
+      <view>
+        <text class="entry-title">文件上传</text>
+        <text class="entry-description">选择图片并上传到后端文件服务</text>
+      </view>
+      <button class="entry-button" @click="openUploadDemo">查看 Demo</button>
     </view>
   </view>
 </template>

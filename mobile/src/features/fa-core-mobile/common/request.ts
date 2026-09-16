@@ -18,6 +18,14 @@ export interface RequestOptions {
   headers?: Record<string, string>;
 }
 
+export interface UploadOptions {
+  url: string;
+  filePath: string;
+  name?: string;
+  formData?: Record<string, string>;
+  headers?: Record<string, string>;
+}
+
 export class ApiError extends Error {
   readonly statusCode?: number;
   readonly code?: number;
@@ -36,18 +44,22 @@ function buildUrl(path: string): string {
   return `${baseUrl}${normalizedPath}`;
 }
 
+function buildHeaders(headers: Record<string, string>, withContentType = true): Record<string, string> {
+  return {
+    ...(withContentType ? { 'Content-Type': 'application/json' } : {}),
+    FaFrom: APP_CONFIG.faFrom,
+    FaVersionCode: APP_CONFIG.versionCode,
+    FaVersionName: APP_CONFIG.versionName,
+    ...telemetry.getRequestHeaders(),
+    ...headers,
+  };
+}
+
 export function request<T>({ url, method = 'GET', data, headers = {} }: RequestOptions): Promise<T> {
   return new Promise((resolve, reject) => {
     const requestStartedAt = Date.now();
     const requestPath = url.split(/[?#]/, 1)[0] || '/';
-    const header: Record<string, string> = {
-      'Content-Type': 'application/json',
-      FaFrom: APP_CONFIG.faFrom,
-      FaVersionCode: APP_CONFIG.versionCode,
-      FaVersionName: APP_CONFIG.versionName,
-      ...telemetry.getRequestHeaders(),
-      ...headers,
-    };
+    const header = buildHeaders(headers);
 
     uni.request({
       url: buildUrl(url),
@@ -82,6 +94,60 @@ export function request<T>({ url, method = 'GET', data, headers = {} }: RequestO
       fail: (error) => {
         const apiError = new ApiError(error.errMsg || '网络请求失败');
         telemetry.recordHttp({ method, path: requestPath, status: 0, duration: Date.now() - requestStartedAt }, apiError);
+        reject(apiError);
+      },
+    });
+  });
+}
+
+export function uploadFile<T>({
+  url,
+  filePath,
+  name = 'file',
+  formData,
+  headers = {},
+}: UploadOptions): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const uploadStartedAt = Date.now();
+    const uploadPath = url.split(/[?#]/, 1)[0] || '/';
+    const header = buildHeaders(headers, false);
+
+    uni.uploadFile({
+      url: buildUrl(url),
+      filePath,
+      name,
+      formData,
+      header,
+      success: (response) => {
+        const statusCode = response.statusCode;
+        const duration = Date.now() - uploadStartedAt;
+        let body: ApiResponse<T>;
+
+        try {
+          body = (JSON.parse(response.data || '{}') || {}) as ApiResponse<T>;
+        } catch {
+          const apiError = new ApiError('文件上传响应格式错误', statusCode);
+          telemetry.recordHttp({ method: 'POST', path: uploadPath, status: statusCode, duration }, apiError);
+          reject(apiError);
+          return;
+        }
+
+        const code = typeof body.code === 'number' ? body.code : statusCode;
+        const message = body.message || body.msg || '文件上传失败';
+
+        if (statusCode === 401 || code === 40101 || statusCode < 200 || statusCode >= 300 || code !== 200) {
+          const apiError = new ApiError(message, statusCode, code);
+          telemetry.recordHttp({ method: 'POST', path: uploadPath, status: statusCode, code, duration }, apiError);
+          reject(apiError);
+          return;
+        }
+
+        telemetry.recordHttp({ method: 'POST', path: uploadPath, status: statusCode, code, duration });
+        resolve(body.data);
+      },
+      fail: (error) => {
+        const apiError = new ApiError(error.errMsg || '文件上传失败');
+        telemetry.recordHttp({ method: 'POST', path: uploadPath, status: 0, duration: Date.now() - uploadStartedAt }, apiError);
         reject(apiError);
       },
     });

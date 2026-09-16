@@ -3,6 +3,7 @@ const demoMobileFeature = {
   pages: [
     'features/fa-demo-mobile/pages/home/index',
     'features/fa-demo-mobile/pages/basic/button/index',
+    'features/fa-demo-mobile/pages/basic/upload/index',
   ],
 } as const;
 

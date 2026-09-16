@@ -1,10 +1,12 @@
 import {
   ApiError,
   request as coreRequest,
+  uploadFile as coreUploadFile,
 } from '@features/fa-core-mobile/common/request';
 import type {
   ApiResponse,
   RequestOptions as CoreRequestOptions,
+  UploadOptions as CoreUploadOptions,
 } from '@features/fa-core-mobile/common/request';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
 import { clearSession, getToken } from './session';
@@ -13,6 +15,10 @@ export { ApiError };
 export type { ApiResponse };
 
 export interface RequestOptions extends Omit<CoreRequestOptions, 'headers'> {
+  skipAuth?: boolean;
+}
+
+export interface UploadOptions extends CoreUploadOptions {
   skipAuth?: boolean;
 }
 
@@ -43,13 +49,31 @@ export function request<T>({ skipAuth = false, ...options }: RequestOptions): Pr
     ...options,
     ...(headers ? { headers } : {}),
   }).catch((error) => {
-    if (
-      !skipAuth
-      && error instanceof ApiError
-      && (error.statusCode === 401 || error.code === 40101)
-    ) {
+    if (!skipAuth && isUnauthorized(error)) {
       handleUnauthorized();
     }
     throw error;
   });
+}
+
+export function uploadFile<T>({ skipAuth = false, headers = {}, ...options }: UploadOptions): Promise<T> {
+  const token = getToken();
+  const authHeaders: Record<string, string> = {};
+  if (token && !skipAuth) {
+    authHeaders.Authorization = token;
+  }
+
+  return coreUploadFile<T>({
+    ...options,
+    headers: { ...headers, ...authHeaders },
+  }).catch((error) => {
+    if (!skipAuth && isUnauthorized(error)) {
+      handleUnauthorized();
+    }
+    throw error;
+  });
+}
+
+function isUnauthorized(error: unknown): error is ApiError {
+  return error instanceof ApiError && (error.statusCode === 401 || error.code === 40101);
 }
