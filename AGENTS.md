@@ -37,6 +37,14 @@
 - 前端修改后默认不要执行 `./node_modules/.bin/vite build`、`pnpm build`、`npm run build` 等完整打包验证，除非用户明确要求。
 - 前端验证优先使用更轻量的方式，例如检查相关文件、局部类型/语法判断、复用现有 dev server 页面验证或用户指定的命令。
 
+## Development-Validation-Progress
+
+- 功能开发完成后判断是否需要验证：
+  - 需要验证：给出最小验证步骤，并将对应文档进度更新为 `🔍验证中`。
+  - 不需要验证：直接将对应文档进度更新为 `✅已完成`。
+- 用户回复“验证成功”后，将对应文档进度更新为 `✅已完成`。
+- 验证失败或未完成时保持 `🔍验证中`，不得标记为已完成。
+
 ## Key References
 
 - DDL 基线目录：`fa-base/src/main/resources/sql/fa-base/{mysql|postgre}`
