@@ -10,10 +10,12 @@ interface MobileInputEvent extends Event {
 const props = withDefaults(defineProps<{
   modelValue?: string;
   placeholder?: string;
+  shortcut?: string;
   disabled?: boolean;
 }>(), {
   modelValue: '',
   placeholder: '搜索',
+  shortcut: '',
   disabled: false,
 });
 
@@ -48,6 +50,7 @@ function clear(): void {
       @input="handleInput"
       @confirm="emit('confirm')"
     />
+    <text v-if="props.shortcut" class="mobile-search-field__shortcut">{{ props.shortcut }}</text>
     <view v-if="props.modelValue" class="mobile-search-field__clear" @click.stop="clear">
       <MobileIcon name="close" :size="28" />
     </view>
@@ -86,6 +89,16 @@ function clear(): void {
   margin-left: 12rpx;
   color: var(--fa-color-text);
   font-size: 30rpx;
+}
+
+.mobile-search-field__shortcut {
+  flex: 0 0 auto;
+  padding: 6rpx 12rpx;
+  border-radius: var(--fa-radius-sm);
+  color: var(--fa-color-muted);
+  background: var(--fa-color-surface-muted);
+  font-size: 20rpx;
+  line-height: 28rpx;
 }
 
 .mobile-search-field__input::placeholder {

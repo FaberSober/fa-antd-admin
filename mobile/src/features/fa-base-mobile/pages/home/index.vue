@@ -5,15 +5,59 @@ import { useAuthStore } from '../../stores/auth';
 import { ApiError } from '../../common/request';
 import { checkAndPromptUpdate } from '../../common/update';
 import { MOBILE_PAGE_ROUTES } from '../../feature';
+import MobileEmptyState from '../../components/MobileEmptyState.vue';
+import MobileIcon from '../../components/MobileIcon.vue';
+import MobileSearchField from '../../components/MobileSearchField.vue';
+import MobileSectionHeader from '../../components/MobileSectionHeader.vue';
 import MobileShell from '../../components/MobileShell.vue';
-import UserInfoCard from '../../components/UserInfoCard.vue';
 import TenantWorkspaceSwitcher from '../../components/TenantWorkspaceSwitcher.vue';
 import { useTenantStore } from '../../stores/tenant';
+import type { MobileIconName } from '../../types/mobileIcon';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
+
+interface QuickFeature {
+  id: string;
+  title: string;
+  description: string;
+  icon: MobileIconName;
+  tone: 'primary' | 'purple' | 'orange' | 'green';
+}
+
+const QUICK_FEATURES: readonly QuickFeature[] = [
+  {
+    id: 'todo',
+    title: '待办事项',
+    description: '查看待处理事项',
+    icon: 'clock',
+    tone: 'primary',
+  },
+  {
+    id: 'recent',
+    title: '最近使用',
+    description: '快速继续工作',
+    icon: 'file',
+    tone: 'purple',
+  },
+  {
+    id: 'announcement',
+    title: '系统公告',
+    description: '查看最新通知',
+    icon: 'bell',
+    tone: 'orange',
+  },
+  {
+    id: 'help',
+    title: '帮助中心',
+    description: '获取使用帮助',
+    icon: 'question',
+    tone: 'green',
+  },
+];
 
 const authStore = useAuthStore();
 const tenantStore = useTenantStore();
 const errorMessage = ref('');
+const searchQuery = ref('');
 const tenantSwitcherRef = ref<{ open: () => void } | null>(null);
 const switchingTenantId = ref<string | null>(null);
 let updateCheckStarted = false;
@@ -24,6 +68,24 @@ const tenantRole = computed(() => {
   return workspace.isAdmin || authStore.user?.adminEnabled ? '管理员' : '成员';
 });
 const unreadCount = computed(() => Math.max(0, tenantStore.currentWorkspace?.unreadCount || 0));
+const displayName = computed(() => authStore.user?.name?.trim() || authStore.user?.username?.trim() || '');
+const greeting = computed(() => {
+  const hour = new Date().getHours();
+  if (hour < 6) return '夜深了';
+  if (hour < 12) return '早上好';
+  if (hour < 18) return '下午好';
+  return '晚上好';
+});
+const greetingIdentity = computed(() => tenantRole.value || displayName.value);
+const normalizedSearchQuery = computed(() => searchQuery.value.trim().toLocaleLowerCase());
+const filteredQuickFeatures = computed(() => {
+  const keyword = normalizedSearchQuery.value;
+  if (!keyword) return QUICK_FEATURES;
+  return QUICK_FEATURES.filter((feature) => (
+    feature.title.toLocaleLowerCase().includes(keyword)
+    || feature.description.toLocaleLowerCase().includes(keyword)
+  ));
+});
 
 async function loadUser(): Promise<void> {
   errorMessage.value = '';
@@ -41,18 +103,6 @@ async function loadUser(): Promise<void> {
   } catch (error) {
     errorMessage.value = error instanceof ApiError ? error.message : '用户信息加载失败';
   }
-}
-
-async function handleLogout(): Promise<void> {
-  try {
-    await authStore.signOut();
-  } finally {
-    uni.reLaunch({ url: MOBILE_PAGE_ROUTES.login });
-  }
-}
-
-function openDemo(): void {
-  uni.navigateTo({ url: '/features/fa-demo-mobile/pages/home/index' });
 }
 
 function reloadTenants(): void {
@@ -78,8 +128,16 @@ function switchTenant(tenantId: string): void {
   uni.reLaunch({ url: MOBILE_PAGE_ROUTES.workbench });
 }
 
+function showFeatureMessage(feature: QuickFeature): void {
+  uni.showToast({ title: `${feature.title}功能即将开放`, icon: 'none' });
+}
+
+function editQuickFeatures(): void {
+  uni.showToast({ title: '常用功能配置即将开放', icon: 'none' });
+}
+
 onShow(() => {
-  telemetry.page('/features/fa-base-mobile/pages/home/index');
+  telemetry.page(MOBILE_PAGE_ROUTES.workbench);
   void loadUser();
 });
 </script>
@@ -95,10 +153,17 @@ onShow(() => {
     @notification-click="openMessages"
   >
     <view class="home-page">
-      <view class="home-heading">
-        <text class="home-title">首页</text>
-        <text class="home-subtitle">当前为移动端基础框架预览</text>
-      </view>
+      <TenantWorkspaceSwitcher
+        v-if="authStore.user"
+        ref="tenantSwitcherRef"
+        :workspaces="tenantStore.workspaces"
+        :current-workspace="tenantStore.currentWorkspace"
+        :loading="tenantStore.loading"
+        :error-message="tenantStore.errorMessage"
+        :switching-tenant-id="switchingTenantId"
+        @select="switchTenant"
+        @refresh="reloadTenants"
+      />
 
       <view v-if="authStore.loading" class="state-card fa-card">
         <text class="fa-muted">正在加载用户信息...</text>
@@ -110,30 +175,59 @@ onShow(() => {
       </view>
 
       <template v-else>
-        <TenantWorkspaceSwitcher
-          v-if="authStore.user"
-          ref="tenantSwitcherRef"
-          :workspaces="tenantStore.workspaces"
-          :current-workspace="tenantStore.currentWorkspace"
-          :loading="tenantStore.loading"
-          :error-message="tenantStore.errorMessage"
-          :switching-tenant-id="switchingTenantId"
-          @select="switchTenant"
-          @refresh="reloadTenants"
+        <view class="welcome-section">
+          <view class="welcome-copy">
+            <view class="welcome-greeting">
+              <text>{{ greeting }}</text>
+              <text v-if="greetingIdentity">，{{ greetingIdentity }}</text>
+            </view>
+            <view class="welcome-title">开始今天的工作吧</view>
+          </view>
+          <view class="welcome-action">
+            <MobileIcon name="lightning" :size="48" />
+          </view>
+        </view>
+
+        <MobileSearchField
+          v-model="searchQuery"
+          placeholder="搜索功能、消息和联系人"
+          shortcut="⌘ K"
         />
 
-        <UserInfoCard v-if="authStore.user" :user="authStore.user" />
-      </template>
-
-      <view v-if="authStore.user && !errorMessage" class="demo-entry fa-card">
-        <view class="demo-entry-heading">
-          <text class="demo-entry-title">移动端 Demo</text>
-          <text class="demo-entry-description">查看移动端组件和交互示例</text>
+        <view class="quick-section">
+          <MobileSectionHeader title="常用功能" action-text="编辑" @action="editQuickFeatures" />
+          <view v-if="filteredQuickFeatures.length" class="quick-feature-grid">
+            <view
+              v-for="feature in filteredQuickFeatures"
+              :key="feature.id"
+              class="quick-feature-card fa-card"
+              :class="`quick-feature-card--${feature.tone}`"
+              @click="showFeatureMessage(feature)"
+            >
+              <view class="quick-feature-icon">
+                <MobileIcon :name="feature.icon" :size="48" />
+              </view>
+              <view class="quick-feature-title">{{ feature.title }}</view>
+              <view class="quick-feature-description">{{ feature.description }}</view>
+            </view>
+          </view>
+          <MobileEmptyState
+            v-else
+            icon="search"
+            title="没有找到匹配功能"
+            description="尝试搜索其他关键词"
+          />
         </view>
-        <button class="demo-entry-button" @click="openDemo">进入 Demo</button>
-      </view>
 
-      <button class="logout-button" @click="handleLogout">退出登录</button>
+        <view class="module-section">
+          <MobileSectionHeader title="业务模块" />
+          <MobileEmptyState
+            icon="grid"
+            title="功能模块将在这里展示"
+            description="联系管理员配置你的工作空间"
+          />
+        </view>
+      </template>
     </view>
   </MobileShell>
 </template>
@@ -145,20 +239,127 @@ onShow(() => {
   padding: 16rpx 32rpx 48rpx;
 }
 
-.home-heading {
-  margin: 0 8rpx 32rpx;
+.welcome-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24rpx;
+  margin: 16rpx 0 36rpx;
 }
 
-.home-title {
+.welcome-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.welcome-greeting,
+.welcome-title {
   display: block;
-  margin-bottom: 12rpx;
+}
+
+.welcome-greeting {
+  overflow: hidden;
+  color: var(--fa-color-text-secondary);
+  font-size: 30rpx;
+  line-height: 44rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.welcome-title {
+  margin-top: 6rpx;
+  color: var(--fa-color-text);
   font-size: 48rpx;
   font-weight: 700;
+  line-height: 64rpx;
 }
 
-.home-subtitle {
-  color: var(--fa-color-muted);
+.welcome-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 28rpx;
+  color: var(--fa-color-primary);
+  background: var(--fa-color-primary-soft);
+}
+
+.quick-section,
+.module-section {
+  margin-top: 28rpx;
+}
+
+.quick-feature-grid {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.quick-feature-card {
+  flex: 0 0 calc(50% - 8rpx);
+  min-width: 0;
+  min-height: 192rpx;
+  box-sizing: border-box;
+  padding: 24rpx;
+}
+
+.quick-feature-card:active {
+  opacity: 0.78;
+}
+
+.quick-feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64rpx;
+  height: 64rpx;
+  margin-bottom: 20rpx;
+  border-radius: 20rpx;
+}
+
+.quick-feature-card--primary .quick-feature-icon {
+  color: var(--fa-color-primary);
+  background: var(--fa-color-primary-soft);
+}
+
+.quick-feature-card--purple .quick-feature-icon {
+  color: var(--fa-color-purple);
+  background: var(--fa-color-purple-soft);
+}
+
+.quick-feature-card--orange .quick-feature-icon {
+  color: var(--fa-color-orange);
+  background: var(--fa-color-orange-soft);
+}
+
+.quick-feature-card--green .quick-feature-icon {
+  color: var(--fa-color-green);
+  background: var(--fa-color-green-soft);
+}
+
+.quick-feature-title,
+.quick-feature-description {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quick-feature-title {
+  color: var(--fa-color-text);
+  font-size: 30rpx;
+  font-weight: 600;
+  line-height: 42rpx;
+}
+
+.quick-feature-description {
+  margin-top: 4rpx;
+  color: var(--fa-color-text-secondary);
   font-size: 24rpx;
+  line-height: 36rpx;
 }
 
 .state-card {
@@ -169,61 +370,14 @@ onShow(() => {
 .error-message {
   display: block;
   margin-bottom: 24rpx;
-  color: #dc2626;
+  color: var(--fa-color-danger);
 }
 
 .retry-button {
   width: 240rpx;
   margin: 0 auto;
   color: var(--fa-color-primary);
-  background: #eff6ff;
-  font-size: 26rpx;
-}
-
-.logout-button {
-  margin-top: 48rpx;
-  border: 1rpx solid #fecaca;
-  border-radius: 999rpx;
-  color: #dc2626;
-  background: #fff;
-  font-size: 28rpx;
-}
-
-.demo-entry {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24rpx;
-  margin-top: 32rpx;
-  padding: 28rpx 32rpx;
-}
-
-.demo-entry-heading {
-  min-width: 0;
-}
-
-.demo-entry-title,
-.demo-entry-description {
-  display: block;
-}
-
-.demo-entry-title {
-  margin-bottom: 8rpx;
-  font-size: 30rpx;
-  font-weight: 600;
-}
-
-.demo-entry-description {
-  color: var(--fa-color-muted);
-  font-size: 24rpx;
-}
-
-.demo-entry-button {
-  flex: 0 0 auto;
-  width: 188rpx;
-  margin: 0;
-  color: #ffffff;
-  background: var(--fa-color-primary);
+  background: var(--fa-color-primary-soft);
   font-size: 26rpx;
 }
 </style>

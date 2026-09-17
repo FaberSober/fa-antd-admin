@@ -45,6 +45,11 @@ const iconStyle = computed(() => ({
     <view v-else-if="props.name === 'home'" class="mobile-icon__shape mobile-icon__shape--home" />
     <view v-else-if="props.name === 'contacts'" class="mobile-icon__shape mobile-icon__shape--contacts" />
     <view v-else-if="props.name === 'mine'" class="mobile-icon__shape mobile-icon__shape--mine" />
+    <view v-else-if="props.name === 'organization'" class="mobile-icon__shape mobile-icon__shape--organization">
+      <view class="mobile-icon__organization-node mobile-icon__organization-node--root" />
+      <view class="mobile-icon__organization-node mobile-icon__organization-node--left" />
+      <view class="mobile-icon__organization-node mobile-icon__organization-node--right" />
+    </view>
     <view v-else-if="props.name === 'grid'" class="mobile-icon__shape mobile-icon__shape--grid" />
     <view v-else-if="props.name === 'clock'" class="mobile-icon__shape mobile-icon__shape--clock" />
     <view v-else-if="props.name === 'question'" class="mobile-icon__shape mobile-icon__shape--question">?</view>
@@ -289,6 +294,52 @@ const iconStyle = computed(() => ({
   border-bottom: 0;
   border-radius: 50% 50% 0 0;
   content: '';
+}
+
+.mobile-icon__shape--organization {
+  top: 8%;
+  left: 8%;
+  width: 84%;
+  height: 84%;
+}
+
+.mobile-icon__shape--organization::before {
+  position: absolute;
+  top: 23%;
+  left: 25%;
+  width: 50%;
+  height: 48%;
+  background:
+    linear-gradient(currentColor, currentColor) center top / 3rpx 52% no-repeat,
+    linear-gradient(currentColor, currentColor) center bottom / 100% 3rpx no-repeat,
+    linear-gradient(currentColor, currentColor) left bottom / 3rpx 52% no-repeat,
+    linear-gradient(currentColor, currentColor) right bottom / 3rpx 52% no-repeat;
+  content: '';
+}
+
+.mobile-icon__organization-node {
+  position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 24%;
+  height: 24%;
+  border: 3rpx solid currentColor;
+  border-radius: 5rpx;
+}
+
+.mobile-icon__organization-node--root {
+  top: 0;
+  left: 38%;
+}
+
+.mobile-icon__organization-node--left {
+  bottom: 0;
+  left: 4%;
+}
+
+.mobile-icon__organization-node--right {
+  right: 4%;
+  bottom: 0;
 }
 
 .mobile-icon__shape--grid {
