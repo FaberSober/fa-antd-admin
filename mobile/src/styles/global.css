@@ -1,11 +1,37 @@
 :root {
   --fa-color-primary: #1677ff;
+  --fa-color-primary-soft: #eff6ff;
+  --fa-color-orange: #f59e0b;
+  --fa-color-orange-soft: #fffbeb;
+  --fa-color-purple: #7c3aed;
+  --fa-color-purple-soft: #f5f3ff;
+  --fa-color-green: #22c55e;
+  --fa-color-green-soft: #f0fdf4;
+  --fa-color-danger: #ef4444;
+  --fa-color-danger-soft: #fef2f2;
   --fa-color-text: #1f2937;
+  --fa-color-text-secondary: #475569;
   --fa-color-muted: #6b7280;
+  --fa-color-placeholder: #9ca3af;
   --fa-color-page: #f5f7fb;
   --fa-color-card: #ffffff;
+  --fa-color-surface-muted: #f8fafc;
   --fa-color-border: #e5e7eb;
+  --fa-color-border-strong: #cbd5e1;
+  --fa-color-mask: rgba(15, 23, 42, 0.45);
+  --fa-space-page: 32rpx;
+  --fa-space-card: 32rpx;
+  --fa-space-section: 48rpx;
+  --fa-size-touch: 88rpx;
+  --fa-radius-sm: 12rpx;
+  --fa-radius-md: 16rpx;
   --fa-radius-card: 20rpx;
+  --fa-radius-lg: 24rpx;
+  --fa-radius-pill: 999rpx;
+  --fa-shadow-card: 0 2rpx 12rpx rgba(15, 23, 42, 0.04);
+  --fa-shadow-elevated: 0 12rpx 32rpx rgba(31, 41, 55, 0.06);
+  --fa-safe-area-top: env(safe-area-inset-top, 0px);
+  --fa-safe-area-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 page {
@@ -22,13 +48,16 @@ button::after {
 .fa-page {
   min-height: 100vh;
   box-sizing: border-box;
-  padding: 48rpx 32rpx;
+  padding: 48rpx var(--fa-space-page);
 }
 
 .fa-card {
+  box-sizing: border-box;
   background: var(--fa-color-card);
+  border: 1rpx solid var(--fa-color-border);
   border-radius: var(--fa-radius-card);
-  box-shadow: 0 12rpx 32rpx rgba(31, 41, 55, 0.06);
+  padding: var(--fa-space-card);
+  box-shadow: var(--fa-shadow-card);
 }
 
 .fa-muted {

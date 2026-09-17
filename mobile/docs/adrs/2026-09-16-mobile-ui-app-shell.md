@@ -3,6 +3,7 @@
 - 状态：🟡进行中
 - 日期：2026-09-16
 - 范围：`mobile` Uni-app、`fa-base-mobile`
+- 当前进度：已完成实施顺序 1–4；工作台、消息、联系人和我的完整页面内容，以及跨端视觉验证待继续开发。
 
 ## 背景
 
@@ -76,7 +77,6 @@ v0.app 设计包含消息、工作台、联系人、我的四个主页面，以�
 - `mobile/src/features/fa-base-mobile/feature.ts`
 - `mobile/src/features/fa-base-mobile/pages/home/index.vue`
 - `mobile/src/features/fa-base-mobile/components/TenantWorkspaceSwitcher.vue`
-- `mobile/src/features/fa-base-mobile/components/UserInfoCard.vue`
 
 ### 新增
 
@@ -90,6 +90,7 @@ v0.app 设计包含消息、工作台、联系人、我的四个主页面，以�
 - `mobile/src/features/fa-base-mobile/pages/messages/index.vue`
 - `mobile/src/features/fa-base-mobile/pages/contacts/index.vue`
 - `mobile/src/features/fa-base-mobile/pages/mine/index.vue`
+- `mobile/src/features/fa-base-mobile/types/mobileIcon.ts`
 
 ## 功能开发说明
 
@@ -142,7 +143,7 @@ v0.app 设计包含消息、工作台、联系人、我的四个主页面，以�
 
 - 保留现有租户切换、权限校验、按用户保存和 `fa-tn-tenant-id` 请求头逻辑。
 - 将当前租户入口移动到顶部 Header。
-- 抽屉增加拖动提示条、标题、关闭按钮、租户搜索和最近使用区域。
+- 租户数量较少，抽屉不提供搜索和最近使用区域，直接按租户名称排序展示全部租户，并隐藏原生滚动条。
 - 当前租户显示蓝色选中标识，各租户支持未读角标。
 - 增加“加入其他租户”入口作为后续动作占位。
 - 处理加载中、暂无租户、接口失败、重试和切换中状态。
@@ -216,13 +217,13 @@ v0.app 设计包含消息、工作台、联系人、我的四个主页面，以�
 | 模块 | 功能 | 功能详情 | 当前规划 | 进度 |
 |---|---|---|---|---|
 | `fa-base-mobile` 基础能力 | 复用登录、用户和租户状态 | 保留现有 Store、Token 和租户请求上下文 | 执行开发 | ✅已完成 |
-| `mobile UI` | 全局视觉 Token | 统一颜色、字体、间距、圆角、边框和安全区 | 执行开发 | 🕒待处理 |
-| `mobile UI` | Mobile App Shell | 统一页面背景、Header、滚动区域和底部安全区 | 执行开发 | 🕒待处理 |
-| `mobile UI` | 顶部 Header | 展示租户、角色、页面标题和通知入口 | 执行开发 | 🕒待处理 |
-| `mobile UI` | 底部四 Tab 导航 | 消息、工作台、联系人、我的，支持当前态和角标 | 执行开发 | 🕒待处理 |
-| `mobile UI` | 通用基础组件 | 搜索框、区块标题、图标、空状态和列表反馈 | 执行开发 | 🕒待处理 |
-| `fa-base-mobile` 租户 | 租户入口视觉改造 | 将租户入口接入 Header，复用现有租户状态 | 执行开发 | 🔄待返工 |
-| `fa-base-mobile` 租户 | 租户切换底部抽屉 | 搜索、最近使用、选中态、未读角标和加入入口 | 执行开发 | 🔄待返工 |
+| `mobile UI` | 全局视觉 Token | 统一颜色、字体、间距、圆角、边框和安全区 | 执行开发 | ✅已完成 |
+| `mobile UI` | Mobile App Shell | 统一页面背景、Header、滚动区域和底部安全区 | 执行开发 | ✅已完成 |
+| `mobile UI` | 顶部 Header | 展示租户、角色、页面标题和通知入口 | 执行开发 | ✅已完成 |
+| `mobile UI` | 底部四 Tab 导航 | 消息、工作台、联系人、我的，支持当前态和角标 | 执行开发 | ✅已完成 |
+| `mobile UI` | 通用基础组件 | 搜索框、区块标题、图标、空状态和列表反馈 | 执行开发 | ✅已完成 |
+| `fa-base-mobile` 租户 | 租户入口视觉改造 | 将租户入口接入 Header，复用现有租户状态 | 执行开发 | ✅已完成 |
+| `fa-base-mobile` 租户 | 租户切换底部抽屉 | 按租户名称排序展示全部租户、选中态、未读角标和加入入口 | 执行开发 | ✅已完成 |
 | `fa-base-mobile` 页面 | 工作台页面 | 欢迎语、功能搜索、常用功能和业务模块空态 | 执行开发 | 🕒待处理 |
 | `fa-base-mobile` 页面 | 消息页面 | 全部/未读筛选、消息列表、未读态和空态 | 执行开发 | 🕒待处理 |
 | `fa-base-mobile` 页面 | 联系人页面 | 组织入口、我的联系人和最近联系人 | 执行开发 | 🕒待处理 |

@@ -1,0 +1,16 @@
+export type MobileIconName =
+  | 'search'
+  | 'bell'
+  | 'chevron-right'
+  | 'arrow-right'
+  | 'close'
+  | 'messages'
+  | 'home'
+  | 'contacts'
+  | 'mine'
+  | 'grid'
+  | 'lightning'
+  | 'clock'
+  | 'file'
+  | 'organization'
+  | 'question';

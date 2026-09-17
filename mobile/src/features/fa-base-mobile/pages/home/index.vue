@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { onShow } from '@dcloudio/uni-app';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 import { ApiError } from '../../common/request';
 import { checkAndPromptUpdate } from '../../common/update';
+import { MOBILE_PAGE_ROUTES } from '../../feature';
+import MobileShell from '../../components/MobileShell.vue';
 import UserInfoCard from '../../components/UserInfoCard.vue';
 import TenantWorkspaceSwitcher from '../../components/TenantWorkspaceSwitcher.vue';
 import { useTenantStore } from '../../stores/tenant';
@@ -12,15 +14,23 @@ import { telemetry } from '@features/fa-core-mobile/telemetry';
 const authStore = useAuthStore();
 const tenantStore = useTenantStore();
 const errorMessage = ref('');
+const tenantSwitcherRef = ref<{ open: () => void } | null>(null);
+const switchingTenantId = ref<string | null>(null);
 let updateCheckStarted = false;
-const HOME_ROUTE = '/features/fa-base-mobile/pages/home/index';
+
+const tenantRole = computed(() => {
+  const workspace = tenantStore.currentWorkspace;
+  if (!workspace) return '';
+  return workspace.isAdmin || authStore.user?.adminEnabled ? '管理员' : '成员';
+});
+const unreadCount = computed(() => Math.max(0, tenantStore.currentWorkspace?.unreadCount || 0));
 
 async function loadUser(): Promise<void> {
   errorMessage.value = '';
   try {
     const user = await authStore.loadCurrentUser();
     if (!user) {
-      uni.reLaunch({ url: '/features/fa-base-mobile/pages/login/index' });
+      uni.reLaunch({ url: MOBILE_PAGE_ROUTES.login });
       return;
     }
     await tenantStore.loadForUser(user.id);
@@ -37,7 +47,7 @@ async function handleLogout(): Promise<void> {
   try {
     await authStore.signOut();
   } finally {
-    uni.reLaunch({ url: '/features/fa-base-mobile/pages/login/index' });
+    uni.reLaunch({ url: MOBILE_PAGE_ROUTES.login });
   }
 }
 
@@ -49,10 +59,23 @@ function reloadTenants(): void {
   if (authStore.user) void tenantStore.loadForUser(authStore.user.id);
 }
 
+function openTenantSwitcher(): void {
+  tenantSwitcherRef.value?.open();
+}
+
+function openMessages(): void {
+  uni.reLaunch({ url: MOBILE_PAGE_ROUTES.messages });
+}
+
 function switchTenant(tenantId: string): void {
   const userId = authStore.user?.id;
-  if (!userId || !tenantStore.switchTenant(userId, tenantId)) return;
-  uni.reLaunch({ url: HOME_ROUTE });
+  if (!userId) return;
+  switchingTenantId.value = tenantId;
+  if (!tenantStore.switchTenant(userId, tenantId)) {
+    switchingTenantId.value = null;
+    return;
+  }
+  uni.reLaunch({ url: MOBILE_PAGE_ROUTES.workbench });
 }
 
 onShow(() => {
@@ -62,50 +85,64 @@ onShow(() => {
 </script>
 
 <template>
-  <view class="home-page fa-page">
-    <view class="home-heading">
-      <text class="home-title">首页</text>
-      <text class="home-subtitle">当前为移动端基础框架预览</text>
-    </view>
-
-    <view v-if="authStore.loading" class="state-card fa-card">
-      <text class="fa-muted">正在加载用户信息...</text>
-    </view>
-
-    <view v-else-if="errorMessage" class="state-card fa-card">
-      <text class="error-message">{{ errorMessage }}</text>
-      <button class="retry-button" @click="loadUser">重新加载</button>
-    </view>
-
-    <template v-else>
-      <TenantWorkspaceSwitcher
-        v-if="authStore.user"
-        :workspaces="tenantStore.workspaces"
-        :current-workspace="tenantStore.currentWorkspace"
-        :loading="tenantStore.loading"
-        :error-message="tenantStore.errorMessage"
-        @select="switchTenant"
-        @refresh="reloadTenants"
-      />
-
-      <UserInfoCard v-if="authStore.user" :user="authStore.user" />
-    </template>
-
-    <view v-if="authStore.user && !errorMessage" class="demo-entry fa-card">
-      <view class="demo-entry-heading">
-        <text class="demo-entry-title">移动端 Demo</text>
-        <text class="demo-entry-description">查看移动端组件和交互示例</text>
+  <MobileShell
+    active-tab="workbench"
+    :tenant-name="tenantStore.currentWorkspace?.tenantName"
+    :tenant-role="tenantRole"
+    :notification-count="unreadCount"
+    :unread-count="unreadCount"
+    @tenant-click="openTenantSwitcher"
+    @notification-click="openMessages"
+  >
+    <view class="home-page">
+      <view class="home-heading">
+        <text class="home-title">首页</text>
+        <text class="home-subtitle">当前为移动端基础框架预览</text>
       </view>
-      <button class="demo-entry-button" @click="openDemo">进入 Demo</button>
-    </view>
 
-    <button class="logout-button" @click="handleLogout">退出登录</button>
-  </view>
+      <view v-if="authStore.loading" class="state-card fa-card">
+        <text class="fa-muted">正在加载用户信息...</text>
+      </view>
+
+      <view v-else-if="errorMessage" class="state-card fa-card">
+        <text class="error-message">{{ errorMessage }}</text>
+        <button class="retry-button" @click="loadUser">重新加载</button>
+      </view>
+
+      <template v-else>
+        <TenantWorkspaceSwitcher
+          v-if="authStore.user"
+          ref="tenantSwitcherRef"
+          :workspaces="tenantStore.workspaces"
+          :current-workspace="tenantStore.currentWorkspace"
+          :loading="tenantStore.loading"
+          :error-message="tenantStore.errorMessage"
+          :switching-tenant-id="switchingTenantId"
+          @select="switchTenant"
+          @refresh="reloadTenants"
+        />
+
+        <UserInfoCard v-if="authStore.user" :user="authStore.user" />
+      </template>
+
+      <view v-if="authStore.user && !errorMessage" class="demo-entry fa-card">
+        <view class="demo-entry-heading">
+          <text class="demo-entry-title">移动端 Demo</text>
+          <text class="demo-entry-description">查看移动端组件和交互示例</text>
+        </view>
+        <button class="demo-entry-button" @click="openDemo">进入 Demo</button>
+      </view>
+
+      <button class="logout-button" @click="handleLogout">退出登录</button>
+    </view>
+  </MobileShell>
 </template>
 
 <style scoped>
 .home-page {
-  padding-top: 56rpx;
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: 16rpx 32rpx 48rpx;
 }
 
 .home-heading {
