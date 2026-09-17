@@ -21,11 +21,11 @@ dist/
 .pnpm-store/
 
 # 忽略 AI 助手的临时缓存和日志
-.agent/cache/
-.agent/logs/
+.agents/cache/
+.agents/logs/
 
 # 允许提交核心技能定义
-!.agent/skills/
+.agents/skills/
 
 .playwright-cli/
 .playwright-mcp/

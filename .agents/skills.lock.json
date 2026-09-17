@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "bundle": "@fa-admin/agent-skills",
+  "version": "1.0.0",
+  "managedSkills": [
+    "fa-admin-backend",
+    "fa-admin-frontend"
+  ]
+}
