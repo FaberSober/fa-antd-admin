@@ -41,6 +41,15 @@ dark
    3. 如果遇到`canvas: Running install script...`执行很久的情况，可以使用安装命令：`pnpm i --ignore-scripts`
    4. 启动项目：`pnpm dev`
 
+### 安装同步.agents/skills
+```
+# FA Admin Skills
+pnpm dlx @fa-admin/agent-skills@latest sync
+
+# UI/UX Pro Max
+pnpm dlx ui-ux-pro-max-cli@latest init --ai universal
+```
+
 ## 打包部署
 
 1. 在项目根目录下执行：`mvn clean package "-Dmaven.test.skip=true" -Pfrontend`

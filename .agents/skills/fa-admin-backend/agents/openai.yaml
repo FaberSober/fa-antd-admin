@@ -1,4 +1,0 @@
-interface:
-  display_name: "FA Admin Backend"
-  short_description: "FA Admin 后端开发、数据访问、集成与部署规范"
-  default_prompt: "Use $fa-admin-backend to implement or maintain a repository backend task with the matching project conventions."

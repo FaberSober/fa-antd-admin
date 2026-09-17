@@ -1,4 +1,0 @@
-interface:
-  display_name: "FA Admin Frontend"
-  short_description: "FA Admin React 页面、组件、样式与工具链规范"
-  default_prompt: "Use $fa-admin-frontend to implement or maintain a repository frontend task with the matching React and @fa/ui conventions."
