@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import { MOBILE_PAGE_ROUTES } from '../feature';
+import { useAuthStore } from '../stores/auth';
+import { useTenantStore } from '../stores/tenant';
 import MobileIcon from './MobileIcon.vue';
+import TenantWorkspaceSwitcher from './TenantWorkspaceSwitcher.vue';
 
 const props = withDefaults(defineProps<{
   title?: string;
@@ -19,10 +23,13 @@ const props = withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-  (event: 'tenant-click'): void;
   (event: 'notification-click'): void;
 }>();
 
+const authStore = useAuthStore();
+const tenantStore = useTenantStore();
+const tenantSwitcherRef = ref<{ open: () => void } | null>(null);
+const switchingTenantId = ref<string | null>(null);
 const displayTenantName = computed(() => props.tenantName?.trim() || '当前工作空间');
 const displayRole = computed(() => props.role?.trim() || '当前用户');
 const displayTenantMark = computed(() => (
@@ -34,36 +41,75 @@ const notificationBadge = computed(() => {
   return count > 99 ? '99+' : String(count);
 });
 const hasNotificationBadge = computed(() => (props.notificationCount || 0) > 0);
+
+function openTenantSwitcher(): void {
+  tenantSwitcherRef.value?.open();
+}
+
+function reloadTenants(): void {
+  if (authStore.user) void tenantStore.loadForUser(authStore.user.id);
+}
+
+function switchTenant(tenantId: string): void {
+  const userId = authStore.user?.id;
+  if (!userId) return;
+
+  switchingTenantId.value = tenantId;
+  if (!tenantStore.switchTenant(userId, tenantId)) {
+    switchingTenantId.value = null;
+    return;
+  }
+  uni.reLaunch({ url: MOBILE_PAGE_ROUTES.workbench });
+}
 </script>
 
 <template>
-  <view class="mobile-header">
-    <view class="mobile-header__tenant" @click="emit('tenant-click')">
-      <view class="mobile-header__mark">
-        <text>{{ displayTenantMark }}</text>
+  <view class="mobile-header-container">
+    <view class="mobile-header">
+      <view class="mobile-header__tenant" @click="openTenantSwitcher">
+        <view class="mobile-header__mark">
+          <text>{{ displayTenantMark }}</text>
+        </view>
+        <view class="mobile-header__tenant-copy">
+          <text class="mobile-header__tenant-name">{{ displayTenantName }}</text>
+          <text class="mobile-header__role">{{ displayRole }}</text>
+        </view>
+        <MobileIcon name="chevron-right" :size="32" class="mobile-header__chevron" />
       </view>
-      <view class="mobile-header__tenant-copy">
-        <text class="mobile-header__tenant-name">{{ displayTenantName }}</text>
-        <text class="mobile-header__role">{{ displayRole }}</text>
+
+      <view class="mobile-header__actions">
+        <text v-if="displayTitle" class="mobile-header__title">{{ displayTitle }}</text>
+        <view
+          v-if="props.showNotification"
+          class="mobile-header__notification"
+          @click="emit('notification-click')"
+        >
+          <MobileIcon name="bell" :size="48" />
+          <text v-if="hasNotificationBadge" class="mobile-header__badge">{{ notificationBadge }}</text>
+        </view>
       </view>
-      <MobileIcon name="chevron-right" :size="32" class="mobile-header__chevron" />
     </view>
 
-    <view class="mobile-header__actions">
-      <text v-if="displayTitle" class="mobile-header__title">{{ displayTitle }}</text>
-      <view
-        v-if="props.showNotification"
-        class="mobile-header__notification"
-        @click="emit('notification-click')"
-      >
-        <MobileIcon name="bell" :size="48" />
-        <text v-if="hasNotificationBadge" class="mobile-header__badge">{{ notificationBadge }}</text>
-      </view>
-    </view>
+    <TenantWorkspaceSwitcher
+      v-if="authStore.user"
+      ref="tenantSwitcherRef"
+      :workspaces="tenantStore.workspaces"
+      :current-workspace="tenantStore.currentWorkspace"
+      :loading="tenantStore.loading"
+      :error-message="tenantStore.errorMessage"
+      :switching-tenant-id="switchingTenantId"
+      @select="switchTenant"
+      @refresh="reloadTenants"
+    />
   </view>
 </template>
 
 <style scoped>
+.mobile-header-container {
+  display: block;
+  flex: 0 0 auto;
+}
+
 .mobile-header {
   display: flex;
   align-items: center;

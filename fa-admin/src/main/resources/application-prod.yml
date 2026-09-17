@@ -49,6 +49,17 @@ logging:
     tracer: trace
 
 fa:
+  license:
+    enabled: false
+    mode: ${FA_LICENSE_MODE:online}
+    license-file: ${FA_LICENSE_FILE:./config/license.lic}
+    server-url: ${FA_LICENSE_SERVER_URL:}
+    license-key: ${FA_LICENSE_KEY:}
+    product: ${FA_LICENSE_PRODUCT:fa-admin}
+    client-version: ${FA_LICENSE_CLIENT_VERSION:unknown}
+    cache-file: ${FA_LICENSE_CACHE_FILE:./config/license-cache.lic}
+    refresh-interval-seconds: ${FA_LICENSE_REFRESH_INTERVAL_SECONDS:3600}
+    public-key: ${FA_LICENSE_PUBLIC_KEY:}
   setting:
     url:
       phpRedisAdmin: ${phpRedisAdmin:http://127.0.0.1:8090}
@@ -59,3 +70,8 @@ fa:
       onlyofficeServer: ${onlyofficeServer:http://127.0.0.1:8092/}
       # 本服务提供给onlyoffice回调的服务器地址
       callbackServer: ${callbackServer:http://127.0.0.1:80/}
+
+license-center:
+  private-key-file: ${LICENSE_CENTER_PRIVATE_KEY_FILE:}
+  online-license-ttl-seconds: ${LICENSE_CENTER_ONLINE_LICENSE_TTL_SECONDS:259200}
+  grace-period-seconds: ${LICENSE_CENTER_GRACE_PERIOD_SECONDS:259200}

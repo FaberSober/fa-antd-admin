@@ -25,6 +25,7 @@ const MINE_SETTINGS: readonly MineSetting[] = [
 
 const authStore = useAuthStore();
 const tenantStore = useTenantStore();
+const showDemoEntry = import.meta.env.DEV;
 const logoutLoading = ref(false);
 const profileLoading = ref(true);
 const errorMessage = ref('');
@@ -39,6 +40,10 @@ const profileName = computed(() => authStore.user?.name?.trim() || authStore.use
 const profileEmail = computed(() => authStore.user?.email?.trim() || authStore.user?.username?.trim() || '-');
 const profileTenant = computed(() => tenantStore.currentWorkspace?.tenantName?.trim() || '暂无工作空间');
 const profileMark = computed(() => profileName.value.slice(0, 1) || '?');
+
+function openDemo(): void {
+  uni.navigateTo({ url: '/features/fa-demo-mobile/pages/home/index' });
+}
 
 async function loadProfile(): Promise<void> {
   profileLoading.value = true;
@@ -131,6 +136,17 @@ onShow(() => {
             <MobileIcon :name="setting.icon" :size="44" class="settings-row__icon" />
             <text class="settings-row__label">{{ setting.label }}</text>
             <MobileIcon name="chevron-right" :size="36" class="settings-row__arrow" />
+          </view>
+        </view>
+
+        <view v-if="showDemoEntry" class="demo-entry fa-card" @click="openDemo">
+          <view class="demo-entry__copy">
+            <text class="demo-entry__title">移动端 Demo</text>
+            <text class="demo-entry__description">查看移动端组件和交互示例</text>
+          </view>
+          <view class="demo-entry__action">
+            <text>进入 Demo</text>
+            <MobileIcon name="arrow-right" :size="32" />
           </view>
         </view>
 
@@ -269,6 +285,51 @@ onShow(() => {
   color: var(--fa-color-text);
   font-size: 30rpx;
   line-height: 42rpx;
+}
+
+.demo-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+  margin-top: 32rpx;
+  padding: 28rpx;
+}
+
+.demo-entry__copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.demo-entry__title,
+.demo-entry__description {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.demo-entry__title {
+  color: var(--fa-color-text);
+  font-size: 30rpx;
+  font-weight: 700;
+  line-height: 42rpx;
+}
+
+.demo-entry__description {
+  margin-top: 4rpx;
+  color: var(--fa-color-muted);
+  font-size: 24rpx;
+  line-height: 34rpx;
+}
+
+.demo-entry__action {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 4rpx;
+  color: var(--fa-color-primary);
+  font-size: 24rpx;
 }
 
 .logout-button {

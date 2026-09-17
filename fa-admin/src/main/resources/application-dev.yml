@@ -50,6 +50,19 @@ logging:
     tracer: trace
 
 fa:
+  license:
+    enabled: false
+    mode: online
+    # 不要带结尾斜杠，客户端会自动拼接 /api/v1/license/validate
+    server-url: ${FA_LICENSE_SERVER_URL:https://fa.ai.dward.cn}
+    license-key: ${FA_LICENSE_KEY:}
+    product: ${FA_LICENSE_PRODUCT:fa-ai-admin}
+    client-version: ${FA_LICENSE_CLIENT_VERSION:1.0.0}
+    # 目录必须存在或可由进程创建，并且需要持久化
+    cache-file: ${FA_LICENSE_CACHE_FILE:./config/license-cache.lic}
+    refresh-interval-seconds: ${FA_LICENSE_REFRESH_INTERVAL_SECONDS:3600}
+    # 填写授权中心私钥对应的 PUBLIC KEY
+    public-key: ${FA_LICENSE_PUBLIC_KEY:/Users/test/code/my/fa-ai/fa-ai-admin/config/license/public-key.pem}
   setting:
     url:
       phpRedisAdmin: ${phpRedisAdmin:http://127.0.0.1:8090}
@@ -60,3 +73,8 @@ fa:
       onlyofficeServer: ${onlyofficeServer:http://127.0.0.1:8092/}
       # 本服务提供给onlyoffice回调的服务器地址
       callbackServer: ${callbackServer:http://127.0.0.1:80/}
+
+license-center:
+  private-key-file: ${LICENSE_CENTER_PRIVATE_KEY_FILE:}
+  online-license-ttl-seconds: ${LICENSE_CENTER_ONLINE_LICENSE_TTL_SECONDS:259200}
+  grace-period-seconds: ${LICENSE_CENTER_GRACE_PERIOD_SECONDS:259200}

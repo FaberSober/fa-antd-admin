@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { MOBILE_TAB_ROUTES } from '../feature';
+import { useMessageStore } from '../stores/message';
 import type { MobileTabKey } from '../feature';
 import MobileHeader from './MobileHeader.vue';
 import MobileTabBar from './MobileTabBar.vue';
@@ -26,8 +28,17 @@ const props = withDefaults(defineProps<{
   showTabBar: true,
 });
 
+const messageStore = useMessageStore();
+const effectiveNotificationCount = computed(() => Math.max(
+  props.notificationCount,
+  messageStore.unreadCount,
+));
+const effectiveUnreadCount = computed(() => Math.max(
+  props.unreadCount,
+  messageStore.unreadCount,
+));
+
 const emit = defineEmits<{
-  (event: 'tenant-click'): void;
   (event: 'notification-click'): void;
   (event: 'tab-change', tab: MobileTabKey): void;
 }>();
@@ -46,8 +57,7 @@ function handleTabChange(tab: MobileTabKey): void {
       :tenant-name="props.tenantName"
       :tenant-mark="props.tenantMark"
       :role="props.tenantRole"
-      :notification-count="props.notificationCount"
-      @tenant-click="emit('tenant-click')"
+      :notification-count="effectiveNotificationCount"
       @notification-click="emit('notification-click')"
     />
 
@@ -58,7 +68,7 @@ function handleTabChange(tab: MobileTabKey): void {
     <MobileTabBar
       v-if="props.showTabBar"
       :active-tab="props.activeTab"
-      :unread-count="props.unreadCount"
+      :unread-count="effectiveUnreadCount"
       @change="handleTabChange"
     />
   </view>

@@ -6,6 +6,7 @@ import MobileIcon from '../../components/MobileIcon.vue';
 import MobileShell from '../../components/MobileShell.vue';
 import { MOBILE_PAGE_ROUTES } from '../../feature';
 import { useAuthStore } from '../../stores/auth';
+import { useMessageStore } from '../../stores/message';
 import { useTenantStore } from '../../stores/tenant';
 import type { MobileIconName } from '../../types/mobileIcon';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
@@ -71,6 +72,7 @@ const MESSAGE_FIXTURES: readonly MobileMessage[] = import.meta.env.DEV
   : [];
 
 const authStore = useAuthStore();
+const messageStore = useMessageStore();
 const tenantStore = useTenantStore();
 const activeFilter = ref<MessageFilter>('all');
 const messages = ref<MobileMessage[]>([]);
@@ -96,6 +98,7 @@ function loadMessages(): void {
   errorMessage.value = '';
   try {
     messages.value = MESSAGE_FIXTURES.map((message) => ({ ...message }));
+    messageStore.setUnreadCount(unreadMessageCount.value);
   } catch (error) {
     errorMessage.value = error instanceof Error && error.message ? error.message : '消息加载失败';
   } finally {
@@ -105,6 +108,7 @@ function loadMessages(): void {
 
 function selectMessage(message: MobileMessage): void {
   message.read = true;
+  messageStore.setUnreadCount(unreadMessageCount.value);
 }
 
 onShow(() => {

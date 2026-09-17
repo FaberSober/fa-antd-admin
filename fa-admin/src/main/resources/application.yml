@@ -270,6 +270,19 @@ fa:
       threadNamePrefix: my-fa-thread-
       waitForJobsToCompleteOnShutdown: true
       awaitTerminationSeconds: 60
+  license:
+    enabled: false
+    mode: online
+    # 不要带结尾斜杠，客户端会自动拼接 /api/v1/license/validate
+    server-url: ${FA_LICENSE_SERVER_URL:}
+    license-key: ${FA_LICENSE_KEY:}
+    product: ${FA_LICENSE_PRODUCT:fa-admin}
+    client-version: ${FA_LICENSE_CLIENT_VERSION:unknown}
+    # 目录必须存在或可由进程创建，并且需要持久化
+    cache-file: ${FA_LICENSE_CACHE_FILE:./config/license-cache.lic}
+    refresh-interval-seconds: ${FA_LICENSE_REFRESH_INTERVAL_SECONDS:3600}
+    # 填写授权中心私钥对应的 PUBLIC KEY
+    public-key: ${FA_LICENSE_PUBLIC_KEY:}
 
 # --------------------------------------------- 短信模板-阿里云 ---------------------------------------------
 aliyun:

@@ -43,7 +43,10 @@ const iconStyle = computed(() => ({
     <view v-else-if="props.name === 'close'" class="mobile-icon__shape mobile-icon__shape--close" />
     <view v-else-if="props.name === 'messages'" class="mobile-icon__shape mobile-icon__shape--messages" />
     <view v-else-if="props.name === 'home'" class="mobile-icon__shape mobile-icon__shape--home" />
-    <view v-else-if="props.name === 'contacts'" class="mobile-icon__shape mobile-icon__shape--contacts" />
+    <view v-else-if="props.name === 'contacts'" class="mobile-icon__shape mobile-icon__shape--contacts">
+      <view class="mobile-icon__contact-person mobile-icon__contact-person--primary" />
+      <view class="mobile-icon__contact-person mobile-icon__contact-person--secondary" />
+    </view>
     <view v-else-if="props.name === 'mine'" class="mobile-icon__shape mobile-icon__shape--mine" />
     <view v-else-if="props.name === 'organization'" class="mobile-icon__shape mobile-icon__shape--organization">
       <view class="mobile-icon__organization-node mobile-icon__organization-node--root" />
@@ -190,47 +193,45 @@ const iconStyle = computed(() => ({
 }
 
 .mobile-icon__shape--messages {
-  top: 17%;
-  left: 12%;
-  width: 70%;
-  height: 58%;
+  top: 16%;
+  left: 11%;
+  width: 76%;
+  height: 62%;
   box-sizing: border-box;
   border: 3rpx solid currentColor;
-  border-radius: 30% 30% 30% 18%;
+  border-radius: 28% 28% 28% 22%;
 }
 
 .mobile-icon__shape--messages::after {
   position: absolute;
-  bottom: -17%;
-  left: 14%;
-  width: 24%;
-  height: 24%;
+  bottom: -15%;
+  left: 12%;
+  width: 22%;
+  height: 22%;
   box-sizing: border-box;
   border-bottom: 3rpx solid currentColor;
   border-left: 3rpx solid currentColor;
   background: var(--fa-color-card);
   content: '';
-  transform: skewY(-35deg);
+  transform: skewY(-32deg);
+}
+
+.mobile-icon__shape--home {
+  top: 37%;
+  left: 17%;
+  width: 66%;
+  height: 48%;
+  box-sizing: border-box;
+  border: 3rpx solid currentColor;
+  border-radius: 6rpx;
 }
 
 .mobile-icon__shape--home::before {
   position: absolute;
-  top: 35%;
-  left: 22%;
-  width: 56%;
-  height: 43%;
-  box-sizing: border-box;
-  border: 3rpx solid currentColor;
-  border-radius: 8rpx;
-  content: '';
-}
-
-.mobile-icon__shape--home::after {
-  position: absolute;
-  top: 15%;
-  left: 26%;
-  width: 48%;
-  height: 48%;
+  top: -43%;
+  left: 15%;
+  width: 57%;
+  height: 57%;
   box-sizing: border-box;
   border-top: 3rpx solid currentColor;
   border-left: 3rpx solid currentColor;
@@ -238,7 +239,18 @@ const iconStyle = computed(() => ({
   transform: rotate(45deg);
 }
 
-.mobile-icon__shape--home,
+.mobile-icon__shape--home::after {
+  position: absolute;
+  bottom: 0;
+  left: 38%;
+  width: 24%;
+  height: 48%;
+  border: 3rpx solid currentColor;
+  border-bottom: 0;
+  border-radius: 5rpx 5rpx 0 0;
+  content: '';
+}
+
 .mobile-icon__shape--contacts,
 .mobile-icon__shape--mine {
   top: 0;
@@ -247,24 +259,50 @@ const iconStyle = computed(() => ({
   height: 100%;
 }
 
-.mobile-icon__shape--contacts::before {
+.mobile-icon__contact-person {
   position: absolute;
-  top: 17%;
-  left: 18%;
-  width: 27%;
-  height: 27%;
+  box-sizing: border-box;
+}
+
+.mobile-icon__contact-person--primary {
+  z-index: 2;
+  top: 11%;
+  left: 19%;
+  width: 34%;
+  height: 34%;
   border: 3rpx solid currentColor;
   border-radius: 50%;
-  box-shadow: 25rpx 5rpx 0 -1rpx var(--fa-color-page), 25rpx 5rpx 0 2rpx currentColor;
+}
+
+.mobile-icon__contact-person--primary::after {
+  position: absolute;
+  top: 90%;
+  left: -26%;
+  width: 139%;
+  height: 125%;
+  box-sizing: border-box;
+  border: 3rpx solid currentColor;
+  border-bottom: 0;
+  border-radius: 50% 50% 0 0;
   content: '';
 }
 
-.mobile-icon__shape--contacts::after {
+.mobile-icon__contact-person--secondary {
+  z-index: 1;
+  top: 19%;
+  right: 8%;
+  width: 29%;
+  height: 29%;
+  border: 3rpx solid currentColor;
+  border-radius: 50%;
+}
+
+.mobile-icon__contact-person--secondary::after {
   position: absolute;
-  bottom: 14%;
-  left: 7%;
-  width: 58%;
-  height: 32%;
+  top: 100%;
+  left: -31%;
+  width: 145%;
+  height: 130%;
   box-sizing: border-box;
   border: 3rpx solid currentColor;
   border-bottom: 0;

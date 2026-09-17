@@ -51,6 +51,7 @@ public class WebConfiguration extends BaseWebConfiguration {
         // ---------------------- Admin管理平台接口（适用于基础账户base_user登录） ----------------------
         registry.addInterceptor(new FirstEmptyInterceptor()).addPathPatterns(API_URLS); // 拦截获取request IP
         registry.addInterceptor(SpringUtil.getBean(UserAuthRestInterceptor.class)).addPathPatterns(API_URLS); // 拦截用户token
+        registry.addInterceptor(SpringUtil.getBean(LicenseGuardInterceptor.class)).addPathPatterns(API_URLS); // 拦截未授权业务请求
         registry.addInterceptor(new SaInterceptor()).addPathPatterns(API_URLS); // 注册 Sa-Token 拦截器打开注解鉴权功能
         registry.addInterceptor(SpringUtil.getBean(UserDeviceInterceptor.class)).addPathPatterns(API_URLS); // 拦截APP用户设备信息
         registry.addInterceptor(SpringUtil.getBean(PermissionInterceptor.class)).addPathPatterns(API_URLS); // 拦截用户权限

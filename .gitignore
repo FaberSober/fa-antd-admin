@@ -30,3 +30,4 @@ dist/
 .playwright-cli/
 .playwright-mcp/
 output/
+.build/

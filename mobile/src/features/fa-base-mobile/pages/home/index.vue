@@ -10,7 +10,6 @@ import MobileIcon from '../../components/MobileIcon.vue';
 import MobileSearchField from '../../components/MobileSearchField.vue';
 import MobileSectionHeader from '../../components/MobileSectionHeader.vue';
 import MobileShell from '../../components/MobileShell.vue';
-import TenantWorkspaceSwitcher from '../../components/TenantWorkspaceSwitcher.vue';
 import { useTenantStore } from '../../stores/tenant';
 import type { MobileIconName } from '../../types/mobileIcon';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
@@ -58,8 +57,6 @@ const authStore = useAuthStore();
 const tenantStore = useTenantStore();
 const errorMessage = ref('');
 const searchQuery = ref('');
-const tenantSwitcherRef = ref<{ open: () => void } | null>(null);
-const switchingTenantId = ref<string | null>(null);
 let updateCheckStarted = false;
 
 const tenantRole = computed(() => {
@@ -105,27 +102,8 @@ async function loadUser(): Promise<void> {
   }
 }
 
-function reloadTenants(): void {
-  if (authStore.user) void tenantStore.loadForUser(authStore.user.id);
-}
-
-function openTenantSwitcher(): void {
-  tenantSwitcherRef.value?.open();
-}
-
 function openMessages(): void {
   uni.reLaunch({ url: MOBILE_PAGE_ROUTES.messages });
-}
-
-function switchTenant(tenantId: string): void {
-  const userId = authStore.user?.id;
-  if (!userId) return;
-  switchingTenantId.value = tenantId;
-  if (!tenantStore.switchTenant(userId, tenantId)) {
-    switchingTenantId.value = null;
-    return;
-  }
-  uni.reLaunch({ url: MOBILE_PAGE_ROUTES.workbench });
 }
 
 function showFeatureMessage(feature: QuickFeature): void {
@@ -145,26 +123,14 @@ onShow(() => {
 <template>
   <MobileShell
     active-tab="workbench"
+    title="工作台"
     :tenant-name="tenantStore.currentWorkspace?.tenantName"
     :tenant-role="tenantRole"
     :notification-count="unreadCount"
     :unread-count="unreadCount"
-    @tenant-click="openTenantSwitcher"
     @notification-click="openMessages"
   >
     <view class="home-page">
-      <TenantWorkspaceSwitcher
-        v-if="authStore.user"
-        ref="tenantSwitcherRef"
-        :workspaces="tenantStore.workspaces"
-        :current-workspace="tenantStore.currentWorkspace"
-        :loading="tenantStore.loading"
-        :error-message="tenantStore.errorMessage"
-        :switching-tenant-id="switchingTenantId"
-        @select="switchTenant"
-        @refresh="reloadTenants"
-      />
-
       <view v-if="authStore.loading" class="state-card fa-card">
         <text class="fa-muted">正在加载用户信息...</text>
       </view>
