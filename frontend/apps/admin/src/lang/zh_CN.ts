@@ -8,6 +8,7 @@ export default {
   'menu.home': '首页',
 
   'menu.account.center': '个人中心',
+  'menu.account.settings': '界面设置',
   'menu.account.logout': '退出登录',
 
   // exception
@@ -51,6 +52,17 @@ export default {
   'menu.account.security': '更新密码',
   'menu.account.api_token': '密钥管理',
   'menu.account.msg': '消息中心',
+
+  // 界面设置
+  'settings.appearance': '外观',
+  'settings.theme.dark': '暗色模式',
+  'settings.theme.dark.description': '使用深色界面主题',
+  'settings.theme.primary': '主题色',
+  'settings.theme.primary.description': '自定义系统强调色',
+  'settings.layout': '布局',
+  'settings.layout.tabs': '显示标签栏',
+  'settings.layout.tabs.description': '保留页面顶部的快速切换标签',
+  'settings.reset': '恢复默认',
 
   // ---------------------------------------------- 首页 ----------------------------------------------
   // 顶部菜单配置

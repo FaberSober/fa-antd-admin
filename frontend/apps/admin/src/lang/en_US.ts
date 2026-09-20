@@ -8,6 +8,7 @@ export default {
   'menu.home': 'Home',
 
   'menu.account.center': 'Account Center',
+  'menu.account.settings': 'Interface settings',
   'menu.account.logout': 'Logout',
 
   // exception
@@ -51,6 +52,17 @@ export default {
   'menu.account.security': 'Password',
   'menu.account.api_token': 'Api Token',
   'menu.account.msg': 'Messages',
+
+  // Interface settings
+  'settings.appearance': 'Appearance',
+  'settings.theme.dark': 'Dark mode',
+  'settings.theme.dark.description': 'Use the dark interface theme',
+  'settings.theme.primary': 'Primary color',
+  'settings.theme.primary.description': 'Customize the system accent color',
+  'settings.layout': 'Layout',
+  'settings.layout.tabs': 'Show tab bar',
+  'settings.layout.tabs.description': 'Keep the quick-switch tabs at the top',
+  'settings.reset': 'Restore defaults',
 
   // ---------------------------------------------- Home ----------------------------------------------
   // 顶部菜单配置
