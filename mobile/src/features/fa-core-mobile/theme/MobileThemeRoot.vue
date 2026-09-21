@@ -1,5 +1,15 @@
+<script setup lang="ts">
+import { useThemeStore } from './index';
+
+const themeStore = useThemeStore();
+</script>
+
 <template>
-  <view class="mobile-theme-root">
+  <view
+    class="mobile-theme-root"
+    :class="`mobile-theme-root--${themeStore.mode}`"
+    :data-theme="themeStore.mode"
+  >
     <slot />
   </view>
 </template>

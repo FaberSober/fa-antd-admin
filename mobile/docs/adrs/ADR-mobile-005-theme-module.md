@@ -4,7 +4,7 @@
 - 日期：2026-09-21
 - 范围：`mobile`、`fa-core-mobile/theme`、`fa-base-mobile` 外观设置
 - 关联：`ADR-mobile-002-ui-app-shell.md`、`ADR-mobile-004-mine-feature.md`
-- 当前进度：已完成主题根节点最小挂载实现及 H5、App、微信小程序验证；其余主题功能待开发
+- 当前进度：已完成主题根节点、主题状态初始化和本地持久化验证；其余主题功能待开发
 
 ## 背景
 
@@ -30,7 +30,7 @@
 | 模块 | 功能 | 功能详情 | 当前规划 | 进度 |
 |---|---|---|---|---|
 | `fa-core-mobile/theme` | 跨端主题挂载验证 | 确认页面根节点 CSS 变量在 H5、App、小程序可继承 | 执行开发 | ✅已完成 |
-| `fa-core-mobile/theme` | 主题状态与持久化 | 支持 `light/dark`，使用 `fa.mobile.theme-mode` 本地保存 | 执行开发 | 🕒待处理 |
+| `fa-core-mobile/theme` | 主题状态与持久化 | 支持 `light/dark`，使用 `fa.mobile.theme-mode` 本地保存 | 执行开发 | ✅已完成 |
 | `fa-core-mobile/theme` | 主题根组件 | 统一提供主题 class、背景和 CSS 变量作用域 | 执行开发 | 🕒待处理 |
 | `mobile` 全局样式 | 亮色/暗色 Token | 补充页面、卡片、文本、边框和状态色 Token | 执行开发 | 🕒待处理 |
 | `fa-base-mobile` 公共页面 | 正式页面主题适配 | 接入 Shell 和独立页面，清理主题相关硬编码颜色 | 执行开发 | 🕒待处理 |
