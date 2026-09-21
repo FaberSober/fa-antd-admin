@@ -1,6 +1,6 @@
 # ADR：mobile 联系人功能开发与体验优化
 
-- 状态：✅已完成
+- 状态：🟡进行中
 - 日期：2026-09-21
 - 范围：`fa-base` Portal 联系人只读接口、`mobile`、`fa-base-mobile`
 
