@@ -35,6 +35,36 @@
   --fa-safe-area-bottom: env(safe-area-inset-bottom, 0px);
 }
 
+.mobile-theme-root--light {
+  color-scheme: light;
+}
+
+.mobile-theme-root--dark {
+  color-scheme: dark;
+  --fa-color-primary: #76aaff;
+  --fa-color-primary-soft: #172b4d;
+  --fa-color-orange: #fbbf24;
+  --fa-color-orange-soft: #422006;
+  --fa-color-purple: #a78bfa;
+  --fa-color-purple-soft: #2e1b5b;
+  --fa-color-green: #4ade80;
+  --fa-color-green-soft: #143c25;
+  --fa-color-danger: #f87171;
+  --fa-color-danger-soft: #451a1a;
+  --fa-color-text: #f2f6fc;
+  --fa-color-text-secondary: #b3bfd1;
+  --fa-color-muted: #8290a6;
+  --fa-color-placeholder: #66758c;
+  --fa-color-page: #0e1420;
+  --fa-color-card: #151d2b;
+  --fa-color-surface-muted: #101927;
+  --fa-color-border: #273347;
+  --fa-color-border-strong: #3a4b66;
+  --fa-color-mask: rgba(0, 0, 0, 0.62);
+  --fa-shadow-card: 0 2rpx 12rpx rgba(0, 0, 0, 0.2);
+  --fa-shadow-elevated: 0 12rpx 32rpx rgba(0, 0, 0, 0.3);
+}
+
 page {
   min-height: 100%;
   color: var(--fa-color-text);
