@@ -62,3 +62,11 @@
 	path = frontend/apps/admin/features/fa-im-pages
 	url = git@github.com:FaberSober/fa-im-pages.git
 	branch = main
+[submodule "fa-doc"]
+	path = fa-doc
+	url = git@github.com:FaberSober/fa-doc.git
+	branch = main
+[submodule "frontend/apps/admin/features/fa-doc-pages"]
+	path = frontend/apps/admin/features/fa-doc-pages
+	url = git@github.com:FaberSober/fa-doc-pages.git
+	branch = main

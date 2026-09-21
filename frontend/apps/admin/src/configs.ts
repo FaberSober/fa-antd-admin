@@ -1,6 +1,7 @@
 import configAdmin from '@features/fa-admin-pages/configs';
 import configDemo from '@features/fa-admin-demo-pages/configs';
 import configApp from '@features/fa-app-pages/configs';
+import configDoc from '@features/fa-doc-pages/configs';
 import configDisk from '@features/fa-disk-pages/configs';
 import configFlow from '@features/fa-flow-pages/configs';
 import configIm from '@features/fa-im-pages/configs';
@@ -42,7 +43,7 @@ const SITE_INFO: SITE_INFO_TYPES = {
   ADMIN_DEFAULT_LAYOUT: [{ h: 3, i: 'HelloBanner', w: 16, x: 0, y: 0, moved: false, static: false }],
 };
 
-const fullConfig: any = merge(configAdmin, configDemo, configDisk, configApp, configFlow, configIm, configMedia);
+const fullConfig: any = merge(configAdmin, configDemo, configDoc, configDisk, configApp, configFlow, configIm, configMedia);
 // console.log('fullConfig', fullConfig)
 
 /** -------------------------------- 网关配置 -------------------------------- */

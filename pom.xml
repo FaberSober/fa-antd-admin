@@ -46,6 +46,7 @@
         <module>fa-core</module>
         <module>fa-base</module>
         <module>fa-demo</module>
+        <module>fa-doc</module>
         <module>fa-disk</module>
         <module>fa-app</module>
         <module>fa-media</module>
