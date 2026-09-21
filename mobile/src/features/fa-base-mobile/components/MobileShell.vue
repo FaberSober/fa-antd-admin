@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { MOBILE_TAB_ROUTES } from '../feature';
 import { useMessageStore } from '../stores/message';
 import type { MobileTabKey } from '../feature';
+import MobileThemeRoot from '@features/fa-core-mobile/theme/MobileThemeRoot.vue';
 import MobileHeader from './MobileHeader.vue';
 import MobileTabBar from './MobileTabBar.vue';
 
@@ -50,28 +51,30 @@ function handleTabChange(tab: MobileTabKey): void {
 </script>
 
 <template>
-  <view class="mobile-shell" :class="{ 'mobile-shell--no-header': !props.showHeader }">
-    <MobileHeader
-      v-if="props.showHeader"
-      :title="props.title"
-      :tenant-name="props.tenantName"
-      :tenant-mark="props.tenantMark"
-      :role="props.tenantRole"
-      :notification-count="effectiveNotificationCount"
-      @notification-click="emit('notification-click')"
-    />
+  <MobileThemeRoot>
+    <view class="mobile-shell" :class="{ 'mobile-shell--no-header': !props.showHeader }">
+      <MobileHeader
+        v-if="props.showHeader"
+        :title="props.title"
+        :tenant-name="props.tenantName"
+        :tenant-mark="props.tenantMark"
+        :role="props.tenantRole"
+        :notification-count="effectiveNotificationCount"
+        @notification-click="emit('notification-click')"
+      />
 
-    <scroll-view scroll-y class="mobile-shell__content">
-      <slot />
-    </scroll-view>
+      <scroll-view scroll-y class="mobile-shell__content">
+        <slot />
+      </scroll-view>
 
-    <MobileTabBar
-      v-if="props.showTabBar"
-      :active-tab="props.activeTab"
-      :unread-count="effectiveUnreadCount"
-      @change="handleTabChange"
-    />
-  </view>
+      <MobileTabBar
+        v-if="props.showTabBar"
+        :active-tab="props.activeTab"
+        :unread-count="effectiveUnreadCount"
+        @change="handleTabChange"
+      />
+    </view>
+  </MobileThemeRoot>
 </template>
 
 <style scoped>
