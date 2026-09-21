@@ -1,4 +1,5 @@
-:root {
+:root,
+.mobile-theme-root {
   --fa-color-primary: #1677ff;
   --fa-color-primary-soft: #eff6ff;
   --fa-color-orange: #f59e0b;
