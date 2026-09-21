@@ -15,7 +15,7 @@ export interface ApiResponse<T> {
 export interface RequestOptions {
   url: string;
   method?: RequestMethod;
-  data?: Record<string, unknown> | string | null;
+  data?: Record<string, unknown> | unknown[] | string | null;
   headers?: Record<string, string>;
   skipTenant?: boolean;
 }

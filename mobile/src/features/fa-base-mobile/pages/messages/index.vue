@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
-import { pageMessages } from '../../api/message';
+import { batchReadMessages, countMessages, pageMessages, readAllMessages } from '../../api/message';
 import { ApiError } from '../../common/request';
 import MobileEmptyState from '../../components/MobileEmptyState.vue';
 import MobileIcon from '../../components/MobileIcon.vue';
 import MobileShell from '../../components/MobileShell.vue';
 import { MOBILE_PAGE_ROUTES } from '../../feature';
 import { useAuthStore } from '../../stores/auth';
+import { useMessageStore } from '../../stores/message';
 import { useTenantStore } from '../../stores/tenant';
 import type { MobileMessage } from '../../types/message';
 import type { MobileIconName } from '../../types/mobileIcon';
@@ -18,11 +19,13 @@ type MessageTone = 'primary' | 'orange' | 'purple' | 'green';
 
 const MESSAGE_PAGE_SIZE = 20;
 const authStore = useAuthStore();
+const messageStore = useMessageStore();
 const tenantStore = useTenantStore();
 const activeFilter = ref<MessageFilter>('all');
 const messages = ref<MobileMessage[]>([]);
 const loading = ref(false);
 const loadingMore = ref(false);
+const readLoading = ref(false);
 const currentPage = ref(1);
 const hasNextPage = ref(false);
 const errorMessage = ref('');
@@ -35,6 +38,7 @@ const tenantRole = computed(() => {
 });
 const unreadCount = computed(() => Math.max(0, tenantStore.currentWorkspace?.unreadCount || 0));
 const filteredMessages = computed(() => messages.value);
+const hasUnreadMessages = computed(() => messageStore.unreadCount > 0 || messages.value.some((message) => !message.isRead));
 
 function messageIcon(message: MobileMessage): MobileIconName {
   return message.type === 2 ? 'clock' : 'bell';
@@ -67,15 +71,24 @@ function messageQuery(): Record<string, unknown> {
   return activeFilter.value === 'unread' ? { isRead: false } : {};
 }
 
+async function refreshUnreadCount(): Promise<void> {
+  try {
+    const statistics = await countMessages();
+    messageStore.setUnreadCount(Number(statistics?.unreadCount) || 0);
+  } catch {
+    // Keep the last known badge when the statistics request fails.
+  }
+}
+
 function selectFilter(filter: MessageFilter): void {
-  if (activeFilter.value === filter || loading.value || loadingMore.value) return;
+  if (activeFilter.value === filter || loading.value || loadingMore.value || readLoading.value) return;
   activeFilter.value = filter;
   messages.value = [];
   void loadMessages();
 }
 
 async function loadMessages(): Promise<void> {
-  if (loading.value || loadingMore.value) return;
+  if (loading.value || loadingMore.value || readLoading.value) return;
 
   const version = ++requestVersion;
   loading.value = true;
@@ -102,6 +115,7 @@ async function loadMessages(): Promise<void> {
     const rows = Array.isArray(page.rows) ? page.rows : [];
     messages.value = rows;
     hasNextPage.value = Boolean(page.pagination?.hasNextPage && rows.length);
+    await refreshUnreadCount();
   } catch (error) {
     if (version === requestVersion) {
       errorMessage.value = error instanceof ApiError ? error.message : '消息加载失败，请稍后重试';
@@ -112,7 +126,7 @@ async function loadMessages(): Promise<void> {
 }
 
 async function loadMoreMessages(): Promise<void> {
-  if (!hasNextPage.value || loading.value || loadingMore.value) return;
+  if (!hasNextPage.value || loading.value || loadingMore.value || readLoading.value) return;
 
   const version = ++requestVersion;
   loadingMore.value = true;
@@ -140,6 +154,63 @@ async function loadMoreMessages(): Promise<void> {
 
 function refreshMessages(): void {
   void loadMessages();
+}
+
+async function markMessageRead(message: MobileMessage): Promise<void> {
+  if (readLoading.value || message.isRead) return;
+
+  readLoading.value = true;
+  errorMessage.value = '';
+  try {
+    await batchReadMessages([message.id]);
+    message.isRead = true;
+    messageStore.setUnreadCount(messageStore.unreadCount - 1);
+    await refreshUnreadCount();
+    if (activeFilter.value === 'unread') {
+      messages.value = messages.value.filter((item) => item.id !== message.id);
+    }
+  } catch (error) {
+    errorMessage.value = error instanceof ApiError ? error.message : '消息已读失败，请稍后重试';
+  } finally {
+    readLoading.value = false;
+  }
+}
+
+function confirmReadAll(): void {
+  if (readLoading.value || !hasUnreadMessages.value) return;
+
+  uni.showModal({
+    title: '全部已读',
+    content: '确认将全部消息标记为已读吗？',
+    confirmText: '全部已读',
+    success: ({ confirm }) => {
+      if (confirm) void markAllMessagesRead();
+    },
+  });
+}
+
+async function markAllMessagesRead(): Promise<void> {
+  if (readLoading.value) return;
+
+  readLoading.value = true;
+  errorMessage.value = '';
+  try {
+    await readAllMessages();
+    messageStore.setUnreadCount(0);
+    if (activeFilter.value === 'unread') {
+      messages.value = [];
+      hasNextPage.value = false;
+    } else {
+      messages.value.forEach((message) => {
+        message.isRead = true;
+      });
+    }
+    await refreshUnreadCount();
+  } catch (error) {
+    errorMessage.value = error instanceof ApiError ? error.message : '全部已读失败，请稍后重试';
+  } finally {
+    readLoading.value = false;
+  }
 }
 
 onBeforeUnmount(() => {
@@ -180,8 +251,13 @@ onShow(() => {
           </view>
         </view>
         <button
+          class="message-read-all"
+          :disabled="readLoading || !hasUnreadMessages"
+          @click="confirmReadAll"
+        >全部已读</button>
+        <button
           class="message-refresh"
-          :disabled="loading || loadingMore"
+          :disabled="loading || loadingMore || readLoading"
           @click="refreshMessages"
         >刷新</button>
       </view>
@@ -205,6 +281,7 @@ onShow(() => {
               `message-row--${messageTone(message)}`,
               { 'is-unread': !message.isRead },
             ]"
+            @click="markMessageRead(message)"
           >
             <view class="message-row__icon">
               <MobileIcon :name="messageIcon(message)" :size="48" />
@@ -262,6 +339,16 @@ onShow(() => {
 
 .message-refresh {
   width: 96rpx;
+  margin: 0;
+  padding: 0;
+  color: var(--fa-color-primary);
+  background: transparent;
+  font-size: 26rpx;
+  line-height: 72rpx;
+}
+
+.message-read-all {
+  width: 132rpx;
   margin: 0;
   padding: 0;
   color: var(--fa-color-primary);
