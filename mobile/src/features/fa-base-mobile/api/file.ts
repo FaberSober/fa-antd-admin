@@ -36,3 +36,8 @@ export function buildH5PreviewUrl(ticket: string): string {
   const separator = baseUrl.includes('?') ? '&' : '?';
   return `${baseUrl}${separator}ticket=${encodeURIComponent(ticket)}`;
 }
+
+export function buildFilePreviewUrl(fileId: string): string {
+  const baseUrl = APP_CONFIG.apiBaseUrl.replace(/\/$/, '');
+  return `${baseUrl}/base/admin/fileSave/getFilePreview/${encodeURIComponent(fileId.trim())}`;
+}
