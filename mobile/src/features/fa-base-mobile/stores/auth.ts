@@ -4,16 +4,25 @@ import { getCurrentUser, login, logout } from '../api/auth';
 import { clearSession, getStoredUser, getToken, saveSession, saveUser } from '../common/session';
 import type { PortalUser } from '../types/auth';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
-import { clearTenantId } from '@features/fa-core-mobile/common/tenant';
+import { useTenantStore } from './tenant';
 
 export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
   const user = ref<PortalUser | null>(getStoredUser());
   const loading = ref(false);
   const isAuthenticated = computed(() => Boolean(getToken()));
+  const tenantStore = useTenantStore();
+  let signOutPromise: Promise<void> | null = null;
+
+  function clearLocalAuthState(): void {
+    clearSession();
+    tenantStore.reset();
+    user.value = null;
+    telemetry.clearUser();
+  }
 
   async function signIn(username: string, password: string): Promise<void> {
     loading.value = true;
-    clearTenantId();
+    tenantStore.reset();
     try {
       const session = await login(username, password);
       saveSession(session.token, session.user);
@@ -40,8 +49,7 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
   async function loadCurrentUser(): Promise<PortalUser | null> {
     if (!getToken()) {
       user.value = null;
-      clearTenantId();
-      telemetry.clearUser();
+      clearLocalAuthState();
       return null;
     }
 
@@ -58,13 +66,20 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
   }
 
   async function signOut(): Promise<void> {
+    if (signOutPromise) return signOutPromise;
+
+    signOutPromise = (async () => {
+      try {
+        if (getToken()) await logout();
+      } finally {
+        clearLocalAuthState();
+      }
+    })();
+
     try {
-      if (getToken()) await logout();
+      await signOutPromise;
     } finally {
-      clearSession();
-      clearTenantId();
-      user.value = null;
-      telemetry.clearUser();
+      signOutPromise = null;
     }
   }
 
