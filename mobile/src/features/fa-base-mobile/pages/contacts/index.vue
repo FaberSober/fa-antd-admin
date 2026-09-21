@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
+import { ApiError } from '../../common/request';
+import { pageContacts } from '../../api/contacts';
 import MobileEmptyState from '../../components/MobileEmptyState.vue';
 import MobileIcon from '../../components/MobileIcon.vue';
 import MobileSearchField from '../../components/MobileSearchField.vue';
@@ -9,33 +11,17 @@ import MobileShell from '../../components/MobileShell.vue';
 import { MOBILE_PAGE_ROUTES } from '../../feature';
 import { useAuthStore } from '../../stores/auth';
 import { useTenantStore } from '../../stores/tenant';
+import type { PortalContactSummary } from '../../types/contacts';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
-
-type ContactTone = 'primary' | 'purple' | 'orange';
-
-interface ContactPreview {
-  id: string;
-  name: string;
-  role: string;
-  department: string;
-  tone: ContactTone;
-}
-
-// 联系人接口尚未确定，开发环境只使用隔离的视觉数据；生产构建展示正式空态。
-const CONTACT_FIXTURES: readonly ContactPreview[] = import.meta.env.DEV
-  ? [
-      { id: 'lin-xiao', name: '林晓', role: '产品负责人', department: '产品部', tone: 'primary' },
-      { id: 'chen-mo', name: '陈默', role: '技术负责人', department: '研发中心', tone: 'purple' },
-      { id: 'su-wan', name: '苏婉', role: '客户成功经理', department: '客户成功部', tone: 'orange' },
-    ]
-  : [];
 
 const authStore = useAuthStore();
 const tenantStore = useTenantStore();
 const searchQuery = ref('');
-const contacts = ref<ContactPreview[]>([]);
+const contacts = ref<PortalContactSummary[]>([]);
 const loading = ref(false);
 const errorMessage = ref('');
+let requestVersion = 0;
+let searchTimer: ReturnType<typeof setTimeout> | null = null;
 
 const tenantRole = computed(() => {
   const workspace = tenantStore.currentWorkspace;
@@ -43,39 +29,73 @@ const tenantRole = computed(() => {
   return workspace.isAdmin || authStore.user?.adminEnabled ? '管理员' : '成员';
 });
 const unreadCount = computed(() => Math.max(0, tenantStore.currentWorkspace?.unreadCount || 0));
-const normalizedSearchQuery = computed(() => searchQuery.value.trim().toLocaleLowerCase());
-const filteredContacts = computed(() => {
-  const keyword = normalizedSearchQuery.value;
-  if (!keyword) return contacts.value;
-  return contacts.value.filter((contact) => (
-    [contact.name, contact.role, contact.department]
-      .some((value) => value.toLocaleLowerCase().includes(keyword))
-  ));
-});
+const normalizedSearchQuery = computed(() => searchQuery.value.trim());
+const hasSearch = computed(() => Boolean(normalizedSearchQuery.value));
+const sectionTitle = computed(() => (hasSearch.value ? '搜索结果' : '联系人'));
 
-function loadContacts(): void {
+function contactSubtitle(contact: PortalContactSummary): string {
+  return [contact.roleNames?.trim(), contact.departmentName?.trim()]
+    .filter(Boolean)
+    .join(' · ') || '暂无部门信息';
+}
+
+function contactTone(index: number): 'primary' | 'purple' | 'orange' {
+  return ['primary', 'purple', 'orange'][index % 3] as 'primary' | 'purple' | 'orange';
+}
+
+function contactMark(contact: PortalContactSummary): string {
+  return contact.name?.slice(0, 1) || '?';
+}
+
+async function loadContacts(): Promise<void> {
+  const version = ++requestVersion;
   loading.value = true;
   errorMessage.value = '';
   try {
-    contacts.value = CONTACT_FIXTURES.map((contact) => ({ ...contact }));
+    const user = authStore.user ?? await authStore.loadCurrentUser();
+    if (version !== requestVersion) return;
+    if (!user) {
+      uni.reLaunch({ url: MOBILE_PAGE_ROUTES.login });
+      return;
+    }
+    if (!tenantStore.currentWorkspace) {
+      await tenantStore.loadForUser(user.id);
+    }
+    if (version !== requestVersion) return;
+
+    const page = await pageContacts({
+      current: 1,
+      pageSize: 20,
+      query: {
+        keyword: normalizedSearchQuery.value || undefined,
+      },
+    });
+    if (version !== requestVersion) return;
+    contacts.value = Array.isArray(page.rows) ? page.rows : [];
   } catch (error) {
-    errorMessage.value = error instanceof Error && error.message ? error.message : '联系人加载失败';
+    if (version !== requestVersion) return;
+    contacts.value = [];
+    errorMessage.value = error instanceof ApiError ? error.message : '联系人加载失败，请稍后重试';
   } finally {
-    loading.value = false;
+    if (version === requestVersion) loading.value = false;
   }
 }
 
-function showContactMessage(title: string): void {
-  uni.showToast({ title: `${title}功能即将开放`, icon: 'none' });
-}
+watch(searchQuery, () => {
+  if (searchTimer) clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    void loadContacts();
+  }, 300);
+});
 
-function showAllContacts(): void {
-  showContactMessage('全部联系人');
-}
+onBeforeUnmount(() => {
+  if (searchTimer) clearTimeout(searchTimer);
+  requestVersion += 1;
+});
 
 onShow(() => {
   telemetry.page(MOBILE_PAGE_ROUTES.contacts);
-  loadContacts();
+  void loadContacts();
 });
 </script>
 
@@ -104,7 +124,7 @@ onShow(() => {
         <view class="directory-section">
           <MobileSectionHeader title="组织与联系人" />
           <view class="directory-card fa-card">
-            <view class="directory-entry" @click="showContactMessage('组织架构')">
+            <view class="directory-entry">
               <view class="directory-entry__icon directory-entry__icon--primary">
                 <MobileIcon name="organization" :size="48" />
               </view>
@@ -114,7 +134,7 @@ onShow(() => {
               </view>
               <MobileIcon name="chevron-right" :size="36" class="directory-entry__arrow" />
             </view>
-            <view class="directory-entry" @click="showContactMessage('我的联系人')">
+            <view class="directory-entry">
               <view class="directory-entry__icon directory-entry__icon--purple">
                 <MobileIcon name="contacts" :size="48" />
               </view>
@@ -128,23 +148,22 @@ onShow(() => {
         </view>
 
         <view class="recent-section">
-          <MobileSectionHeader title="最近联系人" action-text="全部" @action="showAllContacts" />
-          <view v-if="filteredContacts.length" class="contact-list">
+          <MobileSectionHeader :title="sectionTitle" />
+          <view v-if="contacts.length" class="contact-list">
             <view
-              v-for="contact in filteredContacts"
+              v-for="(contact, index) in contacts"
               :key="contact.id"
               class="contact-row"
-              @click="showContactMessage(contact.name)"
             >
               <view
                 class="contact-row__avatar"
-                :class="`contact-row__avatar--${contact.tone}`"
+                :class="`contact-row__avatar--${contactTone(index)}`"
               >
-                {{ contact.name.slice(0, 1) }}
+                {{ contactMark(contact) }}
               </view>
               <view class="contact-row__copy">
                 <view class="contact-row__name">{{ contact.name }}</view>
-                <view class="contact-row__description">{{ contact.role }} · {{ contact.department }}</view>
+                <view class="contact-row__description">{{ contactSubtitle(contact) }}</view>
               </view>
               <MobileIcon name="chevron-right" :size="36" class="contact-row__arrow" />
             </view>
@@ -152,8 +171,8 @@ onShow(() => {
           <MobileEmptyState
             v-else
             icon="contacts"
-            :title="searchQuery ? '没有找到匹配联系人' : '暂无联系人'"
-            :description="searchQuery ? '尝试搜索其他关键词' : '联系人数据接入后将在这里展示'"
+            :title="hasSearch ? '没有找到匹配联系人' : '暂无联系人'"
+            :description="hasSearch ? '尝试搜索其他关键词' : '当前租户暂无可用联系人'"
           />
         </view>
       </template>
@@ -196,9 +215,11 @@ onShow(() => {
 .contacts-state__retry {
   width: 240rpx;
   margin: 0 auto;
+  min-height: var(--fa-size-touch);
   color: var(--fa-color-primary);
   background: var(--fa-color-primary-soft);
   font-size: 26rpx;
+  line-height: var(--fa-size-touch);
 }
 
 .directory-card {
