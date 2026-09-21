@@ -73,7 +73,7 @@ GET  /api/portal/contacts/users/{userId}
 | fa-base Portal | 部门树接口 | 返回当前租户部门树、成员数和子节点信息 | 执行开发 | ✅已完成 |
 | fa-base Portal | 联系人分页接口 | 按部门和关键词查询有效成员，返回最小摘要字段 | 执行开发 | ✅已完成 |
 | fa-base Portal | 联系人详情接口 | 校验当前租户后返回详情和可展示联系方式 | 执行开发 | ✅已完成 |
-| fa-base-mobile | 联系人 API 与类型 | 新增 `api/contacts.ts`、联系人请求和响应类型 | 执行开发 | 🕒待处理 |
+| fa-base-mobile | 联系人 API 与类型 | 新增 `api/contacts.ts`、联系人请求和响应类型 | 执行开发 | ✅已完成 |
 | fa-base-mobile | 首页真实数据接入 | 移除页面 fixture，接入搜索、加载、空态、失败和重试 | 执行开发 | 🕒待处理 |
 | fa-base-mobile | 组织架构目录 | 新增部门逐级浏览、成员列表、返回和面包屑 | 执行开发 | 🕒待处理 |
 | fa-base-mobile | 联系人详情 | 展示头像、姓名、部门、角色/工作状态和联系方式操作 | 执行开发 | 🕒待处理 |
