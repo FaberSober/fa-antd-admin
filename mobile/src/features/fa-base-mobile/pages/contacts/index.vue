@@ -44,7 +44,7 @@ const visibleContacts = computed(() => {
 });
 
 function contactSubtitle(contact: PortalContactSummary): string {
-  return [contact.roleNames?.trim(), contact.departmentName?.trim()]
+  return [contact.username?.trim(), contact.departmentName?.trim()]
     .filter(Boolean)
     .join(' · ') || '暂无部门信息';
 }
