@@ -14,13 +14,14 @@ interface MineSetting {
   id: string;
   label: string;
   icon: MobileIconName;
+  route: string;
 }
 
 const MINE_SETTINGS: readonly MineSetting[] = [
-  { id: 'account', label: '账号与安全', icon: 'organization' },
-  { id: 'notification', label: '通知设置', icon: 'bell' },
-  { id: 'appearance', label: '外观设置', icon: 'grid' },
-  { id: 'about', label: '关于 Fa Mobile', icon: 'question' },
+  { id: 'account', label: '账号与安全', icon: 'organization', route: MOBILE_PAGE_ROUTES.mineSecurity },
+  { id: 'notification', label: '消息中心', icon: 'bell', route: MOBILE_PAGE_ROUTES.messages },
+  { id: 'appearance', label: '外观设置', icon: 'grid', route: MOBILE_PAGE_ROUTES.mineAppearance },
+  { id: 'about', label: '关于 Fa Mobile', icon: 'question', route: MOBILE_PAGE_ROUTES.mineAbout },
 ];
 
 const authStore = useAuthStore();
@@ -45,6 +46,14 @@ function openDemo(): void {
   uni.navigateTo({ url: '/features/fa-demo-mobile/pages/home/index' });
 }
 
+function openMinePage(url: string): void {
+  uni.navigateTo({ url });
+}
+
+function openMessages(): void {
+  openMinePage(MOBILE_PAGE_ROUTES.messages);
+}
+
 async function loadProfile(): Promise<void> {
   profileLoading.value = true;
   errorMessage.value = '';
@@ -60,10 +69,6 @@ async function loadProfile(): Promise<void> {
   } finally {
     profileLoading.value = false;
   }
-}
-
-function showSettingMessage(setting: MineSetting): void {
-  uni.showToast({ title: `${setting.label}功能即将开放`, icon: 'none' });
 }
 
 function confirmLogout(): void {
@@ -103,6 +108,7 @@ onShow(() => {
     :tenant-role="tenantRole"
     :notification-count="unreadCount"
     :unread-count="unreadCount"
+    @notification-click="openMessages"
   >
     <view class="mine-page">
       <view v-if="profileLoading" class="mine-state fa-card">
@@ -115,7 +121,7 @@ onShow(() => {
       </view>
 
       <template v-else>
-        <view class="profile-card fa-card" @click="showSettingMessage({ id: 'profile', label: '个人资料', icon: 'mine' })">
+        <view class="profile-card fa-card" @click="openMinePage(MOBILE_PAGE_ROUTES.mineAccount)">
           <view class="profile-card__avatar">{{ profileMark }}</view>
           <view class="profile-card__copy">
             <text class="profile-card__name">{{ profileName }}</text>
@@ -125,13 +131,13 @@ onShow(() => {
           <MobileIcon name="chevron-right" :size="36" class="profile-card__arrow" />
         </view>
 
-        <text class="mine-section-title">工作空间</text>
+        <text class="mine-section-title">设置</text>
         <view class="settings-card fa-card">
           <view
             v-for="setting in MINE_SETTINGS"
             :key="setting.id"
             class="settings-row"
-            @click="showSettingMessage(setting)"
+            @click="openMinePage(setting.route)"
           >
             <MobileIcon :name="setting.icon" :size="44" class="settings-row__icon" />
             <text class="settings-row__label">{{ setting.label }}</text>

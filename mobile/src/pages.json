@@ -44,6 +44,42 @@
       }
     },
     {
+      "path": "features/fa-base-mobile/pages/mine/account/index",
+      "style": {
+        "navigationBarTitleText": "个人资料",
+        "navigationStyle": "default",
+        "navigationBarBackgroundColor": "#f5f7fb",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "features/fa-base-mobile/pages/mine/security/index",
+      "style": {
+        "navigationBarTitleText": "账号与安全",
+        "navigationStyle": "default",
+        "navigationBarBackgroundColor": "#f5f7fb",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "features/fa-base-mobile/pages/mine/appearance/index",
+      "style": {
+        "navigationBarTitleText": "外观设置",
+        "navigationStyle": "default",
+        "navigationBarBackgroundColor": "#f5f7fb",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "features/fa-base-mobile/pages/mine/about/index",
+      "style": {
+        "navigationBarTitleText": "关于 Fa Mobile",
+        "navigationStyle": "default",
+        "navigationBarBackgroundColor": "#f5f7fb",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
       "path": "features/fa-base-mobile/pages/file-preview/index",
       "style": {
         "navigationBarTitleText": "文件预览",
