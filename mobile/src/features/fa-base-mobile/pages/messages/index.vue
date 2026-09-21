@@ -1,83 +1,32 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onBeforeUnmount, ref } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
+import { pageMessages } from '../../api/message';
+import { ApiError } from '../../common/request';
 import MobileEmptyState from '../../components/MobileEmptyState.vue';
 import MobileIcon from '../../components/MobileIcon.vue';
 import MobileShell from '../../components/MobileShell.vue';
 import { MOBILE_PAGE_ROUTES } from '../../feature';
 import { useAuthStore } from '../../stores/auth';
-import { useMessageStore } from '../../stores/message';
 import { useTenantStore } from '../../stores/tenant';
+import type { MobileMessage } from '../../types/message';
 import type { MobileIconName } from '../../types/mobileIcon';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
 
 type MessageFilter = 'all' | 'unread';
 type MessageTone = 'primary' | 'orange' | 'purple' | 'green';
 
-interface MobileMessage {
-  id: string;
-  title: string;
-  summary: string;
-  category: string;
-  time: string;
-  icon: MobileIconName;
-  tone: MessageTone;
-  read: boolean;
-}
-
-// 消息接口尚未确定，开发环境只使用隔离的视觉数据；生产构建展示正式空态。
-const MESSAGE_FIXTURES: readonly MobileMessage[] = import.meta.env.DEV
-  ? [
-      {
-        id: 'welcome',
-        title: '欢迎使用 Fa Mobile',
-        summary: '你的企业工作空间已经准备就绪',
-        category: '系统消息',
-        time: '刚刚',
-        icon: 'lightning',
-        tone: 'primary',
-        read: false,
-      },
-      {
-        id: 'todo-reminder',
-        title: '本周待办事项提醒',
-        summary: '你有 3 项待办事项即将到期',
-        category: '工作提醒',
-        time: '10:24',
-        icon: 'clock',
-        tone: 'orange',
-        read: false,
-      },
-      {
-        id: 'organization-update',
-        title: '组织架构更新',
-        summary: '管理员更新了部门和成员信息',
-        category: '租户通知',
-        time: '昨天',
-        icon: 'organization',
-        tone: 'purple',
-        read: true,
-      },
-      {
-        id: 'system-maintenance',
-        title: '系统维护公告',
-        summary: '服务将在周日凌晨进行短暂维护',
-        category: '普通消息',
-        time: '周一',
-        icon: 'bell',
-        tone: 'green',
-        read: true,
-      },
-    ]
-  : [];
-
+const MESSAGE_PAGE_SIZE = 20;
 const authStore = useAuthStore();
-const messageStore = useMessageStore();
 const tenantStore = useTenantStore();
 const activeFilter = ref<MessageFilter>('all');
 const messages = ref<MobileMessage[]>([]);
 const loading = ref(false);
+const loadingMore = ref(false);
+const currentPage = ref(1);
+const hasNextPage = ref(false);
 const errorMessage = ref('');
+let requestVersion = 0;
 
 const tenantRole = computed(() => {
   const workspace = tenantStore.currentWorkspace;
@@ -85,35 +34,121 @@ const tenantRole = computed(() => {
   return workspace.isAdmin || authStore.user?.adminEnabled ? '管理员' : '成员';
 });
 const unreadCount = computed(() => Math.max(0, tenantStore.currentWorkspace?.unreadCount || 0));
-const unreadMessageCount = computed(() => messages.value.filter((message) => !message.read).length);
-const notificationCount = computed(() => Math.max(unreadCount.value, unreadMessageCount.value));
-const filteredMessages = computed(() => (
-  activeFilter.value === 'unread'
-    ? messages.value.filter((message) => !message.read)
-    : messages.value
-));
+const filteredMessages = computed(() => messages.value);
 
-function loadMessages(): void {
+function messageIcon(message: MobileMessage): MobileIconName {
+  return message.type === 2 ? 'clock' : 'bell';
+}
+
+function messageTone(message: MobileMessage): MessageTone {
+  if (message.type === 2) return 'orange';
+  return message.isRead ? 'green' : 'primary';
+}
+
+function messageTypeLabel(message: MobileMessage): string {
+  return message.type === 2 ? '流程消息' : '系统消息';
+}
+
+function messageSummary(message: MobileMessage): string {
+  const sender = message.fromUserName?.trim();
+  return sender ? `来自 ${sender}` : '来自系统';
+}
+
+function messageContent(message: MobileMessage): string {
+  return message.content?.trim() || '暂无消息内容';
+}
+
+function messageTime(value?: string | null): string {
+  const matched = value?.trim().match(/^\d{4}-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/);
+  return matched ? `${matched[1]}-${matched[2]} ${matched[3]}:${matched[4]}` : value?.trim() || '-';
+}
+
+function messageQuery(): Record<string, unknown> {
+  return activeFilter.value === 'unread' ? { isRead: false } : {};
+}
+
+function selectFilter(filter: MessageFilter): void {
+  if (activeFilter.value === filter || loading.value || loadingMore.value) return;
+  activeFilter.value = filter;
+  messages.value = [];
+  void loadMessages();
+}
+
+async function loadMessages(): Promise<void> {
+  if (loading.value || loadingMore.value) return;
+
+  const version = ++requestVersion;
   loading.value = true;
   errorMessage.value = '';
+  currentPage.value = 1;
+  hasNextPage.value = false;
   try {
-    messages.value = MESSAGE_FIXTURES.map((message) => ({ ...message }));
-    messageStore.setUnreadCount(unreadMessageCount.value);
+    const user = authStore.user ?? await authStore.loadCurrentUser();
+    if (version !== requestVersion) return;
+    if (!user) {
+      uni.reLaunch({ url: MOBILE_PAGE_ROUTES.login });
+      return;
+    }
+    if (!tenantStore.currentWorkspace) await tenantStore.loadForUser(user.id);
+    if (version !== requestVersion) return;
+
+    const page = await pageMessages({
+      current: 1,
+      pageSize: MESSAGE_PAGE_SIZE,
+      query: messageQuery(),
+    });
+    if (version !== requestVersion) return;
+
+    const rows = Array.isArray(page.rows) ? page.rows : [];
+    messages.value = rows;
+    hasNextPage.value = Boolean(page.pagination?.hasNextPage && rows.length);
   } catch (error) {
-    errorMessage.value = error instanceof Error && error.message ? error.message : '消息加载失败';
+    if (version === requestVersion) {
+      errorMessage.value = error instanceof ApiError ? error.message : '消息加载失败，请稍后重试';
+    }
   } finally {
-    loading.value = false;
+    if (version === requestVersion) loading.value = false;
   }
 }
 
-function selectMessage(message: MobileMessage): void {
-  message.read = true;
-  messageStore.setUnreadCount(unreadMessageCount.value);
+async function loadMoreMessages(): Promise<void> {
+  if (!hasNextPage.value || loading.value || loadingMore.value) return;
+
+  const version = ++requestVersion;
+  loadingMore.value = true;
+  errorMessage.value = '';
+  try {
+    const page = await pageMessages({
+      current: currentPage.value + 1,
+      pageSize: MESSAGE_PAGE_SIZE,
+      query: messageQuery(),
+    });
+    if (version !== requestVersion) return;
+
+    const rows = Array.isArray(page.rows) ? page.rows : [];
+    messages.value = [...messages.value, ...rows];
+    currentPage.value = page.pagination?.current || currentPage.value + 1;
+    hasNextPage.value = Boolean(page.pagination?.hasNextPage && rows.length);
+  } catch (error) {
+    if (version === requestVersion) {
+      errorMessage.value = error instanceof ApiError ? error.message : '更多消息加载失败，请稍后重试';
+    }
+  } finally {
+    if (version === requestVersion) loadingMore.value = false;
+  }
 }
+
+function refreshMessages(): void {
+  void loadMessages();
+}
+
+onBeforeUnmount(() => {
+  requestVersion += 1;
+});
 
 onShow(() => {
   telemetry.page(MOBILE_PAGE_ROUTES.messages);
-  loadMessages();
+  void loadMessages();
 });
 </script>
 
@@ -123,70 +158,83 @@ onShow(() => {
     title="消息"
     :tenant-name="tenantStore.currentWorkspace?.tenantName"
     :tenant-role="tenantRole"
-    :notification-count="notificationCount"
-    :unread-count="notificationCount"
+    :notification-count="unreadCount"
+    :unread-count="unreadCount"
   >
     <view class="messages-page">
-      <view class="message-filters">
-        <view
-          class="message-filter"
-          :class="{ 'is-active': activeFilter === 'all' }"
-          @click="activeFilter = 'all'"
-        >
-          <text>全部</text>
-          <text class="message-filter__count">{{ messages.length }}</text>
+      <view class="message-toolbar">
+        <view class="message-filters">
+          <view
+            class="message-filter"
+            :class="{ 'is-active': activeFilter === 'all' }"
+            @click="selectFilter('all')"
+          >
+            <text>全部</text>
+          </view>
+          <view
+            class="message-filter"
+            :class="{ 'is-active': activeFilter === 'unread' }"
+            @click="selectFilter('unread')"
+          >
+            <text>未读</text>
+          </view>
         </view>
-        <view
-          class="message-filter"
-          :class="{ 'is-active': activeFilter === 'unread' }"
-          @click="activeFilter = 'unread'"
-        >
-          <text>未读</text>
-          <text class="message-filter__count">{{ unreadMessageCount }}</text>
-        </view>
+        <button
+          class="message-refresh"
+          :disabled="loading || loadingMore"
+          @click="refreshMessages"
+        >刷新</button>
       </view>
 
-      <view v-if="loading" class="message-state fa-card">
+      <view v-if="loading && !messages.length" class="message-state fa-card">
         <text class="fa-muted">正在加载消息...</text>
       </view>
 
-      <view v-else-if="errorMessage" class="message-state fa-card">
-        <text class="message-state__error">{{ errorMessage }}</text>
-        <button class="message-state__retry" @click="loadMessages">重新加载</button>
-      </view>
+      <template v-else>
+        <view v-if="errorMessage" class="message-state fa-card">
+          <text class="message-state__error">{{ errorMessage }}</text>
+          <button class="message-state__retry" @click="refreshMessages">重新加载</button>
+        </view>
 
-      <view v-else-if="filteredMessages.length" class="message-list">
-        <view
-          v-for="message in filteredMessages"
-          :key="message.id"
-          class="message-row"
-          :class="[
-            `message-row--${message.tone}`,
-            { 'is-unread': !message.read },
-          ]"
-          @click="selectMessage(message)"
-        >
-          <view class="message-row__icon">
-            <MobileIcon :name="message.icon" :size="48" />
-          </view>
-          <view class="message-row__content">
-            <text class="message-row__title">{{ message.title }}</text>
-            <text class="message-row__summary">{{ message.summary }}</text>
-            <text class="message-row__category">{{ message.category }}</text>
-          </view>
-          <view class="message-row__meta">
-            <text class="message-row__time">{{ message.time }}</text>
-            <view v-if="!message.read" class="message-row__dot" />
+        <view v-if="filteredMessages.length" class="message-list">
+          <view
+            v-for="message in filteredMessages"
+            :key="message.id"
+            class="message-row"
+            :class="[
+              `message-row--${messageTone(message)}`,
+              { 'is-unread': !message.isRead },
+            ]"
+          >
+            <view class="message-row__icon">
+              <MobileIcon :name="messageIcon(message)" :size="48" />
+            </view>
+            <view class="message-row__content">
+              <text class="message-row__title">{{ messageContent(message) }}</text>
+              <text class="message-row__summary">{{ messageSummary(message) }}</text>
+              <text class="message-row__category">{{ messageTypeLabel(message) }}</text>
+            </view>
+            <view class="message-row__meta">
+              <text class="message-row__time">{{ messageTime(message.crtTime) }}</text>
+              <view v-if="!message.isRead" class="message-row__dot" />
+            </view>
           </view>
         </view>
-      </view>
 
-      <MobileEmptyState
-        v-else
-        icon="messages"
-        :title="activeFilter === 'unread' ? '暂无未读消息' : '暂无消息'"
-        description="消息内容将在这里展示"
-      />
+        <view v-if="loadingMore" class="message-loading-more fa-muted">正在加载更多...</view>
+        <button
+          v-else-if="hasNextPage"
+          class="message-load-more"
+          @click="loadMoreMessages"
+        >加载更多</button>
+
+        <MobileEmptyState
+          v-else-if="!errorMessage && !filteredMessages.length"
+          icon="messages"
+          :title="activeFilter === 'unread' ? '暂无未读消息' : '暂无消息'"
+          description="消息内容将在这里展示"
+        />
+      </template>
     </view>
   </MobileShell>
 </template>
@@ -198,11 +246,28 @@ onShow(() => {
   padding: 16rpx 32rpx 48rpx;
 }
 
-.message-filters {
+.message-toolbar {
   display: flex;
   align-items: stretch;
   height: 72rpx;
   border-bottom: 1rpx solid var(--fa-color-border);
+}
+
+.message-filters {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  height: 72rpx;
+}
+
+.message-refresh {
+  width: 96rpx;
+  margin: 0;
+  padding: 0;
+  color: var(--fa-color-primary);
+  background: transparent;
+  font-size: 26rpx;
+  line-height: 72rpx;
 }
 
 .message-filter {
@@ -236,12 +301,6 @@ onShow(() => {
   border-radius: 4rpx 4rpx 0 0;
   background: var(--fa-color-primary);
   content: '';
-}
-
-.message-filter__count {
-  color: inherit;
-  font-size: 26rpx;
-  font-weight: 400;
 }
 
 .message-list {
@@ -356,6 +415,23 @@ onShow(() => {
   margin-top: 18rpx;
   border-radius: 50%;
   background: var(--fa-color-primary);
+}
+
+.message-loading-more {
+  display: block;
+  padding: 24rpx 0;
+  font-size: 24rpx;
+  line-height: 34rpx;
+  text-align: center;
+}
+
+.message-load-more {
+  display: block;
+  width: 240rpx;
+  margin: 24rpx auto 0;
+  color: var(--fa-color-primary);
+  background: var(--fa-color-primary-soft);
+  font-size: 26rpx;
 }
 
 .message-state {

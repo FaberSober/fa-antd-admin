@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, ref } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
 import { ApiError } from '../../common/request';
 import { pageContacts } from '../../api/contacts';
@@ -16,12 +16,12 @@ import { telemetry } from '@features/fa-core-mobile/telemetry';
 
 const authStore = useAuthStore();
 const tenantStore = useTenantStore();
+const CONTACTS_PAGE_SIZE = 100;
 const searchQuery = ref('');
-const contacts = ref<PortalContactSummary[]>([]);
-const loading = ref(false);
+const allContacts = ref<PortalContactSummary[]>([]);
+const contactsLoading = ref(false);
 const errorMessage = ref('');
 let requestVersion = 0;
-let searchTimer: ReturnType<typeof setTimeout> | null = null;
 
 const tenantRole = computed(() => {
   const workspace = tenantStore.currentWorkspace;
@@ -32,6 +32,16 @@ const unreadCount = computed(() => Math.max(0, tenantStore.currentWorkspace?.unr
 const normalizedSearchQuery = computed(() => searchQuery.value.trim());
 const hasSearch = computed(() => Boolean(normalizedSearchQuery.value));
 const sectionTitle = computed(() => (hasSearch.value ? '搜索结果' : '联系人'));
+const visibleContacts = computed(() => {
+  const keyword = normalizedSearchQuery.value.toLocaleLowerCase();
+  if (!keyword) return allContacts.value;
+
+  return allContacts.value.filter((contact) =>
+    [contact.name, contact.username, contact.departmentName, contact.roleNames]
+      .filter(Boolean)
+      .some((value) => value!.toLocaleLowerCase().includes(keyword)),
+  );
+});
 
 function contactSubtitle(contact: PortalContactSummary): string {
   return [contact.roleNames?.trim(), contact.departmentName?.trim()]
@@ -47,9 +57,29 @@ function contactMark(contact: PortalContactSummary): string {
   return contact.name?.slice(0, 1) || '?';
 }
 
+async function loadAllContacts(version: number): Promise<PortalContactSummary[] | null> {
+  const result: PortalContactSummary[] = [];
+  let current = 1;
+
+  while (version === requestVersion) {
+    const page = await pageContacts({
+      current,
+      pageSize: CONTACTS_PAGE_SIZE,
+    });
+    if (version !== requestVersion) return null;
+
+    const rows = Array.isArray(page.rows) ? page.rows : [];
+    result.push(...rows);
+    if (!page.pagination?.hasNextPage || rows.length === 0) return result;
+    current += 1;
+  }
+
+  return null;
+}
+
 async function loadContacts(): Promise<void> {
   const version = ++requestVersion;
-  loading.value = true;
+  contactsLoading.value = true;
   errorMessage.value = '';
   try {
     const user = authStore.user ?? await authStore.loadCurrentUser();
@@ -63,33 +93,19 @@ async function loadContacts(): Promise<void> {
     }
     if (version !== requestVersion) return;
 
-    const page = await pageContacts({
-      current: 1,
-      pageSize: 20,
-      query: {
-        keyword: normalizedSearchQuery.value || undefined,
-      },
-    });
+    const loadedContacts = await loadAllContacts(version);
     if (version !== requestVersion) return;
-    contacts.value = Array.isArray(page.rows) ? page.rows : [];
+    if (loadedContacts) allContacts.value = loadedContacts;
   } catch (error) {
     if (version !== requestVersion) return;
-    contacts.value = [];
+    allContacts.value = [];
     errorMessage.value = error instanceof ApiError ? error.message : '联系人加载失败，请稍后重试';
   } finally {
-    if (version === requestVersion) loading.value = false;
+    if (version === requestVersion) contactsLoading.value = false;
   }
 }
 
-watch(searchQuery, () => {
-  if (searchTimer) clearTimeout(searchTimer);
-  searchTimer = setTimeout(() => {
-    void loadContacts();
-  }, 300);
-});
-
 onBeforeUnmount(() => {
-  if (searchTimer) clearTimeout(searchTimer);
   requestVersion += 1;
 });
 
@@ -109,73 +125,72 @@ onShow(() => {
     :unread-count="unreadCount"
   >
     <view class="contacts-page">
-      <view v-if="loading" class="contacts-state fa-card">
-        <text class="fa-muted">正在加载联系人...</text>
-      </view>
+      <MobileSearchField v-model="searchQuery" placeholder="搜索联系人、账号、部门" />
 
-      <view v-else-if="errorMessage" class="contacts-state fa-card">
-        <text class="contacts-state__error">{{ errorMessage }}</text>
-        <button class="contacts-state__retry" @click="loadContacts">重新加载</button>
-      </view>
-
-      <template v-else>
-        <MobileSearchField v-model="searchQuery" placeholder="搜索联系人、部门" />
-
-        <view class="directory-section">
-          <MobileSectionHeader title="组织与联系人" />
-          <view class="directory-card fa-card">
-            <view class="directory-entry">
-              <view class="directory-entry__icon directory-entry__icon--primary">
-                <MobileIcon name="organization" :size="48" />
-              </view>
-              <view class="directory-entry__copy">
-                <view class="directory-entry__title">组织架构</view>
-                <view class="directory-entry__description">查看全部成员与部门</view>
-              </view>
-              <MobileIcon name="chevron-right" :size="36" class="directory-entry__arrow" />
+      <view class="directory-section">
+        <MobileSectionHeader title="组织与联系人" />
+        <view class="directory-card fa-card">
+          <view class="directory-entry">
+            <view class="directory-entry__icon directory-entry__icon--primary">
+              <MobileIcon name="organization" :size="48" />
             </view>
-            <view class="directory-entry">
-              <view class="directory-entry__icon directory-entry__icon--purple">
-                <MobileIcon name="contacts" :size="48" />
-              </view>
-              <view class="directory-entry__copy">
-                <view class="directory-entry__title">我的联系人</view>
-                <view class="directory-entry__description">常用联系人</view>
-              </view>
-              <MobileIcon name="chevron-right" :size="36" class="directory-entry__arrow" />
+            <view class="directory-entry__copy">
+              <view class="directory-entry__title">组织架构</view>
+              <view class="directory-entry__description">查看全部成员与部门</view>
             </view>
+            <MobileIcon name="chevron-right" :size="36" class="directory-entry__arrow" />
+          </view>
+          <view class="directory-entry">
+            <view class="directory-entry__icon directory-entry__icon--purple">
+              <MobileIcon name="contacts" :size="48" />
+            </view>
+            <view class="directory-entry__copy">
+              <view class="directory-entry__title">我的联系人</view>
+              <view class="directory-entry__description">常用联系人</view>
+            </view>
+            <MobileIcon name="chevron-right" :size="36" class="directory-entry__arrow" />
           </view>
         </view>
+      </view>
 
-        <view class="recent-section">
-          <MobileSectionHeader :title="sectionTitle" />
-          <view v-if="contacts.length" class="contact-list">
+      <view class="recent-section">
+        <MobileSectionHeader :title="sectionTitle" />
+        <view v-if="contactsLoading" class="contacts-state fa-card">
+          <text class="fa-muted">正在加载联系人...</text>
+        </view>
+
+        <view v-else-if="errorMessage" class="contacts-state fa-card">
+          <text class="contacts-state__error">{{ errorMessage }}</text>
+          <button class="contacts-state__retry" @click="loadContacts">重新加载</button>
+        </view>
+
+        <view v-else-if="visibleContacts.length" class="contact-list">
+          <view
+            v-for="(contact, index) in visibleContacts"
+            :key="contact.id"
+            class="contact-row"
+          >
             <view
-              v-for="(contact, index) in contacts"
-              :key="contact.id"
-              class="contact-row"
+              class="contact-row__avatar"
+              :class="`contact-row__avatar--${contactTone(index)}`"
             >
-              <view
-                class="contact-row__avatar"
-                :class="`contact-row__avatar--${contactTone(index)}`"
-              >
-                {{ contactMark(contact) }}
-              </view>
-              <view class="contact-row__copy">
-                <view class="contact-row__name">{{ contact.name }}</view>
-                <view class="contact-row__description">{{ contactSubtitle(contact) }}</view>
-              </view>
-              <MobileIcon name="chevron-right" :size="36" class="contact-row__arrow" />
+              {{ contactMark(contact) }}
             </view>
+            <view class="contact-row__copy">
+              <view class="contact-row__name">{{ contact.name }}</view>
+              <view class="contact-row__description">{{ contactSubtitle(contact) }}</view>
+            </view>
+            <MobileIcon name="chevron-right" :size="36" class="contact-row__arrow" />
           </view>
-          <MobileEmptyState
-            v-else
-            icon="contacts"
-            :title="hasSearch ? '没有找到匹配联系人' : '暂无联系人'"
-            :description="hasSearch ? '尝试搜索其他关键词' : '当前租户暂无可用联系人'"
-          />
         </view>
-      </template>
+
+        <MobileEmptyState
+          v-else
+          icon="contacts"
+          :title="hasSearch ? '没有找到匹配联系人' : '暂无联系人'"
+          :description="hasSearch ? '尝试搜索其他关键词' : '当前租户暂无可用联系人'"
+        />
+      </view>
     </view>
   </MobileShell>
 </template>

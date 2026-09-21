@@ -11,6 +11,7 @@ export interface PortalDepartmentNode {
 export interface PortalContactSummary {
   id: string;
   name: string;
+  username?: string | null;
   avatar?: string | null;
   departmentId?: string | null;
   departmentName?: string | null;
