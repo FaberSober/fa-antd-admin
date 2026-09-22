@@ -5,16 +5,12 @@ import { clearSession, getStoredUser, getToken, saveSession, saveUser } from '..
 import type { PortalUser } from '../types/auth';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
 import { useTenantStore } from './tenant';
-import { useMessageStore } from './message';
-import { useContactsStore } from './contacts';
 
 export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
   const user = ref<PortalUser | null>(getStoredUser());
   const loading = ref(false);
   const isAuthenticated = computed(() => Boolean(getToken()));
   const tenantStore = useTenantStore();
-  const messageStore = useMessageStore();
-  const contactsStore = useContactsStore();
   let signOutPromise: Promise<void> | null = null;
   let currentUserPromise: Promise<PortalUser | null> | null = null;
   let authVersion = 0;
@@ -24,8 +20,6 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
     currentUserPromise = null;
     clearSession();
     tenantStore.reset();
-    messageStore.reset();
-    contactsStore.reset();
     user.value = null;
     telemetry.clearUser();
   }
@@ -35,8 +29,6 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
     currentUserPromise = null;
     loading.value = true;
     tenantStore.reset();
-    messageStore.reset();
-    contactsStore.reset();
     try {
       const session = await login(username, password);
       saveSession(session.token, session.user);
@@ -77,8 +69,6 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
         if (version !== authVersion) return user.value;
         if (user.value?.id && user.value.id !== currentUser.id) {
           tenantStore.reset();
-          messageStore.reset();
-          contactsStore.reset();
         }
         user.value = currentUser;
         saveUser(currentUser);

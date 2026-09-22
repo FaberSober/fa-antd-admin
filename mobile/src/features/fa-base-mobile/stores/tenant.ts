@@ -4,6 +4,8 @@ import { getMyTenants } from '../api/tenant';
 import { getStoredTenantId, saveStoredTenantId } from '../common/session';
 import { clearTenantId, getTenantId, setTenantId } from '@features/fa-core-mobile/common/tenant';
 import type { TenantWorkspace } from '../types/tenant';
+import { useContactsStore } from './contacts';
+import { useMessageStore } from './message';
 
 export const useTenantStore = defineStore('fa-base-mobile-tenant', () => {
   const workspaces = ref<TenantWorkspace[]>([]);
@@ -15,6 +17,11 @@ export const useTenantStore = defineStore('fa-base-mobile-tenant', () => {
   let loadVersion = 0;
   let loadPromise: Promise<void> | null = null;
   let loadingUserId: string | null = null;
+
+  function resetBusinessCaches(): void {
+    useMessageStore().reset();
+    useContactsStore().reset();
+  }
 
   const currentWorkspace = computed<TenantWorkspace | null>(() => (
     workspaces.value.find((item) => item.tenantId === currentTenantId.value) || null
@@ -30,6 +37,7 @@ export const useTenantStore = defineStore('fa-base-mobile-tenant', () => {
 
     const version = ++loadVersion;
     if (loadedUserId !== normalizedUserId) {
+      resetBusinessCaches();
       loadedUserId = normalizedUserId;
       successfulUserId = null;
       workspaces.value = [];
@@ -103,6 +111,7 @@ export const useTenantStore = defineStore('fa-base-mobile-tenant', () => {
     const selected = workspaces.value.find((item) => item.tenantId === tenantId);
     if (!selected) return false;
 
+    if (currentTenantId.value !== selected.tenantId) resetBusinessCaches();
     currentTenantId.value = selected.tenantId;
     setTenantId(selected.tenantId);
     saveStoredTenantId(userId, selected.tenantId);
@@ -118,6 +127,7 @@ export const useTenantStore = defineStore('fa-base-mobile-tenant', () => {
 
   function reset(): void {
     loadVersion += 1;
+    resetBusinessCaches();
     loadedUserId = null;
     successfulUserId = null;
     loadPromise = null;
