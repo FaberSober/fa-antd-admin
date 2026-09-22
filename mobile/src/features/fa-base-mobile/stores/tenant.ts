@@ -11,22 +11,27 @@ export const useTenantStore = defineStore('fa-base-mobile-tenant', () => {
   const loading = ref(false);
   const errorMessage = ref('');
   let loadedUserId: string | null = null;
+  let successfulUserId: string | null = null;
   let loadVersion = 0;
+  let loadPromise: Promise<void> | null = null;
+  let loadingUserId: string | null = null;
 
   const currentWorkspace = computed<TenantWorkspace | null>(() => (
     workspaces.value.find((item) => item.tenantId === currentTenantId.value) || null
   ));
 
-  async function loadForUser(userId: string): Promise<void> {
+  function loadForUser(userId: string): Promise<void> {
     const normalizedUserId = userId.trim();
     if (!normalizedUserId) {
       reset();
-      return;
+      return Promise.resolve();
     }
+    if (loadPromise && loadingUserId === normalizedUserId) return loadPromise;
 
     const version = ++loadVersion;
     if (loadedUserId !== normalizedUserId) {
       loadedUserId = normalizedUserId;
+      successfulUserId = null;
       workspaces.value = [];
       currentTenantId.value = null;
       clearTenantId();
@@ -34,42 +39,64 @@ export const useTenantStore = defineStore('fa-base-mobile-tenant', () => {
 
     loading.value = true;
     errorMessage.value = '';
-    try {
-      const tenants = await getMyTenants();
-      if (version !== loadVersion) return;
+    let request: Promise<void>;
+    request = (async () => {
+      try {
+        const tenants = await getMyTenants();
+        if (version !== loadVersion) return;
 
-      const previousUnreadCounts = new Map(
-        workspaces.value.map((item) => [item.tenantId, item.unreadCount]),
-      );
-      const nextWorkspaces = (Array.isArray(tenants) ? tenants : [])
-        .filter((item) => item && typeof item.tenantId === 'string' && item.tenantId.trim())
-        .map((item) => ({
-          ...item,
-          tenantId: item.tenantId.trim(),
-          unreadCount: previousUnreadCounts.get(item.tenantId.trim()) || 0,
-        }));
-      workspaces.value = nextWorkspaces;
+        const previousUnreadCounts = new Map(
+          workspaces.value.map((item) => [item.tenantId, item.unreadCount]),
+        );
+        const nextWorkspaces = (Array.isArray(tenants) ? tenants : [])
+          .filter((item) => item && typeof item.tenantId === 'string' && item.tenantId.trim())
+          .map((item) => ({
+            ...item,
+            tenantId: item.tenantId.trim(),
+            unreadCount: previousUnreadCounts.get(item.tenantId.trim()) || 0,
+          }));
+        workspaces.value = nextWorkspaces;
+        successfulUserId = normalizedUserId;
 
-      const currentId = getTenantId();
-      const storedId = getStoredTenantId(normalizedUserId);
-      const selected = nextWorkspaces.find((item) => item.tenantId === currentId)
-        || nextWorkspaces.find((item) => item.tenantId === storedId)
-        || nextWorkspaces[0];
+        const currentId = getTenantId();
+        const storedId = getStoredTenantId(normalizedUserId);
+        const selected = nextWorkspaces.find((item) => item.tenantId === currentId)
+          || nextWorkspaces.find((item) => item.tenantId === storedId)
+          || nextWorkspaces[0];
 
-      if (selected) {
-        currentTenantId.value = selected.tenantId;
-        setTenantId(selected.tenantId);
-        saveStoredTenantId(normalizedUserId, selected.tenantId);
-      } else {
-        currentTenantId.value = null;
-        clearTenantId();
+        if (selected) {
+          currentTenantId.value = selected.tenantId;
+          setTenantId(selected.tenantId);
+          saveStoredTenantId(normalizedUserId, selected.tenantId);
+        } else {
+          currentTenantId.value = null;
+          clearTenantId();
+        }
+      } catch (error) {
+        if (version !== loadVersion) return;
+        errorMessage.value = error instanceof Error && error.message ? error.message : '租户信息加载失败';
+      } finally {
+        if (version === loadVersion) loading.value = false;
       }
-    } catch (error) {
-      if (version !== loadVersion) return;
-      errorMessage.value = error instanceof Error && error.message ? error.message : '租户信息加载失败';
-    } finally {
-      if (version === loadVersion) loading.value = false;
-    }
+    })();
+    loadPromise = request;
+    loadingUserId = normalizedUserId;
+    request.then(
+      () => clearLoadPromise(request),
+      () => clearLoadPromise(request),
+    );
+    return request;
+  }
+
+  function clearLoadPromise(request: Promise<void>): void {
+    if (loadPromise !== request) return;
+    loadPromise = null;
+    loadingUserId = null;
+  }
+
+  function hasLoadedForUser(userId?: string | null): boolean {
+    const normalizedUserId = userId?.trim();
+    return Boolean(normalizedUserId && successfulUserId === normalizedUserId);
   }
 
   function switchTenant(userId: string, tenantId: string): boolean {
@@ -92,6 +119,9 @@ export const useTenantStore = defineStore('fa-base-mobile-tenant', () => {
   function reset(): void {
     loadVersion += 1;
     loadedUserId = null;
+    successfulUserId = null;
+    loadPromise = null;
+    loadingUserId = null;
     workspaces.value = [];
     currentTenantId.value = null;
     loading.value = false;
@@ -106,6 +136,7 @@ export const useTenantStore = defineStore('fa-base-mobile-tenant', () => {
     loading,
     errorMessage,
     loadForUser,
+    hasLoadedForUser,
     switchTenant,
     setUnreadCount,
     reset,

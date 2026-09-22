@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { onShow } from '@dcloudio/uni-app';
-import { computed, ref } from 'vue';
+import { computed, onBeforeUnmount, ref } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 import { ApiError } from '../../common/request';
 import { checkAndPromptUpdate } from '../../common/update';
+import { createPageRefresh } from '../../common/page-refresh';
 import { MOBILE_PAGE_ROUTES } from '../../feature';
 import MobileEmptyState from '../../components/MobileEmptyState.vue';
 import MobileIcon from '../../components/MobileIcon.vue';
@@ -55,8 +56,14 @@ const QUICK_FEATURES: readonly QuickFeature[] = [
 
 const authStore = useAuthStore();
 const tenantStore = useTenantStore();
-const errorMessage = ref('');
 const searchQuery = ref('');
+const pageRefresh = createPageRefresh();
+const {
+  errorMessage,
+  initialLoading,
+  run: runRefresh,
+  invalidate,
+} = pageRefresh;
 let updateCheckStarted = false;
 
 const tenantRole = computed(() => {
@@ -84,22 +91,23 @@ const filteredQuickFeatures = computed(() => {
   ));
 });
 
-async function loadUser(): Promise<void> {
-  errorMessage.value = '';
-  try {
+function loadUser(): Promise<void> {
+  return runRefresh(async (isCurrent) => {
     const user = await authStore.loadCurrentUser();
+    if (!isCurrent()) return;
     if (!user) {
       uni.reLaunch({ url: MOBILE_PAGE_ROUTES.login });
       return;
     }
     await tenantStore.loadForUser(user.id);
+    if (!isCurrent()) return;
     if (!updateCheckStarted) {
       updateCheckStarted = true;
       void checkAndPromptUpdate();
     }
-  } catch (error) {
-    errorMessage.value = error instanceof ApiError ? error.message : '用户信息加载失败';
-  }
+  }, () => Boolean(authStore.user), (error) => (
+    error instanceof ApiError ? error.message : '用户信息加载失败'
+  ));
 }
 
 function openMessages(): void {
@@ -113,6 +121,10 @@ function showFeatureMessage(feature: QuickFeature): void {
 function editQuickFeatures(): void {
   uni.showToast({ title: '常用功能配置即将开放', icon: 'none' });
 }
+
+onBeforeUnmount(() => {
+  invalidate();
+});
 
 onShow(() => {
   telemetry.page(MOBILE_PAGE_ROUTES.workbench);
@@ -131,7 +143,7 @@ onShow(() => {
     @notification-click="openMessages"
   >
     <view class="home-page">
-      <view v-if="authStore.loading" class="state-card fa-card">
+      <view v-if="initialLoading" class="state-card fa-card">
         <text class="fa-muted">正在加载用户信息...</text>
       </view>
 

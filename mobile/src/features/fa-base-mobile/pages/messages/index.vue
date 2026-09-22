@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, ref } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
 import { batchReadMessages, countMessages, pageMessages, readAllMessages } from '../../api/message';
 import { ApiError } from '../../common/request';
+import { createPageRefresh } from '../../common/page-refresh';
 import MobileEmptyState from '../../components/MobileEmptyState.vue';
 import MobileIcon from '../../components/MobileIcon.vue';
 import MobileShell from '../../components/MobileShell.vue';
@@ -21,10 +22,15 @@ const authStore = useAuthStore();
 const messageStore = useMessageStore();
 const tenantStore = useTenantStore();
 const activeFilter = ref<MessageFilter>('all');
-const loading = ref(false);
 const loadingMore = ref(false);
 const readLoading = ref(false);
-const errorMessage = ref('');
+const pageRefresh = createPageRefresh();
+const {
+  busy: loading,
+  errorMessage,
+  run: runRefresh,
+  invalidate,
+} = pageRefresh;
 let requestVersion = 0;
 
 const tenantRole = computed(() => {
@@ -85,9 +91,14 @@ function messageQuery(): Record<string, unknown> {
   return activeFilter.value === 'unread' ? { isRead: false } : {};
 }
 
-async function refreshUnreadCount(userId: string, tenantId: string | null): Promise<void> {
+async function refreshUnreadCount(
+  userId: string,
+  tenantId: string | null,
+  isCurrent: () => boolean = () => true,
+): Promise<void> {
   try {
     const statistics = await countMessages();
+    if (!isCurrent()) return;
     const unreadCount = Number(statistics?.unreadCount) || 0;
     messageStore.setUnreadCount(userId, tenantId, unreadCount);
     tenantStore.setUnreadCount(tenantId, unreadCount);
@@ -102,28 +113,25 @@ function selectFilter(filter: MessageFilter): void {
   void loadMessages();
 }
 
-async function loadMessages(): Promise<void> {
-  if (loading.value || loadingMore.value || readLoading.value) return;
+function loadMessages(): Promise<void> {
+  if (loadingMore.value || readLoading.value) return Promise.resolve();
 
-  const version = ++requestVersion;
-  loading.value = true;
-  errorMessage.value = '';
-  try {
+  return runRefresh(async (isCurrent) => {
     const user = authStore.user ?? await authStore.loadCurrentUser();
-    if (version !== requestVersion) return;
+    if (!isCurrent()) return;
     if (!user) {
       uni.reLaunch({ url: MOBILE_PAGE_ROUTES.login });
       return;
     }
     if (!tenantStore.currentWorkspace) await tenantStore.loadForUser(user.id);
-    if (version !== requestVersion) return;
+    if (!isCurrent()) return;
 
     const page = await pageMessages({
       current: 1,
       pageSize: MESSAGE_PAGE_SIZE,
       query: messageQuery(),
     });
-    if (version !== requestVersion) return;
+    if (!isCurrent()) return;
 
     const rows = Array.isArray(page.rows) ? page.rows : [];
     const tenantId = tenantStore.currentTenantId;
@@ -135,14 +143,14 @@ async function loadMessages(): Promise<void> {
       page.pagination?.current || 1,
       Boolean(page.pagination?.hasNextPage && rows.length),
     );
-    await refreshUnreadCount(user.id, tenantId);
-  } catch (error) {
-    if (version === requestVersion) {
-      errorMessage.value = error instanceof ApiError ? error.message : '消息加载失败，请稍后重试';
-    }
-  } finally {
-    if (version === requestVersion) loading.value = false;
-  }
+    await refreshUnreadCount(user.id, tenantId, isCurrent);
+  }, () => messageStore.hasMessages(
+    authStore.user?.id,
+    tenantStore.currentTenantId,
+    activeFilter.value,
+  ), (error) => (
+    error instanceof ApiError ? error.message : '消息加载失败，请稍后重试'
+  ));
 }
 
 async function loadMoreMessages(): Promise<void> {
@@ -239,6 +247,7 @@ async function markAllMessagesRead(): Promise<void> {
 
 onBeforeUnmount(() => {
   requestVersion += 1;
+  invalidate();
 });
 
 onShow(() => {

@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, ref } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
 import { getContactDepartments, pageContacts } from '../../../api/contacts';
 import { ApiError } from '../../../common/request';
+import { createPageRefresh } from '../../../common/page-refresh';
 import MobileEmptyState from '../../../components/MobileEmptyState.vue';
 import MobileIcon from '../../../components/MobileIcon.vue';
 import MobileSectionHeader from '../../../components/MobileSectionHeader.vue';
@@ -21,11 +22,22 @@ const authStore = useAuthStore();
 const contactsStore = useContactsStore();
 const tenantStore = useTenantStore();
 const breadcrumbs = ref<PortalDepartmentNode[]>([]);
-const departmentLoading = ref(false);
-const membersLoading = ref(false);
 const loadingMore = ref(false);
-const errorMessage = ref('');
-const memberErrorMessage = ref('');
+const directoryRefresh = createPageRefresh();
+const memberRefresh = createPageRefresh();
+const {
+  errorMessage,
+  initialLoading: departmentInitialLoading,
+  run: runDirectoryRefresh,
+  invalidate: invalidateDirectory,
+} = directoryRefresh;
+const {
+  errorMessage: memberErrorMessage,
+  initialLoading: memberInitialLoading,
+  busy: memberLoading,
+  run: runMemberRefresh,
+  invalidate: invalidateMembers,
+} = memberRefresh;
 let requestVersion = 0;
 
 const tenantRole = computed(() => {
@@ -75,56 +87,50 @@ function openContact(userId: string): void {
 }
 
 function resetMembers(): void {
-  memberErrorMessage.value = '';
-  membersLoading.value = false;
+  requestVersion += 1;
+  invalidateMembers();
   loadingMore.value = false;
 }
 
-async function ensureSession(version: number): Promise<boolean> {
+async function ensureSession(isCurrent: () => boolean): Promise<boolean> {
   const user = authStore.user ?? await authStore.loadCurrentUser();
-  if (version !== requestVersion) return false;
+  if (!isCurrent()) return false;
   if (!user) {
     uni.reLaunch({ url: MOBILE_PAGE_ROUTES.login });
     return false;
   }
-  if (!tenantStore.currentWorkspace) await tenantStore.loadForUser(user.id);
-  return version === requestVersion;
+  if (!tenantStore.currentWorkspace && !tenantStore.hasLoadedForUser(user.id)) {
+    await tenantStore.loadForUser(user.id);
+  }
+  return isCurrent();
 }
 
-async function loadDirectory(): Promise<void> {
-  const version = ++requestVersion;
-  departmentLoading.value = true;
-  errorMessage.value = '';
-  breadcrumbs.value = [];
+function loadDirectory(): Promise<void> {
   resetMembers();
-  try {
-    if (!await ensureSession(version)) return;
+  return runDirectoryRefresh(async (isCurrent) => {
+    if (!await ensureSession(isCurrent)) return;
 
     const result = await getContactDepartments();
-    if (version !== requestVersion) return;
+    if (!isCurrent()) return;
     const userId = authStore.user?.id;
     if (userId) {
       contactsStore.setDepartments(userId, tenantStore.currentTenantId, Array.isArray(result) ? result : []);
+      const departmentId = currentDepartment.value?.id;
+      if (departmentId) await loadMembers(departmentId);
     }
-  } catch (error) {
-    if (version !== requestVersion) return;
-    errorMessage.value = error instanceof ApiError ? error.message : '组织架构加载失败，请稍后重试';
-  } finally {
-    if (version === requestVersion) departmentLoading.value = false;
-  }
+  }, () => contactsStore.hasDepartments(authStore.user?.id, tenantStore.currentTenantId), (error) => (
+    error instanceof ApiError ? error.message : '组织架构加载失败，请稍后重试'
+  ));
 }
 
-async function loadMembers(departmentId: string): Promise<void> {
-  const version = ++requestVersion;
-  membersLoading.value = true;
-  memberErrorMessage.value = '';
-  try {
+function loadMembers(departmentId: string): Promise<void> {
+  return runMemberRefresh(async (isCurrent) => {
     const page = await pageContacts({
       current: 1,
       pageSize: DIRECTORY_PAGE_SIZE,
       query: { departmentId },
     });
-    if (version !== requestVersion) return;
+    if (!isCurrent()) return;
 
     const rows = Array.isArray(page.rows) ? page.rows : [];
     const userId = authStore.user?.id;
@@ -138,21 +144,21 @@ async function loadMembers(departmentId: string): Promise<void> {
         Boolean(page.pagination?.hasNextPage && rows.length),
       );
     }
-  } catch (error) {
-    if (version !== requestVersion) return;
-    memberErrorMessage.value = error instanceof ApiError ? error.message : '成员加载失败，请稍后重试';
-  } finally {
-    if (version === requestVersion) membersLoading.value = false;
-  }
+  }, () => contactsStore.hasDepartmentMembers(
+    authStore.user?.id,
+    tenantStore.currentTenantId,
+    departmentId,
+  ), (error) => (
+    error instanceof ApiError ? error.message : '成员加载失败，请稍后重试'
+  ));
 }
 
 async function loadMoreMembers(): Promise<void> {
   const departmentId = currentDepartment.value?.id;
-  if (!departmentId || !hasNextPage.value || membersLoading.value || loadingMore.value) return;
+  if (!departmentId || !hasNextPage.value || memberLoading.value || loadingMore.value) return;
 
   const version = ++requestVersion;
   loadingMore.value = true;
-  memberErrorMessage.value = '';
   try {
     const page = await pageContacts({
       current: currentMemberPage.value + 1,
@@ -175,13 +181,19 @@ async function loadMoreMembers(): Promise<void> {
     }
   } catch (error) {
     if (version !== requestVersion) return;
-    memberErrorMessage.value = error instanceof ApiError ? error.message : '更多成员加载失败，请稍后重试';
+    const message = error instanceof ApiError ? error.message : '更多成员加载失败，请稍后重试';
+    if (members.value.length) {
+      uni.showToast({ title: message, icon: 'none' });
+    } else {
+      memberErrorMessage.value = message;
+    }
   } finally {
     if (version === requestVersion) loadingMore.value = false;
   }
 }
 
 function openDepartment(department: PortalDepartmentNode): void {
+  resetMembers();
   breadcrumbs.value = [...breadcrumbs.value, department];
   void loadMembers(department.id);
 }
@@ -189,6 +201,7 @@ function openDepartment(department: PortalDepartmentNode): void {
 function selectBreadcrumb(index: number): void {
   const department = breadcrumbs.value[index];
   if (!department) return;
+  resetMembers();
   breadcrumbs.value = breadcrumbs.value.slice(0, index + 1);
   void loadMembers(department.id);
 }
@@ -205,18 +218,20 @@ function handleBack(): void {
     return;
   }
 
+  resetMembers();
   breadcrumbs.value = breadcrumbs.value.slice(0, -1);
   const parent = currentDepartment.value;
   if (parent) {
     void loadMembers(parent.id);
   } else {
-    requestVersion += 1;
     resetMembers();
   }
 }
 
 onBeforeUnmount(() => {
   requestVersion += 1;
+  invalidateDirectory();
+  invalidateMembers();
 });
 
 onShow(() => {
@@ -264,7 +279,7 @@ onShow(() => {
         </view>
       </scroll-view>
 
-      <view v-if="departmentLoading" class="organization-state fa-card">
+      <view v-if="departmentInitialLoading" class="organization-state fa-card">
         <text class="fa-muted">正在加载组织架构...</text>
       </view>
 
@@ -310,7 +325,7 @@ onShow(() => {
         <view v-if="currentDepartment" class="members-section">
           <MobileSectionHeader :title="memberTitle" />
 
-          <view v-if="membersLoading" class="organization-state fa-card">
+          <view v-if="memberInitialLoading" class="organization-state fa-card">
             <text class="fa-muted">正在加载成员...</text>
           </view>
 

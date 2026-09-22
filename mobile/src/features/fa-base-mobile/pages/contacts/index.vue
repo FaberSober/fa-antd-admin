@@ -2,6 +2,7 @@
 import { computed, onBeforeUnmount, ref } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
 import { ApiError } from '../../common/request';
+import { createPageRefresh } from '../../common/page-refresh';
 import { pageContacts } from '../../api/contacts';
 import MobileEmptyState from '../../components/MobileEmptyState.vue';
 import MobileIcon from '../../components/MobileIcon.vue';
@@ -20,9 +21,13 @@ const contactsStore = useContactsStore();
 const tenantStore = useTenantStore();
 const CONTACTS_PAGE_SIZE = 100;
 const searchQuery = ref('');
-const contactsLoading = ref(false);
-const errorMessage = ref('');
-let requestVersion = 0;
+const pageRefresh = createPageRefresh();
+const {
+  errorMessage,
+  initialLoading,
+  run: runRefresh,
+  invalidate,
+} = pageRefresh;
 
 const tenantRole = computed(() => {
   const workspace = tenantStore.currentWorkspace;
@@ -72,16 +77,16 @@ function openContact(userId: string): void {
   });
 }
 
-async function loadAllContacts(version: number): Promise<PortalContactSummary[] | null> {
+async function loadAllContacts(isCurrent: () => boolean): Promise<PortalContactSummary[] | null> {
   const result: PortalContactSummary[] = [];
   let current = 1;
 
-  while (version === requestVersion) {
+  while (isCurrent()) {
     const page = await pageContacts({
       current,
       pageSize: CONTACTS_PAGE_SIZE,
     });
-    if (version !== requestVersion) return null;
+    if (!isCurrent()) return null;
 
     const rows = Array.isArray(page.rows) ? page.rows : [];
     result.push(...rows);
@@ -92,13 +97,10 @@ async function loadAllContacts(version: number): Promise<PortalContactSummary[] 
   return null;
 }
 
-async function loadContacts(): Promise<void> {
-  const version = ++requestVersion;
-  contactsLoading.value = true;
-  errorMessage.value = '';
-  try {
+function loadContacts(): Promise<void> {
+  return runRefresh(async (isCurrent) => {
     const user = authStore.user ?? await authStore.loadCurrentUser();
-    if (version !== requestVersion) return;
+    if (!isCurrent()) return;
     if (!user) {
       uni.reLaunch({ url: MOBILE_PAGE_ROUTES.login });
       return;
@@ -106,23 +108,20 @@ async function loadContacts(): Promise<void> {
     if (!tenantStore.currentWorkspace) {
       await tenantStore.loadForUser(user.id);
     }
-    if (version !== requestVersion) return;
+    if (!isCurrent()) return;
 
-    const loadedContacts = await loadAllContacts(version);
-    if (version !== requestVersion) return;
+    const loadedContacts = await loadAllContacts(isCurrent);
+    if (!isCurrent()) return;
     if (loadedContacts) {
       contactsStore.setContacts(user.id, tenantStore.currentTenantId, loadedContacts);
     }
-  } catch (error) {
-    if (version !== requestVersion) return;
-    errorMessage.value = error instanceof ApiError ? error.message : '联系人加载失败，请稍后重试';
-  } finally {
-    if (version === requestVersion) contactsLoading.value = false;
-  }
+  }, () => contactsStore.hasContacts(authStore.user?.id, tenantStore.currentTenantId), (error) => (
+    error instanceof ApiError ? error.message : '联系人加载失败，请稍后重试'
+  ));
 }
 
 onBeforeUnmount(() => {
-  requestVersion += 1;
+  invalidate();
 });
 
 onShow(() => {
@@ -171,7 +170,7 @@ onShow(() => {
 
       <view class="recent-section">
         <MobileSectionHeader :title="sectionTitle" />
-        <view v-if="contactsLoading" class="contacts-state fa-card">
+        <view v-if="initialLoading" class="contacts-state fa-card">
           <text class="fa-muted">正在加载联系人...</text>
         </view>
 

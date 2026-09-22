@@ -4,6 +4,7 @@ import { onLoad } from '@dcloudio/uni-app';
 import { getContactDetail } from '../../../api/contacts';
 import { buildFilePreviewUrl } from '../../../api/file';
 import { ApiError } from '../../../common/request';
+import { createPageRefresh } from '../../../common/page-refresh';
 import MobileEmptyState from '../../../components/MobileEmptyState.vue';
 import MobileIcon from '../../../components/MobileIcon.vue';
 import MobileSectionHeader from '../../../components/MobileSectionHeader.vue';
@@ -18,10 +19,14 @@ const authStore = useAuthStore();
 const contactsStore = useContactsStore();
 const tenantStore = useTenantStore();
 const contactId = ref('');
-const loading = ref(false);
-const errorMessage = ref('');
 const avatarLoadError = ref(false);
-let requestVersion = 0;
+const pageRefresh = createPageRefresh();
+const {
+  errorMessage,
+  initialLoading,
+  run: runRefresh,
+  invalidate,
+} = pageRefresh;
 
 const tenantRole = computed(() => {
   const workspace = tenantStore.currentWorkspace;
@@ -62,38 +67,29 @@ function workStatusClass(value?: number | null): string {
   return '';
 }
 
-async function loadDetail(id = contactId.value): Promise<void> {
-  const version = ++requestVersion;
-  loading.value = true;
-  errorMessage.value = '';
+function loadDetail(id = contactId.value): Promise<void> {
   avatarLoadError.value = false;
-
-  if (!id) {
-    errorMessage.value = '联系人参数缺失';
-    loading.value = false;
-    return;
-  }
-
-  try {
+  return runRefresh(async (isCurrent) => {
+    if (!id) throw new Error('联系人参数缺失');
     const user = authStore.user ?? await authStore.loadCurrentUser();
-    if (version !== requestVersion) return;
+    if (!isCurrent()) return;
     if (!user) {
       uni.reLaunch({ url: MOBILE_PAGE_ROUTES.login });
       return;
     }
     if (!tenantStore.currentWorkspace) await tenantStore.loadForUser(user.id);
-    if (version !== requestVersion) return;
+    if (!isCurrent()) return;
 
     const result = await getContactDetail(id);
-    if (version !== requestVersion) return;
+    if (!isCurrent()) return;
     contactsStore.setContactDetail(user.id, tenantStore.currentTenantId, result);
-  } catch (error) {
-    if (version === requestVersion) {
-      errorMessage.value = error instanceof ApiError ? error.message : '联系人详情加载失败，请稍后重试';
-    }
-  } finally {
-    if (version === requestVersion) loading.value = false;
-  }
+  }, () => contactsStore.hasContactDetail(
+    authStore.user?.id,
+    tenantStore.currentTenantId,
+    id,
+  ), (error) => (
+    error instanceof ApiError ? error.message : '联系人详情加载失败，请稍后重试'
+  ));
 }
 
 function goBack(): void {
@@ -135,7 +131,7 @@ onLoad((options) => {
 });
 
 onBeforeUnmount(() => {
-  requestVersion += 1;
+  invalidate();
 });
 </script>
 
@@ -157,7 +153,7 @@ onBeforeUnmount(() => {
         </view>
       </view>
 
-      <view v-if="loading" class="contact-detail-state fa-card">
+      <view v-if="initialLoading" class="contact-detail-state fa-card">
         <text class="fa-muted">正在加载联系人详情...</text>
       </view>
 

@@ -16,8 +16,12 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
   const messageStore = useMessageStore();
   const contactsStore = useContactsStore();
   let signOutPromise: Promise<void> | null = null;
+  let currentUserPromise: Promise<PortalUser | null> | null = null;
+  let authVersion = 0;
 
   function clearLocalAuthState(): void {
+    authVersion += 1;
+    currentUserPromise = null;
     clearSession();
     tenantStore.reset();
     messageStore.reset();
@@ -27,6 +31,8 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
   }
 
   async function signIn(username: string, password: string): Promise<void> {
+    authVersion += 1;
+    currentUserPromise = null;
     loading.value = true;
     tenantStore.reset();
     messageStore.reset();
@@ -54,28 +60,40 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
     }
   }
 
-  async function loadCurrentUser(): Promise<PortalUser | null> {
+  function loadCurrentUser(): Promise<PortalUser | null> {
     if (!getToken()) {
       user.value = null;
       clearLocalAuthState();
-      return null;
+      return Promise.resolve(null);
     }
+    if (currentUserPromise) return currentUserPromise;
 
+    const version = authVersion;
     loading.value = true;
-    try {
-      const currentUser = await getCurrentUser();
-      if (user.value?.id && user.value.id !== currentUser.id) {
-        tenantStore.reset();
-        messageStore.reset();
-        contactsStore.reset();
+    let request: Promise<PortalUser | null>;
+    request = (async () => {
+      try {
+        const currentUser = await getCurrentUser();
+        if (version !== authVersion) return user.value;
+        if (user.value?.id && user.value.id !== currentUser.id) {
+          tenantStore.reset();
+          messageStore.reset();
+          contactsStore.reset();
+        }
+        user.value = currentUser;
+        saveUser(currentUser);
+        telemetry.identify({ userId: currentUser.id });
+        return currentUser;
+      } finally {
+        if (version === authVersion) loading.value = false;
       }
-      user.value = currentUser;
-      saveUser(currentUser);
-      telemetry.identify({ userId: currentUser.id });
-      return currentUser;
-    } finally {
-      loading.value = false;
-    }
+    })();
+    currentUserPromise = request;
+    const clearRequest = (): void => {
+      if (currentUserPromise === request) currentUserPromise = null;
+    };
+    request.then(clearRequest, clearRequest);
+    return request;
   }
 
   async function signOut(): Promise<void> {

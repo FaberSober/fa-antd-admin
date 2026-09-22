@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue';
+import { computed, onBeforeUnmount, reactive, ref } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
 import { ApiError } from '../../../common/request';
+import { createPageRefresh } from '../../../common/page-refresh';
 import { updateMyProfile } from '../../../api/account';
 import { buildFilePreviewUrl, uploadBaseFile } from '../../../api/file';
 import { MOBILE_PAGE_ROUTES } from '../../../feature';
@@ -19,8 +20,13 @@ interface ProfileForm {
 
 const authStore = useAuthStore();
 const tenantStore = useTenantStore();
-const loading = ref(true);
-const errorMessage = ref('');
+const pageRefresh = createPageRefresh();
+const {
+  errorMessage,
+  initialLoading,
+  run: runRefresh,
+  invalidate,
+} = pageRefresh;
 const editing = ref(false);
 const saving = ref(false);
 const avatarUploading = ref(false);
@@ -148,22 +154,24 @@ async function saveProfile(): Promise<void> {
   }
 }
 
-async function loadProfile(): Promise<void> {
-  loading.value = true;
-  errorMessage.value = '';
-  try {
+function loadProfile(): Promise<void> {
+  return runRefresh(async (isCurrent) => {
     const user = await authStore.loadCurrentUser();
+    if (!isCurrent()) return;
     if (!user) {
       uni.reLaunch({ url: MOBILE_PAGE_ROUTES.login });
       return;
     }
     await tenantStore.loadForUser(user.id);
-  } catch (error) {
-    errorMessage.value = error instanceof ApiError ? error.message : '个人资料加载失败';
-  } finally {
-    loading.value = false;
-  }
+    if (!isCurrent()) return;
+  }, () => Boolean(authStore.user), (error) => (
+    error instanceof ApiError ? error.message : '个人资料加载失败'
+  ));
 }
+
+onBeforeUnmount(() => {
+  invalidate();
+});
 
 onShow(() => {
   telemetry.page(MOBILE_PAGE_ROUTES.mineAccount);
@@ -174,7 +182,7 @@ onShow(() => {
 <template>
   <MobileThemeRoot>
     <view class="account-page fa-page">
-      <view v-if="loading" class="account-state fa-card">
+      <view v-if="initialLoading" class="account-state fa-card">
         <text class="fa-muted">正在加载个人资料...</text>
       </view>
 

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onBeforeUnmount, ref } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
 import { ApiError } from '../../common/request';
+import { createPageRefresh } from '../../common/page-refresh';
 import MobileIcon from '../../components/MobileIcon.vue';
 import MobileShell from '../../components/MobileShell.vue';
 import { MOBILE_PAGE_ROUTES } from '../../feature';
@@ -30,8 +31,13 @@ const tenantStore = useTenantStore();
 const themeStore = useThemeStore();
 const showDemoEntry = import.meta.env.DEV;
 const logoutLoading = ref(false);
-const profileLoading = ref(true);
-const errorMessage = ref('');
+const pageRefresh = createPageRefresh();
+const {
+  errorMessage,
+  initialLoading,
+  run: runRefresh,
+  invalidate,
+} = pageRefresh;
 
 const tenantRole = computed(() => {
   const workspace = tenantStore.currentWorkspace;
@@ -56,21 +62,19 @@ function openMessages(): void {
   openMinePage(MOBILE_PAGE_ROUTES.messages);
 }
 
-async function loadProfile(): Promise<void> {
-  profileLoading.value = true;
-  errorMessage.value = '';
-  try {
+function loadProfile(): Promise<void> {
+  return runRefresh(async (isCurrent) => {
     const user = await authStore.loadCurrentUser();
+    if (!isCurrent()) return;
     if (!user) {
       uni.reLaunch({ url: MOBILE_PAGE_ROUTES.login });
       return;
     }
     await tenantStore.loadForUser(user.id);
-  } catch (error) {
-    errorMessage.value = error instanceof ApiError ? error.message : '用户信息加载失败';
-  } finally {
-    profileLoading.value = false;
-  }
+    if (!isCurrent()) return;
+  }, () => Boolean(authStore.user), (error) => (
+    error instanceof ApiError ? error.message : '用户信息加载失败'
+  ));
 }
 
 function confirmLogout(): void {
@@ -96,6 +100,10 @@ async function logout(): Promise<void> {
   }
 }
 
+onBeforeUnmount(() => {
+  invalidate();
+});
+
 onShow(() => {
   telemetry.page(MOBILE_PAGE_ROUTES.mine);
   void loadProfile();
@@ -113,7 +121,7 @@ onShow(() => {
     @notification-click="openMessages"
   >
     <view class="mine-page">
-      <view v-if="profileLoading" class="mine-state fa-card">
+      <view v-if="initialLoading" class="mine-state fa-card">
         <text class="fa-muted">正在加载个人信息...</text>
       </view>
 

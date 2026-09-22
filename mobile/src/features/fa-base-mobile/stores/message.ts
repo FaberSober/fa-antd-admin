@@ -8,6 +8,7 @@ interface CachedMessagePage {
   rows: MobileMessage[];
   currentPage: number;
   hasNextPage: boolean;
+  loaded: boolean;
 }
 
 interface MessageContextCache {
@@ -22,7 +23,7 @@ function contextKey(userId?: string | null, tenantId?: string | null): string {
 }
 
 function createPage(): CachedMessagePage {
-  return { rows: [], currentPage: 1, hasNextPage: false };
+  return { rows: [], currentPage: 1, hasNextPage: false, loaded: false };
 }
 
 function createContext(): MessageContextCache {
@@ -66,6 +67,14 @@ export const useMessageStore = defineStore('fa-base-mobile-message', () => {
     return getCache(userId, tenantId)?.pages[filter].currentPage || 1;
   }
 
+  function hasMessages(
+    userId: string | null | undefined,
+    tenantId: string | null | undefined,
+    filter: MessageFilter,
+  ): boolean {
+    return Boolean(getCache(userId, tenantId)?.pages[filter].loaded);
+  }
+
   function hasNextPage(
     userId: string | null | undefined,
     tenantId: string | null | undefined,
@@ -88,6 +97,7 @@ export const useMessageStore = defineStore('fa-base-mobile-message', () => {
       rows: [...rows],
       currentPage,
       hasNextPage: hasMore,
+      loaded: true,
     };
   }
 
@@ -105,6 +115,7 @@ export const useMessageStore = defineStore('fa-base-mobile-message', () => {
     page.rows = [...page.rows, ...rows];
     page.currentPage = currentPage;
     page.hasNextPage = hasMore;
+    page.loaded = true;
   }
 
   function getUnreadCount(userId?: string | null, tenantId?: string | null): number {
@@ -140,6 +151,7 @@ export const useMessageStore = defineStore('fa-base-mobile-message', () => {
   return {
     getMessages,
     getCurrentPage,
+    hasMessages,
     hasNextPage,
     setMessages,
     appendMessages,
