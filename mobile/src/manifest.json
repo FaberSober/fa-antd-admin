@@ -1,45 +1,68 @@
 {
-  "name": "Fa Mobile",
-  "appid": "",
-  "description": "Fa Mobile application",
-  "versionName": "0.0.1",
-  "versionCode": "1",
-  "transformPx": false,
-  "app-plus": {
-    "usingComponents": true,
-    "nvueStyleCompiler": "uni-app",
-    "compilerVersion": 3,
-    "splashscreen": {
-      "alwaysShowBeforeRender": true,
-      "waiting": true,
-      "autoclose": true,
-      "delay": 0
+    "name" : "Fa Mobile",
+    "appid" : "__UNI__17534C7",
+    "description" : "Fa Mobile application",
+    "versionName" : "0.0.1",
+    "versionCode" : "1",
+    "transformPx" : false,
+    "app-plus" : {
+        "usingComponents" : true,
+        "nvueStyleCompiler" : "uni-app",
+        "compilerVersion" : 3,
+        "splashscreen" : {
+            "alwaysShowBeforeRender" : true,
+            "waiting" : true,
+            "autoclose" : true,
+            "delay" : 0
+        },
+        "modules" : {
+            "Push" : {
+                "description" : "消息推送"
+            },
+            "Barcode" : {},
+            "Bluetooth" : {},
+            "Camera" : {},
+            "Contacts" : {},
+            "FaceID" : {},
+            "Fingerprint" : {},
+            "Geolocation" : {},
+            "SQLite" : {}
+        },
+        "distribute" : {
+            "android" : {
+                "permissions" : [
+                    "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>"
+                ]
+            },
+            "ios" : {},
+            "sdkConfigs" : {
+                "geolocation" : {
+                    "system" : {
+                        "__platform__" : [ "ios", "android" ]
+                    }
+                },
+                "push" : {
+                    "unipush" : {
+                        "version" : "2",
+                        "offline" : false
+                    }
+                }
+            }
+        },
+        "uniStatistics" : {
+            "enable" : true
+        }
     },
-    "modules": {
-      "Push": {
-        "description": "消息推送"
-      }
+    "quickapp" : {},
+    "mp-weixin" : {
+        "appid" : "",
+        "setting" : {
+            "urlCheck" : false
+        },
+        "usingComponents" : true
     },
-    "distribute": {
-      "android": {
-        "permissions": [
-          "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>"
-        ]
-      },
-      "ios": {},
-      "sdkConfigs": {}
-    }
-  },
-  "quickapp": {},
-  "mp-weixin": {
-    "appid": "",
-    "setting": {
-      "urlCheck": false
+    "uniStatistics" : {
+        "enable" : false
     },
-    "usingComponents": true
-  },
-  "uniStatistics": {
-    "enable": false
-  },
-  "vueVersion": "3"
+    "vueVersion" : "3"
 }
