@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, onActivated, onBeforeUnmount, ref } from 'vue';
+import { computed, inject, onActivated, onBeforeUnmount, ref } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
 import { ApiError } from '../../common/request';
 import { createPageRefresh } from '../../common/page-refresh';
 import MobileIcon from '../../components/MobileIcon.vue';
 import MobileShell from '../../components/MobileShell.vue';
-import { MOBILE_PAGE_ROUTES } from '../../feature';
+import { MOBILE_PAGE_ROUTES, MOBILE_TAB_NAVIGATION_KEY } from '../../feature';
 import { useAuthStore } from '../../stores/auth';
 import { useTenantStore } from '../../stores/tenant';
 import type { MobileIconName } from '../../types/mobileIcon';
@@ -29,6 +29,7 @@ const MINE_SETTINGS: readonly MineSetting[] = [
 const authStore = useAuthStore();
 const tenantStore = useTenantStore();
 const themeStore = useThemeStore();
+const navigateToTab = inject(MOBILE_TAB_NAVIGATION_KEY);
 const showDemoEntry = import.meta.env.DEV;
 const logoutLoading = ref(false);
 const pageRefresh = createPageRefresh();
@@ -59,7 +60,19 @@ function openMinePage(url: string): void {
 }
 
 function openMessages(): void {
+  if (navigateToTab) {
+    navigateToTab('messages');
+    return;
+  }
   openMinePage(MOBILE_PAGE_ROUTES.messages);
+}
+
+function openSetting(setting: MineSetting): void {
+  if (setting.id === 'notification') {
+    openMessages();
+    return;
+  }
+  openMinePage(setting.route);
 }
 
 function loadProfile(): Promise<void> {
@@ -150,7 +163,7 @@ onActivated(handlePageShow);
             v-for="setting in MINE_SETTINGS"
             :key="setting.id"
             class="settings-row"
-            @click="openMinePage(setting.route)"
+            @click="openSetting(setting)"
           >
             <MobileIcon :name="setting.icon" :size="44" class="settings-row__icon" />
             <text class="settings-row__label">{{ setting.label }}</text>
