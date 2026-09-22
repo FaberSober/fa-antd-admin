@@ -75,7 +75,7 @@ GET  /api/portal/contacts/users/{userId}
 | fa-base Portal | 联系人详情接口 | 校验当前租户后返回详情和可展示联系方式 | 执行开发 | ✅已完成 |
 | fa-base-mobile | 联系人 API 与类型 | 新增 `api/contacts.ts`、联系人请求和响应类型 | 执行开发 | ✅已完成 |
 | fa-base-mobile | 首页真实数据接入 | 移除页面 fixture，接入搜索、加载、空态、失败和重试 | 执行开发 | ✅已完成 |
-| fa-base-mobile | 组织架构目录 | 新增部门逐级浏览、成员列表、返回和面包屑 | 执行开发 | 🕒待处理 |
+| fa-base-mobile | 组织架构目录 | 新增部门逐级浏览、成员列表、返回和面包屑 | 执行开发 | ✅已完成 |
 | fa-base-mobile | 联系人详情 | 展示头像、姓名、部门、角色/工作状态和联系方式操作 | 执行开发 | 🕒待处理 |
 | fa-base-mobile | 我的/最近联系人 | 使用用户+租户隔离的本地常用记录，支持首页预览和全部查看 | 执行开发 | 🕒待处理 |
 | mobile UI | 搜索与列表体验 | 全量加载、本地搜索、联系人区域加载/错误、搜索无结果和长文本省略 | 执行开发 | ✅已完成 |
@@ -155,6 +155,7 @@ GET  /api/portal/contacts/users/{userId}
 ## 相关文件
 
 - `mobile/src/features/fa-base-mobile/pages/contacts/index.vue`
+- `mobile/src/features/fa-base-mobile/pages/contacts/organization/index.vue`
 - `mobile/src/features/fa-base-mobile/feature.ts`
 - `mobile/src/pages.json`
 - `mobile/src/features/fa-base-mobile/components/MobileShell.vue`

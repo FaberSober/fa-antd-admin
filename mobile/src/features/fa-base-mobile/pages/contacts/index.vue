@@ -57,6 +57,10 @@ function contactMark(contact: PortalContactSummary): string {
   return contact.name?.slice(0, 1) || '?';
 }
 
+function openOrganization(): void {
+  uni.navigateTo({ url: MOBILE_PAGE_ROUTES.contactsOrganization });
+}
+
 async function loadAllContacts(version: number): Promise<PortalContactSummary[] | null> {
   const result: PortalContactSummary[] = [];
   let current = 1;
@@ -130,7 +134,7 @@ onShow(() => {
       <view class="directory-section">
         <MobileSectionHeader title="组织与联系人" />
         <view class="directory-card fa-card">
-          <view class="directory-entry">
+          <view class="directory-entry" @click="openOrganization">
             <view class="directory-entry__icon directory-entry__icon--primary">
               <MobileIcon name="organization" :size="48" />
             </view>
