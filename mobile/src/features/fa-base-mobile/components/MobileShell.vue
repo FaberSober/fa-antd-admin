@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { MOBILE_TAB_ROUTES } from '../feature';
+import { useAuthStore } from '../stores/auth';
 import { useMessageStore } from '../stores/message';
+import { useTenantStore } from '../stores/tenant';
 import type { MobileTabKey } from '../feature';
 import MobileThemeRoot from '@features/fa-core-mobile/theme/MobileThemeRoot.vue';
 import MobileHeader from './MobileHeader.vue';
@@ -30,13 +32,19 @@ const props = withDefaults(defineProps<{
 });
 
 const messageStore = useMessageStore();
+const authStore = useAuthStore();
+const tenantStore = useTenantStore();
+const cachedUnreadCount = computed(() => messageStore.getUnreadCount(
+  authStore.user?.id,
+  tenantStore.currentTenantId,
+));
 const effectiveNotificationCount = computed(() => Math.max(
   props.notificationCount,
-  messageStore.unreadCount,
+  cachedUnreadCount.value,
 ));
 const effectiveUnreadCount = computed(() => Math.max(
   props.unreadCount,
-  messageStore.unreadCount,
+  cachedUnreadCount.value,
 ));
 
 const emit = defineEmits<{

@@ -38,12 +38,15 @@ export const useTenantStore = defineStore('fa-base-mobile-tenant', () => {
       const tenants = await getMyTenants();
       if (version !== loadVersion) return;
 
+      const previousUnreadCounts = new Map(
+        workspaces.value.map((item) => [item.tenantId, item.unreadCount]),
+      );
       const nextWorkspaces = (Array.isArray(tenants) ? tenants : [])
         .filter((item) => item && typeof item.tenantId === 'string' && item.tenantId.trim())
         .map((item) => ({
           ...item,
           tenantId: item.tenantId.trim(),
-          unreadCount: 0,
+          unreadCount: previousUnreadCounts.get(item.tenantId.trim()) || 0,
         }));
       workspaces.value = nextWorkspaces;
 
@@ -63,9 +66,6 @@ export const useTenantStore = defineStore('fa-base-mobile-tenant', () => {
       }
     } catch (error) {
       if (version !== loadVersion) return;
-      workspaces.value = [];
-      currentTenantId.value = null;
-      clearTenantId();
       errorMessage.value = error instanceof Error && error.message ? error.message : '租户信息加载失败';
     } finally {
       if (version === loadVersion) loading.value = false;
@@ -80,6 +80,13 @@ export const useTenantStore = defineStore('fa-base-mobile-tenant', () => {
     setTenantId(selected.tenantId);
     saveStoredTenantId(userId, selected.tenantId);
     return true;
+  }
+
+  function setUnreadCount(tenantId: string | null | undefined, count: number): void {
+    const normalizedTenantId = tenantId?.trim();
+    if (!normalizedTenantId) return;
+    const workspace = workspaces.value.find((item) => item.tenantId === normalizedTenantId);
+    if (workspace) workspace.unreadCount = Math.max(0, count);
   }
 
   function reset(): void {
@@ -100,6 +107,7 @@ export const useTenantStore = defineStore('fa-base-mobile-tenant', () => {
     errorMessage,
     loadForUser,
     switchTenant,
+    setUnreadCount,
     reset,
   };
 });

@@ -10,14 +10,14 @@ import MobileSectionHeader from '../../../components/MobileSectionHeader.vue';
 import MobileShell from '../../../components/MobileShell.vue';
 import { MOBILE_PAGE_ROUTES } from '../../../feature';
 import { useAuthStore } from '../../../stores/auth';
+import { useContactsStore } from '../../../stores/contacts';
 import { useTenantStore } from '../../../stores/tenant';
-import type { PortalContactDetail } from '../../../types/contacts';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
 
 const authStore = useAuthStore();
+const contactsStore = useContactsStore();
 const tenantStore = useTenantStore();
 const contactId = ref('');
-const contact = ref<PortalContactDetail | null>(null);
 const loading = ref(false);
 const errorMessage = ref('');
 const avatarLoadError = ref(false);
@@ -29,6 +29,11 @@ const tenantRole = computed(() => {
   return workspace.isAdmin || authStore.user?.adminEnabled ? '管理员' : '成员';
 });
 const unreadCount = computed(() => Math.max(0, tenantStore.currentWorkspace?.unreadCount || 0));
+const contact = computed(() => contactsStore.getContactDetail(
+  authStore.user?.id,
+  tenantStore.currentTenantId,
+  contactId.value,
+));
 const avatarUrl = computed(() => {
   const avatar = contact.value?.avatar?.trim();
   if (!avatar) return '';
@@ -61,7 +66,6 @@ async function loadDetail(id = contactId.value): Promise<void> {
   const version = ++requestVersion;
   loading.value = true;
   errorMessage.value = '';
-  contact.value = null;
   avatarLoadError.value = false;
 
   if (!id) {
@@ -82,7 +86,7 @@ async function loadDetail(id = contactId.value): Promise<void> {
 
     const result = await getContactDetail(id);
     if (version !== requestVersion) return;
-    contact.value = result;
+    contactsStore.setContactDetail(user.id, tenantStore.currentTenantId, result);
   } catch (error) {
     if (version === requestVersion) {
       errorMessage.value = error instanceof ApiError ? error.message : '联系人详情加载失败，请稍后重试';

@@ -8,13 +8,12 @@ import MobileIcon from '../../components/MobileIcon.vue';
 import MobileShell from '../../components/MobileShell.vue';
 import { MOBILE_PAGE_ROUTES } from '../../feature';
 import { useAuthStore } from '../../stores/auth';
-import { useMessageStore } from '../../stores/message';
+import { useMessageStore, type MessageFilter } from '../../stores/message';
 import { useTenantStore } from '../../stores/tenant';
 import type { MobileMessage } from '../../types/message';
 import type { MobileIconName } from '../../types/mobileIcon';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
 
-type MessageFilter = 'all' | 'unread';
 type MessageTone = 'primary' | 'orange' | 'purple' | 'green';
 
 const MESSAGE_PAGE_SIZE = 20;
@@ -22,12 +21,9 @@ const authStore = useAuthStore();
 const messageStore = useMessageStore();
 const tenantStore = useTenantStore();
 const activeFilter = ref<MessageFilter>('all');
-const messages = ref<MobileMessage[]>([]);
 const loading = ref(false);
 const loadingMore = ref(false);
 const readLoading = ref(false);
-const currentPage = ref(1);
-const hasNextPage = ref(false);
 const errorMessage = ref('');
 let requestVersion = 0;
 
@@ -37,8 +33,26 @@ const tenantRole = computed(() => {
   return workspace.isAdmin || authStore.user?.adminEnabled ? '管理员' : '成员';
 });
 const unreadCount = computed(() => Math.max(0, tenantStore.currentWorkspace?.unreadCount || 0));
+const messages = computed(() => messageStore.getMessages(
+  authStore.user?.id,
+  tenantStore.currentTenantId,
+  activeFilter.value,
+));
+const currentPage = computed(() => messageStore.getCurrentPage(
+  authStore.user?.id,
+  tenantStore.currentTenantId,
+  activeFilter.value,
+));
+const hasNextPage = computed(() => messageStore.hasNextPage(
+  authStore.user?.id,
+  tenantStore.currentTenantId,
+  activeFilter.value,
+));
 const filteredMessages = computed(() => messages.value);
-const hasUnreadMessages = computed(() => messageStore.unreadCount > 0 || messages.value.some((message) => !message.isRead));
+const hasUnreadMessages = computed(() => messageStore.getUnreadCount(
+  authStore.user?.id,
+  tenantStore.currentTenantId,
+) > 0 || messages.value.some((message) => !message.isRead));
 
 function messageIcon(message: MobileMessage): MobileIconName {
   return message.type === 2 ? 'clock' : 'bell';
@@ -71,10 +85,12 @@ function messageQuery(): Record<string, unknown> {
   return activeFilter.value === 'unread' ? { isRead: false } : {};
 }
 
-async function refreshUnreadCount(): Promise<void> {
+async function refreshUnreadCount(userId: string, tenantId: string | null): Promise<void> {
   try {
     const statistics = await countMessages();
-    messageStore.setUnreadCount(Number(statistics?.unreadCount) || 0);
+    const unreadCount = Number(statistics?.unreadCount) || 0;
+    messageStore.setUnreadCount(userId, tenantId, unreadCount);
+    tenantStore.setUnreadCount(tenantId, unreadCount);
   } catch {
     // Keep the last known badge when the statistics request fails.
   }
@@ -83,7 +99,6 @@ async function refreshUnreadCount(): Promise<void> {
 function selectFilter(filter: MessageFilter): void {
   if (activeFilter.value === filter || loading.value || loadingMore.value || readLoading.value) return;
   activeFilter.value = filter;
-  messages.value = [];
   void loadMessages();
 }
 
@@ -93,8 +108,6 @@ async function loadMessages(): Promise<void> {
   const version = ++requestVersion;
   loading.value = true;
   errorMessage.value = '';
-  currentPage.value = 1;
-  hasNextPage.value = false;
   try {
     const user = authStore.user ?? await authStore.loadCurrentUser();
     if (version !== requestVersion) return;
@@ -113,9 +126,16 @@ async function loadMessages(): Promise<void> {
     if (version !== requestVersion) return;
 
     const rows = Array.isArray(page.rows) ? page.rows : [];
-    messages.value = rows;
-    hasNextPage.value = Boolean(page.pagination?.hasNextPage && rows.length);
-    await refreshUnreadCount();
+    const tenantId = tenantStore.currentTenantId;
+    messageStore.setMessages(
+      user.id,
+      tenantId,
+      activeFilter.value,
+      rows,
+      page.pagination?.current || 1,
+      Boolean(page.pagination?.hasNextPage && rows.length),
+    );
+    await refreshUnreadCount(user.id, tenantId);
   } catch (error) {
     if (version === requestVersion) {
       errorMessage.value = error instanceof ApiError ? error.message : '消息加载失败，请稍后重试';
@@ -127,6 +147,9 @@ async function loadMessages(): Promise<void> {
 
 async function loadMoreMessages(): Promise<void> {
   if (!hasNextPage.value || loading.value || loadingMore.value || readLoading.value) return;
+  const userId = authStore.user?.id;
+  const tenantId = tenantStore.currentTenantId;
+  if (!userId || !tenantId) return;
 
   const version = ++requestVersion;
   loadingMore.value = true;
@@ -140,9 +163,14 @@ async function loadMoreMessages(): Promise<void> {
     if (version !== requestVersion) return;
 
     const rows = Array.isArray(page.rows) ? page.rows : [];
-    messages.value = [...messages.value, ...rows];
-    currentPage.value = page.pagination?.current || currentPage.value + 1;
-    hasNextPage.value = Boolean(page.pagination?.hasNextPage && rows.length);
+    messageStore.appendMessages(
+      userId,
+      tenantId,
+      activeFilter.value,
+      rows,
+      page.pagination?.current || currentPage.value + 1,
+      Boolean(page.pagination?.hasNextPage && rows.length),
+    );
   } catch (error) {
     if (version === requestVersion) {
       errorMessage.value = error instanceof ApiError ? error.message : '更多消息加载失败，请稍后重试';
@@ -163,12 +191,13 @@ async function markMessageRead(message: MobileMessage): Promise<void> {
   errorMessage.value = '';
   try {
     await batchReadMessages([message.id]);
-    message.isRead = true;
-    messageStore.setUnreadCount(messageStore.unreadCount - 1);
-    await refreshUnreadCount();
-    if (activeFilter.value === 'unread') {
-      messages.value = messages.value.filter((item) => item.id !== message.id);
-    }
+    const userId = authStore.user?.id;
+    const tenantId = tenantStore.currentTenantId;
+    messageStore.markRead(userId, tenantId, message.id);
+    const unreadCount = messageStore.getUnreadCount(userId, tenantId) - 1;
+    messageStore.setUnreadCount(userId, tenantId, unreadCount);
+    tenantStore.setUnreadCount(tenantId, unreadCount);
+    if (userId) await refreshUnreadCount(userId, tenantId);
   } catch (error) {
     errorMessage.value = error instanceof ApiError ? error.message : '消息已读失败，请稍后重试';
   } finally {
@@ -196,16 +225,11 @@ async function markAllMessagesRead(): Promise<void> {
   errorMessage.value = '';
   try {
     await readAllMessages();
-    messageStore.setUnreadCount(0);
-    if (activeFilter.value === 'unread') {
-      messages.value = [];
-      hasNextPage.value = false;
-    } else {
-      messages.value.forEach((message) => {
-        message.isRead = true;
-      });
-    }
-    await refreshUnreadCount();
+    const userId = authStore.user?.id;
+    const tenantId = tenantStore.currentTenantId;
+    messageStore.markAllRead(userId, tenantId);
+    tenantStore.setUnreadCount(tenantId, 0);
+    if (userId) await refreshUnreadCount(userId, tenantId);
   } catch (error) {
     errorMessage.value = error instanceof ApiError ? error.message : '全部已读失败，请稍后重试';
   } finally {

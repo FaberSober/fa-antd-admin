@@ -10,15 +10,16 @@ import MobileSectionHeader from '../../components/MobileSectionHeader.vue';
 import MobileShell from '../../components/MobileShell.vue';
 import { MOBILE_PAGE_ROUTES } from '../../feature';
 import { useAuthStore } from '../../stores/auth';
+import { useContactsStore } from '../../stores/contacts';
 import { useTenantStore } from '../../stores/tenant';
 import type { PortalContactSummary } from '../../types/contacts';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
 
 const authStore = useAuthStore();
+const contactsStore = useContactsStore();
 const tenantStore = useTenantStore();
 const CONTACTS_PAGE_SIZE = 100;
 const searchQuery = ref('');
-const allContacts = ref<PortalContactSummary[]>([]);
 const contactsLoading = ref(false);
 const errorMessage = ref('');
 let requestVersion = 0;
@@ -29,6 +30,10 @@ const tenantRole = computed(() => {
   return workspace.isAdmin || authStore.user?.adminEnabled ? '管理员' : '成员';
 });
 const unreadCount = computed(() => Math.max(0, tenantStore.currentWorkspace?.unreadCount || 0));
+const allContacts = computed(() => contactsStore.getContacts(
+  authStore.user?.id,
+  tenantStore.currentTenantId,
+));
 const normalizedSearchQuery = computed(() => searchQuery.value.trim());
 const hasSearch = computed(() => Boolean(normalizedSearchQuery.value));
 const sectionTitle = computed(() => (hasSearch.value ? '搜索结果' : '联系人'));
@@ -105,10 +110,11 @@ async function loadContacts(): Promise<void> {
 
     const loadedContacts = await loadAllContacts(version);
     if (version !== requestVersion) return;
-    if (loadedContacts) allContacts.value = loadedContacts;
+    if (loadedContacts) {
+      contactsStore.setContacts(user.id, tenantStore.currentTenantId, loadedContacts);
+    }
   } catch (error) {
     if (version !== requestVersion) return;
-    allContacts.value = [];
     errorMessage.value = error instanceof ApiError ? error.message : '联系人加载失败，请稍后重试';
   } finally {
     if (version === requestVersion) contactsLoading.value = false;

@@ -9,6 +9,7 @@ import MobileSectionHeader from '../../../components/MobileSectionHeader.vue';
 import MobileShell from '../../../components/MobileShell.vue';
 import { MOBILE_PAGE_ROUTES } from '../../../feature';
 import { useAuthStore } from '../../../stores/auth';
+import { useContactsStore } from '../../../stores/contacts';
 import { useTenantStore } from '../../../stores/tenant';
 import type { PortalContactSummary, PortalDepartmentNode } from '../../../types/contacts';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
@@ -17,15 +18,12 @@ type DirectoryTone = 'primary' | 'purple' | 'orange';
 
 const DIRECTORY_PAGE_SIZE = 20;
 const authStore = useAuthStore();
+const contactsStore = useContactsStore();
 const tenantStore = useTenantStore();
-const departments = ref<PortalDepartmentNode[]>([]);
 const breadcrumbs = ref<PortalDepartmentNode[]>([]);
-const members = ref<PortalContactSummary[]>([]);
 const departmentLoading = ref(false);
 const membersLoading = ref(false);
 const loadingMore = ref(false);
-const hasNextPage = ref(false);
-const currentMemberPage = ref(1);
 const errorMessage = ref('');
 const memberErrorMessage = ref('');
 let requestVersion = 0;
@@ -41,8 +39,20 @@ const currentDepartment = computed(() => (
 ));
 const isRoot = computed(() => !currentDepartment.value);
 const pageTitle = computed(() => currentDepartment.value?.name || '组织架构');
+const departments = computed(() => contactsStore.getDepartments(
+  authStore.user?.id,
+  tenantStore.currentTenantId,
+));
 const visibleDepartments = computed(() => currentDepartment.value?.children || departments.value);
 const memberTitle = computed(() => `${currentDepartment.value?.name || ''}成员`);
+const memberCache = computed(() => contactsStore.getDepartmentMembers(
+  authStore.user?.id,
+  tenantStore.currentTenantId,
+  currentDepartment.value?.id,
+));
+const members = computed(() => memberCache.value?.rows || []);
+const currentMemberPage = computed(() => memberCache.value?.currentPage || 1);
+const hasNextPage = computed(() => Boolean(memberCache.value?.hasNextPage));
 
 function departmentTone(index: number): DirectoryTone {
   return ['primary', 'purple', 'orange'][index % 3] as DirectoryTone;
@@ -65,10 +75,7 @@ function openContact(userId: string): void {
 }
 
 function resetMembers(): void {
-  members.value = [];
   memberErrorMessage.value = '';
-  currentMemberPage.value = 1;
-  hasNextPage.value = false;
   membersLoading.value = false;
   loadingMore.value = false;
 }
@@ -95,10 +102,12 @@ async function loadDirectory(): Promise<void> {
 
     const result = await getContactDepartments();
     if (version !== requestVersion) return;
-    departments.value = Array.isArray(result) ? result : [];
+    const userId = authStore.user?.id;
+    if (userId) {
+      contactsStore.setDepartments(userId, tenantStore.currentTenantId, Array.isArray(result) ? result : []);
+    }
   } catch (error) {
     if (version !== requestVersion) return;
-    departments.value = [];
     errorMessage.value = error instanceof ApiError ? error.message : '组织架构加载失败，请稍后重试';
   } finally {
     if (version === requestVersion) departmentLoading.value = false;
@@ -109,9 +118,6 @@ async function loadMembers(departmentId: string): Promise<void> {
   const version = ++requestVersion;
   membersLoading.value = true;
   memberErrorMessage.value = '';
-  members.value = [];
-  currentMemberPage.value = 1;
-  hasNextPage.value = false;
   try {
     const page = await pageContacts({
       current: 1,
@@ -121,9 +127,17 @@ async function loadMembers(departmentId: string): Promise<void> {
     if (version !== requestVersion) return;
 
     const rows = Array.isArray(page.rows) ? page.rows : [];
-    members.value = rows;
-    currentMemberPage.value = page.pagination?.current || 1;
-    hasNextPage.value = Boolean(page.pagination?.hasNextPage && rows.length);
+    const userId = authStore.user?.id;
+    if (userId) {
+      contactsStore.setDepartmentMembers(
+        userId,
+        tenantStore.currentTenantId,
+        departmentId,
+        rows,
+        page.pagination?.current || 1,
+        Boolean(page.pagination?.hasNextPage && rows.length),
+      );
+    }
   } catch (error) {
     if (version !== requestVersion) return;
     memberErrorMessage.value = error instanceof ApiError ? error.message : '成员加载失败，请稍后重试';
@@ -148,9 +162,17 @@ async function loadMoreMembers(): Promise<void> {
     if (version !== requestVersion) return;
 
     const rows = Array.isArray(page.rows) ? page.rows : [];
-    members.value = [...members.value, ...rows];
-    currentMemberPage.value = page.pagination?.current || currentMemberPage.value + 1;
-    hasNextPage.value = Boolean(page.pagination?.hasNextPage && rows.length);
+    const userId = authStore.user?.id;
+    if (userId) {
+      contactsStore.appendDepartmentMembers(
+        userId,
+        tenantStore.currentTenantId,
+        departmentId,
+        rows,
+        page.pagination?.current || currentMemberPage.value + 1,
+        Boolean(page.pagination?.hasNextPage && rows.length),
+      );
+    }
   } catch (error) {
     if (version !== requestVersion) return;
     memberErrorMessage.value = error instanceof ApiError ? error.message : '更多成员加载失败，请稍后重试';
