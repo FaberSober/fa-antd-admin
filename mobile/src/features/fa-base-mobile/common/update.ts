@@ -8,10 +8,15 @@ import type { UpdateManifest } from '@features/fa-core-mobile/update';
 import { checkBaseUpdate, checkH5Update, getUpdatePlatform } from '../api/update';
 
 let promptInFlight = false;
+let lastCheckAt = 0;
+
+const UPDATE_CHECK_COOLDOWN = 10 * 60 * 1000;
 
 export async function checkAndPromptUpdate(): Promise<void> {
-  if (promptInFlight) return;
+  const now = Date.now();
+  if (promptInFlight || now - lastCheckAt < UPDATE_CHECK_COOLDOWN) return;
   promptInFlight = true;
+  lastCheckAt = now;
 
   try {
     const platform = getUpdatePlatform();

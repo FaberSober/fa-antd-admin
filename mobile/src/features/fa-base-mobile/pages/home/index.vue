@@ -69,8 +69,6 @@ const {
   run: runRefresh,
   invalidate,
 } = pageRefresh;
-let updateCheckStarted = false;
-
 const tenantRole = computed(() => {
   const workspace = tenantStore.currentWorkspace;
   if (!workspace) return '';
@@ -106,10 +104,7 @@ function loadUser(): Promise<void> {
     }
     await tenantStore.loadForUser(user.id);
     if (!isCurrent()) return;
-    if (!updateCheckStarted) {
-      updateCheckStarted = true;
-      void checkAndPromptUpdate();
-    }
+    void checkAndPromptUpdate();
   }, () => Boolean(authStore.user), (error) => (
     error instanceof ApiError ? error.message : '用户信息加载失败'
   ));

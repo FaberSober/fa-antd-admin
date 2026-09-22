@@ -1,0 +1,170 @@
+# ADR：mobile 应用版本更新接口对接
+
+- 状态：🟡进行中
+- 日期：2026-09-22
+- 范围：`mobile`、`fa-core-mobile`、`fa-base-mobile`、`fa-app`
+- 关联：`fa-app/docs/adrs/2026-09-16-app-release-and-uniapp-incremental-update.md`、`ADR-mobile-004-mine-feature.md`、`ADR-mobile-007-page-lifecycle-refresh.md`
+- 当前进度：`fa-app` 公开检查接口、`mobile` 更新 Core 能力和 Base 更新流程已完成；生命周期收敛已完成开发，等待 App 前台恢复和重复触发验证；配置、发布数据准备和其他真机验证待执行
+
+## 功能清单
+
+| 编号 | 模块 | 功能 | 功能详情 | 当前规划 | 进度 |
+|---|---|---|---|---|---|
+| 1 | `fa-app` | 公开版本检查接口 | 按应用、平台、渠道和当前版本返回更新清单 | 执行开发 | ✅已完成 |
+| 2 | `mobile` 配置 | 应用标识与版本配置 | 配置 `appCode`、渠道、API 地址，并同步 `versionName/versionCode` | 执行开发 | 🕒待处理 |
+| 3 | `fa-core-mobile` | 更新接口适配 | 请求检查接口，解析清单并校验版本、包类型和摘要 | 执行开发 | ✅已完成 |
+| 4 | `fa-core-mobile` | 下载与安装基础能力 | 下载进度、SHA-256 校验、安装锁、WGT 和 Android 完整包安装 | 执行开发 | ✅已完成 |
+| 5 | `fa-base-mobile` | 更新提示流程 | 展示更新说明，处理可选更新、强制更新和失败提示 | 执行开发 | ✅已完成 |
+| 6 | `mobile` 生命周期 | 启动与前台检查去重 | 统一 App 前台检查入口，避免首页生命周期重复请求 | 执行开发 | 🔍验证中 |
+| 7 | `fa-app` 运维 | 发布数据准备 | 创建草稿版本、上传发布包、发布和撤回版本 | 执行开发 | 🕒待处理 |
+| 8 | `mobile`/`fa-app` 验证 | 接口和失败场景验证 | 覆盖无更新、WGT、完整包回退、灰度、撤回和摘要错误 | 执行开发 | 🕒待处理 |
+| 9 | `mobile` 发布 | App-PLUS 构建与 Android 真机验证 | 验证真实下载、校验、安装和重启后的版本变化 | 执行开发 | 🕒待处理 |
+| 10 | `mobile` 文档 | 发布和回滚操作说明 | 记录版本发布、强制更新和撤回流程 | 执行开发 | 🕒待处理 |
+| 11 | `fa-base-mobile` 关于页 | 手动检查更新入口 | 展示版本并提供手动检查按钮 | 留作未来版本规划 | 👀待确认 |
+| 12 | `mobile` 跨平台 | 小程序/H5 独立更新策略 | 小程序使用平台更新管理器，H5 使用 CDN 清单，不走 WGT 安装 | 执行开发 | ✅已完成 |
+| 13 | `uni-app` | 自定义二进制差分算法 | 自研 bsdiff 等差分包算法 | 留作未来版本规划 | ⚪已取消 |
+
+## 背景
+
+`fa-app` 已提供通用应用版本发布模型和公开检查接口，`mobile` 也已经具备更新基础能力。本次工作目标是把配置、发布数据、客户端生命周期和 Android 真机验证串成可执行闭环，优先完成 App-PLUS Android 的 WGT 增量更新和完整 APK 回退。
+
+## 功能开发说明
+
+### 1. 公开版本检查接口
+
+- 复用 `POST /api/app/app/release/check`，不新增移动端专用接口。
+- 请求字段为 `appCode`、`platform`、`currentVersionCode`、`channel` 和 `deviceId`。
+- `APP_PLUS` 优先返回匹配当前版本的 WGT，没有匹配时返回完整包。
+- 只返回已发布、未撤回、版本号大于当前版本且命中渠道/灰度规则的版本。
+
+### 2. 应用标识与版本配置
+
+- `VITE_APP_UPDATE_APP_CODE` 使用 `app_apk.short_code`，不作为鉴权密钥。
+- `VITE_APP_UPDATE_CHANNEL` 默认使用 `stable`。
+- `VITE_APP_VERSION_NAME`、`VITE_APP_VERSION_CODE` 与 `mobile/src/manifest.json` 保持一致。
+- App 真机使用可访问的完整 API 地址，正式环境使用 HTTPS。
+
+### 3. 更新 Core 能力
+
+- `fa-core-mobile/update` 统一负责版本读取、检查、下载、校验、安装锁和安装状态。
+- 更新清单缺少下载地址、版本号、包类型或 SHA-256 时，在下载前失败。
+- 下载完成和安装前都校验 SHA-256，校验失败不得安装。
+- WGT 使用 `plus.runtime.install`；完整包只在支持的 Android App-PLUS 环境中尝试安装。
+
+### 4. Base 更新提示流程
+
+- `fa-base-mobile` 只调用 Base 暴露的更新服务，不在页面内直接使用 `plus.runtime`。
+- 可选更新允许稍后处理；`forceUpdate` 不显示取消操作。
+- 异常时关闭 loading，提示失败原因，并保留当前版本继续运行。
+- 微信小程序和 H5 继续使用各自的平台更新策略，不进入 WGT 安装流程。
+
+### 5. 启动与前台检查去重
+
+- App 前台恢复时触发一次版本检查；首次登录后首页保留一次兜底检查。
+- 使用共享的进行中标记和短时间冷却，避免 `onShow`、`onActivated`、`onMounted` 重复弹窗或重复下载。
+- 更新检查失败不阻断登录和正常业务；强制更新只在服务端明确返回强制清单时限制取消操作。
+
+### 6. 发布数据准备
+
+- 确认 `app_release` 和 `app_release_package` 对应数据库迁移已执行。
+- 创建目标 App 的草稿版本，填写版本名称、递增版本号、渠道、更新说明和强制更新策略。
+- 上传 WGT 或完整包，保存文件 ID、大小和 SHA-256；WGT 必须填写小于目标版本的 `baseVersionCode`。
+- 校验通过后发布；发现问题时撤回版本，不删除发布文件。
+- 当前 `fa-app-pages` 没有通用 `app_release` 管理页面，本 ADR 暂通过已有管理 API 或运维脚本准备测试发布数据，后台维护页面另立需求。
+
+### 7. 验证与发布
+
+- 先执行类型检查和后端编译，再执行 App-PLUS 构建。
+- Android 真机验证 WGT 下载、摘要校验、安装和重启后的版本变化。
+- 验证完整包回退、强制更新、灰度未命中、撤回版本和错误摘要场景。
+- 真机验证通过前，相关功能保持 `🔍验证中`，不得提前标记为完成。
+
+## 决策
+
+- 使用 `fa-app` 的通用发布接口，不继续扩展旧的 APK 最新版本接口。
+- App-PLUS 采用官方 WGT 增量包，不实现自定义二进制差分。
+- 更新清单由服务端选择，客户端只负责执行和安全校验；客户端不自行拼装发布包规则。
+- 完整包涉及原生能力、权限或插件变更时使用完整 APK/IPA；iOS 完整包不在应用内直接安装，转交 App Store 或企业分发渠道。
+- 更新失败、取消或平台不支持时保留当前版本，不阻断正常业务。
+- 通用版本后台维护页面、关于页手动检查入口和自定义差分算法不属于本期必须交付范围。
+
+## 接口契约
+
+```text
+POST /api/app/app/release/check
+
+{
+  "appCode": "app_apk.short_code",
+  "platform": "APP_PLUS",
+  "currentVersionCode": 100,
+  "channel": "stable",
+  "deviceId": "持久化设备标识"
+}
+```
+
+响应 `data` 主要字段：
+
+- `hasUpdate`、`updateType`：`NONE`、`WGT`、`FULL`。
+- `versionCode`、`versionName`、`baseVersionCode`。
+- `forceUpdate`、`minSupportedVersionCode`、`releaseNote`。
+- `fileId`、`downloadUrl`、`size`、`sha256`。
+
+## 文件范围
+
+预计检查或修改：
+
+- `mobile/src/app.config.ts`
+- `mobile/src/env.d.ts`
+- `mobile/src/manifest.json`
+- `mobile/src/App.vue`
+- `mobile/src/features/fa-core-mobile/update/`
+- `mobile/src/features/fa-base-mobile/api/update.ts`
+- `mobile/src/features/fa-base-mobile/common/update.ts`
+- `mobile/src/features/fa-base-mobile/pages/home/index.vue`
+- `mobile/docs/handbook/android-apk-release.md`
+
+后端接口和发布模型参考：
+
+- `fa-app/src/main/java/com/faber/api/app/release/rest/AppReleaseController.java`
+- `fa-app/src/main/java/com/faber/api/app/release/biz/AppReleaseBiz.java`
+- `fa-app/src/main/java/com/faber/api/app/release/vo/req/AppReleaseCheckReq.java`
+- `fa-app/src/main/java/com/faber/api/app/release/vo/ret/AppReleaseCheckRet.java`
+- `fa-app/src/main/resources/sql/fa-app/mysql/1.0.6_app_ddl.sql`
+- `fa-app/src/main/resources/sql/fa-app/postgre/1.0.6_app_ddl.sql`
+
+如果确需修改 `fa-app`，先在 `fa-app` 子模块内完成并验证，再更新父仓库中的子模块指针；不要把后端修改直接混入 `mobile` 提交。
+
+## 实施顺序
+
+1. 确认 API 地址、应用短码、版本号和数据库迁移状态。
+2. 准备一条可下载的 `APP_PLUS` 测试发布记录。
+3. 核对移动端请求、清单校验和下载地址解析。
+4. 收敛 App 启动/前台检查和重复触发逻辑。
+5. 执行接口、失败场景和版本选择验证。
+6. 执行 `mobile` 类型检查、App-PLUS 构建和 Android 真机验证。
+7. 完善发布、撤回和紧急强制更新文档。
+
+## 验收标准
+
+- 未配置应用短码时不发起更新请求；配置正确后能访问公开检查接口。
+- 当前版本已是最新、版本已撤回、渠道不匹配或灰度未命中时不显示更新弹窗。
+- 匹配 WGT 时能完成下载、SHA-256 校验、安装和重启。
+- WGT 不匹配或低于最低支持版本时能返回并执行完整包策略。
+- 强制更新不可取消；下载、校验、安装失败时当前版本仍可继续使用。
+- `pnpm --dir mobile type-check` 通过，App-PLUS 构建成功，Android 真机验证通过。
+- 发布和撤回步骤有文档记录；未新增第二套请求、WebSocket 或差分算法。
+
+## 非目标
+
+- 不修改 Desktop 客户端版本更新接口。
+- 不把微信小程序或 H5 强行改造成 WGT 更新。
+- 不在本 ADR 中新增通用 `app_release` 后台维护页面。
+- 不实现 iOS 应用内 IPA 安装。
+- 不新增自定义二进制差分算法。
+
+## 后续状态更新
+
+- 代码主体存在但尚未完成本 ADR 的配置和真机验证时，保持 `🟡进行中`。
+- 开发完成、等待类型检查/构建/真机验证时，将对应功能进度更新为 `🔍验证中`。
+- 用户确认验证成功后，更新对应功能和本文状态为 `✅已完成`。
+- 验证失败时保持 `🔍验证中`，记录失败原因，不提前标记完成。

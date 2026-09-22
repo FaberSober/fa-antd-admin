@@ -2,8 +2,8 @@
     "name" : "Fa Mobile",
     "appid" : "__UNI__17534C7",
     "description" : "Fa Mobile application",
-    "versionName" : "0.0.1",
-    "versionCode" : "1",
+    "versionName" : "0.0.3",
+    "versionCode" : "3",
     "transformPx" : false,
     "app-plus" : {
         "usingComponents" : true,
@@ -34,7 +34,9 @@
                     "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>"
                 ]
             },
-            "ios" : {},
+            "ios" : {
+                "dSYMs" : false
+            },
             "sdkConfigs" : {
                 "geolocation" : {
                     "system" : {
