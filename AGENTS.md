@@ -7,6 +7,7 @@
 - 后端 Java/Spring Boot、MyBatis-Plus、CRUD API、Entity/Mapper/Biz/Controller、DDL、版本升级 SQL、枚举、字典、校验、Excel、缓存和消息任务：使用 `fa-admin-backend` skill。
 - React/Vite/Ant Design 管理端页面、CRUD、表格/表单、选择器、路由、主题、状态与前端工具链任务：使用 `fa-admin-frontend` skill。
 - 前后端联动任务按涉及范围同时使用两个 skill；数据库类型、方言、时序数据与迁移规则以 `fa-admin-backend` skill 为准。
+- UniApp 移动端 `mobile/` 任务遵守 `mobile/AGENTS.md`；新增触摸交互统一使用 `@tap`，不要新增 `@click`。
 
 ## 项目默认原则
 
