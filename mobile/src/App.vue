@@ -3,7 +3,7 @@ import { onError, onLaunch, onUnhandledRejection } from '@dcloudio/uni-app';
 import { hasToken } from './features/fa-base-mobile/common/session';
 import { telemetry } from './features/fa-core-mobile/telemetry';
 
-const HOME_ROUTE = '/features/fa-base-mobile/pages/home/index';
+const HOME_ROUTE = '/features/fa-base-mobile/pages/main/index';
 
 function getUnhandledReason(event: unknown): unknown {
   if (event && typeof event === 'object' && 'reason' in event) {

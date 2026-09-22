@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { MOBILE_TAB_ROUTES } from '../feature';
+import { computed, inject } from 'vue';
+import { MOBILE_TAB_NAVIGATION_KEY, MOBILE_TAB_ROUTES } from '../feature';
 import { useAuthStore } from '../stores/auth';
 import { useMessageStore } from '../stores/message';
 import { useTenantStore } from '../stores/tenant';
@@ -34,6 +34,7 @@ const props = withDefaults(defineProps<{
 const messageStore = useMessageStore();
 const authStore = useAuthStore();
 const tenantStore = useTenantStore();
+const navigateToTab = inject(MOBILE_TAB_NAVIGATION_KEY);
 const cachedUnreadCount = computed(() => messageStore.getUnreadCount(
   authStore.user?.id,
   tenantStore.currentTenantId,
@@ -54,7 +55,12 @@ const emit = defineEmits<{
 
 function handleTabChange(tab: MobileTabKey): void {
   emit('tab-change', tab);
-  if (tab !== props.activeTab) uni.reLaunch({ url: MOBILE_TAB_ROUTES[tab] });
+  if (tab === props.activeTab) return;
+  if (navigateToTab) {
+    navigateToTab(tab);
+    return;
+  }
+  uni.reLaunch({ url: MOBILE_TAB_ROUTES[tab] });
 }
 </script>
 

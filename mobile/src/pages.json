@@ -8,6 +8,15 @@
       }
     },
     {
+      "path": "features/fa-base-mobile/pages/main/index",
+      "style": {
+        "navigationStyle": "custom",
+        "disableScroll": true,
+        "navigationBarBackgroundColor": "#f5f7fb",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
       "path": "features/fa-base-mobile/pages/home/index",
       "style": {
         "navigationStyle": "custom",

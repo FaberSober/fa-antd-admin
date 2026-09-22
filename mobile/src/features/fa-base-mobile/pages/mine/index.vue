@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref } from 'vue';
+import { computed, onActivated, onBeforeUnmount, ref } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
 import { ApiError } from '../../common/request';
 import { createPageRefresh } from '../../common/page-refresh';
@@ -104,10 +104,13 @@ onBeforeUnmount(() => {
   invalidate();
 });
 
-onShow(() => {
+function handlePageShow(): void {
   telemetry.page(MOBILE_PAGE_ROUTES.mine);
   void loadProfile();
-});
+}
+
+onShow(handlePageShow);
+onActivated(handlePageShow);
 </script>
 
 <template>

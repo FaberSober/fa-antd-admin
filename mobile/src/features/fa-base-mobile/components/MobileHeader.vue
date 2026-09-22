@@ -59,7 +59,7 @@ function switchTenant(tenantId: string): void {
     switchingTenantId.value = null;
     return;
   }
-  uni.reLaunch({ url: MOBILE_PAGE_ROUTES.workbench });
+  uni.reLaunch({ url: MOBILE_PAGE_ROUTES.main });
 }
 </script>
 

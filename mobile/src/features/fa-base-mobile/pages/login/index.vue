@@ -25,7 +25,7 @@ async function handleSubmit(): Promise<void> {
 
   try {
     await authStore.signIn(username.value.trim(), password.value);
-    uni.reLaunch({ url: '/features/fa-base-mobile/pages/home/index' });
+    uni.reLaunch({ url: '/features/fa-base-mobile/pages/main/index' });
   } catch (error) {
     errorMessage.value = error instanceof ApiError ? error.message : '登录失败，请稍后重试';
   }

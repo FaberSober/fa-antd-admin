@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { onShow } from '@dcloudio/uni-app';
-import { computed, onBeforeUnmount, ref } from 'vue';
+import { computed, inject, onActivated, onBeforeUnmount, ref } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 import { ApiError } from '../../common/request';
 import { checkAndPromptUpdate } from '../../common/update';
 import { createPageRefresh } from '../../common/page-refresh';
-import { MOBILE_PAGE_ROUTES } from '../../feature';
+import {
+  MOBILE_PAGE_ROUTES,
+  MOBILE_TAB_NAVIGATION_KEY,
+  MOBILE_TAB_ROUTES,
+} from '../../feature';
 import MobileEmptyState from '../../components/MobileEmptyState.vue';
 import MobileIcon from '../../components/MobileIcon.vue';
 import MobileSearchField from '../../components/MobileSearchField.vue';
@@ -56,6 +60,7 @@ const QUICK_FEATURES: readonly QuickFeature[] = [
 
 const authStore = useAuthStore();
 const tenantStore = useTenantStore();
+const navigateToTab = inject(MOBILE_TAB_NAVIGATION_KEY);
 const searchQuery = ref('');
 const pageRefresh = createPageRefresh();
 const {
@@ -111,7 +116,11 @@ function loadUser(): Promise<void> {
 }
 
 function openMessages(): void {
-  uni.reLaunch({ url: MOBILE_PAGE_ROUTES.messages });
+  if (navigateToTab) {
+    navigateToTab('messages');
+    return;
+  }
+  uni.reLaunch({ url: MOBILE_TAB_ROUTES.messages });
 }
 
 function showFeatureMessage(feature: QuickFeature): void {
@@ -126,10 +135,13 @@ onBeforeUnmount(() => {
   invalidate();
 });
 
-onShow(() => {
+function handlePageShow(): void {
   telemetry.page(MOBILE_PAGE_ROUTES.workbench);
   void loadUser();
-});
+}
+
+onShow(handlePageShow);
+onActivated(handlePageShow);
 </script>
 
 <template>

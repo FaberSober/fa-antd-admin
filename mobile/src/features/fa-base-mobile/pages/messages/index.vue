@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref } from 'vue';
+import { computed, onActivated, onBeforeUnmount, ref } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
 import { batchReadMessages, countMessages, pageMessages, readAllMessages } from '../../api/message';
 import { ApiError } from '../../common/request';
@@ -250,10 +250,13 @@ onBeforeUnmount(() => {
   invalidate();
 });
 
-onShow(() => {
+function handlePageShow(): void {
   telemetry.page(MOBILE_PAGE_ROUTES.messages);
   void loadMessages();
-});
+}
+
+onShow(handlePageShow);
+onActivated(handlePageShow);
 </script>
 
 <template>
