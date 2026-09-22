@@ -111,7 +111,7 @@ function unreadBadge(count: number): string {
   padding: 0 6rpx;
   border: 2rpx solid var(--fa-color-card);
   border-radius: var(--fa-radius-pill);
-  color: #fff;
+  color: var(--fa-color-text-inverse);
   background: var(--fa-color-danger);
   font-size: 18rpx;
   line-height: 26rpx;

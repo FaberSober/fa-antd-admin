@@ -5,6 +5,7 @@ import { ApiError } from '../../common/request';
 import { hasToken } from '../../common/session';
 import { buildH5PreviewUrl, createFilePreviewTicket } from '../../api/file';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
+import MobileThemeRoot from '@features/fa-core-mobile/theme/MobileThemeRoot.vue';
 
 const LOGIN_ROUTE = '/features/fa-base-mobile/pages/login/index';
 
@@ -69,22 +70,24 @@ onShow(() => {
 </script>
 
 <template>
-  <view class="file-preview-page">
-    <view v-if="loading" class="state-card">
-      <text class="state-text">正在准备文件预览...</text>
+  <MobileThemeRoot>
+    <view class="file-preview-page">
+      <view v-if="loading" class="state-card">
+        <text class="state-text">正在准备文件预览...</text>
+      </view>
+      <view v-else-if="errorMessage" class="state-card">
+        <text class="state-error">{{ errorMessage }}</text>
+      </view>
+      <!-- #ifdef H5 -->
+      <view v-else-if="previewUrl" class="state-card">
+        <text class="state-text">正在打开文件预览...</text>
+      </view>
+      <!-- #endif -->
+      <!-- #ifndef H5 -->
+      <web-view v-else-if="previewUrl" class="preview-webview" :src="previewUrl" />
+      <!-- #endif -->
     </view>
-    <view v-else-if="errorMessage" class="state-card">
-      <text class="state-error">{{ errorMessage }}</text>
-    </view>
-    <!-- #ifdef H5 -->
-    <view v-else-if="previewUrl" class="state-card">
-      <text class="state-text">正在打开文件预览...</text>
-    </view>
-    <!-- #endif -->
-    <!-- #ifndef H5 -->
-    <web-view v-else-if="previewUrl" class="preview-webview" :src="previewUrl" />
-    <!-- #endif -->
-  </view>
+  </MobileThemeRoot>
 </template>
 
 <style scoped>
@@ -93,7 +96,7 @@ onShow(() => {
   flex-direction: column;
   width: 100%;
   height: 100vh;
-  background: #111827;
+  background: var(--fa-color-page);
 }
 
 .preview-webview {
@@ -117,10 +120,10 @@ onShow(() => {
 }
 
 .state-text {
-  color: #d1d5db;
+  color: var(--fa-color-text-secondary);
 }
 
 .state-error {
-  color: #fca5a5;
+  color: var(--fa-color-danger);
 }
 </style>

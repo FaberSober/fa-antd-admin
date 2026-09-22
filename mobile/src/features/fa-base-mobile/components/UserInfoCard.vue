@@ -40,8 +40,8 @@ defineProps<{
   height: 112rpx;
   margin-bottom: 24rpx;
   border-radius: 50%;
-  color: #ffffff;
-  background: linear-gradient(135deg, #1677ff, #69b1ff);
+  color: var(--fa-color-text-inverse);
+  background: linear-gradient(135deg, var(--fa-color-primary), var(--fa-color-primary-gradient-end));
   font-size: 52rpx;
   line-height: 112rpx;
   text-align: center;
@@ -62,8 +62,8 @@ defineProps<{
 .user-status {
   padding: 6rpx 14rpx;
   border-radius: 999rpx;
-  color: #15803d;
-  background: #dcfce7;
+  color: var(--fa-color-green-strong);
+  background: var(--fa-color-green-soft);
   font-size: 22rpx;
 }
 

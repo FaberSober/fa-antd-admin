@@ -1,7 +1,16 @@
 <script setup lang="ts">
+import { onActivated, onMounted, watch } from 'vue';
 import { useThemeStore } from './index';
 
 const themeStore = useThemeStore();
+
+function syncNavigationBar(): void {
+  themeStore.syncNavigationBar();
+}
+
+onMounted(syncNavigationBar);
+onActivated(syncNavigationBar);
+watch(() => themeStore.mode, syncNavigationBar);
 </script>
 
 <template>

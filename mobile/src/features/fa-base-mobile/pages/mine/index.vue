@@ -9,6 +9,7 @@ import { useAuthStore } from '../../stores/auth';
 import { useTenantStore } from '../../stores/tenant';
 import type { MobileIconName } from '../../types/mobileIcon';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
+import { THEME_DANGER_COLORS, useThemeStore } from '@features/fa-core-mobile/theme';
 
 interface MineSetting {
   id: string;
@@ -26,6 +27,7 @@ const MINE_SETTINGS: readonly MineSetting[] = [
 
 const authStore = useAuthStore();
 const tenantStore = useTenantStore();
+const themeStore = useThemeStore();
 const showDemoEntry = import.meta.env.DEV;
 const logoutLoading = ref(false);
 const profileLoading = ref(true);
@@ -77,7 +79,7 @@ function confirmLogout(): void {
     title: '退出登录',
     content: '退出后需要重新登录，确定要继续吗？',
     confirmText: '退出登录',
-    confirmColor: '#ef4444',
+    confirmColor: THEME_DANGER_COLORS[themeStore.mode],
     success: ({ confirm }) => {
       if (confirm) void logout();
     },

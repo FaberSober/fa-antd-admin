@@ -10,6 +10,9 @@
   --fa-color-green-soft: #f0fdf4;
   --fa-color-danger: #ef4444;
   --fa-color-danger-soft: #fef2f2;
+  --fa-color-text-inverse: #ffffff;
+  --fa-color-primary-gradient-end: #69b1ff;
+  --fa-color-green-strong: #15803d;
   --fa-color-text: #1f2937;
   --fa-color-text-secondary: #475569;
   --fa-color-muted: #6b7280;
@@ -51,6 +54,9 @@
   --fa-color-green-soft: #143c25;
   --fa-color-danger: #f87171;
   --fa-color-danger-soft: #451a1a;
+  --fa-color-text-inverse: #0e1420;
+  --fa-color-primary-gradient-end: #2f6ebd;
+  --fa-color-green-strong: #4ade80;
   --fa-color-text: #f2f6fc;
   --fa-color-text-secondary: #b3bfd1;
   --fa-color-muted: #8290a6;

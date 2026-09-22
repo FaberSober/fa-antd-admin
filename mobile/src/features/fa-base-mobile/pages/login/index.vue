@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 import { ApiError } from '../../common/request';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
+import MobileThemeRoot from '@features/fa-core-mobile/theme/MobileThemeRoot.vue';
 
 const authStore = useAuthStore();
 const username = ref('');
@@ -32,46 +33,48 @@ async function handleSubmit(): Promise<void> {
 </script>
 
 <template>
-  <view class="login-page fa-page">
-    <view class="login-header">
-      <text class="login-title">Fa Mobile</text>
-      <text class="login-subtitle">移动端基础框架</text>
-    </view>
-
-    <view class="login-card fa-card">
-      <view class="form-item">
-        <text class="form-label">账号</text>
-        <input
-          v-model="username"
-          class="form-input"
-          type="text"
-          placeholder="请输入账号"
-          confirm-type="next"
-        />
+  <MobileThemeRoot>
+    <view class="login-page fa-page">
+      <view class="login-header">
+        <text class="login-title">Fa Mobile</text>
+        <text class="login-subtitle">移动端基础框架</text>
       </view>
 
-      <view class="form-item">
-        <text class="form-label">密码</text>
-        <input
-          v-model="password"
-          class="form-input"
-          type="password"
-          placeholder="请输入密码"
-          confirm-type="done"
-          @confirm="handleSubmit"
-        />
+      <view class="login-card fa-card">
+        <view class="form-item">
+          <text class="form-label">账号</text>
+          <input
+            v-model="username"
+            class="form-input"
+            type="text"
+            placeholder="请输入账号"
+            confirm-type="next"
+          />
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">密码</text>
+          <input
+            v-model="password"
+            class="form-input"
+            type="password"
+            placeholder="请输入密码"
+            confirm-type="done"
+            @confirm="handleSubmit"
+          />
+        </view>
+
+        <text v-if="errorMessage" class="error-message">{{ errorMessage }}</text>
+
+        <button
+          class="login-button"
+          :loading="authStore.loading"
+          :disabled="authStore.loading"
+          @click="handleSubmit"
+        >登录</button>
       </view>
-
-      <text v-if="errorMessage" class="error-message">{{ errorMessage }}</text>
-
-      <button
-        class="login-button"
-        :loading="authStore.loading"
-        :disabled="authStore.loading"
-        @click="handleSubmit"
-      >登录</button>
     </view>
-  </view>
+  </MobileThemeRoot>
 </template>
 
 <style scoped>
@@ -127,7 +130,7 @@ async function handleSubmit(): Promise<void> {
 .error-message {
   display: block;
   margin-top: 24rpx;
-  color: #dc2626;
+  color: var(--fa-color-danger);
   font-size: 24rpx;
 }
 
@@ -138,9 +141,8 @@ async function handleSubmit(): Promise<void> {
   line-height: 88rpx;
   margin: 48rpx 0 0;
   border-radius: 999rpx;
-  color: #ffffff;
-  background: #1677ff;
-  background: var(--fa-color-primary, #1677ff);
+  color: var(--fa-color-text-inverse);
+  background: var(--fa-color-primary);
   font-size: 30rpx;
 }
 </style>

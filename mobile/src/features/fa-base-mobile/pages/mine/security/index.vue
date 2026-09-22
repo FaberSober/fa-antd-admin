@@ -6,6 +6,7 @@ import { ApiError } from '../../../common/request';
 import { MOBILE_PAGE_ROUTES } from '../../../feature';
 import { useAuthStore } from '../../../stores/auth';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
+import MobileThemeRoot from '@features/fa-core-mobile/theme/MobileThemeRoot.vue';
 
 interface PasswordForm {
   oldPwd: string;
@@ -70,56 +71,58 @@ onShow(() => {
 </script>
 
 <template>
-  <view class="security-page fa-page">
-    <view class="security-card fa-card">
-      <view class="security-heading">
-        <text class="security-title">修改密码</text>
-        <text class="security-description">修改成功后需要重新登录</text>
-      </view>
+  <MobileThemeRoot>
+    <view class="security-page fa-page">
+      <view class="security-card fa-card">
+        <view class="security-heading">
+          <text class="security-title">修改密码</text>
+          <text class="security-description">修改成功后需要重新登录</text>
+        </view>
 
-      <view class="security-form">
-        <view class="security-field">
-          <text class="security-field__label">原密码</text>
-          <input
-            v-model="form.oldPwd"
-            class="security-field__input"
-            type="password"
-            placeholder="请输入原密码"
-            confirm-type="next"
-          />
+        <view class="security-form">
+          <view class="security-field">
+            <text class="security-field__label">原密码</text>
+            <input
+              v-model="form.oldPwd"
+              class="security-field__input"
+              type="password"
+              placeholder="请输入原密码"
+              confirm-type="next"
+            />
+          </view>
+          <view class="security-field">
+            <text class="security-field__label">新密码</text>
+            <input
+              v-model="form.newPwd"
+              class="security-field__input"
+              type="password"
+              placeholder="请输入新密码"
+              confirm-type="next"
+            />
+          </view>
+          <view class="security-field">
+            <text class="security-field__label">确认密码</text>
+            <input
+              v-model="form.confirmPwd"
+              class="security-field__input"
+              type="password"
+              placeholder="请再次输入新密码"
+              confirm-type="done"
+              @confirm="submitPassword"
+            />
+          </view>
         </view>
-        <view class="security-field">
-          <text class="security-field__label">新密码</text>
-          <input
-            v-model="form.newPwd"
-            class="security-field__input"
-            type="password"
-            placeholder="请输入新密码"
-            confirm-type="next"
-          />
-        </view>
-        <view class="security-field">
-          <text class="security-field__label">确认密码</text>
-          <input
-            v-model="form.confirmPwd"
-            class="security-field__input"
-            type="password"
-            placeholder="请再次输入新密码"
-            confirm-type="done"
-            @confirm="submitPassword"
-          />
-        </view>
-      </view>
 
-      <text v-if="errorMessage" class="security-error">{{ errorMessage }}</text>
-      <button
-        class="security-submit"
-        :disabled="submitting"
-        :loading="submitting"
-        @click="submitPassword"
-      >确认修改</button>
+        <text v-if="errorMessage" class="security-error">{{ errorMessage }}</text>
+        <button
+          class="security-submit"
+          :disabled="submitting"
+          :loading="submitting"
+          @click="submitPassword"
+        >确认修改</button>
+      </view>
     </view>
-  </view>
+  </MobileThemeRoot>
 </template>
 
 <style scoped>
@@ -186,7 +189,7 @@ onShow(() => {
 .security-submit {
   width: 100%;
   margin: 36rpx 0 0;
-  color: #ffffff;
+  color: var(--fa-color-text-inverse);
   background: var(--fa-color-primary);
   font-size: 28rpx;
   line-height: 80rpx;

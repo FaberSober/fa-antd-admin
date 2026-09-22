@@ -213,7 +213,7 @@ function switchTenant(tenantId: string): void {
   padding: 0 5rpx;
   border: 2rpx solid var(--fa-color-page);
   border-radius: var(--fa-radius-pill);
-  color: #fff;
+  color: var(--fa-color-text-inverse);
   background: var(--fa-color-danger);
   font-size: 16rpx;
   line-height: 20rpx;

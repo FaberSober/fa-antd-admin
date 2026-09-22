@@ -8,6 +8,7 @@ import { MOBILE_PAGE_ROUTES } from '../../../feature';
 import { useAuthStore } from '../../../stores/auth';
 import { useTenantStore } from '../../../stores/tenant';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
+import MobileThemeRoot from '@features/fa-core-mobile/theme/MobileThemeRoot.vue';
 
 interface ProfileForm {
   name: string;
@@ -171,18 +172,19 @@ onShow(() => {
 </script>
 
 <template>
-  <view class="account-page fa-page">
-    <view v-if="loading" class="account-state fa-card">
-      <text class="fa-muted">正在加载个人资料...</text>
-    </view>
+  <MobileThemeRoot>
+    <view class="account-page fa-page">
+      <view v-if="loading" class="account-state fa-card">
+        <text class="fa-muted">正在加载个人资料...</text>
+      </view>
 
-    <view v-else-if="errorMessage" class="account-state fa-card">
-      <text class="account-state__error">{{ errorMessage }}</text>
-      <button class="account-state__retry" @click="loadProfile">重新加载</button>
-    </view>
+      <view v-else-if="errorMessage" class="account-state fa-card">
+        <text class="account-state__error">{{ errorMessage }}</text>
+        <button class="account-state__retry" @click="loadProfile">重新加载</button>
+      </view>
 
-    <template v-else-if="authStore.user">
-      <view class="account-profile fa-card">
+      <template v-else-if="authStore.user">
+        <view class="account-profile fa-card">
         <image
           v-if="profileAvatarUrl && !avatarLoadError"
           class="account-profile__avatar account-profile__avatar--image"
@@ -199,9 +201,9 @@ onShow(() => {
           >{{ accountStatus }}</text>
         </view>
         <button v-if="!editing" class="account-profile__edit" @click="startEditing">编辑</button>
-      </view>
+        </view>
 
-      <view v-if="editing" class="account-edit fa-card">
+        <view v-if="editing" class="account-edit fa-card">
         <button
           class="account-edit__avatar"
           :disabled="saving || avatarUploading"
@@ -231,9 +233,9 @@ onShow(() => {
             @click="saveProfile"
           >保存</button>
         </view>
-      </view>
+        </view>
 
-      <view v-else class="account-info fa-card">
+        <view v-else class="account-info fa-card">
         <view class="account-info__row">
           <text class="account-info__label">账号</text>
           <text class="account-info__value">{{ authStore.user.username || '-' }}</text>
@@ -246,18 +248,19 @@ onShow(() => {
           <text class="account-info__label">邮箱</text>
           <text class="account-info__value">{{ authStore.user.email || '-' }}</text>
         </view>
-      </view>
+        </view>
 
-      <view class="account-workspace fa-card">
-        <text class="account-workspace__title">当前工作空间</text>
-        <text class="account-workspace__name">{{ tenantName }}</text>
-        <text class="account-workspace__role">{{ tenantRole }}</text>
-        <text v-if="tenantStore.errorMessage" class="account-workspace__error">
-          {{ tenantStore.errorMessage }}
-        </text>
-      </view>
-    </template>
-  </view>
+        <view class="account-workspace fa-card">
+          <text class="account-workspace__title">当前工作空间</text>
+          <text class="account-workspace__name">{{ tenantName }}</text>
+          <text class="account-workspace__role">{{ tenantRole }}</text>
+          <text v-if="tenantStore.errorMessage" class="account-workspace__error">
+            {{ tenantStore.errorMessage }}
+          </text>
+        </view>
+      </template>
+    </view>
+  </MobileThemeRoot>
 </template>
 
 <style scoped>
@@ -303,8 +306,8 @@ onShow(() => {
   height: 112rpx;
   margin-right: 24rpx;
   border-radius: 50%;
-  color: #ffffff;
-  background: linear-gradient(135deg, var(--fa-color-primary), #69b1ff);
+  color: var(--fa-color-text-inverse);
+  background: linear-gradient(135deg, var(--fa-color-primary), var(--fa-color-primary-gradient-end));
   font-size: 52rpx;
   font-weight: 700;
 }
@@ -352,7 +355,7 @@ onShow(() => {
   margin-top: 10rpx;
   padding: 6rpx 14rpx;
   border-radius: var(--fa-radius-pill);
-  color: #15803d;
+  color: var(--fa-color-green-strong);
   background: var(--fa-color-green-soft);
   font-size: 22rpx;
   line-height: 30rpx;
@@ -428,7 +431,7 @@ onShow(() => {
 }
 
 .account-edit__save {
-  color: #ffffff;
+  color: var(--fa-color-text-inverse);
   background: var(--fa-color-primary);
 }
 
