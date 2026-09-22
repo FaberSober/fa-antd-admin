@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import UniIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue';
 import type { MobileIconName } from '../types/mobileIcon';
 
 const props = withDefaults(defineProps<{
@@ -9,435 +10,46 @@ const props = withDefaults(defineProps<{
   size: 48,
 });
 
-const glyphs: Record<MobileIconName, string> = {
-  search: '',
-  bell: '',
-  'chevron-right': '',
-  'arrow-right': '',
-  close: '',
-  messages: '',
-  home: '',
-  contacts: '',
-  mine: '',
-  grid: '',
-  lightning: 'ϟ',
-  clock: '',
-  file: '▤',
-  organization: '⌘',
-  question: '?',
+const iconTypes: Record<MobileIconName, string> = {
+  search: 'search',
+  bell: 'notification',
+  'chevron-right': 'right',
+  'arrow-right': 'arrow-right',
+  close: 'close',
+  messages: 'chat',
+  home: 'home',
+  contacts: 'staff',
+  mine: 'person',
+  grid: 'bars',
+  lightning: 'fire',
+  clock: 'checkbox',
+  file: 'list',
+  organization: 'staff',
+  question: 'help',
 };
 
-const glyph = computed(() => glyphs[props.name]);
+const iconType = computed(() => iconTypes[props.name]);
+const iconSize = computed(() => Math.max(12, Math.round(props.size * 0.5)));
 const iconStyle = computed(() => ({
   width: `${props.size}rpx`,
   height: `${props.size}rpx`,
-  fontSize: `${props.size * 0.72}rpx`,
 }));
 </script>
 
 <template>
   <view class="mobile-icon" :class="`mobile-icon--${props.name}`" :style="iconStyle" aria-hidden="true">
-    <view v-if="props.name === 'search'" class="mobile-icon__shape mobile-icon__shape--search" />
-    <view v-else-if="props.name === 'bell'" class="mobile-icon__shape mobile-icon__shape--bell" />
-    <view v-else-if="props.name === 'chevron-right' || props.name === 'arrow-right'" class="mobile-icon__shape mobile-icon__shape--chevron" />
-    <view v-else-if="props.name === 'close'" class="mobile-icon__shape mobile-icon__shape--close" />
-    <view v-else-if="props.name === 'messages'" class="mobile-icon__shape mobile-icon__shape--messages" />
-    <view v-else-if="props.name === 'home'" class="mobile-icon__shape mobile-icon__shape--home" />
-    <view v-else-if="props.name === 'contacts'" class="mobile-icon__shape mobile-icon__shape--contacts">
-      <view class="mobile-icon__contact-person mobile-icon__contact-person--primary" />
-      <view class="mobile-icon__contact-person mobile-icon__contact-person--secondary" />
-    </view>
-    <view v-else-if="props.name === 'mine'" class="mobile-icon__shape mobile-icon__shape--mine" />
-    <view v-else-if="props.name === 'organization'" class="mobile-icon__shape mobile-icon__shape--organization">
-      <view class="mobile-icon__organization-node mobile-icon__organization-node--root" />
-      <view class="mobile-icon__organization-node mobile-icon__organization-node--left" />
-      <view class="mobile-icon__organization-node mobile-icon__organization-node--right" />
-    </view>
-    <view v-else-if="props.name === 'grid'" class="mobile-icon__shape mobile-icon__shape--grid" />
-    <view v-else-if="props.name === 'clock'" class="mobile-icon__shape mobile-icon__shape--clock" />
-    <view v-else-if="props.name === 'question'" class="mobile-icon__shape mobile-icon__shape--question">?</view>
-    <text v-else class="mobile-icon__glyph">{{ glyph }}</text>
+    <UniIcons :type="iconType" :size="iconSize" color="currentColor" />
   </view>
 </template>
 
 <style scoped>
 .mobile-icon {
-  position: relative;
-  display: inline-block;
+  display: inline-flex;
   flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   color: inherit;
   line-height: 1;
-}
-
-.mobile-icon__shape,
-.mobile-icon__glyph {
-  position: absolute;
-  display: block;
-}
-
-.mobile-icon__glyph {
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  transform: translate(-50%, -50%);
-  line-height: 1;
-  text-align: center;
-}
-
-.mobile-icon__shape--search {
-  top: 17%;
-  left: 15%;
-  width: 53%;
-  height: 53%;
-  box-sizing: border-box;
-  border: 3rpx solid currentColor;
-  border-radius: 50%;
-}
-
-.mobile-icon__shape--search::after {
-  position: absolute;
-  right: -30%;
-  bottom: -24%;
-  width: 42%;
-  height: 3rpx;
-  border-radius: 3rpx;
-  background: currentColor;
-  content: '';
-  transform: rotate(45deg);
-  transform-origin: left center;
-}
-
-.mobile-icon__shape--bell {
-  top: 15%;
-  left: 21%;
-  width: 58%;
-  height: 57%;
-  box-sizing: border-box;
-  border: 3rpx solid currentColor;
-  border-bottom: 0;
-  border-radius: 50% 50% 12% 12%;
-}
-
-.mobile-icon__shape--bell::before {
-  position: absolute;
-  right: -15%;
-  bottom: -12%;
-  left: -15%;
-  height: 3rpx;
-  border-radius: 3rpx;
-  background: currentColor;
-  content: '';
-}
-
-.mobile-icon__shape--bell::after {
-  position: absolute;
-  bottom: -25%;
-  left: 43%;
-  width: 14%;
-  height: 14%;
-  border-radius: 50%;
-  background: currentColor;
-  content: '';
-}
-
-.mobile-icon__shape--chevron {
-  top: 32%;
-  left: 26%;
-  width: 31%;
-  height: 31%;
-  box-sizing: border-box;
-  border-top: 3rpx solid currentColor;
-  border-right: 3rpx solid currentColor;
-  transform: rotate(45deg);
-}
-
-.mobile-icon--arrow-right .mobile-icon__shape--chevron {
-  left: 17%;
-  width: 45%;
-  border-top-width: 2rpx;
-  border-right-width: 2rpx;
-}
-
-.mobile-icon--arrow-right .mobile-icon__shape--chevron::before {
-  position: absolute;
-  top: 50%;
-  right: -20%;
-  width: 130%;
-  height: 2rpx;
-  background: currentColor;
-  content: '';
-  transform: translateY(-50%) rotate(-45deg);
-  transform-origin: right center;
-}
-
-.mobile-icon__shape--close::before,
-.mobile-icon__shape--close::after {
-  position: absolute;
-  top: 50%;
-  left: 15%;
-  width: 70%;
-  height: 3rpx;
-  border-radius: 3rpx;
-  background: currentColor;
-  content: '';
-}
-
-.mobile-icon__shape--close::before {
-  transform: rotate(45deg);
-}
-
-.mobile-icon__shape--close::after {
-  transform: rotate(-45deg);
-}
-
-.mobile-icon__shape--messages {
-  top: 16%;
-  left: 11%;
-  width: 76%;
-  height: 62%;
-  box-sizing: border-box;
-  border: 3rpx solid currentColor;
-  border-radius: 28% 28% 28% 22%;
-}
-
-.mobile-icon__shape--messages::after {
-  position: absolute;
-  bottom: -15%;
-  left: 12%;
-  width: 22%;
-  height: 22%;
-  box-sizing: border-box;
-  border-bottom: 3rpx solid currentColor;
-  border-left: 3rpx solid currentColor;
-  background: var(--fa-color-card);
-  content: '';
-  transform: skewY(-32deg);
-}
-
-.mobile-icon__shape--home {
-  top: 37%;
-  left: 17%;
-  width: 66%;
-  height: 48%;
-  box-sizing: border-box;
-  border: 3rpx solid currentColor;
-  border-radius: 6rpx;
-}
-
-.mobile-icon__shape--home::before {
-  position: absolute;
-  top: -43%;
-  left: 15%;
-  width: 57%;
-  height: 57%;
-  box-sizing: border-box;
-  border-top: 3rpx solid currentColor;
-  border-left: 3rpx solid currentColor;
-  content: '';
-  transform: rotate(45deg);
-}
-
-.mobile-icon__shape--home::after {
-  position: absolute;
-  bottom: 0;
-  left: 38%;
-  width: 24%;
-  height: 48%;
-  border: 3rpx solid currentColor;
-  border-bottom: 0;
-  border-radius: 5rpx 5rpx 0 0;
-  content: '';
-}
-
-.mobile-icon__shape--contacts,
-.mobile-icon__shape--mine {
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.mobile-icon__contact-person {
-  position: absolute;
-  box-sizing: border-box;
-}
-
-.mobile-icon__contact-person--primary {
-  z-index: 2;
-  top: 11%;
-  left: 19%;
-  width: 34%;
-  height: 34%;
-  border: 3rpx solid currentColor;
-  border-radius: 50%;
-}
-
-.mobile-icon__contact-person--primary::after {
-  position: absolute;
-  top: 90%;
-  left: -26%;
-  width: 139%;
-  height: 125%;
-  box-sizing: border-box;
-  border: 3rpx solid currentColor;
-  border-bottom: 0;
-  border-radius: 50% 50% 0 0;
-  content: '';
-}
-
-.mobile-icon__contact-person--secondary {
-  z-index: 1;
-  top: 19%;
-  right: 8%;
-  width: 29%;
-  height: 29%;
-  border: 3rpx solid currentColor;
-  border-radius: 50%;
-}
-
-.mobile-icon__contact-person--secondary::after {
-  position: absolute;
-  top: 100%;
-  left: -31%;
-  width: 145%;
-  height: 130%;
-  box-sizing: border-box;
-  border: 3rpx solid currentColor;
-  border-bottom: 0;
-  border-radius: 50% 50% 0 0;
-  content: '';
-}
-
-.mobile-icon__shape--mine::before {
-  position: absolute;
-  top: 13%;
-  left: 35%;
-  width: 30%;
-  height: 30%;
-  border: 3rpx solid currentColor;
-  border-radius: 50%;
-  content: '';
-}
-
-.mobile-icon__shape--mine::after {
-  position: absolute;
-  bottom: 12%;
-  left: 17%;
-  width: 66%;
-  height: 37%;
-  box-sizing: border-box;
-  border: 3rpx solid currentColor;
-  border-bottom: 0;
-  border-radius: 50% 50% 0 0;
-  content: '';
-}
-
-.mobile-icon__shape--organization {
-  top: 8%;
-  left: 8%;
-  width: 84%;
-  height: 84%;
-}
-
-.mobile-icon__shape--organization::before {
-  position: absolute;
-  top: 23%;
-  left: 25%;
-  width: 50%;
-  height: 48%;
-  background:
-    linear-gradient(currentColor, currentColor) center top / 3rpx 52% no-repeat,
-    linear-gradient(currentColor, currentColor) center bottom / 100% 3rpx no-repeat,
-    linear-gradient(currentColor, currentColor) left bottom / 3rpx 52% no-repeat,
-    linear-gradient(currentColor, currentColor) right bottom / 3rpx 52% no-repeat;
-  content: '';
-}
-
-.mobile-icon__organization-node {
-  position: absolute;
-  z-index: 1;
-  box-sizing: border-box;
-  width: 24%;
-  height: 24%;
-  border: 3rpx solid currentColor;
-  border-radius: 5rpx;
-}
-
-.mobile-icon__organization-node--root {
-  top: 0;
-  left: 38%;
-}
-
-.mobile-icon__organization-node--left {
-  bottom: 0;
-  left: 4%;
-}
-
-.mobile-icon__organization-node--right {
-  right: 4%;
-  bottom: 0;
-}
-
-.mobile-icon__shape--grid {
-  top: 17%;
-  left: 17%;
-  width: 66%;
-  height: 66%;
-  box-sizing: border-box;
-  border: 3rpx solid currentColor;
-  border-radius: 10rpx;
-  background: linear-gradient(90deg, transparent 46%, currentColor 46%, currentColor 54%, transparent 54%),
-    linear-gradient(0deg, transparent 46%, currentColor 46%, currentColor 54%, transparent 54%);
-}
-
-.mobile-icon__shape--clock {
-  top: 14%;
-  left: 14%;
-  width: 72%;
-  height: 72%;
-  box-sizing: border-box;
-  border: 3rpx solid currentColor;
-  border-radius: 50%;
-}
-
-.mobile-icon__shape--clock::before,
-.mobile-icon__shape--clock::after {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  width: 3rpx;
-  height: 32%;
-  border-radius: 3rpx;
-  background: currentColor;
-  content: '';
-  transform-origin: bottom center;
-}
-
-.mobile-icon__shape--clock::before {
-  transform: translateX(-50%);
-}
-
-.mobile-icon__shape--clock::after {
-  top: 50%;
-  width: 29%;
-  height: 3rpx;
-  transform: translateY(-50%) rotate(35deg);
-  transform-origin: left center;
-}
-
-.mobile-icon__shape--question {
-  top: 12%;
-  left: 12%;
-  width: 76%;
-  height: 76%;
-  box-sizing: border-box;
-  border: 3rpx solid currentColor;
-  border-radius: 50%;
-  font-size: 60%;
-  font-weight: 600;
-  line-height: 70%;
-  text-align: center;
 }
 </style>

@@ -61,6 +61,12 @@ function openOrganization(): void {
   uni.navigateTo({ url: MOBILE_PAGE_ROUTES.contactsOrganization });
 }
 
+function openContact(userId: string): void {
+  uni.navigateTo({
+    url: `${MOBILE_PAGE_ROUTES.contactsDetail}?id=${encodeURIComponent(userId)}`,
+  });
+}
+
 async function loadAllContacts(version: number): Promise<PortalContactSummary[] | null> {
   const result: PortalContactSummary[] = [];
   let current = 1;
@@ -173,6 +179,7 @@ onShow(() => {
             v-for="(contact, index) in visibleContacts"
             :key="contact.id"
             class="contact-row"
+            @click="openContact(contact.id)"
           >
             <view
               class="contact-row__avatar"

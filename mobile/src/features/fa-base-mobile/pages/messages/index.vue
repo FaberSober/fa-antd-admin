@@ -341,8 +341,10 @@ onShow(() => {
   width: 96rpx;
   margin: 0;
   padding: 0;
+  border: 0;
+  border-radius: var(--fa-radius-sm);
   color: var(--fa-color-primary);
-  background: transparent;
+  background-color: transparent;
   font-size: 26rpx;
   line-height: 72rpx;
 }
@@ -351,10 +353,27 @@ onShow(() => {
   width: 132rpx;
   margin: 0;
   padding: 0;
+  border: 0;
+  border-radius: var(--fa-radius-sm);
   color: var(--fa-color-primary);
-  background: transparent;
+  background-color: transparent;
   font-size: 26rpx;
   line-height: 72rpx;
+}
+
+.message-refresh:active,
+.message-read-all:active,
+.message-refresh.button-hover,
+.message-read-all.button-hover {
+  color: var(--fa-color-primary);
+  background-color: var(--fa-color-primary-soft);
+}
+
+.message-refresh[disabled],
+.message-read-all[disabled] {
+  color: var(--fa-color-muted);
+  background-color: transparent;
+  opacity: 1;
 }
 
 .message-filter {

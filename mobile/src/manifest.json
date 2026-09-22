@@ -15,7 +15,11 @@
       "autoclose": true,
       "delay": 0
     },
-    "modules": {},
+    "modules": {
+      "Push": {
+        "description": "消息推送"
+      }
+    },
     "distribute": {
       "android": {
         "permissions": [

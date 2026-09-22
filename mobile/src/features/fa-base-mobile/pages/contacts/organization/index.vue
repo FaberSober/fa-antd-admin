@@ -58,6 +58,12 @@ function contactSubtitle(contact: PortalContactSummary): string {
     .join(' · ') || '暂无部门信息';
 }
 
+function openContact(userId: string): void {
+  uni.navigateTo({
+    url: `${MOBILE_PAGE_ROUTES.contactsDetail}?id=${encodeURIComponent(userId)}`,
+  });
+}
+
 function resetMembers(): void {
   members.value = [];
   memberErrorMessage.value = '';
@@ -292,7 +298,12 @@ onShow(() => {
           </view>
 
           <view v-else-if="members.length" class="member-list">
-            <view v-for="member in members" :key="member.id" class="member-row">
+            <view
+              v-for="member in members"
+              :key="member.id"
+              class="member-row"
+              @click="openContact(member.id)"
+            >
               <view class="member-row__avatar">{{ contactMark(member) }}</view>
               <view class="member-row__copy">
                 <text class="member-row__name">{{ member.name }}</text>
@@ -344,6 +355,7 @@ onShow(() => {
 
 .organization-back:active,
 .department-entry:active,
+.member-row:active,
 .organization-breadcrumb__item:active {
   opacity: 0.78;
 }

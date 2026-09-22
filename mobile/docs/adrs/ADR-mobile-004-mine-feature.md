@@ -19,6 +19,22 @@
 - 第一阶段不新增数据库表；外观设置使用本地存储。
 - 推送通知偏好暂不实现，等待后端和平台推送契约明确。
 
+## 功能清单
+
+| 模块 | 功能 | 功能详情 | 当前规划 | 进度 |
+|---|---|---|---|---|
+| `fa-base-mobile` 页面入口 | 设置入口与路由 | 资料卡、账号安全、消息中心、外观、关于均可进入 | 执行开发 | ✅已完成 |
+| `fa-base-mobile` 账户 | 个人资料查看 | 展示用户、账号、联系方式、状态和当前租户 | 执行开发 | ✅已完成 |
+| `fa-base-mobile` 账户 | 个人资料编辑 | 修改头像、姓名、手机号和邮箱，保存后同步 Store | 执行开发 | ✅已完成 |
+| `fa-base-mobile` 账户 | 修改密码 | 校验表单并调用现有接口，成功后重新登录 | 执行开发 | ✅已完成 |
+| `fa-base-mobile` 认证 | 退出登录状态同步 | 清理 Token、用户和租户上下文，避免重复提交 | 执行开发 | ✅已完成 |
+| `fa-base-mobile` 消息 | 真实消息列表 | 接入分页、全部/未读筛选、刷新、空态和错误重试 | 执行开发 | ✅已完成 |
+| `fa-base-mobile` 消息 | 已读与未读数 | 支持单条/全部已读，同步 Header 和 Tab Bar 角标 | 执行开发 | ✅已完成 |
+| `fa-base-mobile` 租户 | 租户维度未读角标 | 接入聚合接口后展示各租户独立未读数 | 执行开发 | 👀待确认 |
+| `fa-base-mobile` 外观 | 亮色/暗色设置 | 本地持久化主题并复用现有 CSS Token | 执行开发 | 🕒待处理 |
+| `fa-base-mobile` 关于 | 应用版本信息 | 展示应用名称、版本名称和版本编码 | 执行开发 | 🕒待处理 |
+| `fa-base-mobile` 通知 | 推送通知偏好 | 需要通知分类、设备注册和后端偏好接口 | 留作未来版本规划 | 👀待确认 |
+
 ## 决策
 
 ### 1. 页面结构
@@ -163,19 +179,3 @@ features/fa-base-mobile/pages/mine/about/index
 - `fa-base/src/main/java/com/faber/api/portal/auth/rest/PortalAccountController.java`
 - `fa-base/src/main/java/com/faber/api/base/admin/rest/UserController.java`
 - `fa-base/src/main/java/com/faber/api/base/msg/rest/MsgController.java`
-
-## 功能清单
-
-| 模块 | 功能 | 功能详情 | 当前规划 | 进度 |
-|---|---|---|---|---|
-| `fa-base-mobile` 页面入口 | 设置入口与路由 | 资料卡、账号安全、消息中心、外观、关于均可进入 | 执行开发 | ✅已完成 |
-| `fa-base-mobile` 账户 | 个人资料查看 | 展示用户、账号、联系方式、状态和当前租户 | 执行开发 | ✅已完成 |
-| `fa-base-mobile` 账户 | 个人资料编辑 | 修改头像、姓名、手机号和邮箱，保存后同步 Store | 执行开发 | ✅已完成 |
-| `fa-base-mobile` 账户 | 修改密码 | 校验表单并调用现有接口，成功后重新登录 | 执行开发 | ✅已完成 |
-| `fa-base-mobile` 认证 | 退出登录状态同步 | 清理 Token、用户和租户上下文，避免重复提交 | 执行开发 | ✅已完成 |
-| `fa-base-mobile` 消息 | 真实消息列表 | 接入分页、全部/未读筛选、刷新、空态和错误重试 | 执行开发 | ✅已完成 |
-| `fa-base-mobile` 消息 | 已读与未读数 | 支持单条/全部已读，同步 Header 和 Tab Bar 角标 | 执行开发 | ✅已完成 |
-| `fa-base-mobile` 租户 | 租户维度未读角标 | 接入聚合接口后展示各租户独立未读数 | 执行开发 | 👀待确认 |
-| `fa-base-mobile` 外观 | 亮色/暗色设置 | 本地持久化主题并复用现有 CSS Token | 执行开发 | 🕒待处理 |
-| `fa-base-mobile` 关于 | 应用版本信息 | 展示应用名称、版本名称和版本编码 | 执行开发 | 🕒待处理 |
-| `fa-base-mobile` 通知 | 推送通知偏好 | 需要通知分类、设备注册和后端偏好接口 | 留作未来版本规划 | 👀待确认 |

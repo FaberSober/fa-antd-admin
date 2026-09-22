@@ -12,6 +12,8 @@ interface ImportMetaEnv {
   readonly VITE_APP_VERSION_NAME?: string;
   readonly VITE_APP_VERSION_CODE?: string;
   readonly VITE_APP_FA_FROM?: string;
+  readonly VITE_APP_DEV_USERNAME?: string;
+  readonly VITE_APP_DEV_PASSWORD?: string;
   readonly VITE_APP_UPDATE_APP_CODE?: string;
   readonly VITE_APP_UPDATE_CHANNEL?: string;
   readonly VITE_APP_H5_UPDATE_MANIFEST_URL?: string;

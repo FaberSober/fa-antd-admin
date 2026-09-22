@@ -7,8 +7,8 @@ import { telemetry } from '@features/fa-core-mobile/telemetry';
 import MobileThemeRoot from '@features/fa-core-mobile/theme/MobileThemeRoot.vue';
 
 const authStore = useAuthStore();
-const username = ref('');
-const password = ref('');
+const username = ref(import.meta.env.DEV ? import.meta.env.VITE_APP_DEV_USERNAME || '' : '');
+const password = ref(import.meta.env.DEV ? import.meta.env.VITE_APP_DEV_PASSWORD || '' : '');
 const errorMessage = ref('');
 
 onShow(() => {
