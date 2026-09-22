@@ -70,7 +70,7 @@ async function handleSubmit(): Promise<void> {
           class="login-button"
           :loading="authStore.loading"
           :disabled="authStore.loading"
-          @click="handleSubmit"
+          @tap="handleSubmit"
         >登录</button>
       </view>
     </view>

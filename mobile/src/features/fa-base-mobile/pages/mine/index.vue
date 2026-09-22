@@ -144,11 +144,11 @@ onMounted(handlePageShow);
 
       <view v-else-if="errorMessage" class="mine-state fa-card">
         <text class="mine-state__error">{{ errorMessage }}</text>
-        <button class="mine-state__retry" @click="loadProfile">重新加载</button>
+        <button class="mine-state__retry" @tap="loadProfile">重新加载</button>
       </view>
 
       <template v-else>
-        <view class="profile-card fa-card" @click="openMinePage(MOBILE_PAGE_ROUTES.mineAccount)">
+        <view class="profile-card fa-card" @tap="openMinePage(MOBILE_PAGE_ROUTES.mineAccount)">
           <view class="profile-card__avatar">{{ profileMark }}</view>
           <view class="profile-card__copy">
             <text class="profile-card__name">{{ profileName }}</text>
@@ -164,7 +164,7 @@ onMounted(handlePageShow);
             v-for="setting in MINE_SETTINGS"
             :key="setting.id"
             class="settings-row"
-            @click="openSetting(setting)"
+            @tap="openSetting(setting)"
           >
             <MobileIcon :name="setting.icon" :size="44" class="settings-row__icon" />
             <text class="settings-row__label">{{ setting.label }}</text>
@@ -172,7 +172,7 @@ onMounted(handlePageShow);
           </view>
         </view>
 
-        <view v-if="showDemoEntry" class="demo-entry fa-card" @click="openDemo">
+        <view v-if="showDemoEntry" class="demo-entry fa-card" @tap="openDemo">
           <view class="demo-entry__copy">
             <text class="demo-entry__title">移动端 Demo</text>
             <text class="demo-entry__description">查看移动端组件和交互示例</text>
@@ -183,7 +183,7 @@ onMounted(handlePageShow);
           </view>
         </view>
 
-        <button class="logout-button" :loading="logoutLoading" @click="confirmLogout">
+        <button class="logout-button" :loading="logoutLoading" @tap="confirmLogout">
           <MobileIcon name="arrow-right" :size="40" class="logout-button__icon" />
           <text>退出登录</text>
         </button>

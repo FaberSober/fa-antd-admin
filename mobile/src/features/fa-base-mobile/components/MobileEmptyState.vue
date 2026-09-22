@@ -26,7 +26,7 @@ const emit = defineEmits<{
     </view>
     <text class="mobile-empty-state__title">{{ props.title }}</text>
     <text v-if="props.description" class="mobile-empty-state__description">{{ props.description }}</text>
-    <button v-if="props.actionText" class="mobile-empty-state__action" @click="emit('action')">
+    <button v-if="props.actionText" class="mobile-empty-state__action" @tap="emit('action')">
       {{ props.actionText }}
     </button>
   </view>

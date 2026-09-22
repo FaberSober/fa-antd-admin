@@ -147,7 +147,7 @@ onBeforeUnmount(() => {
   >
     <view class="contact-detail-page">
       <view class="contact-detail-toolbar">
-        <view class="contact-detail-back" @click="goBack">
+        <view class="contact-detail-back" @tap="goBack">
           <MobileIcon name="chevron-right" :size="36" class="contact-detail-back__icon" />
           <text>返回联系人</text>
         </view>
@@ -159,7 +159,7 @@ onBeforeUnmount(() => {
 
       <view v-else-if="errorMessage" class="contact-detail-state fa-card">
         <text class="contact-detail-state__error">{{ errorMessage }}</text>
-        <button class="contact-detail-state__retry" @click="loadDetail()">重新加载</button>
+        <button class="contact-detail-state__retry" @tap="loadDetail()">重新加载</button>
       </view>
 
       <template v-else-if="contact">
@@ -204,14 +204,14 @@ onBeforeUnmount(() => {
             <text class="contact-info__label">手机号</text>
             <view class="contact-action__value">
               <text class="contact-action__text">{{ displayValue(contact.tel) }}</text>
-              <button v-if="contact.tel" class="contact-action__button" @click="callPhone">拨打</button>
+              <button v-if="contact.tel" class="contact-action__button" @tap="callPhone">拨打</button>
             </view>
           </view>
           <view class="contact-info__row contact-action">
             <text class="contact-info__label">邮箱</text>
             <view class="contact-action__value">
               <text class="contact-action__text">{{ displayValue(contact.email) }}</text>
-              <button v-if="contact.email" class="contact-action__button" @click="copyEmail">复制</button>
+              <button v-if="contact.email" class="contact-action__button" @tap="copyEmail">复制</button>
             </view>
           </view>
         </view>

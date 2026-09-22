@@ -149,7 +149,7 @@ onMounted(handlePageShow);
       <view class="directory-section">
         <MobileSectionHeader title="组织与联系人" />
         <view class="directory-card fa-card">
-          <view class="directory-entry" @click="openOrganization">
+          <view class="directory-entry" @tap="openOrganization">
             <view class="directory-entry__icon directory-entry__icon--primary">
               <MobileIcon name="organization" :size="48" />
             </view>
@@ -180,7 +180,7 @@ onMounted(handlePageShow);
 
         <view v-else-if="errorMessage" class="contacts-state fa-card">
           <text class="contacts-state__error">{{ errorMessage }}</text>
-          <button class="contacts-state__retry" @click="loadContacts">重新加载</button>
+          <button class="contacts-state__retry" @tap="loadContacts">重新加载</button>
         </view>
 
         <view v-else-if="visibleContacts.length" class="contact-list">
@@ -188,7 +188,7 @@ onMounted(handlePageShow);
             v-for="(contact, index) in visibleContacts"
             :key="contact.id"
             class="contact-row"
-            @click="openContact(contact.id)"
+            @tap="openContact(contact.id)"
           >
             <view
               class="contact-row__avatar"

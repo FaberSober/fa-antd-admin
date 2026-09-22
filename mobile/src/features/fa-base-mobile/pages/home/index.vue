@@ -162,7 +162,7 @@ onMounted(handlePageShow);
 
       <view v-else-if="errorMessage" class="state-card fa-card">
         <text class="error-message">{{ errorMessage }}</text>
-        <button class="retry-button" @click="loadUser">重新加载</button>
+        <button class="retry-button" @tap="loadUser">重新加载</button>
       </view>
 
       <template v-else>
@@ -196,7 +196,7 @@ onMounted(handlePageShow);
               <view
                 class="quick-feature-card fa-card"
                 :class="`quick-feature-card--${feature.tone}`"
-                @click="showFeatureMessage(feature)"
+                @tap="showFeatureMessage(feature)"
               >
                 <view class="quick-feature-icon">
                   <MobileIcon :name="feature.icon" :size="48" />

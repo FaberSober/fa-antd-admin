@@ -275,14 +275,14 @@ onMounted(handlePageShow);
           <view
             class="message-filter"
             :class="{ 'is-active': activeFilter === 'all' }"
-            @click="selectFilter('all')"
+            @tap="selectFilter('all')"
           >
             <text>全部</text>
           </view>
           <view
             class="message-filter"
             :class="{ 'is-active': activeFilter === 'unread' }"
-            @click="selectFilter('unread')"
+            @tap="selectFilter('unread')"
           >
             <text>未读</text>
           </view>
@@ -290,12 +290,12 @@ onMounted(handlePageShow);
         <button
           class="message-read-all"
           :disabled="readLoading || !hasUnreadMessages"
-          @click="confirmReadAll"
+          @tap="confirmReadAll"
         >全部已读</button>
         <button
           class="message-refresh"
           :disabled="loading || loadingMore || readLoading"
-          @click="refreshMessages"
+          @tap="refreshMessages"
         >刷新</button>
       </view>
 
@@ -306,7 +306,7 @@ onMounted(handlePageShow);
       <template v-else>
         <view v-if="errorMessage" class="message-state fa-card">
           <text class="message-state__error">{{ errorMessage }}</text>
-          <button class="message-state__retry" @click="refreshMessages">重新加载</button>
+          <button class="message-state__retry" @tap="refreshMessages">重新加载</button>
         </view>
 
         <view v-if="filteredMessages.length" class="message-list">
@@ -318,7 +318,7 @@ onMounted(handlePageShow);
               `message-row--${messageTone(message)}`,
               { 'is-unread': !message.isRead },
             ]"
-            @click="markMessageRead(message)"
+            @tap="markMessageRead(message)"
           >
             <view class="message-row__icon">
               <MobileIcon :name="messageIcon(message)" :size="48" />
@@ -339,7 +339,7 @@ onMounted(handlePageShow);
         <button
           v-else-if="hasNextPage"
           class="message-load-more"
-          @click="loadMoreMessages"
+          @tap="loadMoreMessages"
         >加载更多</button>
 
         <MobileEmptyState

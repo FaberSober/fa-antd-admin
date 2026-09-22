@@ -66,7 +66,7 @@ function switchTenant(tenantId: string): void {
 <template>
   <view class="mobile-header-container">
     <view class="mobile-header">
-      <view class="mobile-header__tenant" @click="openTenantSwitcher">
+      <view class="mobile-header__tenant" @tap="openTenantSwitcher">
         <view class="mobile-header__mark">
           <text>{{ displayTenantMark }}</text>
         </view>
@@ -82,7 +82,7 @@ function switchTenant(tenantId: string): void {
         <view
           v-if="props.showNotification"
           class="mobile-header__notification"
-          @click="emit('notification-click')"
+          @tap="emit('notification-click')"
         >
           <MobileIcon name="bell" :size="48" />
           <text v-if="hasNotificationBadge" class="mobile-header__badge">{{ notificationBadge }}</text>

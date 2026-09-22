@@ -40,20 +40,20 @@ onShow(() => {
 
 <template>
   <view class="mobile-main-page">
-    <!-- #ifdef MP-WEIXIN -->
-    <MessagesPage v-if="activeTab === 'messages'" />
-    <HomePage v-else-if="activeTab === 'workbench'" />
-    <ContactsPage v-else-if="activeTab === 'contacts'" />
-    <MinePage v-else />
-    <!-- #endif -->
-
-    <!-- #ifndef MP-WEIXIN -->
+    <!-- #ifdef H5 -->
     <KeepAlive>
       <MessagesPage v-if="activeTab === 'messages'" />
       <HomePage v-else-if="activeTab === 'workbench'" />
       <ContactsPage v-else-if="activeTab === 'contacts'" />
       <MinePage v-else />
     </KeepAlive>
+    <!-- #endif -->
+
+    <!-- #ifndef H5 -->
+    <MessagesPage v-if="activeTab === 'messages'" />
+    <HomePage v-else-if="activeTab === 'workbench'" />
+    <ContactsPage v-else-if="activeTab === 'contacts'" />
+    <MinePage v-else />
     <!-- #endif -->
   </view>
 </template>

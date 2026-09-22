@@ -76,18 +76,18 @@ defineExpose({ open, close });
   <view class="workspace-switcher">
     <view v-if="errorMessage && !visible" class="workspace-error">
       <text class="workspace-error-text">{{ errorMessage }}</text>
-      <button class="workspace-retry" @click="refresh">重试</button>
+      <button class="workspace-retry" @tap="refresh">重试</button>
     </view>
 
-    <view v-if="visible" class="workspace-mask" @click="close">
-      <view class="workspace-sheet" @click.stop>
+    <view v-if="visible" class="workspace-mask" @tap="close">
+      <view class="workspace-sheet" @tap.stop>
         <view class="sheet-handle" />
         <view class="sheet-header">
           <view class="sheet-heading">
             <text class="sheet-title">切换租户</text>
             <text class="sheet-description">选择后，后续业务数据将切换到对应租户。</text>
           </view>
-          <view class="sheet-close" @click="close">
+          <view class="sheet-close" @tap="close">
             <MobileIcon name="close" :size="40" />
           </view>
         </view>
@@ -98,7 +98,7 @@ defineExpose({ open, close });
           </view>
           <view v-else-if="errorMessage" class="workspace-state workspace-state--error">
             <text class="workspace-state-message">{{ errorMessage }}</text>
-            <button class="workspace-retry" @click="refresh">重试</button>
+            <button class="workspace-retry" @tap="refresh">重试</button>
           </view>
           <view v-else-if="!workspaces.length" class="workspace-state">
             <text>暂无可用租户</text>
@@ -114,7 +114,7 @@ defineExpose({ open, close });
                   'is-selected': workspace.tenantId === currentWorkspace?.tenantId,
                   'is-switching': workspace.tenantId === switchingTenantId,
                 }"
-                @click="selectWorkspace(workspace.tenantId)"
+                @tap="selectWorkspace(workspace.tenantId)"
               >
                 <view class="workspace-avatar workspace-avatar-small">{{ avatarText(workspace) }}</view>
                 <view class="workspace-item-main">
@@ -131,7 +131,7 @@ defineExpose({ open, close });
               </view>
             </view>
 
-            <view class="join-tenant" @click="joinOtherTenant">
+            <view class="join-tenant" @tap="joinOtherTenant">
               <view class="join-tenant-copy">
                 <MobileIcon name="organization" :size="40" />
                 <text>加入其他租户</text>

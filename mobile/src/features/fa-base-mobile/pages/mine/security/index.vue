@@ -118,7 +118,7 @@ onShow(() => {
           class="security-submit"
           :disabled="submitting"
           :loading="submitting"
-          @click="submitPassword"
+          @tap="submitPassword"
         >确认修改</button>
       </view>
     </view>

@@ -38,7 +38,7 @@ function selectTheme(mode: ThemeMode): void {
           :key="option.mode"
           class="appearance-option"
           :class="{ 'appearance-option--active': themeStore.mode === option.mode }"
-          @click="selectTheme(option.mode)"
+          @tap="selectTheme(option.mode)"
         >
           <view class="appearance-option__copy">
             <text class="appearance-option__title">{{ option.title }}</text>

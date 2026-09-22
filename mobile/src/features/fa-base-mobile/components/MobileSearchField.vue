@@ -51,7 +51,7 @@ function clear(): void {
       @confirm="emit('confirm')"
     />
     <text v-if="props.shortcut" class="mobile-search-field__shortcut">{{ props.shortcut }}</text>
-    <view v-if="props.modelValue" class="mobile-search-field__clear" @click.stop="clear">
+    <view v-if="props.modelValue" class="mobile-search-field__clear" @tap.stop="clear">
       <MobileIcon name="close" :size="28" />
     </view>
   </view>

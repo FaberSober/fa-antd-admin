@@ -14,7 +14,7 @@ const emit = defineEmits<{
 <template>
   <view class="mobile-section-header">
     <text class="mobile-section-header__title">{{ props.title }}</text>
-    <text v-if="props.actionText" class="mobile-section-header__action" @click="emit('action')">
+    <text v-if="props.actionText" class="mobile-section-header__action" @tap="emit('action')">
       {{ props.actionText }}
     </text>
   </view>

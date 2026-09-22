@@ -188,7 +188,7 @@ onShow(() => {
 
       <view v-else-if="errorMessage" class="account-state fa-card">
         <text class="account-state__error">{{ errorMessage }}</text>
-        <button class="account-state__retry" @click="loadProfile">重新加载</button>
+        <button class="account-state__retry" @tap="loadProfile">重新加载</button>
       </view>
 
       <template v-else-if="authStore.user">
@@ -208,14 +208,14 @@ onShow(() => {
             :class="{ 'account-profile__status--disabled': authStore.user.status === false }"
           >{{ accountStatus }}</text>
         </view>
-        <button v-if="!editing" class="account-profile__edit" @click="startEditing">编辑</button>
+        <button v-if="!editing" class="account-profile__edit" @tap="startEditing">编辑</button>
         </view>
 
         <view v-if="editing" class="account-edit fa-card">
         <button
           class="account-edit__avatar"
           :disabled="saving || avatarUploading"
-          @click="chooseAvatar"
+          @tap="chooseAvatar"
         >
           <text>{{ avatarUploading ? '头像上传中...' : '更换头像' }}</text>
         </button>
@@ -233,12 +233,12 @@ onShow(() => {
         </view>
         <text v-if="editError" class="account-edit__error">{{ editError }}</text>
         <view class="account-edit__actions">
-          <button class="account-edit__cancel" :disabled="saving || avatarUploading" @click="cancelEditing">取消</button>
+          <button class="account-edit__cancel" :disabled="saving || avatarUploading" @tap="cancelEditing">取消</button>
           <button
             class="account-edit__save"
             :disabled="saving || avatarUploading"
             :loading="saving"
-            @click="saveProfile"
+            @tap="saveProfile"
           >保存</button>
         </view>
         </view>

@@ -43,7 +43,7 @@ function unreadBadge(count: number): string {
         :key="tab.key"
         class="mobile-tab-bar__item"
         :class="{ 'is-active': tab.key === props.activeTab }"
-        @click="emit('change', tab.key)"
+        @tap="emit('change', tab.key)"
       >
         <view class="mobile-tab-bar__icon-wrap">
           <MobileIcon :name="tab.icon" :size="48" />

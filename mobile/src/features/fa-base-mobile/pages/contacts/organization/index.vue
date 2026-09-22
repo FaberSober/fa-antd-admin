@@ -252,7 +252,7 @@ onShow(() => {
   >
     <view class="organization-page">
       <view class="organization-toolbar">
-        <view class="organization-back" @click="handleBack">
+        <view class="organization-back" @tap="handleBack">
           <MobileIcon name="chevron-right" :size="36" class="organization-back__icon" />
           <text>{{ isRoot ? '返回联系人' : '上一级' }}</text>
         </view>
@@ -266,14 +266,14 @@ onShow(() => {
           <text
             class="organization-breadcrumb__item"
             :class="{ 'is-active': isRoot }"
-            @click="goToRoot"
+            @tap="goToRoot"
           >全部部门</text>
           <template v-for="(department, index) in breadcrumbs" :key="department.id">
             <MobileIcon name="chevron-right" :size="28" class="organization-breadcrumb__separator" />
             <text
               class="organization-breadcrumb__item"
               :class="{ 'is-active': index === breadcrumbs.length - 1 }"
-              @click="selectBreadcrumb(index)"
+              @tap="selectBreadcrumb(index)"
             >{{ department.name }}</text>
           </template>
         </view>
@@ -285,7 +285,7 @@ onShow(() => {
 
       <view v-else-if="errorMessage" class="organization-state fa-card">
         <text class="organization-state__error">{{ errorMessage }}</text>
-        <button class="organization-state__retry" @click="loadDirectory">重新加载</button>
+        <button class="organization-state__retry" @tap="loadDirectory">重新加载</button>
       </view>
 
       <template v-else>
@@ -296,7 +296,7 @@ onShow(() => {
               v-for="(department, index) in visibleDepartments"
               :key="department.id"
               class="department-entry"
-              @click="openDepartment(department)"
+              @tap="openDepartment(department)"
             >
               <view
                 class="department-entry__icon"
@@ -331,7 +331,7 @@ onShow(() => {
 
           <view v-else-if="memberErrorMessage" class="organization-state fa-card">
             <text class="organization-state__error">{{ memberErrorMessage }}</text>
-            <button class="organization-state__retry" @click="loadMembers(currentDepartment.id)">重新加载</button>
+            <button class="organization-state__retry" @tap="loadMembers(currentDepartment.id)">重新加载</button>
           </view>
 
           <view v-else-if="members.length" class="member-list">
@@ -339,7 +339,7 @@ onShow(() => {
               v-for="member in members"
               :key="member.id"
               class="member-row"
-              @click="openContact(member.id)"
+              @tap="openContact(member.id)"
             >
               <view class="member-row__avatar">{{ contactMark(member) }}</view>
               <view class="member-row__copy">
@@ -360,7 +360,7 @@ onShow(() => {
           <button
             v-else-if="hasNextPage"
             class="organization-load-more"
-            @click="loadMoreMembers"
+            @tap="loadMoreMembers"
           >加载更多成员</button>
         </view>
       </template>
