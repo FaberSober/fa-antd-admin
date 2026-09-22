@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onActivated, onBeforeUnmount, ref } from 'vue';
+import { computed, onActivated, onBeforeUnmount, onMounted, ref } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
 import { ApiError } from '../../common/request';
 import { createPageRefresh } from '../../common/page-refresh';
@@ -131,6 +131,7 @@ function handlePageShow(): void {
 
 onShow(handlePageShow);
 onActivated(handlePageShow);
+onMounted(handlePageShow);
 </script>
 
 <template>

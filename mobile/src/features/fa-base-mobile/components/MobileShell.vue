@@ -77,9 +77,17 @@ function handleTabChange(tab: MobileTabKey): void {
         @notification-click="emit('notification-click')"
       />
 
+      <!-- #ifdef APP-PLUS -->
+      <view class="mobile-shell__content mobile-shell__content--app">
+        <slot />
+      </view>
+      <!-- #endif -->
+
+      <!-- #ifndef APP-PLUS -->
       <scroll-view scroll-y class="mobile-shell__content">
         <slot />
       </scroll-view>
+      <!-- #endif -->
 
       <MobileTabBar
         v-if="props.showTabBar"
@@ -93,6 +101,7 @@ function handleTabChange(tab: MobileTabKey): void {
 
 <style scoped>
 .mobile-shell {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -113,5 +122,13 @@ function handleTabChange(tab: MobileTabKey): void {
   min-height: 0;
   flex: 1;
   box-sizing: border-box;
+}
+
+.mobile-shell__content--app {
+  height: auto;
+  flex: 1 1 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 </style>

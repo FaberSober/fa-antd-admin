@@ -11,7 +11,7 @@
       "path": "features/fa-base-mobile/pages/main/index",
       "style": {
         "navigationStyle": "custom",
-        "disableScroll": true,
+        "disableScroll": false,
         "navigationBarBackgroundColor": "#f5f7fb",
         "navigationBarTextStyle": "black"
       }
@@ -20,7 +20,7 @@
       "path": "features/fa-base-mobile/pages/home/index",
       "style": {
         "navigationStyle": "custom",
-        "disableScroll": true,
+        "disableScroll": false,
         "navigationBarBackgroundColor": "#f5f7fb",
         "navigationBarTextStyle": "black"
       }
@@ -29,7 +29,7 @@
       "path": "features/fa-base-mobile/pages/messages/index",
       "style": {
         "navigationStyle": "custom",
-        "disableScroll": true,
+        "disableScroll": false,
         "navigationBarBackgroundColor": "#f5f7fb",
         "navigationBarTextStyle": "black"
       }
@@ -38,7 +38,7 @@
       "path": "features/fa-base-mobile/pages/contacts/index",
       "style": {
         "navigationStyle": "custom",
-        "disableScroll": true,
+        "disableScroll": false,
         "navigationBarBackgroundColor": "#f5f7fb",
         "navigationBarTextStyle": "black"
       }
@@ -47,7 +47,7 @@
       "path": "features/fa-base-mobile/pages/contacts/organization/index",
       "style": {
         "navigationStyle": "custom",
-        "disableScroll": true,
+        "disableScroll": false,
         "navigationBarBackgroundColor": "#f5f7fb",
         "navigationBarTextStyle": "black"
       }
@@ -56,7 +56,7 @@
       "path": "features/fa-base-mobile/pages/contacts/detail/index",
       "style": {
         "navigationStyle": "custom",
-        "disableScroll": true,
+        "disableScroll": false,
         "navigationBarBackgroundColor": "#f5f7fb",
         "navigationBarTextStyle": "black"
       }
@@ -65,7 +65,7 @@
       "path": "features/fa-base-mobile/pages/mine/index",
       "style": {
         "navigationStyle": "custom",
-        "disableScroll": true,
+        "disableScroll": false,
         "navigationBarBackgroundColor": "#f5f7fb",
         "navigationBarTextStyle": "black"
       }

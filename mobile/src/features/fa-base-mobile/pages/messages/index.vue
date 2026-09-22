@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onActivated, onBeforeUnmount, ref } from 'vue';
+import { computed, onActivated, onBeforeUnmount, onMounted, ref } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
 import { batchReadMessages, countMessages, pageMessages, readAllMessages } from '../../api/message';
 import { ApiError } from '../../common/request';
@@ -257,6 +257,7 @@ function handlePageShow(): void {
 
 onShow(handlePageShow);
 onActivated(handlePageShow);
+onMounted(handlePageShow);
 </script>
 
 <template>

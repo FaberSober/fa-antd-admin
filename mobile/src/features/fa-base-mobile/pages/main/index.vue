@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onLoad, onShow } from '@dcloudio/uni-app';
-import { computed, provide, ref } from 'vue';
+import { provide, ref } from 'vue';
 import { MOBILE_PAGE_ROUTES, MOBILE_TAB_NAVIGATION_KEY, type MobileTabKey } from '../../feature';
 import { useAuthStore } from '../../stores/auth';
 import HomePage from '../home/index.vue';
@@ -17,7 +17,6 @@ const TAB_COMPONENTS = {
 
 const authStore = useAuthStore();
 const activeTab = ref<MobileTabKey>('workbench');
-const activeComponent = computed(() => TAB_COMPONENTS[activeTab.value]);
 
 function selectTab(tab: MobileTabKey): void {
   activeTab.value = tab;
@@ -41,9 +40,21 @@ onShow(() => {
 
 <template>
   <view class="mobile-main-page">
+    <!-- #ifdef MP-WEIXIN -->
+    <MessagesPage v-if="activeTab === 'messages'" />
+    <HomePage v-else-if="activeTab === 'workbench'" />
+    <ContactsPage v-else-if="activeTab === 'contacts'" />
+    <MinePage v-else />
+    <!-- #endif -->
+
+    <!-- #ifndef MP-WEIXIN -->
     <KeepAlive>
-      <component :is="activeComponent" />
+      <MessagesPage v-if="activeTab === 'messages'" />
+      <HomePage v-else-if="activeTab === 'workbench'" />
+      <ContactsPage v-else-if="activeTab === 'contacts'" />
+      <MinePage v-else />
     </KeepAlive>
+    <!-- #endif -->
   </view>
 </template>
 

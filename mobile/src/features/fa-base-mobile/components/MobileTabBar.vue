@@ -59,6 +59,8 @@ function unreadBadge(count: number): string {
 
 <style scoped>
 .mobile-tab-bar {
+  position: relative;
+  z-index: 2;
   flex: 0 0 auto;
   box-sizing: border-box;
   padding: 8rpx 16rpx calc(12rpx + var(--fa-safe-area-bottom));

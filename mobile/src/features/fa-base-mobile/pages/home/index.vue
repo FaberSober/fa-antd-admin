@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onShow } from '@dcloudio/uni-app';
-import { computed, inject, onActivated, onBeforeUnmount, ref } from 'vue';
+import { computed, inject, onActivated, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 import { ApiError } from '../../common/request';
 import { checkAndPromptUpdate } from '../../common/update';
@@ -142,6 +142,7 @@ function handlePageShow(): void {
 
 onShow(handlePageShow);
 onActivated(handlePageShow);
+onMounted(handlePageShow);
 </script>
 
 <template>
@@ -190,15 +191,19 @@ onActivated(handlePageShow);
             <view
               v-for="feature in filteredQuickFeatures"
               :key="feature.id"
-              class="quick-feature-card fa-card"
-              :class="`quick-feature-card--${feature.tone}`"
-              @click="showFeatureMessage(feature)"
+              class="quick-feature-card-wrap"
             >
-              <view class="quick-feature-icon">
-                <MobileIcon :name="feature.icon" :size="48" />
+              <view
+                class="quick-feature-card fa-card"
+                :class="`quick-feature-card--${feature.tone}`"
+                @click="showFeatureMessage(feature)"
+              >
+                <view class="quick-feature-icon">
+                  <MobileIcon :name="feature.icon" :size="48" />
+                </view>
+                <view class="quick-feature-title">{{ feature.title }}</view>
+                <view class="quick-feature-description">{{ feature.description }}</view>
               </view>
-              <view class="quick-feature-title">{{ feature.title }}</view>
-              <view class="quick-feature-description">{{ feature.description }}</view>
             </view>
           </view>
           <MobileEmptyState
@@ -285,11 +290,16 @@ onActivated(handlePageShow);
   display: flex;
   align-items: stretch;
   flex-wrap: wrap;
-  gap: 16rpx;
+  margin: 0 -8rpx;
+}
+
+.quick-feature-card-wrap {
+  width: 50%;
+  box-sizing: border-box;
+  padding: 0 8rpx 16rpx;
 }
 
 .quick-feature-card {
-  flex: 0 0 calc(50% - 8rpx);
   min-width: 0;
   min-height: 192rpx;
   box-sizing: border-box;
