@@ -2,8 +2,8 @@
     "name" : "Fa Mobile",
     "appid" : "__UNI__17534C7",
     "description" : "Fa Mobile application",
-    "versionName" : "0.0.11",
-    "versionCode" : "11",
+    "versionName" : "0.0.12",
+    "versionCode" : "12",
     "transformPx" : false,
     "app-plus" : {
         "usingComponents" : true,
