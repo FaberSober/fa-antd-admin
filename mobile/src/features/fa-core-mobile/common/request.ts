@@ -1,5 +1,6 @@
 import { APP_CONFIG } from '@/app.config';
 import { telemetry } from '../telemetry';
+import { logHttpFailure, logHttpRequestStart, logHttpResponse } from './http-logger';
 import { getTenantId, TENANT_HEADER } from './tenant';
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -67,10 +68,12 @@ export function request<T>({ url, method = 'GET', data, headers = {}, skipTenant
   return new Promise((resolve, reject) => {
     const requestStartedAt = Date.now();
     const requestPath = url.split(/[?#]/, 1)[0] || '/';
+    const requestUrl = buildUrl(url);
     const header = buildHeaders(headers, true, skipTenant);
+    const debugRequestId = logHttpRequestStart(method, requestUrl, data);
 
     uni.request({
-      url: buildUrl(url),
+      url: requestUrl,
       method,
       data: data ?? undefined,
       header,
@@ -81,6 +84,7 @@ export function request<T>({ url, method = 'GET', data, headers = {}, skipTenant
         const code = typeof body.code === 'number' ? body.code : statusCode;
         const message = body.message || body.msg || '请求失败';
         const duration = Date.now() - requestStartedAt;
+        logHttpResponse(debugRequestId, statusCode, duration, response.data);
 
         if (statusCode === 401 || code === 40101) {
           const apiError = new ApiError(message, statusCode, code);
@@ -100,8 +104,10 @@ export function request<T>({ url, method = 'GET', data, headers = {}, skipTenant
         resolve(body.data);
       },
       fail: (error) => {
+        const duration = Date.now() - requestStartedAt;
         const apiError = new ApiError(error.errMsg || '网络请求失败');
-        telemetry.recordHttp({ method, path: requestPath, status: 0, duration: Date.now() - requestStartedAt }, apiError);
+        logHttpFailure(debugRequestId, duration, error);
+        telemetry.recordHttp({ method, path: requestPath, status: 0, duration }, apiError);
         reject(apiError);
       },
     });
@@ -118,10 +124,16 @@ export function uploadFile<T>({
   return new Promise((resolve, reject) => {
     const uploadStartedAt = Date.now();
     const uploadPath = url.split(/[?#]/, 1)[0] || '/';
+    const requestUrl = buildUrl(url);
     const header = buildHeaders(headers, false);
+    const debugRequestId = logHttpRequestStart('UPLOAD', requestUrl, {
+      name,
+      formData,
+      file: '[binary omitted]',
+    });
 
     uni.uploadFile({
-      url: buildUrl(url),
+      url: requestUrl,
       filePath,
       name,
       formData,
@@ -129,6 +141,7 @@ export function uploadFile<T>({
       success: (response) => {
         const statusCode = response.statusCode;
         const duration = Date.now() - uploadStartedAt;
+        logHttpResponse(debugRequestId, statusCode, duration, response.data);
         let body: ApiResponse<T>;
 
         try {
@@ -154,8 +167,10 @@ export function uploadFile<T>({
         resolve(body.data);
       },
       fail: (error) => {
+        const duration = Date.now() - uploadStartedAt;
         const apiError = new ApiError(error.errMsg || '文件上传失败');
-        telemetry.recordHttp({ method: 'POST', path: uploadPath, status: 0, duration: Date.now() - uploadStartedAt }, apiError);
+        logHttpFailure(debugRequestId, duration, error);
+        telemetry.recordHttp({ method: 'POST', path: uploadPath, status: 0, duration }, apiError);
         reject(apiError);
       },
     });

@@ -2,8 +2,9 @@
     "version" : "1.0",
     "configurations" : [
         {
-            "customPlaygroundType" : "local",
-            "playground" : "standard",
+            "customPlaygroundType" : "device",
+            "packageName" : "com.faber.admin.app",
+            "playground" : "custom",
             "type" : "uni-app:app-android"
         }
     ]

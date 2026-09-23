@@ -19,6 +19,7 @@ interface ImportMetaEnv {
   readonly VITE_APP_H5_UPDATE_MANIFEST_URL?: string;
   readonly VITE_APP_TELEMETRY_APP_KEY?: string;
   readonly VITE_APP_TELEMETRY_ENV?: string;
+  readonly VITE_APP_HTTP_LOG_ENABLED?: string;
 }
 
 interface ImportMeta {

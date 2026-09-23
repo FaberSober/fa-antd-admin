@@ -1,4 +1,5 @@
 import { APP_CONFIG } from '@/app.config';
+import { logUpdateEvent } from '../common/http-logger';
 import { request } from '../common/request';
 import type {
   AppVersion,
@@ -32,6 +33,11 @@ export class MobileUpdateError extends Error {
   }
 }
 
+interface UpdateManifestResponse extends Omit<UpdateManifest, 'versionCode' | 'minSupportedVersionCode'> {
+  versionCode?: number | string;
+  minSupportedVersionCode?: number | string | null;
+}
+
 export function getCurrentVersion(): AppVersion {
   const versionCode = Number(APP_CONFIG.versionCode);
   if (!Number.isSafeInteger(versionCode) || versionCode < 0 || !APP_CONFIG.versionName.trim()) {
@@ -44,21 +50,108 @@ export function getCurrentVersion(): AppVersion {
   };
 }
 
-export async function checkUpdate(options: UpdateCheckRequest): Promise<UpdateManifest | null> {
-  const result = await request<UpdateManifest>({
-    url: '/app/app/release/check',
+export function getCurrentAppVersionCode(): number {
+  return getCurrentAppVersion().versionCode;
+}
+
+export function getCurrentAppVersion(): AppVersion {
+  const fallbackVersion = getCurrentVersion();
+  const runtimeVersionCode = typeof plus === 'undefined' ? NaN : Number(plus.runtime?.versionCode);
+  const runtimeVersionName = typeof plus === 'undefined' ? '' : plus.runtime?.version?.trim();
+  return {
+    versionName: runtimeVersionName || fallbackVersion.versionName,
+    versionCode: Number.isSafeInteger(runtimeVersionCode) && runtimeVersionCode >= 0
+      ? runtimeVersionCode
+      : fallbackVersion.versionCode,
+  };
+}
+
+export async function getCurrentWgtVersionCode(): Promise<number> {
+  return (await getCurrentWgtVersion()).versionCode;
+}
+
+export function getCurrentWgtVersion(): Promise<AppVersion> {
+  const fallbackVersion = getCurrentVersion();
+  if (typeof plus === 'undefined' || !plus.runtime?.getProperty) return Promise.resolve(fallbackVersion);
+  const appid = plus.runtime.appid;
+  if (!appid) return Promise.resolve(fallbackVersion);
+
+  return new Promise((resolve) => {
+    try {
+      plus.runtime.getProperty(appid, (wgtInfo) => {
+        const info = wgtInfo as { version?: unknown; versionCode?: unknown };
+        const versionCode = Number(info.versionCode);
+        resolve({
+          versionName: typeof info.version === 'string' && info.version.trim()
+            ? info.version.trim()
+            : fallbackVersion.versionName,
+          versionCode: Number.isSafeInteger(versionCode) && versionCode >= 0
+            ? versionCode
+            : fallbackVersion.versionCode,
+        });
+      });
+    } catch {
+      resolve(fallbackVersion);
+    }
+  });
+}
+
+async function requestUpdate(endpoint: 'checkApk' | 'checkWgt', options: UpdateCheckRequest): Promise<UpdateManifest | null> {
+  const result = await request<UpdateManifestResponse>({
+    url: `/app/app/release/${endpoint}`,
     method: 'POST',
     data: {
       appCode: options.appCode,
       platform: options.platform,
       currentVersionCode: options.currentVersionCode,
+      ...(options.currentWgtVersionCode !== undefined
+        ? { currentWgtVersionCode: options.currentWgtVersionCode }
+        : {}),
       channel: options.channel || 'stable',
       ...(options.deviceId ? { deviceId: options.deviceId } : {}),
     },
   });
 
   if (!result || !result.hasUpdate || result.updateType === 'NONE') return null;
-  validateManifest(result);
+  const manifest = normalizeUpdateManifest(result);
+  validateManifest(manifest);
+  return manifest;
+}
+
+function normalizeUpdateManifest(manifest: UpdateManifestResponse): UpdateManifest {
+  const versionCode = parseVersionCode(manifest.versionCode);
+  const minimumVersion = manifest.minSupportedVersionCode;
+  const minSupportedVersionCode = minimumVersion == null ? undefined : parseVersionCode(minimumVersion);
+
+  if (minimumVersion != null && (minSupportedVersionCode === undefined || minSupportedVersionCode < 1)) {
+    throw new MobileUpdateError('INVALID_MANIFEST', '最低兼容APK版本信息异常');
+  }
+
+  return {
+    ...manifest,
+    versionCode,
+    minSupportedVersionCode,
+  };
+}
+
+function parseVersionCode(value: number | string | undefined): number | undefined {
+  if (typeof value === 'string' && !/^\d+$/.test(value.trim())) return undefined;
+  const versionCode = typeof value === 'string' ? Number(value.trim()) : value;
+  return typeof versionCode === 'number' && Number.isSafeInteger(versionCode) && versionCode >= 0
+    ? versionCode
+    : undefined;
+}
+
+export function checkApkUpdate(options: UpdateCheckRequest): Promise<UpdateManifest | null> {
+  return requestUpdate('checkApk', options);
+}
+
+export async function checkWgtUpdate(options: UpdateCheckRequest): Promise<UpdateManifest | null> {
+  const result = await requestUpdate('checkWgt', options);
+  if (result?.minSupportedVersionCode !== undefined
+      && options.currentVersionCode < result.minSupportedVersionCode) {
+    return null;
+  }
   return result;
 }
 
@@ -71,23 +164,38 @@ export function downloadUpdate(
   }
 
   return new Promise((resolve, reject) => {
+    let url: string | undefined;
     try {
+      url = resolveDownloadUrl(downloadUrl);
+      logUpdateEvent('download-start', { url });
       const task = uni.downloadFile({
-        url: resolveDownloadUrl(downloadUrl),
+        url,
         timeout: 60_000,
         success: (response) => {
           if (response.statusCode < 200 || response.statusCode >= 300 || !response.tempFilePath) {
+            logUpdateEvent('download-failure', {
+              url,
+              statusCode: response.statusCode,
+              tempFilePath: response.tempFilePath,
+            });
             reject(new MobileUpdateError('DOWNLOAD_FAILED', '更新文件下载失败'));
             return;
           }
+          logUpdateEvent('download-success', {
+            url,
+            statusCode: response.statusCode,
+            tempFilePath: response.tempFilePath,
+          });
           resolve(response.tempFilePath);
         },
         fail: (error) => {
+          logUpdateEvent('download-failure', { url, error: describeUpdateError(error) });
           reject(new MobileUpdateError('DOWNLOAD_FAILED', getErrorMessage(error, '更新文件下载失败')));
         },
       });
       task.onProgressUpdate((result) => onProgress?.(Math.max(0, Math.min(100, result.progress))));
     } catch (error) {
+      logUpdateEvent('download-failure', { url, error: describeUpdateError(error) });
       reject(new MobileUpdateError('DOWNLOAD_FAILED', getErrorMessage(error, '更新文件下载失败')));
     }
   });
@@ -149,10 +257,18 @@ export class MobileUpdateClient {
     return () => this.listeners.delete(listener);
   }
 
-  async check(options: UpdateCheckRequest): Promise<UpdateManifest | null> {
+  async checkApk(options: UpdateCheckRequest): Promise<UpdateManifest | null> {
+    return this.checkWith(() => checkApkUpdate(options));
+  }
+
+  async checkWgt(options: UpdateCheckRequest): Promise<UpdateManifest | null> {
+    return this.checkWith(() => checkWgtUpdate(options));
+  }
+
+  private async checkWith(checker: () => Promise<UpdateManifest | null>): Promise<UpdateManifest | null> {
     this.setState({ status: 'CHECKING', progress: 0, error: undefined, filePath: undefined });
     try {
-      const manifest = await checkUpdate(options);
+      const manifest = await checker();
       if (!manifest) {
         this.setState({ status: 'NO_UPDATE', progress: 0, manifest: undefined });
         return null;
@@ -174,10 +290,13 @@ export class MobileUpdateClient {
         onProgress?.(progress);
       });
       this.setState({ status: 'VERIFYING', progress: 100, filePath });
+      logUpdateEvent('checksum-start', { filePath, phase: 'download' });
       await verifyFileSha256(filePath, manifest.sha256!);
+      logUpdateEvent('checksum-success', { filePath, phase: 'download' });
       this.setState({ status: 'READY', progress: 100, filePath });
       return filePath;
     } catch (error) {
+      logUpdateEvent('download-flow-failure', { error: describeUpdateError(error) });
       this.fail(error);
       throw error;
     }
@@ -192,11 +311,30 @@ export class MobileUpdateClient {
       lockAcquired = true;
 
       this.setState({ status: 'INSTALLING', manifest, filePath, error: undefined });
+      logUpdateEvent('install-flow-start', {
+        updateType: manifest.updateType,
+        versionCode: manifest.versionCode,
+        versionName: manifest.versionName,
+        filePath,
+      });
       await verifyFileSha256(filePath, manifest.sha256!);
+      logUpdateEvent('checksum-success', { filePath, phase: 'install' });
       if (manifest.updateType === 'WGT') await installWgt(filePath);
       else await installFullPackage(filePath);
+      logUpdateEvent('install-flow-success', {
+        updateType: manifest.updateType,
+        versionCode: manifest.versionCode,
+        versionName: manifest.versionName,
+      });
       this.setState({ status: 'INSTALLED', progress: 100 });
     } catch (error) {
+      logUpdateEvent('install-flow-failure', {
+        updateType: manifest.updateType,
+        versionCode: manifest.versionCode,
+        versionName: manifest.versionName,
+        filePath,
+        error: describeUpdateError(error),
+      });
       this.fail(error);
       throw error;
     } finally {
@@ -222,14 +360,21 @@ export class MobileUpdateClient {
 function validateManifest(manifest: UpdateManifest): void {
   if (!manifest || !manifest.hasUpdate || !['WGT', 'FULL'].includes(manifest.updateType)
       || !Number.isSafeInteger(manifest.versionCode) || !manifest.versionName?.trim()
-      || !manifest.downloadUrl?.trim() || !/^[a-fA-F0-9]{64}$/.test(manifest.sha256 || '')) {
+      || !isValidDownloadUrl(manifest.downloadUrl) || !/^[a-fA-F0-9]{64}$/.test(manifest.sha256 || '')) {
     throw new MobileUpdateError('INVALID_MANIFEST', '更新信息不完整或格式异常');
   }
-  const baseVersionCode = manifest.baseVersionCode;
-  if (manifest.updateType === 'WGT'
-      && (typeof baseVersionCode !== 'number' || !Number.isSafeInteger(baseVersionCode) || baseVersionCode < 1)) {
-    throw new MobileUpdateError('INVALID_MANIFEST', 'WGT基础版本信息异常');
+  const minSupportedVersionCode = manifest.minSupportedVersionCode;
+  if (minSupportedVersionCode !== undefined
+      && (!Number.isSafeInteger(minSupportedVersionCode) || minSupportedVersionCode < 1)) {
+    throw new MobileUpdateError('INVALID_MANIFEST', '最低兼容APK版本信息异常');
   }
+}
+
+function isValidDownloadUrl(value?: string): boolean {
+  const url = value?.trim();
+  if (!url) return false;
+  if (url.startsWith('/')) return !url.startsWith('//');
+  return /^https?:\/\/[^/\s?#]+(?:[/?#][^\s]*)?$/i.test(url);
 }
 
 function installWgt(filePath: string): Promise<void> {
@@ -239,13 +384,21 @@ function installWgt(filePath: string): Promise<void> {
 
   return new Promise((resolve, reject) => {
     try {
+      logUpdateEvent('wgt-install-start', { filePath });
       plus.runtime.install(
         filePath,
         { force: false },
-        () => resolve(),
-        (error) => reject(new MobileUpdateError('INSTALL_FAILED', getErrorMessage(error, 'WGT安装失败'))),
+        () => {
+          logUpdateEvent('wgt-install-success', { filePath });
+          resolve();
+        },
+        (error) => {
+          logUpdateEvent('wgt-install-failure', { filePath, error: describeUpdateError(error) });
+          reject(new MobileUpdateError('INSTALL_FAILED', getErrorMessage(error, 'WGT安装失败')));
+        },
       );
     } catch (error) {
+      logUpdateEvent('wgt-install-failure', { filePath, error: describeUpdateError(error) });
       reject(new MobileUpdateError('INSTALL_FAILED', getErrorMessage(error, 'WGT安装失败')));
     }
   });
@@ -261,13 +414,21 @@ function installFullPackage(filePath: string): Promise<void> {
 
   return new Promise((resolve, reject) => {
     try {
+      logUpdateEvent('full-install-start', { filePath });
       plus.runtime.install(
         filePath,
         { force: false },
-        () => resolve(),
-        (error) => reject(new MobileUpdateError('INSTALL_FAILED', getErrorMessage(error, '完整包安装失败'))),
+        () => {
+          logUpdateEvent('full-install-success', { filePath });
+          resolve();
+        },
+        (error) => {
+          logUpdateEvent('full-install-failure', { filePath, error: describeUpdateError(error) });
+          reject(new MobileUpdateError('INSTALL_FAILED', getErrorMessage(error, '完整包安装失败')));
+        },
       );
     } catch (error) {
+      logUpdateEvent('full-install-failure', { filePath, error: describeUpdateError(error) });
       reject(new MobileUpdateError('INSTALL_FAILED', getErrorMessage(error, '完整包安装失败')));
     }
   });
@@ -302,9 +463,8 @@ function resolveDownloadUrl(url: string): string {
   if (/^[a-z][a-z\d+.-]*:\/\//i.test(url)) return url;
   const baseUrl = APP_CONFIG.apiBaseUrl.replace(/\/$/, '');
   if (url.startsWith('/')) {
-    if (/^[a-z][a-z\d+.-]*:\/\//i.test(baseUrl)) {
-      return new URL(url, `${baseUrl}/`).toString();
-    }
+    const origin = baseUrl.match(/^([a-z][a-z\d+.-]*:\/\/[^/?#]+)/i)?.[1];
+    if (origin) return `${origin}${url}`;
     return url;
   }
   return `${baseUrl}/${url.replace(/^\/+/, '')}`;
@@ -312,11 +472,31 @@ function resolveDownloadUrl(url: string): string {
 
 function getErrorMessage(error: unknown, fallback: string): string {
   if (error instanceof Error && error.message) return error.message;
-  if (error && typeof error === 'object' && 'errMsg' in error) {
-    const message = (error as { errMsg?: unknown }).errMsg;
+  if (error && typeof error === 'object') {
+    const nativeError = error as { message?: unknown; errMsg?: unknown; code?: unknown };
+    const message = nativeError.message ?? nativeError.errMsg;
     if (typeof message === 'string' && message) return message;
+    if (typeof nativeError.code === 'string' || typeof nativeError.code === 'number') {
+      return `${fallback}（错误码 ${nativeError.code}）`;
+    }
   }
   return fallback;
+}
+
+function describeUpdateError(error: unknown): unknown {
+  if (error instanceof Error) {
+    return { name: error.name, message: error.message, stack: error.stack };
+  }
+  if (error && typeof error === 'object') {
+    const nativeError = error as { code?: unknown; message?: unknown; errMsg?: unknown; stack?: unknown };
+    return {
+      code: nativeError.code,
+      message: nativeError.message,
+      errMsg: nativeError.errMsg,
+      stack: nativeError.stack,
+    };
+  }
+  return { value: error };
 }
 
 let memoryInstallLock = false;

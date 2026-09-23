@@ -2,6 +2,7 @@ import type { TelemetryEnvironment } from './features/fa-core-mobile/telemetry/t
 
 let apiBaseUrl = import.meta.env.VITE_APP_API_BASE_URL || '/api';
 let h5PreviewBaseUrl = import.meta.env.VITE_APP_H5_PREVIEW_BASE_URL || '/h5/preview';
+let httpLogEnabled = false;
 
 // #ifdef MP-WEIXIN
 apiBaseUrl = import.meta.env.VITE_APP_MP_API_BASE_URL || apiBaseUrl;
@@ -11,6 +12,7 @@ h5PreviewBaseUrl = import.meta.env.VITE_APP_MP_H5_PREVIEW_BASE_URL || h5PreviewB
 // #ifdef APP-PLUS
 apiBaseUrl = import.meta.env.VITE_APP_APP_API_BASE_URL || apiBaseUrl;
 h5PreviewBaseUrl = import.meta.env.VITE_APP_APP_H5_PREVIEW_BASE_URL || h5PreviewBaseUrl;
+httpLogEnabled = import.meta.env.VITE_APP_HTTP_LOG_ENABLED === 'true';
 // #endif
 
 const telemetryEnvironmentValue = import.meta.env.VITE_APP_TELEMETRY_ENV;
@@ -33,4 +35,5 @@ export const APP_CONFIG = {
   h5UpdateManifestUrl: import.meta.env.VITE_APP_H5_UPDATE_MANIFEST_URL || '',
   telemetryAppKey: import.meta.env.VITE_APP_TELEMETRY_APP_KEY || '',
   telemetryEnvironment,
+  httpLogEnabled,
 };

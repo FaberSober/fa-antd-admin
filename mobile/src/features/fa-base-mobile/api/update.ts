@@ -1,7 +1,10 @@
 import { APP_CONFIG } from '@/app.config';
 import {
+  getCurrentAppVersionCode,
   getCurrentVersion,
+  getCurrentWgtVersionCode,
   getUpdateDeviceId,
+  supportsFullPackageInstall,
   updateClient,
 } from '@features/fa-core-mobile/update';
 import { MobileUpdateError } from '@features/fa-core-mobile/update';
@@ -17,19 +20,32 @@ export interface H5UpdateManifest {
   forceUpdate?: boolean;
 }
 
-export function checkBaseUpdate(): Promise<UpdateManifest | null> {
+async function getAppUpdateOptions() {
   const appCode = APP_CONFIG.updateAppCode.trim();
-  if (!appCode) return Promise.resolve(null);
+  if (!appCode) return null;
   const platform = getUpdatePlatform();
-  if (platform !== 'APP_PLUS') return Promise.resolve(null);
+  if (platform !== 'APP_PLUS') return null;
+  const currentWgtVersionCode = await getCurrentWgtVersionCode();
 
-  return updateClient.check({
+  return {
     appCode,
     platform,
-    currentVersionCode: getCurrentVersion().versionCode,
+    currentVersionCode: getCurrentAppVersionCode(),
+    currentWgtVersionCode,
     channel: APP_CONFIG.updateChannel,
     deviceId: getUpdateDeviceId(),
-  });
+  };
+}
+
+export async function checkApkUpdate(): Promise<UpdateManifest | null> {
+  if (!supportsFullPackageInstall()) return null;
+  const options = await getAppUpdateOptions();
+  return options ? updateClient.checkApk(options) : null;
+}
+
+export async function checkWgtUpdate(): Promise<UpdateManifest | null> {
+  const options = await getAppUpdateOptions();
+  return options ? updateClient.checkWgt(options) : null;
 }
 
 export function checkH5Update(): Promise<H5UpdateManifest | null> {

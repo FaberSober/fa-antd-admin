@@ -10,7 +10,10 @@ export interface AppVersion {
 export interface UpdateCheckRequest {
   appCode: string;
   platform: UpdatePlatform;
+  /** 当前原生安装包版本。 */
   currentVersionCode: number;
+  /** 已安装 WGT 资源版本，更新目标比较使用。 */
+  currentWgtVersionCode?: number;
   channel?: string;
   deviceId?: string;
 }
@@ -18,15 +21,15 @@ export interface UpdateCheckRequest {
 export interface UpdateManifest {
   hasUpdate: boolean;
   updateType: UpdateType;
-  releaseId?: number;
+  releaseId?: number | string;
   versionCode?: number;
   versionName?: string;
-  baseVersionCode?: number;
   forceUpdate?: boolean;
+  /** WGT最低兼容APK版本；为空表示不限制。 */
   minSupportedVersionCode?: number;
   fileId?: string;
   downloadUrl?: string;
-  size?: number;
+  size?: number | string;
   sha256?: string;
   releaseNote?: string;
 }
