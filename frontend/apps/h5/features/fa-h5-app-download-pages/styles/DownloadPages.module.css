@@ -1,0 +1,423 @@
+.page {
+  min-height: 100dvh;
+  padding: calc(22px + env(safe-area-inset-top)) 18px calc(28px + env(safe-area-inset-bottom));
+  color: var(--fa-h5-text-primary);
+  background: radial-gradient(circle at 50% -8%, rgb(15 107 255 / 13%), transparent 38%), var(--fa-h5-page-bg);
+}
+
+.content {
+  width: min(100%, 460px);
+  margin: 0 auto;
+}
+
+.brandRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 2px 22px;
+}
+
+.brandMark {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  color: #fff;
+  background: var(--fa-h5-color-primary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  place-items: center;
+}
+
+.brandLabel {
+  color: var(--fa-h5-text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.heroCard,
+.historyLink,
+.versionCard,
+.emptyState {
+  border: 1px solid var(--fa-h5-border-color);
+  border-radius: var(--fa-h5-radius-large);
+  background: var(--fa-h5-surface);
+  box-shadow: var(--fa-h5-shadow-card);
+}
+
+.heroCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 24px 25px;
+  text-align: center;
+}
+
+.appIcon {
+  display: grid;
+  width: 96px;
+  height: 96px;
+  overflow: hidden;
+  border: 1px solid var(--fa-h5-border-color);
+  border-radius: 25px;
+  color: var(--fa-h5-color-primary);
+  background: var(--fa-h5-color-primary-soft);
+  box-shadow: 0 12px 30px rgb(24 58 105 / 12%);
+  font-size: 38px;
+  font-weight: 800;
+  place-items: center;
+}
+
+.appIcon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.appName {
+  margin: 20px 0 8px;
+  color: var(--fa-h5-text-primary);
+  font-size: clamp(23px, 7vw, 28px);
+  font-weight: 750;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.versionSummary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px 12px;
+  margin: 0;
+  color: var(--fa-h5-text-secondary);
+  font-size: 13px;
+}
+
+.versionCode {
+  color: var(--fa-h5-text-tertiary);
+}
+
+.appRemark {
+  width: 100%;
+  margin: 18px 0 0;
+  color: var(--fa-h5-text-secondary);
+  font-size: 14px;
+  line-height: 1.7;
+  text-align: left;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.downloadButton,
+.versionDownloadButton {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 16px;
+  color: #fff;
+  background: var(--fa-h5-color-primary);
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  transition:
+    background 140ms ease,
+    transform 140ms ease;
+}
+
+.downloadButton {
+  width: 100%;
+  margin-top: 26px;
+  box-shadow: 0 10px 22px rgb(15 107 255 / 22%);
+}
+
+.downloadButton:active,
+.versionDownloadButton:active {
+  background: var(--fa-h5-color-primary-active);
+  transform: translateY(1px);
+}
+
+.downloadButton:focus-visible,
+.versionDownloadButton:focus-visible,
+.secondaryButton:focus-visible,
+.backLink:focus-visible,
+.historyLink:focus-visible {
+  outline: 3px solid rgb(15 107 255 / 36%);
+  outline-offset: 3px;
+}
+
+.downloadHint {
+  margin: 10px 0 0;
+  color: var(--fa-h5-text-tertiary);
+  font-size: 12px;
+}
+
+.historyLink {
+  display: flex;
+  min-height: 76px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+  padding: 16px 18px;
+  color: var(--fa-h5-text-primary);
+  text-decoration: none;
+  transition:
+    border-color 140ms ease,
+    transform 140ms ease;
+}
+
+.historyLink:hover {
+  border-color: var(--fa-h5-color-primary);
+  transform: translateY(-1px);
+}
+
+.historyLink strong,
+.historyLink small {
+  display: block;
+}
+
+.historyLink strong {
+  font-size: 14px;
+}
+
+.historyLink small {
+  margin-top: 5px;
+  color: var(--fa-h5-text-tertiary);
+  font-size: 12px;
+}
+
+.historyCount {
+  flex: 0 0 auto;
+  color: var(--fa-h5-color-primary);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.historyCount span {
+  margin-left: 4px;
+  font-size: 20px;
+  vertical-align: -1px;
+}
+
+.pageHeader {
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+  gap: 13px;
+  margin: 0 0 17px;
+}
+
+.backLink {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  border: 1px solid var(--fa-h5-border-color);
+  border-radius: 14px;
+  color: var(--fa-h5-text-primary);
+  background: var(--fa-h5-surface);
+  font-size: 31px;
+  line-height: 1;
+  place-items: center;
+}
+
+.backLink span {
+  margin-top: -3px;
+}
+
+.eyebrow {
+  color: var(--fa-h5-color-primary);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.pageTitle {
+  margin: 3px 0 0;
+  color: var(--fa-h5-text-primary);
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.appSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--fa-h5-border-color);
+  border-radius: var(--fa-h5-radius-medium);
+  background: var(--fa-h5-surface-glass);
+}
+
+.appSummaryName {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.appSummaryVersion {
+  flex: 0 0 auto;
+  color: var(--fa-h5-text-tertiary);
+  font-size: 11px;
+}
+
+.versionList {
+  display: grid;
+  gap: 12px;
+}
+
+.versionCard {
+  padding: 18px;
+  border-radius: var(--fa-h5-radius-medium);
+  box-shadow: 0 8px 24px rgb(24 58 105 / 6%);
+}
+
+.versionCardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.versionDetails {
+  min-width: 0;
+}
+
+.versionDetails h2 {
+  margin: 0;
+  color: var(--fa-h5-text-primary);
+  font-size: 16px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.versionDetails p,
+.releaseTime {
+  margin: 5px 0 0;
+  color: var(--fa-h5-text-tertiary);
+  font-size: 12px;
+}
+
+.latestBadge {
+  flex: 0 0 auto;
+  padding: 5px 9px;
+  border-radius: 999px;
+  color: var(--fa-h5-color-primary);
+  background: var(--fa-h5-color-primary-soft);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.releaseTime {
+  margin-top: 13px;
+}
+
+.versionRemark {
+  margin: 12px 0 0;
+  color: var(--fa-h5-text-secondary);
+  font-size: 13px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.versionDownloadButton {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 17px;
+  border-radius: 13px;
+  font-size: 14px;
+}
+
+.emptyState {
+  padding: 34px 22px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgb(24 58 105 / 6%);
+}
+
+.emptyMark {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 14px;
+  border-radius: 16px;
+  color: var(--fa-h5-color-primary);
+  background: var(--fa-h5-color-primary-soft);
+  font-size: 26px;
+  place-items: center;
+}
+
+.emptyState h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.emptyState p {
+  margin: 7px 0 0;
+  color: var(--fa-h5-text-secondary);
+  font-size: 13px;
+}
+
+.statePanel {
+  display: flex;
+  width: min(100%, 440px);
+  min-height: calc(100dvh - 50px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 28px 20px;
+  text-align: center;
+}
+
+.stateTitle {
+  margin: 12px 0 8px;
+  font-size: 21px;
+}
+
+.stateDescription {
+  margin: 0;
+  color: var(--fa-h5-text-secondary);
+  font-size: 14px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.secondaryButton {
+  min-width: 112px;
+  min-height: 42px;
+  margin-top: 22px;
+  padding: 0 18px;
+  border: 1px solid var(--fa-h5-border-color);
+  border-radius: 13px;
+  color: var(--fa-h5-color-primary);
+  background: var(--fa-h5-surface);
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .downloadButton,
+  .versionDownloadButton,
+  .historyLink {
+    transition: none;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .downloadButton,
+  .versionDownloadButton {
+    color: #0e1420;
+  }
+}

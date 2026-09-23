@@ -64,12 +64,12 @@ const defaultRegistry = composeH5Project(await loadProject('default'));
 const demoRegistry = composeH5Project(await loadProject('demo'));
 
 assert(
-  defaultRegistry.featureIds.join(',') === 'fa-h5-base-pages,fa-h5-file-preview-pages,fa-h5-demo-pages',
-  'default 项目必须启用 base + file preview + demo Feature',
+  defaultRegistry.featureIds.join(',') === 'fa-h5-base-pages,fa-h5-file-preview-pages,fa-h5-app-download-pages,fa-h5-demo-pages',
+  'default 项目必须启用 base + file preview + APP download + demo Feature',
 );
 assert(
-  demoRegistry.featureIds.join(',') === 'fa-h5-base-pages,fa-h5-file-preview-pages,fa-h5-demo-pages',
-  'demo 项目必须启用 base + file preview + demo Feature',
+  demoRegistry.featureIds.join(',') === 'fa-h5-base-pages,fa-h5-file-preview-pages,fa-h5-app-download-pages,fa-h5-demo-pages',
+  'demo 项目必须启用 base + file preview + APP download + demo Feature',
 );
 assert(defaultRegistry.routeMap.has('fa-h5-demo-pages.overview'), 'default 应注册 demo 列表路由');
 assert(defaultRegistry.routeMap.has('fa-h5-demo-pages.button'), 'default 应注册 button demo 路由');

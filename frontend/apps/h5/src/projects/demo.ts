@@ -1,3 +1,4 @@
+import appDownloadFeature from '@features/fa-h5-app-download-pages';
 import baseFeature from '@features/fa-h5-base-pages';
 import demoFeature from '@features/fa-h5-demo-pages';
 import filePreviewFeature from '@features/fa-h5-file-preview-pages';
@@ -8,5 +9,5 @@ export default defineH5Project({
   title: 'FA H5 Demo',
   basePath: '/h5',
   defaultRouteId: 'fa-h5-base-pages.home',
-  features: [baseFeature, demoFeature, filePreviewFeature],
+  features: [baseFeature, demoFeature, filePreviewFeature, appDownloadFeature],
 });

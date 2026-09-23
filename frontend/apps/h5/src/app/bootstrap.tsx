@@ -6,12 +6,18 @@ import { AppShell } from '@/layouts/AppShell';
 import { PageLoading } from '@/shared/components/PageLoading';
 import routes from '~react-pages';
 
+const workspaceRoutes = new Set(['/app/home', '/app/me', '/app/demo']);
+
 function H5Routes() {
   const location = useLocation();
   const content = useRoutes(routes);
-  const isAppRoute = location.pathname === '/app' || location.pathname.startsWith('/app/');
+  const routePath = location.pathname.replace(/\/+$/, '') || '/';
+  const isAppRoute = routePath === '/app' || routePath.startsWith('/app/');
+  const isVersionRoute = /^\/app\/[^/]+\/versions$/.test(routePath);
+  const isShortCodeRoute = /^\/app\/[^/]+$/.test(routePath);
+  const isAppDownloadRoute = isVersionRoute || (isShortCodeRoute && !workspaceRoutes.has(routePath));
 
-  return isAppRoute ? <AppShell>{content}</AppShell> : content;
+  return isAppRoute && !isAppDownloadRoute ? <AppShell>{content}</AppShell> : content;
 }
 
 export function H5Bootstrap() {
