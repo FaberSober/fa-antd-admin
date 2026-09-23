@@ -1,4 +1,4 @@
-import appDownloadFeature from '@features/fa-h5-app-download-pages';
+import appDownloadFeature from '@features/fa-h5-app-pages';
 import baseFeature from '@features/fa-h5-base-pages';
 import demoFeature from '@features/fa-h5-demo-pages';
 import filePreviewFeature from '@features/fa-h5-file-preview-pages';
