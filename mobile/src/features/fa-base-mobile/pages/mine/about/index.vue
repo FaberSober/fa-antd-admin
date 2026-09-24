@@ -79,6 +79,7 @@ onShow(() => {
 
       <button
         class="about-update-button"
+        :class="{ 'about-update-button--loading': checking }"
         :disabled="checking"
         :loading="checking"
         @tap="handleCheckUpdate"
@@ -188,6 +189,13 @@ onShow(() => {
   color: var(--fa-color-text-inverse);
   background: var(--fa-color-primary);
   font-size: 30rpx;
+}
+
+.about-update-button.about-update-button--loading {
+  border-color: var(--fa-color-primary);
+  color: var(--fa-color-text-inverse);
+  background: var(--fa-color-primary);
+  opacity: 1;
 }
 
 .about-update-hint {

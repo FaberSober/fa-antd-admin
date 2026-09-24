@@ -21,6 +21,14 @@ pnpm type-check
 
 Android/iOS 真机运行和 App 打包按需要使用 HBuilderX；CLI 工程可以直接用 HBuilderX 打开。
 
+## 打包命令
+
+版本号从 `src/manifest.json` 的 `versionName` 和 `versionCode` 读取：
+
+```bash
+pnpm run build:wgt
+```
+
 ## 环境变量
 
 复制 `.env.example` 为 `.env.local` 后按实际环境修改。H5 使用 `VITE_APP_API_BASE_URL`，微信小程序使用 `VITE_APP_MP_API_BASE_URL`，App 使用 `VITE_APP_APP_API_BASE_URL`。小程序和 Android 真机不能使用相对地址 `/api`，应配置局域网可访问的 HTTPS 或局域网地址。
