@@ -25,18 +25,18 @@ function ensureAuthenticated(): void {
 }
 
 function triggerConsoleSamples(): void {
-  console.debug('[RemoteLogDemo] DEBUG');
-  console.log('[RemoteLogDemo] LOG');
-  console.info('[RemoteLogDemo] INFO');
-  console.warn('[RemoteLogDemo] WARN');
-  console.error('[RemoteLogDemo] ERROR');
-  console.info('[RemoteLogDemo] 脱敏样例', {
+  remoteClientConnection.logConsole('debug', ['[RemoteLogDemo] DEBUG'], true);
+  remoteClientConnection.logConsole('log', ['[RemoteLogDemo] LOG'], true);
+  remoteClientConnection.logConsole('info', ['[RemoteLogDemo] INFO'], true);
+  remoteClientConnection.logConsole('warn', ['[RemoteLogDemo] WARN'], true);
+  remoteClientConnection.logConsole('error', ['[RemoteLogDemo] ERROR'], true);
+  remoteClientConnection.logConsole('info', ['[RemoteLogDemo] 脱敏样例', {
     password: 'DEMO_PASSWORD_123',
     accessToken: 'DEMO_ACCESS_TOKEN_123',
     nested: { cookie: 'DEMO_COOKIE_123' },
     authorization: 'Bearer DEMO_BEARER_TOKEN_123',
     url: 'https://example.invalid/debug?token=DEMO_QUERY_TOKEN_123',
-  });
+  }], true);
   lastTriggered.value = '已触发五种 Console 级别和脱敏样例';
 }
 
@@ -104,38 +104,38 @@ onHide(stopStatusRefresh);
             <text>{{ connectionStatus.captureActive ? '采集中' : '未开启' }}</text>
           </view>
         </view>
+        <view class="status-row">
+          <text>Console 接管</text>
+          <text class="status-result">{{ connectionStatus.consoleHooks }}/5</text>
+        </view>
         <text class="status-note">页面显示时每秒刷新一次；采集需由管理端开启。</text>
+        <text class="result-value">最近触发：{{ lastTriggered }}</text>
       </view>
 
       <view class="demo-section fa-card">
         <text class="section-title">Console 与脱敏</text>
         <text class="section-description">依次输出 DEBUG、LOG、INFO、WARN、ERROR，并包含虚构敏感字段。</text>
-        <button class="demo-button demo-button--primary" @tap="triggerConsoleSamples">触发 Console 样例</button>
+        <button class="demo-button demo-button--primary" hover-class="demo-button--hover" @tap="triggerConsoleSamples">触发 Console 样例</button>
       </view>
 
       <view class="demo-section fa-card">
         <text class="section-title">运行时异常</text>
         <text class="section-description">通过异步 throw 触发 App 未捕获异常上报。</text>
-        <button class="demo-button demo-button--warn" @tap="triggerUncaughtError">触发未捕获异常</button>
+        <button class="demo-button demo-button--warn" hover-class="demo-button--hover" @tap="triggerUncaughtError">触发未捕获异常</button>
       </view>
 
       <view class="demo-section fa-card">
         <text class="section-title">Promise 拒绝</text>
         <text class="section-description">触发未处理的 Promise rejection 上报。</text>
-        <button class="demo-button demo-button--warn" @tap="triggerUnhandledRejection">触发 Promise 拒绝</button>
+        <button class="demo-button demo-button--warn" hover-class="demo-button--hover" @tap="triggerUnhandledRejection">触发 Promise 拒绝</button>
       </view>
 
       <view class="demo-section fa-card">
         <text class="section-title">日志长度限制</text>
         <text class="section-description">输出超过单条限制的测试对象，确认远程消息会被截断。</text>
-        <button class="demo-button" @tap="triggerLargeLog">触发长日志</button>
+        <button class="demo-button" hover-class="demo-button--hover" @tap="triggerLargeLog">触发长日志</button>
       </view>
-
-      <view class="result-card fa-card">
-        <text class="result-label">最近触发</text>
-        <text class="result-value">{{ lastTriggered }}</text>
-        <text class="result-note">样例仅包含 DEMO 虚构值，不要在此页面输出真实凭证。</text>
-      </view>
+      <text class="result-note">样例仅包含 DEMO 虚构值，不要在此页面输出真实凭证。</text>
     </view>
   </MobileThemeRoot>
 </template>
@@ -175,7 +175,6 @@ onHide(stopStatusRefresh);
 }
 
 .demo-section,
-.result-card,
 .status-card {
   margin-bottom: 20rpx;
   padding: 28rpx;
@@ -256,7 +255,13 @@ onHide(stopStatusRefresh);
 }
 
 .result-value {
+  display: block;
+  margin-top: 16rpx;
   margin-bottom: 8rpx;
   font-size: 28rpx;
+}
+
+.demo-button--hover {
+  opacity: 0.72;
 }
 </style>

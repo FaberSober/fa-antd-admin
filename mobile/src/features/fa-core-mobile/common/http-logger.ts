@@ -1,5 +1,6 @@
 import { APP_CONFIG } from '@/app.config';
 import { appendClientDebugLog, isClientDebugModeEnabled } from './debug-mode';
+import { remoteClientConnection } from './remote-client';
 
 const SENSITIVE_KEY_PATTERN = /password|passwd|pwd|token|authorization|secret|credential|captcha|verification|phone|mobile|email|idcard|signature/i;
 const MAX_FIELD_LENGTH = 2_000;
@@ -48,7 +49,7 @@ export function logUpdateEvent(stage: string, value: unknown): void {
     ? `${serialized.slice(0, MAX_RECORD_LENGTH)}...[truncated]`
     : serialized;
   const message = `[FaMobile Update] ${stage} ${limited}`;
-  console.log(message);
+  remoteClientConnection.logConsole('log', [message]);
   appendClientDebugLog(message);
 }
 
@@ -62,7 +63,7 @@ function writeLog(requestId: number, stage: string, value: unknown): void {
   for (let index = 0; index < chunks; index += 1) {
     const part = limited.slice(index * LOG_CHUNK_LENGTH, (index + 1) * LOG_CHUNK_LENGTH);
     const message = `[FaMobile HTTP #${requestId}] ${stage} ${index + 1}/${chunks} ${part}`;
-    console.log(message);
+    remoteClientConnection.logConsole('log', [message]);
     appendClientDebugLog(message);
   }
 }

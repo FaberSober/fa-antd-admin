@@ -1,6 +1,7 @@
 import { APP_CONFIG } from '@/app.config';
 import { getToken } from '@features/fa-base-mobile/common/session';
 import { getMobileTelemetryContext } from '@features/fa-core-mobile/telemetry/context';
+import { appendClientDebugLog } from './debug-mode';
 
 const HEARTBEAT_INTERVAL = 20_000;
 const REGISTER_TYPE = 'RemoteClientRegister';
@@ -103,7 +104,23 @@ class RemoteClientConnection {
   }
 
   reportRuntimeError(source: string, error: unknown): void {
-    this.sendRemoteLog('ERROR', [source, error], 'runtime');
+    const args = [source, error];
+    this.sendRemoteLog('ERROR', args, 'runtime');
+    appendClientDebugLog(`[ERROR] ${serializeRemoteLog(args)}`);
+  }
+
+  logConsole(level: ConsoleLevel, args: unknown[], mirrorToDebugConsole = false): void {
+    const capturing = Boolean(this.remoteLogSessionId);
+    const original = capturing ? this.originalConsole.get(level) : console[level];
+    if (typeof original === 'function') {
+      try {
+        (original as (...values: unknown[]) => void).apply(console, args);
+      } catch {
+        // Logging must not interrupt application behavior.
+      }
+    }
+    if (capturing) this.sendRemoteLog(level.toUpperCase(), args, 'console');
+    if (mirrorToDebugConsole) appendClientDebugLog(`[${level.toUpperCase()}] ${serializeRemoteLog(args)}`);
   }
 
   getStatus() {
@@ -116,6 +133,9 @@ class RemoteClientConnection {
             ? 'connecting'
             : 'disconnected',
       captureActive: Boolean(this.remoteLogSessionId),
+      consoleHooks: this.remoteLogSessionId
+        ? CONSOLE_LEVELS.filter(level => console[level] === this.wrappedConsole.get(level)).length
+        : 0,
     } as const;
   }
 
@@ -139,17 +159,27 @@ class RemoteClientConnection {
     this.logWindowStartedAt = 0;
     this.logWindowCount = 0;
     for (const level of CONSOLE_LEVELS) {
-      const original = console[level] as (...args: unknown[]) => void;
+      const original = console[level];
+      if (typeof original !== 'function') {
+        appendClientDebugLog(`[RemoteLog] console.${level} 不可用`);
+        continue;
+      }
       const wrapper = (...args: unknown[]) => {
         try {
-          original.apply(console, args);
-        } finally {
-          this.sendRemoteLog(level.toUpperCase(), args, 'console');
+          (original as (...values: unknown[]) => void).apply(console, args);
+        } catch {
+          // A failing Console implementation must not break application behavior.
         }
+        this.sendRemoteLog(level.toUpperCase(), args, 'console');
       };
       this.originalConsole.set(level, console[level]);
       this.wrappedConsole.set(level, wrapper as Console[ConsoleLevel]);
-      console[level] = wrapper as Console[typeof level];
+      try {
+        console[level] = wrapper as Console[typeof level];
+        if (console[level] !== wrapper) appendClientDebugLog(`[RemoteLog] console.${level} 接管失败`);
+      } catch {
+        appendClientDebugLog(`[RemoteLog] console.${level} 接管失败`);
+      }
     }
   }
 
