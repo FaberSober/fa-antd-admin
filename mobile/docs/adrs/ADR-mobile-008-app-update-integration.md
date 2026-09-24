@@ -4,7 +4,7 @@
 - 日期：2026-09-22
 - 范围：`mobile`、`fa-core-mobile`、`fa-base-mobile`、`fa-app`
 - 关联：`fa-app/docs/adrs/2026-09-16-app-release-and-uniapp-incremental-update.md`、`ADR-mobile-004-mine-feature.md`、`ADR-mobile-007-page-lifecycle-refresh.md`
-- 当前进度：`fa-app` 公开检查接口、`mobile` 更新 Core 能力和 Base 更新流程已完成；生命周期收敛已完成开发，等待 App 前台恢复和重复触发验证；配置、发布数据准备和其他真机验证待执行
+- 当前进度：`fa-app` 公开检查接口、`mobile` 更新 Core 能力和 Base 更新流程已完成；更新提示界面与下载进度展示已验证通过；生命周期收敛等待 App 前台恢复和重复触发验证；配置、发布数据准备和其他真机验证待执行
 
 ## 功能清单
 

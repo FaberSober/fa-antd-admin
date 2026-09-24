@@ -2,7 +2,11 @@ import { APP_CONFIG } from '@/app.config';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
 import {
   MobileUpdateError,
+  askUpdatePrompt,
+  closeUpdatePrompt,
   supportsFullPackageInstall,
+  showUpdateProgress,
+  updateProgress,
   updateClient,
 } from '@features/fa-core-mobile/update';
 import type { UpdateManifest } from '@features/fa-core-mobile/update';
@@ -68,7 +72,6 @@ export async function checkAndPromptUpdate(options: UpdateCheckOptions = {}): Pr
     if (manual && !hasUpdate) showLatestVersionToast();
   } catch (error) {
     telemetry.captureException(error, { source: 'fa-base-mobile.update' });
-    uni.hideLoading();
     await showModal({
       title: '更新失败',
       content: error instanceof MobileUpdateError ? error.message : '更新失败，请稍后重试。',
@@ -93,14 +96,14 @@ async function promptAndInstallUpdate(manifest: UpdateManifest): Promise<UpdateP
       },
   });
 
-  const accepted = await showModal({
+  const accepted = await askUpdatePrompt({
+      manifest,
       title: `发现新版本 ${manifest.versionName}`,
-      content: buildUpdateContent(manifest),
-      showCancel: !manifest.forceUpdate,
+      description: manifest.releaseNote?.trim() || '暂无更新说明',
       cancelText: '稍后更新',
       confirmText: '立即更新',
   });
-  if (!accepted.confirm) {
+  if (!accepted) {
     telemetry.track('mobile.update.skip', {
         eventType: 'ACTION',
         module: 'fa-base-mobile',
@@ -115,51 +118,55 @@ async function promptAndInstallUpdate(manifest: UpdateManifest): Promise<UpdateP
         module: 'fa-base-mobile',
         result: 'UNSUPPORTED',
     });
-    await showModal({
+    await askUpdatePrompt({
+        manifest,
         title: '需要完整包更新',
-        content: '当前平台不能在应用内安装完整包，请通过 App Store 或企业分发渠道更新。',
+        description: '当前平台不能在应用内安装完整包，请通过 App Store 或企业分发渠道更新。',
         showCancel: false,
         confirmText: '知道了',
     });
     return manifest.forceUpdate ? 'BLOCKED' : 'SKIPPED';
   }
 
-  uni.showLoading({ title: '准备下载...', mask: true });
+  showUpdateProgress(manifest);
+  const unsubscribe = updateClient.subscribe((state) => {
+    updateProgress(state.progress, state.status);
+  });
+  let filePath: string;
   try {
-    const filePath = await updateClient.download(manifest, (progress) => {
-        uni.showLoading({ title: `下载中 ${progress}%`, mask: true });
-    });
-    uni.hideLoading();
+    filePath = await updateClient.download(manifest);
+  } finally {
+    unsubscribe();
+    closeUpdatePrompt();
+  }
 
-    const installAccepted = await showModal({
-        title: '下载完成',
-        content: `${manifest.updateType === 'WGT' ? '增量资源包' : '完整包'}已下载并完成校验，是否立即安装更新？`,
-        showCancel: !manifest.forceUpdate,
-        cancelText: '稍后安装',
-        confirmText: '立即安装',
-    });
-    if (!installAccepted.confirm) {
-      telemetry.track('mobile.update.install.skip', {
-          eventType: 'ACTION',
-          module: 'fa-base-mobile',
-          result: 'CANCEL',
-      });
-      return 'SKIPPED';
-    }
-
-    await updateClient.install(manifest, filePath);
-    telemetry.track('mobile.update.install', {
+  const installAccepted = await askUpdatePrompt({
+      manifest,
+      title: '下载完成',
+      description: `${manifest.updateType === 'WGT' ? '增量资源包' : '完整包'}已下载并完成校验，是否立即安装更新？`,
+      showCancel: !manifest.forceUpdate,
+      cancelText: '稍后安装',
+      confirmText: '立即安装',
+  });
+  if (!installAccepted) {
+    telemetry.track('mobile.update.install.skip', {
         eventType: 'ACTION',
         module: 'fa-base-mobile',
-        result: 'SUCCESS',
+        result: 'CANCEL',
     });
-    if (manifest.updateType === 'WGT' && typeof plus !== 'undefined' && plus.runtime?.restart) {
-      plus.runtime.restart();
-    }
-    return 'INSTALLED';
-  } finally {
-    uni.hideLoading();
+    return 'SKIPPED';
   }
+
+  await updateClient.install(manifest, filePath);
+  telemetry.track('mobile.update.install', {
+      eventType: 'ACTION',
+      module: 'fa-base-mobile',
+      result: 'SUCCESS',
+  });
+  if (manifest.updateType === 'WGT' && typeof plus !== 'undefined' && plus.runtime?.restart) {
+    plus.runtime.restart();
+  }
+  return 'INSTALLED';
 }
 
 async function checkAndPromptH5Update(): Promise<boolean | undefined> {
@@ -258,12 +265,6 @@ async function promptMiniProgramUpdate(manager: UniNamespace.UpdateManager): Pro
   } catch (error) {
     telemetry.captureException(error, { source: 'fa-base-mobile.mp-update-prompt' });
   }
-}
-
-function buildUpdateContent(manifest: UpdateManifest): string {
-  const packageName = manifest.updateType === 'WGT' ? '增量资源包' : '完整包';
-  const note = manifest.releaseNote?.trim() || '暂无更新说明';
-  return `更新类型：${packageName}\n\n${note}`;
 }
 
 function showModal(options: UniNamespace.ShowModalOptions): Promise<UniNamespace.ShowModalRes> {

@@ -503,6 +503,15 @@ let memoryInstallLock = false;
 
 export const updateClient = new MobileUpdateClient();
 
+export {
+  askUpdatePrompt,
+  closeUpdatePrompt,
+  finishUpdatePrompt,
+  showUpdateProgress,
+  updateProgress,
+  updatePromptState,
+} from './prompt';
+
 export type {
   AppVersion,
   UpdateCheckRequest,

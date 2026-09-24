@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { onActivated, onMounted, watch } from 'vue';
 import { useThemeStore } from './index';
+// #ifdef APP-PLUS
+import { updatePromptState } from '../update/prompt';
+import UpdatePromptHost from '../update/UpdatePromptHost.vue';
+// #endif
 
 const themeStore = useThemeStore();
 
@@ -20,6 +24,9 @@ watch(() => themeStore.mode, syncNavigationBar);
     :data-theme="themeStore.mode"
   >
     <slot />
+    <!-- #ifdef APP-PLUS -->
+    <UpdatePromptHost v-if="updatePromptState" />
+    <!-- #endif -->
   </view>
 </template>
 
