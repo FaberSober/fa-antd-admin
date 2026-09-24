@@ -6,6 +6,7 @@ import { telemetry } from '@features/fa-core-mobile/telemetry';
 const LOGIN_ROUTE = '/features/fa-base-mobile/pages/login/index';
 const BUTTON_DEMO_ROUTE = '/features/fa-demo-mobile/pages/basic/button/index';
 const UPLOAD_DEMO_ROUTE = '/features/fa-demo-mobile/pages/basic/upload/index';
+const NATIVE_PLUGIN_DEMO_ROUTE = '/features/fa-demo-mobile/pages/basic/native-plugin/index';
 
 function ensureAuthenticated(): void {
   if (!hasToken()) {
@@ -19,6 +20,10 @@ function openButtonDemo(): void {
 
 function openUploadDemo(): void {
   uni.navigateTo({ url: UPLOAD_DEMO_ROUTE });
+}
+
+function openNativePluginDemo(): void {
+  uni.navigateTo({ url: NATIVE_PLUGIN_DEMO_ROUTE });
 }
 
 onShow(() => {
@@ -39,7 +44,7 @@ onShow(() => {
         <text class="entry-title">按钮样式</text>
         <text class="entry-description">查看基础类型、尺寸、状态和镂空样式</text>
       </view>
-      <button class="entry-button" @click="openButtonDemo">查看 Demo</button>
+      <button class="entry-button" @tap="openButtonDemo">查看 Demo</button>
     </view>
 
     <view class="demo-entry fa-card">
@@ -47,7 +52,15 @@ onShow(() => {
         <text class="entry-title">文件上传</text>
         <text class="entry-description">选择图片并上传到后端文件服务</text>
       </view>
-      <button class="entry-button" @click="openUploadDemo">查看 Demo</button>
+      <button class="entry-button" @tap="openUploadDemo">查看 Demo</button>
+    </view>
+
+    <view class="demo-entry fa-card">
+      <view>
+        <text class="entry-title">原生插件</text>
+        <text class="entry-description">调用 Android 原生模块显示 Toast</text>
+      </view>
+      <button class="entry-button" @tap="openNativePluginDemo">查看 Demo</button>
     </view>
   </view>
 </template>

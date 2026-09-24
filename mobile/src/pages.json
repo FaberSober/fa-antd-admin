@@ -136,6 +136,14 @@
         "navigationBarBackgroundColor": "#f5f7fb",
         "navigationBarTextStyle": "black"
       }
+    },
+    {
+      "path": "features/fa-demo-mobile/pages/basic/native-plugin/index",
+      "style": {
+        "navigationBarTitleText": "原生插件 Demo",
+        "navigationBarBackgroundColor": "#f5f7fb",
+        "navigationBarTextStyle": "black"
+      }
     }
   ],
   "globalStyle": {
