@@ -1,29 +1,43 @@
 <script setup lang="ts">
 import { onShow } from '@dcloudio/uni-app';
-import { ref } from 'vue';
+import { onBeforeUnmount, ref } from 'vue';
 import { APP_CONFIG } from '@/app.config';
 import MobileThemeRoot from '@features/fa-core-mobile/theme/MobileThemeRoot.vue';
-import { DEMO_ENTRY_STORAGE_KEY } from '../../../feature';
+import { isClientDebugModeEnabled, setClientDebugModeEnabled } from '@features/fa-core-mobile/common/debug-mode';
 import {
   getCurrentAppVersion,
   getCurrentWgtVersion,
   type AppVersion,
 } from '@features/fa-core-mobile/update';
+import { logUpdateEvent } from '@features/fa-core-mobile/common/http-logger';
 import { checkAndPromptUpdate } from '../../../common/update';
 
 const apkVersion = ref<AppVersion>(getCurrentAppVersion());
 const wgtVersion = ref<AppVersion>({ ...apkVersion.value });
 const checking = ref(false);
 let logoTapCount = 0;
+let logoTapResetTimer: ReturnType<typeof setTimeout> | undefined;
 
 function handleLogoTap(): void {
   logoTapCount += 1;
-  if (logoTapCount < 7) return;
+  if (logoTapResetTimer) clearTimeout(logoTapResetTimer);
+  if (logoTapCount < 7) {
+    logoTapResetTimer = setTimeout(() => {
+      logoTapCount = 0;
+      logoTapResetTimer = undefined;
+    }, 2_000);
+    return;
+  }
 
   logoTapCount = 0;
-  const enabled = uni.getStorageSync(DEMO_ENTRY_STORAGE_KEY) !== true;
-  uni.setStorageSync(DEMO_ENTRY_STORAGE_KEY, enabled);
-  uni.showToast({ title: enabled ? 'Demo 入口已开启' : 'Demo 入口已关闭', icon: 'none' });
+  logoTapResetTimer = undefined;
+  const enabled = !isClientDebugModeEnabled();
+  setClientDebugModeEnabled(enabled);
+  if (enabled) logUpdateEvent('client-debug-mode-enabled', { eruda: true });
+  uni.showToast({
+    title: `调试模式已${enabled ? '开启' : '关闭'}`,
+    icon: 'none',
+  });
 }
 
 async function loadVersionInfo(): Promise<void> {
@@ -44,6 +58,10 @@ async function handleCheckUpdate(): Promise<void> {
 
 onShow(() => {
   void loadVersionInfo();
+});
+
+onBeforeUnmount(() => {
+  if (logoTapResetTimer) clearTimeout(logoTapResetTimer);
 });
 </script>
 

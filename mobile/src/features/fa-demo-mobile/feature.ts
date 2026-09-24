@@ -5,6 +5,7 @@ const demoMobileFeature = {
     'features/fa-demo-mobile/pages/basic/button/index',
     'features/fa-demo-mobile/pages/basic/upload/index',
     'features/fa-demo-mobile/pages/basic/native-plugin/index',
+    'features/fa-demo-mobile/pages/diagnostics/remote-log/index',
   ],
 } as const;
 

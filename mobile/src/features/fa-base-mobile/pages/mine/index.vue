@@ -5,11 +5,12 @@ import { ApiError } from '../../common/request';
 import { createPageRefresh } from '../../common/page-refresh';
 import MobileIcon from '../../components/MobileIcon.vue';
 import MobileShell from '../../components/MobileShell.vue';
-import { DEMO_ENTRY_STORAGE_KEY, MOBILE_PAGE_ROUTES, MOBILE_TAB_NAVIGATION_KEY } from '../../feature';
+import { MOBILE_PAGE_ROUTES, MOBILE_TAB_NAVIGATION_KEY } from '../../feature';
 import { useAuthStore } from '../../stores/auth';
 import { useTenantStore } from '../../stores/tenant';
 import type { MobileIconName } from '../../types/mobileIcon';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
+import { isClientDebugModeEnabled } from '@features/fa-core-mobile/common/debug-mode';
 import { THEME_DANGER_COLORS, useThemeStore } from '@features/fa-core-mobile/theme';
 
 interface MineSetting {
@@ -30,7 +31,7 @@ const authStore = useAuthStore();
 const tenantStore = useTenantStore();
 const themeStore = useThemeStore();
 const navigateToTab = inject(MOBILE_TAB_NAVIGATION_KEY);
-const demoEntryEnabled = ref(uni.getStorageSync(DEMO_ENTRY_STORAGE_KEY) === true);
+const demoEntryEnabled = ref(isClientDebugModeEnabled());
 const showDemoEntry = computed(() => import.meta.env.DEV || demoEntryEnabled.value);
 const logoutLoading = ref(false);
 const pageRefresh = createPageRefresh();
@@ -119,7 +120,7 @@ onBeforeUnmount(() => {
 });
 
 function handlePageShow(): void {
-  demoEntryEnabled.value = uni.getStorageSync(DEMO_ENTRY_STORAGE_KEY) === true;
+  demoEntryEnabled.value = isClientDebugModeEnabled();
   telemetry.page(MOBILE_PAGE_ROUTES.mine);
   void loadProfile();
 }

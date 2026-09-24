@@ -4,6 +4,13 @@ import { getMobileTelemetryContext } from '@features/fa-core-mobile/telemetry/co
 
 const HEARTBEAT_INTERVAL = 20_000;
 const REGISTER_TYPE = 'RemoteClientRegister';
+const REMOTE_LOG_TYPE = 'RemoteLog';
+const REMOTE_LOG_CONTROL_TYPE = 'RemoteLogControl';
+const CONSOLE_LEVELS = ['debug', 'log', 'info', 'warn', 'error'] as const;
+const MAX_LOGS_PER_SECOND = 30;
+const MAX_LOG_LENGTH = 4_000;
+
+type ConsoleLevel = typeof CONSOLE_LEVELS[number];
 
 type SocketTask = UniNamespace.SocketTask;
 
@@ -11,9 +18,15 @@ class RemoteClientConnection {
   private task?: SocketTask;
   private token?: string;
   private active = false;
+  private socketConnected = false;
   private reconnectTimer?: ReturnType<typeof setTimeout>;
   private heartbeatTimer?: ReturnType<typeof setInterval>;
   private retryCount = 0;
+  private remoteLogSessionId?: string;
+  private originalConsole = new Map<ConsoleLevel, Console[ConsoleLevel]>();
+  private wrappedConsole = new Map<ConsoleLevel, Console[ConsoleLevel]>();
+  private logWindowStartedAt = 0;
+  private logWindowCount = 0;
 
   connect(): void {
     const token = getToken();
@@ -31,6 +44,7 @@ class RemoteClientConnection {
     this.active = false;
     this.retryCount = 0;
     this.clearReconnect();
+    this.stopRemoteLog();
     this.closeTask();
     this.token = undefined;
   }
@@ -44,6 +58,7 @@ class RemoteClientConnection {
       this.task = task;
       task.onOpen(() => {
         if (this.task !== task) return;
+        this.socketConnected = true;
         this.retryCount = 0;
         this.send(task, {
           type: REGISTER_TYPE,
@@ -55,6 +70,7 @@ class RemoteClientConnection {
       });
       task.onClose(() => this.handleClose(task));
       task.onError(() => this.handleClose(task));
+      task.onMessage(({ data }) => this.handleServerMessage(task, data));
     } catch {
       this.scheduleReconnect();
     }
@@ -70,16 +86,105 @@ class RemoteClientConnection {
 
   private handleClose(task: SocketTask): void {
     if (this.task !== task) return;
+    this.socketConnected = false;
     this.task = undefined;
     this.clearHeartbeat();
+    this.stopRemoteLog();
     this.scheduleReconnect();
   }
 
   private closeTask(): void {
     const task = this.task;
+    this.socketConnected = false;
     this.task = undefined;
     this.clearHeartbeat();
+    this.stopRemoteLog();
     if (task) task.close({});
+  }
+
+  reportRuntimeError(source: string, error: unknown): void {
+    this.sendRemoteLog('ERROR', [source, error], 'runtime');
+  }
+
+  getStatus() {
+    return {
+      connectionState: this.socketConnected
+        ? 'connected'
+        : this.reconnectTimer
+          ? 'reconnecting'
+          : this.task
+            ? 'connecting'
+            : 'disconnected',
+      captureActive: Boolean(this.remoteLogSessionId),
+    } as const;
+  }
+
+  private handleServerMessage(task: SocketTask, raw: unknown): void {
+    if (this.task !== task || typeof raw !== 'string') return;
+    try {
+      const message = JSON.parse(raw) as { type?: string; data?: { action?: string; sessionId?: string } };
+      const { action, sessionId } = message.data ?? {};
+      if (message.type !== REMOTE_LOG_CONTROL_TYPE || !sessionId || sessionId.length > 40) return;
+      if (action === 'start') this.startRemoteLog(sessionId);
+      if (action === 'stop' && this.remoteLogSessionId === sessionId) this.stopRemoteLog();
+    } catch {
+      // Ignore non-JSON or malformed server messages; the business socket stays available.
+    }
+  }
+
+  private startRemoteLog(sessionId: string): void {
+    if (this.remoteLogSessionId === sessionId) return;
+    this.stopRemoteLog();
+    this.remoteLogSessionId = sessionId;
+    this.logWindowStartedAt = 0;
+    this.logWindowCount = 0;
+    for (const level of CONSOLE_LEVELS) {
+      const original = console[level] as (...args: unknown[]) => void;
+      const wrapper = (...args: unknown[]) => {
+        try {
+          original.apply(console, args);
+        } finally {
+          this.sendRemoteLog(level.toUpperCase(), args, 'console');
+        }
+      };
+      this.originalConsole.set(level, console[level]);
+      this.wrappedConsole.set(level, wrapper as Console[ConsoleLevel]);
+      console[level] = wrapper as Console[typeof level];
+    }
+  }
+
+  private stopRemoteLog(): void {
+    this.remoteLogSessionId = undefined;
+    for (const level of CONSOLE_LEVELS) {
+      const original = this.originalConsole.get(level);
+      const wrapper = this.wrappedConsole.get(level);
+      if (original && console[level] === wrapper) console[level] = original as Console[typeof level];
+    }
+    this.originalConsole.clear();
+    this.wrappedConsole.clear();
+  }
+
+  private sendRemoteLog(level: string, args: unknown[], source: 'console' | 'runtime'): void {
+    const task = this.task;
+    const sessionId = this.remoteLogSessionId;
+    if (!task || !sessionId) return;
+
+    const now = Date.now();
+    if (now - this.logWindowStartedAt >= 1_000) {
+      this.logWindowStartedAt = now;
+      this.logWindowCount = 0;
+    }
+    if (++this.logWindowCount > MAX_LOGS_PER_SECOND) return;
+    this.send(task, {
+      type: REMOTE_LOG_TYPE,
+      data: {
+        action: 'entry',
+        sessionId,
+        level,
+        source,
+        message: serializeRemoteLog(args),
+      },
+    });
   }
 
   private scheduleReconnect(): void {
@@ -103,6 +208,57 @@ class RemoteClientConnection {
     clearInterval(this.heartbeatTimer);
     this.heartbeatTimer = undefined;
   }
+}
+
+function serializeRemoteLog(args: unknown[]): string {
+  const seen = new WeakSet<object>();
+  let remaining = 100;
+  const clean = (value: unknown, key = '', depth = 0): unknown => {
+    if (/password|passwd|pwd|access_token|refresh_token|token|authorization|cookie|secret|credential|session|signature/i.test(key)) {
+      return '[REDACTED]';
+    }
+    if (remaining-- <= 0) return '[truncated]';
+    if (value == null || typeof value === 'boolean' || typeof value === 'number') return value;
+    if (typeof value === 'string') return redactInlineSecrets(value).slice(0, 1_000);
+    if (typeof value === 'bigint') return value.toString();
+    if (typeof value === 'function') return `[Function ${value.name || 'anonymous'}]`;
+    if (typeof value === 'symbol') return value.toString();
+    if (value instanceof Error) {
+      return clean({ name: value.name, message: value.message, stack: value.stack }, '', depth + 1);
+    }
+    if (typeof value !== 'object') return String(value);
+    if (seen.has(value)) return '[Circular]';
+    if (depth >= 4) return '[MaxDepth]';
+    seen.add(value);
+    if (Array.isArray(value)) {
+      return value.slice(0, 20).map((item) => clean(item, '', depth + 1));
+    }
+    try {
+      return Object.fromEntries(Object.keys(value).slice(0, 20).map((childKey) => [
+        childKey,
+        clean((value as Record<string, unknown>)[childKey], childKey, depth + 1),
+      ]));
+    } catch {
+      return '[unserializable]';
+    }
+  };
+
+  try {
+    const serialized = JSON.stringify(args.map((value) => clean(value))) ?? 'undefined';
+    const truncation = '…[truncated]';
+    return serialized.length <= MAX_LOG_LENGTH
+      ? serialized
+      : `${serialized.slice(0, MAX_LOG_LENGTH - truncation.length)}${truncation}`;
+  } catch {
+    return '[unserializable]';
+  }
+}
+
+function redactInlineSecrets(value: string): string {
+  return value
+    .replace(/\bBearer\s+[A-Za-z0-9._~+/-]+=*/gi, 'Bearer [REDACTED]')
+    .replace(/([?&](?:access_token|refresh_token|token|authorization|password|secret|signature)=)[^&#\s]*/gi, '$1[REDACTED]')
+    .replace(/(["']?(?:password|passwd|pwd|access_token|refresh_token|token|authorization|cookie|secret|credential)["']?\s*[:=]\s*)(?:"[^"]*"|'[^']*'|[^,;&}\]]+)/gi, '$1"[REDACTED]"');
 }
 
 function getWebSocketUrl(token: string): string | undefined {

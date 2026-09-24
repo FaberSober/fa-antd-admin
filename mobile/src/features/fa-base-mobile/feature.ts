@@ -5,8 +5,6 @@ export interface MobileFeatureDefinition {
   pages: readonly string[];
 }
 
-export const DEMO_ENTRY_STORAGE_KEY = 'fa.mobile.demo-entry-enabled';
-
 export const MOBILE_PAGE_ROUTES = {
   login: '/features/fa-base-mobile/pages/login/index',
   main: '/features/fa-base-mobile/pages/main/index',

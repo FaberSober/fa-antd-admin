@@ -8,6 +8,7 @@ const LOGIN_ROUTE = '/features/fa-base-mobile/pages/login/index';
 const BUTTON_DEMO_ROUTE = '/features/fa-demo-mobile/pages/basic/button/index';
 const UPLOAD_DEMO_ROUTE = '/features/fa-demo-mobile/pages/basic/upload/index';
 const NATIVE_PLUGIN_DEMO_ROUTE = '/features/fa-demo-mobile/pages/basic/native-plugin/index';
+const REMOTE_LOG_DEMO_ROUTE = '/features/fa-demo-mobile/pages/diagnostics/remote-log/index';
 
 function ensureAuthenticated(): void {
   if (!hasToken()) {
@@ -25,6 +26,10 @@ function openUploadDemo(): void {
 
 function openNativePluginDemo(): void {
   uni.navigateTo({ url: NATIVE_PLUGIN_DEMO_ROUTE });
+}
+
+function openRemoteLogDemo(): void {
+  uni.navigateTo({ url: REMOTE_LOG_DEMO_ROUTE });
 }
 
 onShow(() => {
@@ -63,6 +68,14 @@ onShow(() => {
           <text class="entry-description">调用 Android 原生模块显示 Toast</text>
         </view>
         <button class="entry-button" @tap="openNativePluginDemo">查看 Demo</button>
+      </view>
+
+      <view class="demo-entry fa-card">
+        <view>
+          <text class="entry-title">远程日志</text>
+          <text class="entry-description">触发 Console、运行时异常、Promise 拒绝和脱敏样例</text>
+        </view>
+        <button class="entry-button" @tap="openRemoteLogDemo">查看 Demo</button>
       </view>
     </view>
   </MobileThemeRoot>

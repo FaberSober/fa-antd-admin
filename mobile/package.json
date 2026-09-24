@@ -44,6 +44,7 @@
     "@dcloudio/vite-plugin-uni": "3.0.0-5020620260917001",
     "@vue/runtime-core": "3.4.21",
     "@vue/tsconfig": "^0.9.1",
+    "eruda": "3.4.3",
     "rollup": "4.63.4",
     "sass": "1.105.0",
     "typescript": "^5.9.3",

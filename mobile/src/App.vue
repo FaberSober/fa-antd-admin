@@ -64,11 +64,14 @@ onHide(() => {
 });
 
 onError((error) => {
+  remoteClientConnection.reportRuntimeError('uncaught', error);
   telemetry.captureException(error, { source: 'uni.onError' });
 });
 
 onUnhandledRejection((event) => {
-  telemetry.captureException(getUnhandledReason(event), { source: 'uni.onUnhandledRejection' });
+  const reason = getUnhandledReason(event);
+  remoteClientConnection.reportRuntimeError('unhandledrejection', reason);
+  telemetry.captureException(reason, { source: 'uni.onUnhandledRejection' });
 });
 </script>
 

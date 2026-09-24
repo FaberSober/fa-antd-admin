@@ -144,6 +144,14 @@
         "navigationBarBackgroundColor": "#f5f7fb",
         "navigationBarTextStyle": "black"
       }
+    },
+    {
+      "path": "features/fa-demo-mobile/pages/diagnostics/remote-log/index",
+      "style": {
+        "navigationBarTitleText": "远程日志 Demo",
+        "navigationBarBackgroundColor": "#f5f7fb",
+        "navigationBarTextStyle": "black"
+      }
     }
   ],
   "globalStyle": {

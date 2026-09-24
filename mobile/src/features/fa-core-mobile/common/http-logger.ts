@@ -1,14 +1,22 @@
 import { APP_CONFIG } from '@/app.config';
+import { appendClientDebugLog, isClientDebugModeEnabled } from './debug-mode';
 
 const SENSITIVE_KEY_PATTERN = /password|passwd|pwd|token|authorization|secret|credential|captcha|verification|phone|mobile|email|idcard|signature/i;
 const MAX_FIELD_LENGTH = 2_000;
 const MAX_RECORD_LENGTH = 20_000;
 const LOG_CHUNK_LENGTH = 2_500;
-
 let requestSequence = 0;
 
+function isHttpLogEnabled(): boolean {
+  if (APP_CONFIG.httpLogEnabled) return true;
+  // #ifdef APP-PLUS
+  return isClientDebugModeEnabled();
+  // #endif
+  return false;
+}
+
 export function logHttpRequestStart(method: string, url: string, body: unknown): number | undefined {
-  if (!APP_CONFIG.httpLogEnabled) return undefined;
+  if (!isHttpLogEnabled()) return undefined;
   const requestId = ++requestSequence;
   writeLog(requestId, 'request', { method, url: sanitizeUrl(url), body });
   return requestId;
@@ -20,7 +28,7 @@ export function logHttpResponse(
   duration: number,
   body: unknown,
 ): void {
-  if (requestId === undefined) return;
+  if (requestId === undefined || !isHttpLogEnabled()) return;
   writeLog(requestId, 'response', { statusCode, durationMs: duration, body });
 }
 
@@ -29,17 +37,19 @@ export function logHttpFailure(
   duration: number,
   error: unknown,
 ): void {
-  if (requestId === undefined) return;
+  if (requestId === undefined || !isHttpLogEnabled()) return;
   writeLog(requestId, 'failure', { durationMs: duration, error });
 }
 
 export function logUpdateEvent(stage: string, value: unknown): void {
-  if (!APP_CONFIG.httpLogEnabled) return;
+  if (!isHttpLogEnabled()) return;
   const serialized = serializeLogValue(value);
   const limited = serialized.length > MAX_RECORD_LENGTH
     ? `${serialized.slice(0, MAX_RECORD_LENGTH)}...[truncated]`
     : serialized;
-  console.log(`[FaMobile Update] ${stage} ${limited}`);
+  const message = `[FaMobile Update] ${stage} ${limited}`;
+  console.log(message);
+  appendClientDebugLog(message);
 }
 
 function writeLog(requestId: number, stage: string, value: unknown): void {
@@ -51,7 +61,9 @@ function writeLog(requestId: number, stage: string, value: unknown): void {
 
   for (let index = 0; index < chunks; index += 1) {
     const part = limited.slice(index * LOG_CHUNK_LENGTH, (index + 1) * LOG_CHUNK_LENGTH);
-    console.log(`[FaMobile HTTP #${requestId}] ${stage} ${index + 1}/${chunks} ${part}`);
+    const message = `[FaMobile HTTP #${requestId}] ${stage} ${index + 1}/${chunks} ${part}`;
+    console.log(message);
+    appendClientDebugLog(message);
   }
 }
 
