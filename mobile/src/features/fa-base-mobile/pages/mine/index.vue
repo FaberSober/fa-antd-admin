@@ -5,7 +5,7 @@ import { ApiError } from '../../common/request';
 import { createPageRefresh } from '../../common/page-refresh';
 import MobileIcon from '../../components/MobileIcon.vue';
 import MobileShell from '../../components/MobileShell.vue';
-import { MOBILE_PAGE_ROUTES, MOBILE_TAB_NAVIGATION_KEY } from '../../feature';
+import { DEMO_ENTRY_STORAGE_KEY, MOBILE_PAGE_ROUTES, MOBILE_TAB_NAVIGATION_KEY } from '../../feature';
 import { useAuthStore } from '../../stores/auth';
 import { useTenantStore } from '../../stores/tenant';
 import type { MobileIconName } from '../../types/mobileIcon';
@@ -30,7 +30,8 @@ const authStore = useAuthStore();
 const tenantStore = useTenantStore();
 const themeStore = useThemeStore();
 const navigateToTab = inject(MOBILE_TAB_NAVIGATION_KEY);
-const showDemoEntry = import.meta.env.DEV;
+const demoEntryEnabled = ref(uni.getStorageSync(DEMO_ENTRY_STORAGE_KEY) === true);
+const showDemoEntry = computed(() => import.meta.env.DEV || demoEntryEnabled.value);
 const logoutLoading = ref(false);
 const pageRefresh = createPageRefresh();
 const {
@@ -118,6 +119,7 @@ onBeforeUnmount(() => {
 });
 
 function handlePageShow(): void {
+  demoEntryEnabled.value = uni.getStorageSync(DEMO_ENTRY_STORAGE_KEY) === true;
   telemetry.page(MOBILE_PAGE_ROUTES.mine);
   void loadProfile();
 }

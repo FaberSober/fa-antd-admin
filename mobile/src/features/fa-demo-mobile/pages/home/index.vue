@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onShow } from '@dcloudio/uni-app';
 import { hasToken } from '@features/fa-base-mobile/common/session';
+import MobileThemeRoot from '@features/fa-core-mobile/theme/MobileThemeRoot.vue';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
 
 const LOGIN_ROUTE = '/features/fa-base-mobile/pages/login/index';
@@ -33,36 +34,38 @@ onShow(() => {
 </script>
 
 <template>
-  <view class="demo-page fa-page">
-    <view class="demo-heading">
-      <text class="demo-title">移动端 Demo</text>
-      <text class="demo-subtitle">按页面查看 uni-app 原生组件示例</text>
-    </view>
-
-    <view class="demo-entry fa-card">
-      <view>
-        <text class="entry-title">按钮样式</text>
-        <text class="entry-description">查看基础类型、尺寸、状态和镂空样式</text>
+  <MobileThemeRoot>
+    <view class="demo-page fa-page">
+      <view class="demo-heading">
+        <text class="demo-title">移动端 Demo</text>
+        <text class="demo-subtitle">按页面查看 uni-app 原生组件示例</text>
       </view>
-      <button class="entry-button" @tap="openButtonDemo">查看 Demo</button>
-    </view>
 
-    <view class="demo-entry fa-card">
-      <view>
-        <text class="entry-title">文件上传</text>
-        <text class="entry-description">选择图片并上传到后端文件服务</text>
+      <view class="demo-entry fa-card">
+        <view>
+          <text class="entry-title">按钮样式</text>
+          <text class="entry-description">查看基础类型、尺寸、状态和镂空样式</text>
+        </view>
+        <button class="entry-button" @tap="openButtonDemo">查看 Demo</button>
       </view>
-      <button class="entry-button" @tap="openUploadDemo">查看 Demo</button>
-    </view>
 
-    <view class="demo-entry fa-card">
-      <view>
-        <text class="entry-title">原生插件</text>
-        <text class="entry-description">调用 Android 原生模块显示 Toast</text>
+      <view class="demo-entry fa-card">
+        <view>
+          <text class="entry-title">文件上传</text>
+          <text class="entry-description">选择图片并上传到后端文件服务</text>
+        </view>
+        <button class="entry-button" @tap="openUploadDemo">查看 Demo</button>
       </view>
-      <button class="entry-button" @tap="openNativePluginDemo">查看 Demo</button>
+
+      <view class="demo-entry fa-card">
+        <view>
+          <text class="entry-title">原生插件</text>
+          <text class="entry-description">调用 Android 原生模块显示 Toast</text>
+        </view>
+        <button class="entry-button" @tap="openNativePluginDemo">查看 Demo</button>
+      </view>
     </view>
-  </view>
+  </MobileThemeRoot>
 </template>
 
 <style scoped>
@@ -109,10 +112,11 @@ onShow(() => {
 
 .entry-button {
   flex: 0 0 auto;
-  width: 188rpx;
+  width: 220rpx;
   margin: 0;
-  color: #ffffff;
+  color: var(--fa-color-text-inverse);
   background: var(--fa-color-primary);
   font-size: 26rpx;
+  white-space: nowrap;
 }
 </style>

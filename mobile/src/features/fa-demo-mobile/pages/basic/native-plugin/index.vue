@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onShow } from '@dcloudio/uni-app';
 import { hasToken } from '@features/fa-base-mobile/common/session';
+import MobileThemeRoot from '@features/fa-core-mobile/theme/MobileThemeRoot.vue';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
 
 const LOGIN_ROUTE = '/features/fa-base-mobile/pages/login/index';
@@ -37,18 +38,20 @@ onShow(() => {
 </script>
 
 <template>
-  <view class="plugin-page fa-page">
-    <view class="page-heading">
-      <text class="page-title">原生插件</text>
-      <text class="page-subtitle">通过 uni.requireNativePlugin 调用 Android UniModule</text>
-    </view>
+  <MobileThemeRoot>
+    <view class="plugin-page fa-page">
+      <view class="page-heading">
+        <text class="page-title">原生插件</text>
+        <text class="page-subtitle">通过 uni.requireNativePlugin 调用 Android UniModule</text>
+      </view>
 
-    <view class="demo-section fa-card">
-      <text class="section-title">Toast 示例</text>
-      <text class="section-description">将消息传入原生模块，由 Android Toast 显示。</text>
-      <button class="demo-button demo-button--primary" @tap="showNativeToast">显示原生 Toast</button>
+      <view class="demo-section fa-card">
+        <text class="section-title">Toast 示例</text>
+        <text class="section-description">将消息传入原生模块，由 Android Toast 显示。</text>
+        <button class="demo-button demo-button--primary" @tap="showNativeToast">显示原生 Toast</button>
+      </view>
     </view>
-  </view>
+  </MobileThemeRoot>
 </template>
 
 <style scoped>
@@ -100,7 +103,7 @@ onShow(() => {
 }
 
 .demo-button--primary {
-  color: #ffffff;
+  color: var(--fa-color-text-inverse);
   background: var(--fa-color-primary);
 }
 </style>

@@ -3,6 +3,7 @@ import { onShow } from '@dcloudio/uni-app';
 import { ref } from 'vue';
 import { APP_CONFIG } from '@/app.config';
 import MobileThemeRoot from '@features/fa-core-mobile/theme/MobileThemeRoot.vue';
+import { DEMO_ENTRY_STORAGE_KEY } from '../../../feature';
 import {
   getCurrentAppVersion,
   getCurrentWgtVersion,
@@ -13,6 +14,17 @@ import { checkAndPromptUpdate } from '../../../common/update';
 const apkVersion = ref<AppVersion>(getCurrentAppVersion());
 const wgtVersion = ref<AppVersion>({ ...apkVersion.value });
 const checking = ref(false);
+let logoTapCount = 0;
+
+function handleLogoTap(): void {
+  logoTapCount += 1;
+  if (logoTapCount < 7) return;
+
+  logoTapCount = 0;
+  const enabled = uni.getStorageSync(DEMO_ENTRY_STORAGE_KEY) !== true;
+  uni.setStorageSync(DEMO_ENTRY_STORAGE_KEY, enabled);
+  uni.showToast({ title: enabled ? 'Demo 入口已开启' : 'Demo 入口已关闭', icon: 'none' });
+}
 
 async function loadVersionInfo(): Promise<void> {
   apkVersion.value = getCurrentAppVersion();
@@ -39,7 +51,7 @@ onShow(() => {
   <MobileThemeRoot>
     <view class="about-page fa-page">
       <view class="about-header">
-        <view class="about-logo">FA</view>
+        <view class="about-logo" @tap="handleLogoTap">FA</view>
         <text class="about-name">{{ APP_CONFIG.name }}</text>
         <text class="about-description">应用版本与资源更新信息</text>
       </view>
@@ -173,6 +185,7 @@ onShow(() => {
 .about-update-button {
   margin-top: 32rpx;
   border-radius: 18rpx;
+  color: var(--fa-color-text-inverse);
   background: var(--fa-color-primary);
   font-size: 30rpx;
 }

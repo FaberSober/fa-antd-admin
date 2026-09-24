@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onShow } from '@dcloudio/uni-app';
 import { hasToken } from '@features/fa-base-mobile/common/session';
+import MobileThemeRoot from '@features/fa-core-mobile/theme/MobileThemeRoot.vue';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
 
 const LOGIN_ROUTE = '/features/fa-base-mobile/pages/login/index';
@@ -18,31 +19,33 @@ onShow(() => {
 </script>
 
 <template>
-  <view class="button-page fa-page">
-    <view class="page-heading">
-      <text class="page-title">按钮样式</text>
-      <text class="page-subtitle">使用 uni-app 原生 button 展示常用状态</text>
-    </view>
+  <MobileThemeRoot>
+    <view class="button-page fa-page">
+      <view class="page-heading">
+        <text class="page-title">按钮样式</text>
+        <text class="page-subtitle">使用 uni-app 原生 button 展示常用状态</text>
+      </view>
 
-    <view class="demo-section fa-card">
-      <text class="section-title">基础类型</text>
-      <button class="demo-button demo-button--primary">Primary</button>
-      <button class="demo-button">Default</button>
-      <button class="demo-button demo-button--warn">Warn</button>
-    </view>
+      <view class="demo-section fa-card">
+        <text class="section-title">基础类型</text>
+        <button class="demo-button demo-button--primary">Primary</button>
+        <button class="demo-button">Default</button>
+        <button class="demo-button demo-button--warn">Warn</button>
+      </view>
 
-    <view class="demo-section fa-card">
-      <text class="section-title">尺寸与样式</text>
-      <button class="demo-button" size="mini">Mini Button</button>
-      <button class="demo-button demo-button--primary demo-button--plain">Plain Button</button>
-    </view>
+      <view class="demo-section fa-card">
+        <text class="section-title">尺寸与样式</text>
+        <button class="demo-button" size="mini">Mini Button</button>
+        <button class="demo-button demo-button--primary demo-button--plain">Plain Button</button>
+      </view>
 
-    <view class="demo-section fa-card">
-      <text class="section-title">交互状态</text>
-      <button class="demo-button demo-button--primary" loading>Loading</button>
-      <button class="demo-button" disabled>Disabled</button>
+      <view class="demo-section fa-card">
+        <text class="section-title">交互状态</text>
+        <button class="demo-button demo-button--primary" loading>Loading</button>
+        <button class="demo-button demo-button--disabled" disabled>Disabled</button>
+      </view>
     </view>
-  </view>
+  </MobileThemeRoot>
 </template>
 
 <style scoped>
@@ -85,23 +88,35 @@ onShow(() => {
 
 .demo-button {
   margin: 0 0 20rpx;
+  color: var(--fa-color-text);
+  border: 1rpx solid var(--fa-color-border);
+  background: var(--fa-color-surface-muted);
   font-size: 28rpx;
 }
 
 .demo-button--primary {
-  color: #ffffff;
+  color: var(--fa-color-text-inverse);
+  border-color: var(--fa-color-primary);
   background: var(--fa-color-primary);
 }
 
 .demo-button--warn {
-  color: #ffffff;
-  background: #f97316;
+  color: var(--fa-color-orange-contrast);
+  border-color: var(--fa-color-orange);
+  background: var(--fa-color-orange);
 }
 
 .demo-button--plain {
   color: var(--fa-color-primary);
   border: 1rpx solid var(--fa-color-primary);
   background: transparent;
+}
+
+.demo-button.demo-button--disabled {
+  color: var(--fa-color-muted);
+  border-color: var(--fa-color-border);
+  background: var(--fa-color-surface-muted);
+  opacity: 1;
 }
 
 .demo-button:last-child {

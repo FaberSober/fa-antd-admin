@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { ApiError } from '@features/fa-base-mobile/common/request';
 import { hasToken } from '@features/fa-base-mobile/common/session';
 import { uploadBaseFile, type MobileFileSave } from '@features/fa-base-mobile/api/file';
+import MobileThemeRoot from '@features/fa-core-mobile/theme/MobileThemeRoot.vue';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
 
 const LOGIN_ROUTE = '/features/fa-base-mobile/pages/login/index';
@@ -101,50 +102,53 @@ onShow(() => {
 </script>
 
 <template>
-  <view class="upload-page fa-page">
-    <view class="page-heading">
-      <text class="page-title">文件上传</text>
-      <text class="page-subtitle">使用 uni-app 原生 chooseImage 和 uploadFile</text>
-    </view>
+  <MobileThemeRoot>
+    <view class="upload-page fa-page">
+      <view class="page-heading">
+        <text class="page-title">文件上传</text>
+        <text class="page-subtitle">使用 uni-app 原生 chooseImage 和 uploadFile</text>
+      </view>
 
-    <view class="demo-section fa-card">
-      <text class="section-title">选择文件</text>
-      <button class="demo-button demo-button--plain" @click="chooseFile">选择图片</button>
+      <view class="demo-section fa-card">
+        <text class="section-title">选择文件</text>
+        <button class="demo-button demo-button--plain" @tap="chooseFile">选择图片</button>
 
-      <view v-if="selectedFile" class="selected-file">
-        <image class="file-preview" :src="selectedFile.path" mode="aspectFill" />
-        <view class="file-meta">
-          <text class="file-name">{{ selectedFile.name }}</text>
+        <view v-if="selectedFile" class="selected-file">
+          <image class="file-preview" :src="selectedFile.path" mode="aspectFill" />
+          <view class="file-meta">
+            <text class="file-name">{{ selectedFile.name }}</text>
+          </view>
         </view>
+
+        <button
+          class="demo-button demo-button--primary"
+          :class="{ 'demo-button--disabled': !selectedFile || uploading }"
+          :disabled="!selectedFile || uploading"
+          :loading="uploading"
+          @tap="handleUpload"
+        >上传文件</button>
+
+        <text v-if="errorMessage" class="error-message">{{ errorMessage }}</text>
       </view>
 
-      <button
-        class="demo-button demo-button--primary"
-        :disabled="!selectedFile || uploading"
-        :loading="uploading"
-        @click="handleUpload"
-      >上传文件</button>
-
-      <text v-if="errorMessage" class="error-message">{{ errorMessage }}</text>
+      <view v-if="uploadedFile" class="demo-section fa-card">
+        <text class="section-title success-title">上传成功</text>
+        <view class="result-row">
+          <text class="result-label">文件 ID</text>
+          <text class="result-value">{{ uploadedFile.id }}</text>
+        </view>
+        <view v-if="uploadedFile.originalFilename" class="result-row">
+          <text class="result-label">原始文件名</text>
+          <text class="result-value">{{ uploadedFile.originalFilename }}</text>
+        </view>
+        <view v-if="uploadedFile.url" class="result-row">
+          <text class="result-label">访问地址</text>
+          <text class="result-value result-value--url">{{ uploadedFile.url }}</text>
+        </view>
+        <button class="demo-button demo-button--primary" @tap="openPreview">打开文件预览</button>
+      </view>
     </view>
-
-    <view v-if="uploadedFile" class="demo-section fa-card">
-      <text class="section-title success-title">上传成功</text>
-      <view class="result-row">
-        <text class="result-label">文件 ID</text>
-        <text class="result-value">{{ uploadedFile.id }}</text>
-      </view>
-      <view v-if="uploadedFile.originalFilename" class="result-row">
-        <text class="result-label">原始文件名</text>
-        <text class="result-value">{{ uploadedFile.originalFilename }}</text>
-      </view>
-      <view v-if="uploadedFile.url" class="result-row">
-        <text class="result-label">访问地址</text>
-        <text class="result-value result-value--url">{{ uploadedFile.url }}</text>
-      </view>
-      <button class="demo-button demo-button--primary" @click="openPreview">打开文件预览</button>
-    </view>
-  </view>
+  </MobileThemeRoot>
 </template>
 
 <style scoped>
@@ -191,6 +195,9 @@ onShow(() => {
 
 .demo-button {
   margin: 0 0 20rpx;
+  color: var(--fa-color-text);
+  border: 1rpx solid var(--fa-color-border);
+  background: var(--fa-color-surface-muted);
   font-size: 28rpx;
 }
 
@@ -199,7 +206,8 @@ onShow(() => {
 }
 
 .demo-button--primary {
-  color: #ffffff;
+  color: var(--fa-color-text-inverse);
+  border-color: var(--fa-color-primary);
   background: var(--fa-color-primary);
 }
 
@@ -209,6 +217,13 @@ onShow(() => {
   background: transparent;
 }
 
+.demo-button.demo-button--disabled {
+  color: var(--fa-color-muted);
+  border-color: var(--fa-color-border);
+  background: var(--fa-color-surface-muted);
+  opacity: 1;
+}
+
 .selected-file {
   display: flex;
   align-items: center;
@@ -216,7 +231,7 @@ onShow(() => {
   margin-bottom: 20rpx;
   padding: 20rpx;
   border-radius: 12rpx;
-  background: var(--fa-color-page);
+  background: var(--fa-color-surface-muted);
 }
 
 .file-preview {
@@ -240,12 +255,12 @@ onShow(() => {
 
 .error-message {
   display: block;
-  color: #dc2626;
+  color: var(--fa-color-danger);
   font-size: 24rpx;
 }
 
 .success-title {
-  color: #16a34a;
+  color: var(--fa-color-green-strong);
 }
 
 .result-row {
