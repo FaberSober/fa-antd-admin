@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { onError, onLaunch, onShow, onUnhandledRejection } from '@dcloudio/uni-app';
+import { onError, onHide, onLaunch, onShow, onUnhandledRejection } from '@dcloudio/uni-app';
 import { hasToken } from './features/fa-base-mobile/common/session';
 import { checkAndPromptUpdate } from './features/fa-base-mobile/common/update';
+import { remoteClientConnection } from './features/fa-core-mobile/common/remote-client';
 import { telemetry } from './features/fa-core-mobile/telemetry';
 
 const HOME_ROUTE = '/features/fa-base-mobile/pages/main/index';
@@ -50,7 +51,16 @@ onLaunch(() => {
 
 onShow(() => {
   if (!hasToken()) return;
+  // #ifdef APP-PLUS
+  remoteClientConnection.connect();
+  // #endif
   void checkAndPromptUpdate();
+});
+
+onHide(() => {
+  // #ifdef APP-PLUS
+  remoteClientConnection.disconnect();
+  // #endif
 });
 
 onError((error) => {

@@ -5,6 +5,7 @@ import { clearSession, getStoredUser, getToken, saveSession, saveUser } from '..
 import type { PortalUser } from '../types/auth';
 import { telemetry } from '@features/fa-core-mobile/telemetry';
 import { useTenantStore } from './tenant';
+import { remoteClientConnection } from '@features/fa-core-mobile/common/remote-client';
 
 export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
   const user = ref<PortalUser | null>(getStoredUser());
@@ -16,6 +17,9 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
   let authVersion = 0;
 
   function clearLocalAuthState(): void {
+    // #ifdef APP-PLUS
+    remoteClientConnection.disconnect();
+    // #endif
     authVersion += 1;
     currentUserPromise = null;
     clearSession();
@@ -33,6 +37,9 @@ export const useAuthStore = defineStore('fa-base-mobile-auth', () => {
       const session = await login(username, password);
       saveSession(session.token, session.user);
       user.value = session.user;
+      // #ifdef APP-PLUS
+      remoteClientConnection.connect();
+      // #endif
       telemetry.identify({ userId: session.user.id });
       telemetry.track('mobile.auth.login', {
         eventType: 'LOGIN',
