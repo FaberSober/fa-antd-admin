@@ -37,7 +37,7 @@ fi
 command -v node >/dev/null
 command -v pnpm >/dev/null
 pnpm --dir mobile install --frozen-lockfile
-pnpm --dir mobile run build:wgt
+bash mobile/scripts/package-wgt.sh
 '''
 
                 script {

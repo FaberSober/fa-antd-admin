@@ -91,6 +91,7 @@ const prompt = updatePromptState;
   width: 100%;
   max-width: 640rpx;
   max-height: calc(100vh - 64rpx - var(--fa-safe-area-top) - var(--fa-safe-area-bottom));
+  transform: translateY(-12vh);
   box-sizing: border-box;
   padding: 36rpx;
   overflow: hidden;
